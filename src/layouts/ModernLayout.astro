@@ -1,0 +1,148 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description: string;
+  variant: 'subtle' | 'heavy';
+}
+
+const SITE_NAME = 'Boardroom Wire';
+const { title, description, variant } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE_NAME}` : SITE_NAME;
+---
+
+<!doctype html>
+<html lang="en" class="modern-root">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap"
+      rel="stylesheet"
+    />
+
+    <style is:global>
+      .modern-root {
+        background: #0a0a0f;
+        color: #f5f5f0;
+        font-family: 'Inter', system-ui, sans-serif;
+        scroll-behavior: smooth;
+      }
+      .modern-root body {
+        background: #0a0a0f;
+      }
+      .modern-root *::selection {
+        background: #3b82f6;
+        color: #0a0a0f;
+      }
+      .modern-root :focus-visible {
+        outline: 2px solid #3b82f6;
+        outline-offset: 4px;
+      }
+
+      /* Scroll reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .reveal.in-view {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Cursor-aware card glow */
+      .modern-card {
+        position: relative;
+        --mouse-x: 50%;
+        --mouse-y: 50%;
+      }
+      .modern-card::before {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: inherit;
+        background: radial-gradient(
+          500px circle at var(--mouse-x) var(--mouse-y),
+          rgb(59 130 246 / 0.18),
+          transparent 40%
+        );
+        opacity: 0;
+        transition: opacity 0.4s;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .modern-card:hover::before { opacity: 1; }
+      .modern-card > * { position: relative; z-index: 1; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .modern-root,
+        .modern-root * {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto;
+        }
+        .reveal { opacity: 1 !important; transform: none !important; }
+      }
+    </style>
+  </head>
+  <body class="font-modern">
+    {/* Preview-mode banner */}
+    <div class="fixed top-0 inset-x-0 z-[60] border-b border-ink-border bg-ink/90 backdrop-blur-md">
+      <div class="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between text-xs">
+        <span class="text-paper-dim">
+          <span class="text-electric font-semibold">PREVIEW</span> · {variant === 'subtle' ? 'Subtle' : 'Heavy'} interactivity
+        </span>
+        <div class="flex gap-4">
+          <a href="/" class="text-paper-dim hover:text-paper">Original</a>
+          <a href="/v2-subtle/" class={`hover:text-paper ${variant === 'subtle' ? 'text-electric' : 'text-paper-dim'}`}>Subtle</a>
+          <a href="/v2-heavy/" class={`hover:text-paper ${variant === 'heavy' ? 'text-electric' : 'text-paper-dim'}`}>Heavy</a>
+        </div>
+      </div>
+    </div>
+
+    <slot />
+  </body>
+</html>
+
+<script>
+  // Scroll-triggered reveals — runs on every modern page.
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduced) {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            obs.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -80px 0px' },
+    );
+    document.querySelectorAll('.reveal').forEach((el) => obs.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in-view'));
+  }
+
+  // Cursor-aware card glow (works on both versions).
+  document.querySelectorAll<HTMLElement>('.modern-card').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+      card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+    });
+  });
+</script>
