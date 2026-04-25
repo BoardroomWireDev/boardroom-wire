@@ -167,7 +167,7 @@
     .wordmark .wire { color: var(--gold-bright); }
     .globe-wrap {
       position: relative;
-      width: min(768px, 90vw);
+      width: min(1200px, 95vw);
       aspect-ratio: 1 / 1;
       margin-bottom: 40px;
       opacity: 0;
@@ -179,7 +179,65 @@
       cursor: grab;
     }
     #globe:active { cursor: grabbing; }
-    /* Decorative orbital ring removed — the globe stands on its own. */
+
+    /* ====== Orbital variants — toggle via ?orbit=rings|ticks|pulse ====== */
+    .globe-wrap::before,
+    .globe-wrap::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    /* Two concentric rings */
+    .globe-wrap.orbit-rings::before {
+      inset: 6%;
+      border: 1px dashed rgba(212, 175, 55, 0.18);
+      animation: orbit-spin 90s linear infinite;
+      opacity: 1;
+    }
+    .globe-wrap.orbit-rings::after {
+      inset: 11%;
+      border: 1px solid rgba(242, 196, 82, 0.10);
+      animation: orbit-spin 60s linear infinite reverse;
+      opacity: 1;
+    }
+    @keyframes orbit-spin { to { transform: rotate(360deg); } }
+
+    /* Cardinal tick marks */
+    .globe-tick {
+      position: absolute;
+      width: 1px;
+      height: 14px;
+      background: var(--gold);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .globe-wrap.orbit-ticks .globe-tick { opacity: 0.55; }
+    .globe-tick.n { top: 7%;    left: calc(50% - 0.5px); }
+    .globe-tick.s { bottom: 7%; left: calc(50% - 0.5px); }
+    .globe-tick.e { right: 7%;  top: calc(50% - 7px); transform: rotate(90deg); transform-origin: center; }
+    .globe-tick.w { left: 7%;   top: calc(50% - 7px); transform: rotate(90deg); transform-origin: center; }
+
+    /* Click pulse — element spawned by JS, then removed after the keyframe */
+    .globe-pulse {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      margin: 0;
+      border: 2px solid rgba(212, 175, 55, 0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: globe-pulse-out 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes globe-pulse-out {
+      0%   { width: 0;    height: 0;    margin: 0;            opacity: 0.7; border-width: 2px; }
+      100% { width: 110%; height: 110%; margin: -55% 0 0 -55%; opacity: 0;   border-width: 0.5px; }
+    }
 
     .tagline {
       font-family: var(--display);
@@ -215,7 +273,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 32px;
-      margin-bottom: 64px;
+      margin-bottom: 24px;
       opacity: 0;
       animation: fadeUp 0.9s ease-out 0.3s forwards;
     }
@@ -483,7 +541,7 @@
       .find-row {
         flex-direction: column;
         gap: 20px;
-        margin-bottom: 48px;
+        margin-bottom: 24px;
       }
       .find-row-right {
         flex-direction: column;
@@ -563,8 +621,12 @@
       </div>
     </div>
 
-    <div class="globe-wrap">
+    <div class="globe-wrap" id="globe-wrap">
       <div id="globe"></div>
+      <span class="globe-tick n"></span>
+      <span class="globe-tick e"></span>
+      <span class="globe-tick s"></span>
+      <span class="globe-tick w"></span>
     </div>
 
     <h1 class="tagline">Infrastructure is <em>destiny.</em></h1>
@@ -745,7 +807,16 @@
     ];
 
     // Hex landmass on by default; ?hex=0 turns it off for the pure-abstract variant.
-    const useHex = new URLSearchParams(window.location.search).get('hex') !== '0';
+    const params = new URLSearchParams(window.location.search);
+    const useHex = params.get('hex') !== '0';
+    // Orbital decoration: ?orbit=rings | ticks | pulse (none by default).
+    const orbit = params.get('orbit');
+    const wrap = document.getElementById('globe-wrap');
+    if (wrap && orbit) {
+      if (orbit === 'rings') wrap.classList.add('orbit-rings');
+      else if (orbit === 'ticks') wrap.classList.add('orbit-ticks');
+      else if (orbit === 'pulse') wrap.classList.add('orbit-pulse');
+    }
 
     const arcs: Array<{ startLat: number; startLng: number; endLat: number; endLng: number }> = [];
     const rings: Array<{ lat: number; lng: number }> = [];
@@ -846,6 +917,14 @@
       }, FLIGHT_TIME);
     };
 
+    function spawnGlobePulse() {
+      if (orbit !== 'pulse' || !wrap) return;
+      const pulse = document.createElement('div');
+      pulse.className = 'globe-pulse';
+      wrap.appendChild(pulse);
+      setTimeout(() => pulse.remove(), 1500);
+    }
+
     globe.onPointClick((point: any) => {
       let target = cities[Math.floor(Math.random() * cities.length)];
       // pick again if we landed on the source
@@ -853,6 +932,7 @@
         target = cities[Math.floor(Math.random() * cities.length)];
       }
       fireArc(point as typeof cities[number], target);
+      spawnGlobePulse();
     });
 
     // ====== Ambient activity — random arc every 2.5s, capped at 6 ======
