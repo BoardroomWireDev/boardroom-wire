@@ -204,6 +204,10 @@
       color: var(--white);
       font-weight: 600;
     }
+    .body em {
+      font-style: italic;
+      color: var(--white);
+    }
     .section-h {
       font-family: var(--display);
       font-weight: 700;
@@ -212,6 +216,56 @@
       color: var(--gold);
       text-transform: uppercase;
       margin: 48px 0 18px;
+    }
+    /* Editorial section markers (§ 00 — Standfirst, § 01 — Mission, etc.) */
+    .section-marker {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin: 64px 0 24px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+    .section-marker:first-of-type {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+    .section-marker .num {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      color: var(--gold-bright);
+    }
+    .section-marker .name {
+      font-family: var(--display);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+    }
+    .standfirst {
+      font-family: var(--display);
+      font-size: clamp(20px, 2.4vw, 26px);
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 18px;
+    }
+    .signoff {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 500;
+      font-style: italic;
+      letter-spacing: 0.18em;
+      color: var(--white-dim);
+      text-align: center;
     }
     .body ul {
       list-style: none;
@@ -351,40 +405,56 @@
 
   <main class="about">
     <p class="eyebrow">About</p>
-    <h1 class="headline">Forensic analysis of the companies <em>shaping the future.</em></h1>
-    <p class="lede">
-      Bloomberg-style depth on AI and the tech industry. Strategic breakdowns,
-      not product reviews. Frameworks, not hot takes.
-    </p>
 
     <div class="body">
+      <div class="section-marker">
+        <span class="num">§ 00</span>
+        <span class="name">Standfirst</span>
+      </div>
+      <p class="standfirst">
+        Boardroom Wire is forensic analysis of the companies shaping the future of AI and technology.
+      </p>
       <p>
-        Most AI coverage stops at "this looks cool" or "this looks dangerous."
-        Boardroom Wire starts where that coverage ends — with the numbers, the
-        structure, and the strategic logic. Who's winning, who's being
-        recapitalized in slow motion, what the data rooms look like, and what
-        it all means for the next ten years of the industry.
+        Bloomberg-grade depth, applied to a beat that mostly gets covered in screenshots and hot takes. Strategic breakdowns, not product reviews. Frameworks, not vibes.
       </p>
 
-      <p class="section-h">Who's writing</p>
+      <div class="section-marker">
+        <span class="num">§ 01</span>
+        <span class="name">Mission</span>
+      </div>
       <p>
-        <strong>Dakotah Radabaugh</strong> — eight-plus years in private equity
-        tech sales, applied here to AI coverage. Background in selling into the
-        firms that quietly shape the deals you read about three quarters later.
+        Most coverage of the AI industry stops at <em>this looks cool</em> or <em>this looks dangerous</em>. Boardroom Wire starts where that coverage ends — with the cap tables, the unit economics, the structural exposures, and the strategic logic. Who is actually winning. Who is being recapitalized in slow motion. What the data rooms look like behind the press release. What any of it means for the next decade of the industry.
+      </p>
+      <p>
+        The premise is that AI is now a capital markets story as much as a technology story, and the audience sophisticated enough to want it covered that way is underserved.
       </p>
 
-      <p class="section-h">How to read it</p>
-      <ul>
-        <li><strong>The channel.</strong> Long-form video breakdowns on YouTube — schedule and live status sit in the wire above.</li>
-        <li><strong>The reel.</strong> Latest episodes are pinned on the homepage carousel.</li>
-        <li><strong>The wire.</strong> Live channel stats and broadcast status update at the top of every page.</li>
-      </ul>
-
-      <p class="section-h">The voice</p>
+      <div class="section-marker">
+        <span class="num">§ 02</span>
+        <span class="name">Method</span>
+      </div>
       <p>
-        Analytical. Confident. Compressed — every sentence earns its place.
-        Documentary tone, evidence-first. The numbers tell the story.
+        Three rules govern every dispatch.
       </p>
+      <p>
+        <strong>Evidence first.</strong> Every claim is sourced. Where the source is a 10-K, a deck, a transcript, a public filing, or a primary interview, it is named. Speculation is labeled as speculation.
+      </p>
+      <p>
+        <strong>Frameworks over takes.</strong> A take ages in a week. A framework — the structural lens through which to read the next ten developments — ages in years. Boardroom Wire ships frameworks.
+      </p>
+      <p>
+        <strong>Compression.</strong> Every sentence earns its place. The reader's time is the scarcest resource on the page.
+      </p>
+
+      <div class="section-marker">
+        <span class="num">§ 03</span>
+        <span class="name">Editorial Independence</span>
+      </div>
+      <p>
+        Boardroom Wire takes no sponsorships from companies it covers. No paid placements. No pre-publication review by subjects. Disclosures, when relevant, run inline with the dispatch.
+      </p>
+
+      <p class="signoff">Boardroom Wire · Published from New York</p>
     </div>
 
     <div class="find-us-bottom">
