@@ -200,13 +200,17 @@
       color: var(--white-dim);
       margin-bottom: 22px;
     }
+    /* Phosphor pull-forward — emphasis goes amber with a soft text-shadow halo
+       so the prose has CRT-style "lit" accents. Body remains dim for contrast. */
     .body strong {
-      color: var(--white);
-      font-weight: 600;
+      color: var(--amber-bright);
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(255, 179, 71, 0.45);
     }
     .body em {
       font-style: italic;
-      color: var(--white);
+      color: var(--amber);
+      text-shadow: 0 0 6px rgba(255, 179, 71, 0.3);
     }
     .section-h {
       font-family: var(--display);
@@ -234,9 +238,10 @@
     .section-marker .num {
       font-family: ui-monospace, 'SF Mono', Menlo, monospace;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.16em;
-      color: var(--gold-bright);
+      color: var(--amber-bright);
+      text-shadow: 0 0 10px rgba(255, 179, 71, 0.5);
     }
     .section-marker .name {
       font-family: var(--display);
@@ -244,7 +249,7 @@
       font-weight: 600;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--white-dim);
+      color: var(--white);
     }
     .standfirst {
       font-family: var(--display);
@@ -254,18 +259,51 @@
       letter-spacing: -0.01em;
       color: var(--white);
       margin-bottom: 18px;
+      text-shadow: 0 0 18px rgba(255, 179, 71, 0.18);
     }
     .signoff {
       margin-top: 80px;
       padding-top: 32px;
       border-top: 1px solid var(--line);
-      font-family: var(--display);
-      font-size: 12px;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
       font-weight: 500;
-      font-style: italic;
       letter-spacing: 0.18em;
-      color: var(--white-dim);
+      color: var(--amber);
       text-align: center;
+      text-transform: uppercase;
+    }
+    .signoff .sep {
+      color: var(--white-dim);
+      margin: 0 14px;
+    }
+    .signoff .blink {
+      animation: signoff-blink 1s step-end infinite;
+    }
+    @keyframes signoff-blink {
+      0%, 50%   { opacity: 1; }
+      50.01%, 100% { opacity: 0; }
+    }
+
+    /* CRT atmosphere — fixed overlay with scanlines + corner phosphor glow.
+       Scoped to about page only via the .page-fx element rendered there. */
+    .page-fx {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(circle at 0% 0%,   rgba(255, 179, 71, 0.10), transparent 35%),
+        radial-gradient(circle at 100% 0%, rgba(255, 179, 71, 0.07), transparent 35%),
+        radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.07), transparent 35%),
+        radial-gradient(circle at 100% 100%, rgba(255, 179, 71, 0.10), transparent 35%),
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255, 179, 71, 0.022) 0,
+          rgba(255, 179, 71, 0.022) 1px,
+          transparent 1px,
+          transparent 4px
+        );
     }
     .body ul {
       list-style: none;
@@ -376,6 +414,9 @@
 </head>
 <body>
 
+  <!-- CRT phosphor atmosphere overlay (about-page only) -->
+  <div class="page-fx" aria-hidden="true"></div>
+
   <div class="ticker">
     <div class="ticker-label">
       <span class="pulse"></span>
@@ -454,7 +495,15 @@
         Boardroom Wire takes no sponsorships from companies it covers. No paid placements. No pre-publication review by subjects. Disclosures, when relevant, run inline with the dispatch.
       </p>
 
-      <p class="signoff">Boardroom Wire · Published from New York</p>
+      <p class="signoff">
+        <span>Boardroom Wire</span>
+        <span class="sep">·</span>
+        <span>New York</span>
+        <span class="sep">·</span>
+        <span id="signoff-time">--<span class="blink">:</span>-- EDT</span>
+        <span class="sep">·</span>
+        <span>Dispatch N° 0001</span>
+      </p>
     </div>
 
     <div class="find-us-bottom">
@@ -498,6 +547,26 @@
     }
     hydrate();
     setInterval(hydrate, 5 * 60_000);
+
+    // Live terminal-style signoff: NYC time updates every 30s, the colon
+    // between hours and minutes blinks once per second via CSS animation.
+    function updateSignoffTime() {
+      const el = document.getElementById('signoff-time');
+      if (!el) return;
+      const parts = new Intl.DateTimeFormat('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: 'America/New_York',
+        timeZoneName: 'short',
+      }).formatToParts(new Date());
+      const hour = parts.find((p) => p.type === 'hour')?.value ?? '--';
+      const minute = parts.find((p) => p.type === 'minute')?.value ?? '--';
+      const tz = parts.find((p) => p.type === 'timeZoneName')?.value ?? 'EDT';
+      el.innerHTML = `${hour}<span class="blink">:</span>${minute} ${tz}`;
+    }
+    updateSignoffTime();
+    setInterval(updateSignoffTime, 30_000);
   </script>
 </body>
 </html>
