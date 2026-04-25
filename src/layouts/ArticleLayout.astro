@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import NewsletterCTA from '../components/NewsletterCTA.astro';
+import { formatDate } from '../utils/format-date';
+
+interface Props {
+  entry: CollectionEntry<'articles'>;
+}
+
+const { entry } = Astro.props;
+const { title, dek, category, publishDate } = entry.data;
+const categoryLabel = category.replace(/-/g, ' ');
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: dek,
+  datePublished: publishDate.toISOString(),
+  articleSection: categoryLabel,
+};
+---
+
+<BaseLayout title={title} description={dek} ogType="article">
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(articleJsonLd)}
+    />
+  </Fragment>
+
+  <article>
+    <header class="mx-auto max-w-3xl px-6 pt-16 md:pt-24">
+      <p class="text-xs uppercase tracking-wider text-gold">{categoryLabel}</p>
+      <h1 class="mt-4 font-serif text-4xl text-cream md:text-6xl">{title}</h1>
+      <p class="mt-6 text-lg text-cream-muted">{dek}</p>
+      <p class="mt-8 text-xs uppercase tracking-wider text-cream-muted">
+        {formatDate(publishDate)}
+      </p>
+    </header>
+
+    <div class="article-prose mx-auto max-w-3xl px-6 py-12">
+      <slot />
+    </div>
+  </article>
+
+  <NewsletterCTA />
+</BaseLayout>

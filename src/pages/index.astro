@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NewsletterCTA from '../components/NewsletterCTA.astro';
+import ArticleCard from '../components/ArticleCard.astro';
 
 const sortByDateDesc = (a: { data: { publishDate: Date } }, b: { data: { publishDate: Date } }) =>
   b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
@@ -98,7 +99,9 @@ const orgJsonLd = {
         </p>
       ) : (
         <div class="grid gap-8 md:grid-cols-3">
-          {/* ArticleCard rendering lands in commit `articles` */}
+          {articles.map((entry) => (
+            <ArticleCard entry={entry} />
+          ))}
         </div>
       )
     }
