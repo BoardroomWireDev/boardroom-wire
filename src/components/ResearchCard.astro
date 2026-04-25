@@ -1,0 +1,45 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../utils/format-date';
+
+interface Props {
+  entry: CollectionEntry<'research'>;
+}
+
+const { entry } = Astro.props;
+const { title, dek, category, publishDate, dashboards } = entry.data;
+const categoryLabel = category.replace(/-/g, ' ');
+const heroDashboard = dashboards?.find((d) => d.image);
+---
+
+<a
+  href={`/research/${entry.id}/`}
+  class="group block border border-gray-line transition-colors hover:bg-navy-soft"
+>
+  {
+    heroDashboard?.image && (
+      <div class="aspect-video overflow-hidden bg-navy-soft">
+        <Image
+          src={heroDashboard.image}
+          alt={heroDashboard.title}
+          class="h-full w-full object-cover"
+        />
+      </div>
+    )
+  }
+  <div class="p-6">
+    <p class="text-xs uppercase tracking-wider text-gold">
+      Research · {categoryLabel}
+    </p>
+    <h3
+      class="mt-4 line-clamp-2 font-serif text-2xl text-cream transition-colors group-hover:text-gold"
+    >
+      {title}
+    </h3>
+    <p class="mt-3 line-clamp-3 text-sm text-cream-muted">{dek}</p>
+    <p class="mt-6 text-xs uppercase tracking-wider text-cream-muted">
+      {formatDate(publishDate)} <span class="text-gold">→</span>
+    </p>
+  </div>
+</a>

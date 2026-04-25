@@ -1,0 +1,90 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import NewsletterCTA from '../components/NewsletterCTA.astro';
+import { formatDate } from '../utils/format-date';
+
+interface Props {
+  entry: CollectionEntry<'research'>;
+}
+
+const { entry } = Astro.props;
+const { title, dek, category, publishDate, dashboards } = entry.data;
+const categoryLabel = category.replace(/-/g, ' ');
+
+const researchJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: dek,
+  datePublished: publishDate.toISOString(),
+  articleSection: `Research · ${categoryLabel}`,
+};
+---
+
+<BaseLayout title={title} description={dek} ogType="article">
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(researchJsonLd)}
+    />
+  </Fragment>
+
+  <article>
+    <header class="mx-auto max-w-3xl px-6 pt-16 md:pt-24">
+      <p class="text-xs uppercase tracking-wider text-gold">
+        Research · {categoryLabel}
+      </p>
+      <h1 class="mt-4 font-serif text-4xl text-cream md:text-6xl">{title}</h1>
+      <p class="mt-6 text-lg text-cream-muted">{dek}</p>
+      <p class="mt-8 text-xs uppercase tracking-wider text-cream-muted">
+        {formatDate(publishDate)}
+      </p>
+    </header>
+
+    <div class="article-prose mx-auto max-w-3xl px-6 py-12">
+      <slot />
+    </div>
+
+    {
+      dashboards && dashboards.length > 0 && (
+        <section class="mx-auto max-w-screen-2xl px-6 py-12">
+          <h2 class="mb-8 font-serif text-3xl text-cream md:text-4xl">
+            Dashboards
+          </h2>
+          <div class="grid gap-8 md:grid-cols-2">
+            {dashboards.map((d) => (
+              <figure class="border border-gray-line">
+                {d.embedUrl ? (
+                  <div class="aspect-video bg-navy-soft">
+                    <iframe
+                      src={d.embedUrl}
+                      title={d.title}
+                      loading="lazy"
+                      class="h-full w-full"
+                    />
+                  </div>
+                ) : d.image ? (
+                  <div class="aspect-video overflow-hidden bg-navy-soft">
+                    <Image
+                      src={d.image}
+                      alt={d.title}
+                      class="h-full w-full object-cover"
+                    />
+                  </div>
+                ) : null}
+                <figcaption class="bg-navy-deep px-4 py-3 text-xs uppercase tracking-wider text-cream-muted">
+                  {d.title}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </article>
+
+  <NewsletterCTA />
+</BaseLayout>
