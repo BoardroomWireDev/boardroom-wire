@@ -97,7 +97,7 @@ const CHANNEL_ID = 'UCthfphsDjHppg9SQv3JTdrg';
       height: 100%;
       width: max-content;
       padding-left: 32px;
-      animation: ticker-scroll 45s linear infinite;
+      animation: ticker-scroll 28s linear infinite;
     }
     .ticker:hover .ticker-track,
     .ticker:focus-within .ticker-track {
@@ -328,7 +328,9 @@ const CHANNEL_ID = 'UCthfphsDjHppg9SQv3JTdrg';
         animation-iteration-count: 1 !important;
         transition-duration: 0s !important;
       }
-      .ticker-track { animation: none; transform: none; }
+      .ticker-track {
+        animation: ticker-scroll 28s linear infinite !important;
+      }
     }
   </style>
 </head>

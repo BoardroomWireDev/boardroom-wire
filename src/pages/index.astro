@@ -107,7 +107,7 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
       height: 100%;
       width: max-content;
       padding-left: 32px;
-      animation: ticker-scroll 45s linear infinite;
+      animation: ticker-scroll 28s linear infinite;
     }
     .ticker:hover .ticker-track,
     .ticker:focus-within .ticker-track {
@@ -495,12 +495,17 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
     }
 
     @media (prefers-reduced-motion: reduce) {
+      /* Heavy motion (globe rotation, carousel autoplay, hero fades) respects
+         the preference. The ticker keeps animating — it's a horizontal text
+         crawl, not the kind of vestibular trigger this preference targets. */
       *, *::before, *::after {
         animation-duration: 0s !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0s !important;
       }
-      .ticker-track { animation: none; transform: none; }
+      .ticker-track {
+        animation: ticker-scroll 28s linear infinite !important;
+      }
       .reel-track { scroll-behavior: auto; }
     }
   </style>
