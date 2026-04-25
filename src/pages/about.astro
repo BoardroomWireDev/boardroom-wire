@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterCTA from '../components/NewsletterCTA.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="Boardroom Wire is forensic business analysis of AI companies and tech industry developments — Bloomberg-style depth, PE/banker lens, no hype."
+>
+  <main>
+    <section class="mx-auto max-w-3xl px-6 py-16 md:py-24">
+      <p class="text-xs uppercase tracking-wider text-gold">About</p>
+      <h1 class="mt-4 font-serif text-4xl text-cream md:text-6xl">
+        Forensic analysis of the companies shaping the future.
+      </h1>
+
+      <div class="article-prose mt-12">
+        <p>
+          Boardroom Wire is a research publication and YouTube channel
+          covering the business of AI and the broader tech industry — with
+          the depth of a sell-side analyst report and the bite of a
+          private-equity memo. Strategic breakdowns, not product reviews.
+        </p>
+
+        <h2>What this is</h2>
+        <p>
+          Most AI coverage stops at "this looks cool" or "this looks
+          dangerous." We start where that coverage ends — with the
+          numbers, the structure, and the strategic logic. Who's winning,
+          who's being recapitalized in slow motion, what the data rooms
+          look like, and what it all means for the next ten years of the
+          industry.
+        </p>
+
+        <h2>Who's writing</h2>
+        <p>
+          Dakotah Radabaugh — eight-plus years in private equity tech
+          sales, applied here to AI coverage. Background in selling into
+          the firms that quietly shape the deals you read about three
+          quarters later.
+        </p>
+
+        <h2>How to read it</h2>
+        <p>
+          Three formats:
+        </p>
+        <ul>
+          <li>
+            <strong>Articles</strong> — short-to-medium research notes,
+            usually 600–1,500 words. The verdict is in the lead paragraph.
+          </li>
+          <li>
+            <strong>Videos</strong> — long-form breakdowns on YouTube with
+            the dashboards and transcript embedded here.
+          </li>
+          <li>
+            <strong>Research</strong> — primary-source dashboards and
+            datasets, refreshed as new filings drop.
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <NewsletterCTA />
+</BaseLayout>

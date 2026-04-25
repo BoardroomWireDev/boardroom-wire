@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterCTA from '../components/NewsletterCTA.astro';
+---
+
+<BaseLayout
+  title="Newsletter"
+  description="Subscribe to the Boardroom Wire newsletter — one forensic dispatch a week on the business of AI."
+>
+  <main>
+    <section class="mx-auto max-w-3xl px-6 py-16 md:py-24">
+      <p class="text-xs uppercase tracking-wider text-gold">Newsletter</p>
+      <h1 class="mt-4 font-serif text-4xl text-cream md:text-6xl">
+        One forensic dispatch a week.
+      </h1>
+      <p class="mt-6 text-lg text-cream-muted">
+        Strategic depth on AI companies and the tech industry — frameworks,
+        numbers, and verdicts. No hype, no "thought leadership" cadence.
+      </p>
+    </section>
+  </main>
+
+  <NewsletterCTA />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 md:py-24">
+    <h2 class="font-serif text-3xl text-cream md:text-4xl">Past issues</h2>
+    <p class="mt-6 text-cream-muted">Issue archive lands once the newsletter goes live.</p>
+  </section>
+</BaseLayout>
