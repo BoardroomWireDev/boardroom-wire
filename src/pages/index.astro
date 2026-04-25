@@ -289,6 +289,28 @@
       font-style: normal;
       font-weight: 700;
       color: var(--gold-bright);
+      text-shadow: 0 0 14px rgba(255, 179, 71, 0.55);
+    }
+
+    /* CRT phosphor atmosphere overlay — same as /about/. Fixed corner radial
+       amber glows + faint horizontal scanline pattern. Sits behind content. */
+    .page-fx {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(circle at 0% 0%,   rgba(255, 179, 71, 0.14), transparent 35%),
+        radial-gradient(circle at 100% 0%, rgba(255, 179, 71, 0.10), transparent 35%),
+        radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.10), transparent 35%),
+        radial-gradient(circle at 100% 100%, rgba(255, 179, 71, 0.14), transparent 35%),
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255, 179, 71, 0.035) 0,
+          rgba(255, 179, 71, 0.035) 1px,
+          transparent 1px,
+          transparent 4px
+        );
     }
 
     /* Single row directly under the wordmark — TBPN-style:
@@ -443,6 +465,9 @@
   </style>
 </head>
 <body>
+
+  <!-- CRT phosphor atmosphere overlay -->
+  <div class="page-fx" aria-hidden="true"></div>
 
   <!-- Live Wire ticker -->
   <div class="ticker">
