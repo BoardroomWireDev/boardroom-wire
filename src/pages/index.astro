@@ -782,9 +782,20 @@
         .pointRadius((c: City) => isHighlit(c) ? 0.55 : 0.4);
     };
 
+    // Pause auto-rotate while the user is engaged with a tooltip — either
+    // hovering a city or in the 2s active-after-click window. The slowly
+    // rotating sphere otherwise carries the tooltip away while you're
+    // reading it.
+    const refreshRotation = () => {
+      if (controls) {
+        controls.autoRotate = !hoveredCity && !activeCity;
+      }
+    };
+
     globe.onPointHover((point: City | null) => {
       hoveredCity = point;
       refreshPointAccessors();
+      refreshRotation();
     });
 
     globe.onPointClick((point: any) => {
@@ -795,8 +806,10 @@
       activeTimeout = window.setTimeout(() => {
         activeCity = null;
         refreshPointAccessors();
+        refreshRotation();
       }, 2000);
       refreshPointAccessors();
+      refreshRotation();
 
       let target = cities[Math.floor(Math.random() * cities.length)];
       // pick again if we landed on the source
