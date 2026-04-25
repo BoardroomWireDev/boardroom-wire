@@ -167,7 +167,7 @@
     .wordmark .wire { color: var(--gold-bright); }
     .globe-wrap {
       position: relative;
-      width: min(480px, 75vw);
+      width: min(768px, 90vw);
       aspect-ratio: 1 / 1;
       margin-bottom: 40px;
       opacity: 0;
@@ -753,8 +753,8 @@
       { name: 'Tokyo',         lat:  35.6762, lng:  139.6503 },
     ];
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const useHex = new URLSearchParams(window.location.search).get('hex') === '1';
+    // Hex landmass on by default; ?hex=0 turns it off for the pure-abstract variant.
+    const useHex = new URLSearchParams(window.location.search).get('hex') !== '0';
 
     const arcs: Array<{ startLat: number; startLng: number; endLat: number; endLng: number }> = [];
     const rings: Array<{ lat: number; lng: number }> = [];
@@ -794,10 +794,11 @@
       mat.color.set('#000000');
     }
 
-    // Auto-rotate (unless user prefers reduced motion)
+    // Auto-rotate. Reduced-motion intentionally NOT respected here — the globe
+    // is the brand hero element, same treatment as the ticker marquee.
     const controls = (globe.controls() as any);
     if (controls) {
-      controls.autoRotate = !reduced;
+      controls.autoRotate = true;
       controls.autoRotateSpeed = 0.4;
       controls.enableZoom = false; // don't let scroll-zoom hijack page scroll
     }
@@ -864,15 +865,14 @@
     });
 
     // ====== Ambient activity — random arc every 2.5s, capped at 6 ======
-    if (!reduced) {
-      setInterval(() => {
-        if (arcs.length >= MAX_AMBIENT_ARCS) return;
-        const a = cities[Math.floor(Math.random() * cities.length)];
-        let b = cities[Math.floor(Math.random() * cities.length)];
-        while (b === a) b = cities[Math.floor(Math.random() * cities.length)];
-        fireArc(a, b);
-      }, AMBIENT_INTERVAL);
-    }
+    // Always runs (same rationale as the ticker: brand-critical motion).
+    setInterval(() => {
+      if (arcs.length >= MAX_AMBIENT_ARCS) return;
+      const a = cities[Math.floor(Math.random() * cities.length)];
+      let b = cities[Math.floor(Math.random() * cities.length)];
+      while (b === a) b = cities[Math.floor(Math.random() * cities.length)];
+      fireArc(a, b);
+    }, AMBIENT_INTERVAL);
   </script>
 
 </body>
