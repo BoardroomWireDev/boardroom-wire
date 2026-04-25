@@ -50,25 +50,8 @@ const pageTitle = title ? `${title} · ${SITE_NAME}` : SITE_NAME;
         outline-offset: 4px;
       }
 
-      /* Scroll reveal — defaults to VISIBLE so content shows without JS.
-         The 'js-ready' class is added to <html> as soon as JS runs, which
-         flips reveal elements to their pre-animation state until the
-         IntersectionObserver fires and adds .in-view. */
-      .reveal {
-        opacity: 1;
-        transform: none;
-        transition:
-          opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-          transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-      }
-      .js-ready .reveal {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-      .js-ready .reveal.in-view {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      /* Reveal pattern — temporarily disabled, content fully visible at all times. */
+      .reveal { opacity: 1; transform: none; }
 
       /* Cursor-aware card glow */
       .modern-card {
