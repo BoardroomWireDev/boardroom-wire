@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#1a1a2e"/>
+  <rect x="60" y="60" width="1080" height="510" fill="none" stroke="#3a3a52" stroke-width="2"/>
+  <text
+    x="100"
+    y="160"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="36"
+    fill="#c9a84c"
+    letter-spacing="6"
+  >BOARDROOM WIRE</text>
+  <text
+    x="100"
+    y="340"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="80"
+    fill="#f5f5dc"
+  >Forensic analysis</text>
+  <text
+    x="100"
+    y="430"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="80"
+    fill="#f5f5dc"
+  >of the companies</text>
+  <text
+    x="100"
+    y="520"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="80"
+    fill="#c9a84c"
+  >shaping the future.</text>
+</svg>
