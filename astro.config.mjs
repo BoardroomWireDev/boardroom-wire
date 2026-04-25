@@ -5,5 +5,9 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://boardroomwire.com',
-  integrations: [tailwind(), mdx(), sitemap()],
+  integrations: [
+    tailwind({ applyBaseStyles: false }),
+    mdx(),
+    sitemap(),
+  ],
 });
