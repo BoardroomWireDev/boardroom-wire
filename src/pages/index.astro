@@ -203,36 +203,26 @@
       100% { width: 110%; height: 110%; margin: -55% 0 0 -55%; opacity: 0;   border-width: 0.5px; }
     }
 
-    .tagline {
+    /* Brand tagline now lives inline in the find-row (left side). */
+    .tagline-row {
       font-family: var(--display);
       font-weight: 500;
-      font-size: clamp(28px, 4vw, 44px);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-      opacity: 0;
-      animation: fadeUp 0.9s ease-out 0.6s forwards;
+      font-size: clamp(15px, 1.5vw, 19px);
+      line-height: 1.25;
+      letter-spacing: -0.005em;
+      color: var(--white);
     }
-    .tagline em {
+    .tagline-row em {
       font-style: italic;
+      font-weight: 600;
       color: var(--gold-bright);
-    }
-    .schedule {
-      font-family: var(--display);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.28em;
-      color: var(--white-dim);
-      text-transform: uppercase;
-      opacity: 0;
-      animation: fadeUp 0.9s ease-out 0.7s forwards;
     }
 
     /* Single row directly under the wordmark — TBPN-style:
        "Find Boardroom Wire" label on the left, social icons + More Info on the right. */
     .find-row {
       width: 100%;
-      max-width: 880px;
+      max-width: 1080px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -309,162 +299,6 @@
       box-shadow: 0 2px 0 0 var(--gold);
     }
 
-    /* ============ REEL (YouTube carousel) ============ */
-    section.reel {
-      border-top: 1px solid var(--line);
-      padding: 64px 0 80px;
-      position: relative;
-      z-index: 5;
-    }
-    .reel-header {
-      max-width: 1280px;
-      margin: 0 auto 32px;
-      padding: 0 48px;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .reel-eyebrow {
-      font-family: var(--display);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold-bright);
-      margin-bottom: 8px;
-    }
-    .reel-title {
-      font-family: var(--display);
-      font-weight: 700;
-      font-size: clamp(28px, 3.5vw, 40px);
-      letter-spacing: -0.02em;
-      color: var(--white);
-    }
-    .reel-controls {
-      display: flex;
-      gap: 8px;
-    }
-    .reel-btn {
-      width: 44px; height: 44px;
-      border: 1px solid var(--line);
-      background: transparent;
-      color: var(--white);
-      cursor: pointer;
-      transition: all 0.18s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .reel-btn:hover {
-      border-color: var(--gold);
-      color: var(--gold-bright);
-    }
-    .reel-btn svg { width: 18px; height: 18px; fill: currentColor; }
-
-    .reel-track-wrap {
-      position: relative;
-      overflow: hidden;
-    }
-    .reel-track {
-      display: flex;
-      gap: 20px;
-      padding: 0 48px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-    .reel-track::-webkit-scrollbar { display: none; }
-
-    .reel-card {
-      scroll-snap-align: start;
-      flex: 0 0 calc((100% - 48px*2 - 20px*2) / 3);
-      min-width: 280px;
-      max-width: 480px;
-      position: relative;
-      display: block;
-      text-decoration: none;
-      color: var(--white);
-      border: 1px solid var(--line);
-      background: var(--black-soft);
-      transition: border-color 0.2s, transform 0.25s;
-    }
-    .reel-card:hover {
-      border-color: var(--gold);
-      transform: translateY(-3px);
-    }
-    .reel-card .thumb {
-      position: relative;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      background: var(--black-soft);
-    }
-    .reel-card .thumb img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.4s;
-    }
-    .reel-card:hover .thumb img { transform: scale(1.04); }
-    .reel-card .thumb::after {
-      content: "";
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 50%);
-      pointer-events: none;
-    }
-    .reel-card .play {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.25s;
-      pointer-events: none;
-    }
-    .reel-card:hover .play { opacity: 1; }
-    .reel-card .play span {
-      width: 64px; height: 64px;
-      background: var(--gold-bright);
-      color: var(--black);
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .reel-card .play svg { width: 24px; height: 24px; margin-left: 4px; fill: currentColor; }
-    .reel-card .meta {
-      padding: 18px 20px 22px;
-      position: relative;
-    }
-    .reel-card .meta h3 {
-      font-family: var(--display);
-      font-size: 16px;
-      font-weight: 600;
-      line-height: 1.35;
-      color: var(--white);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .reel-card.placeholder .thumb {
-      background: linear-gradient(135deg, #0a0a0a, #1a1a1a 50%, #0a0a0a);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .reel-card.placeholder .thumb::before {
-      content: "";
-      width: 56px; height: 56px;
-      border: 1px solid var(--line);
-      border-radius: 50%;
-      background: rgba(212, 175, 55, 0.04);
-    }
-
     /* Footer */
     footer.tail {
       border-top: 1px solid var(--line);
@@ -517,12 +351,7 @@
         gap: 18px;
       }
       .socials { gap: 20px; }
-      .reel-header { padding: 0 24px; }
-      .reel-track { padding: 0 24px; }
       footer.tail { padding: 20px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
-    }
-    @media (max-width: 520px) {
-      .reel-card { flex-basis: 90%; min-width: 0; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -537,7 +366,6 @@
       .ticker-track {
         animation: ticker-scroll 28s linear infinite !important;
       }
-      .reel-track { scroll-behavior: auto; }
     }
   </style>
 </head>
@@ -573,7 +401,7 @@
     </div>
 
     <div class="find-row">
-      <div class="find-us-label">Find Boardroom Wire</div>
+      <p class="tagline-row">Strategic Analysis. <em>Business &amp; Technology.</em></p>
       <div class="find-row-right">
         <div class="socials">
           <a href="https://x.com/BoardroomWire" target="_blank" rel="noopener" title="X" aria-label="X">
@@ -587,40 +415,14 @@
           </a>
         </div>
         <a href="/about/" class="more-info">More Info</a>
+        <a href="/videos/" class="more-info">Videos</a>
       </div>
     </div>
 
     <div class="globe-wrap" id="globe-wrap">
       <div id="globe"></div>
     </div>
-
-    <h1 class="tagline">Infrastructure is <em>destiny.</em></h1>
-    <p class="schedule">Weekly · Mondays · 9 AM ET</p>
   </main>
-
-  <!-- Reel — YouTube thumbnail carousel -->
-  <section class="reel" id="reel">
-    <div class="reel-header">
-      <div>
-        <p class="reel-eyebrow">The Reel</p>
-        <h2 class="reel-title">Latest from the channel</h2>
-      </div>
-      <div class="reel-controls">
-        <button type="button" class="reel-btn" id="reel-prev" aria-label="Previous">
-          <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-        </button>
-        <button type="button" class="reel-btn" id="reel-next" aria-label="Next">
-          <svg viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="reel-track-wrap">
-      <div class="reel-track" id="reel-track" role="list" aria-label="Latest videos">
-        <!-- cards inserted by JS -->
-      </div>
-    </div>
-  </section>
 
   <footer class="tail">
     <span>© 2026 Boardroom Wire</span>
@@ -637,106 +439,16 @@
       });
     };
 
-    /* ============ Reel rendering ============ */
-    const track = document.getElementById('reel-track')!;
-
-    function renderReelPlaceholders(n = 6) {
-      track.innerHTML = '';
-      for (let i = 0; i < n; i++) {
-        const card = document.createElement('div');
-        card.className = 'reel-card placeholder';
-        card.setAttribute('role', 'listitem');
-        card.innerHTML = `<div class="thumb"></div><div class="meta"><h3>Episode ${i + 1}</h3></div>`;
-        track.appendChild(card);
-      }
-    }
-
-    function renderReelVideos(videos: Array<{ id: string; title: string; thumbnail: string }>) {
-      track.innerHTML = '';
-      for (const v of videos) {
-        const a = document.createElement('a');
-        a.className = 'reel-card';
-        a.href = `https://www.youtube.com/watch?v=${v.id}`;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.setAttribute('role', 'listitem');
-        a.setAttribute('aria-label', `Watch: ${v.title}`);
-        a.innerHTML = `
-          <div class="thumb">
-            <img src="${v.thumbnail}" alt="" loading="lazy" />
-            <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
-          </div>
-          <div class="meta"><h3>${v.title}</h3></div>
-        `;
-        track.appendChild(a);
-      }
-    }
-
-    /* ============ Single fetch feeds both ============ */
     async function hydrate() {
       const data = await fetchChannelData();
-      if (!data) {
-        // No key or fetch failed — placeholders for the reel; ticker keeps em-dashes
-        renderReelPlaceholders();
-        return;
-      }
-
-      // Ticker
+      if (!data) return; // ticker keeps em-dashes
       setStat('videos', fmt(data.videos));
       setStat('subs',   fmt(data.subs));
       setStat('views',  fmt(data.views));
       setStat('top',    data.topVideo ? `${fmt(data.topVideo.views)} views` : '—');
       setStat('newest', data.newest ? daysAgo(data.newest.publishedAt) : '—');
-
-      // Reel
-      if (data.reel.length > 0) {
-        renderReelVideos(data.reel);
-      } else {
-        renderReelPlaceholders();
-      }
     }
-
-    /* ============ Reel auto-advance + prev/next ============ */
-    function setupReelControls() {
-      const cardWidth = () => {
-        const card = track.querySelector('.reel-card');
-        if (!card) return 0;
-        const styles = getComputedStyle(track);
-        const gap = parseFloat(styles.gap) || 0;
-        return card.getBoundingClientRect().width + gap;
-      };
-
-      document.getElementById('reel-prev')!.addEventListener('click', () => {
-        track.scrollBy({ left: -cardWidth(), behavior: 'smooth' });
-      });
-      document.getElementById('reel-next')!.addEventListener('click', () => {
-        track.scrollBy({ left: cardWidth(), behavior: 'smooth' });
-      });
-
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduced) return;
-
-      let paused = false;
-      const reelSection = document.getElementById('reel')!;
-      reelSection.addEventListener('mouseenter', () => { paused = true; });
-      reelSection.addEventListener('mouseleave', () => { paused = false; });
-      reelSection.addEventListener('focusin',  () => { paused = true; });
-      reelSection.addEventListener('focusout', () => { paused = false; });
-
-      setInterval(() => {
-        if (paused) return;
-        const w = cardWidth();
-        if (!w) return;
-        const max = track.scrollWidth - track.clientWidth - 4;
-        if (track.scrollLeft >= max) {
-          track.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          track.scrollBy({ left: w, behavior: 'smooth' });
-        }
-      }, 5000);
-    }
-
-    hydrate().then(setupReelControls);
+    hydrate();
     // Refresh every 5 minutes — picks up cached or fresh data automatically
     setInterval(hydrate, 5 * 60_000);
   </script>
