@@ -119,36 +119,38 @@ const videos = await fetchLatestVideos('https://www.youtube.com/@BoardroomWire')
     display: block;
   }
 
-  /* Grid pattern — dotted grid, masked to fade at edges. */
+  /* Grid pattern — visible dashboard grid, masked to fade at edges. */
   .bg-grid {
+    background-color: #0a0d18;
     background-image:
-      linear-gradient(rgb(59 130 246 / 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(59 130 246 / 0.07) 1px, transparent 1px);
-    background-size: 48px 48px;
+      linear-gradient(rgb(96 165 250 / 0.22) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(96 165 250 / 0.22) 1px, transparent 1px);
+    background-size: 40px 40px;
     background-position: -1px -1px;
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
-            mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 35%, transparent 90%);
+            mask-image: radial-gradient(ellipse at center, #000 35%, transparent 90%);
   }
 
-  /* Noise — repeating SVG turbulence. */
+  /* Noise — heavy SVG turbulence with a subtle blue cast. */
   .bg-noise {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-color: #0a0a14;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.7 0 0 0 0 1 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
 
-  /* Scanline — soft animated horizontal stripes. */
+  /* Scanline — animated horizontal stripes overlaid on noise. */
   .bg-scanline {
     background-image: repeating-linear-gradient(
       to bottom,
-      rgb(255 255 255 / 0.02) 0,
-      rgb(255 255 255 / 0.02) 1px,
+      rgb(96 165 250 / 0.1) 0,
+      rgb(96 165 250 / 0.1) 1px,
       transparent 1px,
-      transparent 4px
+      transparent 3px
     );
-    animation: scanline-drift 8s linear infinite;
+    animation: scanline-drift 6s linear infinite;
   }
   @keyframes scanline-drift {
     from { background-position: 0 0; }
-    to { background-position: 0 100px; }
+    to { background-position: 0 60px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
