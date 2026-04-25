@@ -32,6 +32,12 @@
       --gold:        #D4AF37;
       --gold-bright: #F2CB52;
 
+      /* Phosphor amber — for emissive elements (pulsing, glowing, on-air).
+         Static UI stays on --gold; anything that emits light uses --amber. */
+      --amber:        #FFB347;
+      --amber-bright: #FFC97A;
+      --amber-glow:   rgba(255, 179, 71, 0.4);
+
       --display: 'Inter', system-ui, sans-serif;
     }
 
@@ -78,12 +84,16 @@
       align-items: center;
       gap: 12px;
       text-transform: uppercase;
+      /* Faint amber halo so the gold chip reads as "lit" alongside the
+         globe's bloom — tiny, not glowy. */
+      box-shadow: 0 0 14px var(--amber-glow);
     }
     .ticker-label .pulse {
       width: 9px; height: 9px;
       background: #FF3B30;
       border-radius: 50%;
       box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+      filter: drop-shadow(0 0 4px rgba(255, 59, 48, 0.55));
       animation: pulse-red 1.4s ease-in-out infinite;
     }
     @keyframes pulse-red {
@@ -193,9 +203,10 @@
       width: 0;
       height: 0;
       margin: 0;
-      border: 2px solid rgba(212, 175, 55, 0.6);
+      border: 2px solid var(--amber);
       border-radius: 50%;
       pointer-events: none;
+      box-shadow: 0 0 24px var(--amber-glow), inset 0 0 12px var(--amber-glow);
       animation: globe-pulse-out 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
     @keyframes globe-pulse-out {
@@ -293,7 +304,7 @@
     }
     .more-info:hover {
       background: var(--gold);
-      box-shadow: 0 6px 0 0 #b8932e;
+      box-shadow: 0 6px 0 0 #b8932e, 0 0 24px var(--amber-glow);
       transform: translateY(-2px);
     }
     .more-info:active {
@@ -458,9 +469,14 @@
   <!-- globe.gl hero globe — capital-markets cities + arcs + rings + click-to-emit -->
   <script>
     import Globe from 'globe.gl';
+    import * as THREE from 'three';
+    import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-    const GOLD = '#D4AF37';
-    const GOLD_BRIGHT = '#F2CB52';
+    // Phosphor amber for emissive layers (points, arcs, rings) — blooms cleanly
+    // toward warm cream-white. Pure gold (#D4AF37) bleeds toward yellow under
+    // bloom; static UI stays gold, anything that emits light goes amber.
+    const AMBER = '#FFB347';
+    const AMBER_BRIGHT = '#FFC97A';
     const FLIGHT_TIME = 1000;
     const RINGS_MAX_R = 5;
     const RING_PROPAGATION_SPEED = 5;
@@ -505,19 +521,19 @@
       .pointsData(cities)
       .pointLat('lat')
       .pointLng('lng')
-      .pointColor(() => GOLD_BRIGHT)
+      .pointColor(() => AMBER_BRIGHT)
       .pointAltitude(0.01)
       .pointRadius(0.4)
       .pointResolution(12)
       .arcsData(arcs)
-      .arcColor(() => GOLD)
+      .arcColor(() => AMBER)
       .arcDashLength(0.4)
       .arcDashGap(2)
       .arcDashAnimateTime(2000)
       .arcStroke(0.4)
       .arcsTransitionDuration(0)
       .ringsData(rings)
-      .ringColor(() => (t: number) => `rgba(212, 175, 55, ${1 - t})`)
+      .ringColor(() => (t: number) => `rgba(255, 179, 71, ${1 - t})`)
       .ringMaxRadius(RINGS_MAX_R)
       .ringPropagationSpeed(RING_PROPAGATION_SPEED)
       .ringRepeatPeriod((FLIGHT_TIME * RINGS_MAX_R) / RING_PROPAGATION_SPEED / 3);
@@ -543,6 +559,58 @@
     // negative wrapper margin lands the sphere top near the favicon row).
     globe.pointOfView({ lat: 0, lng: 0, altitude: 1.85 });
 
+    // ====== Luminescence layer ======
+    // ACES filmic tone mapping crushes blacks and lifts highlights so the
+    // bloom reads cinematic instead of like a CSS filter.
+    const renderer = (globe.renderer() as any);
+    if (renderer) {
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
+    }
+
+    // Bloom pass — desktop only (bloom on mobile GPUs adds ~10-20ms/frame).
+    const isMobile = window.matchMedia('(max-width: 720px)').matches;
+    if (!isMobile) {
+      const composer = (globe.postProcessingComposer() as any);
+      if (composer) {
+        // Half-resolution render target — visually identical for soft glow,
+        // ~4x cheaper than full-screen.
+        const w = window.innerWidth / 2;
+        const h = window.innerHeight / 2;
+        const bloomPass = new UnrealBloomPass(
+          new THREE.Vector2(w, h),
+          0.65, // strength — start conservative, dial up if too thin
+          0.5,  // radius   — tighter glow first
+          0.2,  // threshold — only the brightest pixels (point dots, arc heads) bloom
+        );
+        composer.addPass(bloomPass);
+      }
+    }
+
+    // Additive blending on emissive layers — overlapping arcs/points brighten
+    // instead of mixing, which is the "phosphor" core of the look. Identify
+    // emissive meshes by their color (amber-bright) so we don't touch the
+    // base sphere or hex landmass.
+    const isAmberPoint = (color: any): boolean => {
+      if (!color || typeof color.getHexString !== 'function') return false;
+      const hex = color.getHexString().toLowerCase();
+      return hex === 'ffc97a' || hex === 'ffb347';
+    };
+    queueMicrotask(() => {
+      // Defer to next tick so globe.gl has finished initial scene population.
+      globe.scene().traverse((obj: any) => {
+        if (!obj.material) return;
+        const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+        for (const m of mats) {
+          if (m && m.color && isAmberPoint(m.color)) {
+            m.blending = THREE.AdditiveBlending;
+            m.transparent = true;
+            m.depthWrite = false;
+          }
+        }
+      });
+    });
+
     // Hex polygons — only when ?hex=1
     if (useHex) {
       fetch('https://unpkg.com/globe.gl/example/datasets/ne_110m_admin_0_countries.geojson')
@@ -553,7 +621,9 @@
             .hexPolygonResolution(3)
             .hexPolygonMargin(0.3)
             .hexPolygonAltitude(0.005)
-            .hexPolygonColor(() => 'rgba(212, 175, 55, 0.6)');
+            // Lower opacity than the points so hex landmass stays under the
+            // bloom threshold and reads as base layer, not a glowing layer.
+            .hexPolygonColor(() => 'rgba(255, 179, 71, 0.35)');
         })
         .catch((err) => console.warn('[globe] hex polygons fetch failed:', err));
     }

@@ -27,6 +27,9 @@
       --white-dim:   #888173;
       --gold:        #D4AF37;
       --gold-bright: #F2CB52;
+      --amber:        #FFB347;
+      --amber-bright: #FFC97A;
+      --amber-glow:   rgba(255, 179, 71, 0.4);
       --display: 'Inter', system-ui, sans-serif;
     }
 
@@ -71,12 +74,14 @@
       align-items: center;
       gap: 12px;
       text-transform: uppercase;
+      box-shadow: 0 0 14px var(--amber-glow);
     }
     .ticker-label .pulse {
       width: 9px; height: 9px;
       background: #FF3B30;
       border-radius: 50%;
       box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+      filter: drop-shadow(0 0 4px rgba(255, 59, 48, 0.55));
       animation: pulse-red 1.4s ease-in-out infinite;
     }
     @keyframes pulse-red {

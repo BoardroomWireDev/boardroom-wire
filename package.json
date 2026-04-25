@@ -15,7 +15,8 @@
     "astro": "^5.18.1",
     "embla-carousel": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
-    "globe.gl": "^2.45.3"
+    "globe.gl": "^2.45.3",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "@astrojs/mdx": "^4.3.14",
