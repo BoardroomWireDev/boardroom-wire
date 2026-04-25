@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VideoCard from '../../components/VideoCard.astro';
+
+const videos = (
+  await getCollection('videos', ({ data }) => !data.draft)
+).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+---
+
+<BaseLayout
+  title="Videos"
+  description="Boardroom Wire videos — forensic breakdowns of AI companies and tech industry developments, with embedded research dashboards and full transcripts."
+>
+  <main class="mx-auto max-w-screen-2xl px-6 py-16 md:py-24">
+    <header class="mb-12 max-w-3xl">
+      <p class="text-xs uppercase tracking-wider text-gold">Videos</p>
+      <h1 class="mt-4 font-serif text-4xl text-cream md:text-6xl">
+        Watch the analysis.
+      </h1>
+      <p class="mt-6 text-lg text-cream-muted">
+        Every episode comes with the dashboards and transcript.
+      </p>
+    </header>
+
+    {
+      videos.length === 0 ? (
+        <p class="text-cream-muted">
+          No videos published yet — subscribe on YouTube while we ship the
+          archive.
+        </p>
+      ) : (
+        <div class="grid gap-8 md:grid-cols-3">
+          {videos.map((entry) => (
+            <VideoCard entry={entry} />
+          ))}
+        </div>
+      )
+    }
+  </main>
+</BaseLayout>

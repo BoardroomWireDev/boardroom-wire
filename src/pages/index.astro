@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NewsletterCTA from '../components/NewsletterCTA.astro';
 import ArticleCard from '../components/ArticleCard.astro';
+import VideoCard from '../components/VideoCard.astro';
 
 const sortByDateDesc = (a: { data: { publishDate: Date } }, b: { data: { publishDate: Date } }) =>
   b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
@@ -125,7 +126,9 @@ const orgJsonLd = {
         </p>
       ) : (
         <div class="grid gap-8 md:grid-cols-3">
-          {/* VideoCard rendering lands in commit `videos` */}
+          {videos.map((entry) => (
+            <VideoCard entry={entry} />
+          ))}
         </div>
       )
     }
