@@ -95,12 +95,27 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
     }
     .ticker-stats {
       flex: 1;
+      overflow: hidden;
+      position: relative;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+    }
+    .ticker-track {
       display: flex;
       align-items: center;
-      justify-content: space-around;
-      padding: 0 24px;
-      gap: 16px;
-      overflow: hidden;
+      gap: 56px;
+      height: 100%;
+      width: max-content;
+      padding-left: 32px;
+      animation: ticker-scroll 45s linear infinite;
+    }
+    .ticker:hover .ticker-track,
+    .ticker:focus-within .ticker-track {
+      animation-play-state: paused;
+    }
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
     .stat {
       font-family: var(--display);
@@ -113,6 +128,7 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
       align-items: baseline;
       gap: 10px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .stat .v {
       color: var(--white);
@@ -121,6 +137,10 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
     }
     .stat.live .v.on  { color: var(--gold-bright); }
     .stat.live .v.off { color: var(--white-dim); }
+    .stat .sep {
+      color: var(--line);
+      margin-left: 56px;
+    }
 
     /* ============ TOP HEADER (logo) ============ */
     header.top {
@@ -461,8 +481,9 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
       header.top { padding: 20px 24px 0; }
       .logo-icon { height: 32px; width: 32px; }
       .logo-text { font-size: 18px; }
-      .ticker-stats { gap: 14px; padding: 0 14px; }
+      .ticker-track { gap: 36px; padding-left: 20px; }
       .stat { font-size: 10px; letter-spacing: 0.1em; gap: 6px; }
+      .stat .sep { margin-left: 36px; }
       .ticker-label { font-size: 10px; padding: 0 12px; }
       .socials { gap: 20px; }
       .reel-header { padding: 0 24px; }
@@ -470,7 +491,6 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
       footer.tail { padding: 20px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
     }
     @media (max-width: 520px) {
-      .stat:nth-child(3) { display: none; }
       .reel-card { flex-basis: 90%; min-width: 0; }
     }
 
@@ -480,6 +500,7 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
         animation-iteration-count: 1 !important;
         transition-duration: 0s !important;
       }
+      .ticker-track { animation: none; transform: none; }
       .reel-track { scroll-behavior: auto; }
     }
   </style>
@@ -492,11 +513,18 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
       <span class="pulse"></span>
       <span>Live Wire</span>
     </div>
-    <div class="ticker-stats">
-      <div class="stat">Videos <span class="v" id="stat-videos">—</span></div>
-      <div class="stat">Subscribers <span class="v" id="stat-subs">—</span></div>
-      <div class="stat">Total Views <span class="v" id="stat-views">—</span></div>
-      <div class="stat live">Live <span class="v off" id="stat-live">Off Air</span></div>
+    <div class="ticker-stats" aria-label="Live channel statistics">
+      <div class="ticker-track">
+        <div class="stat">Videos <span class="v" data-stat="videos">—</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Subscribers <span class="v" data-stat="subs">—</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Total Views <span class="v" data-stat="views">—</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat live">Live <span class="v off" data-stat="live">Off Air</span><span class="sep" aria-hidden="true">·</span></div>
+        <!-- Duplicate set for seamless marquee loop -->
+        <div class="stat" aria-hidden="true">Videos <span class="v" data-stat="videos">—</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Subscribers <span class="v" data-stat="subs">—</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Total Views <span class="v" data-stat="views">—</span><span class="sep">·</span></div>
+        <div class="stat live" aria-hidden="true">Live <span class="v off" data-stat="live">Off Air</span><span class="sep">·</span></div>
+      </div>
     </div>
   </div>
 
@@ -597,18 +625,27 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
     };
 
     /* ============ Ticker ============ */
+    const setStat = (name, value) => {
+      document.querySelectorAll(`[data-stat="${name}"]`).forEach((el) => {
+        el.textContent = value;
+      });
+    };
+    const setLive = (live) => {
+      document.querySelectorAll('[data-stat="live"]').forEach((el) => {
+        if (live === null || live === undefined) {
+          el.textContent = 'Off Air';
+          el.className = 'v off';
+        } else {
+          el.textContent = fmt(live) + ' watching';
+          el.className = 'v on';
+        }
+      });
+    };
     function renderStats({ videos, subs, views, live }) {
-      document.getElementById('stat-videos').textContent = videos;
-      document.getElementById('stat-subs').textContent   = subs;
-      document.getElementById('stat-views').textContent  = views;
-      const liveEl = document.getElementById('stat-live');
-      if (live === null || live === undefined) {
-        liveEl.textContent = 'Off Air';
-        liveEl.className = 'v off';
-      } else {
-        liveEl.textContent = fmt(live) + ' watching';
-        liveEl.className = 'v on';
-      }
+      setStat('videos', videos);
+      setStat('subs',   subs);
+      setStat('views',  views);
+      setLive(live);
     }
 
     async function fetchStats() {
