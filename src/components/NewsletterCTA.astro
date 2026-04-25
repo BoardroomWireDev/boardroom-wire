@@ -1,0 +1,39 @@
+---
+// Newsletter signup band. The form action is a placeholder until a
+// provider is chosen (Buttondown / ConvertKit / Substack / etc.) — see
+// design-spec section 10. When picked, swap the action and add real
+// submission handling.
+---
+
+<section class="border-y border-gray-line bg-navy-deep">
+  <div class="mx-auto max-w-3xl px-6 py-16 text-center">
+    <h2 class="font-serif text-3xl text-cream md:text-4xl">
+      The business of AI, decoded.
+    </h2>
+    <p class="mt-4 text-cream-muted">
+      One forensic dispatch a week. Strategic depth, no hype.
+    </p>
+    <form
+      action="#"
+      method="post"
+      class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center"
+    >
+      <label for="newsletter-email" class="sr-only">Email address</label>
+      <input
+        id="newsletter-email"
+        type="email"
+        name="email"
+        required
+        placeholder="you@company.com"
+        class="border border-gray-line bg-navy px-4 py-3 text-cream placeholder:text-cream-muted focus:border-gold sm:w-80"
+      />
+      <button
+        type="submit"
+        class="bg-gold px-6 py-3 font-semibold text-navy hover:bg-gold-bright"
+      >
+        Subscribe
+      </button>
+    </form>
+    <p class="mt-3 text-xs text-cream-muted">No spam. Unsubscribe anytime.</p>
+  </div>
+</section>

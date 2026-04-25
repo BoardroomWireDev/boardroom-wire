@@ -1,12 +1,178 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterCTA from '../components/NewsletterCTA.astro';
+
+const sortByDateDesc = (a: { data: { publishDate: Date } }, b: { data: { publishDate: Date } }) =>
+  b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft))
+  .sort(sortByDateDesc)
+  .slice(0, 3);
+
+const videos = (await getCollection('videos', ({ data }) => !data.draft))
+  .sort(sortByDateDesc)
+  .slice(0, 3);
+
+const research = (await getCollection('research', ({ data }) => !data.draft))
+  .sort(sortByDateDesc)
+  .slice(0, 2);
+
+const featured = articles[0] ?? videos[0];
+
+const categories = [
+  { slug: 'business-of-ai', label: 'Business of AI' },
+  { slug: 'private-markets', label: 'Private Markets' },
+  { slug: 'titan-strategy', label: 'Titan Strategy' },
+  { slug: 'market-dynamics', label: 'Market Dynamics' },
+];
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Boardroom Wire',
+  url: 'https://boardroomwire.com',
+  description: 'Forensic analysis of the companies shaping the future.',
+  sameAs: [] as string[],
+};
 ---
 
 <BaseLayout
-  description="Forensic analysis of the companies shaping the future."
+  description="Forensic analysis of the companies shaping the future. Bloomberg-style depth on AI and the tech industry."
 >
-  <main class="mx-auto max-w-3xl px-6 py-24">
-    <h1 class="font-serif text-4xl md:text-6xl">Boardroom Wire</h1>
-    <p class="mt-4 text-cream-muted">Scaffold under construction.</p>
-  </main>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(orgJsonLd)}
+    />
+  </Fragment>
+
+  <section class="border-b border-gray-line">
+    <div class="mx-auto max-w-screen-2xl px-6 py-24 md:py-32">
+      {
+        featured ? (
+          <a href={`/${featured.collection}/${featured.id}/`} class="group block">
+            <p class="text-xs uppercase tracking-wider text-gold">
+              Featured · {featured.data.category.replace(/-/g, ' ')}
+            </p>
+            <h1 class="mt-4 font-serif text-4xl text-cream transition-colors group-hover:text-gold md:text-6xl">
+              {featured.data.title}
+            </h1>
+            <p class="mt-6 max-w-2xl text-lg text-cream-muted">
+              {featured.data.dek}
+            </p>
+          </a>
+        ) : (
+          <div>
+            <p class="text-xs uppercase tracking-wider text-gold">
+              Boardroom Wire
+            </p>
+            <h1 class="mt-4 font-serif text-4xl text-cream md:text-6xl">
+              Forensic analysis of the companies shaping the future.
+            </h1>
+            <p class="mt-6 max-w-2xl text-lg text-cream-muted">
+              Bloomberg-style depth on AI and the tech industry. Strategic
+              breakdowns, not product reviews. New research, weekly.
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-screen-2xl px-6 py-16 md:py-24">
+    <div class="mb-8 flex items-baseline justify-between">
+      <h2 class="font-serif text-3xl text-cream md:text-4xl">Latest articles</h2>
+      <a
+        href="/articles/"
+        class="text-sm uppercase tracking-wider text-gold underline-offset-4 hover:underline"
+      >
+        All articles →
+      </a>
+    </div>
+    {
+      articles.length === 0 ? (
+        <p class="text-cream-muted">
+          No articles published yet — check back soon.
+        </p>
+      ) : (
+        <div class="grid gap-8 md:grid-cols-3">
+          {/* ArticleCard rendering lands in commit `articles` */}
+        </div>
+      )
+    }
+  </section>
+
+  <section class="mx-auto max-w-screen-2xl px-6 py-16 md:py-24">
+    <div class="mb-8 flex items-baseline justify-between">
+      <h2 class="font-serif text-3xl text-cream md:text-4xl">Latest videos</h2>
+      <a
+        href="/videos/"
+        class="text-sm uppercase tracking-wider text-gold underline-offset-4 hover:underline"
+      >
+        All videos →
+      </a>
+    </div>
+    {
+      videos.length === 0 ? (
+        <p class="text-cream-muted">
+          No videos published yet — subscribe on YouTube while we ship the
+          archive.
+        </p>
+      ) : (
+        <div class="grid gap-8 md:grid-cols-3">
+          {/* VideoCard rendering lands in commit `videos` */}
+        </div>
+      )
+    }
+  </section>
+
+  <section class="mx-auto max-w-screen-2xl px-6 py-16 md:py-24">
+    <div class="mb-8 flex items-baseline justify-between">
+      <h2 class="font-serif text-3xl text-cream md:text-4xl">
+        Featured research
+      </h2>
+      <a
+        href="/research/"
+        class="text-sm uppercase tracking-wider text-gold underline-offset-4 hover:underline"
+      >
+        All research →
+      </a>
+    </div>
+    {
+      research.length === 0 ? (
+        <p class="text-cream-muted">
+          Dashboards in progress — first batch lands soon.
+        </p>
+      ) : (
+        <div class="grid gap-8 md:grid-cols-2">
+          {/* ResearchCard rendering lands in commit `research` */}
+        </div>
+      )
+    }
+  </section>
+
+  <NewsletterCTA />
+
+  <section class="mx-auto max-w-screen-2xl px-6 py-16 md:py-24">
+    <h2 class="mb-8 font-serif text-3xl text-cream md:text-4xl">
+      Explore by pillar
+    </h2>
+    <div class="grid gap-px bg-gray-line md:grid-cols-4">
+      {
+        categories.map(({ slug, label }) => (
+          <a
+            href={`/categories/${slug}/`}
+            class="group bg-navy px-6 py-12 transition-colors hover:bg-navy-soft"
+          >
+            <p class="text-xs uppercase tracking-wider text-gold">Category</p>
+            <h3 class="mt-2 font-serif text-2xl text-cream transition-colors group-hover:text-gold">
+              {label}
+            </h3>
+          </a>
+        ))
+      }
+    </div>
+  </section>
 </BaseLayout>
