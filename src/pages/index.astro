@@ -169,11 +169,10 @@
       position: relative;
       width: min(1200px, 95vw);
       aspect-ratio: 1 / 1;
-      /* Pull the wrapper up so the visible sphere sits right at the
-         favicon row baseline. The canvas's empty top portion is transparent,
-         so the find-row content shows through cleanly. */
-      margin-top: clamp(-180px, -8vw, -60px);
-      margin-bottom: clamp(-160px, -7vw, -40px);
+      /* Pull the wrapper up so the visible sphere sits just below the
+         favicon row. The canvas's empty top portion is transparent. */
+      margin-top: clamp(-120px, -5vw, -30px);
+      margin-bottom: clamp(-110px, -4vw, -20px);
       opacity: 0;
       animation: fadeIn 1.4s ease-out 0.45s forwards;
     }
