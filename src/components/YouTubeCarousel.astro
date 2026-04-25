@@ -1,0 +1,211 @@
+---
+import type { YouTubeVideo } from '../utils/youtube-feed';
+
+interface Props {
+  videos: YouTubeVideo[];
+  /** Show this many placeholder slides if videos is empty (fail-soft). */
+  placeholderCount?: number;
+}
+
+const { videos, placeholderCount = 6 } = Astro.props;
+
+const slides =
+  videos.length > 0
+    ? videos
+    : Array.from({ length: placeholderCount }, (_, i) => ({
+        id: `placeholder-${i}`,
+        title: `Episode ${i + 1}`,
+        publishedAt: '',
+        thumbnail: '',
+        isPlaceholder: true as const,
+      }));
+---
+
+<section
+  class="embla relative"
+  aria-roledescription="carousel"
+  aria-label="Latest videos"
+>
+  <div class="embla__viewport overflow-hidden">
+    <div class="embla__container flex">
+      {
+        slides.map((s, i) => {
+          const isPlaceholder = 'isPlaceholder' in s && s.isPlaceholder;
+          const href = isPlaceholder
+            ? '#'
+            : `https://www.youtube.com/watch?v=${s.id}`;
+          return (
+            <a
+              class="embla__slide modern-card group relative mx-2 block flex-[0_0_85%] overflow-hidden rounded-lg border border-ink-border bg-ink-elevated/40 transition-all hover:border-electric/40 md:mx-3 md:flex-[0_0_60%] lg:flex-[0_0_50%]"
+              href={href}
+              target={isPlaceholder ? undefined : '_blank'}
+              rel={isPlaceholder ? undefined : 'noopener noreferrer'}
+              aria-label={`Watch: ${s.title}`}
+              aria-roledescription="slide"
+              aria-posinset={i + 1}
+              aria-setsize={slides.length}
+            >
+              <div class="relative aspect-video overflow-hidden bg-ink">
+                {isPlaceholder ? (
+                  <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-electric/15 via-ink-elevated to-ink">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="h-16 w-16 text-electric/30"
+                      aria-hidden="true"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                ) : (
+                  <img
+                    src={s.thumbnail}
+                    alt=""
+                    loading={i < 3 ? 'eager' : 'lazy'}
+                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                )}
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/30 to-transparent"
+                  aria-hidden="true"
+                />
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span class="flex h-16 w-16 items-center justify-center rounded-full bg-electric/90 text-ink shadow-2xl">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="h-7 w-7 ml-1"
+                      aria-hidden="true"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              <div class="absolute inset-x-0 bottom-0 p-5 md:p-6">
+                <h3 class="font-modern text-lg font-semibold leading-snug text-paper line-clamp-2 md:text-xl">
+                  {s.title}
+                </h3>
+              </div>
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <div class="mt-6 flex items-center justify-between gap-4">
+    <div class="embla__dots flex items-center gap-2" role="tablist" aria-label="Slide indicators"></div>
+
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        class="embla__prev flex h-10 w-10 items-center justify-center rounded-full border border-ink-border bg-ink-elevated/40 text-paper-dim transition-all hover:border-electric/60 hover:text-electric disabled:opacity-30"
+        aria-label="Previous slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" class="h-5 w-5" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6"></path>
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="embla__next flex h-10 w-10 items-center justify-center rounded-full border border-ink-border bg-ink-elevated/40 text-paper-dim transition-all hover:border-electric/60 hover:text-electric disabled:opacity-30"
+        aria-label="Next slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" class="h-5 w-5" aria-hidden="true">
+          <path d="M9 18l6-6-6-6"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .embla__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: rgb(168 168 160 / 0.3);
+    transition: width 0.3s, background-color 0.3s;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  .embla__dot.is-selected {
+    width: 24px;
+    background: #3b82f6;
+  }
+</style>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+  import Autoplay from 'embla-carousel-autoplay';
+
+  document.querySelectorAll<HTMLElement>('.embla').forEach((root) => {
+    const viewport = root.querySelector<HTMLElement>('.embla__viewport');
+    if (!viewport) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const plugins = reduced
+      ? []
+      : [
+          Autoplay({
+            delay: 5000,
+            stopOnInteraction: false,
+            stopOnMouseEnter: true,
+          }),
+        ];
+
+    const embla = EmblaCarousel(
+      viewport,
+      { loop: true, align: 'center', skipSnaps: false },
+      plugins,
+    );
+
+    // Prev / next
+    const prev = root.querySelector<HTMLButtonElement>('.embla__prev');
+    const next = root.querySelector<HTMLButtonElement>('.embla__next');
+    prev?.addEventListener('click', () => embla.scrollPrev());
+    next?.addEventListener('click', () => embla.scrollNext());
+
+    // Dots
+    const dotContainer = root.querySelector<HTMLElement>('.embla__dots');
+    if (dotContainer) {
+      const renderDots = () => {
+        dotContainer.innerHTML = embla
+          .scrollSnapList()
+          .map(
+            (_, i) =>
+              `<button class="embla__dot" type="button" data-i="${i}" role="tab" aria-label="Go to slide ${i + 1}"></button>`,
+          )
+          .join('');
+        dotContainer.querySelectorAll<HTMLButtonElement>('.embla__dot').forEach((b) => {
+          b.addEventListener('click', () => {
+            const i = Number(b.dataset.i);
+            if (Number.isFinite(i)) embla.scrollTo(i);
+          });
+        });
+      };
+      const updateSelected = () => {
+        const sel = embla.selectedScrollSnap();
+        dotContainer.querySelectorAll<HTMLElement>('.embla__dot').forEach((d, i) => {
+          d.classList.toggle('is-selected', i === sel);
+          if (i === sel) d.setAttribute('aria-selected', 'true');
+          else d.removeAttribute('aria-selected');
+        });
+      };
+      embla.on('init', renderDots);
+      embla.on('reInit', renderDots);
+      embla.on('init', updateSelected);
+      embla.on('reInit', updateSelected);
+      embla.on('select', updateSelected);
+      // Some Embla builds don't fire 'init' if listener is attached after init —
+      // run once explicitly to cover both behaviors.
+      renderDots();
+      updateSelected();
+    }
+  });
+</script>

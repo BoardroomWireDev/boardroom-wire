@@ -1,0 +1,63 @@
+---
+interface Props {
+  /** Optional href override for the "More info" button. Defaults to /v2-minimal-about/. */
+  moreInfoHref?: string;
+}
+
+const { moreInfoHref = '/v2-minimal-about/' } = Astro.props;
+
+const socials = [
+  {
+    name: 'YouTube',
+    href: 'https://www.youtube.com/@BoardroomWire',
+    // Solid play-button shape — reads instantly at icon size.
+    svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.582 6.186a2.506 2.506 0 0 0-1.768-1.768C18.254 4 12 4 12 4s-6.254 0-7.814.418A2.506 2.506 0 0 0 2.418 6.186C2 7.746 2 12 2 12s0 4.254.418 5.814a2.506 2.506 0 0 0 1.768 1.768C5.746 20 12 20 12 20s6.254 0 7.814-.418a2.506 2.506 0 0 0 1.768-1.768C22 16.254 22 12 22 12s0-4.254-.418-5.814zM10 15.5v-7l6 3.5-6 3.5z"/></svg>',
+  },
+  {
+    name: 'X',
+    href: 'https://x.com/BoardroomWire',
+    svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg>',
+  },
+];
+---
+
+<div class="flex flex-wrap items-center gap-3 md:gap-4">
+  <ul class="flex items-center gap-2 md:gap-3" aria-label="Social links">
+    {
+      socials.map((s) => (
+        <li>
+          <a
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={s.name}
+            class="flex h-10 w-10 items-center justify-center rounded-full border border-ink-border bg-ink-elevated/40 text-paper-dim transition-all hover:border-electric/60 hover:text-electric md:h-11 md:w-11"
+            set:html={s.svg.replace(
+              '<svg ',
+              '<svg class="h-4 w-4 md:h-5 md:w-5" ',
+            )}
+          />
+        </li>
+      ))
+    }
+  </ul>
+
+  <a
+    href={moreInfoHref}
+    class="inline-flex items-center gap-2 rounded-full border border-electric/40 bg-electric/10 px-4 py-2 text-sm font-medium text-paper transition-all hover:bg-electric hover:text-ink md:px-5 md:py-2.5"
+  >
+    More info
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="square"
+      class="h-4 w-4"
+      aria-hidden="true"
+    >
+      <path d="M5 12h14M13 6l6 6-6 6"></path>
+    </svg>
+  </a>
+</div>

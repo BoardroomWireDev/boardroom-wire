@@ -4,7 +4,7 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description: string;
-  variant: 'subtle' | 'heavy';
+  variant: 'subtle' | 'heavy' | 'minimal';
 }
 
 const SITE_NAME = 'Boardroom Wire';
@@ -103,12 +103,13 @@ const pageTitle = title ? `${title} · ${SITE_NAME}` : SITE_NAME;
     <div class="fixed top-0 inset-x-0 z-[60] border-b border-ink-border bg-ink/90 backdrop-blur-md">
       <div class="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between text-xs">
         <span class="text-paper-dim">
-          <span class="text-electric font-semibold">PREVIEW</span> · {variant === 'subtle' ? 'Subtle' : 'Heavy'} interactivity
+          <span class="text-electric font-semibold">PREVIEW</span> · {variant === 'subtle' ? 'Subtle' : variant === 'heavy' ? 'Heavy' : 'Minimal'}
         </span>
         <div class="flex gap-4">
           <a href="/" class="text-paper-dim hover:text-paper">Original</a>
           <a href="/v2-subtle/" class={`hover:text-paper ${variant === 'subtle' ? 'text-electric' : 'text-paper-dim'}`}>Subtle</a>
           <a href="/v2-heavy/" class={`hover:text-paper ${variant === 'heavy' ? 'text-electric' : 'text-paper-dim'}`}>Heavy</a>
+          <a href="/v2-minimal/" class={`hover:text-paper ${variant === 'minimal' ? 'text-electric' : 'text-paper-dim'}`}>Minimal</a>
         </div>
       </div>
     </div>
