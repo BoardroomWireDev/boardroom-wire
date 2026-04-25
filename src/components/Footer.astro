@@ -1,0 +1,73 @@
+---
+const categories = [
+  { slug: 'business-of-ai', label: 'Business of AI' },
+  { slug: 'private-markets', label: 'Private Markets' },
+  { slug: 'titan-strategy', label: 'Titan Strategy' },
+  { slug: 'market-dynamics', label: 'Market Dynamics' },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-gray-line bg-navy-deep">
+  <div class="mx-auto grid max-w-screen-2xl gap-12 px-6 py-16 md:grid-cols-4">
+    <div>
+      <a href="/" class="font-serif text-xl text-cream hover:text-gold">
+        Boardroom Wire
+      </a>
+      <p class="mt-4 text-sm text-cream-muted">The business of AI, decoded.</p>
+    </div>
+
+    <div>
+      <h2 class="mb-4 text-xs uppercase tracking-wider text-gold">Categories</h2>
+      <ul class="space-y-2 text-sm">
+        {
+          categories.map(({ slug, label }) => (
+            <li>
+              <a
+                href={`/categories/${slug}/`}
+                class="text-cream-muted hover:text-gold"
+              >
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="mb-4 text-xs uppercase tracking-wider text-gold">Follow</h2>
+      <ul class="space-y-2 text-sm">
+        <li><a href="#" class="text-cream-muted hover:text-gold">YouTube</a></li>
+        <li><a href="#" class="text-cream-muted hover:text-gold">X (Twitter)</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="mb-4 text-xs uppercase tracking-wider text-gold">Subscribe</h2>
+      <p class="mb-4 text-sm text-cream-muted">
+        Forensic analysis in your inbox.
+      </p>
+      <a
+        href="/newsletter/"
+        class="text-sm text-gold underline-offset-4 hover:underline"
+      >
+        Get the newsletter →
+      </a>
+    </div>
+  </div>
+
+  <div class="border-t border-gray-line">
+    <div
+      class="mx-auto flex max-w-screen-2xl flex-col gap-4 px-6 py-6 text-xs text-cream-muted md:flex-row md:justify-between"
+    >
+      <span>© {year} Boardroom Wire</span>
+      <div class="flex gap-6">
+        <a href="/about/" class="hover:text-gold">About</a>
+        <a href="#" class="hover:text-gold">Privacy</a>
+        <a href="#" class="hover:text-gold">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>

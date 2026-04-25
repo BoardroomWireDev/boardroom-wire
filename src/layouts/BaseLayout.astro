@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title?: string;
@@ -58,7 +60,11 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
 
     <slot name="head" />
   </head>
-  <body>
-    <slot />
+  <body class="flex min-h-screen flex-col">
+    <Nav />
+    <div class="flex-1">
+      <slot />
+    </div>
+    <Footer />
   </body>
 </html>

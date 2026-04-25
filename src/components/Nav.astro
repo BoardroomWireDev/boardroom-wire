@@ -1,0 +1,103 @@
+---
+const links = [
+  { href: '/articles/', label: 'Articles' },
+  { href: '/videos/', label: 'Videos' },
+  { href: '/research/', label: 'Research' },
+  { href: '/about/', label: 'About' },
+];
+---
+
+<header class="border-b border-gray-line bg-navy-deep">
+  <div class="mx-auto flex max-w-screen-2xl items-center justify-between px-6 py-4">
+    <a
+      href="/"
+      class="font-serif text-2xl text-cream transition-colors hover:text-gold"
+      aria-label="Boardroom Wire — home"
+    >
+      Boardroom Wire
+    </a>
+
+    <nav aria-label="Primary" class="hidden items-center gap-8 md:flex">
+      {
+        links.map(({ href, label }) => (
+          <a
+            href={href}
+            class="font-sans text-sm uppercase tracking-wider text-cream-muted hover:text-gold"
+          >
+            {label}
+          </a>
+        ))
+      }
+      <a
+        href="/newsletter/"
+        class="bg-gold px-5 py-2 font-semibold text-navy hover:bg-gold-bright"
+      >
+        Newsletter
+      </a>
+    </nav>
+
+    <button
+      type="button"
+      id="nav-toggle"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      class="md:hidden text-cream"
+    >
+      <span class="sr-only">Toggle menu</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="square"
+        class="h-6 w-6"
+        aria-hidden="true"
+      >
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+  </div>
+
+  <nav
+    id="mobile-nav"
+    aria-label="Primary mobile"
+    hidden
+    class="md:hidden border-t border-gray-line"
+  >
+    <ul class="flex flex-col px-6 py-4">
+      {
+        links.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              class="block py-3 font-sans text-sm uppercase tracking-wider text-cream hover:text-gold"
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a
+          href="/newsletter/"
+          class="mt-2 block bg-gold px-5 py-3 text-center font-semibold text-navy hover:bg-gold-bright"
+        >
+          Newsletter
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-nav');
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    menu?.toggleAttribute('hidden');
+  });
+</script>
