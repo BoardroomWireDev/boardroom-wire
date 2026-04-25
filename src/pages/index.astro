@@ -193,6 +193,66 @@
     }
     #globe:active { cursor: grabbing; }
 
+    /* ====== City tooltip (.pointLabel) ======
+       Globe.gl injects the tooltip HTML dynamically into a .scene-tooltip
+       wrapper outside of Astro's component scope, so these rules need
+       :global() to match the injected DOM. */
+    :global(.scene-tooltip) {
+      pointer-events: none;
+    }
+    :global(.globe-tooltip) {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: rgba(10, 10, 10, 0.95);
+      border: 1px solid rgba(255, 179, 71, 0.45);
+      border-radius: 4px;
+      padding: 14px 18px;
+      max-width: 280px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 179, 71, 0.4);
+    }
+    :global(.globe-tooltip .gt-row) {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    :global(.globe-tooltip .gt-code) {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #F2CB52;
+    }
+    :global(.globe-tooltip .gt-time) {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: #888173;
+      font-variant-numeric: tabular-nums;
+    }
+    :global(.globe-tooltip .gt-name) {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #F5F1E5;
+      margin-bottom: 4px;
+    }
+    :global(.globe-tooltip .gt-role) {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #FFB347;
+      margin-bottom: 10px;
+    }
+    :global(.globe-tooltip .gt-thesis) {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.45;
+      color: #888173;
+      font-style: italic;
+    }
+
     /* Click pulse — gold ring blooms outward from the globe center on every
        city click. Element is spawned by JS in onPointClick and removed after
        its keyframe completes. */
@@ -484,22 +544,55 @@
     const MAX_AMBIENT_ARCS = 6;
 
     // Strategic global capital-markets / tech-infrastructure centers.
-    const cities = [
-      { name: 'New York',      lat:  40.7128, lng:  -74.0060 },
-      { name: 'San Francisco', lat:  37.7749, lng: -122.4194 },
-      { name: 'Toronto',       lat:  43.6532, lng:  -79.3832 },
-      { name: 'São Paulo',     lat: -23.5505, lng:  -46.6333 },
-      { name: 'London',        lat:  51.5074, lng:   -0.1278 },
-      { name: 'Frankfurt',     lat:  50.1109, lng:    8.6821 },
-      { name: 'Zurich',        lat:  47.3769, lng:    8.5417 },
-      { name: 'Dubai',         lat:  25.2048, lng:   55.2708 },
-      { name: 'Mumbai',        lat:  19.0760, lng:   72.8777 },
-      { name: 'Singapore',     lat:   1.3521, lng:  103.8198 },
-      { name: 'Hong Kong',     lat:  22.3193, lng:  114.1694 },
-      { name: 'Shanghai',      lat:  31.2304, lng:  121.4737 },
-      { name: 'Seoul',         lat:  37.5665, lng:  126.9780 },
-      { name: 'Tokyo',         lat:  35.6762, lng:  139.6503 },
+    type City = {
+      name: string;
+      code: string;
+      exchange: string;
+      role: string;
+      thesis: string;
+      tz: string;
+      lat: number;
+      lng: number;
+    };
+    const cities: City[] = [
+      { name: 'New York',      code: 'NYC', exchange: 'NYSE',   role: 'Capital flows',         thesis: 'Where the money decides what the future means.',         tz: 'America/New_York',    lat:  40.7128, lng:  -74.0060 },
+      { name: 'San Francisco', code: 'SFO', exchange: 'Nasdaq', role: 'Compute & code',        thesis: 'Where the future gets coded — and overpriced.',          tz: 'America/Los_Angeles', lat:  37.7749, lng: -122.4194 },
+      { name: 'Toronto',       code: 'YYZ', exchange: 'TSX',    role: 'Quiet AI capital',      thesis: 'Loud regulators, quieter founders.',                     tz: 'America/Toronto',     lat:  43.6532, lng:  -79.3832 },
+      { name: 'São Paulo',     code: 'GRU', exchange: 'B3',     role: 'LatAm tech',            thesis: 'The southern hemisphere\'s only deep-tech bench.',        tz: 'America/Sao_Paulo',   lat: -23.5505, lng:  -46.6333 },
+      { name: 'London',        code: 'LON', exchange: 'LSE',    role: 'Cross-border capital',  thesis: 'Where the LSE meets compute capex.',                     tz: 'Europe/London',       lat:  51.5074, lng:   -0.1278 },
+      { name: 'Frankfurt',     code: 'FRA', exchange: 'FWB',    role: 'EU underwriting',       thesis: 'Europe\'s checkbook on AI infrastructure.',               tz: 'Europe/Berlin',       lat:  50.1109, lng:    8.6821 },
+      { name: 'Zurich',        code: 'ZRH', exchange: 'SIX',    role: 'Old money',             thesis: 'Old wealth, new model weights.',                         tz: 'Europe/Zurich',       lat:  47.3769, lng:    8.5417 },
+      { name: 'Dubai',         code: 'DXB', exchange: 'DFM',    role: 'Sovereign capital',     thesis: 'Sovereign-fund AI, accelerated.',                        tz: 'Asia/Dubai',          lat:  25.2048, lng:   55.2708 },
+      { name: 'Mumbai',        code: 'BOM', exchange: 'NSE',    role: 'Talent factory',        thesis: 'Talent factory, balance-sheet pressure.',                tz: 'Asia/Kolkata',        lat:  19.0760, lng:   72.8777 },
+      { name: 'Singapore',     code: 'SIN', exchange: 'SGX',    role: 'Switching center',      thesis: 'Asia\'s neutral switching center.',                       tz: 'Asia/Singapore',      lat:   1.3521, lng:  103.8198 },
+      { name: 'Hong Kong',     code: 'HKG', exchange: 'HKEX',   role: 'East-West gate',        thesis: 'Where the East-West money still crosses.',               tz: 'Asia/Hong_Kong',      lat:  22.3193, lng:  114.1694 },
+      { name: 'Shanghai',      code: 'PVG', exchange: 'SSE',    role: 'China capital',         thesis: 'China\'s AI capital choke point.',                        tz: 'Asia/Shanghai',       lat:  31.2304, lng:  121.4737 },
+      { name: 'Seoul',         code: 'ICN', exchange: 'KRX',    role: 'Memory + foundry',      thesis: 'The memory + foundry stack of the AI economy.',          tz: 'Asia/Seoul',          lat:  37.5665, lng:  126.9780 },
+      { name: 'Tokyo',         code: 'TYO', exchange: 'TSE',    role: 'AI capex bed',          thesis: 'SoftBank\'s home; AI capex test bed.',                    tz: 'Asia/Tokyo',          lat:  35.6762, lng:  139.6503 },
     ];
+
+    const fmtLocalTime = (tz: string): string =>
+      new Intl.DateTimeFormat('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: tz,
+      }).format(new Date());
+
+    const escapeHtml = (s: string): string =>
+      s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    const renderTooltip = (c: City): string => `
+      <div class="globe-tooltip">
+        <div class="gt-row">
+          <span class="gt-code">${escapeHtml(c.code)}</span>
+          <span class="gt-time">${fmtLocalTime(c.tz)}</span>
+        </div>
+        <div class="gt-name">${escapeHtml(c.name)}</div>
+        <div class="gt-role">${escapeHtml(c.exchange)} · ${escapeHtml(c.role)}</div>
+        <div class="gt-thesis">${escapeHtml(c.thesis)}</div>
+      </div>
+    `;
 
     // Hex landmass on by default; ?hex=0 turns it off for the pure-abstract variant.
     const params = new URLSearchParams(window.location.search);
@@ -508,6 +601,13 @@
 
     const arcs: Array<{ startLat: number; startLng: number; endLat: number; endLng: number }> = [];
     const rings: Array<{ lat: number; lng: number }> = [];
+
+    // Hover + active state for the city dots — drives both the visual point lift
+    // and the tooltip selection. See refreshPointAccessors() below.
+    let hoveredCity: City | null = null;
+    let activeCity:  City | null = null;
+    let activeTimeout: number | null = null;
+    const isHighlit = (c: City) => c === hoveredCity || c === activeCity;
 
     const el = document.getElementById('globe')!;
     const size = el.clientWidth;
@@ -522,9 +622,10 @@
       .pointLat('lat')
       .pointLng('lng')
       .pointColor(() => AMBER_BRIGHT)
-      .pointAltitude(0.01)
-      .pointRadius(0.4)
+      .pointAltitude((c: City) => isHighlit(c) ? 0.06 : 0.01)
+      .pointRadius((c: City) => isHighlit(c) ? 0.55 : 0.4)
       .pointResolution(12)
+      .pointLabel((c: City) => renderTooltip(c))
       .arcsData(arcs)
       .arcColor(() => AMBER)
       .arcDashLength(0.4)
@@ -673,7 +774,30 @@
       setTimeout(() => pulse.remove(), 1500);
     }
 
+    // Re-set the point-altitude/radius accessors so globe.gl re-evaluates per
+    // city — this is what visually lifts the hovered/active dot.
+    const refreshPointAccessors = () => {
+      globe
+        .pointAltitude((c: City) => isHighlit(c) ? 0.06 : 0.01)
+        .pointRadius((c: City) => isHighlit(c) ? 0.55 : 0.4);
+    };
+
+    globe.onPointHover((point: City | null) => {
+      hoveredCity = point;
+      refreshPointAccessors();
+    });
+
     globe.onPointClick((point: any) => {
+      // Hold the clicked city in "active" state for 2s so the click feels
+      // like a selection, not a bounce.
+      activeCity = point as City;
+      if (activeTimeout !== null) clearTimeout(activeTimeout);
+      activeTimeout = window.setTimeout(() => {
+        activeCity = null;
+        refreshPointAccessors();
+      }, 2000);
+      refreshPointAccessors();
+
       let target = cities[Math.floor(Math.random() * cities.length)];
       // pick again if we landed on the source
       while (target === point && cities.length > 1) {
