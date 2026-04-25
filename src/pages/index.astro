@@ -203,7 +203,7 @@
       100% { width: 110%; height: 110%; margin: -55% 0 0 -55%; opacity: 0;   border-width: 0.5px; }
     }
 
-    /* Brand tagline — centered under the wordmark, all caps. */
+    /* Brand tagline — sits inline in the find-row, all caps. */
     .tagline-row {
       font-family: var(--display);
       font-weight: 600;
@@ -212,10 +212,7 @@
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--white);
-      text-align: center;
-      margin-bottom: 22px;
-      opacity: 0;
-      animation: fadeUp 0.9s ease-out 0.2s forwards;
+      white-space: nowrap;
     }
     .tagline-row em {
       font-style: normal;
@@ -230,11 +227,11 @@
       max-width: 1080px;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      gap: 32px;
+      justify-content: center;
+      gap: 36px;
       margin-bottom: 8px;
       opacity: 0;
-      animation: fadeUp 0.9s ease-out 0.35s forwards;
+      animation: fadeUp 0.9s ease-out 0.3s forwards;
       /* Above the globe canvas — the negative-margin pull on .globe-wrap
          makes the canvas overlap this row, and we need the favicon clicks
          to land on the row, not on the (transparent) canvas above them. */
@@ -405,9 +402,8 @@
       BOARDROOM<span class="wire">WIRE</span>
     </div>
 
-    <p class="tagline-row">Strategic Analysis. <em>Business &amp; Technology.</em></p>
-
     <div class="find-row">
+      <p class="tagline-row">Strategic Analysis. <em>Business &amp; Technology.</em></p>
       <div class="find-row-right">
         <div class="socials">
           <a href="https://x.com/BoardroomWire" target="_blank" rel="noopener" title="X" aria-label="X">
