@@ -169,7 +169,11 @@
       position: relative;
       width: min(1200px, 95vw);
       aspect-ratio: 1 / 1;
-      margin-bottom: 40px;
+      /* Pull the wrapper up so the visible sphere sits right at the
+         favicon row baseline. The canvas's empty top portion is transparent,
+         so the find-row content shows through cleanly. */
+      margin-top: clamp(-180px, -8vw, -60px);
+      margin-bottom: clamp(-160px, -7vw, -40px);
       opacity: 0;
       animation: fadeIn 1.4s ease-out 0.45s forwards;
     }
@@ -237,6 +241,11 @@
       margin-bottom: 8px;
       opacity: 0;
       animation: fadeUp 0.9s ease-out 0.3s forwards;
+      /* Above the globe canvas — the negative-margin pull on .globe-wrap
+         makes the canvas overlap this row, and we need the favicon clicks
+         to land on the row, not on the (transparent) canvas above them. */
+      position: relative;
+      z-index: 2;
     }
     .find-row-right {
       display: flex;
@@ -814,6 +823,12 @@
       controls.autoRotateSpeed = 0.4;
       controls.enableZoom = false; // don't let scroll-zoom hijack page scroll
     }
+
+    // Zoom the camera in slightly so the visible sphere fills more of the
+    // canvas (default altitude 2.5 leaves ~17% empty padding at the top of
+    // the canvas; 1.85 brings it down to ~9%, which combined with the
+    // negative wrapper margin lands the sphere top near the favicon row).
+    globe.pointOfView({ lat: 0, lng: 0, altitude: 1.85 });
 
     // Hex polygons — only when ?hex=1
     if (useHex) {
