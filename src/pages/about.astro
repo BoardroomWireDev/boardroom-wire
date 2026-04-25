@@ -1,6 +1,5 @@
 ---
-const API_KEY = import.meta.env.PUBLIC_YOUTUBE_API_KEY ?? '';
-const CHANNEL_ID = 'UCthfphsDjHppg9SQv3JTdrg';
+// About page — shares the ticker shell + YouTube data fetcher with the homepage.
 ---
 
 <!doctype html>
@@ -346,11 +345,13 @@ const CHANNEL_ID = 'UCthfphsDjHppg9SQv3JTdrg';
         <div class="stat">Videos <span class="v" data-stat="videos">—</span><span class="sep" aria-hidden="true">·</span></div>
         <div class="stat">Subscribers <span class="v" data-stat="subs">—</span><span class="sep" aria-hidden="true">·</span></div>
         <div class="stat">Total Views <span class="v" data-stat="views">—</span><span class="sep" aria-hidden="true">·</span></div>
-        <div class="stat live">Live <span class="v off" data-stat="live">Off Air</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Top Episode <span class="v" data-stat="top">—</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Newest <span class="v" data-stat="newest">—</span><span class="sep" aria-hidden="true">·</span></div>
         <div class="stat" aria-hidden="true">Videos <span class="v" data-stat="videos">—</span><span class="sep">·</span></div>
         <div class="stat" aria-hidden="true">Subscribers <span class="v" data-stat="subs">—</span><span class="sep">·</span></div>
         <div class="stat" aria-hidden="true">Total Views <span class="v" data-stat="views">—</span><span class="sep">·</span></div>
-        <div class="stat live" aria-hidden="true">Live <span class="v off" data-stat="live">Off Air</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Top Episode <span class="v" data-stat="top">—</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Newest <span class="v" data-stat="newest">—</span><span class="sep">·</span></div>
       </div>
     </div>
   </div>
@@ -434,67 +435,26 @@ const CHANNEL_ID = 'UCthfphsDjHppg9SQv3JTdrg';
     <a href="/">← Home</a>
   </footer>
 
-  <script define:vars={{ API_KEY, CHANNEL_ID }}>
-    const fmt = (n) => {
-      n = Number(n);
-      if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
-      if (n >= 1_000)     return (n / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
-      return n.toLocaleString();
-    };
-    const setStat = (name, value) => {
+  <script>
+    import { fetchChannelData, fmt, daysAgo } from '../lib/youtube';
+
+    const setStat = (name: string, value: string) => {
       document.querySelectorAll(`[data-stat="${name}"]`).forEach((el) => {
         el.textContent = value;
       });
     };
-    const setLive = (live) => {
-      document.querySelectorAll('[data-stat="live"]').forEach((el) => {
-        if (live === null || live === undefined) {
-          el.textContent = 'Off Air';
-          el.className = 'v off';
-        } else {
-          el.textContent = fmt(live) + ' watching';
-          el.className = 'v on';
-        }
-      });
-    };
-    function renderStats({ videos, subs, views, live }) {
-      setStat('videos', videos);
-      setStat('subs',   subs);
-      setStat('views',  views);
-      setLive(live);
+
+    async function hydrate() {
+      const data = await fetchChannelData();
+      if (!data) return; // ticker shows em-dashes
+      setStat('videos', fmt(data.videos));
+      setStat('subs',   fmt(data.subs));
+      setStat('views',  fmt(data.views));
+      setStat('top',    data.topVideo ? `${fmt(data.topVideo.views)} views` : '—');
+      setStat('newest', data.newest ? daysAgo(data.newest.publishedAt) : '—');
     }
-    async function fetchStats() {
-      if (!API_KEY) {
-        renderStats({ videos: '—', subs: '—', views: '—', live: null });
-        return;
-      }
-      try {
-        const chRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
-        const chData = await chRes.json();
-        const s = chData.items?.[0]?.statistics;
-        if (!s) throw new Error('No channel stats');
-        let liveCount = null;
-        const sRes = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&eventType=live&type=video&key=${API_KEY}`);
-        const sData = await sRes.json();
-        const liveId = sData.items?.[0]?.id?.videoId;
-        if (liveId) {
-          const vRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${liveId}&key=${API_KEY}`);
-          const vData = await vRes.json();
-          liveCount = Number(vData.items?.[0]?.liveStreamingDetails?.concurrentViewers ?? 0);
-        }
-        renderStats({
-          videos: fmt(s.videoCount),
-          subs:   fmt(s.subscriberCount),
-          views:  fmt(s.viewCount),
-          live:   liveCount,
-        });
-      } catch (err) {
-        console.warn('[ticker] stats fetch failed:', err);
-        renderStats({ videos: '—', subs: '—', views: '—', live: null });
-      }
-    }
-    fetchStats();
-    setInterval(fetchStats, 60_000);
+    hydrate();
+    setInterval(hydrate, 5 * 60_000);
   </script>
 </body>
 </html>

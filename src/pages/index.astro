@@ -1,11 +1,7 @@
 ---
 // Homepage — adapted from boardroom-wire-home.html (TBPN-inspired baseline).
-// Kept intentionally self-contained: pure CSS, vanilla JS, Three.js from CDN.
-// API key is read from PUBLIC_YOUTUBE_API_KEY env var so it can change per
-// environment (local .env / Vercel dashboard) without touching code.
-const API_KEY = import.meta.env.PUBLIC_YOUTUBE_API_KEY ?? '';
-const CHANNEL_ID = 'UCthfphsDjHppg9SQv3JTdrg'; // @BoardroomWire
-const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
+// YouTube data and channel ID live in src/lib/youtube.ts; this page just
+// imports fetchChannelData() from there in the body script.
 ---
 
 <!doctype html>
@@ -523,12 +519,14 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
         <div class="stat">Videos <span class="v" data-stat="videos">—</span><span class="sep" aria-hidden="true">·</span></div>
         <div class="stat">Subscribers <span class="v" data-stat="subs">—</span><span class="sep" aria-hidden="true">·</span></div>
         <div class="stat">Total Views <span class="v" data-stat="views">—</span><span class="sep" aria-hidden="true">·</span></div>
-        <div class="stat live">Live <span class="v off" data-stat="live">Off Air</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Top Episode <span class="v" data-stat="top">—</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Newest <span class="v" data-stat="newest">—</span><span class="sep" aria-hidden="true">·</span></div>
         <!-- Duplicate set for seamless marquee loop -->
         <div class="stat" aria-hidden="true">Videos <span class="v" data-stat="videos">—</span><span class="sep">·</span></div>
         <div class="stat" aria-hidden="true">Subscribers <span class="v" data-stat="subs">—</span><span class="sep">·</span></div>
         <div class="stat" aria-hidden="true">Total Views <span class="v" data-stat="views">—</span><span class="sep">·</span></div>
-        <div class="stat live" aria-hidden="true">Live <span class="v off" data-stat="live">Off Air</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Top Episode <span class="v" data-stat="top">—</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Newest <span class="v" data-stat="newest">—</span><span class="sep">·</span></div>
       </div>
     </div>
   </div>
@@ -612,100 +610,31 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
   <!-- Three.js (CDN) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" is:inline></script>
 
-  <!-- YouTube live stats + reel -->
-  <script define:vars={{ API_KEY, CHANNEL_ID, UPLOADS_PLAYLIST }}>
-    /* ============ Helpers ============ */
-    const fmt = (n) => {
-      n = Number(n);
-      if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
-      if (n >= 1_000)     return (n / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
-      return n.toLocaleString();
-    };
+  <!-- YouTube live data — both ticker and reel feed off one cached fetch -->
+  <script>
+    import { fetchChannelData, fmt, daysAgo } from '../lib/youtube';
 
-    const PLACEHOLDER_STATS = {
-      videos: '—',
-      subs:   '—',
-      views:  '—',
-      live:   null,
-    };
-
-    /* ============ Ticker ============ */
-    const setStat = (name, value) => {
+    const setStat = (name: string, value: string) => {
       document.querySelectorAll(`[data-stat="${name}"]`).forEach((el) => {
         el.textContent = value;
       });
     };
-    const setLive = (live) => {
-      document.querySelectorAll('[data-stat="live"]').forEach((el) => {
-        if (live === null || live === undefined) {
-          el.textContent = 'Off Air';
-          el.className = 'v off';
-        } else {
-          el.textContent = fmt(live) + ' watching';
-          el.className = 'v on';
-        }
-      });
-    };
-    function renderStats({ videos, subs, views, live }) {
-      setStat('videos', videos);
-      setStat('subs',   subs);
-      setStat('views',  views);
-      setLive(live);
-    }
 
-    async function fetchStats() {
-      if (!API_KEY) {
-        renderStats(PLACEHOLDER_STATS);
-        return;
-      }
-      try {
-        const chRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
-        const chData = await chRes.json();
-        const s = chData.items?.[0]?.statistics;
-        if (!s) throw new Error('No channel stats');
+    /* ============ Reel rendering ============ */
+    const track = document.getElementById('reel-track')!;
 
-        let liveCount = null;
-        const sRes = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&eventType=live&type=video&key=${API_KEY}`);
-        const sData = await sRes.json();
-        const liveId = sData.items?.[0]?.id?.videoId;
-        if (liveId) {
-          const vRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${liveId}&key=${API_KEY}`);
-          const vData = await vRes.json();
-          liveCount = Number(vData.items?.[0]?.liveStreamingDetails?.concurrentViewers ?? 0);
-        }
-
-        renderStats({
-          videos: fmt(s.videoCount),
-          subs:   fmt(s.subscriberCount),
-          views:  fmt(s.viewCount),
-          live:   liveCount,
-        });
-      } catch (err) {
-        console.warn('[ticker] stats fetch failed:', err);
-        renderStats(PLACEHOLDER_STATS);
-      }
-    }
-    fetchStats();
-    setInterval(fetchStats, 60_000);
-
-    /* ============ Reel ============ */
-    const track = document.getElementById('reel-track');
-
-    function renderPlaceholders(n = 6) {
+    function renderReelPlaceholders(n = 6) {
       track.innerHTML = '';
       for (let i = 0; i < n; i++) {
         const card = document.createElement('div');
         card.className = 'reel-card placeholder';
         card.setAttribute('role', 'listitem');
-        card.innerHTML = `
-          <div class="thumb"></div>
-          <div class="meta"><h3>Episode ${i + 1}</h3></div>
-        `;
+        card.innerHTML = `<div class="thumb"></div><div class="meta"><h3>Episode ${i + 1}</h3></div>`;
         track.appendChild(card);
       }
     }
 
-    function renderVideos(videos) {
+    function renderReelVideos(videos: Array<{ id: string; title: string; thumbnail: string }>) {
       track.innerHTML = '';
       for (const v of videos) {
         const a = document.createElement('a');
@@ -726,44 +655,31 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
       }
     }
 
-    function decode(s) {
-      return s
-        .replace(/&amp;/g, '&')
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>');
-    }
-
-    async function fetchVideos() {
-      if (!API_KEY) {
-        renderPlaceholders();
+    /* ============ Single fetch feeds both ============ */
+    async function hydrate() {
+      const data = await fetchChannelData();
+      if (!data) {
+        // No key or fetch failed — placeholders for the reel; ticker keeps em-dashes
+        renderReelPlaceholders();
         return;
       }
-      try {
-        const r = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${UPLOADS_PLAYLIST}&maxResults=15&key=${API_KEY}`);
-        const data = await r.json();
-        const items = data.items ?? [];
-        const videos = items.map((it) => {
-          const sn = it.snippet;
-          const id = sn?.resourceId?.videoId ?? '';
-          const t = sn?.thumbnails ?? {};
-          const thumbnail = t.maxres?.url ?? t.standard?.url ?? t.high?.url ?? `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-          return { id, title: decode(sn?.title ?? ''), thumbnail };
-        }).filter(v => v.id);
 
-        if (videos.length === 0) {
-          renderPlaceholders();
-          return;
-        }
-        renderVideos(videos);
-      } catch (err) {
-        console.warn('[reel] videos fetch failed:', err);
-        renderPlaceholders();
+      // Ticker
+      setStat('videos', fmt(data.videos));
+      setStat('subs',   fmt(data.subs));
+      setStat('views',  fmt(data.views));
+      setStat('top',    data.topVideo ? `${fmt(data.topVideo.views)} views` : '—');
+      setStat('newest', data.newest ? daysAgo(data.newest.publishedAt) : '—');
+
+      // Reel
+      if (data.reel.length > 0) {
+        renderReelVideos(data.reel);
+      } else {
+        renderReelPlaceholders();
       }
     }
 
-    /* ============ Reel auto-advance + controls ============ */
+    /* ============ Reel auto-advance + prev/next ============ */
     function setupReelControls() {
       const cardWidth = () => {
         const card = track.querySelector('.reel-card');
@@ -773,10 +689,10 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
         return card.getBoundingClientRect().width + gap;
       };
 
-      document.getElementById('reel-prev').addEventListener('click', () => {
+      document.getElementById('reel-prev')!.addEventListener('click', () => {
         track.scrollBy({ left: -cardWidth(), behavior: 'smooth' });
       });
-      document.getElementById('reel-next').addEventListener('click', () => {
+      document.getElementById('reel-next')!.addEventListener('click', () => {
         track.scrollBy({ left: cardWidth(), behavior: 'smooth' });
       });
 
@@ -784,7 +700,7 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
       if (reduced) return;
 
       let paused = false;
-      const reelSection = document.getElementById('reel');
+      const reelSection = document.getElementById('reel')!;
       reelSection.addEventListener('mouseenter', () => { paused = true; });
       reelSection.addEventListener('mouseleave', () => { paused = false; });
       reelSection.addEventListener('focusin',  () => { paused = true; });
@@ -803,7 +719,9 @@ const UPLOADS_PLAYLIST = CHANNEL_ID.replace(/^UC/, 'UU'); // standard YT mapping
       }, 5000);
     }
 
-    fetchVideos().then(setupReelControls);
+    hydrate().then(setupReelControls);
+    // Refresh every 5 minutes — picks up cached or fresh data automatically
+    setInterval(hydrate, 5 * 60_000);
   </script>
 
   <!-- Three.js wireframe globe -->
