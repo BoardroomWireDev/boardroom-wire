@@ -179,16 +179,7 @@
       cursor: grab;
     }
     #globe:active { cursor: grabbing; }
-    .globe-wrap::before {
-      content: "";
-      position: absolute;
-      inset: -6%;
-      border: 1px dashed rgba(212, 175, 55, 0.22);
-      border-radius: 50%;
-      animation: spin-slow 90s linear infinite;
-      pointer-events: none;
-    }
-    @keyframes spin-slow { to { transform: rotate(360deg); } }
+    /* Decorative orbital ring removed — the globe stands on its own. */
 
     .tagline {
       font-family: var(--display);
