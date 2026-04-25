@@ -53,7 +53,7 @@
     .ticker {
       display: flex;
       align-items: stretch;
-      height: 38px;
+      height: 54px;
       border-bottom: 1px solid var(--line);
       background: var(--black);
       position: relative;
@@ -63,24 +63,26 @@
       background: var(--gold);
       color: var(--black);
       font-family: var(--display);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      padding: 0 18px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.24em;
+      padding: 0 22px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       text-transform: uppercase;
     }
     .ticker-label .pulse {
-      width: 6px; height: 6px;
-      background: var(--black);
+      width: 9px; height: 9px;
+      background: #FF3B30;
       border-radius: 50%;
-      animation: pulse 1.4s ease-in-out infinite;
+      box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+      animation: pulse-red 1.4s ease-in-out infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%      { opacity: 0.3; }
+    @keyframes pulse-red {
+      0%   { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); opacity: 1; }
+      70%  { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); opacity: 0.85; }
+      100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); opacity: 1; }
     }
     .ticker-stats {
       flex: 1;
@@ -108,14 +110,14 @@
     }
     .stat {
       font-family: var(--display);
-      font-size: 11px;
-      letter-spacing: 0.16em;
+      font-size: 13px;
+      letter-spacing: 0.18em;
       color: var(--white-dim);
       text-transform: uppercase;
       font-weight: 500;
       display: flex;
       align-items: baseline;
-      gap: 10px;
+      gap: 12px;
       white-space: nowrap;
       flex-shrink: 0;
     }
@@ -135,40 +137,19 @@
       padding: 32px 48px 0;
       position: relative;
       z-index: 5;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
     }
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
-      text-decoration: none;
-      user-select: none;
-    }
-    .logo-icon { height: 40px; width: 40px; flex-shrink: 0; }
-    .logo-text {
+    .home-link {
       font-family: var(--display);
       font-weight: 900;
       font-size: 22px;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.02em;
       line-height: 1;
       color: var(--white);
-    }
-    .logo-text .wire { color: var(--gold-bright); }
-
-    .back {
-      font-family: var(--display);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.28em;
-      color: var(--white-dim);
-      text-transform: uppercase;
       text-decoration: none;
-      transition: color 0.18s;
+      user-select: none;
     }
-    .back:hover { color: var(--gold-bright); }
+    .home-link .wire { color: var(--gold-bright); }
+    .home-link:hover .wire { color: var(--gold); }
 
     main.about {
       max-width: 720px;
@@ -311,12 +292,13 @@
 
     @media (max-width: 720px) {
       header.top { padding: 20px 24px 0; }
-      .logo-icon { height: 32px; width: 32px; }
-      .logo-text { font-size: 18px; }
+      .home-link { font-size: 18px; }
+      .ticker { height: 46px; }
       .ticker-track { gap: 36px; padding-left: 20px; }
-      .stat { font-size: 10px; letter-spacing: 0.1em; gap: 6px; }
+      .stat { font-size: 11px; letter-spacing: 0.12em; gap: 8px; }
       .stat .sep { margin-left: 36px; }
-      .ticker-label { font-size: 10px; padding: 0 12px; }
+      .ticker-label { font-size: 11px; padding: 0 14px; gap: 8px; }
+      .ticker-label .pulse { width: 8px; height: 8px; }
       main.about { padding: 64px 24px 80px; }
       footer.tail { padding: 20px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
     }
@@ -357,11 +339,9 @@
   </div>
 
   <header class="top">
-    <a href="/" class="logo" aria-label="Boardroom Wire — home">
-      <img src="/logo.png" alt="" class="logo-icon" />
-      <span class="logo-text">BOARDROOM<span class="wire">WIRE</span></span>
+    <a href="/" class="home-link" aria-label="Boardroom Wire — home">
+      BOARDROOM<span class="wire">WIRE</span>
     </a>
-    <a href="/" class="back">← Home</a>
   </header>
 
   <main class="about">

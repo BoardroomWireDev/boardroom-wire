@@ -60,7 +60,7 @@
     .ticker {
       display: flex;
       align-items: stretch;
-      height: 38px;
+      height: 54px;
       border-bottom: 1px solid var(--line);
       background: var(--black);
       position: relative;
@@ -70,24 +70,26 @@
       background: var(--gold);
       color: var(--black);
       font-family: var(--display);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      padding: 0 18px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.24em;
+      padding: 0 22px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       text-transform: uppercase;
     }
     .ticker-label .pulse {
-      width: 6px; height: 6px;
-      background: var(--black);
+      width: 9px; height: 9px;
+      background: #FF3B30;
       border-radius: 50%;
-      animation: pulse 1.4s ease-in-out infinite;
+      box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+      animation: pulse-red 1.4s ease-in-out infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%      { opacity: 0.3; }
+    @keyframes pulse-red {
+      0%   { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); opacity: 1; }
+      70%  { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); opacity: 0.85; }
+      100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); opacity: 1; }
     }
     .ticker-stats {
       flex: 1;
@@ -115,14 +117,14 @@
     }
     .stat {
       font-family: var(--display);
-      font-size: 11px;
-      letter-spacing: 0.16em;
+      font-size: 13px;
+      letter-spacing: 0.18em;
       color: var(--white-dim);
       text-transform: uppercase;
       font-weight: 500;
       display: flex;
       align-items: baseline;
-      gap: 10px;
+      gap: 12px;
       white-space: nowrap;
       flex-shrink: 0;
     }
@@ -138,34 +140,6 @@
       margin-left: 56px;
     }
 
-    /* ============ TOP HEADER (logo) ============ */
-    header.top {
-      padding: 32px 48px 0;
-      position: relative;
-      z-index: 5;
-    }
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
-      text-decoration: none;
-      user-select: none;
-    }
-    .logo-icon {
-      height: 40px;
-      width: 40px;
-      flex-shrink: 0;
-    }
-    .logo-text {
-      font-family: var(--display);
-      font-weight: 900;
-      font-size: 22px;
-      letter-spacing: 0.04em;
-      line-height: 1;
-      color: var(--white);
-    }
-    .logo-text .wire { color: var(--gold-bright); }
-
     /* ============ HERO ============ */
     main.hero {
       display: flex;
@@ -173,18 +147,31 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 24px 24px 80px;
-      min-height: calc(100vh - 38px - 80px);
+      padding: 56px 24px 80px;
+      min-height: calc(100vh - 54px - 80px);
       position: relative;
       z-index: 5;
     }
+    .wordmark {
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: clamp(48px, 9vw, 112px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 32px;
+      user-select: none;
+      opacity: 0;
+      animation: fadeUp 0.9s ease-out 0.1s forwards;
+    }
+    .wordmark .wire { color: var(--gold-bright); }
     .globe-wrap {
       position: relative;
-      width: min(540px, 80vw);
+      width: min(420px, 70vw);
       aspect-ratio: 1 / 1;
       margin-bottom: 40px;
       opacity: 0;
-      animation: fadeIn 1.4s ease-out 0.2s forwards;
+      animation: fadeIn 1.4s ease-out 0.3s forwards;
     }
     #globe { width: 100%; height: 100%; }
     .globe-wrap::before {
@@ -474,13 +461,14 @@
 
     /* Responsive */
     @media (max-width: 720px) {
-      header.top { padding: 20px 24px 0; }
-      .logo-icon { height: 32px; width: 32px; }
-      .logo-text { font-size: 18px; }
+      .ticker { height: 46px; }
       .ticker-track { gap: 36px; padding-left: 20px; }
-      .stat { font-size: 10px; letter-spacing: 0.1em; gap: 6px; }
+      .stat { font-size: 11px; letter-spacing: 0.12em; gap: 8px; }
       .stat .sep { margin-left: 36px; }
-      .ticker-label { font-size: 10px; padding: 0 12px; }
+      .ticker-label { font-size: 11px; padding: 0 14px; gap: 8px; }
+      .ticker-label .pulse { width: 8px; height: 8px; }
+      main.hero { padding: 40px 24px 64px; }
+      .wordmark { font-size: clamp(40px, 12vw, 64px); margin-bottom: 24px; }
       .socials { gap: 20px; }
       .reel-header { padding: 0 24px; }
       .reel-track { padding: 0 24px; }
@@ -531,16 +519,12 @@
     </div>
   </div>
 
-  <!-- Top header: logo (icon + wordmark) -->
-  <header class="top">
-    <a href="/" class="logo" aria-label="Boardroom Wire — home">
-      <img src="/logo.png" alt="" class="logo-icon" />
-      <span class="logo-text">BOARDROOM<span class="wire">WIRE</span></span>
-    </a>
-  </header>
-
   <!-- Hero -->
   <main class="hero">
+    <div class="wordmark" aria-label="Boardroom Wire">
+      BOARDROOM<span class="wire">WIRE</span>
+    </div>
+
     <div class="globe-wrap">
       <canvas id="globe"></canvas>
     </div>
