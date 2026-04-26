@@ -207,10 +207,10 @@
     .reel-row:last-child { margin-bottom: 0; }
     .reel-track {
       display: flex;
-      gap: 14px;
+      gap: 10px;
       width: max-content;
-      padding-left: 18px;
-      animation: reel-scroll 50s linear infinite;
+      padding-left: 14px;
+      animation: reel-scroll 38s linear infinite;
       will-change: transform;
     }
     .reel-row.reverse .reel-track {
@@ -225,10 +225,10 @@
       to   { transform: translateX(-50%); }
     }
     .reel-card {
-      flex: 0 0 clamp(120px, 6vw, 160px);
+      flex: 0 0 clamp(70px, 4vw, 100px);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 5px;
       text-decoration: none;
       color: var(--white);
       transition: transform 0.25s ease;
@@ -236,23 +236,23 @@
     .reel-card:hover {
       transform: translateY(-3px);
     }
-    /* Title sits above the thumbnail. min-height reserves space for 2 lines so
-       cards align across rows even when titles are 1 line vs 2. */
+    /* Title sits above the thumbnail — single-line clamp at this small card
+       size; full title is still in aria-label for screen readers and shows on
+       hover via the browser's native title-attribute tooltip if needed. */
     .reel-card .meta {
       padding: 0 1px;
-      min-height: 30px;
+      min-height: 13px;
     }
     .reel-card .meta h3 {
       font-family: var(--display);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 500;
-      line-height: 1.35;
+      line-height: 1.3;
       letter-spacing: -0.005em;
       color: var(--white);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      white-space: nowrap;
       overflow: hidden;
+      text-overflow: ellipsis;
     }
     .reel-card:hover .meta h3 {
       color: var(--amber-bright);
@@ -322,9 +322,9 @@
       .ticker-label { font-size: 11px; padding: 0 14px; gap: 8px; }
       .ticker-label .pulse { width: 8px; height: 8px; }
       main.videos-page { padding: 40px 24px 16px; }
-      .reel-row { margin-bottom: 16px; }
-      .reel-track { padding-left: 16px; gap: 14px; }
-      .reel-card { flex-basis: clamp(180px, 50vw, 220px); }
+      .reel-row { margin-bottom: 14px; }
+      .reel-track { padding-left: 12px; gap: 8px; }
+      .reel-card { flex-basis: clamp(72px, 18vw, 96px); }
       footer.tail { padding: 20px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
     }
 
@@ -341,7 +341,7 @@
         animation: ticker-scroll 28s linear infinite !important;
       }
       .reel-track {
-        animation-duration: 50s !important;
+        animation-duration: 38s !important;
         animation-iteration-count: infinite !important;
       }
     }
