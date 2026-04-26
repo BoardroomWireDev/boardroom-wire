@@ -207,10 +207,10 @@
     .reel-row:last-child { margin-bottom: 0; }
     .reel-track {
       display: flex;
-      gap: 10px;
+      gap: 16px;
       width: max-content;
-      padding-left: 14px;
-      animation: reel-scroll 38s linear infinite;
+      padding-left: 24px;
+      animation: reel-scroll 70s linear infinite;
       will-change: transform;
     }
     .reel-row.reverse .reel-track {
@@ -229,38 +229,37 @@
        never on them. Wrap rules in :global() so they apply to the injected
        DOM. Same trick we used for the globe tooltip. */
     :global(.reel-card) {
-      flex: 0 0 clamp(70px, 4vw, 100px);
-      /* min-width: 0 defeats the default `min-width: auto` on flex items.
-         Without it, the title h3's white-space:nowrap natural width forces
-         each card to bloat to its full unbroken title width — cards end up
-         all different sizes based on title length. */
+      flex: 0 0 clamp(210px, 12vw, 300px);
+      /* min-width: 0 defeats the default `min-width: auto` on flex items —
+         without it, title min-content forces each card to bloat. */
       min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 10px;
       text-decoration: none;
       color: #F5F1E5;
       transition: transform 0.25s ease;
     }
     :global(.reel-card:hover) {
-      transform: translateY(-3px);
+      transform: translateY(-4px);
     }
-    /* Title above the thumbnail — single-line clamp at this small card size. */
+    /* Title above the thumbnail — 2-line clamp so longer titles still read. */
     :global(.reel-card .meta) {
-      padding: 0 1px;
-      min-height: 13px;
-      min-width: 0;  /* same flex-min-content fix as the card */
+      padding: 0 2px;
+      min-height: 36px;
+      min-width: 0;
     }
     :global(.reel-card .meta h3) {
       font-family: 'Inter', system-ui, sans-serif;
-      font-size: 10px;
+      font-size: 13px;
       font-weight: 500;
-      line-height: 1.3;
+      line-height: 1.35;
       letter-spacing: -0.005em;
       color: #F5F1E5;
-      white-space: nowrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
       overflow: hidden;
-      text-overflow: ellipsis;
       margin: 0;
     }
     :global(.reel-card:hover .meta h3) {
@@ -331,9 +330,9 @@
       .ticker-label { font-size: 11px; padding: 0 14px; gap: 8px; }
       .ticker-label .pulse { width: 8px; height: 8px; }
       main.videos-page { padding: 40px 24px 16px; }
-      .reel-row { margin-bottom: 14px; }
-      .reel-track { padding-left: 12px; gap: 8px; }
-      :global(.reel-card) { flex-basis: clamp(72px, 18vw, 96px); }
+      .reel-row { margin-bottom: 18px; }
+      .reel-track { padding-left: 16px; gap: 12px; }
+      :global(.reel-card) { flex-basis: clamp(200px, 60vw, 280px); }
       footer.tail { padding: 20px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
     }
 
@@ -350,7 +349,7 @@
         animation: ticker-scroll 28s linear infinite !important;
       }
       .reel-track {
-        animation-duration: 38s !important;
+        animation-duration: 70s !important;
         animation-iteration-count: infinite !important;
       }
     }
