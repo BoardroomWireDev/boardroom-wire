@@ -12,7 +12,7 @@ const API_KEY = (import.meta as any).env?.PUBLIC_YOUTUBE_API_KEY ?? '';
 const CHANNEL_ID = 'UCthfphsDjHppg9SQv3JTdrg';
 const UPLOADS = CHANNEL_ID.replace(/^UC/, 'UU');
 
-const CACHE_KEY = 'bw-channel-data-v3';
+const CACHE_KEY = 'bw-channel-data-v4';
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 export type ReelVideo = {
@@ -21,11 +21,19 @@ export type ReelVideo = {
   thumbnail: string;
 };
 
+export type TopVideo = {
+  id: string;
+  title: string;
+  thumbnail: string;
+  views: number;
+};
+
 export type ChannelData = {
   videos: number;
   subs: number;
   views: number;
   topVideo: { id: string; title: string; views: number } | null;
+  topVideos: TopVideo[]; // top 5 by view count
   newest: { id: string; title: string; publishedAt: string } | null;
   reel: ReelVideo[]; // up to 15 latest videos for the homepage carousel
 };
@@ -82,6 +90,7 @@ async function fetchChannelStats(): Promise<{ videos: number; subs: number; view
 
 async function fetchVideoData(): Promise<{
   topVideo: ChannelData['topVideo'];
+  topVideos: TopVideo[];
   newest: ChannelData['newest'];
   reel: ReelVideo[];
 }> {
@@ -92,7 +101,7 @@ async function fetchVideoData(): Promise<{
   if (!plRes.ok) throw new Error(`playlistItems HTTP ${plRes.status}`);
   const plData = await plRes.json();
   const items: any[] = plData.items ?? [];
-  if (!items.length) return { topVideo: null, newest: null, reel: [] };
+  if (!items.length) return { topVideo: null, topVideos: [], newest: null, reel: [] };
 
   // Newest = first entry in uploads playlist
   const first = items[0];
@@ -124,21 +133,21 @@ async function fetchVideoData(): Promise<{
   if (!vRes.ok) throw new Error(`videos HTTP ${vRes.status}`);
   const vData = await vRes.json();
 
-  let topVideo: ChannelData['topVideo'] = null;
-  let topViews = -1;
-  for (const v of vData.items ?? []) {
-    const views = Number(v.statistics?.viewCount || 0);
-    if (views > topViews) {
-      topViews = views;
-      topVideo = {
-        id: v.id,
-        title: decode(v.snippet?.title ?? ''),
-        views,
-      };
-    }
-  }
+  // Build a full list of {id, title, thumbnail, views}, sort desc, take top 5.
+  const allWithViews: TopVideo[] = (vData.items ?? []).map((v: any) => ({
+    id: v.id,
+    title: decode(v.snippet?.title ?? ''),
+    thumbnail: pickThumb(null, v.id),
+    views: Number(v.statistics?.viewCount || 0),
+  }));
+  allWithViews.sort((a, b) => b.views - a.views);
+  const topVideos = allWithViews.slice(0, 5);
+  const topVideo: ChannelData['topVideo'] =
+    topVideos[0]
+      ? { id: topVideos[0].id, title: topVideos[0].title, views: topVideos[0].views }
+      : null;
 
-  return { topVideo, newest, reel };
+  return { topVideo, topVideos, newest, reel };
 }
 
 /**

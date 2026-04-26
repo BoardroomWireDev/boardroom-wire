@@ -191,9 +191,53 @@
         );
     }
 
+    /* ============ POPULAR — static top 5 by view count ============ */
+    section.popular {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px 0;
+      position: relative;
+      z-index: 5;
+    }
+    .popular-label {
+      font-family: var(--display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--amber-bright);
+      text-shadow: 0 0 12px rgba(255, 179, 71, 0.5);
+      margin-bottom: 18px;
+    }
+    .popular-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+    }
+    /* In a grid the .reel-card's flex sizing is moot — but the rest of the
+       card styling (flex column inside, hover lift, thumbnail border etc.)
+       still applies. */
+    :global(.popular-grid .reel-card) {
+      flex: 1 1 auto;
+    }
+    /* Show view counts only on the popular row — added via .pop modifier on
+       the rendered card. */
+    :global(.reel-card .views) {
+      display: none;
+    }
+    :global(.reel-card.pop .views) {
+      display: block;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--amber);
+      margin-top: 4px;
+    }
+
     /* ============ REEL — two-row counter-scrolling marquee ============ */
     section.reel {
-      padding: 56px 0 80px;
+      padding: 32px 0 80px;
       position: relative;
       z-index: 5;
     }
@@ -333,6 +377,11 @@
       .reel-row { margin-bottom: 18px; }
       .reel-track { padding-left: 16px; gap: 12px; }
       :global(.reel-card) { flex-basis: clamp(200px, 60vw, 280px); }
+      section.popular { padding: 28px 18px 0; }
+      .popular-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    }
+    @media (max-width: 540px) {
+      .popular-grid { grid-template-columns: repeat(2, 1fr); }
       footer.tail { padding: 20px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
     }
 
@@ -389,6 +438,13 @@
     <span class="page-label">Videos</span>
   </header>
 
+  <section class="popular" aria-label="Most popular videos">
+    <p class="popular-label">Most Popular</p>
+    <div class="popular-grid" id="popular-grid" role="list">
+      <!-- top 5 cards inserted by JS -->
+    </div>
+  </section>
+
   <section class="reel" id="reel">
     <div class="reel-row" aria-label="Latest videos, top row">
       <div class="reel-track" id="reel-track-a" role="list">
@@ -418,6 +474,7 @@
 
     const trackA = document.getElementById('reel-track-a')!;
     const trackB = document.getElementById('reel-track-b')!;
+    const popularGrid = document.getElementById('popular-grid')!;
 
     const escape = (s: string) =>
       s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -454,9 +511,39 @@
       track.innerHTML = cards + cards; // duplicate for seamless loop
     }
 
+    function renderPopular(
+      videos: Array<{ id: string; title: string; thumbnail: string; views: number }>,
+    ) {
+      popularGrid.innerHTML = videos
+        .map(
+          (v) => `
+            <a class="reel-card pop"
+               href="https://www.youtube.com/watch?v=${v.id}"
+               target="_blank" rel="noopener noreferrer"
+               role="listitem"
+               aria-label="Watch: ${escape(v.title)} (${fmt(v.views)} views)">
+              <div class="meta">
+                <h3>${escape(v.title)}</h3>
+                <span class="views">${fmt(v.views)} views</span>
+              </div>
+              <div class="thumb">
+                <img src="${v.thumbnail}" alt="" loading="lazy" />
+              </div>
+            </a>`,
+        )
+        .join('');
+    }
+
+    function renderPopularPlaceholders() {
+      popularGrid.innerHTML = Array.from({ length: 5 }, (_, i) =>
+        `<div class="reel-card pop placeholder" role="listitem"><div class="meta"><h3>Top ${i + 1}</h3><span class="views">— views</span></div><div class="thumb"></div></div>`,
+      ).join('');
+    }
+
     async function hydrate() {
       const data = await fetchChannelData();
       if (!data) {
+        renderPopularPlaceholders();
         renderRowPlaceholders(trackA);
         renderRowPlaceholders(trackB);
         return;
@@ -467,14 +554,17 @@
       setStat('top',    data.topVideo ? `${fmt(data.topVideo.views)} views` : '—');
       setStat('newest', data.newest ? daysAgo(data.newest.publishedAt) : '—');
 
+      if (data.topVideos && data.topVideos.length > 0) {
+        renderPopular(data.topVideos);
+      } else {
+        renderPopularPlaceholders();
+      }
+
       if (data.reel.length > 0) {
-        // Split videos: top row gets the first half (newest), bottom row the rest.
         const half = Math.ceil(data.reel.length / 2);
         const topRow = data.reel.slice(0, half);
         const bottomRow = data.reel.slice(half);
         renderRow(trackA, topRow);
-        // If the catalog is too small for two distinct rows, fall back to
-        // populating the bottom row with the same videos rather than empty.
         renderRow(trackB, bottomRow.length > 0 ? bottomRow : topRow);
       } else {
         renderRowPlaceholders(trackA);
