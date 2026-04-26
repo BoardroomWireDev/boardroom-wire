@@ -230,6 +230,11 @@
        DOM. Same trick we used for the globe tooltip. */
     :global(.reel-card) {
       flex: 0 0 clamp(70px, 4vw, 100px);
+      /* min-width: 0 defeats the default `min-width: auto` on flex items.
+         Without it, the title h3's white-space:nowrap natural width forces
+         each card to bloat to its full unbroken title width — cards end up
+         all different sizes based on title length. */
+      min-width: 0;
       display: flex;
       flex-direction: column;
       gap: 5px;
@@ -244,6 +249,7 @@
     :global(.reel-card .meta) {
       padding: 0 1px;
       min-height: 13px;
+      min-width: 0;  /* same flex-min-content fix as the card */
     }
     :global(.reel-card .meta h3) {
       font-family: 'Inter', system-ui, sans-serif;
