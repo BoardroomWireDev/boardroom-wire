@@ -193,116 +193,75 @@
       line-height: 1.5;
     }
 
-    /* ============ REEL ============ */
+    /* ============ REEL — two-row counter-scrolling marquee ============ */
     section.reel {
-      padding: 48px 0 80px;
+      padding: 32px 0 80px;
       position: relative;
       z-index: 5;
     }
-    .reel-controls {
-      max-width: 1280px;
-      margin: 0 auto 24px;
-      padding: 0 48px;
-      display: flex;
-      gap: 8px;
-      justify-content: flex-end;
-    }
-    .reel-btn {
-      width: 44px; height: 44px;
-      border: 1px solid var(--line);
-      background: transparent;
-      color: var(--white);
-      cursor: pointer;
-      transition: all 0.18s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .reel-btn:hover {
-      border-color: var(--gold);
-      color: var(--gold-bright);
-    }
-    .reel-btn svg { width: 18px; height: 18px; fill: currentColor; }
-    .reel-track-wrap {
-      position: relative;
+    .reel-row {
       overflow: hidden;
+      position: relative;
+      margin-bottom: 22px;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
     }
+    .reel-row:last-child { margin-bottom: 0; }
     .reel-track {
       display: flex;
-      gap: 20px;
-      padding: 0 48px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      gap: 18px;
+      width: max-content;
+      padding-left: 24px;
+      animation: reel-scroll 80s linear infinite;
+      will-change: transform;
     }
-    .reel-track::-webkit-scrollbar { display: none; }
+    .reel-row.reverse .reel-track {
+      animation-direction: reverse;
+    }
+    .reel-row:hover .reel-track,
+    .reel-row:focus-within .reel-track {
+      animation-play-state: paused;
+    }
+    @keyframes reel-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
     .reel-card {
-      scroll-snap-align: start;
-      flex: 0 0 calc((100% - 48px*2 - 20px*2) / 3);
-      min-width: 280px;
-      max-width: 480px;
-      position: relative;
+      flex: 0 0 clamp(200px, 17vw, 260px);
       display: block;
       text-decoration: none;
       color: var(--white);
-      border: 1px solid var(--line);
-      background: var(--black-soft);
-      transition: border-color 0.2s, transform 0.25s;
+      transition: transform 0.25s ease;
     }
     .reel-card:hover {
-      border-color: var(--gold);
-      transform: translateY(-3px);
+      transform: translateY(-4px);
     }
     .reel-card .thumb {
       position: relative;
       aspect-ratio: 16 / 9;
       overflow: hidden;
       background: var(--black-soft);
+      border: 1px solid var(--line);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .reel-card:hover .thumb {
+      border-color: var(--gold);
+      box-shadow: 0 0 20px rgba(255, 179, 71, 0.25);
     }
     .reel-card .thumb img {
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.4s;
+      transition: transform 0.5s ease;
     }
-    .reel-card:hover .thumb img { transform: scale(1.04); }
-    .reel-card .thumb::after {
-      content: "";
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 50%);
-      pointer-events: none;
-    }
-    .reel-card .play {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.25s;
-      pointer-events: none;
-    }
-    .reel-card:hover .play { opacity: 1; }
-    .reel-card .play span {
-      width: 64px; height: 64px;
-      background: var(--gold-bright);
-      color: var(--black);
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .reel-card .play svg { width: 24px; height: 24px; margin-left: 4px; fill: currentColor; }
+    .reel-card:hover .thumb img { transform: scale(1.06); }
     .reel-card .meta {
-      padding: 18px 20px 22px;
-      position: relative;
+      padding: 10px 2px 0;
     }
     .reel-card .meta h3 {
       font-family: var(--display);
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 500;
       line-height: 1.35;
       color: var(--white);
       display: -webkit-box;
@@ -318,7 +277,7 @@
     }
     .reel-card.placeholder .thumb::before {
       content: "";
-      width: 56px; height: 56px;
+      width: 40px; height: 40px;
       border: 1px solid var(--line);
       border-radius: 50%;
       background: rgba(212, 175, 55, 0.04);
@@ -356,9 +315,9 @@
       .ticker-label { font-size: 11px; padding: 0 14px; gap: 8px; }
       .ticker-label .pulse { width: 8px; height: 8px; }
       main.videos-page { padding: 40px 24px 16px; }
-      .reel-controls { padding: 0 24px; }
-      .reel-track { padding: 0 24px; }
-      .reel-card { flex-basis: 90%; min-width: 0; }
+      .reel-row { margin-bottom: 16px; }
+      .reel-track { padding-left: 16px; gap: 14px; }
+      .reel-card { flex-basis: clamp(180px, 50vw, 220px); }
       footer.tail { padding: 20px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
     }
 
@@ -412,17 +371,14 @@
   </main>
 
   <section class="reel" id="reel">
-    <div class="reel-controls">
-      <button type="button" class="reel-btn" id="reel-prev" aria-label="Previous">
-        <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-      </button>
-      <button type="button" class="reel-btn" id="reel-next" aria-label="Next">
-        <svg viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      </button>
+    <div class="reel-row" aria-label="Latest videos, top row">
+      <div class="reel-track" id="reel-track-a" role="list">
+        <!-- cards inserted by JS, duplicated for seamless marquee loop -->
+      </div>
     </div>
-    <div class="reel-track-wrap">
-      <div class="reel-track" id="reel-track" role="list" aria-label="Latest videos">
-        <!-- cards inserted by JS -->
+    <div class="reel-row reverse" aria-label="Latest videos, bottom row">
+      <div class="reel-track" id="reel-track-b" role="list">
+        <!-- cards inserted by JS, duplicated for seamless marquee loop -->
       </div>
     </div>
   </section>
@@ -441,44 +397,49 @@
       });
     };
 
-    const track = document.getElementById('reel-track')!;
+    const trackA = document.getElementById('reel-track-a')!;
+    const trackB = document.getElementById('reel-track-b')!;
 
-    function renderReelPlaceholders(n = 6) {
-      track.innerHTML = '';
-      for (let i = 0; i < n; i++) {
-        const card = document.createElement('div');
-        card.className = 'reel-card placeholder';
-        card.setAttribute('role', 'listitem');
-        card.innerHTML = `<div class="thumb"></div><div class="meta"><h3>Episode ${i + 1}</h3></div>`;
-        track.appendChild(card);
-      }
+    const escape = (s: string) =>
+      s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    function renderRow(
+      track: HTMLElement,
+      videos: Array<{ id: string; title: string; thumbnail: string }>,
+    ) {
+      // Duplicate for seamless 0 → -50% loop. Mark the second set aria-hidden
+      // so screen readers don't read every video twice.
+      const set = (hidden: boolean) =>
+        videos
+          .map(
+            (v) => `
+              <a class="reel-card"
+                 href="https://www.youtube.com/watch?v=${v.id}"
+                 target="_blank" rel="noopener noreferrer"
+                 ${hidden ? 'aria-hidden="true" tabindex="-1"' : 'role="listitem"'}
+                 aria-label="Watch: ${escape(v.title)}">
+                <div class="thumb">
+                  <img src="${v.thumbnail}" alt="" loading="lazy" />
+                </div>
+                <div class="meta"><h3>${escape(v.title)}</h3></div>
+              </a>`,
+          )
+          .join('');
+      track.innerHTML = set(false) + set(true);
     }
 
-    function renderReelVideos(videos: Array<{ id: string; title: string; thumbnail: string }>) {
-      track.innerHTML = '';
-      for (const v of videos) {
-        const a = document.createElement('a');
-        a.className = 'reel-card';
-        a.href = `https://www.youtube.com/watch?v=${v.id}`;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.setAttribute('role', 'listitem');
-        a.setAttribute('aria-label', `Watch: ${v.title}`);
-        a.innerHTML = `
-          <div class="thumb">
-            <img src="${v.thumbnail}" alt="" loading="lazy" />
-            <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
-          </div>
-          <div class="meta"><h3>${v.title}</h3></div>
-        `;
-        track.appendChild(a);
-      }
+    function renderRowPlaceholders(track: HTMLElement, n = 4) {
+      const cards = Array.from({ length: n }, (_, i) =>
+        `<div class="reel-card placeholder" role="listitem"><div class="thumb"></div><div class="meta"><h3>Episode ${i + 1}</h3></div></div>`,
+      ).join('');
+      track.innerHTML = cards + cards; // duplicate for seamless loop
     }
 
     async function hydrate() {
       const data = await fetchChannelData();
       if (!data) {
-        renderReelPlaceholders();
+        renderRowPlaceholders(trackA);
+        renderRowPlaceholders(trackB);
         return;
       }
       setStat('videos', fmt(data.videos));
@@ -487,50 +448,22 @@
       setStat('top',    data.topVideo ? `${fmt(data.topVideo.views)} views` : '—');
       setStat('newest', data.newest ? daysAgo(data.newest.publishedAt) : '—');
 
-      if (data.reel.length > 0) renderReelVideos(data.reel);
-      else renderReelPlaceholders();
+      if (data.reel.length > 0) {
+        // Split videos: top row gets the first half (newest), bottom row the rest.
+        const half = Math.ceil(data.reel.length / 2);
+        const topRow = data.reel.slice(0, half);
+        const bottomRow = data.reel.slice(half);
+        renderRow(trackA, topRow);
+        // If the catalog is too small for two distinct rows, fall back to
+        // populating the bottom row with the same videos rather than empty.
+        renderRow(trackB, bottomRow.length > 0 ? bottomRow : topRow);
+      } else {
+        renderRowPlaceholders(trackA);
+        renderRowPlaceholders(trackB);
+      }
     }
 
-    function setupReelControls() {
-      const cardWidth = () => {
-        const card = track.querySelector('.reel-card');
-        if (!card) return 0;
-        const styles = getComputedStyle(track);
-        const gap = parseFloat(styles.gap) || 0;
-        return card.getBoundingClientRect().width + gap;
-      };
-
-      document.getElementById('reel-prev')!.addEventListener('click', () => {
-        track.scrollBy({ left: -cardWidth(), behavior: 'smooth' });
-      });
-      document.getElementById('reel-next')!.addEventListener('click', () => {
-        track.scrollBy({ left: cardWidth(), behavior: 'smooth' });
-      });
-
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduced) return;
-
-      let paused = false;
-      const reelSection = document.getElementById('reel')!;
-      reelSection.addEventListener('mouseenter', () => { paused = true; });
-      reelSection.addEventListener('mouseleave', () => { paused = false; });
-      reelSection.addEventListener('focusin',  () => { paused = true; });
-      reelSection.addEventListener('focusout', () => { paused = false; });
-
-      setInterval(() => {
-        if (paused) return;
-        const w = cardWidth();
-        if (!w) return;
-        const max = track.scrollWidth - track.clientWidth - 4;
-        if (track.scrollLeft >= max) {
-          track.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          track.scrollBy({ left: w, behavior: 'smooth' });
-        }
-      }, 5000);
-    }
-
-    hydrate().then(setupReelControls);
+    hydrate();
     setInterval(hydrate, 5 * 60_000);
   </script>
 </body>
