@@ -12,7 +12,7 @@ const API_KEY = (import.meta as any).env?.PUBLIC_YOUTUBE_API_KEY ?? '';
 const CHANNEL_ID = 'UCthfphsDjHppg9SQv3JTdrg';
 const UPLOADS = CHANNEL_ID.replace(/^UC/, 'UU');
 
-const CACHE_KEY = 'bw-channel-data-v2';
+const CACHE_KEY = 'bw-channel-data-v3';
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 export type ReelVideo = {
@@ -38,11 +38,12 @@ const decode = (s: string): string =>
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>');
 
-const pickThumb = (thumbnails: any, id: string): string =>
-  thumbnails?.maxres?.url ??
-  thumbnails?.standard?.url ??
-  thumbnails?.high?.url ??
-  `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+// Always use mqdefault — 320×180, true 16:9, available for every YouTube
+// video (no fallback chain). Using maxres+letterboxed-fallback meant cards
+// had inconsistent visible aspect ratios. mqdefault is plenty of resolution
+// for the small reel cards.
+const pickThumb = (_thumbnails: any, id: string): string =>
+  `https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
 
 function loadCache(): ChannelData | null {
   try {
