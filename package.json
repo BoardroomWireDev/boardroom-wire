@@ -9,7 +9,10 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "sync:dashboards": "node scripts/sync-dashboards.mjs",
+    "render:posters": "node scripts/render-posters.mjs",
+    "analytics:refresh": "npm run sync:dashboards && npm run render:posters"
   },
   "dependencies": {
     "astro": "^5.18.1",
@@ -23,6 +26,7 @@
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/tailwind": "^6.0.2",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.19"
   }
 }
