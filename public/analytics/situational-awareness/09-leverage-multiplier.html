@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  D09 · THE LEVERAGE MULTIPLIER  ·  Section 5
+  Boardroom Wire — Situational Awareness
+  The teaching moment. $1 of equity + $3 borrowed = $4 of
+  positions. The position falls 25%; the lender's claim does
+  not move; the equity is the whole difference.
+  Three held beats (~12s) so it can be narrated over and cut
+  anywhere. Illustration at 4x — WSJ reported 3-4x.
+  R replay · ?final = lit still.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>The Leverage Multiplier · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=3" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(34, 26, 24, 0.55); --mood-b: #0a0a0f; }
+  .amb-glow { --glow-tint: rgba(255, 179, 71, 0.045); top: 54%; left: 42%; }
+
+  #kick     { position:absolute; left:56px; top:198px; opacity:0; z-index:20 }
+  #title    { position:absolute; left:56px; top:226px; opacity:0; z-index:20 }
+  #subtitle { position:absolute; left:56px; top:306px; width:1200px; opacity:0; z-index:20 }
+
+  svg.plot { position:absolute; inset:0; z-index:10 }
+
+  #baseline { stroke:rgba(212,175,55,0.42); stroke-width:1.5; opacity:0 }
+  .hgrid    { stroke:rgba(212,175,55,0.06); stroke-width:1; opacity:0 }
+  .hlbl     { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500;
+              fill:rgba(245,241,229,0.3); letter-spacing:.08em; opacity:0 }
+
+  #posBar   { fill:#E9A23B; opacity:0 }
+  #debtBar  { fill:#4A4A5A; opacity:0 }
+  #eqBar    { fill:#D4AF37; opacity:0 }
+
+  #debtLine { stroke:rgba(245,241,229,0.5); stroke-width:1.5; stroke-dasharray:8 8; opacity:0 }
+  #ghostPos { fill:none; stroke:rgba(233,162,59,0.45); stroke-width:1.5; stroke-dasharray:6 6; opacity:0 }
+  #ghostEq  { fill:none; stroke:rgba(212,175,55,0.55); stroke-width:1.5; stroke-dasharray:6 6; opacity:0 }
+  .ghostLbl { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600;
+              fill:rgba(233,162,59,0.6); letter-spacing:.14em; opacity:0 }
+  .ghostLbl.gold { fill:rgba(212,175,55,0.75) }
+  #debtTxt  { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;
+              fill:rgba(245,241,229,0.6); letter-spacing:.18em; opacity:0 }
+
+  .colHead  { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600;
+              fill:rgba(245,241,229,0.62); letter-spacing:.2em; opacity:0 }
+  .colVal   { font-family:'IBM Plex Mono',monospace; font-size:40px; font-weight:700;
+              fill:#F5F1E5; letter-spacing:-.02em; opacity:0 }
+
+  .segLbl   { font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600;
+              letter-spacing:.14em; opacity:0 }
+  #eqLbl    { fill:#0a0a0f }
+  #debtLbl  { fill:rgba(245,241,229,0.75) }
+
+  #equation { position:absolute; left:420px; top:376px; opacity:0; z-index:20;
+              font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:600;
+              letter-spacing:.16em; color:rgba(245,241,229,0.55) }
+  #equation .g { color:#F2CB52 } #equation .s { color:#8A8A9E } #equation .a { color:#E9A23B }
+
+  /* ---- the read-out ---- */
+  #panel { position:absolute; left:1370px; top:436px; width:470px; z-index:20 }
+  .metric { opacity:0; margin-bottom:44px }
+  .metric .k { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600;
+               letter-spacing:.24em; color:rgba(245,241,229,0.5); text-transform:uppercase }
+  .metric .n { font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:74px;
+               letter-spacing:-.03em; line-height:1.05; color:#F5F1E5; margin-top:8px }
+  .metric.hero .n { color:#FF5247;
+                    text-shadow:0 0 32px rgba(255,82,71,0.5), 0 0 78px rgba(255,82,71,0.2) }
+
+  #wiped { display:inline-block; opacity:0; margin-top:6px;
+           font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:700;
+           letter-spacing:.28em; color:#FF5247; text-transform:uppercase;
+           border:1px solid rgba(255,82,71,0.55); border-radius:3px; padding:9px 16px;
+           background:rgba(255,82,71,0.06) }
+
+  #note { position:absolute; left:1370px; top:812px; width:470px; opacity:0; z-index:20;
+          font-family:'IBM Plex Sans',sans-serif; font-weight:300; font-size:20px;
+          line-height:1.4; color:rgba(245,241,229,0.6) }
+  #note b { font-weight:600; color:#F5F1E5 }
+
+  #kicker { position:absolute; left:56px; top:918px; z-index:20 }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Section 05 &nbsp;·&nbsp; The Mechanics</div>
+  <div class="title" id="title">Why a quarter down <b>is all the way down.</b></div>
+  <div class="subtitle" id="subtitle">At four times leverage, the lender&rsquo;s claim never moves. Everything that falls, falls out of your half.</div>
+
+  <svg class="plot" viewBox="0 0 1920 1080" id="svg">
+    <g id="grid"></g>
+
+    <!-- left column: the position -->
+    <rect id="posBar" x="480" y="840" width="220" height="0" />
+
+    <!-- right column: who owns it -->
+    <rect id="debtBar" x="900" y="840" width="220" height="0" />
+    <rect id="eqBar"   x="900" y="840" width="220" height="0" />
+
+    <line id="baseline" x1="400" y1="840" x2="1300" y2="840" />
+
+    <line id="debtLine" x1="400" y1="525" x2="1300" y2="525" />
+    <text id="debtTxt" x="1300" y="513" text-anchor="end">THE LENDER&#8217;S CLAIM</text>
+
+    <text class="colHead" id="headL" x="590" y="876" text-anchor="middle">THE POSITION</text>
+    <text class="colHead" id="headR" x="1010" y="876" text-anchor="middle">WHO OWNS IT</text>
+
+    <text class="colVal" id="valL" x="590" y="392" text-anchor="middle">$4.00</text>
+    <text class="colVal" id="valR" x="1010" y="392" text-anchor="middle">$4.00</text>
+
+    <!-- what the fall took, outlined where it used to be -->
+    <rect id="ghostPos" x="480" y="420" width="220" height="105" />
+    <rect id="ghostEq"  x="900" y="420" width="220" height="105" />
+    <text class="ghostLbl" id="ghostPosLbl" x="590"  y="446" text-anchor="middle">&#8722;$1.00</text>
+    <text class="ghostLbl gold" id="ghostEqLbl" x="1010" y="446" text-anchor="middle">HIS $1 &#183; GONE</text>
+
+    <text class="segLbl" id="debtLbl" x="1010" y="700" text-anchor="middle">BORROWED &#183; $3</text>
+    <text class="segLbl" id="eqLbl"   x="1010" y="478" text-anchor="middle">HIS &#183; $1</text>
+  </svg>
+
+  <div id="equation"><span class="g">$1 HIS</span> &nbsp;+&nbsp; <span class="s">$3 BORROWED</span> &nbsp;=&nbsp; <span class="a">$4 OF POSITIONS</span></div>
+
+  <div id="panel">
+    <div class="metric" id="m1">
+      <div class="k">Position value</div>
+      <div class="n" id="n1">0%</div>
+    </div>
+    <div class="metric hero" id="m2">
+      <div class="k">His equity</div>
+      <div class="n" id="n2">0%</div>
+      <div id="wiped">Wiped out</div>
+    </div>
+  </div>
+
+  <div id="note">Bank of America, Goldman Sachs and JP Morgan margin-called him. <b>The July drawdown was more than 25%.</b></div>
+
+  <div class="kicker" id="kicker">He didn&rsquo;t need to be wrong. <b>He needed the market to move 25%.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="chip reported">Reported &nbsp;·&nbsp; WSJ &nbsp;·&nbsp; illustration at 4&#215;</div>
+    <div class="bw-source">WSJ reported leverage of 3&#8211;4&#215; across the portfolio &nbsp;·&nbsp; figures above are an illustration of the mechanic at 4&#215;, not the fund&rsquo;s actual book</div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+
+  <div class="bw-hint">R&nbsp;replay&nbsp;·&nbsp;?final&nbsp;still</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/motion.js?v=3"></script>
+<script>
+/* ---------- geometry: $1 of capital = 105px ---------- */
+const YBASE = 840, UNIT = 105, DEBT = 3, START = 4, END = 3;
+const yOf = v => YBASE - v * UNIT;
+
+const posBar = BW.$('#posBar'), debtBar = BW.$('#debtBar'), eqBar = BW.$('#eqBar');
+const valL = BW.$('#valL'), valR = BW.$('#valR');
+const eqLbl = BW.$('#eqLbl'), n1 = BW.$('#n1'), n2 = BW.$('#n2');
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+const mk = (tag, attrs) => {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+};
+
+(function buildGrid(){
+  const g = BW.$('#grid');
+  [1, 2, 3, 4].forEach(v => {
+    const y = yOf(v);
+    g.appendChild(mk('line', { class:'hgrid', x1:400, y1:y, x2:1300, y2:y }));
+    const t = mk('text', { class:'hlbl', x:384, y:y + 5, 'text-anchor':'end' });
+    t.textContent = '$' + v;
+    g.appendChild(t);
+  });
+})();
+
+/* the whole visual is one function of the position value */
+function setPosition(p){
+  const eq = Math.max(0, p - DEBT);
+
+  posBar.setAttribute('y', yOf(p));
+  posBar.setAttribute('height', p * UNIT);
+
+  debtBar.setAttribute('y', yOf(DEBT));
+  debtBar.setAttribute('height', DEBT * UNIT);
+
+  eqBar.setAttribute('y', yOf(p));
+  eqBar.setAttribute('height', eq * UNIT);
+
+  valL.textContent = '$' + p.toFixed(2);
+  valR.textContent = '$' + p.toFixed(2);
+  valL.setAttribute('y', yOf(p) - 26);
+  valR.setAttribute('y', yOf(p) - 26);
+
+  /* the equity label rides the sliver until there is no sliver */
+  eqLbl.setAttribute('y', yOf(DEBT + eq / 2) + 6);
+  eqLbl.style.opacity = eq > 0.34 ? 1 : 0;
+
+  n1.textContent = '−' + Math.round((1 - p / START) * 100) + '%';
+  n2.textContent = '−' + Math.round((1 - eq / 1) * 100) + '%';
+}
+
+const ALL = ['#kick','#title','#subtitle','#kicker','#equation','#note',
+             '.hgrid','.hlbl','#baseline','#posBar','#debtBar','#eqBar',
+             '#debtLine','#debtTxt','.colHead','.colVal','.segLbl',
+             '#ghostPos','#ghostEq','.ghostLbl',
+             '.metric','#wiped'];
+
+function reset(){
+  BW.chromeHide();
+  gsap.set(ALL, { opacity:0 });
+  gsap.set(['#title','#kicker'], { y:14, filter:'blur(8px)' });
+  gsap.set('#baseline', { scaleX:0, transformOrigin:'left center' });
+  gsap.set('#debtLine', { scaleX:0, transformOrigin:'left center' });
+  setPosition(START);
+  n1.textContent = '0%'; n2.textContent = '0%';
+}
+
+function rest(){
+  reset();
+  BW.chromeShow();
+  gsap.set(ALL, { opacity:1 });
+  gsap.set(['#title','#kicker'], { y:0, filter:'blur(0px)' });
+  gsap.set(['#baseline','#debtLine'], { scaleX:1 });
+  setPosition(END);
+}
+
+function play(){
+  reset();
+  const tl = gsap.timeline();
+  BW.chromeIn(tl, 0);
+
+  tl.fromTo('#kick', { opacity:0, letterSpacing:'0.88em' },
+                     { opacity:1, letterSpacing:'0.42em', duration:.95, ease:'power3.out' }, 0.30)
+    .to('#title',    { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, 0.50)
+    .to('#subtitle', { opacity:1, duration:.7 }, 0.85);
+
+  /* ---------- BEAT 1 · the structure ---------- */
+  tl.to('#baseline', { opacity:1, scaleX:1, duration:.9, ease:'power2.out' }, 1.05)
+    .to('.hgrid',    { opacity:1, duration:.5, stagger:.06 }, 1.15)
+    .to('.hlbl',     { opacity:1, duration:.5, stagger:.06 }, 1.20)
+    .to('.colHead',  { opacity:1, duration:.5, stagger:.12 }, 1.35);
+
+  /* borrowed money first — it arrives before the position exists */
+  tl.to('#debtBar', { opacity:1, duration:.4 }, 1.85)
+    .from('#debtBar', { attr:{ y:YBASE, height:0 }, duration:.75, ease:'power2.out' }, 1.85)
+    .to('#debtLbl', { opacity:1, duration:.45 }, 2.35);
+
+  /* then his own dollar on top of it */
+  tl.to('#eqBar', { opacity:1, duration:.4 }, 2.55)
+    .from('#eqBar', { attr:{ y:yOf(DEBT), height:0 }, duration:.6, ease:'power2.out' }, 2.55)
+    .to('#eqLbl', { opacity:1, duration:.45 }, 3.00)
+    .to('#valR',  { opacity:1, duration:.45 }, 3.05);
+
+  /* which buys four dollars of stock */
+  tl.to('#posBar', { opacity:1, duration:.4 }, 3.30)
+    .from('#posBar', { attr:{ y:YBASE, height:0 }, duration:.8, ease:'power2.out' }, 3.30)
+    .to('#valL', { opacity:1, duration:.45 }, 3.80)
+    .to('#equation', { opacity:1, duration:.7 }, 3.95);
+
+  /* HOLD — beat 1 rests here, ~1.3s of clean frame */
+
+  /* ---------- BEAT 2 · the fall ---------- */
+  tl.to('#debtLine', { opacity:1, scaleX:1, duration:.85, ease:'power2.inOut' }, 5.30)
+    .to('#debtTxt',  { opacity:1, duration:.5 }, 5.90)
+    .to('.metric',   { opacity:1, duration:.5, stagger:.12 }, 5.60);
+
+  const drain = { p: START };
+  tl.to(drain, { p: END, duration:2.1, ease:'power2.inOut',
+                 onUpdate:()=>setPosition(drain.p) }, 6.40);
+
+  /* ---------- BEAT 3 · what is left ---------- */
+  const tHero = 8.70;
+  tl.to(['#ghostPos','#ghostEq'], { opacity:1, duration:.6, stagger:.1 }, tHero - 0.25)
+    .to('.ghostLbl', { opacity:1, duration:.5, stagger:.1 }, tHero - 0.05);
+  BW.pulse(tl, '#n2', tHero, 1.06);
+  tl.fromTo('#wiped', { opacity:0, scale:1.2 },
+                      { opacity:1, scale:1, duration:.5, ease:'power3.out' }, tHero + 0.10)
+    .to('#note',   { opacity:1, duration:.65 }, tHero + 0.55)
+    .to('#kicker', { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, tHero + 0.90);
+
+  return tl;
+}
+
+/* ---------- idle ---------- */
+function idle(){
+  BW.glow('#n2', { color:'255,82,71', min:24, max:54, dur:2.5 });
+  BW.glow('#wiped', { color:'255,82,71', min:12, max:26, dur:2.5 });
+  /* the claim line and both ghosts keep travelling */
+  BW.march('#debtLine', { by:-16, dur:1.8 });
+  BW.march(['#ghostPos','#ghostEq'], { by:-12, dur:1.6 });
+  BW.breathe('#posBar', { scale:1.006, dur:4.2 });
+  BW.raw(gsap.to(['#ghostPosLbl','#ghostEqLbl'], { opacity:.45, duration:2.2,
+                  ease:'sine.inOut', yoyo:true, repeat:-1, stagger:0.6 }));
+}
+
+/* the ambient field runs from load and survives a replay */
+BW.ambient({ tint:'255,179,71', count:54 });
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  D05 · THE HEDGE SWITCH  ·  Section 3
+  Boardroom Wire — Situational Awareness
+  Put options as a share of the reported 13F book, by quarter.
+  0% -> 27% -> 21% -> 0.2% -> 62% -> 0%, then July.
+  Source: SEC Form 13F, CIK 0002045724, seven filings. PRIMARY.
+  R replay · ?final = lit still.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>The Hedge Switch · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=3" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  .stage {
+    --mood-a: rgba(40, 26, 20, 0.55);
+    --mood-b: #0a0a0f;
+  }
+  .amb-glow { --glow-tint: rgba(255, 179, 71, 0.055); top: 44%; left: 56%; }
+
+  /* ---- header ---- */
+  #kick     { position:absolute; left:56px; top:198px; opacity:0; z-index:20 }
+  #title    { position:absolute; left:56px; top:226px; opacity:0; z-index:20 }
+  #subtitle { position:absolute; left:56px; top:306px; width:1100px; opacity:0; z-index:20 }
+
+  /* ---- plot ---- */
+  svg.plot { position:absolute; inset:0; z-index:10 }
+
+  .grid-line   { stroke:rgba(212,175,55,0.10); stroke-width:1; opacity:0 }
+  .axis-txt    { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:500;
+                 fill:rgba(245,241,229,0.42); letter-spacing:.08em; opacity:0 }
+  .qlabel      { font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:500;
+                 fill:rgba(245,241,229,0.5); letter-spacing:.12em; opacity:0 }
+  .qlabel.hot  { fill:rgba(245,241,229,0.82) }
+  #baseline    { stroke:rgba(212,175,55,0.42); stroke-width:1.5; opacity:0 }
+
+  #fill        { fill:url(#protGrad) }
+  #line        { fill:none; stroke:#FFB347; stroke-width:4;
+                 stroke-linejoin:round; stroke-linecap:round;
+                 filter:drop-shadow(0 0 14px rgba(255,179,71,0.45)) }
+  .dot         { fill:#FFC97A; opacity:.9 }
+  #head        { fill:#FFC97A; opacity:0;
+                 filter:drop-shadow(0 0 16px rgba(255,201,122,0.9)) }
+
+  .vlabel      { font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:26px;
+                 fill:#FFC97A; letter-spacing:-.01em; opacity:0 }
+  .vlabel.sm   { font-size:17px; font-weight:500; fill:rgba(245,241,229,0.55) }
+  .vlabel.peak { font-size:36px; filter:drop-shadow(0 0 20px rgba(255,179,71,0.55));
+                 transform-box:fill-box; transform-origin:center }
+
+  #peakLeader  { stroke:rgba(255,179,71,0.45); stroke-width:1; opacity:0 }
+  #peakAnnot   { position:absolute; left:470px; top:486px; width:470px; opacity:0; z-index:20 }
+  #peakAnnot .lbl { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600;
+                    letter-spacing:.24em; color:#FFB347; text-transform:uppercase;
+                    margin-bottom:10px }
+
+  /* ---- the hero: the drop to zero, and July ---- */
+  #endNode     { fill:#FF5247; opacity:0; transform-box:fill-box; transform-origin:center;
+                 filter:drop-shadow(0 0 22px rgba(255,82,71,0.85)) }
+  #endRing     { fill:none; stroke:rgba(255,82,71,0.5); stroke-width:1.5; opacity:0;
+                 transform-box:fill-box; transform-origin:center }
+  #endLabel    { font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:42px;
+                 fill:#FF5247; letter-spacing:-.01em; opacity:0;
+                 filter:drop-shadow(0 0 24px rgba(255,82,71,0.7)) }
+
+  #band        { fill:rgba(255,82,71,0.07); opacity:0 }
+  #bandEdge    { stroke:rgba(255,82,71,0.55); stroke-width:1.5; opacity:0 }
+  #bandTxt     { position:absolute; left:1548px; top:552px; width:290px; opacity:0; z-index:20 }
+  #bandTxt .lbl { font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600;
+                  letter-spacing:.3em; color:#FF5247; text-transform:uppercase; margin-bottom:12px }
+  #bandTxt .txt { font-family:'IBM Plex Sans',sans-serif; font-weight:300; font-size:21px;
+                  line-height:1.4; color:rgba(245,241,229,0.8) }
+  #bandTxt .txt b { font-weight:600; color:#F5F1E5 }
+
+  #kicker { position:absolute; left:56px; top:908px; z-index:20 }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Section 03 &nbsp;·&nbsp; The Hedge Switch</div>
+  <div class="title" id="title">He was hedged. <b>Then he wasn&rsquo;t.</b></div>
+  <div class="subtitle" id="subtitle">Put options as a percentage of the reported 13F book, quarter by quarter.</div>
+
+  <svg class="plot" viewBox="0 0 1920 1080" id="svg">
+    <defs>
+      <linearGradient id="protGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="rgba(255,179,71,0.22)" />
+        <stop offset="100%" stop-color="rgba(255,179,71,0.01)" />
+      </linearGradient>
+      <clipPath id="reveal"><rect id="revealRect" x="238" y="380" width="0" height="480" /></clipPath>
+    </defs>
+
+    <!-- gridlines + y axis -->
+    <g id="grid"></g>
+
+    <!-- July 2026 band -->
+    <rect id="band" x="1540" y="420" width="324" height="420" />
+    <line id="bandEdge" x1="1540" y1="420" x2="1540" y2="840" />
+
+    <!-- baseline -->
+    <line id="baseline" x1="240" y1="840" x2="1812" y2="840" />
+
+    <!-- the shape -->
+    <g clip-path="url(#reveal)">
+      <polygon id="fill" points="240,840 240,840 447,840 653,678 860,714 1067,839 1273,468 1480,840" />
+      <polyline id="line" points="240,840 447,840 653,678 860,714 1067,839 1273,468 1480,840" />
+      <g id="dots"></g>
+    </g>
+
+    <circle id="head" cx="240" cy="840" r="7" />
+
+    <!-- value labels -->
+    <text class="vlabel" id="v27" x="653" y="646" text-anchor="middle">27%</text>
+    <text class="vlabel" id="v21" x="860" y="682" text-anchor="middle">21%</text>
+    <text class="vlabel sm" id="v02" x="1046" y="802" text-anchor="end">0.2%</text>
+    <text class="vlabel peak" id="v62" x="1273" y="428" text-anchor="middle">62%</text>
+
+    <line id="peakLeader" x1="952" y1="512" x2="1244" y2="466" />
+
+    <!-- hero -->
+    <circle id="endRing" cx="1480" cy="840" r="26" />
+    <circle id="endNode" cx="1480" cy="840" r="9" />
+    <text id="endLabel" x="1424" y="822" text-anchor="end">0%</text>
+
+    <!-- quarter labels -->
+    <g id="qlabels"></g>
+  </svg>
+
+  <div id="peakAnnot">
+    <div class="lbl">Q1 2026</div>
+    <div class="annot">$8.46B in put options against <span class="m">NVDA, AVGO, AMD, MU, TSM, ASML, ORCL</span> and <span class="m">INTC</span> &mdash; 62% of the book betting against the AI trade he was long.</div>
+  </div>
+
+  <div id="bandTxt">
+    <div class="lbl">July 2026</div>
+    <div class="txt">The semiconductor index falls <b>28.6%</b>. The fund is down <b>67%</b>.<br />Nothing is hedged.</div>
+  </div>
+
+  <div class="kicker" id="kicker">The hedges came off <b>the quarter before.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="chip primary">SEC Form 13F &nbsp;·&nbsp; Primary Source</div>
+    <div class="bw-source">Situational Awareness LP &nbsp;·&nbsp; CIK 0002045724 &nbsp;·&nbsp; seven filings, Q4 2024 &ndash; Q2 2026 (filed Aug 14, 2026)</div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+
+  <div class="bw-hint">R&nbsp;replay&nbsp;·&nbsp;?final&nbsp;still</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/motion.js?v=3"></script>
+<script>
+/* ---------- geometry ---------- */
+const X0 = 240, X1 = 1480, YBASE = 840, YTOP = 420, PCTMAX = 70;
+const Q = [
+  { q:'Q4 24', x:240,  pct:0    },
+  { q:'Q1 25', x:447,  pct:0    },
+  { q:'Q2 25', x:653,  pct:27   },
+  { q:'Q3 25', x:860,  pct:21   },
+  { q:'Q4 25', x:1067, pct:0.2  },
+  { q:'Q1 26', x:1273, pct:62,  hot:true },
+  { q:'Q2 26', x:1480, pct:0,   hot:true }
+];
+const yOf = p => YBASE - (p / PCTMAX) * (YBASE - YTOP);
+
+/* linear interpolation between quarter points — the line is a
+   polyline, not a spline. Quarterly data has no in-between. */
+function yAt(x){
+  if (x <= Q[0].x) return yOf(Q[0].pct);
+  for (let i = 1; i < Q.length; i++){
+    if (x <= Q[i].x){
+      const a = Q[i-1], b = Q[i], t = (x - a.x) / (b.x - a.x);
+      return yOf(a.pct + (b.pct - a.pct) * t);
+    }
+  }
+  return yOf(Q[Q.length-1].pct);
+}
+
+/* ---------- static furniture ---------- */
+const SVGNS = 'http://www.w3.org/2000/svg';
+const mk = (tag, attrs) => {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+};
+
+(function buildGrid(){
+  const g = document.getElementById('grid');
+  [0, 20, 40, 60].forEach(p => {
+    const y = yOf(p);
+    if (p > 0) g.appendChild(mk('line', { class:'grid-line', x1:240, y1:y, x2:1812, y2:y }));
+    const t = mk('text', { class:'axis-txt', x:212, y:y + 5, 'text-anchor':'end' });
+    t.textContent = p + '%';
+    g.appendChild(t);
+  });
+})();
+
+(function buildDotsAndLabels(){
+  const d = document.getElementById('dots'), l = document.getElementById('qlabels');
+  Q.forEach(p => {
+    d.appendChild(mk('circle', { class:'dot', cx:p.x, cy:yOf(p.pct), r:5 }));
+    const t = mk('text', { class:'qlabel' + (p.hot ? ' hot' : ''), x:p.x, y:874, 'text-anchor':'middle' });
+    t.textContent = p.q;
+    l.appendChild(t);
+  });
+})();
+
+/* ---------- reveal driver ---------- */
+const revealRect = document.getElementById('revealRect');
+const head = document.getElementById('head');
+function setReveal(x){
+  revealRect.setAttribute('width', Math.max(0, x - 238 + 3));
+  head.setAttribute('cx', x);
+  head.setAttribute('cy', yAt(x));
+}
+
+/* time at which the drawing head reaches a given x */
+const T_DRAW_START = 1.6, T_DRAW_DUR = 3.0;
+const tAt = x => T_DRAW_START + T_DRAW_DUR * (x - X0) / (X1 - X0);
+
+const ALL = ['#kick','#title','#subtitle','#peakAnnot','#bandTxt','#kicker',
+             '.grid-line','.axis-txt','.qlabel','#baseline','#head',
+             '.vlabel','#peakLeader','#endNode','#endRing','#endLabel','#band','#bandEdge'];
+
+function reset(){
+  BW.chromeHide();
+  gsap.set(ALL, { opacity:0 });
+  gsap.set(['#title','#kicker'], { y:14, filter:'blur(8px)' });
+  gsap.set('#baseline', { scaleX:0, transformOrigin:'left center' });
+  gsap.set(['#endNode','#endRing','#v62'], { scale:1 });
+  gsap.set('#band', { x:0 });
+  setReveal(X0);
+}
+
+function rest(){
+  reset();
+  BW.chromeShow();
+  gsap.set(ALL, { opacity:1 });
+  gsap.set(['#title','#kicker'], { y:0, filter:'blur(0px)' });
+  gsap.set('#baseline', { scaleX:1 });
+  gsap.set('#head', { opacity:0 });
+  gsap.set('#endRing', { opacity:0.45, scale:1 });
+  setReveal(X1);
+}
+
+function play(){
+  reset();
+  const tl = gsap.timeline();
+  BW.chromeIn(tl, 0);
+
+  tl.fromTo('#kick', { opacity:0, letterSpacing:'0.88em' },
+                     { opacity:1, letterSpacing:'0.42em', duration:.95, ease:'power3.out' }, 0.30)
+    .to('#title',    { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, 0.50)
+    .to('#subtitle', { opacity:1, duration:.7 }, 0.85);
+
+  /* the frame builds before the data lands in it */
+  tl.to('.grid-line', { opacity:1, duration:.6, stagger:.07 }, 0.95)
+    .to('.axis-txt',  { opacity:1, duration:.5, stagger:.05 }, 1.05)
+    .to('#baseline',  { opacity:1, scaleX:1, duration:.9, ease:'power2.out' }, 1.00)
+    .to('.qlabel',    { opacity:1, duration:.5, stagger:.06 }, 1.25);
+
+  /* the line draws left to right */
+  const proxy = { x: X0 };
+  tl.to('#head', { opacity:1, duration:.3 }, T_DRAW_START - 0.1)
+    .to(proxy, {
+      x: X1, duration: T_DRAW_DUR, ease:'none',
+      onUpdate: () => setReveal(proxy.x)
+    }, T_DRAW_START);
+
+  /* values appear as the head passes them */
+  tl.to('#v27', { opacity:1, duration:.35 }, tAt(653) + 0.10)
+    .to('#v21', { opacity:1, duration:.35 }, tAt(860) + 0.10)
+    .to('#v02', { opacity:1, duration:.35 }, tAt(1067) + 0.10);
+
+  /* the peak */
+  tl.to('#v62',        { opacity:1, duration:.4 }, tAt(1273) + 0.05)
+    .to('#peakLeader', { opacity:1, duration:.5 }, tAt(1273) + 0.20)
+    .to('#peakAnnot',  { opacity:1, duration:.6 }, tAt(1273) + 0.28);
+  BW.pulse(tl, '#v62', tAt(1273) + 0.12, 1.08);
+
+  /* HERO — the drop to zero */
+  const tHero = tAt(X1);
+  tl.to('#head', { opacity:0, duration:.25 }, tHero + 0.02);
+  BW.heroLand(tl, '#endNode', tHero + 0.05);
+  tl.fromTo('#endRing', { opacity:.9, scale:.3 },
+                        { opacity:0, scale:2.4, duration:1.1, ease:'power2.out' }, tHero + 0.08)
+    .to('#endLabel', { opacity:1, duration:.45 }, tHero + 0.22);
+
+  /* July arrives right after the protection is gone */
+  tl.to('#bandEdge', { opacity:1, duration:.5 }, tHero + 0.55)
+    .fromTo('#band', { opacity:0, x:40 }, { opacity:1, x:0, duration:.8, ease:'power2.out' }, tHero + 0.55)
+    .to('#bandTxt',  { opacity:1, duration:.7 }, tHero + 0.85);
+
+  /* rest */
+  tl.to('#kicker', { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, tHero + 1.30)
+    .set('#endRing', { opacity:.45, scale:1 });
+
+  return tl;
+}
+
+/* ---------- idle ---------- */
+function idle(){
+  BW.glow('#endLabel', { color:'255,82,71', min:20, max:46, dur:2.6 });
+  BW.glow('#line', { color:'255,179,71', min:12, max:24, dur:3.2 });
+  BW.ripple('#svg', { cx:X1, cy:YBASE, r0:9, r1:46, color:'#FF5247', dur:2.8, count:2 });
+  BW.raw(gsap.to('#band', { opacity:.62, duration:3.0, ease:'sine.inOut',
+                            yoyo:true, repeat:-1 }));
+  BW.glow('#v62', { color:'255,179,71', min:14, max:28, dur:3.4 });
+}
+
+/* the ambient field runs from load and survives a replay */
+BW.ambient({ tint:'255,179,71', count:56 });
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

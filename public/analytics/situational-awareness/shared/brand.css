@@ -1,0 +1,305 @@
+/* ============================================================
+   BOARDROOM WIRE — SITUATIONAL AWARENESS DASHBOARD BRAND LAYER
+   1920x1080 · IBM Plex · GSAP-choreographed
+   Extend, never override. Dashboard-specific styles get a
+   slug-prefixed class (.d05-line, .d13-bar, ...).
+   ============================================================ */
+
+:root {
+  /* Foundation */
+  --bg:            #0a0a0f;
+  --cream:         #F5F1E5;
+  --cream-dim:     rgba(245, 241, 229, 0.5);
+  --cream-faint:   rgba(245, 241, 229, 0.28);
+
+  /* Static chrome · victory / payoff */
+  --gold:          #D4AF37;
+  --gold-bright:   #F2CB52;
+  --gold-glow:     rgba(212, 175, 55, 0.4);
+
+  /* Threat / excess / live data */
+  --amber:         #FFB347;
+  --amber-bright:  #FFC97A;
+  --amber-glow:    rgba(255, 179, 71, 0.4);
+
+  /* Platform / AI */
+  --teal:          #2A9D8F;
+  --teal-bright:   #3FBFAF;
+  --teal-glow:     rgba(63, 191, 175, 0.4);
+
+  /* Dysfunction / bear */
+  --red:           #FF5247;
+  --red-deep:      #C1440E;
+  --red-glow:      rgba(255, 82, 71, 0.5);
+
+  /* Inactive / not-in-the-block */
+  --grey:          #4A4A5A;
+  --grey-bright:   #6E6E80;
+
+  /* Mood tint — gradient only, never a flat background */
+  --navy-mood:     #1a1a2e;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: #000;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- STAGE ----------------------------------------- */
+/* Every dashboard is one .stage. Per-dashboard mood lighting
+   overrides --mood-a / --mood-b in a local :root or .stage rule. */
+
+.stage {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 55% at 50% 42%, var(--mood-a, rgba(26,26,46,0.55)) 0%, rgba(10,10,15,0) 68%),
+    linear-gradient(180deg, var(--mood-b, #0a0a0f) 0%, #08080c 60%, #0a0a0f 100%);
+}
+
+/* ---------- AMBIENT LAYERS -------------------------------- */
+
+.amb-grid {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(212, 175, 55, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.022) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: ambGridPulse 9s ease-in-out infinite;
+}
+@keyframes ambGridPulse {
+  0%,100% { opacity: .45; transform: translate3d(0,0,0) }
+  50%     { opacity: 1;   transform: translate3d(0,-3px,0) }
+}
+
+.amb-glow {
+  position: absolute; z-index: 2; pointer-events: none;
+  top: 50%; left: 50%; width: 1200px; height: 900px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, var(--glow-tint, rgba(212,175,55,0.06)) 0%, transparent 58%);
+  animation: ambBreathe 7.5s ease-in-out infinite;
+}
+@keyframes ambBreathe {
+  0%,100% { opacity: .62; transform: translate(-50%,-50%) scale(1) }
+  50%     { opacity: 1;   transform: translate(-50%,-50%) scale(1.07) }
+}
+
+/* Starfield canvas, if a dashboard wants one, sits at z-index 0. */
+canvas.amb-stars { position: absolute; inset: 0; z-index: 0; display: block; }
+
+/* Drifting motes. Installed by BW.ambient(), sits behind the data. */
+canvas.amb-dust { position: absolute; inset: 0; z-index: 5; display: block; pointer-events: none; }
+
+/* A slow sweep down the frame — the thing that stops a still
+   dashboard reading as a flat export. Deliberately near-invisible:
+   if you can point at it, it is too strong. */
+.amb-scan {
+  position: absolute; left: 0; right: 0; top: 0; height: 340px;
+  z-index: 6; pointer-events: none; opacity: .55;
+  background: linear-gradient(180deg,
+    rgba(245,241,229,0) 0%,
+    rgba(245,241,229,0.018) 45%,
+    rgba(245,241,229,0.030) 62%,
+    rgba(245,241,229,0) 100%);
+  animation: ambScan 13s cubic-bezier(.55,0,.45,1) infinite;
+}
+@keyframes ambScan {
+  0%   { transform: translateY(-360px); opacity: 0 }
+  12%  { opacity: .55 }
+  88%  { opacity: .55 }
+  100% { transform: translateY(1100px); opacity: 0 }
+}
+
+.vignette {
+  position: absolute; inset: 0; z-index: 60; pointer-events: none;
+  background: radial-gradient(125% 110% at 50% 32%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.58) 100%);
+  animation: ambVignette 11s ease-in-out infinite;
+}
+@keyframes ambVignette { 0%,100% { opacity: 1 } 50% { opacity: .88 } }
+
+.grain {
+  position: absolute; inset: 0; z-index: 61; pointer-events: none;
+  opacity: .05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: ambGrain .9s steps(3) infinite;
+}
+@keyframes ambGrain {
+  0%   { transform: translate(0,0) }
+  33%  { transform: translate(-6px,4px) }
+  66%  { transform: translate(5px,-5px) }
+  100% { transform: translate(0,0) }
+}
+
+/* ---------- CHROME ---------------------------------------- */
+
+.chrome { position: absolute; inset: 0; z-index: 50; pointer-events: none; }
+
+.bw-logo {
+  position: absolute; top: 40px; left: 54px;
+  width: 104px; height: 104px; opacity: 0;
+  background: url('../assets/logos/boardroom-wire-bust-transparent.png') center/contain no-repeat;
+}
+
+.bw-wordmark {
+  position: absolute; top: 74px; left: 172px; opacity: 0;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 300; font-size: 20px; letter-spacing: .32em; color: var(--cream);
+}
+.bw-wordmark b { font-weight: 600; color: var(--gold-bright); }
+
+.bw-handle {
+  position: absolute; right: 54px; bottom: 34px; opacity: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500; font-size: 18px; letter-spacing: .14em; color: var(--gold);
+}
+
+.bw-source {
+  position: absolute; left: 56px; bottom: 36px; opacity: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px; letter-spacing: .06em; color: var(--cream-dim);
+}
+
+/* Capture-safe: invisible unless the pointer is over the stage, so a
+   screen recording never picks it up. Keys still work. */
+.bw-hint {
+  position: absolute; right: 54px; top: 44px; z-index: 62;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; letter-spacing: .18em; color: var(--cream-faint);
+  text-transform: uppercase;
+  opacity: 0; transition: opacity .25s ease;
+}
+.stage:hover .bw-hint { opacity: 1; }
+
+/* ---------- SOURCE PROVENANCE CHIP ------------------------ */
+/* Two states only. PRIMARY = filed with the SEC, state it flat.
+   REPORTED = journalism, attribute it. */
+
+.chip {
+  position: absolute; left: 56px; bottom: 72px; opacity: 0;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 7px 15px 7px 13px; border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase;
+}
+.chip::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+}
+.chip.primary {
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  background: rgba(212, 175, 55, 0.05);
+  color: var(--gold);
+}
+.chip.primary::before { background: var(--gold); box-shadow: 0 0 8px var(--gold-glow);
+                        animation: chipPulse 2.6s ease-in-out infinite; }
+
+.chip.reported {
+  border: 1px dashed rgba(255, 179, 71, 0.45);
+  background: rgba(255, 179, 71, 0.04);
+  color: var(--amber);
+}
+.chip.reported::before { background: var(--amber); box-shadow: 0 0 8px var(--amber-glow);
+                         animation: chipPulse 2.6s ease-in-out infinite; }
+@keyframes chipPulse {
+  0%,100% { opacity: .55; transform: scale(.85) }
+  50%     { opacity: 1;   transform: scale(1.15) }
+}
+
+/* ---------- TYPE SCALE ------------------------------------ */
+
+.kick {                       /* mono eyebrow above the title */
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500; font-size: 15px; letter-spacing: .42em;
+  text-transform: uppercase; color: var(--gold);
+}
+
+.title {                      /* sans, the dashboard's headline */
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 300; font-size: 56px; letter-spacing: -.015em; line-height: 1.06;
+  color: var(--cream);
+}
+.title b { font-weight: 600; }
+
+.subtitle {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 300; font-size: 24px; line-height: 1.35;
+  color: rgba(245, 241, 229, 0.62);
+}
+
+.stat-v {                     /* data values — always mono */
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700; font-size: 44px; color: var(--cream);
+}
+.stat-k {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500; font-size: 13px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--cream-dim);
+}
+
+.axis-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500; font-size: 14px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--cream-dim);
+}
+
+.annot {                      /* on-chart annotation copy */
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400; font-size: 19px; line-height: 1.4; color: var(--cream);
+}
+.annot .m {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600; letter-spacing: .02em;
+}
+
+/* The one-line payoff each dashboard rests on. Sans, never mono —
+   this is narration on screen, not data. */
+.kicker {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 300; font-size: 30px; letter-spacing: -.005em; color: var(--cream);
+  opacity: 0;
+}
+.kicker b { font-weight: 600; }
+
+/* ---------- EMISSIVE HELPERS ------------------------------ */
+/* Exactly ONE hero element per dashboard gets .hero-glow. */
+
+.glow-amber { color: var(--amber-bright); text-shadow: 0 0 22px var(--amber-glow); }
+.glow-gold  { color: var(--gold-bright);  text-shadow: 0 0 22px var(--gold-glow); }
+.glow-red   { color: var(--red);          text-shadow: 0 0 22px var(--red-glow); }
+.glow-teal  { color: var(--teal-bright);  text-shadow: 0 0 22px var(--teal-glow); }
+
+.hero-glow {
+  text-shadow:
+    0 0 30px var(--hero-glow-c, var(--amber-glow)),
+    0 0 72px var(--hero-glow-c2, rgba(255,179,71,0.22));
+}
+
+/* Muted / not-in-the-story */
+.muted { color: var(--grey-bright); }
+
+/* ---------- REDUCED MOTION -------------------------------- */
+}
+/* ...unless ?motion asked for it explicitly */
+
+/* ---------- STILL MODE ------------------------------------ */
+/* ?still kills every moving part, for a dead-clean export frame.
+   Motion is otherwise always on: these pages are recorded, and a
+   machine with Windows animations switched off would otherwise
+   capture a frozen dashboard. */
+:root[data-still] .amb-grid,
+:root[data-still] .amb-glow,
+:root[data-still] .amb-scan,
+:root[data-still] .vignette,
+:root[data-still] .grain,
+:root[data-still] .chip.primary::before,
+:root[data-still] .chip.reported::before { animation: none !important; }
+:root[data-still] .amb-scan { display: none; }

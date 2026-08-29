@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  D06 · THE FINAL BOOK  ·  Section 3
+  Boardroom Wire — Situational Awareness
+  Q2 2026 13F, filed Aug 14 2026. Area = share of the book.
+  SanDisk and Micron are 55.6% of it between them.
+  Block areas are exact: each block's px area is proportional
+  to its percentage of the $20.24B book.
+  R replay · ?final = lit still.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>The Final Book · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=3" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(44, 22, 16, 0.5); --mood-b: #0a0a0f; }
+  .amb-glow { --glow-tint: rgba(255, 82, 71, 0.045); top: 58%; left: 34%; }
+
+  #kick     { position:absolute; left:56px; top:198px; opacity:0; z-index:20 }
+  #title    { position:absolute; left:56px; top:226px; opacity:0; z-index:20 }
+  #subtitle { position:absolute; left:56px; top:306px; width:1500px; opacity:0; z-index:20 }
+
+  svg.plot { position:absolute; inset:0; z-index:30; pointer-events:none }
+
+  /* ---- treemap blocks ---- */
+  .blk { position:absolute; z-index:20; opacity:0; overflow:hidden;
+         border:1px solid rgba(10,10,15,0.9); padding:18px 20px;
+         transform-origin:center center }
+  .blk .n { font-family:'IBM Plex Mono',monospace; font-weight:600; letter-spacing:.01em;
+            color:#F5F1E5; white-space:nowrap }
+  .blk .v { position:absolute; left:20px; bottom:16px;
+            font-family:'IBM Plex Mono',monospace; font-weight:400; letter-spacing:.06em;
+            color:rgba(245,241,229,0.62) }
+  .blk .p { position:absolute; left:20px; bottom:44px;
+            font-family:'IBM Plex Mono',monospace; font-weight:700; letter-spacing:-.01em;
+            color:#F5F1E5 }
+
+  /* the two that were the fund */
+  .blk.mem   { background:#C1440E; border-color:rgba(255,120,90,0.35) }
+  .blk.mem .n { font-size:30px }
+  .blk.mem .p { font-size:52px; color:#FFE3D6 }
+  .blk.mem .v { font-size:17px; color:rgba(255,227,214,0.75) }
+
+  /* everything else, dimming by size */
+  .blk.rest  { background:rgba(245,241,229,0.10); border-color:rgba(245,241,229,0.10) }
+  .blk.rest .n { font-size:20px; color:rgba(245,241,229,0.88) }
+  .blk.rest .p { font-size:26px; color:rgba(245,241,229,0.88) }
+  .blk.rest .v { font-size:14px }
+  .blk.sm    { background:rgba(245,241,229,0.07); padding:12px 10px }
+  .blk.sm .n { font-size:12px } .blk.sm .p { font-size:17px; left:10px; bottom:32px }
+  .blk.sm .v { font-size:11px; left:10px; bottom:13px }
+  .blk.other { background:rgba(245,241,229,0.04); border-color:rgba(245,241,229,0.07) }
+  .blk.other .n { font-size:19px; color:rgba(245,241,229,0.55) }
+  .blk.other .p { font-size:24px; color:rgba(245,241,229,0.55) }
+  .blk.other .v { font-size:13px; color:rgba(245,241,229,0.35) }
+
+  /* ---- the hero bracket ---- */
+  #brace   { stroke:#FF5247; stroke-width:2; fill:none; opacity:0;
+             filter:drop-shadow(0 0 12px rgba(255,82,71,0.55)) }
+  #braceTxt { position:absolute; left:300px; top:348px; width:733px; opacity:0; z-index:40;
+              display:flex; align-items:baseline; justify-content:center; gap:20px }
+  #braceTxt .big { font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:40px;
+                   color:#FF5247; letter-spacing:-.02em; line-height:1;
+                   text-shadow:0 0 28px rgba(255,82,71,0.5), 0 0 66px rgba(255,82,71,0.2) }
+  #braceTxt .lbl { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;
+                   letter-spacing:.28em; color:rgba(255,82,71,0.85); text-transform:uppercase }
+
+  #sixNote { position:absolute; left:1033px; top:872px; width:587px; text-align:right; opacity:0; z-index:20;
+             font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600;
+             letter-spacing:.16em; color:rgba(245,241,229,0.5); text-transform:uppercase }
+
+  #kicker { position:absolute; left:56px; top:922px; z-index:20 }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Section 03 &nbsp;·&nbsp; The Final Book</div>
+  <div class="title" id="title">Twenty-six positions. <b>Two that mattered.</b></div>
+  <div class="subtitle" id="subtitle">The Q2 2026 book by share of reported value. Every block is sized to what it actually was.</div>
+
+  <div id="map"></div>
+
+  <svg class="plot" viewBox="0 0 1920 1080">
+    <path id="brace" d="M300 406 v-11 h733 v11" />
+  </svg>
+
+  <div id="braceTxt">
+    <div class="big">55.6%</div>
+    <div class="lbl">Two stocks</div>
+  </div>
+
+  <div id="sixNote">Top six &nbsp;=&nbsp; 81.0% of the book</div>
+
+  <div class="kicker" id="kicker">He didn&rsquo;t own a portfolio. <b>He owned a position.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="chip primary">SEC Form 13F &nbsp;·&nbsp; Q2 2026, filed Aug 14</div>
+    <div class="bw-source">Situational Awareness LP &nbsp;·&nbsp; CIK 0002045724 &nbsp;·&nbsp; $20.24B reported across 26 positions &nbsp;·&nbsp; block area is proportional to share of the book</div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+
+  <div class="bw-hint">R&nbsp;replay&nbsp;·&nbsp;?final&nbsp;still</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/motion.js?v=3"></script>
+<script>
+/* ---------- the book ----------
+   x/y/w/h are laid out so that every block's AREA is proportional
+   to its share. Plot: 1320 x 460 at (300, 400) = 100%.            */
+const BLOCKS = [
+  { n:'SanDisk',      v:'$5.67B', p:'28.0%', cls:'mem',   x:300,  y:412, w:370, h:440 },
+  { n:'Micron',       v:'$5.57B', p:'27.5%', cls:'mem',   x:670,  y:412, w:363, h:440 },
+  { n:'Bloom Energy', v:'$1.90B', p:'9.4%',  cls:'rest',  x:1033, y:412, w:254, h:215 },
+  { n:'TSMC',         v:'$1.27B', p:'6.2%',  cls:'rest',  x:1287, y:412, w:168, h:215 },
+  { n:'Nebius',       v:'$1.23B', p:'6.1%',  cls:'rest',  x:1455, y:412, w:165, h:215 },
+  { n:'CoreWeave',    v:'$0.74B', p:'3.7%',  cls:'sm',    x:1033, y:627, w:96,  h:225 },
+  { n:'Other 20 positions', v:'$3.85B', p:'19.0%', cls:'other', x:1129, y:627, w:491, h:225 }
+];
+
+const map = document.getElementById('map');
+const els = BLOCKS.map(b => {
+  const d = document.createElement('div');
+  d.className = 'blk ' + b.cls;
+  d.style.cssText = `left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px`;
+  d.innerHTML = `<div class="n">${b.n}</div><div class="p">${b.p}</div><div class="v">${b.v}</div>`;
+  map.appendChild(d);
+  return d;
+});
+
+const ALL = ['#kick','#title','#subtitle','#kicker','#braceTxt','#sixNote','#brace','.blk'];
+
+function reset(){
+  BW.chromeHide();
+  gsap.set(ALL, { opacity:0 });
+  gsap.set(['#title','#kicker'], { y:14, filter:'blur(8px)' });
+  gsap.set(els, { scale:0.82 });
+}
+
+function rest(){
+  reset();
+  BW.chromeShow();
+  gsap.set(ALL, { opacity:1 });
+  gsap.set(['#title','#kicker'], { y:0, filter:'blur(0px)' });
+  gsap.set(els, { scale:1 });
+}
+
+function play(){
+  reset();
+  const tl = gsap.timeline();
+  BW.chromeIn(tl, 0);
+
+  tl.fromTo('#kick', { opacity:0, letterSpacing:'0.88em' },
+                     { opacity:1, letterSpacing:'0.42em', duration:.95, ease:'power3.out' }, 0.30)
+    .to('#title',    { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, 0.50)
+    .to('#subtitle', { opacity:1, duration:.7 }, 0.85);
+
+  /* the book assembles from the tail inward — the small names first,
+     so the two slabs land into a frame that is already crowded */
+  const ORDER = [6, 5, 4, 3, 2, 1, 0];
+  ORDER.forEach((idx, k) => {
+    const at = 1.35 + k * 0.24;
+    const heavy = idx <= 1;
+    tl.to(els[idx], {
+      opacity:1, scale:1,
+      duration: heavy ? 0.75 : 0.5,
+      ease: heavy ? 'power4.out' : 'power2.out'
+    }, at);
+  });
+
+  /* HERO — the bracket over the two that were the fund */
+  const tHero = 1.35 + 6 * 0.24 + 0.80;
+  tl.to('#brace', { opacity:1, duration:.55, ease:'power2.out' }, tHero)
+    .fromTo('#braceTxt', { opacity:0, y:12 },
+                         { opacity:1, y:0, duration:.6, ease:'power3.out' }, tHero + 0.15);
+
+  tl.to('#sixNote', { opacity:1, duration:.5 }, tHero + 0.55)
+    .to('#kicker', { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, tHero + 0.75);
+
+  return tl;
+}
+
+/* ---------- idle ---------- */
+function idle(){
+  BW.glow('#braceTxt .big', { color:'255,82,71', min:22, max:50, dur:2.8 });
+  /* the two slabs breathe out of phase, so the block never looks frozen */
+  BW.breathe(els[0], { scale:1.008, dur:4.0 });
+  BW.breathe(els[1], { scale:1.008, dur:4.0, delay:2.0 });
+  BW.shimmer(els[0], { dur:4.2, delay:0.6, tint:'rgba(255,200,170,0.10)' });
+  BW.shimmer(els[1], { dur:4.2, delay:2.8, tint:'rgba(255,200,170,0.10)' });
+  BW.raw(gsap.to('#brace', { opacity:.62, duration:2.8, ease:'sine.inOut',
+                             yoyo:true, repeat:-1 }));
+}
+
+/* the ambient field runs from load and survives a replay */
+BW.ambient({ tint:'255,82,71', count:54 });
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  D11 · THE PROCESS — DOORS CLOSING  ·  Section 6
+  Boardroom Wire — Situational Awareness
+  Five approaches, five passes, then Citadel.
+  Firms are typographic plates, not logo files — a row of
+  mismatched vector logos reads worse and needs sourcing.
+  R replay · ?final = lit still.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>The Process &mdash; Doors Closing · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=3" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(28, 26, 34, 0.5); --mood-b: #0a0a0f; }
+  .amb-glow { --glow-tint: rgba(212, 175, 55, 0.05); top: 55%; left: 82%; }
+
+  #kick     { position:absolute; left:56px; top:198px; opacity:0; z-index:20 }
+  #title    { position:absolute; left:56px; top:226px; opacity:0; z-index:20 }
+  #subtitle { position:absolute; left:56px; top:306px; width:1500px; opacity:0; z-index:20 }
+
+  /* ---- the plates ---- */
+  .lamp { position:absolute; top:404px; width:10px; height:10px; border-radius:50%;
+          background:#F5F1E5; box-shadow:0 0 14px rgba(245,241,229,0.7); z-index:22; opacity:0 }
+
+  .plate { position:absolute; top:436px; width:260px; height:280px; z-index:20; opacity:0;
+           border:1px solid rgba(245,241,229,0.18); border-radius:4px;
+           background:rgba(245,241,229,0.035); padding:26px 22px }
+  .plate .n { font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:21px;
+              letter-spacing:.02em; color:#F5F1E5; line-height:1.3 }
+  .plate .d { font-family:'IBM Plex Mono',monospace; font-weight:400; font-size:12px;
+              letter-spacing:.16em; color:rgba(245,241,229,0.4); text-transform:uppercase;
+              margin-top:14px }
+  .plate .stamp { position:absolute; left:22px; bottom:24px;
+                  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:13px;
+                  letter-spacing:.26em; text-transform:uppercase; opacity:0;
+                  border:1px solid; border-radius:3px; padding:8px 13px }
+  .plate .stamp.no  { color:rgba(255,82,71,0.8); border-color:rgba(255,82,71,0.4);
+                      background:rgba(255,82,71,0.05) }
+  .plate .stamp.yes { color:#F2CB52; border-color:rgba(212,175,55,0.6);
+                      background:rgba(212,175,55,0.08) }
+
+  /* the one that said yes */
+  .plate.win { border-color:rgba(212,175,55,0.7); background:rgba(212,175,55,0.07);
+               box-shadow:0 0 44px rgba(212,175,55,0.20) }
+  .plate.win .n { color:#F2CB52; text-shadow:0 0 22px rgba(212,175,55,0.5) }
+  .plate.win .d { color:rgba(242,203,82,0.6) }
+  .lamp.win { background:#F2CB52; box-shadow:0 0 22px rgba(212,175,55,0.9) }
+
+  #foot { position:absolute; top:752px; width:260px; z-index:20; opacity:0;
+          font-family:'IBM Plex Sans',sans-serif; font-weight:300; font-size:17px;
+          line-height:1.35; color:rgba(245,241,229,0.55) }
+  #foot b { font-weight:600; color:rgba(245,241,229,0.85) }
+
+  #rail { position:absolute; left:105px; top:398px; width:1710px; height:1px; z-index:15;
+          background:rgba(245,241,229,0.10); opacity:0 }
+
+  #tally { position:absolute; left:56px; top:832px; opacity:0; z-index:20;
+           font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600;
+           letter-spacing:.24em; color:rgba(245,241,229,0.5); text-transform:uppercase }
+
+  #kicker { position:absolute; left:56px; top:918px; z-index:20 }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Section 06 &nbsp;·&nbsp; The Process</div>
+  <div class="title" id="title">He called everyone. <b>Everyone passed.</b></div>
+  <div class="subtitle" id="subtitle">Six approaches between July 24 and July 29, 2026, in the order they were made.</div>
+
+  <div id="rail"></div>
+  <div id="plates"></div>
+
+  <div id="tally">Five passes &nbsp;·&nbsp; one buyer &nbsp;·&nbsp; six days</div>
+
+  <div class="kicker" id="kicker">Five doors closed. <b>The sixth was Ken Griffin&rsquo;s.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="chip reported">Reported &nbsp;·&nbsp; WSJ, CNBC</div>
+    <div class="bw-source">Approaches and outcomes as reported &nbsp;·&nbsp; July 24 letter to existing investors; Citadel block trade executed at the July 30 open</div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+
+  <div class="bw-hint">R&nbsp;replay&nbsp;·&nbsp;?final&nbsp;still</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/motion.js?v=3"></script>
+<script>
+const DOORS = [
+  { n:'Existing<br />investors', d:'Letter, Jul 24', stamp:'No capital' },
+  { n:'Sequoia',                 d:'Private positions', stamp:'Passed' },
+  { n:'Greenoaks',               d:'Private positions', stamp:'Passed' },
+  { n:'Millennium',              d:'Public equity book', stamp:'Passed' },
+  { n:'Jane Street',             d:'Public equity book', stamp:'Passed', foot:true },
+  { n:'Citadel',                 d:'Jul 29 &#183; whole book', stamp:'Bought', win:true }
+];
+
+const X0 = 105, PITCH = 290, W = 260;
+const wrap = BW.$('#plates');
+const plates = [], lamps = [], stamps = [];
+
+DOORS.forEach((d, i) => {
+  const x = X0 + i * PITCH;
+
+  const lamp = document.createElement('div');
+  lamp.className = 'lamp' + (d.win ? ' win' : '');
+  lamp.style.left = (x + W / 2 - 5) + 'px';
+  wrap.appendChild(lamp);
+  lamps.push(lamp);
+
+  const p = document.createElement('div');
+  p.className = 'plate' + (d.win ? ' win' : '');
+  p.style.left = x + 'px';
+  p.innerHTML = `<div class="n">${d.n}</div><div class="d">${d.d}</div>` +
+                `<div class="stamp ${d.win ? 'yes' : 'no'}">${d.stamp}</div>`;
+  wrap.appendChild(p);
+  plates.push(p);
+  stamps.push(p.querySelector('.stamp'));
+
+  /* the detail worth putting on screen */
+  if (d.foot){
+    const f = document.createElement('div');
+    f.id = 'foot';
+    f.style.left = x + 'px';
+    f.innerHTML = 'At the time, <b>an investor in his own fund.</b>';
+    wrap.appendChild(f);
+  }
+});
+
+const ALL = ['#kick','#title','#subtitle','#kicker','#rail','#tally','.plate','.lamp','.stamp','#foot'];
+
+function reset(){
+  BW.chromeHide();
+  gsap.set(ALL, { opacity:0 });
+  gsap.set(['#title','#kicker'], { y:14, filter:'blur(8px)' });
+  gsap.set(plates, { filter:'grayscale(0)' });
+  plates.forEach((p, i) => gsap.set(p, { borderColor: DOORS[i].win ? 'rgba(212,175,55,0.7)' : 'rgba(245,241,229,0.18)' }));
+}
+
+function rest(){
+  reset();
+  BW.chromeShow();
+  gsap.set(ALL, { opacity:1 });
+  gsap.set(['#title','#kicker'], { y:0, filter:'blur(0px)' });
+  /* the five that passed sit dark; Citadel stays lit */
+  plates.forEach((p, i) => {
+    if (!DOORS[i].win){
+      gsap.set(p, { opacity:.42, borderColor:'rgba(245,241,229,0.09)' });
+      gsap.set(lamps[i], { opacity:.14, boxShadow:'none' });
+    }
+  });
+}
+
+function play(){
+  reset();
+  const tl = gsap.timeline();
+  BW.chromeIn(tl, 0);
+
+  tl.fromTo('#kick', { opacity:0, letterSpacing:'0.88em' },
+                     { opacity:1, letterSpacing:'0.42em', duration:.95, ease:'power3.out' }, 0.30)
+    .to('#title',    { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, 0.50)
+    .to('#subtitle', { opacity:1, duration:.7 }, 0.85)
+    .to('#rail',     { opacity:1, duration:.7 }, 1.00);
+
+  /* all six arrive lit — every one of them was a live possibility */
+  tl.to(plates, { opacity:1, duration:.5, stagger:.10 }, 1.20)
+    .to(lamps,  { opacity:1, duration:.4, stagger:.10 }, 1.28);
+
+  /* then they go out, one at a time */
+  const T0 = 2.40, STEP = 0.62;
+  DOORS.forEach((d, i) => {
+    if (d.win) return;
+    const at = T0 + i * STEP;
+    tl.to(lamps[i],  { opacity:.14, boxShadow:'none', duration:.35 }, at)
+      .to(plates[i], { opacity:.42, borderColor:'rgba(245,241,229,0.09)', duration:.55 }, at + 0.05)
+      .fromTo(stamps[i], { opacity:0, scale:1.16 },
+                         { opacity:1, scale:1, duration:.4, ease:'power3.out' }, at + 0.12);
+    if (d.foot) tl.to('#foot', { opacity:1, duration:.5 }, at + 0.30);
+  });
+
+  /* HERO — the one that said yes */
+  const tHero = T0 + 5 * STEP + 0.25;
+  tl.fromTo(stamps[5], { opacity:0, scale:1.3 },
+                       { opacity:1, scale:1, duration:.55, ease:'power3.out' }, tHero);
+  BW.pulse(tl, plates[5], tHero + 0.05, 1.02);
+
+  tl.to('#tally',  { opacity:1, duration:.5 }, tHero + 0.55)
+    .to('#kicker', { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, tHero + 0.70);
+
+  return tl;
+}
+
+/* ---------- idle ---------- */
+function idle(){
+  BW.glow('.plate.win .n', { color:'212,175,55', min:18, max:40, dur:2.8 });
+  BW.breathe(plates[5], { scale:1.008, dur:3.8 });
+  BW.shimmer(plates[5], { dur:4.0, delay:0.8, tint:'rgba(242,203,82,0.12)' });
+  /* the one lamp still on flickers like a filament */
+  BW.raw(gsap.to(lamps[5], { scale:1.4, opacity:.75, duration:1.5, ease:'sine.inOut',
+                             yoyo:true, repeat:-1, transformOrigin:'center' }));
+  /* the dead ones settle to an ember, not to nothing */
+  lamps.slice(0, 5).forEach((l, i) =>
+    BW.raw(gsap.to(l, { opacity:.06, duration:2.6, ease:'sine.inOut',
+                        yoyo:true, repeat:-1, delay: i * 0.45 })));
+}
+
+/* the ambient field runs from load and survives a replay */
+BW.ambient({ tint:'212,175,55', count:52 });
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

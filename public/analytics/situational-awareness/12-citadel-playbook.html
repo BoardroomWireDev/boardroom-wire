@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  D12 · CITADEL'S CRISIS PLAYBOOK  ·  Section 7
+  Boardroom Wire — Situational Awareness
+  Five rescues across 25 years. Melvin is marked as the one
+  that failed — that is what keeps this from reading as a
+  Griffin commercial.
+  Nodes are evenly spaced: this is a sequence of events, not
+  a time axis, and it says so on the rail.
+  R replay · ?final = lit still.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Citadel&rsquo;s Crisis Playbook · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=3" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(30, 27, 20, 0.5); --mood-b: #0a0a0f; }
+  .amb-glow { --glow-tint: rgba(212, 175, 55, 0.05); top: 50%; left: 76%; }
+
+  #kick     { position:absolute; left:56px; top:198px; opacity:0; z-index:20 }
+  #title    { position:absolute; left:56px; top:226px; opacity:0; z-index:20 }
+  #subtitle { position:absolute; left:56px; top:306px; width:1500px; opacity:0; z-index:20 }
+
+  svg.plot { position:absolute; inset:0; z-index:10 }
+  #rail    { stroke:rgba(212,175,55,0.28); stroke-width:1.5; opacity:0 }
+  #railLbl { font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500;
+             fill:rgba(245,241,229,0.3); letter-spacing:.18em; opacity:0 }
+  .node    { fill:#D4AF37; opacity:0 }
+  .node.bad  { fill:#FF5247 }
+  .node.hero { fill:#F2CB52; filter:drop-shadow(0 0 20px rgba(212,175,55,0.9)) }
+  .stem    { stroke:rgba(212,175,55,0.25); stroke-width:1; opacity:0 }
+
+  .yr { position:absolute; z-index:20; opacity:0; width:300px; text-align:center;
+        font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:34px;
+        letter-spacing:.02em; color:#D4AF37 }
+  .yr.bad  { color:#FF5247 }
+  .yr.hero { color:#F2CB52; text-shadow:0 0 26px rgba(212,175,55,0.55) }
+
+  .card { position:absolute; top:606px; width:300px; z-index:20; opacity:0; text-align:center }
+  .card .n { font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:20px;
+             letter-spacing:.02em; color:#F5F1E5 }
+  .card .d { font-family:'IBM Plex Sans',sans-serif; font-weight:300; font-size:18px;
+             line-height:1.4; color:rgba(245,241,229,0.6); margin-top:14px }
+  .card .tag { display:inline-block; margin-top:18px; opacity:0;
+               font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px;
+               letter-spacing:.24em; text-transform:uppercase;
+               border:1px solid; border-radius:3px; padding:7px 12px }
+  .card .tag.bad  { color:#FF5247; border-color:rgba(255,82,71,0.45); background:rgba(255,82,71,0.05) }
+  .card .tag.good { color:#F2CB52; border-color:rgba(212,175,55,0.55); background:rgba(212,175,55,0.07) }
+  .card.dim .n { color:rgba(245,241,229,0.72) }
+
+  #kicker { position:absolute; left:56px; top:906px; z-index:20 }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Section 07 &nbsp;·&nbsp; Citadel</div>
+  <div class="title" id="title">Griffin has done this <b>four times before.</b></div>
+  <div class="subtitle" id="subtitle">Citadel steps into distress as a buyer. It does not always work.</div>
+
+  <svg class="plot" viewBox="0 0 1920 1080" id="svg">
+    <line id="rail" x1="170" y1="540" x2="1690" y2="540" />
+    <text id="railLbl" x="170" y="854">IN SEQUENCE &#183; NOT TO SCALE</text>
+    <g id="nodes"></g>
+  </svg>
+
+  <div id="cards"></div>
+
+  <div class="kicker" id="kicker">The playbook is real. <b>So is the one that didn&rsquo;t work.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="chip reported">Reported &nbsp;·&nbsp; contemporaneous coverage</div>
+    <div class="bw-source">Enron 2001 &nbsp;·&nbsp; Amaranth 2006 &nbsp;·&nbsp; Sowood 2007 &nbsp;·&nbsp; Melvin 2021, wound down 2022 &nbsp;·&nbsp; Situational Awareness, July 30 2026</div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+
+  <div class="bw-hint">R&nbsp;replay&nbsp;·&nbsp;?final&nbsp;still</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/motion.js?v=3"></script>
+<script>
+const EVENTS = [
+  { y:'2001', n:'Enron',      d:'Chartered a jet to Houston the day it filed.' },
+  { y:'2006', n:'Amaranth',   d:'Bought the natural gas book after a ~$6B loss.' },
+  { y:'2007', n:'Sowood',     d:'Deal struck at 3:30 in the morning.' },
+  { y:'2021', n:'Melvin',     d:'$2.75B injection into the fund.',
+              tag:'Wound down 2022', bad:true },
+  { y:'2026', n:'Situational Awareness', d:'The entire public book, in one trade.',
+              tag:'$16B at ~10% discount', hero:true }
+];
+
+const X0 = 230, PITCH = 360, RAIL = 540;
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+const mk = (tag, attrs) => {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+};
+
+const nodesG = BW.$('#nodes'), cardsG = BW.$('#cards');
+const nodes = [], years = [], cards = [], tags = [], stems = [];
+
+EVENTS.forEach((e, i) => {
+  const x = X0 + i * PITCH;
+  const cls = e.hero ? ' hero' : (e.bad ? ' bad' : '');
+
+  stems.push(nodesG.appendChild(mk('line', { class:'stem', x1:x, y1:RAIL, x2:x, y2:596 })));
+  nodes.push(nodesG.appendChild(mk('circle', { class:'node' + cls, cx:x, cy:RAIL,
+                                               r: e.hero ? 11 : 7 })));
+
+  const yr = document.createElement('div');
+  yr.className = 'yr' + cls;
+  yr.style.cssText = `left:${x - 150}px; top:452px`;
+  yr.textContent = e.y;
+  cardsG.appendChild(yr);
+  years.push(yr);
+
+  const c = document.createElement('div');
+  c.className = 'card' + (e.hero ? '' : ' dim');
+  c.style.left = (x - 150) + 'px';
+  c.innerHTML = `<div class="n">${e.n}</div><div class="d">${e.d}</div>` +
+                (e.tag ? `<div class="tag ${e.bad ? 'bad' : 'good'}">${e.tag}</div>` : '');
+  cardsG.appendChild(c);
+  cards.push(c);
+  tags.push(c.querySelector('.tag'));
+});
+
+const ALL = ['#kick','#title','#subtitle','#kicker','#rail','#railLbl',
+             '.node','.stem','.yr','.card','.tag'];
+
+function reset(){
+  BW.chromeHide();
+  gsap.set(ALL, { opacity:0 });
+  gsap.set(['#title','#kicker'], { y:14, filter:'blur(8px)' });
+  gsap.set('#rail', { scaleX:0, transformOrigin:'left center' });
+}
+
+function rest(){
+  reset();
+  BW.chromeShow();
+  gsap.set(ALL, { opacity:1 });
+  gsap.set(['#title','#kicker'], { y:0, filter:'blur(0px)' });
+  gsap.set('#rail', { scaleX:1 });
+  /* Melvin resolves dim — the rescue that did not hold */
+  gsap.set(cards[3], { opacity:.55 });
+  gsap.set(nodes[3], { opacity:.6 });
+}
+
+function play(){
+  reset();
+  const tl = gsap.timeline();
+  BW.chromeIn(tl, 0);
+
+  tl.fromTo('#kick', { opacity:0, letterSpacing:'0.88em' },
+                     { opacity:1, letterSpacing:'0.42em', duration:.95, ease:'power3.out' }, 0.30)
+    .to('#title',    { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, 0.50)
+    .to('#subtitle', { opacity:1, duration:.7 }, 0.85);
+
+  tl.to('#rail',    { opacity:1, scaleX:1, duration:1.2, ease:'power2.inOut' }, 1.05)
+    .to('#railLbl', { opacity:1, duration:.5 }, 1.90);
+
+  /* each rescue ignites in turn */
+  const T0 = 1.70, STEP = 0.72;
+  EVENTS.forEach((e, i) => {
+    const at = T0 + i * STEP;
+    tl.fromTo(nodes[i], { opacity:0, scale:2.1 },
+                        { opacity:1, scale:1, duration:.45, ease:'power3.out',
+                          transformOrigin:'center', svgOrigin:(X0 + i * PITCH) + ' ' + RAIL }, at)
+      .to(stems[i], { opacity:1, duration:.35 }, at + 0.12)
+      .to(years[i], { opacity:1, duration:.45 }, at + 0.05)
+      .to(cards[i], { opacity:1, duration:.55 }, at + 0.18);
+    if (tags[i]) tl.fromTo(tags[i], { opacity:0, scale:1.15 },
+                                    { opacity:1, scale:1, duration:.4, ease:'power3.out' }, at + 0.50);
+  });
+
+  /* Melvin dims back down — the point of putting it on the chart */
+  const tMelvin = T0 + 3 * STEP + 0.95;
+  tl.to(cards[3], { opacity:.55, duration:.7 }, tMelvin)
+    .to(nodes[3], { opacity:.6,  duration:.7 }, tMelvin);
+
+  /* HERO — 2026 */
+  const tHero = T0 + 4 * STEP + 0.55;
+  BW.pulse(tl, nodes[4], tHero, 1.25);
+  tl.to('#kicker', { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, tHero + 0.60);
+
+  return tl;
+}
+
+/* ---------- idle ---------- */
+function idle(){
+  BW.glow('.yr.hero', { color:'212,175,55', min:20, max:46, dur:2.8 });
+  BW.ripple('#svg', { cx:X0 + 4 * PITCH, cy:RAIL, r0:12, r1:52, color:'#F2CB52', dur:2.9, count:2 });
+  /* Melvin keeps guttering - the rescue that did not hold */
+  BW.raw(gsap.to([cards[3], nodes[3]], { opacity:.34, duration:3.2, ease:'sine.inOut',
+                                         yoyo:true, repeat:-1 }));
+  BW.breathe(cards[4], { scale:1.008, dur:4.2 });
+}
+
+/* the ambient field runs from load and survives a replay */
+BW.ambient({ tint:'212,175,55', count:52 });
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

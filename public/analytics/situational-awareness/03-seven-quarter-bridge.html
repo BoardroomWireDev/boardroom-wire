@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  D03 · THE SEVEN-QUARTER BRIDGE  ·  Section 3  ·  CENTERPIECE
+  Boardroom Wire — Situational Awareness
+  Every 13F the fund ever filed, in order. Bars are coloured by
+  era: teal = power, amber = buildout, red = memory.
+  The y-axis rescales as each quarter overruns it — the axis
+  retreating IS the growth.
+  Only the Q2 2026 filing date is sourced (Aug 14, 2026), so it
+  is the only FILED stamp on the chart.
+  R replay · ?final = lit still.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>The Seven-Quarter Bridge · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=3" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(28, 24, 38, 0.55); --mood-b: #0a0a0f; }
+  .amb-glow { --glow-tint: rgba(255, 179, 71, 0.05); top: 56%; left: 62%; }
+
+  #kick     { position:absolute; left:56px; top:198px; opacity:0; z-index:20 }
+  #title    { position:absolute; left:56px; top:226px; opacity:0; z-index:20 }
+  #subtitle { position:absolute; left:56px; top:306px; width:1500px; opacity:0; z-index:20 }
+
+  svg.plot { position:absolute; inset:0; z-index:10 }
+
+  .hgrid   { stroke:rgba(212,175,55,0.07); stroke-width:1; opacity:0 }
+  .hlbl    { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500;
+             fill:rgba(245,241,229,0.34); letter-spacing:.08em; opacity:0 }
+  .rlbl    { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500;
+             fill:rgba(245,241,229,0.26); letter-spacing:.08em; opacity:0 }
+  #baseline{ stroke:rgba(212,175,55,0.42); stroke-width:1.5; opacity:0 }
+  #axisCap { font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+             fill:rgba(245,241,229,0.34); letter-spacing:.2em; opacity:0 }
+
+  .bar     { opacity:0 }
+  .bar.era0{ fill:#2A9D8F }
+  .bar.era1{ fill:#D99A2B }
+  .bar.era2{ fill:#C1440E }
+  .bar.hero{ fill:#FF5247; filter:drop-shadow(0 0 26px rgba(255,82,71,0.55)) }
+
+  .bval    { font-family:'IBM Plex Mono',monospace; font-size:19px; font-weight:700;
+             fill:rgba(245,241,229,0.92); letter-spacing:-.01em; opacity:0 }
+  .bval.hero { fill:#FF5247; font-size:26px; filter:drop-shadow(0 0 20px rgba(255,82,71,0.6)) }
+  .qlbl    { font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:500;
+             fill:rgba(245,241,229,0.5); letter-spacing:.1em; opacity:0 }
+
+  #posLine { fill:none; stroke:rgba(245,241,229,0.62); stroke-width:2; stroke-dasharray:5 5 }
+  .posDot  { fill:#F5F1E5; opacity:0 }
+  .posVal  { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;
+             fill:rgba(245,241,229,0.62); letter-spacing:.06em; opacity:0 }
+
+  .eraBar  { stroke-width:2; opacity:0 }
+  .eraBar.e0 { stroke:#2A9D8F } .eraBar.e1 { stroke:#D99A2B } .eraBar.e2 { stroke:#C1440E }
+  .eraLbl  { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;
+             letter-spacing:.24em; opacity:0 }
+  .eraLbl.e0 { fill:#3FBFAF } .eraLbl.e1 { fill:#E9A23B } .eraLbl.e2 { fill:#FF5247 }
+
+  /* the hero — the filing that landed after it was over */
+  #stamp   { position:absolute; left:1420px; top:892px; opacity:0; z-index:20;
+             font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:700;
+             letter-spacing:.2em; color:#FF5247; text-transform:uppercase;
+             border:1px solid rgba(255,82,71,0.55); border-radius:3px; padding:8px 14px;
+             background:rgba(255,82,71,0.06) }
+  #stampNote { position:absolute; left:1420px; top:942px; width:420px; opacity:0; z-index:20;
+               font-family:'IBM Plex Sans',sans-serif; font-weight:300; font-size:19px;
+               line-height:1.35; color:rgba(245,241,229,0.62) }
+  #stampNote b { font-weight:600; color:#F5F1E5 }
+
+  #kicker { position:absolute; left:56px; top:918px; z-index:20 }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Section 03 &nbsp;·&nbsp; The Seven-Quarter Bridge</div>
+  <div class="title" id="title">Every filing the fund <b>ever made.</b></div>
+  <div class="subtitle" id="subtitle">Reported 13F portfolio value and position count, Q4 2024 to Q2 2026. Watch the axis move.</div>
+
+  <svg class="plot" viewBox="0 0 1920 1080" id="svg">
+    <g id="grid"></g>
+    <line id="baseline" x1="260" y1="840" x2="1700" y2="840" />
+    <text id="axisCap" x="1712" y="846">POSITIONS</text>
+    <g id="eras"></g>
+    <g id="bars"></g>
+    <polyline id="posLine" points="" />
+    <g id="posDots"></g>
+    <g id="qlabels"></g>
+  </svg>
+
+  <div id="stamp">Filed August 14, 2026</div>
+  <div id="stampNote">Two weeks after the fund was liquidated. <b>Nobody had read it yet.</b></div>
+
+  <div class="kicker" id="kicker">$255 million to $20 billion &mdash; <b>in seven filings.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="chip primary">SEC Form 13F &nbsp;·&nbsp; All Seven Filings</div>
+    <div class="bw-source">Situational Awareness LP &nbsp;·&nbsp; CIK 0002045724 &nbsp;·&nbsp; reported value of US-listed long and option positions at each quarter end</div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+
+  <div class="bw-hint">R&nbsp;replay&nbsp;·&nbsp;?final&nbsp;still</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/motion.js?v=3"></script>
+<script>
+/* ---------- data — every figure straight off the filings ---------- */
+const Q = [
+  { q:'Q4 2024', v: 0.254813765, n: 6,  era:0 },
+  { q:'Q1 2025', v: 1.005567727, n:12,  era:0 },
+  { q:'Q2 2025', v: 2.123023762, n: 9,  era:0 },
+  { q:'Q3 2025', v: 4.138368748, n:28,  era:1 },
+  { q:'Q4 2025', v: 5.516758345, n:29,  era:1 },
+  { q:'Q1 2026', v:13.676657577, n:42,  era:1 },
+  { q:'Q2 2026', v:20.242292228, n:26,  era:2, hero:true }
+];
+const ERAS = [
+  { i0:0, i1:2, label:'POWER' },
+  { i0:3, i1:5, label:'THE BUILDOUT' },
+  { i0:6, i1:6, label:'MEMORY' }
+];
+
+/* ---------- geometry ---------- */
+const YBASE = 840, YTOP = 430, X0 = 300, PITCH = 206, BW_ = 108, NMAX = 45;
+const xOf = i => X0 + i * PITCH;
+const yPos = n => YBASE - (n / NMAX) * (YBASE - YTOP);
+
+/* the axis is a moving target — it grows to fit whatever has landed */
+const STEPS = Q.map((d, i) => (i === Q.length - 1 ? 22.0 : d.v * 1.09));
+let SMAX = STEPS[0];
+let shown = 0;                       /* how many quarters are on the board */
+
+const yVal = v => YBASE - (v / SMAX) * (YBASE - YTOP);
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+const mk = (tag, attrs) => {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+};
+const fmtB = v => v < 1 ? '$' + Math.round(v * 1000) + 'M' : '$' + v.toFixed(2) + 'B';
+
+/* ---------- build ---------- */
+const gridG = document.getElementById('grid');
+const gridLines = [], gridLbls = [];
+[0.25, 0.5, 0.75, 1].forEach(() => {
+  gridLines.push(gridG.appendChild(mk('line', { class:'hgrid', x1:260, y1:0, x2:1700, y2:0 })));
+  gridLbls.push(gridG.appendChild(mk('text', { class:'hlbl', x:244, y:0, 'text-anchor':'end' })));
+});
+/* right-hand axis for the position count — this one never moves */
+const rLbls = [];
+[15, 30, 45].forEach(n => {
+  const t = mk('text', { class:'rlbl', x:1712, y:yPos(n) + 5 });
+  t.textContent = n;
+  rLbls.push(gridG.appendChild(t));
+});
+
+const barsG = document.getElementById('bars');
+const qlG   = document.getElementById('qlabels');
+const dotsG = document.getElementById('posDots');
+const bars = [], bvals = [], qlbls = [], dots = [], pvals = [];
+
+Q.forEach((d, i) => {
+  const cls = 'bar ' + (d.hero ? 'hero' : 'era' + d.era);
+  bars.push(barsG.appendChild(mk('rect', { class:cls, x:xOf(i) - BW_/2, y:YBASE, width:BW_, height:0 })));
+
+  const bv = mk('text', { class:'bval' + (d.hero ? ' hero' : ''), x:xOf(i), y:YBASE, 'text-anchor':'middle' });
+  bv.textContent = fmtB(d.v);
+  bvals.push(barsG.appendChild(bv));
+
+  const ql = mk('text', { class:'qlbl', x:xOf(i), y:874, 'text-anchor':'middle' });
+  ql.textContent = d.q;
+  qlbls.push(qlG.appendChild(ql));
+
+  dots.push(dotsG.appendChild(mk('circle', { class:'posDot', cx:xOf(i), cy:yPos(d.n), r:5 })));
+  const pv = mk('text', { class:'posVal', x:xOf(i), y:yPos(d.n) - 14, 'text-anchor':'middle' });
+  pv.textContent = d.n;
+  pvals.push(dotsG.appendChild(pv));
+});
+
+/* era brackets sit above the plot, out of the bars' way */
+const erasG = document.getElementById('eras');
+const eraBars = [], eraLbls = [];
+ERAS.forEach((e, k) => {
+  const xa = xOf(e.i0) - BW_/2, xb = xOf(e.i1) + BW_/2;
+  eraBars.push(erasG.appendChild(mk('line', { class:'eraBar e' + k, x1:xa, y1:400, x2:xb, y2:400 })));
+  const t = mk('text', { class:'eraLbl e' + k, x:(xa + xb)/2, y:388, 'text-anchor':'middle' });
+  t.textContent = e.label;
+  eraLbls.push(erasG.appendChild(t));
+});
+
+const posLine = document.getElementById('posLine');
+
+/* ---------- redraw: everything hangs off SMAX and `shown` ---------- */
+function redraw(){
+  [0.25, 0.5, 0.75, 1].forEach((f, k) => {
+    const y = YBASE - f * (YBASE - YTOP);
+    gridLines[k].setAttribute('y1', y); gridLines[k].setAttribute('y2', y);
+    gridLbls[k].setAttribute('y', y + 5);
+    const v = SMAX * f;
+    gridLbls[k].textContent = v < 1 ? '$' + Math.round(v * 1000) + 'M' : '$' + (v < 10 ? v.toFixed(1) : Math.round(v)) + 'B';
+  });
+
+  Q.forEach((d, i) => {
+    const on = i < shown ? 1 : 0;
+    const h = on ? Math.max(0, YBASE - yVal(d.v)) : 0;
+    bars[i].setAttribute('y', YBASE - h);
+    bars[i].setAttribute('height', h);
+    bvals[i].setAttribute('y', YBASE - h - 14);
+  });
+
+  const pts = [];
+  for (let i = 0; i < shown; i++) pts.push(xOf(i) + ',' + yPos(Q[i].n));
+  posLine.setAttribute('points', pts.join(' '));
+}
+
+const ALL = ['#kick','#title','#subtitle','#kicker','#stamp','#stampNote',
+             '.hgrid','.hlbl','.rlbl','#baseline','#axisCap',
+             '.bar','.bval','.qlbl','.posDot','.posVal','.eraBar','.eraLbl','#posLine'];
+
+function reset(){
+  BW.chromeHide();
+  gsap.set(ALL, { opacity:0 });
+  gsap.set(['#title','#kicker'], { y:14, filter:'blur(8px)' });
+  gsap.set('#baseline', { scaleX:0, transformOrigin:'left center' });
+  SMAX = STEPS[0]; shown = 0; redraw();
+}
+
+function rest(){
+  reset();
+  BW.chromeShow();
+  gsap.set(ALL, { opacity:1 });
+  gsap.set(['#title','#kicker'], { y:0, filter:'blur(0px)' });
+  gsap.set('#baseline', { scaleX:1 });
+  gsap.set('.hgrid', { opacity:1 });
+  SMAX = STEPS[STEPS.length - 1]; shown = Q.length; redraw();
+}
+
+function play(){
+  reset();
+  const tl = gsap.timeline();
+  BW.chromeIn(tl, 0);
+
+  tl.fromTo('#kick', { opacity:0, letterSpacing:'0.88em' },
+                     { opacity:1, letterSpacing:'0.42em', duration:.95, ease:'power3.out' }, 0.30)
+    .to('#title',    { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, 0.50)
+    .to('#subtitle', { opacity:1, duration:.7 }, 0.85);
+
+  tl.to('#baseline', { opacity:1, scaleX:1, duration:.9, ease:'power2.out' }, 1.00)
+    .to('.hgrid',    { opacity:1, duration:.5, stagger:.05 }, 1.10)
+    .to('.hlbl',     { opacity:1, duration:.5, stagger:.05 }, 1.15)
+    .to('.qlbl',     { opacity:1, duration:.5, stagger:.05 }, 1.25);
+
+  /* quarter by quarter: the axis stretches, then the bar lands */
+  const T0 = 1.90, STEP = 0.86;
+  Q.forEach((d, i) => {
+    const at = T0 + i * STEP;
+
+    if (i > 0){
+      const proxy = { m: STEPS[i-1] };
+      tl.to(proxy, { m: STEPS[i], duration:.50, ease:'power2.inOut',
+                     onUpdate:()=>{ SMAX = proxy.m; redraw(); } }, at);
+    }
+
+    tl.call(()=>{ shown = i + 1; redraw(); }, null, at + (i > 0 ? 0.40 : 0));
+    tl.to(bars[i],  { opacity:1, duration:.35 }, at + (i > 0 ? 0.40 : 0))
+      .to(bvals[i], { opacity:1, duration:.35 }, at + (i > 0 ? 0.62 : 0.22))
+      .to(dots[i],  { opacity:1, duration:.30 }, at + (i > 0 ? 0.55 : 0.15))
+      .to(pvals[i], { opacity:1, duration:.30 }, at + (i > 0 ? 0.62 : 0.22));
+
+    if (i === 0) tl.to('#posLine', { opacity:1, duration:.4 }, at + 0.5)
+                   .to('#axisCap', { opacity:1, duration:.4 }, at + 0.5)
+                   .to('.rlbl',    { opacity:1, duration:.4, stagger:.05 }, at + 0.5);
+  });
+
+  /* era brackets resolve as each era completes */
+  ERAS.forEach((e, k) => {
+    const at = T0 + e.i1 * STEP + 0.55;
+    tl.to(eraBars[k], { opacity:1, duration:.5 }, at)
+      .to(eraLbls[k], { opacity:1, duration:.5 }, at + 0.08);
+  });
+
+  /* HERO — the last bar, and the date on it */
+  const tHero = T0 + 6 * STEP + 0.70;
+  BW.pulse(tl, bars[6], tHero, 1.02);
+  tl.fromTo('#stamp', { opacity:0, scale:1.18 },
+                      { opacity:1, scale:1, duration:.5, ease:'power3.out' }, tHero + 0.10)
+    .to('#stampNote', { opacity:1, duration:.6 }, tHero + 0.40)
+    .to('#kicker', { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, tHero + 0.85);
+
+  return tl;
+}
+
+/* ---------- idle ---------- */
+function idle(){
+  BW.glow(bars[6], { color:'255,82,71', min:20, max:46, dur:2.9 });
+  BW.glow('#stamp', { color:'255,82,71', min:14, max:30, dur:2.9 });
+  /* the position line keeps feeding - dashes travel left to right */
+  BW.march('#posLine', { by:-20, dur:1.5 });
+  BW.ripple('#svg', { cx:xOf(6), cy:yPos(Q[6].n), r0:6, r1:30, color:'#F5F1E5', dur:3.0, count:2 });
+  BW.breathe('#stampNote', { scale:1.006, dur:4.4 });
+}
+
+/* the ambient field runs from load and survives a replay */
+BW.ambient({ tint:'255,179,71', count:58 });
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>
