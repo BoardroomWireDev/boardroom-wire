@@ -8,7 +8,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About · Boardroom Wire</title>
-  <meta name="description" content="Boardroom Wire is forensic business analysis of AI companies and tech industry developments — Bloomberg-style depth, PE/banker lens, no hype." />
+  <meta name="description" content="Boardroom Wire is forensic business analysis for people who would rather read the 10-K than the press release. Cap tables, unit economics and structural exposure, applied to the companies defining the next decade." />
   <link rel="icon" type="image/png" href="/logo.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -261,6 +261,22 @@
       margin-bottom: 18px;
       text-shadow: 0 0 28px rgba(255, 179, 71, 0.32);
     }
+    /* Closing bookend — echoes the standfirst at a smaller size so the page
+       opens and closes on a lit line. Selector carries .body p specificity,
+       otherwise .body p's dim colour and size win. */
+    .body p.closer {
+      font-family: var(--display);
+      font-size: clamp(18px, 2vw, 22px);
+      font-weight: 600;
+      line-height: 1.4;
+      letter-spacing: -0.005em;
+      color: var(--amber-bright);
+      text-shadow: 0 0 22px rgba(255, 179, 71, 0.4);
+      margin-top: 56px;
+      margin-bottom: 0;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
     .signoff {
       margin-top: 80px;
       padding-top: 32px;
@@ -452,11 +468,11 @@
         <span class="num">§ 00</span>
         <span class="name">Standfirst</span>
       </div>
-      <p class="standfirst">
-        Boardroom Wire is forensic analysis of the companies shaping the future of AI and technology.
-      </p>
+      <h1 class="standfirst">
+        Boardroom Wire is forensic business analysis for people who would rather read the 10-K than the press release.
+      </h1>
       <p>
-        Bloomberg-grade depth, applied to a beat that mostly gets covered in screenshots and hot takes. Strategic breakdowns, not product reviews. Frameworks, not vibes.
+        It&rsquo;s built by a former private equity and technology operator who spent a decade on the deal side, reading the transactions most coverage only reacts to. The lens is the one you&rsquo;d find in a Goldman pitch deck or an Apollo diligence memo: cap tables, unit economics, structural exposure, strategic logic. Applied to the companies defining the next decade. AI labs, defense primes, hyperscalers, the founders running them, and the deals nobody else bothers to open.
       </p>
 
       <div class="section-marker">
@@ -464,7 +480,7 @@
         <span class="name">Mission</span>
       </div>
       <p>
-        Most coverage of the AI industry stops at <em>this looks cool</em> or <em>this looks dangerous</em>. Boardroom Wire starts where that coverage ends — with the cap tables, the unit economics, the structural exposures, and the strategic logic. Who is actually winning. Who is being recapitalized in slow motion. What the data rooms look like behind the press release. What any of it means for the next decade of the industry.
+        Most coverage of this industry stops at <em>this looks cool</em> or <em>this looks dangerous</em>. Boardroom Wire starts where that stops. Who is actually winning. Who is being recapitalized in slow motion. What the data room looks like behind the press release. What any of it means ten years out.
       </p>
       <p>
         The premise is that AI is now a capital markets story as much as a technology story, and the audience sophisticated enough to want it covered that way is underserved.
@@ -472,27 +488,39 @@
 
       <div class="section-marker">
         <span class="num">§ 02</span>
+        <span class="name">Coverage</span>
+      </div>
+      <p>
+        What you get here: forensic deep dives on the companies everyone is talking about, and the ones they should be. Founder origin stories that explain the strategy. Big tech rivalries broken down to the cap table.
+      </p>
+
+      <div class="section-marker">
+        <span class="num">§ 03</span>
         <span class="name">Method</span>
       </div>
       <p>
         Three rules govern every dispatch.
       </p>
       <p>
-        <strong>Evidence first.</strong> Every claim is sourced. Where the source is a 10-K, a deck, a transcript, a public filing, or a primary interview, it is named. Speculation is labeled as speculation.
+        <strong>Evidence first:</strong> every claim is sourced, and when the source is a filing, a deck, a transcript, or a primary interview, it gets named.
       </p>
       <p>
-        <strong>Frameworks over takes.</strong> A take ages in a week. A framework — the structural lens through which to read the next ten developments — ages in years. Boardroom Wire ships frameworks.
+        <strong>Frameworks over takes:</strong> a take ages in a week, a framework ages in years.
       </p>
       <p>
-        <strong>Compression.</strong> Every sentence earns its place. The reader's time is the scarcest resource on the page.
+        <strong>Compression:</strong> every sentence earns its place.
       </p>
 
       <div class="section-marker">
-        <span class="num">§ 03</span>
+        <span class="num">§ 04</span>
         <span class="name">Editorial Independence</span>
       </div>
       <p>
-        Boardroom Wire takes no sponsorships from companies it covers. No paid placements. No pre-publication review by subjects. Disclosures, when relevant, run inline with the dispatch.
+        No sponsorships from companies covered. No paid placements. No pre-publication review by subjects.
+      </p>
+
+      <p class="closer">
+        If the financial press has ever felt one step behind, you&rsquo;re in the right place.
       </p>
 
       <p class="signoff">
