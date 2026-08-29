@@ -1,0 +1,124 @@
+---
+/**
+ * /analytics/situational-awareness/ — the collection index.
+ *
+ * Fourteen cards in video order. Cards carry the same source chip that is
+ * baked into the dashboard frame itself, so the primary-vs-reported
+ * distinction is visible before you open anything.
+ */
+import Analytics from '../../../layouts/Analytics.astro';
+import { situationalAwareness as c, thumbPath, ogPath } from '../../../data/analytics';
+
+const title = 'Situational Awareness — The $45B Blowup · Boardroom Wire';
+const description = c.summary;
+
+const heroCard = c.dashboards.find((d) => d.slug === 'seven-quarter-bridge') ?? c.dashboards[0];
+const primaryCount = c.dashboards.filter((d) => d.source === 'primary').length;
+---
+
+<Analytics
+  title={title}
+  description={description}
+  pageLabel="Analytics"
+  path={`/analytics/${c.slug}/`}
+  ogImage={ogPath(c, heroCard)}
+>
+  <main class="wrap">
+    <a class="crumb" href="/analytics/">← All analysis</a>
+
+    <p class="eyebrow">{c.kicker}</p>
+    <h1 class="hd">Situational Awareness <span class="dim">— the $45B blowup.</span></h1>
+    <p class="lede">{c.summary}</p>
+
+    <!-- Methodology. The chips are on every frame; this explains them once. -->
+    <section class="method" aria-label="Methodology">
+      <h2>How to read these</h2>
+      <p>
+        Every dashboard carries a source chip in its lower-left corner, and the
+        distinction is deliberate.
+      </p>
+      <ul>
+        <li>
+          <span class="chip primary">SEC primary</span>
+          <span>
+            Taken straight from the fund's Form 13F filings (CIK&nbsp;0002045724).
+            {primaryCount} of the {c.dashboards.length} dashboards are built entirely on
+            filed documents.
+          </span>
+        </li>
+        <li>
+          <span class="chip reported">Reported</span>
+          <span>
+            Sourced to journalism — CNBC, the Wall Street Journal, the Financial Times —
+            or, in two cases, to our own arithmetic on reported figures. Attribution is
+            printed on the dashboard itself, not just here.
+          </span>
+        </li>
+      </ul>
+      <p class="caveat">
+        A 13F discloses US-listed long positions only. It does not show short positions,
+        foreign listings, private holdings or cash &mdash; which is why the filings total
+        $20.2&nbsp;billion against a fund reported at $45&nbsp;billion. Dashboard 04 exists
+        to reconcile exactly that.
+      </p>
+    </section>
+
+    <div class="rule"></div>
+
+    <div class="a-grid">
+      {c.dashboards.map((d, i) => (
+        <a class="a-card" href={`/analytics/${c.slug}/${d.slug}/`}>
+          <div class="thumb">
+            <span class="num">{String(d.n).padStart(2, '0')}</span>
+            {d.key && <span class="keyflag">Key chart</span>}
+            <img
+              src={thumbPath(c, d)}
+              alt={`${d.title} — dashboard preview`}
+              width="640" height="360"
+              loading={i < 4 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          </div>
+          <h3>{d.title}</h3>
+          <p>{d.blurb}</p>
+          <span class="foot">
+            <span class="sec">{d.section}</span>
+            <span class={`chip ${d.source}`}>
+              {d.source === 'primary' ? 'SEC primary' : 'Reported'}
+            </span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </main>
+</Analytics>
+
+<style>
+  .method {
+    margin-top: 40px;
+    border: 1px solid var(--line);
+    border-left: 2px solid rgba(255, 179, 71, 0.5);
+    padding: 26px 28px;
+    background: linear-gradient(180deg, rgba(255, 179, 71, 0.025), transparent 70%);
+  }
+  .method h2 {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--amber-bright); margin: 0 0 14px;
+  }
+  .method p { font-size: 14.5px; line-height: 1.6; color: #A9A497; margin: 0; }
+  .method ul { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 14px; }
+  .method li {
+    display: grid; grid-template-columns: 130px minmax(0, 1fr);
+    gap: 16px; align-items: start;
+    font-size: 14.5px; line-height: 1.6; color: #A9A497;
+  }
+  .method .caveat {
+    margin-top: 18px; padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 13.5px; color: #8E8A7E;
+  }
+  @media (max-width: 640px) {
+    .method { padding: 20px 18px; }
+    .method li { grid-template-columns: 1fr; gap: 8px; }
+  }
+</style>

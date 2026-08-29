@@ -1,0 +1,401 @@
+---
+/**
+ * Shell for the /analytics/ routes.
+ *
+ * The three existing pages (index, about, videos) are standalone files with
+ * inline styles and no layout — that convention is left alone. This layout
+ * exists only because the analytics section is three pages deep and would
+ * otherwise triplicate the ticker markup, the shell CSS and the YouTube
+ * hydration script. Nothing outside /analytics/ uses it.
+ *
+ * Chrome, tokens and type are copied from videos.astro so the section is
+ * visually continuous with the rest of the site.
+ */
+interface Props {
+  title: string;
+  description: string;
+  /** Small amber label sitting inline with the wordmark. */
+  pageLabel: string;
+  /** Absolute or root-relative path to the OG image. */
+  ogImage?: string;
+  /** Canonical path, e.g. "/analytics/". */
+  path: string;
+}
+
+const SITE_ORIGIN = 'https://www.boardroomwire.com';
+const { title, description, pageLabel, ogImage, path } = Astro.props;
+
+const canonical = `${SITE_ORIGIN}${path}`;
+const og = ogImage
+  ? (ogImage.startsWith('http') ? ogImage : `${SITE_ORIGIN}${ogImage}`)
+  : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="canonical" href={canonical} />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Boardroom Wire" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  {og && <meta property="og:image" content={og} />}
+  {og && <meta property="og:image:width" content="1200" />}
+  {og && <meta property="og:image:height" content="630" />}
+  <meta name="twitter:card" content={og ? 'summary_large_image' : 'summary'} />
+  <meta name="twitter:site" content="@BoardroomWire" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  {og && <meta name="twitter:image" content={og} />}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <style is:global>
+    :root {
+      --black:       #000000;
+      --black-soft:  #0A0A0A;
+      --line:        #1A1A1A;
+      --white:       #F5F1E5;
+      --white-dim:   #888173;
+      --gold:        #D4AF37;
+      --gold-bright: #F2CB52;
+      --amber:        #FFB347;
+      --amber-bright: #FFC97A;
+      --amber-glow:   rgba(255, 179, 71, 0.4);
+      --display: 'Inter', system-ui, sans-serif;
+      --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--display);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.04;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    }
+
+    /* ============ TICKER ============ */
+    .ticker {
+      display: flex; align-items: stretch; height: 54px;
+      border-bottom: 1px solid var(--line);
+      background: var(--black);
+      position: relative; z-index: 10;
+    }
+    .ticker-label {
+      background: var(--gold); color: var(--black);
+      font-size: 13px; font-weight: 800; letter-spacing: 0.24em;
+      padding: 0 22px;
+      display: flex; align-items: center; gap: 12px;
+      text-transform: uppercase;
+      box-shadow: 0 0 14px var(--amber-glow);
+    }
+    .ticker-label .pulse {
+      width: 9px; height: 9px; background: #FF3B30; border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+      filter: drop-shadow(0 0 4px rgba(255, 59, 48, 0.55));
+      animation: pulse-red 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse-red {
+      0%   { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); opacity: 1; }
+      70%  { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); opacity: 0.85; }
+      100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); opacity: 1; }
+    }
+    .ticker-stats {
+      flex: 1; overflow: hidden; position: relative;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+    }
+    .ticker-track {
+      display: flex; align-items: center; gap: 56px;
+      height: 100%; width: max-content; padding-left: 32px;
+      animation: ticker-scroll 28s linear infinite;
+    }
+    .ticker:hover .ticker-track,
+    .ticker:focus-within .ticker-track { animation-play-state: paused; }
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .stat {
+      font-size: 13px; letter-spacing: 0.18em; color: var(--white-dim);
+      text-transform: uppercase; font-weight: 500;
+      display: flex; align-items: baseline; gap: 12px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .stat .v { color: var(--white); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .stat .sep { color: var(--line); margin-left: 56px; }
+
+    /* ============ HEADER ============ */
+    header.top {
+      padding: 28px 40px 0;
+      position: relative; z-index: 5;
+      display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+    }
+    .home-link {
+      font-weight: 900; font-size: 22px; letter-spacing: 0.02em; line-height: 1;
+      color: var(--white); text-decoration: none; user-select: none;
+    }
+    .home-link .wire { color: var(--gold-bright); }
+    .home-link:hover .wire { color: var(--gold); }
+    .page-label {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.32em;
+      text-transform: uppercase; color: var(--amber-bright);
+      text-shadow: 0 0 12px rgba(255, 179, 71, 0.5);
+    }
+
+    /* CRT phosphor atmosphere — same overlay as /about/ and /videos/. */
+    .page-fx {
+      position: fixed; inset: 0; pointer-events: none; z-index: 1;
+      background:
+        radial-gradient(circle at 0% 0%,   rgba(255, 179, 71, 0.14), transparent 35%),
+        radial-gradient(circle at 100% 0%, rgba(255, 179, 71, 0.10), transparent 35%),
+        radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.10), transparent 35%),
+        radial-gradient(circle at 100% 100%, rgba(255, 179, 71, 0.14), transparent 35%),
+        repeating-linear-gradient(to bottom,
+          rgba(255, 179, 71, 0.035) 0, rgba(255, 179, 71, 0.035) 1px,
+          transparent 1px, transparent 4px);
+    }
+
+    /* ============ SHARED PAGE FURNITURE ============ */
+    main.wrap {
+      max-width: 1280px; margin: 0 auto;
+      padding: 48px 24px 72px;
+      position: relative; z-index: 5;
+    }
+    .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.32em;
+      text-transform: uppercase; color: var(--amber-bright);
+      text-shadow: 0 0 12px rgba(255, 179, 71, 0.5);
+    }
+    h1.hd {
+      font-size: clamp(30px, 4.4vw, 52px); font-weight: 800;
+      letter-spacing: -0.02em; line-height: 1.08; margin: 16px 0 0;
+    }
+    h1.hd .dim { color: var(--white-dim); font-weight: 600; }
+    p.lede {
+      max-width: 68ch; margin-top: 18px;
+      font-size: 17px; line-height: 1.62; color: #B8B2A4;
+    }
+    .rule { height: 1px; background: var(--line); margin: 40px 0; }
+
+    .crumb {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 26px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--white-dim);
+      text-decoration: none; transition: color 0.18s;
+    }
+    .crumb:hover { color: var(--gold-bright); }
+
+    /* ============ SOURCE CHIP ============ */
+    /* Mirrors the chip baked into every dashboard frame. */
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 11px; border-radius: 3px;
+      font-family: var(--mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .chip::before { content: ""; width: 5px; height: 5px; border-radius: 50%; }
+    .chip.primary {
+      color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.45);
+      background: rgba(212, 175, 55, 0.05);
+    }
+    .chip.primary::before { background: var(--gold); box-shadow: 0 0 6px var(--amber-glow); }
+    .chip.reported {
+      color: var(--amber); border: 1px dashed rgba(255, 179, 71, 0.42);
+      background: rgba(255, 179, 71, 0.04);
+    }
+    .chip.reported::before { background: var(--amber); box-shadow: 0 0 6px var(--amber-glow); }
+
+    /* ============ CARDS ============ */
+    .a-grid {
+      display: grid; gap: 22px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+    a.a-card {
+      display: flex; flex-direction: column; gap: 12px;
+      text-decoration: none; color: var(--white);
+      transition: transform 0.25s ease;
+    }
+    a.a-card:hover { transform: translateY(-4px); }
+    .a-card .thumb {
+      position: relative; aspect-ratio: 16 / 9; overflow: hidden;
+      background: var(--black-soft); border: 1px solid var(--line);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    a.a-card:hover .thumb {
+      border-color: var(--amber);
+      box-shadow: 0 0 16px rgba(255, 179, 71, 0.3);
+    }
+    .a-card .thumb img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+    }
+    a.a-card:hover .thumb img { transform: scale(1.04); }
+    .a-card .num {
+      position: absolute; left: 0; top: 0; z-index: 2;
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.16em; color: var(--black);
+      background: var(--gold-bright); padding: 5px 10px;
+    }
+    .a-card .keyflag {
+      position: absolute; right: 8px; top: 8px; z-index: 2;
+      font-family: var(--mono); font-size: 9px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold-bright); background: rgba(0, 0, 0, 0.78);
+      border: 1px solid rgba(212, 175, 55, 0.5); padding: 4px 8px;
+    }
+    .a-card h3 {
+      font-size: 17px; font-weight: 700; line-height: 1.28;
+      letter-spacing: -0.01em; margin: 0;
+    }
+    a.a-card:hover h3 { color: var(--amber-bright); }
+    .a-card p {
+      font-size: 13.5px; line-height: 1.5; color: #9C978B; margin: 0;
+    }
+    .a-card .foot {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .a-card .sec {
+      font-family: var(--mono); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--white-dim);
+    }
+
+    /* ============ FOOTER ============ */
+    footer.tail {
+      border-top: 1px solid var(--line);
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--white-dim);
+      position: relative; z-index: 5;
+    }
+    footer.tail a { color: inherit; text-decoration: none; transition: color 0.18s; }
+    footer.tail a:hover { color: var(--gold-bright); }
+    footer.tail .links { display: flex; gap: 22px; }
+
+    @media (max-width: 720px) {
+      /* "Analytics" is a longer page label than "Videos" or "About", and an
+         unwrapped flex header was widening the whole document past the
+         viewport — every block below it then inherited that width. */
+      header.top { padding: 20px 24px 0; flex-wrap: wrap; gap: 10px; }
+      .page-label { font-size: 11px; letter-spacing: 0.22em; }
+      .home-link { font-size: 18px; }
+      .ticker { height: 46px; }
+      .ticker-track { gap: 36px; padding-left: 20px; }
+      .stat { font-size: 11px; letter-spacing: 0.12em; gap: 8px; }
+      .stat .sep { margin-left: 36px; }
+      .ticker-label { font-size: 11px; padding: 0 14px; gap: 8px; }
+      .ticker-label .pulse { width: 8px; height: 8px; }
+      main.wrap { padding: 32px 18px 56px; }
+      .a-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+    }
+    @media (max-width: 540px) {
+      footer.tail { padding: 20px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
+      .a-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0s !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0s !important;
+      }
+      /* Brand-critical motion exempted, same call as the other pages. */
+      .ticker-track { animation: ticker-scroll 28s linear infinite !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-fx" aria-hidden="true"></div>
+
+  <div class="ticker">
+    <div class="ticker-label">
+      <span class="pulse"></span>
+      <span>Live Wire</span>
+    </div>
+    <div class="ticker-stats" aria-label="Live channel statistics">
+      <div class="ticker-track">
+        <div class="stat">Videos <span class="v" data-stat="videos">—</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Subscribers <span class="v" data-stat="subs">—</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Total Views <span class="v" data-stat="views">—</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Top Episode <span class="v" data-stat="top">—</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Newest <span class="v" data-stat="newest">—</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat" aria-hidden="true">Videos <span class="v" data-stat="videos">—</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Subscribers <span class="v" data-stat="subs">—</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Total Views <span class="v" data-stat="views">—</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Top Episode <span class="v" data-stat="top">—</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Newest <span class="v" data-stat="newest">—</span><span class="sep">·</span></div>
+      </div>
+    </div>
+  </div>
+
+  <header class="top">
+    <a href="/" class="home-link" aria-label="Boardroom Wire — home">
+      BOARDROOM<span class="wire">WIRE</span>
+    </a>
+    <span class="page-label">{pageLabel}</span>
+  </header>
+
+  <slot />
+
+  <footer class="tail">
+    <span>© 2026 Boardroom Wire</span>
+    <span class="links">
+      <a href="/analytics/">Analytics</a>
+      <a href="/videos/">Videos</a>
+      <a href="/about/">About</a>
+      <a href="/">← Home</a>
+    </span>
+  </footer>
+
+  <script>
+    import { fetchChannelData, fmt, daysAgo } from '../lib/youtube';
+
+    const setStat = (name: string, value: string) => {
+      document.querySelectorAll(`[data-stat="${name}"]`).forEach((el) => {
+        el.textContent = value;
+      });
+    };
+
+    async function hydrate() {
+      const data = await fetchChannelData();
+      if (!data) return; // ticker shows em-dashes
+      setStat('videos', fmt(data.videos));
+      setStat('subs',   fmt(data.subs));
+      setStat('views',  fmt(data.views));
+      setStat('top',    data.topVideo ? `${fmt(data.topVideo.views)} views` : '—');
+      setStat('newest', data.newest ? daysAgo(data.newest.publishedAt) : '—');
+    }
+    hydrate();
+    setInterval(hydrate, 5 * 60_000);
+  </script>
+</body>
+</html>
