@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  D07 · RETURNS vs. NEW CAPITAL  ·  Section 3
+  Boardroom Wire — Situational Awareness
+  $225M seed compounding at the reported 11x = ~$2.5B.
+  Reported AUM June 2026 = >$20B. The difference is new money.
+  Our arithmetic on reported figures — labelled as such.
+  R replay · ?final = lit still.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Returns vs. New Capital · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=3" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(30, 26, 40, 0.5); --mood-b: #0a0a0f; }
+  .amb-glow { --glow-tint: rgba(255, 179, 71, 0.05); top: 50%; left: 58%; }
+
+  #kick     { position:absolute; left:56px; top:198px; opacity:0; z-index:20 }
+  #title    { position:absolute; left:56px; top:226px; opacity:0; z-index:20 }
+  #subtitle { position:absolute; left:56px; top:306px; width:1500px; opacity:0; z-index:20 }
+
+  svg.plot { position:absolute; inset:0; z-index:10 }
+
+  #baseline { stroke:rgba(212,175,55,0.42); stroke-width:1.5; opacity:0 }
+  .hgrid    { stroke:rgba(212,175,55,0.07); stroke-width:1; opacity:0 }
+  .hgrid-l  { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500;
+              fill:rgba(245,241,229,0.32); letter-spacing:.1em; opacity:0 }
+
+  .barSeed  { fill:#D4AF37; opacity:0 }
+  .barNew   { fill:url(#hatch); stroke:rgba(255,179,71,0.55); stroke-width:1; opacity:0 }
+
+  #ceiling  { stroke:rgba(212,175,55,0.55); stroke-width:1.5; stroke-dasharray:7 7; opacity:0 }
+  #ceilLbl  { font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+              fill:rgba(212,175,55,0.75); letter-spacing:.2em; opacity:0 }
+
+  .barVal   { font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:44px;
+              fill:#F5F1E5; letter-spacing:-.02em; opacity:0 }
+  .barVal.gold { fill:#F2CB52 }
+  .barLbl   { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600;
+              fill:rgba(245,241,229,0.72); letter-spacing:.18em; opacity:0 }
+  .barSub   { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:400;
+              fill:rgba(245,241,229,0.4); letter-spacing:.1em; opacity:0 }
+
+  /* the hero — the space between the two bars */
+  #gapBrace { stroke:rgba(255,179,71,0.5); stroke-width:1.5; fill:none; opacity:0 }
+  #heroCard { position:absolute; left:1330px; top:498px; width:450px; opacity:0; z-index:20 }
+  #heroCard .big { font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:82px;
+                   color:#FFC97A; letter-spacing:-.03em; line-height:1;
+                   text-shadow:0 0 34px rgba(255,179,71,0.45), 0 0 80px rgba(255,179,71,0.18) }
+  #heroCard .lbl { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600;
+                   letter-spacing:.28em; color:#FFB347; text-transform:uppercase; margin:14px 0 18px }
+  #heroCard .txt { font-family:'IBM Plex Sans',sans-serif; font-weight:300; font-size:21px;
+                   line-height:1.45; color:rgba(245,241,229,0.78) }
+  #heroCard .txt b { font-weight:600; color:#F5F1E5 }
+
+  #kicker { position:absolute; left:56px; top:918px; z-index:20 }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Section 03 &nbsp;·&nbsp; Returns vs. New Capital</div>
+  <div class="title" id="title">The returns were real. <b>They weren&rsquo;t the growth.</b></div>
+  <div class="subtitle" id="subtitle">What compounding explains, against the size the fund actually reached.</div>
+
+  <svg class="plot" viewBox="0 0 1920 1080" id="svg">
+    <defs>
+      <pattern id="hatch" width="9" height="9" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+        <rect width="9" height="9" fill="rgba(255,179,71,0.07)" />
+        <line x1="0" y1="0" x2="0" y2="9" stroke="rgba(255,179,71,0.42)" stroke-width="3" />
+      </pattern>
+    </defs>
+
+    <g id="grid"></g>
+
+    <!-- left: what compounding explains -->
+    <rect class="barSeed" id="seedL" x="470" y="820" width="230" height="0" />
+
+    <!-- right: the fund as it actually was -->
+    <rect class="barSeed" id="seedR" x="1010" y="820" width="230" height="0" />
+    <rect class="barNew"  id="newR"  x="1010" y="820" width="230" height="0" />
+
+    <line id="baseline" x1="380" y1="820" x2="1800" y2="820" />
+
+    <!-- the ceiling of compounding, carried across to the tall bar -->
+    <line id="ceiling" x1="470" y1="770" x2="1300" y2="770" />
+    <text id="ceilLbl" x="716" y="758">CEILING OF COMPOUNDING</text>
+
+    <!-- brace spanning the new-capital block -->
+    <path id="gapBrace" d="M1268 422 h14 v346 h-14" />
+
+    <text class="barVal gold" id="valL" x="585" y="736" text-anchor="middle">$0.0B</text>
+    <text class="barVal"      id="valR" x="1125" y="352" text-anchor="middle">$0.0B</text>
+
+    <text class="barLbl" id="lblL" x="585" y="858" text-anchor="middle">WHAT COMPOUNDING EXPLAINS</text>
+    <text class="barSub" id="subL" x="585" y="882" text-anchor="middle">$225M seed, Sept 2024 &#215; 11&#215; reported return</text>
+
+    <text class="barLbl" id="lblR" x="1125" y="858" text-anchor="middle">THE FUND AS REPORTED</text>
+    <text class="barSub" id="subR" x="1125" y="882" text-anchor="middle">AUM, June 2026</text>
+  </svg>
+
+  <div id="heroCard">
+    <div class="big">88%</div>
+    <div class="lbl">~$17.5B &nbsp;·&nbsp; new money, not returns</div>
+    <div class="txt">Almost nine dollars in ten came in the door, not off the book. Most of it arrived in <b>2026</b> &mdash; including <b>Jane Street</b>, which bought in near the top.</div>
+  </div>
+
+  <div class="kicker" id="kicker">The gains were made on a small fund. <b>The losses were taken on a big one.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="chip reported">Reported &nbsp;·&nbsp; WSJ, FT</div>
+    <div class="bw-source">Seed $225M, Sept 2024 &nbsp;·&nbsp; returns 1,000%+ since launch (WSJ) &nbsp;·&nbsp; AUM &gt;$20B, June 2026 &nbsp;·&nbsp; compounding math: Boardroom Wire, from reported figures</div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+
+  <div class="bw-hint">R&nbsp;replay&nbsp;·&nbsp;?final&nbsp;still</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/motion.js?v=3"></script>
+<script>
+/* ---------- geometry ---------- */
+const YBASE = 820, YTOP = 420, BMAX = 20;      /* $20B fills the plot */
+const PXB = (YBASE - YTOP) / BMAX;             /* pixels per $1B */
+const SEED = 2.5, TOTAL = 20.0;
+
+const hOf = b => b * PXB;
+const yOf = b => YBASE - hOf(b);
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+const mk = (tag, attrs) => {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+};
+
+(function buildGrid(){
+  const g = document.getElementById('grid');
+  [5, 10, 15, 20].forEach(b => {
+    const y = yOf(b);
+    g.appendChild(mk('line', { class:'hgrid', x1:380, y1:y, x2:1800, y2:y }));
+    const t = mk('text', { class:'hgrid-l', x:360, y:y + 5, 'text-anchor':'end' });
+    t.textContent = '$' + b + 'B';
+    g.appendChild(t);
+  });
+})();
+
+const seedL = document.getElementById('seedL');
+const seedR = document.getElementById('seedR');
+const newR  = document.getElementById('newR');
+const valL  = document.getElementById('valL');
+const valR  = document.getElementById('valR');
+
+/* left bar: grows from the baseline */
+function setSeedL(b){
+  seedL.setAttribute('height', hOf(b));
+  seedL.setAttribute('y', yOf(b));
+  valL.textContent = '$' + b.toFixed(1) + 'B';
+  valL.setAttribute('y', yOf(b) - 26);
+}
+
+/* right bar: gold base is fixed at the seed, the hatched block stacks on top */
+function setNewR(total){
+  const stacked = Math.max(0, total - SEED);
+  newR.setAttribute('height', hOf(stacked));
+  newR.setAttribute('y', yOf(total));
+  valR.textContent = '$' + total.toFixed(1) + 'B';
+  valR.setAttribute('y', yOf(total) - 26);
+}
+
+const ALL = ['#kick','#title','#subtitle','#heroCard','#kicker',
+             '.hgrid','.hgrid-l','#baseline','#ceiling','#ceilLbl','#gapBrace',
+             '#seedL','#seedR','#newR','#valL','#valR',
+             '#lblL','#subL','#lblR','#subR'];
+
+function reset(){
+  BW.chromeHide();
+  gsap.set(ALL, { opacity:0 });
+  gsap.set(['#title','#kicker'], { y:14, filter:'blur(8px)' });
+  gsap.set('#baseline', { scaleX:0, transformOrigin:'left center' });
+  gsap.set('#ceiling',  { scaleX:0, transformOrigin:'left center' });
+  setSeedL(0);
+  seedR.setAttribute('height', 0); seedR.setAttribute('y', YBASE);
+  setNewR(SEED);
+}
+
+function rest(){
+  reset();
+  BW.chromeShow();
+  gsap.set(ALL, { opacity:1 });
+  gsap.set(['#title','#kicker'], { y:0, filter:'blur(0px)' });
+  gsap.set(['#baseline','#ceiling'], { scaleX:1 });
+  setSeedL(SEED);
+  seedR.setAttribute('height', hOf(SEED)); seedR.setAttribute('y', yOf(SEED));
+  setNewR(TOTAL);
+  valR.textContent = '$20B+';
+}
+
+function play(){
+  reset();
+  const tl = gsap.timeline();
+  BW.chromeIn(tl, 0);
+
+  tl.fromTo('#kick', { opacity:0, letterSpacing:'0.88em' },
+                     { opacity:1, letterSpacing:'0.42em', duration:.95, ease:'power3.out' }, 0.30)
+    .to('#title',    { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, 0.50)
+    .to('#subtitle', { opacity:1, duration:.7 }, 0.85);
+
+  tl.to('.hgrid',    { opacity:1, duration:.5, stagger:.07 }, 1.00)
+    .to('.hgrid-l',  { opacity:1, duration:.5, stagger:.07 }, 1.08)
+    .to('#baseline', { opacity:1, scaleX:1, duration:.9, ease:'power2.out' }, 1.00);
+
+  /* 1 — what compounding actually explains */
+  const p1 = { b:0 };
+  tl.to('#seedL', { opacity:1, duration:.3 }, 1.60)
+    .to('#valL',  { opacity:1, duration:.4 }, 1.70)
+    .to(p1, { b:SEED, duration:1.1, ease:'power2.out', onUpdate:()=>setSeedL(p1.b) }, 1.60)
+    .to('#lblL',  { opacity:1, duration:.5 }, 2.35)
+    .to('#subL',  { opacity:1, duration:.5 }, 2.50);
+
+  /* carry the ceiling across — this is the line the story crosses */
+  tl.to('#ceiling', { opacity:1, scaleX:1, duration:1.0, ease:'power2.inOut' }, 2.85)
+    .to('#ceilLbl', { opacity:1, duration:.5 }, 3.55);
+
+  /* 2 — the fund as it actually was */
+  tl.to('#seedR', { opacity:1, duration:.4 }, 3.30)
+    .fromTo('#seedR', { attr:{ height:0, y:YBASE } },
+                      { attr:{ height:hOf(SEED), y:yOf(SEED) }, duration:.6, ease:'power2.out' }, 3.30)
+    .to('#valR',  { opacity:1, duration:.4 }, 3.60);
+
+  const p2 = { t:SEED };
+  tl.to('#newR', { opacity:1, duration:.4 }, 3.95)
+    .to(p2, { t:TOTAL, duration:1.9, ease:'power2.out', onUpdate:()=>setNewR(p2.t) }, 3.95)
+    .to('#lblR', { opacity:1, duration:.5 }, 5.10)
+    .to('#subR', { opacity:1, duration:.5 }, 5.22);
+
+  /* HERO — the block above the ceiling is all new money */
+  const tHero = 5.55;
+  tl.set(valR, { onComplete:()=>{ valR.textContent = '$20B+'; } }, tHero - 0.05);
+  tl.to('#gapBrace', { opacity:1, duration:.6 }, tHero)
+    .fromTo('#heroCard', { opacity:0, x:24 },
+                         { opacity:1, x:0, duration:.75, ease:'power3.out' }, tHero + 0.10);
+  BW.pulse(tl, '#valR', tHero + 0.05, 1.05);
+
+  tl.to('#kicker', { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, tHero + 0.80);
+
+  return tl;
+}
+
+/* ---------- idle ---------- */
+function idle(){
+  BW.glow('#heroCard .big', { color:'255,179,71', min:24, max:52, dur:2.9 });
+  BW.march('#ceiling', { by:-14, dur:1.9 });
+  /* the hatched block keeps drifting - new money still arriving */
+  const hatch = document.getElementById('hatch');
+  const hp = { d:0 };
+  BW.raw(gsap.to(hp, { d:9, duration:2.6, ease:'none', repeat:-1,
+    onUpdate: () => hatch.setAttribute('patternTransform', 'rotate(45) translate(0 ' + hp.d + ')') }));
+  BW.raw(gsap.to('#gapBrace', { opacity:.6, duration:3.0, ease:'sine.inOut',
+                                yoyo:true, repeat:-1 }));
+}
+
+/* the ambient field runs from load and survives a replay */
+BW.ambient({ tint:'255,179,71', count:58 });
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

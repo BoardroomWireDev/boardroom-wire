@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  D08 · JULY — THE LAYERS BREAK  ·  Section 4
+  Boardroom Wire — Situational Awareness
+  Drop stems hang from each name; stem length is proportional
+  to the sourced move. Memory names are drawn as DASHED stems
+  because the reporting says "double-digit single-day drops"
+  without a figure — an unquantified drop is drawn as one.
+  R replay · ?final = lit still.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>July &mdash; The Layers Break · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=3" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(46, 20, 18, 0.5); --mood-b: #0a0a0f; }
+  .amb-glow { --glow-tint: rgba(255, 82, 71, 0.045); top: 60%; left: 50%; }
+
+  #kick     { position:absolute; left:56px; top:198px; opacity:0; z-index:20 }
+  #title    { position:absolute; left:56px; top:226px; opacity:0; z-index:20 }
+  #subtitle { position:absolute; left:56px; top:306px; width:1500px; opacity:0; z-index:20 }
+
+  svg.plot { position:absolute; inset:0; z-index:10 }
+
+  #topline { stroke:rgba(245,241,229,0.28); stroke-width:1.5; opacity:0 }
+  #toplbl  { font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+             fill:rgba(245,241,229,0.42); letter-spacing:.2em; opacity:0 }
+
+  .laneBar { stroke:#D4AF37; stroke-width:2; opacity:0 }
+  .laneLbl { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;
+             fill:#D4AF37; letter-spacing:.26em; opacity:0 }
+  .laneBar.idx { stroke:rgba(245,241,229,0.3) }
+  .laneLbl.idx { fill:rgba(245,241,229,0.5) }
+
+  .held    { fill:#D4AF37; opacity:0 }
+  .nameTxt { font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:500;
+             fill:rgba(245,241,229,0.9); letter-spacing:.02em; opacity:0 }
+  .nameTxt.idx { fill:rgba(245,241,229,0.6) }
+
+  .stem    { stroke:#FF5247; stroke-width:5; stroke-linecap:round; opacity:0 }
+  .stem.q  { stroke:rgba(255,82,71,0.6); stroke-width:3; stroke-dasharray:6 8 }
+  .stem.hero { stroke-width:7; filter:drop-shadow(0 0 16px rgba(255,82,71,0.6)) }
+  .node    { fill:#FF5247; opacity:0 }
+  .node.hero { filter:drop-shadow(0 0 18px rgba(255,82,71,0.9)) }
+  .dropVal { font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:700;
+             fill:#FF5247; letter-spacing:-.01em; opacity:0 }
+  .dropVal.q { font-size:13px; font-weight:500; fill:rgba(255,82,71,0.7); letter-spacing:.1em }
+  .dropVal.hero { font-size:30px; filter:drop-shadow(0 0 20px rgba(255,82,71,0.55)) }
+  .dropSub { font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:400;
+             fill:rgba(245,241,229,0.35); letter-spacing:.1em; opacity:0 }
+
+  #agg { position:absolute; left:1560px; top:598px; width:300px; opacity:0; z-index:20;
+         border-left:2px solid rgba(255,82,71,0.6); padding-left:20px }
+  #agg .big { font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:62px;
+              color:#FF5247; letter-spacing:-.03em; line-height:1;
+              text-shadow:0 0 30px rgba(255,82,71,0.45), 0 0 74px rgba(255,82,71,0.18) }
+  #agg .lbl { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;
+              letter-spacing:.24em; color:rgba(255,82,71,0.85); text-transform:uppercase;
+              margin-top:12px; line-height:1.6 }
+
+  #legend { position:absolute; left:56px; top:872px; opacity:0; z-index:20;
+            display:flex; align-items:center; gap:12px;
+            font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500;
+            letter-spacing:.16em; color:rgba(245,241,229,0.5); text-transform:uppercase }
+  #legend .dot { width:9px; height:9px; border-radius:50%; background:#D4AF37 }
+
+  #kicker { position:absolute; left:56px; top:918px; z-index:20 }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Section 04 &nbsp;·&nbsp; July</div>
+  <div class="title" id="title">Every layer that broke <b>was a layer he owned.</b></div>
+  <div class="subtitle" id="subtitle">July 2026, from the June 22 peak. Drop length is the size of the fall.</div>
+
+  <svg class="plot" viewBox="0 0 1920 1080" id="svg">
+    <line id="topline" x1="200" y1="500" x2="1500" y2="500" />
+    <text id="toplbl" x="1512" y="505">JUNE 22 PEAK</text>
+    <g id="lanes"></g>
+    <g id="board"></g>
+  </svg>
+
+  <div id="agg">
+    <div class="big">~$3T</div>
+    <div class="lbl">of market value<br />erased in a month</div>
+  </div>
+
+  <div id="legend"><span class="dot"></span> Gold marker &nbsp;=&nbsp; held in the Situational Awareness book</div>
+
+  <div class="kicker" id="kicker">He wasn&rsquo;t exposed to the selloff. <b>He was the selloff.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="chip reported">Reported &nbsp;·&nbsp; market data, July 2026</div>
+    <div class="bw-source">CoreWeave and Nebius: July 1, 2026 &nbsp;·&nbsp; memory names: reported double-digit single-day falls, no single figure &nbsp;·&nbsp; SOX: &minus;28.6% from the June 22 peak &nbsp;·&nbsp; holdings per SEC Form 13F</div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+
+  <div class="bw-hint">R&nbsp;replay&nbsp;·&nbsp;?final&nbsp;still</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/motion.js?v=3"></script>
+<script>
+/* ---------- the board ---------- */
+const TOP = 500, PXPCT = 10.5;          /* 1% of drop = 10.5px of stem */
+
+const NAMES = [
+  { n:'CoreWeave', x:280,  pct:13.9, sub:'JULY 1',  held:true },
+  { n:'Nebius',    x:470,  pct:17.0, sub:'JULY 1',  held:true },
+  { n:'SK Hynix',  x:730,  pct:null, sub:'JULY',    held:true },
+  { n:'Micron',    x:920,  pct:null, sub:'JULY',    held:true },
+  { n:'SanDisk',   x:1110, pct:null, sub:'JULY',    held:true },
+  { n:'SOX index', x:1400, pct:28.6, sub:'FROM JUNE 22 PEAK', held:false, hero:true }
+];
+const LANES = [
+  { x0:200,  x1:560,  label:'NEOCLOUDS' },
+  { x0:640,  x1:1200, label:'MEMORY' },
+  { x0:1290, x1:1500, label:'SEMIS BROADLY', idx:true }
+];
+const QLEN = 150;                        /* unquantified drops get a fixed dashed stem */
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+const mk = (tag, attrs) => {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+};
+
+const lanesG = BW.$('#lanes'), boardG = BW.$('#board');
+
+LANES.forEach(l => {
+  lanesG.appendChild(mk('line', { class:'laneBar' + (l.idx ? ' idx' : ''),
+                                  x1:l.x0, y1:412, x2:l.x1, y2:412 }));
+  const t = mk('text', { class:'laneLbl' + (l.idx ? ' idx' : ''),
+                         x:(l.x0 + l.x1)/2, y:400, 'text-anchor':'middle' });
+  t.textContent = l.label;
+  lanesG.appendChild(t);
+});
+
+const stems = [], nodes = [], vals = [], subs = [], namesT = [], dots = [];
+
+NAMES.forEach(d => {
+  const len = d.pct === null ? QLEN : d.pct * PXPCT;
+  const end = TOP + len;
+
+  if (d.held){
+    dots.push(boardG.appendChild(mk('circle', { class:'held', cx:d.x, cy:442, r:4.5 })));
+  }
+
+  const nt = mk('text', { class:'nameTxt' + (d.hero ? ' idx' : ''), x:d.x, y:478, 'text-anchor':'middle' });
+  nt.textContent = d.n;
+  namesT.push(boardG.appendChild(nt));
+
+  const st = mk('line', { class:'stem' + (d.pct === null ? ' q' : '') + (d.hero ? ' hero' : ''),
+                          x1:d.x, y1:TOP, x2:d.x, y2:TOP });
+  st.dataset.end = end;
+  stems.push(boardG.appendChild(st));
+
+  nodes.push(boardG.appendChild(mk('circle', { class:'node' + (d.hero ? ' hero' : ''),
+                                               cx:d.x, cy:end, r: d.hero ? 8 : 6 })));
+
+  const v = mk('text', { class:'dropVal' + (d.pct === null ? ' q' : '') + (d.hero ? ' hero' : ''),
+                         x:d.x, y:end + (d.hero ? 44 : 36), 'text-anchor':'middle' });
+  v.textContent = d.pct === null ? 'DOUBLE DIGIT' : '−' + d.pct.toFixed(1) + '%';
+  vals.push(boardG.appendChild(v));
+
+  const s = mk('text', { class:'dropSub', x:d.x, y:end + (d.hero ? 68 : 58), 'text-anchor':'middle' });
+  s.textContent = d.sub;
+  subs.push(boardG.appendChild(s));
+});
+
+const ALL = ['#kick','#title','#subtitle','#kicker','#agg','#legend',
+             '#topline','#toplbl','.laneBar','.laneLbl','.held','.nameTxt',
+             '.stem','.node','.dropVal','.dropSub'];
+
+function setStem(i, t){                  /* t: 0 -> 1 of the fall */
+  const st = stems[i], end = +st.dataset.end;
+  st.setAttribute('y2', TOP + (end - TOP) * t);
+}
+
+function reset(){
+  BW.chromeHide();
+  gsap.set(ALL, { opacity:0 });
+  gsap.set(['#title','#kicker'], { y:14, filter:'blur(8px)' });
+  gsap.set('#topline', { scaleX:0, transformOrigin:'left center' });
+  stems.forEach((_, i) => setStem(i, 0));
+}
+
+function rest(){
+  reset();
+  BW.chromeShow();
+  gsap.set(ALL, { opacity:1 });
+  gsap.set(['#title','#kicker'], { y:0, filter:'blur(0px)' });
+  gsap.set('#topline', { scaleX:1 });
+  stems.forEach((_, i) => setStem(i, 1));
+}
+
+function play(){
+  reset();
+  const tl = gsap.timeline();
+  BW.chromeIn(tl, 0);
+
+  tl.fromTo('#kick', { opacity:0, letterSpacing:'0.88em' },
+                     { opacity:1, letterSpacing:'0.42em', duration:.95, ease:'power3.out' }, 0.30)
+    .to('#title',    { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, 0.50)
+    .to('#subtitle', { opacity:1, duration:.7 }, 0.85);
+
+  /* the peak everything falls from */
+  tl.to('#topline', { opacity:1, scaleX:1, duration:1.0, ease:'power2.inOut' }, 1.05)
+    .to('#toplbl',  { opacity:1, duration:.5 }, 1.70)
+    .to('.laneBar', { opacity:1, duration:.5, stagger:.14 }, 1.25)
+    .to('.laneLbl', { opacity:1, duration:.5, stagger:.14 }, 1.32)
+    .to('.nameTxt', { opacity:1, duration:.45, stagger:.07 }, 1.55)
+    .to('.held',    { opacity:1, duration:.45, stagger:.07 }, 1.75);
+
+  /* then they fall, left to right, layer by layer */
+  const T0 = 2.35, STEP = 0.26, FALL = 0.72;
+  NAMES.forEach((d, i) => {
+    const at = T0 + i * STEP;
+    const p = { t:0 };
+    tl.to(stems[i], { opacity:1, duration:.2 }, at)
+      .to(p, { t:1, duration:FALL, ease:'power2.in', onUpdate:()=>setStem(i, p.t) }, at)
+      .to(nodes[i], { opacity:1, duration:.3 }, at + FALL - 0.05)
+      .to(vals[i],  { opacity:1, duration:.35 }, at + FALL + 0.05)
+      .to(subs[i],  { opacity:1, duration:.35 }, at + FALL + 0.15);
+  });
+
+  /* HERO — the index, and what it cost the market */
+  const tHero = T0 + 5 * STEP + FALL + 0.30;
+  tl.fromTo('#agg', { opacity:0, x:20 },
+                    { opacity:1, x:0, duration:.75, ease:'power3.out' }, tHero);
+
+  tl.to('#legend', { opacity:1, duration:.5 }, tHero + 0.45)
+    .to('#kicker', { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, tHero + 0.65);
+
+  return tl;
+}
+
+/* ---------- idle ---------- */
+function idle(){
+  BW.glow('#agg .big', { color:'255,82,71', min:24, max:52, dur:2.7 });
+  /* the unquantified drops keep travelling - they never resolve */
+  BW.march('.stem.q', { by:-14, dur:1.4 });
+  BW.ripple('#svg', { cx:1400, cy:500 + 28.6 * PXPCT, r0:9, r1:42, color:'#FF5247', dur:2.6, count:2 });
+  nodes.forEach((n, i) => BW.raw(gsap.to(n, { opacity:.6, duration:1.6, ease:'sine.inOut',
+                                              yoyo:true, repeat:-1, delay: i * 0.24 })));
+}
+
+/* the ambient field runs from load and survives a replay */
+BW.ambient({ tint:'255,82,71', count:56 });
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

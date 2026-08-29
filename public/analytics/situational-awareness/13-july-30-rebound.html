@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  D13 · JULY 30 — THE REBOUND TELL  ·  Section 8
+  Boardroom Wire — Situational Awareness
+  Intraday moves the session Citadel took the book off Leopold's
+  hands. Gold = in the block. Grey = not in the block.
+  Cipher Mining, exited in Q1, outran everything Citadel bought.
+  Source: SpotGamma unwind teardown, CNBC. REPORTED.
+  R replay · ?final = lit still.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>July 30 · The Rebound Tell · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=3" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(36, 30, 16, 0.5); --mood-b: #0a0a0f; }
+  .amb-glow { --glow-tint: rgba(212, 175, 55, 0.05); top: 52%; left: 48%; }
+
+  #kick     { position:absolute; left:56px; top:198px; opacity:0; z-index:20 }
+  #title    { position:absolute; left:56px; top:226px; opacity:0; z-index:20 }
+  #subtitle { position:absolute; left:56px; top:306px; width:1000px; opacity:0; z-index:20 }
+
+  #legend   { position:absolute; left:56px; top:348px; display:flex; gap:34px; opacity:0; z-index:20 }
+  #legend .item { display:flex; align-items:center; gap:10px;
+                  font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500;
+                  letter-spacing:.16em; text-transform:uppercase; color:rgba(245,241,229,0.55) }
+  #legend .sw { width:22px; height:10px; border-radius:1px }
+  #legend .sw.gold { background:#D4AF37 }
+  #legend .sw.grey { background:#5E5E70 }
+
+  svg.plot { position:absolute; inset:0; z-index:10 }
+
+  .vgrid    { stroke:rgba(212,175,55,0.09); stroke-width:1; opacity:0 }
+  .vgrid-lbl{ font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500;
+              fill:rgba(245,241,229,0.38); letter-spacing:.1em; opacity:0 }
+  #zeroline { stroke:rgba(212,175,55,0.45); stroke-width:1.5; opacity:0 }
+
+  .name     { font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:500;
+              fill:rgba(245,241,229,0.85); letter-spacing:.02em; opacity:0 }
+  .name.out { fill:rgba(245,241,229,0.42) }
+  .tagout   { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500;
+              fill:rgba(245,241,229,0.3); letter-spacing:.16em; opacity:0 }
+
+  .bar      { opacity:0 }
+  .bar.in   { fill:#D4AF37 }
+  .bar.out  { fill:#5E5E70 }
+  .bar.mkt  { fill:rgba(245,241,229,0.35) }
+  .bar.hero { fill:#5E5E70; stroke:rgba(255,179,71,0.75); stroke-width:1.5 }
+
+  .val      { font-family:'IBM Plex Mono',monospace; font-size:19px; font-weight:700;
+              fill:rgba(245,241,229,0.9); letter-spacing:-.01em; opacity:0 }
+  .val.out  { fill:rgba(245,241,229,0.5) }
+  .val.mkt  { font-size:17px; font-weight:500; fill:rgba(245,241,229,0.5) }
+  .val.hero { fill:#FFC97A; filter:drop-shadow(0 0 18px rgba(255,179,71,0.6)) }
+
+  /* the hero callout */
+  #heroLeader { stroke:rgba(255,179,71,0.5); stroke-width:1; opacity:0 }
+  #heroCard  { position:absolute; left:1470px; top:378px; width:340px; opacity:0; z-index:20;
+               border-left:2px solid rgba(255,179,71,0.7); padding:2px 0 2px 20px }
+  #heroCard .lbl { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;
+                   letter-spacing:.24em; color:#FFB347; text-transform:uppercase; margin-bottom:10px }
+  #heroCard .txt { font-family:'IBM Plex Sans',sans-serif; font-weight:300; font-size:20px;
+                   line-height:1.42; color:rgba(245,241,229,0.82) }
+  #heroCard .txt b { font-weight:600; color:#F5F1E5 }
+
+  #mktNote { position:absolute; left:1470px; top:830px; width:340px; opacity:0; z-index:20;
+             font-family:'IBM Plex Sans',sans-serif; font-weight:300; font-size:19px;
+             line-height:1.4; color:rgba(245,241,229,0.55) }
+  #mktNote b { font-weight:600; color:rgba(245,241,229,0.85) }
+
+  #kicker { position:absolute; left:56px; top:912px; z-index:20 }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Section 08 &nbsp;·&nbsp; July 30, 2026</div>
+  <div class="title" id="title">The selling stopped. <b>Everything went up.</b></div>
+  <div class="subtitle" id="subtitle">Intraday moves on the session Citadel bought the book, against the equal-weight S&amp;P.</div>
+
+  <div id="legend">
+    <div class="item"><span class="sw gold"></span> In the block &mdash; Citadel bought</div>
+    <div class="item"><span class="sw grey"></span> Not in the block</div>
+  </div>
+
+  <svg class="plot" viewBox="0 0 1920 1080" id="svg">
+    <g id="grid"></g>
+    <line id="zeroline" x1="500" y1="386" x2="500" y2="862" />
+    <g id="rows"></g>
+    <line id="heroLeader" x1="1438" y1="418" x2="1462" y2="418" />
+  </svg>
+
+  <div id="heroCard">
+    <div class="lbl">Cipher Mining</div>
+    <div class="txt">Exited in <b>Q1 2026</b>. Not in the block, not bought by Citadel &mdash; and it outran <b>every name that was.</b></div>
+  </div>
+
+  <div id="mktNote">The rest of the market did <b>nothing</b> that day.</div>
+
+  <div class="kicker" id="kicker">Nothing changed about these companies. <b>Only the seller.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="chip reported">Reported &nbsp;·&nbsp; SpotGamma, CNBC</div>
+    <div class="bw-source">Intraday moves, July 30, 2026 &nbsp;·&nbsp; position status from SEC Form 13F, Q1 &amp; Q2 2026 &nbsp;·&nbsp; RSP = equal-weight S&amp;P 500</div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+
+  <div class="bw-hint">R&nbsp;replay&nbsp;·&nbsp;?final&nbsp;still</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/motion.js?v=3"></script>
+<script>
+/* ---------- data ---------- */
+/* inBlock: did it transfer to Citadel on July 30.
+   hero: Cipher — the name he'd already sold, which beat all of them. */
+const ROWS = [
+  { name:'Cipher Mining',   pct:28.3, inBlock:false, hero:true, note:'Exited Q1' },
+  { name:'Nebius',          pct:27.1, inBlock:true  },
+  { name:'IREN',            pct:26.5, inBlock:true  },
+  { name:'Bloom Energy',    pct:25.6, inBlock:true  },
+  { name:'SanDisk',         pct:24.6, inBlock:true  },
+  { name:'Riot Platforms',  pct:23.7, inBlock:true  },
+  { name:'Hut 8',           pct:22.5, inBlock:false, note:'Exited Q1' },
+  { name:'CoreWeave',       pct:22.0, inBlock:true  },
+  { name:'CleanSpark',      pct:21.4, inBlock:true  },
+  { name:'Applied Digital', pct:21.4, inBlock:true  },
+  { name:'Core Scientific', pct:20.7, inBlock:true  },
+  { name:'TeraWulf',        pct:18.6, inBlock:false, note:'Not held' },
+  { name:'Equal-weight S&P', pct:0,   market:true   }
+];
+
+/* ---------- geometry ---------- */
+const XZERO = 500, PCTMAX = 30, XSPAN = 880;
+const ROW0 = 408, PITCH = 36, BARH = 20;
+const xOf = p => XZERO + (p / PCTMAX) * XSPAN;
+const yOf = i => ROW0 + i * PITCH;
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+const mk = (tag, attrs) => {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+};
+
+(function buildGrid(){
+  const g = document.getElementById('grid');
+  [10, 20].forEach(p => {
+    const x = xOf(p);
+    g.appendChild(mk('line', { class:'vgrid', x1:x, y1:386, x2:x, y2:862 }));
+    const t = mk('text', { class:'vgrid-lbl', x:x, y:374, 'text-anchor':'middle' });
+    t.textContent = '+' + p + '%';
+    g.appendChild(t);
+  });
+})();
+
+const bars = [], vals = [];
+(function buildRows(){
+  const g = document.getElementById('rows');
+  ROWS.forEach((r, i) => {
+    const y = yOf(i), cy = y + BARH / 2;
+
+    const nm = mk('text', { class:'name' + (r.inBlock ? '' : ' out'), x:478, y:cy + 6, 'text-anchor':'end' });
+    nm.textContent = r.name;
+    g.appendChild(nm);
+
+    const cls = r.market ? 'bar mkt' : (r.hero ? 'bar hero' : (r.inBlock ? 'bar in' : 'bar out'));
+    const bar = mk('rect', { class:cls, x:XZERO, y:y, width:0, height:BARH, rx:1 });
+    g.appendChild(bar);
+    bars.push(bar);
+
+    const vcls = r.market ? 'val mkt' : (r.hero ? 'val hero' : (r.inBlock ? 'val' : 'val out'));
+    const v = mk('text', { class:vcls, x:xOf(r.pct) + 16, y:cy + 7 });
+    v.textContent = r.market ? '≈ 0%' : '+' + r.pct.toFixed(1) + '%';
+    g.appendChild(v);
+    vals.push(v);
+
+    /* the tag sits after the value — an annotation, not part of the name */
+    if (r.note && !r.hero){
+      const tg = mk('text', { class:'tagout', x:xOf(r.pct) + 108, y:cy + 6 });
+      tg.textContent = r.note;
+      g.appendChild(tg);
+    }
+  });
+})();
+
+/* the market row gets a visible nub so "nothing happened" still reads */
+const MKT = ROWS.length - 1;
+
+const ALL = ['#kick','#title','#subtitle','#legend','#heroCard','#mktNote','#kicker',
+             '.vgrid','.vgrid-lbl','#zeroline','.name','.tagout','.bar','.val','#heroLeader'];
+
+function reset(){
+  BW.chromeHide();
+  gsap.set(ALL, { opacity:0 });
+  gsap.set(['#title','#kicker'], { y:14, filter:'blur(8px)' });
+  gsap.set('#zeroline', { scaleY:0, transformOrigin:'top center' });
+  bars.forEach(b => b.setAttribute('width', 0));
+}
+
+function rest(){
+  reset();
+  BW.chromeShow();
+  gsap.set(ALL, { opacity:1 });
+  gsap.set(['#title','#kicker'], { y:0, filter:'blur(0px)' });
+  gsap.set('#zeroline', { scaleY:1 });
+  ROWS.forEach((r, i) => bars[i].setAttribute('width', r.market ? 5 : xOf(r.pct) - XZERO));
+}
+
+function play(){
+  reset();
+  const tl = gsap.timeline();
+  BW.chromeIn(tl, 0);
+
+  tl.fromTo('#kick', { opacity:0, letterSpacing:'0.88em' },
+                     { opacity:1, letterSpacing:'0.42em', duration:.95, ease:'power3.out' }, 0.30)
+    .to('#title',    { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, 0.50)
+    .to('#subtitle', { opacity:1, duration:.7 }, 0.85)
+    .to('#legend',   { opacity:1, duration:.6 }, 1.05);
+
+  /* frame first */
+  tl.to('.vgrid',     { opacity:1, duration:.5, stagger:.06 }, 1.05)
+    .to('.vgrid-lbl', { opacity:1, duration:.5, stagger:.06 }, 1.15)
+    .to('#zeroline',  { opacity:1, scaleY:1, duration:.8, ease:'power2.out' }, 1.10)
+    .to('.name',      { opacity:1, duration:.5, stagger:.035 }, 1.25)
+    .to('.tagout',    { opacity:1, duration:.5, stagger:.05 }, 1.60);
+
+  /* the market first — the reference the rest is measured against */
+  const T_MKT = 1.9;
+  tl.to(bars[MKT], { opacity:1, attr:{ width:5 }, duration:.4 }, T_MKT)
+    .to(vals[MKT], { opacity:1, duration:.4 }, T_MKT + 0.15)
+    .to('#mktNote', { opacity:1, duration:.6 }, T_MKT + 0.30);
+
+  /* bars grow bottom-up, so the eye climbs to Cipher last */
+  const T_BARS = 2.35, STEP = 0.11, GROW = 0.85;
+  for (let i = MKT - 1; i >= 0; i--){
+    const at = T_BARS + (MKT - 1 - i) * STEP;
+    tl.to(bars[i], { opacity:1, attr:{ width: xOf(ROWS[i].pct) - XZERO },
+                     duration:GROW, ease:'power2.out' }, at)
+      .to(vals[i], { opacity:1, duration:.35 }, at + GROW * 0.72);
+  }
+
+  /* HERO — Cipher, top of the board, and not in the block */
+  const tHero = T_BARS + (MKT - 1) * STEP + GROW;
+  BW.pulse(tl, bars[0], tHero - 0.05, 1.015);
+  tl.to('#heroLeader', { opacity:1, duration:.4 }, tHero + 0.05)
+    .fromTo('#heroCard', { opacity:0, x:26 },
+                         { opacity:1, x:0, duration:.7, ease:'power3.out' }, tHero + 0.10);
+
+  tl.to('#kicker', { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, tHero + 0.85);
+
+  return tl;
+}
+
+/* ---------- idle ---------- */
+function idle(){
+  BW.glow(vals[0], { color:'255,179,71', min:18, max:42, dur:2.8 });
+  BW.shimmer('#heroCard', { dur:4.0, delay:0.9, tint:'rgba(255,179,71,0.10)' });
+  /* the outlined Cipher bar keeps pulsing against the gold block */
+  BW.raw(gsap.to(bars[0], { opacity:.82, duration:2.6, ease:'sine.inOut',
+                            yoyo:true, repeat:-1 }));
+  BW.raw(gsap.to('#heroLeader', { opacity:.4, duration:2.2, ease:'sine.inOut',
+                                  yoyo:true, repeat:-1 }));
+  BW.float('#mktNote', { y:3, dur:5.4 });
+}
+
+/* the ambient field runs from load and survives a replay */
+BW.ambient({ tint:'212,175,55', count:56 });
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  D14 · THE DESCENT THROUGH THE STACK  ·  Section 8  ·  CLOSER
+  Boardroom Wire — Situational Awareness
+  Power -> data centres -> memory -> lithography. Each layer
+  narrower, deeper and dimmer than the one above it, ending
+  on Source Foundry alone in the dark.
+  R replay · ?final = lit still.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>The Descent Through the Stack · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=3" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(24, 26, 34, 0.55); --mood-b: #08080c; }
+  .amb-glow { --glow-tint: rgba(212, 175, 55, 0.05); top: 72%; left: 50%; }
+
+  #kick     { position:absolute; left:56px; top:198px; opacity:0; z-index:20 }
+  #title    { position:absolute; left:56px; top:226px; opacity:0; z-index:20 }
+  #subtitle { position:absolute; left:56px; top:306px; width:1500px; opacity:0; z-index:20 }
+
+  svg.plot { position:absolute; inset:0; z-index:8 }
+  .drop { stroke:rgba(245,241,229,0.16); stroke-width:1; stroke-dasharray:4 6; opacity:0 }
+
+  .layer { position:absolute; z-index:20; opacity:0; height:100px;
+           border:1px solid; border-radius:3px; padding:0 30px;
+           display:flex; align-items:center; justify-content:space-between; gap:30px }
+  .layer .l { font-family:'IBM Plex Sans',sans-serif; font-weight:300; font-size:30px;
+              color:#F5F1E5; white-space:nowrap }
+  .layer .l b { font-weight:600 }
+  .layer .l .sub { display:block; font-family:'IBM Plex Sans',sans-serif; font-weight:300;
+                   font-size:17px; letter-spacing:.01em; margin-top:5px;
+                   color:rgba(242,203,82,0.6); text-shadow:none }
+  .layer .p { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:400;
+              letter-spacing:.1em; color:rgba(245,241,229,0.45); text-align:right }
+
+  .layer.t0 { border-color:rgba(42,157,143,0.5);  background:rgba(42,157,143,0.07) }
+  .layer.t1 { border-color:rgba(233,162,59,0.45); background:rgba(233,162,59,0.06) }
+  .layer.t2 { border-color:rgba(255,82,71,0.42);  background:rgba(255,82,71,0.055) }
+  .layer.t3 { height:118px; border-color:rgba(212,175,55,0.75); background:rgba(212,175,55,0.09);
+              box-shadow:0 0 54px rgba(212,175,55,0.22) }
+  .layer.t3 .l  { color:#F2CB52; text-shadow:0 0 24px rgba(212,175,55,0.45) }
+  .layer.t3 .p  { color:rgba(242,203,82,0.7) }
+
+  .era { position:absolute; z-index:20; opacity:0; width:200px; text-align:right;
+         font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600;
+         letter-spacing:.2em; color:rgba(245,241,229,0.45); text-transform:uppercase }
+
+  #depth { position:absolute; left:1740px; top:392px; height:466px; width:1px; z-index:15;
+           opacity:0; background:linear-gradient(180deg, rgba(245,241,229,0.22), rgba(212,175,55,0.5)) }
+  #depthLbl { position:absolute; left:1700px; top:870px; width:160px; text-align:center; opacity:0; z-index:20;
+              font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+              letter-spacing:.2em; color:rgba(245,241,229,0.35); text-transform:uppercase }
+
+  #kicker { position:absolute; left:56px; top:892px; z-index:20 }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Section 08 &nbsp;·&nbsp; The Descent</div>
+  <div class="title" id="title">The same trade, <b>one layer further down.</b></div>
+  <div class="subtitle" id="subtitle">Where the money went, in order, from the first filing to the month after the fund blew up.</div>
+
+  <svg class="plot" viewBox="0 0 1920 1080" id="svg">
+    <g id="drops"></g>
+  </svg>
+
+  <div id="stack"></div>
+  <div id="depth"></div>
+  <div id="depthLbl">Deeper</div>
+
+  <div class="kicker" id="kicker">Right about the direction, <b>every single time.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="chip primary">SEC Form 13F &nbsp;·&nbsp; Q4 2024 &ndash; Q2 2026</div>
+    <div class="bw-source">Holdings per SEC Form 13F &nbsp;·&nbsp; Source Foundry: $400M announced Aug 9, 2026, taking the total position to $500M (TechCrunch, Quartz)</div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+
+  <div class="bw-hint">R&nbsp;replay&nbsp;·&nbsp;?final&nbsp;still</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/motion.js?v=3"></script>
+<script>
+/* each layer is narrower and deeper than the one above it */
+const LAYERS = [
+  { era:'Q4 2024', l:'Power <b>generation</b>',
+    p:'Vistra · Talen · Constellation · Vertiv', y:392, w:1400 },
+  { era:'2025',    l:'Data centres and <b>compute</b>',
+    p:'CoreWeave · Core Scientific · IREN · Applied Digital', y:508, w:1160 },
+  { era:'Q2 2026', l:'<b>Memory</b>',
+    p:'SanDisk · Micron', y:624, w:920 },
+  { era:'Aug 2026', l:'<b>Lithography</b>', sub:'the machines that make the chips',
+    p:'Source Foundry · $500M', y:740, w:700, hero:true }
+];
+
+const CX = 960;
+const stack = BW.$('#stack'), dropsG = BW.$('#drops');
+const layers = [], eras = [];
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+const mk = (tag, attrs) => {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+};
+
+LAYERS.forEach((d, i) => {
+  const left = CX - d.w / 2;
+
+  const el = document.createElement('div');
+  el.className = 'layer t' + i;
+  el.style.cssText = `left:${left}px; top:${d.y}px; width:${d.w}px`;
+  el.innerHTML = `<div class="l">${d.l}` +
+                 (d.sub ? `<span class="sub">${d.sub}</span>` : '') +
+                 `</div><div class="p">${d.p}</div>`;
+  stack.appendChild(el);
+  layers.push(el);
+
+  const er = document.createElement('div');
+  er.className = 'era';
+  er.style.cssText = `left:${left - 232}px; top:${d.y + 40}px`;
+  er.textContent = d.era;
+  stack.appendChild(er);
+  eras.push(er);
+
+  if (i < LAYERS.length - 1){
+    dropsG.appendChild(mk('line', { class:'drop', x1:CX, y1:d.y + 100, x2:CX, y2:LAYERS[i+1].y }));
+  }
+});
+
+const drops = BW.$$('.drop');
+
+const ALL = ['#kick','#title','#subtitle','#kicker','.layer','.era','.drop','#depth','#depthLbl'];
+
+function reset(){
+  BW.chromeHide();
+  gsap.set(ALL, { opacity:0 });
+  gsap.set(['#title','#kicker'], { y:14, filter:'blur(8px)' });
+  gsap.set(layers, { y:-16 });
+}
+
+function rest(){
+  reset();
+  BW.chromeShow();
+  gsap.set(ALL, { opacity:1 });
+  gsap.set(['#title','#kicker'], { y:0, filter:'blur(0px)' });
+  gsap.set(layers, { y:0 });
+  /* the layers above recede as you pass them */
+  gsap.set(layers[0], { opacity:.45 });
+  gsap.set(layers[1], { opacity:.58 });
+  gsap.set(layers[2], { opacity:.75 });
+}
+
+function play(){
+  reset();
+  const tl = gsap.timeline();
+  BW.chromeIn(tl, 0);
+
+  tl.fromTo('#kick', { opacity:0, letterSpacing:'0.88em' },
+                     { opacity:1, letterSpacing:'0.42em', duration:.95, ease:'power3.out' }, 0.30)
+    .to('#title',    { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, 0.50)
+    .to('#subtitle', { opacity:1, duration:.7 }, 0.85);
+
+  tl.to('#depth',    { opacity:1, duration:.9 }, 1.10)
+    .to('#depthLbl', { opacity:1, duration:.5 }, 1.60);
+
+  /* the descent, one stratum at a time */
+  const T0 = 1.35, STEP = 1.05;
+  LAYERS.forEach((d, i) => {
+    const at = T0 + i * STEP;
+    tl.to(layers[i], { opacity:1, y:0, duration:.75, ease:'power3.out' }, at)
+      .to(eras[i],   { opacity:1, duration:.5 }, at + 0.20);
+    if (drops[i]) tl.to(drops[i], { opacity:1, duration:.45 }, at + 0.55);
+
+    /* passing a layer dims the ones above it */
+    for (let k = 0; k < i; k++){
+      tl.to(layers[k], { opacity: 0.45 + k * 0.13, duration:.6 }, at + 0.25);
+    }
+  });
+
+  /* HERO — the bottom of the stack */
+  const tHero = T0 + 3 * STEP + 0.60;
+  BW.pulse(tl, layers[3], tHero, 1.015);
+  tl.to('#kicker', { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, tHero + 0.40);
+
+  return tl;
+}
+
+/* ---------- idle ---------- */
+function idle(){
+  BW.glow('.layer.t3 .l', { color:'212,175,55', min:20, max:44, dur:3.0 });
+  BW.breathe(layers[3], { scale:1.008, dur:4.2 });
+  BW.shimmer(layers[3], { dur:4.4, delay:1.0, tint:'rgba(242,203,82,0.11)' });
+  /* the connectors keep feeding downward */
+  BW.march('.drop', { by:20, dur:1.7 });
+  layers.slice(0, 3).forEach((l, i) =>
+    BW.raw(gsap.to(l, { opacity: (0.45 + i * 0.13) * 0.82, duration: 3.4 + i * 0.4,
+                        ease:'sine.inOut', yoyo:true, repeat:-1, delay: i * 0.5 })));
+}
+
+/* the ambient field runs from load and survives a replay */
+BW.ambient({ tint:'212,175,55', count:58 });
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

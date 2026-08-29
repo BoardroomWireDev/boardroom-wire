@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  D02 · THE MANIFESTO SCORECARD  ·  Section 2
+  Boardroom Wire — Situational Awareness
+  Eight claims from the June 2024 manifesto, marked.
+  5 confirmed, 2 open, 1 contested. Marks are drawn SVG, not
+  emoji — emoji render inconsistently on capture.
+  The document card is a typographic reference to the paper,
+  not a reproduction of its cover.
+  R replay · ?final = lit still.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>The Manifesto Scorecard · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=3" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(30, 28, 40, 0.5); --mood-b: #0a0a0f; }
+  .amb-glow { --glow-tint: rgba(212, 175, 55, 0.05); top: 55%; left: 60%; }
+
+  #kick     { position:absolute; left:56px; top:198px; opacity:0; z-index:20 }
+  #title    { position:absolute; left:56px; top:226px; opacity:0; z-index:20 }
+  #subtitle { position:absolute; left:56px; top:306px; width:1500px; opacity:0; z-index:20 }
+
+  /* ---- the document ---- */
+  #doc { position:absolute; left:56px; top:396px; width:400px; height:392px; opacity:0; z-index:20;
+         border:1px solid rgba(212,175,55,0.30); border-radius:4px; padding:30px 30px;
+         background:linear-gradient(180deg, rgba(212,175,55,0.05), rgba(212,175,55,0.01)) }
+  #doc .tag { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600;
+              letter-spacing:.3em; color:#D4AF37; text-transform:uppercase }
+  #doc .t   { font-family:'IBM Plex Sans',sans-serif; font-weight:300; font-size:34px;
+              line-height:1.15; color:#F5F1E5; margin-top:26px }
+  #doc .t b { font-weight:600 }
+  #doc .m   { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:400;
+              letter-spacing:.1em; color:rgba(245,241,229,0.45); margin-top:22px; line-height:1.9 }
+  #doc .rules { margin-top:26px }
+  #doc .rules i { display:block; height:1px; background:rgba(245,241,229,0.10); margin-bottom:11px }
+
+  /* ---- the ledger ---- */
+  #rows { position:absolute; left:540px; top:396px; width:1324px; z-index:20 }
+  .row { display:flex; align-items:center; gap:22px; height:49px;
+         border-bottom:1px solid rgba(245,241,229,0.07); opacity:0 }
+  .row .mk { width:26px; height:26px; flex:0 0 26px }
+  .row .p  { font-family:'IBM Plex Sans',sans-serif; font-weight:300; font-size:23px;
+             color:#F5F1E5; white-space:nowrap }
+  .row .ld { flex:1; height:1px; margin:0 20px;
+             border-bottom:1px dotted rgba(245,241,229,0.16) }
+  .row .v  { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:500;
+             letter-spacing:.1em; text-align:right; white-space:nowrap }
+  .row.hit  .v { color:rgba(212,175,55,0.9) }
+  .row.open .v { color:rgba(233,162,59,0.85) }
+  .row.con  .v { color:rgba(255,82,71,0.9) }
+  .row.open .p, .row.con .p { color:rgba(245,241,229,0.7) }
+
+  /* ---- the tally ---- */
+  #tally { position:absolute; left:540px; top:836px; opacity:0; z-index:20;
+           display:flex; align-items:baseline; gap:44px }
+  #tally .grp { display:flex; align-items:baseline; gap:12px }
+  #tally .n { font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:46px;
+              letter-spacing:-.02em; color:rgba(245,241,229,0.6) }
+  #tally .grp.hero .n { color:#F2CB52; font-size:60px;
+                        text-shadow:0 0 30px rgba(212,175,55,0.5), 0 0 72px rgba(212,175,55,0.2) }
+  #tally .k { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;
+              letter-spacing:.26em; color:rgba(245,241,229,0.45); text-transform:uppercase }
+  #tally .grp.hero .k { color:#D4AF37 }
+
+  #kicker { position:absolute; left:56px; top:930px; z-index:20 }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Section 02 &nbsp;·&nbsp; The Manifesto</div>
+  <div class="title" id="title">Eight calls, made <b>in June 2024.</b></div>
+  <div class="subtitle" id="subtitle">Marked two years later, against what actually happened.</div>
+
+  <div id="doc">
+    <div class="tag">The document</div>
+    <div class="t">Situational Awareness:<br /><b>The Decade Ahead</b></div>
+    <div class="m">Leopold Aschenbrenner<br />June 2024 &nbsp;·&nbsp; 165 pages<br />situational-awareness.ai</div>
+    <div class="rules">
+      <i style="width:100%"></i><i style="width:92%"></i><i style="width:97%"></i>
+      <i style="width:78%"></i><i style="width:88%"></i>
+    </div>
+  </div>
+
+  <div id="rows"></div>
+
+  <div id="tally">
+    <div class="grp hero"><span class="n">5</span><span class="k">Confirmed</span></div>
+    <div class="grp"><span class="n">2</span><span class="k">Still open</span></div>
+    <div class="grp"><span class="n">1</span><span class="k">Contested</span></div>
+  </div>
+
+  <div class="kicker" id="kicker">He was right about nearly all of it. <b>It didn&rsquo;t save him.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="chip primary">The manifesto &nbsp;·&nbsp; published June 2024</div>
+    <div class="bw-source">Claims as published at situational-awareness.ai, June 2024 &nbsp;·&nbsp; verdicts are a Boardroom Wire assessment against reported 2026 outcomes</div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+
+  <div class="bw-hint">R&nbsp;replay&nbsp;·&nbsp;?final&nbsp;still</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/motion.js?v=3"></script>
+<script>
+/* drawn marks — no emoji anywhere in this set */
+const MARK = {
+  hit:  '<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="none" stroke="rgba(212,175,55,0.45)"/>' +
+        '<path d="M7 13.5 L11.2 17.5 L19 9" fill="none" stroke="#F2CB52" stroke-width="2.4" ' +
+        'stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  open: '<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="none" stroke="rgba(233,162,59,0.45)"/>' +
+        '<circle cx="13" cy="13" r="4.2" fill="none" stroke="#E9A23B" stroke-width="2.2"/></svg>',
+  con:  '<svg viewBox="0 0 26 26"><path d="M13 3 L24 22 L2 22 Z" fill="none" stroke="rgba(255,82,71,0.5)" ' +
+        'stroke-width="1.6" stroke-linejoin="round"/><path d="M13 10 v5.4" stroke="#FF5247" stroke-width="2.4" ' +
+        'stroke-linecap="round"/><circle cx="13" cy="18.6" r="1.4" fill="#FF5247"/></svg>'
+};
+
+const CLAIMS = [
+  { p:'The AI capex supercycle',              v:'~$700B in 2026',                 m:'hit'  },
+  { p:'Power is the binding constraint',      v:'Power equities led the trade',   m:'hit'  },
+  { p:'Gigawatt training clusters by 2026',   v:'Hit',                            m:'hit'  },
+  { p:'Test-time compute and reasoning',      v:'Called ~3 months before o1',     m:'hit'  },
+  { p:'A memory and HBM shortage',            v:'Became his largest position',    m:'hit'  },
+  { p:'AGI by 2027',                          v:'Unsettled',                      m:'open' },
+  { p:'A US–China arms race',            v:'The weakest leg',                m:'con'  },
+  { p:'A trillion-dollar single cluster',     v:'~half an order of magnitude behind', m:'open' }
+];
+
+const rowsEl = BW.$('#rows');
+const rows = CLAIMS.map(c => {
+  const d = document.createElement('div');
+  d.className = 'row ' + c.m;
+  d.innerHTML = `<span class="mk">${MARK[c.m]}</span><span class="p">${c.p}</span><span class="ld"></span><span class="v">${c.v}</span>`;
+  rowsEl.appendChild(d);
+  return d;
+});
+
+const ALL = ['#kick','#title','#subtitle','#doc','.row','#tally','#kicker'];
+
+function reset(){
+  BW.chromeHide();
+  gsap.set(ALL, { opacity:0 });
+  gsap.set(['#title','#kicker'], { y:14, filter:'blur(8px)' });
+  gsap.set('#doc', { x:-18 });
+  gsap.set(rows, { x:18 });
+}
+
+function rest(){
+  reset();
+  BW.chromeShow();
+  gsap.set(ALL, { opacity:1 });
+  gsap.set(['#title','#kicker'], { y:0, filter:'blur(0px)' });
+  gsap.set(['#doc', ...rows], { x:0 });
+}
+
+function play(){
+  reset();
+  const tl = gsap.timeline();
+  BW.chromeIn(tl, 0);
+
+  tl.fromTo('#kick', { opacity:0, letterSpacing:'0.88em' },
+                     { opacity:1, letterSpacing:'0.42em', duration:.95, ease:'power3.out' }, 0.30)
+    .to('#title',    { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, 0.50)
+    .to('#subtitle', { opacity:1, duration:.7 }, 0.85);
+
+  tl.to('#doc', { opacity:1, x:0, duration:.8, ease:'power3.out' }, 1.05);
+
+  /* the ledger fills top to bottom — the wins first, then the ones
+     still hanging, which is the order the argument needs */
+  rows.forEach((r, i) => {
+    tl.to(r, { opacity:1, x:0, duration:.55, ease:'power2.out' }, 1.45 + i * 0.28);
+  });
+
+  /* HERO — the count */
+  const tHero = 1.45 + 8 * 0.28 + 0.35;
+  tl.fromTo('#tally', { opacity:0, y:14 },
+                      { opacity:1, y:0, duration:.7, ease:'power3.out' }, tHero);
+  BW.pulse(tl, '#tally .grp.hero .n', tHero + 0.25, 1.08);
+
+  tl.to('#kicker', { opacity:1, y:0, filter:'blur(0px)', duration:.95, ease:'power3.out' }, tHero + 0.85);
+
+  return tl;
+}
+
+/* ---------- idle ---------- */
+function idle(){
+  BW.glow('#tally .grp.hero .n', { color:'212,175,55', min:22, max:48, dur:3.0 });
+  BW.shimmer('#doc', { dur:3.8, delay:1.2, tint:'rgba(212,175,55,0.09)' });
+  BW.float('#doc', { y:4, dur:5.6 });
+  /* the confirmed marks tick over in sequence, like a ledger refreshing */
+  BW.$$('.row.hit .mk').forEach((m, i) =>
+    BW.raw(gsap.to(m, { opacity:.62, duration:1.1, ease:'sine.inOut',
+                        yoyo:true, repeat:-1, delay: i * 0.55 })));
+}
+
+/* the ambient field runs from load and survives a replay */
+BW.ambient({ tint:'212,175,55', count:52 });
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>
