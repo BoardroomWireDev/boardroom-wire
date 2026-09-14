@@ -1,16 +1,18 @@
 ---
 /**
- * Shell for the /analytics/ routes.
+ * Site shell for every page that is not one of the three original standalone
+ * documents (index, about, videos — which keep their inline styles).
  *
- * The three existing pages (index, about, videos) are standalone files with
- * inline styles and no layout — that convention is left alone. This layout
- * exists only because the analytics section is three pages deep and would
- * otherwise triplicate the ticker markup, the shell CSS and the YouTube
- * hydration script. Nothing outside /analytics/ uses it.
+ * Used by /analytics/ and /wire/. Carries the ticker, the header, the footer,
+ * the shared tokens and page furniture, the SEO head (canonical, Open Graph,
+ * Twitter, optional Article metadata and JSON-LD) and the YouTube hydration
+ * script for the ticker.
  *
- * Chrome, tokens and type are copied from videos.astro so the section is
+ * Chrome, tokens and type are copied from videos.astro so these sections are
  * visually continuous with the rest of the site.
  */
+import { SITE_ORIGIN } from '../data/analytics';
+
 interface Props {
   title: string;
   description: string;
@@ -20,10 +22,19 @@ interface Props {
   ogImage?: string;
   /** Canonical path, e.g. "/analytics/". */
   path: string;
+  ogType?: 'website' | 'article';
+  /** ISO timestamps; emitted as article:published_time / article:modified_time. */
+  publishedTime?: string;
+  modifiedTime?: string;
+  /** Serialised into a JSON-LD script tag. */
+  jsonLd?: Record<string, unknown>;
+  noindex?: boolean;
 }
 
-const SITE_ORIGIN = 'https://www.boardroomwire.com';
-const { title, description, pageLabel, ogImage, path } = Astro.props;
+const {
+  title, description, pageLabel, ogImage, path,
+  ogType = 'website', publishedTime, modifiedTime, jsonLd, noindex = false,
+} = Astro.props;
 
 const canonical = `${SITE_ORIGIN}${path}`;
 const og = ogImage
@@ -38,10 +49,12 @@ const og = ogImage
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
+  {noindex && <meta name="robots" content="noindex" />}
   <link rel="icon" type="image/png" href="/logo.png" />
   <link rel="canonical" href={canonical} />
+  <link rel="alternate" type="application/rss+xml" title="Boardroom Wire" href="/rss.xml" />
 
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
   <meta property="og:site_name" content="Boardroom Wire" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
@@ -49,11 +62,14 @@ const og = ogImage
   {og && <meta property="og:image" content={og} />}
   {og && <meta property="og:image:width" content="1200" />}
   {og && <meta property="og:image:height" content="630" />}
+  {ogType === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+  {ogType === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
   <meta name="twitter:card" content={og ? 'summary_large_image' : 'summary'} />
   <meta name="twitter:site" content="@BoardroomWire" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   {og && <meta name="twitter:image" content={og} />}
+  {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -212,7 +228,8 @@ const og = ogImage
     .crumb:hover { color: var(--gold-bright); }
 
     /* ============ SOURCE CHIP ============ */
-    /* Mirrors the chip baked into every dashboard frame. */
+    /* Mirrors the chip baked into every dashboard frame: solid gold = primary,
+       dashed amber = reported, dotted grey with a hollow dot = estimate. */
     .chip {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 5px 11px; border-radius: 3px;
@@ -231,6 +248,11 @@ const og = ogImage
       background: rgba(255, 179, 71, 0.04);
     }
     .chip.reported::before { background: var(--amber); box-shadow: 0 0 6px var(--amber-glow); }
+    .chip.estimate {
+      color: var(--white-dim); border: 1px dotted rgba(245, 241, 229, 0.38);
+      background: rgba(245, 241, 229, 0.03);
+    }
+    .chip.estimate::before { background: transparent; border: 1px solid rgba(245, 241, 229, 0.5); }
 
     /* ============ CARDS ============ */
     .a-grid {
@@ -298,12 +320,12 @@ const og = ogImage
     }
     footer.tail a { color: inherit; text-decoration: none; transition: color 0.18s; }
     footer.tail a:hover { color: var(--gold-bright); }
-    footer.tail .links { display: flex; gap: 22px; }
+    footer.tail .links { display: flex; gap: 22px; flex-wrap: wrap; }
 
     @media (max-width: 720px) {
-      /* "Analytics" is a longer page label than "Videos" or "About", and an
-         unwrapped flex header was widening the whole document past the
-         viewport — every block below it then inherited that width. */
+      /* A long page label plus an unwrapped flex header was widening the whole
+         document past the viewport — every block below it then inherited that
+         width. */
       header.top { padding: 20px 24px 0; flex-wrap: wrap; gap: 10px; }
       .page-label { font-size: 11px; letter-spacing: 0.22em; }
       .home-link { font-size: 18px; }
@@ -369,6 +391,7 @@ const og = ogImage
   <footer class="tail">
     <span>© 2026 Boardroom Wire</span>
     <span class="links">
+      <a href="/wire/">Wire</a>
       <a href="/analytics/">Analytics</a>
       <a href="/videos/">Videos</a>
       <a href="/about/">About</a>
