@@ -94,8 +94,9 @@ Commit messages follow `area: short description`.
 ## How the embed behaves
 
 Dashboards are authored at a fixed 1920×1080 for video capture, so the site scales
-them rather than reflowing them. In an article each chart is a still with a Play
-button; pressing it runs the animation in place, and Fullscreen letterboxes it to the
-screen. On a dashboard's own page the live board plays at once, with Replay and
+them rather than reflowing them. In an article each board plays its reveal as it
+scrolls into view, and boards well out of view go back to their poster (replaying on
+return) so a long article never runs them all at once; Fullscreen letterboxes a board
+to the screen. On a dashboard's own page the live board plays at once, with Replay and
 Fullscreen. "Open full screen" opens the raw board, where its own R and F keys work.
 Under 900px the poster stands in for the board and a tap opens the full-size image.
