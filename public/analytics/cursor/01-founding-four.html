@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  DASHBOARD 01 · THE FOUNDING FOUR
+  Boardroom Wire · Cursor · Section: Origins
+  Lands on: "His cofounders came from similar backgrounds: Aman Sanger,
+  Sualeh Asif and Arvid Lunnemark…"
+
+  Four typographic plates in a row: name, role, one credential line,
+  stake at close. The only dashboard in the video whose job is
+  emotional rather than analytical — get four humans on screen early so
+  the ending lands on four people, not one CEO.
+
+  PORTRAITS: none shipped (licensing). Each plate has a portrait slot.
+  To use one, set data-portrait-src="assets/portraits/truell.jpg" on the
+  plate — the slot appears above the name and the layout adjusts. Clear
+  the image first; Forbes' November 2025 shots are licensed.
+
+  Titles: Truell CEO, Asif CPO; Sanger and Lunnemark "Cofounder" only,
+  because sources disagree on COO/CTO. "Olympiad medalist" sidesteps
+  informatics vs maths. No birth dates. Stakes are Forbes estimates.
+
+  Controls: R replay · F final · ?final · ?still · ?t=summary+0.8
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>01 · The Founding Four · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=4" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(50,40,20,0.5); }
+  .amb-glow { --glow-tint: rgba(242,203,82,0.06); top: 58%; left: 50%; }
+
+  #kick     { position:absolute; left:56px; top:198px; }
+  #title    { position:absolute; left:56px; top:226px; width:1300px; }
+  #subtitle { position:absolute; left:56px; top:306px; width:1250px; }
+  #kicker   { position:absolute; left:56px; top:918px; }
+
+  .plate.d01 { width: 355px; top: 400px; padding: 26px 28px 24px; min-height: 330px; z-index: 20; }
+  .plate.d01 .n { font-size: 26px; min-height: 32px; }
+  .plate.d01 .n .ch { display: inline-block; }
+  .plate.d01 .d { margin-top: 8px; }
+  .plate.d01 .b { margin-top: 14px; min-height: 66px; }
+  .plate.d01 .stake { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line-faint); }
+  .plate.d01 .stake .k { font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--cream-dim); }
+  .plate.d01 .stake .v { font-family: var(--mono); font-weight: 700; font-size: 34px; color: var(--gold-bright); margin-top: 6px;
+                         --hero-glow-c: var(--gold-glow); --hero-glow-c2: rgba(242,203,82,0.2); }
+  .plate.d01 .stake .s { font-family: var(--sans); font-size: 13px; color: var(--cream-faint); margin-top: 4px; }
+
+  #summary { position:absolute; left:160px; top:790px; width:1600px; z-index:20; text-align:center; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="kick" id="kick">Origins · MIT, 2022</div>
+  <div class="title" id="title">Four college friends. <b>One company.</b></div>
+  <div class="subtitle" id="subtitle" data-reveal="blur">Twenty-five at the time of the sale, all of them. They met at MIT and left in 2022 to build it.</div>
+
+  <div class="annot" id="summary" data-reveal="">Each held roughly <span class="m">4.5%</span>. Each walked away with roughly <span class="m">$2.4B</span>.</div>
+
+  <div class="kicker" id="kicker" data-reveal="blur">The ending lands on <b>four people, not one CEO.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+  <div class="bw-hint">R replay · F final · ?t=summary+0.8</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/data.js?v=4"></script>
+<script src="shared/motion.js?v=4"></script>
+<script>
+BW.provenance({
+  uses: ['founder_stake', 'founder_pct', 'founder_age'],
+  footer: 'Backgrounds per Contrary Research and company bios · Sanger and Lunnemark titled Cofounder where sources disagree on COO/CTO'
+});
+
+const FOUNDERS = [
+  { name:'Michael Truell', role:'CEO', b:'Co-created the Halite AI competition in high school — 10,000+ contestants over three seasons. Interned at Google and Two Sigma.', hero:true },
+  { name:'Aman Sanger',    role:'Cofounder', b:'Medical AI and enterprise machine learning at MIT. Interned at Google, Bridgewater and You.com.' },
+  { name:'Sualeh Asif',    role:'CPO', b:'From Karachi. International Mathematical Olympiad competitor. Interned at IBM on neural machine translation.' },
+  { name:'Arvid Lunnemark', role:'Cofounder · CTO to Oct 2025', b:'Swedish olympiad medalist. Stripe, Jane Street, QuantCo. Left in October 2025 to found Integrous Research; kept his stake.' }
+];
+const stage = BW.$('.stage');
+const plates = FOUNDERS.map((f, i) => {
+  const p = BW.el('div', 'plate d01', stage, `
+    <div class="portrait"></div>
+    <div class="n">${f.name}</div>
+    <div class="d">${f.role}</div>
+    <div class="b">${f.b}</div>
+    <div class="stake"><div class="k">Stake at close</div><div class="v${f.hero ? ' hero-glow' : ''}">$0.0B</div><div class="s">Forbes estimate · ~4.5% each</div></div>`);
+  p.setAttribute('data-reveal', 'up');
+  p.style.left = (160 + i * 415) + 'px';
+  /* portrait slot: set data-portrait-src on the plate to use one */
+  const src = p.dataset.portraitSrc;
+  if (src) { const pt = p.querySelector('.portrait'); pt.classList.add('has'); pt.style.backgroundImage = `url('${src}')`; }
+  return { f, el:p, name:p.querySelector('.n'), stake:p.querySelector('.stake .v') };
+});
+const STAKE = BW.fig('founder_stake').v;
+const fmtStake = v => '~$' + v.toFixed(1) + 'B';
+
+function play() {
+  BW.reset();
+  plates.forEach(p => { p.stake.textContent = '$0.0B'; });
+
+  const tl = gsap.timeline();
+  BW.headerIn(tl);
+
+  BW.mark(tl, 'plates', 1.2, 'four plates in a row');
+  BW.reveal(tl, plates.map(p => p.el), 'plates', { stagger:.28 });
+  plates.forEach((p, i) => BW.typeChars(tl, p.name, { at:`plates+=${(.25 + i * .28).toFixed(2)}`, stagger:.035, duration:.3, from:{ opacity:0, y:8 } }));
+
+  BW.mark(tl, 'stakes', 3.6, 'the stakes count up — ~$2.4B, four times');
+  plates.forEach((p, i) => BW.countUp(tl, p.stake, { from:0, to:STAKE, format:fmtStake, duration:1.4, at:`stakes+=${(i * .15).toFixed(2)}` }));
+  BW.heroLand(tl, plates[0].stake, 'stakes+=1.55');
+
+  BW.mark(tl, 'summary', 5.6, 'each held ~4.5%; each walked away with ~$2.4B');
+  BW.reveal(tl, '#summary', 'summary');
+  BW.mark(tl, 'kicker', 6.2);
+  BW.reveal(tl, '#kicker', 'kicker');
+
+  BW.punch('summary', [140, 380, 1780, 830], { star:true, at:'summary+0.8', note:'four plates, four stakes' });
+  BW.punch('truell', [140, 380, 540, 760], { at:'99', note:'Truell alone' });
+  return tl;
+}
+function rest() {
+  BW.restAll();
+  plates.forEach(p => { p.stake.textContent = fmtStake(STAKE); });
+}
+function idle() {
+  BW.glow(plates[0].stake, { color:'242,203,82', min:14, max:30, dur:3.4 });
+  plates.forEach((p, i) => BW.shimmer(p.el, { dur:3.2, delay:i * 1.1, repeatDelay:5 }));
+}
+
+BW.ambient({ tint:'242,203,82', count:48 });
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

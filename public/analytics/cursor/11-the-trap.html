@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  DASHBOARD 11 · THE TRAP
+  Boardroom Wire · Cursor · Section: Back to the Market
+  Lands on: "The funds large enough to write Cursor a check that size had
+  already written one to Cursor's suppliers."
+
+  Node diagram, Cursor centred, three counterparties on a ring. Each
+  connects with TWO arrows in opposing treatments — gold supportive,
+  red adversarial — each with a short label and a date. The gold arrows
+  draw first and read as a support network. Hold. Then the red arrows
+  draw on top, the ring closes, and bars drop across it: the ring
+  becomes a cage. Every exit loops back to the same handful of entities.
+
+  Microsoft (weighed a bid, walked on antitrust, Apr 2026) is behind
+  INCLUDE_MSFT — the script doesn't mention it, so it is off.
+
+  Controls: R replay · F final · ?final · ?still · ?t=cage+1.0
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>11 · The Trap · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=4" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MotionPathPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(56,22,22,0.5); }
+  .amb-glow { --glow-tint: rgba(255,82,71,0.05); top: 62%; left: 50%; }
+
+  #kick     { position:absolute; left:56px; top:198px; }
+  #title    { position:absolute; left:56px; top:226px; width:1300px; }
+  #subtitle { position:absolute; left:56px; top:306px; width:1250px; }
+  #kicker   { position:absolute; left:56px; top:918px; }
+
+  svg.plot { position:absolute; inset:0; z-index:10; overflow:visible; }
+  .d11-ring { fill: none; stroke: var(--gold); stroke-width: 1.5; stroke-dasharray: 4 8; }
+  .d11-bar  { stroke: var(--red); stroke-width: 2; opacity: .8; }
+  .d11-sup  { fill: none; stroke: var(--gold); stroke-width: 2; }
+  .d11-adv  { fill: none; stroke: var(--red); stroke-width: 2.4; }
+  .d11-head-sup { fill: var(--gold); }
+  .d11-head-adv { fill: var(--red); }
+  .d11-glint { fill: var(--red); }
+
+  .plate.d11 { width: 250px; padding: 18px 20px 16px; z-index: 20; transform: translate(-50%, -50%); }
+  .plate.d11 .n { font-size: 20px; }
+  .plate.d11 .d { margin-top: 6px; }
+  .plate.d11.centre { width: 220px; border-color: var(--amber-45); background: var(--amber-04); text-align: center; }
+  .plate.d11.centre .n { font-family: var(--mono); font-weight: 600; letter-spacing: .14em; font-size: 22px; color: var(--amber-bright);
+                         --hero-glow-c: var(--amber-glow); --hero-glow-c2: rgba(255,179,71,0.2); }
+
+  .d11-lbl { position:absolute; z-index:21; width:250px; transform:translate(-50%,-50%); text-align:center;
+             font-family:var(--sans); font-size:14.5px; line-height:1.3; color:var(--cream); }
+  .d11-lbl .dt { display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; margin-top:3px; }
+  .d11-lbl.sup .dt { color: var(--gold); }
+  .d11-lbl.adv { color: var(--cream); }
+  .d11-lbl.adv .dt { color: var(--red); }
+  .d11-lbl b { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <svg class="plot" id="plot" viewBox="0 0 1920 1080"></svg>
+
+  <div class="kick" id="kick">Back to the Market · April 2026</div>
+  <div class="title" id="title">Every exit ran through <b>the same few companies.</b></div>
+  <div class="subtitle" id="subtitle" data-reveal="blur">The seed investor, the model supplier, the funds. Each had helped. Each now stood in the way.</div>
+
+  <div class="kicker" id="kicker" data-reveal="blur">The support network <b>was the cage.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+  <div class="bw-hint">R replay · F final · ?t=cage+1.0</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/data.js?v=4"></script>
+<script src="shared/motion.js?v=4"></script>
+<script>
+const INCLUDE_MSFT = false;
+
+BW.provenance({
+  uses: ['ev_openai_seed', 'ev_openai_cut', 'ev_anth_supply', 'ev_anth_cc', 'ev_funds_check', 'ev_iconiq', 'cc_jan26', 'cc_mid26']
+        .concat(INCLUDE_MSFT ? ['ev_msft_fork', 'ev_msft_bid'] : []),
+  chips: [{ tier:'P', text:'Primary · OpenAI · Anthropic' }, { tier:'R', text:'Reported · TechCrunch · The Information' }, { tier:'E', text:'Estimate · JetBrains' }],
+  footer: 'OpenAI’s termination came after the close · Microsoft weighed a bid in Apr 2026 and walked on antitrust, not in the script so not on the ring'
+});
+
+/* ---------- geometry ---------------------------------------- */
+const C = { x:960, y:640 };
+const RX = 470, RY = 215;
+const NODES = [
+  { id:'openai', name:'OpenAI', role:'Seed investor · model supplier', a:-90,
+    sup:{ t:'Seeded the <b>$8M</b> round', d:'OCT 2023' }, adv:{ t:'<b>Terminated</b> model access', d:'28 AUG 2026 · POST-CLOSE' } },
+  { id:'anthropic', name:'Anthropic', role:'Primary model supplier', a:30,
+    sup:{ t:'Supplied the <b>primary models</b>', d:'2023 →' }, adv:{ t:'Launched <b>Claude Code</b> · adoption 18% → 39%', d:'FEB 2025 → · JETBRAINS' } },
+  { id:'funds', name:'Late-stage funds', role:'Iconiq et al.', a:150,
+    sup:{ t:'Could write a <b>$2B</b> check', d:'APR 2026' }, adv:{ t:'<b>Declined at $50B</b> · already funded OpenAI and Anthropic', d:'APR 2026 · THE INFORMATION' } }
+].concat(INCLUDE_MSFT ? [{ id:'msft', name:'Microsoft', role:'Owns VS Code and Copilot', a:210,
+    sup:{ t:'<b>VS Code</b>, forked', d:'2022' }, adv:{ t:'Weighed a bid, <b>walked</b>', d:'APR 2026 · ANTITRUST' } }] : []);
+
+const rad = a => a * Math.PI / 180;
+NODES.forEach(n => { n.x = C.x + RX * Math.cos(rad(n.a)); n.y = C.y + RY * Math.sin(rad(n.a)); });
+
+const svg = BW.$('#plot');
+const stage = BW.$('.stage');
+
+/* ring (dashed, gold) + cage bars (red, drawn later) */
+const ring = BW.mk('path', { d:`M${C.x},${C.y - RY} A${RX},${RY} 0 1 1 ${C.x - .01},${C.y - RY}`, class:'d11-ring', opacity:0 }, svg);
+const BARS = 16;
+const bars = Array.from({ length:BARS }, (_, i) => {
+  const x = C.x - RX + (i + .5) * (2 * RX / BARS);
+  const dy = RY * Math.sqrt(Math.max(0, 1 - ((x - C.x) / RX) ** 2));
+  return BW.mk('line', { x1:x, y1:C.y - dy, x2:x, y2:C.y + dy, class:'d11-bar', opacity:0 }, svg);
+});
+
+/* arrows: a quadratic from node to centre, bent one way for support, the other for adversity */
+function arrow(n, sign, cls, headCls) {
+  const dx = C.x - n.x, dy = C.y - n.y, len = Math.hypot(dx, dy);
+  const nx = -dy / len, ny = dx / len;                     /* unit normal */
+  const off = 70 * sign;
+  const pad0 = 0.22, pad1 = 0.20;                          /* keep clear of both plates */
+  const A = { x:n.x + dx * pad0, y:n.y + dy * pad0 }, B = { x:C.x - dx * pad1, y:C.y - dy * pad1 };
+  const P = { x:(n.x + C.x) / 2 + nx * off, y:(n.y + C.y) / 2 + ny * off };
+  const path = BW.mk('path', { d:`M${A.x},${A.y} Q${P.x},${P.y} ${B.x},${B.y}`, class:cls, opacity:0 }, svg);
+  /* arrowhead at B, pointing along the tangent */
+  const tx = B.x - P.x, ty = B.y - P.y, tl = Math.hypot(tx, ty), ux = tx / tl, uy = ty / tl;
+  const head = BW.mk('path', { d:`M${B.x},${B.y} L${B.x - ux * 12 - uy * 6},${B.y - uy * 12 + ux * 6} L${B.x - ux * 12 + uy * 6},${B.y - uy * 12 - ux * 6} Z`, class:headCls, 'data-reveal':'scale' }, svg);
+  /* labels are wide, so a near-vertical arrow needs far more sideways separation than a diagonal one */
+  const sep = 40 + 120 * Math.abs(nx);
+  const mid = { x:.25 * A.x + .5 * P.x + .25 * B.x + nx * sep * sign, y:.25 * A.y + .5 * P.y + .25 * B.y + ny * sep * sign };
+  return { path, head, mid, len:tl };
+}
+
+NODES.forEach(n => {
+  n.plate = BW.el('div', 'plate d11', stage, `<div class="n">${n.name}</div><div class="d">${n.role}</div>`);
+  n.plate.setAttribute('data-reveal', 'up');
+  n.plate.style.left = n.x + 'px'; n.plate.style.top = n.y + 'px';
+  n.S = arrow(n, 1, 'd11-sup', 'd11-head-sup');
+  n.A = arrow(n, -1, 'd11-adv', 'd11-head-adv');
+  const lbl = (k, cls) => {
+    const el = BW.el('div', 'd11-lbl ' + cls, stage, `${n[k].t}<span class="dt">${n[k].d}</span>`);
+    el.setAttribute('data-reveal', '');
+    el.style.left = n[cls === 'sup' ? 'S' : 'A'].mid.x + 'px';
+    el.style.top = n[cls === 'sup' ? 'S' : 'A'].mid.y + 'px';
+    return el;
+  };
+  n.supLbl = lbl('sup', 'sup');
+  n.advLbl = lbl('adv', 'adv');
+  n.glint = BW.mk('circle', { cx:0, cy:0, r:4.5, class:'d11-glint', opacity:0 }, svg);
+});
+
+const centre = BW.el('div', 'plate d11 centre', stage, `<div class="n hero-glow">CURSOR</div><div class="d">Needs $2B · Apr 2026</div>`);
+centre.setAttribute('data-reveal', 'scale');
+centre.style.left = C.x + 'px'; centre.style.top = C.y + 'px';
+
+/* ---------- reveal ------------------------------------------ */
+function play() {
+  BW.reset();
+  gsap.set([ring, ...bars], { opacity:0 });
+  NODES.forEach(n => gsap.set([n.S.path, n.A.path, n.glint], { opacity:0 }));
+  gsap.set(ring, { stroke:'' });
+
+  const tl = gsap.timeline();
+  BW.headerIn(tl);
+
+  BW.mark(tl, 'nodes', 1.2, 'Cursor at the centre; the counterparties around it');
+  BW.reveal(tl, centre, 'nodes');
+  BW.reveal(tl, NODES.map(n => n.plate), 'nodes+=0.3', { stagger:.25 });
+
+  BW.mark(tl, 'support', 2.6, 'the gold arrows: seed money, models, capital — a support network');
+  NODES.forEach((n, i) => {
+    const at = `support+=${(i * .4).toFixed(2)}`;
+    BW.draw(tl, n.S.path, { at, duration:.9, ease:'power1.inOut' });
+    BW.reveal(tl, n.S.head, BW.pos(at, .85));
+    BW.reveal(tl, n.supLbl, BW.pos(at, .5), { duration:.5 });
+  });
+
+  BW.mark(tl, 'hold', 4.6, 'hold on the support network');
+
+  BW.mark(tl, 'adverse', 5.6, 'the red arrows draw on top: cut off, out-competed, declined');
+  NODES.forEach((n, i) => {
+    const at = `adverse+=${(i * .45).toFixed(2)}`;
+    BW.draw(tl, n.A.path, { at, duration:.9, ease:'power1.inOut' });
+    BW.reveal(tl, n.A.head, BW.pos(at, .85));
+    BW.reveal(tl, n.advLbl, BW.pos(at, .5), { duration:.5 });
+  });
+
+  BW.mark(tl, 'cage', 7.9, 'the ring closes and bars drop across it');
+  BW.draw(tl, ring, { at:'cage', duration:1.2, ease:'power1.inOut' });
+  tl.to(ring, { stroke:getComputedStyle(document.documentElement).getPropertyValue('--red').trim(), duration:.6 }, 'cage+=0.9');
+  bars.forEach((b, i) => {
+    tl.set(b, { opacity:.8 }, `cage+=${(1.1 + i * .05).toFixed(2)}`);
+    BW.draw(tl, b, { at:`cage+=${(1.1 + i * .05).toFixed(2)}`, duration:.35, ease:'power2.out' });
+  });
+  tl.to(NODES.map(n => n.S.path), { opacity:.35, duration:.8 }, 'cage+=1.2');
+  tl.to(NODES.map(n => n.S.head), { opacity:.35, duration:.8 }, 'cage+=1.2');
+
+  BW.mark(tl, 'kicker', 10.2);
+  BW.reveal(tl, '#kicker', 'kicker');
+
+  BW.punch('support', [420, 380, 1500, 880], { at:'hold+0.5', note:'the support network alone' });
+  BW.punch('cage', [420, 380, 1500, 880], { star:true, at:'cage+2.2', note:'the ring as a cage' });
+  BW.punch('funds', [380, 640, 900, 880], { at:'99', note:'the funds node, Iconiq credited' });
+  return tl;
+}
+function rest() {
+  BW.restAll();
+  BW.drawRest([ring, ...bars, ...NODES.map(n => n.S.path), ...NODES.map(n => n.A.path)]);
+  gsap.set(bars, { opacity:.8 });
+  gsap.set(ring, { stroke:getComputedStyle(document.documentElement).getPropertyValue('--red').trim() });
+  gsap.set(NODES.map(n => [n.S.path, n.S.head]).flat(), { opacity:.35 });
+  NODES.forEach(n => gsap.set(n.glint, { opacity:0 }));
+}
+function idle() {
+  BW.glow(ring, { color:'255,82,71', min:4, max:12, dur:3.2 });
+  BW.glow('.plate.centre .n', { color:'255,179,71', min:14, max:30, dur:3.4 });
+  NODES.forEach((n, i) => {
+    BW.raw(gsap.set(n.glint, { opacity:.9 }));
+    BW.glint(n.glint, n.A.path, { dur:2.6, delay:i * .7 });
+  });
+}
+
+BW.ambient({ tint:'255,120,90', count:44 });
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

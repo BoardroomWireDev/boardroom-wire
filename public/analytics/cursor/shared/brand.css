@@ -1,0 +1,461 @@
+/* ============================================================
+   BOARDROOM WIRE — CURSOR DASHBOARD BRAND LAYER  (v4)
+   1920x1080 · IBM Plex · GSAP-choreographed
+
+   Inherits the Situational Awareness layer (v3) and adds:
+     - tokens boards actually consume (no hex literals in boards)
+     - components: .tile .plate .row .legend, SVG text classes
+     - a provenance block (.bw-prov) with three chip states
+     - .fit viewport scaling, .stage.raster CRT option
+     - [data-reveal] starts hidden so nothing flashes before JS
+
+   Extend, never override. Dashboard-specific styles get a
+   slug-prefixed class (.d05-dot, .d08-bar, ...).
+   ============================================================ */
+
+:root {
+  /* Foundation */
+  --bg:            #0a0a0f;
+  --ink:           #0a0a0f;                 /* text on gold/amber fills */
+  --cream:         #F5F1E5;
+  --cream-rgb:     245, 241, 229;
+  --cream-dim:     rgba(245, 241, 229, 0.5);
+  --cream-faint:   rgba(245, 241, 229, 0.28);
+
+  /* Static chrome · victory / payoff */
+  --gold:          #D4AF37;
+  --gold-rgb:      212, 175, 55;
+  --gold-bright:   #F2CB52;
+  --gold-glow:     rgba(212, 175, 55, 0.4);
+  --gold-06:       rgba(212, 175, 55, 0.06);
+  --gold-20:       rgba(212, 175, 55, 0.20);
+  --gold-45:       rgba(212, 175, 55, 0.45);
+
+  /* Threat / excess / live data */
+  --amber:         #FFB347;
+  --amber-rgb:     255, 179, 71;
+  --amber-bright:  #FFC97A;
+  --amber-glow:    rgba(255, 179, 71, 0.4);
+  --amber-04:      rgba(255, 179, 71, 0.04);
+  --amber-20:      rgba(255, 179, 71, 0.20);
+  --amber-45:      rgba(255, 179, 71, 0.45);
+
+  /* Platform / AI */
+  --teal:          #2A9D8F;
+  --teal-rgb:      63, 191, 175;
+  --teal-bright:   #3FBFAF;
+  --teal-glow:     rgba(63, 191, 175, 0.4);
+  --teal-06:       rgba(63, 191, 175, 0.06);
+  --teal-20:       rgba(63, 191, 175, 0.20);
+  --teal-45:       rgba(63, 191, 175, 0.45);
+
+  /* Dysfunction / bear */
+  --red:           #FF5247;
+  --red-rgb:       255, 82, 71;
+  --red-deep:      #C1440E;
+  --red-glow:      rgba(255, 82, 71, 0.5);
+  --red-06:        rgba(255, 82, 71, 0.06);
+  --red-20:        rgba(255, 82, 71, 0.20);
+  --red-45:        rgba(255, 82, 71, 0.45);
+
+  /* Inactive / not-in-the-block */
+  --grey:          #4A4A5A;
+  --grey-bright:   #6E6E80;
+  --grey-rgb:      110, 110, 128;
+
+  /* Rules, panels */
+  --line:          rgba(245, 241, 229, 0.12);
+  --line-faint:    rgba(245, 241, 229, 0.06);
+  --line-strong:   rgba(245, 241, 229, 0.22);
+  --panel:         rgba(245, 241, 229, 0.035);
+  --panel-border:  rgba(245, 241, 229, 0.18);
+
+  /* Type */
+  --sans:          'IBM Plex Sans', sans-serif;
+  --mono:          'IBM Plex Mono', monospace;
+
+  /* Mood tint — gradient only, never a flat background */
+  --navy-mood:     #1a1a2e;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: #000;
+  overflow: hidden;
+  width: 100%; height: 100%;
+}
+
+body {
+  font-family: var(--sans);
+  color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- FIT ------------------------------------------- */
+/* Optional wrapper. BW.fit() scales it to the viewport so a board
+   can be reviewed on a laptop; at exactly 1920x1080 the scale is 1
+   and nothing moves, so poster capture is unaffected. */
+.fit {
+  position: absolute; top: 0; left: 0;
+  width: 1920px; height: 1080px;
+  transform-origin: top left;
+}
+
+/* ---------- STAGE ----------------------------------------- */
+/* Every dashboard is one .stage. Per-dashboard mood lighting
+   overrides --mood-a / --mood-b on the .stage rule. */
+
+.stage {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 55% at 50% 42%, var(--mood-a, rgba(26,26,46,0.55)) 0%, rgba(10,10,15,0) 68%),
+    linear-gradient(180deg, var(--mood-b, #0a0a0f) 0%, #08080c 60%, #0a0a0f 100%);
+}
+
+/* A world layer the camera can move. Keep the origin at 0,0 so
+   BW.camera's translate/scale/translate maths holds for HTML too. */
+.world { position: absolute; inset: 0; transform-origin: 0 0; }
+
+/* Everything that takes part in the reveal starts hidden. BW.reset()
+   and BW.restAll() drive the inline style from there. */
+[data-reveal] { opacity: 0; }
+
+/* ---------- AMBIENT LAYERS -------------------------------- */
+
+.amb-grid {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(212, 175, 55, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.022) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: ambGridPulse 9s ease-in-out infinite;
+}
+@keyframes ambGridPulse {
+  0%,100% { opacity: .45; transform: translate3d(0,0,0) }
+  50%     { opacity: 1;   transform: translate3d(0,-3px,0) }
+}
+
+.amb-glow {
+  position: absolute; z-index: 2; pointer-events: none;
+  top: 50%; left: 50%; width: 1200px; height: 900px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, var(--glow-tint, rgba(212,175,55,0.06)) 0%, transparent 58%);
+  animation: ambBreathe 7.5s ease-in-out infinite;
+}
+@keyframes ambBreathe {
+  0%,100% { opacity: .62; transform: translate(-50%,-50%) scale(1) }
+  50%     { opacity: 1;   transform: translate(-50%,-50%) scale(1.07) }
+}
+
+/* Canvas layers. BW.fx.layer() creates these; z-index is set inline. */
+canvas.fx { position: absolute; inset: 0; display: block; pointer-events: none; }
+
+/* Drifting motes. Installed by BW.ambient(), sits behind the data. */
+canvas.amb-dust { position: absolute; inset: 0; z-index: 5; display: block; pointer-events: none; }
+
+/* A slow sweep down the frame — the thing that stops a still
+   dashboard reading as a flat export. Deliberately near-invisible:
+   if you can point at it, it is too strong. */
+.amb-scan {
+  position: absolute; left: 0; right: 0; top: 0; height: 340px;
+  z-index: 6; pointer-events: none; opacity: .55;
+  background: linear-gradient(180deg,
+    rgba(245,241,229,0) 0%,
+    rgba(245,241,229,0.018) 45%,
+    rgba(245,241,229,0.030) 62%,
+    rgba(245,241,229,0) 100%);
+  animation: ambScan 13s cubic-bezier(.55,0,.45,1) infinite;
+}
+@keyframes ambScan {
+  0%   { transform: translateY(-360px); opacity: 0 }
+  12%  { opacity: .55 }
+  88%  { opacity: .55 }
+  100% { transform: translateY(1100px); opacity: 0 }
+}
+
+/* CRT raster. Opt-in per board (class on .stage). Static, so ?still
+   needs no rule. Use where the subject is software; skip on dense
+   data boards where it fights the marks. */
+.stage.raster::after {
+  content: ''; position: absolute; inset: 0; z-index: 59; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.10) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+}
+
+.vignette {
+  position: absolute; inset: 0; z-index: 60; pointer-events: none;
+  background: radial-gradient(125% 110% at 50% 32%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.58) 100%);
+  animation: ambVignette 11s ease-in-out infinite;
+}
+@keyframes ambVignette { 0%,100% { opacity: 1 } 50% { opacity: .88 } }
+
+.grain {
+  position: absolute; inset: 0; z-index: 61; pointer-events: none;
+  opacity: .05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: ambGrain .9s steps(3) infinite;
+}
+@keyframes ambGrain {
+  0%   { transform: translate(0,0) }
+  33%  { transform: translate(-6px,4px) }
+  66%  { transform: translate(5px,-5px) }
+  100% { transform: translate(0,0) }
+}
+
+/* ---------- CHROME ---------------------------------------- */
+
+.chrome { position: absolute; inset: 0; z-index: 50; pointer-events: none; }
+
+.bw-logo {
+  position: absolute; top: 40px; left: 54px;
+  width: 104px; height: 104px; opacity: 0;
+  background: url('../assets/logos/boardroom-wire-bust-transparent.png') center/contain no-repeat;
+}
+
+.bw-wordmark {
+  position: absolute; top: 74px; left: 172px; opacity: 0;
+  font-family: var(--sans);
+  font-weight: 300; font-size: 20px; letter-spacing: .32em; color: var(--cream);
+}
+.bw-wordmark b { font-weight: 600; color: var(--gold-bright); }
+
+.bw-handle {
+  position: absolute; right: 54px; bottom: 34px; opacity: 0;
+  font-family: var(--mono);
+  font-weight: 500; font-size: 18px; letter-spacing: .14em; color: var(--gold);
+}
+
+/* Capture-safe: invisible unless the pointer is over the stage, so a
+   screen recording never picks it up. Keys still work. */
+.bw-hint {
+  position: absolute; right: 54px; top: 44px; z-index: 62;
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: .18em; color: var(--cream-faint);
+  text-transform: uppercase;
+  opacity: 0; transition: opacity .25s ease;
+}
+.stage:hover .bw-hint { opacity: 1; }
+
+/* ---------- PROVENANCE BLOCK ------------------------------ */
+/* Bottom-left. A rail of 1–3 chips above the source line. In flow,
+   so a two-line source pushes the chips up instead of colliding.
+   Rendered by BW.provenance() from shared/data.js — never hand-typed. */
+
+.bw-prov {
+  position: absolute; left: 56px; bottom: 36px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+  max-width: 1360px;
+}
+.chip-rail { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.bw-source {
+  font-family: var(--mono); opacity: 0; max-width: 1180px;
+  font-size: 12.5px; line-height: 1.55; letter-spacing: .06em; color: var(--cream-dim);
+}
+.bw-source b { font-weight: 600; color: var(--cream); }   /* mandatory credits */
+
+.chip {
+  display: inline-flex; align-items: center; gap: 10px; opacity: 0;
+  padding: 7px 15px 7px 13px; border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.chip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+
+/* PRIMARY — filed, published or stated by the company. State it flat. */
+.chip.primary {
+  border: 1px solid var(--gold-45);
+  background: rgba(212, 175, 55, 0.05);
+  color: var(--gold);
+}
+.chip.primary::before { background: var(--gold); box-shadow: 0 0 8px var(--gold-glow);
+                        animation: chipPulse 2.6s ease-in-out infinite; }
+
+/* REPORTED — journalism. Attribute it on the frame. */
+.chip.reported {
+  border: 1px dashed var(--amber-45);
+  background: var(--amber-04);
+  color: var(--amber);
+}
+.chip.reported::before { background: var(--amber); box-shadow: 0 0 8px var(--amber-glow);
+                         animation: chipPulse 2.6s ease-in-out infinite; }
+
+/* ESTIMATE — analyst or third-party modelling, or our own arithmetic.
+   Dotted, desaturated, hollow dot, no pulse: nobody measured this. */
+.chip.estimate {
+  border: 1px dotted rgba(245, 241, 229, 0.38);
+  background: rgba(245, 241, 229, 0.03);
+  color: var(--cream-dim);
+}
+.chip.estimate::before { background: transparent; border: 1px solid rgba(245, 241, 229, 0.5); }
+
+@keyframes chipPulse {
+  0%,100% { opacity: .55; transform: scale(.85) }
+  50%     { opacity: 1;   transform: scale(1.15) }
+}
+
+/* ---------- TYPE SCALE ------------------------------------ */
+
+.kick {                       /* mono eyebrow above the title */
+  font-family: var(--mono);
+  font-weight: 500; font-size: 15px; letter-spacing: .42em;
+  text-transform: uppercase; color: var(--gold);
+}
+
+.title {                      /* sans, the dashboard's headline */
+  font-family: var(--sans);
+  font-weight: 300; font-size: 56px; letter-spacing: -.015em; line-height: 1.06;
+  color: var(--cream);
+}
+.title b { font-weight: 600; }
+.title .word { display: inline-block; }      /* SplitText output */
+
+.subtitle {
+  font-family: var(--sans);
+  font-weight: 300; font-size: 24px; line-height: 1.35;
+  color: rgba(245, 241, 229, 0.62);
+}
+
+.axis-label {
+  font-family: var(--mono);
+  font-weight: 500; font-size: 14px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--cream-dim);
+}
+
+.annot {                      /* on-chart annotation copy */
+  font-family: var(--sans);
+  font-weight: 400; font-size: 19px; line-height: 1.4; color: var(--cream);
+}
+.annot .m {
+  font-family: var(--mono);
+  font-weight: 600; letter-spacing: .02em;
+}
+
+/* The one-line payoff each dashboard rests on. Sans, never mono —
+   this is narration on screen, not data. */
+.kicker {
+  font-family: var(--sans);
+  font-weight: 300; font-size: 30px; letter-spacing: -.005em; color: var(--cream);
+}
+.kicker b { font-weight: 600; }
+
+/* SVG text. Set the class on <text>; fill comes from the token. */
+text.svg-ax  { font-family: var(--mono); font-weight: 500; font-size: 13px; letter-spacing: .08em; fill: var(--cream-dim); }
+text.svg-lbl { font-family: var(--mono); font-weight: 600; font-size: 15px; letter-spacing: .04em; fill: var(--cream); }
+text.svg-val { font-family: var(--mono); font-weight: 700; font-size: 22px; letter-spacing: -.01em; fill: var(--cream); }
+text.svg-cap { font-family: var(--sans); font-weight: 400; font-size: 17px; fill: var(--cream-dim); }
+text.svg-eyebrow { font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; fill: var(--cream-dim); }
+
+/* ---------- COMPONENTS ------------------------------------ */
+
+/* Stat tile: eyebrow / value / sub-line. Size the value with --tile-size. */
+.tile { position: absolute; --tile-size: 44px; }
+.tile .k {
+  font-family: var(--mono); font-weight: 500; font-size: 13px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--cream-dim); margin-bottom: 10px;
+}
+.tile .v {
+  font-family: var(--mono); font-weight: 700; font-size: var(--tile-size); line-height: 1;
+  letter-spacing: -.01em; color: var(--cream); font-variant-numeric: tabular-nums;
+}
+.tile .s {
+  font-family: var(--sans); font-weight: 300; font-size: 17px; line-height: 1.35;
+  color: var(--cream-dim); margin-top: 10px;
+}
+.tile.gold .v  { color: var(--gold-bright); }
+.tile.amber .v { color: var(--amber-bright); }
+.tile.red .v   { color: var(--red); }
+.tile.teal .v  { color: var(--teal-bright); }
+
+/* Typographic plate — firms and people as type, not logo files. */
+.plate {
+  position: absolute; width: 260px;
+  padding: 22px 22px 20px;
+  border: 1px solid var(--panel-border); border-radius: 5px;
+  background: var(--panel);
+}
+.plate .portrait {                /* optional: set data-portrait-src on the plate */
+  display: none; width: 100%; aspect-ratio: 5 / 6; margin-bottom: 16px;
+  border-radius: 4px; border: 1px solid var(--line-faint);
+  background: var(--panel) center/cover no-repeat;
+  -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
+}
+.plate .portrait.has { display: block; }
+.plate .n { font-family: var(--sans); font-weight: 500; font-size: 22px; line-height: 1.2; color: var(--cream); }
+.plate .d {
+  font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--cream-dim); margin-top: 8px;
+}
+.plate .b { font-family: var(--sans); font-weight: 300; font-size: 16px; line-height: 1.4; color: var(--cream-dim); margin-top: 12px; }
+.plate .stamp {
+  display: inline-block; margin-top: 16px; padding: 6px 10px; border-radius: 3px;
+  font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--cream-dim); border: 1px solid var(--line);
+}
+.plate .stamp.yes { color: var(--gold-bright); border-color: var(--gold-45); background: var(--gold-06); }
+.plate .stamp.no  { color: var(--red); border-color: var(--red-45); background: var(--red-06); }
+.plate.win { border-color: var(--gold-45); background: var(--gold-06); }
+.plate.dim { opacity: .42; }
+
+/* Table row. Set --cols to a grid-template-columns value. */
+.row {
+  display: grid; grid-template-columns: var(--cols, 1fr auto); align-items: center;
+  column-gap: 24px; height: 49px; border-bottom: 1px solid var(--line-faint);
+  font-family: var(--sans); font-weight: 400; font-size: 19px; color: var(--cream);
+}
+.row.head {
+  height: 36px; font-family: var(--mono); font-weight: 500; font-size: 12px;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--cream-dim);
+}
+.row .c.m { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.row .c.v { font-family: var(--mono); font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.row .c.dim { color: var(--cream-dim); }
+
+/* Legend. Set --sw on each item for its colour. */
+.legend {
+  display: flex; gap: 26px; align-items: center;
+  font-family: var(--mono); font-weight: 500; font-size: 12.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--cream-dim);
+}
+.legend span { display: inline-flex; align-items: center; gap: 9px; }
+.legend .sw { width: 22px; height: 2px; background: var(--sw, var(--cream)); }
+.legend .sw.dashed { background: repeating-linear-gradient(90deg, var(--sw, var(--cream)) 0 5px, transparent 5px 9px); }
+.legend .sw.dot    { width: 10px; height: 10px; border-radius: 50%; }
+.legend .sw.hollow { width: 10px; height: 10px; border-radius: 50%; background: transparent; border: 1.5px solid var(--sw, var(--cream)); }
+
+/* ---------- EMISSIVE HELPERS ------------------------------ */
+/* Exactly ONE hero element per dashboard gets .hero-glow. */
+
+.glow-amber { color: var(--amber-bright); text-shadow: 0 0 22px var(--amber-glow); }
+.glow-gold  { color: var(--gold-bright);  text-shadow: 0 0 22px var(--gold-glow); }
+.glow-red   { color: var(--red);          text-shadow: 0 0 22px var(--red-glow); }
+.glow-teal  { color: var(--teal-bright);  text-shadow: 0 0 22px var(--teal-glow); }
+
+.hero-glow {
+  text-shadow:
+    0 0 30px var(--hero-glow-c, var(--amber-glow)),
+    0 0 72px var(--hero-glow-c2, rgba(255,179,71,0.22));
+}
+
+/* Muted / not-in-the-story */
+.muted { color: var(--grey-bright); }
+
+/* ---------- STILL MODE ------------------------------------ */
+/* ?still kills every moving part, for a dead-clean export frame.
+   Motion is otherwise always on: these pages are recorded, and a
+   machine with Windows animations switched off would otherwise
+   capture a frozen dashboard. */
+:root[data-still] .amb-grid,
+:root[data-still] .amb-glow,
+:root[data-still] .amb-scan,
+:root[data-still] .vignette,
+:root[data-still] .grain,
+:root[data-still] .chip::before,
+:root[data-still] [data-idle] { animation: none !important; }
+:root[data-still] .amb-scan { display: none; }

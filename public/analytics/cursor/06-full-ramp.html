@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  DASHBOARD 06 · THE FULL RAMP
+  Boardroom Wire · Cursor · Section: The Legendary Revenue Run
+  Lands on: "It crossed $1 billion that November, and by May of 2026
+  Bloomberg reported the company had passed a $3 billion annual sales rate."
+
+  The signature growth chart. A stepped line with the interval printed
+  on every riser — 12 months, 5, 5, 3, 3. The story is the compression,
+  not the height. It opens zoomed on the $1M → $100M leg (the inset),
+  then the axes rescale and the leg shrinks into the corner as the later
+  points land. $4B is a hollow marker on a dashed riser labelled Sacra
+  estimate; no interval is printed between $3B and $4B (mixed tiers).
+
+  Technique: shared/ramp.js re-places every element from the current
+  axis maxima each frame — the "axis retreating" is a tween on vmax.
+
+  Controls: R replay · F final · ?final · ?still · ?t=3b+0.4
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>06 · The Full Ramp · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=4" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(58,42,16,0.5); }
+  .amb-glow { --glow-tint: rgba(255,179,71,0.06); top: 60%; left: 70%; }
+
+  #kick     { position:absolute; left:56px; top:198px; }
+  #title    { position:absolute; left:56px; top:226px; width:1300px; }
+  #subtitle { position:absolute; left:56px; top:306px; width:1250px; }
+  #kicker   { position:absolute; left:56px; top:918px; }
+  #legend   { position:absolute; left:260px; top:846px; }
+
+  svg.plot { position:absolute; inset:0; z-index:10; overflow:visible; }
+
+  .ramp-base { stroke: var(--line-strong); stroke-width: 1.5; }
+  .ramp-seg  { stroke: var(--amber); stroke-width: 3.5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+  .ramp-seg.est { stroke: var(--cream-dim); stroke-width: 2.5; stroke-dasharray: 7 7; }
+  .ramp-mark { fill: var(--amber-bright); }
+  .ramp-mark.hollow { fill: var(--bg); stroke: var(--cream-dim); stroke-width: 2; }
+  text.ramp-val { fill: var(--amber-bright); font-size: 20px; }
+  text.ramp-val.est { fill: var(--cream-dim); }
+  text.ramp-est { font-size: 10.5px; }
+  text.ramp-int { font-family: var(--mono); font-weight: 600; font-size: 14px; letter-spacing: .14em; fill: var(--cream); }
+  .ramp-tickline { stroke: var(--line); stroke-width: 1; }
+  text.ramp-y { font-family: var(--mono); font-size: 13px; font-weight: 600; fill: var(--amber); letter-spacing: .04em; }
+  .ramp-tick.zoom text.ramp-y { fill: var(--cream-dim); font-weight: 500; }
+  text.ramp-x { font-family: var(--mono); font-size: 12.5px; letter-spacing: .08em; fill: var(--cream-dim); }
+
+  .tile.d06-hero { --tile-size: 50px; z-index: 20; left: 1372px; top: 418px; text-align: right; }
+  .tile.d06-hero .k { font-size: 11px; margin-bottom: 6px; }
+  .tile.d06-hero .v { --hero-glow-c: var(--amber-glow); }
+  #inset-tag { position:absolute; left:260px; top:372px; z-index:20; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <svg class="plot" id="plot" viewBox="0 0 1920 1080"></svg>
+
+  <div class="kick" id="kick">The Legendary Revenue Run · Jan 2024 → mid 2026</div>
+  <div class="title" id="title">Each doubling took <b>less time than the last.</b></div>
+  <div class="subtitle" id="subtitle" data-reveal="blur">Annualised revenue, with the months between each milestone printed on the step.</div>
+
+  <div class="axis-label" id="inset-tag" style="opacity:0">The first leg · $1M → $100M</div>
+
+  <div class="tile d06-hero amber" id="hero" data-reveal="">
+    <div class="k">May 2026 · Bloomberg</div>
+    <div class="v hero-glow">$3B</div>
+  </div>
+
+  <div class="legend" id="legend" data-reveal="">
+    <span><i class="sw dot" style="--sw:var(--amber-bright)"></i>Reported or stated by the company</span>
+    <span><i class="sw hollow" style="--sw:var(--cream-dim)"></i>Analyst estimate</span>
+    <span><i class="sw dashed" style="--sw:var(--cream-dim)"></i>Step to an estimate</span>
+  </div>
+
+  <div class="kicker" id="kicker" data-reveal="blur">The gap between milestones <b>kept shrinking.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+  <div class="bw-hint">R replay · F final · ?t=3b+0.4</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/data.js?v=4"></script>
+<script src="shared/motion.js?v=4"></script>
+<script src="shared/ramp.js?v=4"></script>
+<script>
+BW.provenance({
+  uses: ['arr_1m_jan24', 'arr_100m_jan25', 'arr_500m_jun25', 'arr_1b_nov25', 'arr_2b_feb26', 'arr_3b_may26', 'arr_4b_mid26'],
+  footer: '$500M and $1B stated by the company at its Series C and D · $2B and $3B reported by Bloomberg'
+});
+
+const MONTHS = { 'Jan 2024':0, 'Jan 2025':12, 'Jun 2025':17, 'Nov 2025':22, 'Feb 2026':25, 'May 2026':28, 'mid 2026':30 };
+const FULL = { vmax:4.2, mmax:30 }, ZOOM = { vmax:0.125, mmax:13.5 };
+
+const ramp = BW_RAMP.create(BW.$('#plot'), {
+  area: { x0:260, x1:1660, y0:400, y1:780 },
+  points: BW_DATA.arr,
+  monthOf: t => MONTHS[t],
+  vmax: ZOOM.vmax, mmax: ZOOM.mmax,
+  ticksZoom: [0.05, 0.1], fmtZoom: v => '$' + Math.round(v * 1000) + 'M',
+  ticksFull: [1, 2, 3, 4], fmtFull: v => '$' + v + 'B',
+  xticks: [[0, 'JAN 2024'], [6, 'JUL 2024'], [12, 'JAN 2025'], [18, 'JUL 2025'], [24, 'JAN 2026'], [30, 'JUL 2026']],
+  hideLabel: ['arr_3b_may26']            /* the $3B label is the HTML hero tile */
+});
+const zoomTicks = ramp.ticksZoom.map(t => t.g), fullTicks = ramp.ticksFull.map(t => t.g);
+
+/* draw segment i over `dur`, then land its marker, label and interval */
+function step(tl, i, at, dur) {
+  tl.to(ramp.st.seg, { [i]:1, duration:dur, ease:'power1.inOut', onUpdate:ramp.render }, at);
+  const end = BW.pos(at, dur);
+  BW.reveal(tl, ramp.marks[i + 1], end);
+  if (ramp.labels[i + 1]) BW.reveal(tl, ramp.labels[i + 1], end, { duration:.4 });
+  if (ramp.estTags[i + 1]) BW.reveal(tl, ramp.estTags[i + 1], BW.pos(end, .15), { duration:.4 });
+  if (ramp.intervals[i]) BW.reveal(tl, ramp.intervals[i], BW.pos(at, dur * .55), { duration:.5 });
+}
+
+function play() {
+  BW.reset();
+  Object.assign(ramp.st, ZOOM);
+  Object.keys(ramp.st.seg).forEach(k => ramp.st.seg[k] = 0);
+  gsap.set(zoomTicks, { opacity:0 }); gsap.set(fullTicks, { opacity:0 });
+  ramp.render();
+
+  const tl = gsap.timeline();
+  BW.headerIn(tl);
+
+  BW.mark(tl, 'inset', 1.1, 'zoomed on the first leg: $1M → $100M, twelve months');
+  BW.reveal(tl, ramp.base, 'inset');
+  BW.reveal(tl, ramp.xticks.map(t => t.g), 'inset+=0.2', { stagger:.05 });
+  tl.to(zoomTicks, { opacity:1, duration:.5, stagger:.08 }, 'inset+=0.2');
+  tl.fromTo('#inset-tag', { opacity:0 }, { opacity:1, duration:.6 }, 'inset+=0.2');
+  BW.reveal(tl, ramp.marks[0], 'inset+=0.5');
+  BW.reveal(tl, ramp.labels[0], 'inset+=0.5', { duration:.4 });
+  BW.reveal(tl, ramp.estTags[0], 'inset+=0.6', { duration:.4 });
+  step(tl, 0, 'inset+=0.7', 1.6);
+
+  BW.mark(tl, 'pullback', 3.8, 'the axes rescale — the first leg shrinks into the corner');
+  tl.to(ramp.st, { vmax:FULL.vmax, mmax:FULL.mmax, duration:1.7, ease:'power2.inOut', onUpdate:ramp.render }, 'pullback');
+  tl.to(zoomTicks, { opacity:0, duration:.5 }, 'pullback');
+  tl.to('#inset-tag', { opacity:0, duration:.4 }, 'pullback');
+  tl.to(fullTicks, { opacity:1, duration:.6, stagger:.08 }, 'pullback+=0.9');
+
+  BW.mark(tl, '500m', 5.7, '$500M · five months');
+  step(tl, 1, '500m', .7);
+  BW.mark(tl, '1b', 6.5, '$1B · five months');
+  step(tl, 2, '1b', .7);
+  BW.mark(tl, '2b', 7.3, '$2B · three months');
+  step(tl, 3, '2b', .6);
+  BW.mark(tl, '3b', 8.0, '$3B · three months — the hero lands');
+  step(tl, 4, '3b', .6);
+  BW.reveal(tl, '#hero', '3b+=0.6', { duration:.1 });
+  BW.heroLand(tl, '#hero .v', '3b+=0.6');
+
+  BW.mark(tl, '4b_est', 9.0, '~$4B · hollow, dashed, Sacra estimate — no interval printed');
+  step(tl, 5, '4b_est', .6);
+
+  BW.mark(tl, 'legend', 9.9);
+  BW.reveal(tl, '#legend', 'legend');
+  BW.mark(tl, 'kicker', 10.2);
+  BW.reveal(tl, '#kicker', 'kicker');
+
+  BW.punch('inset', [220, 360, 1700, 830], { at:'inset+2.2', note:'the first leg, full frame' });
+  BW.punch('3b', [900, 380, 1800, 800], { star:true, at:'3b+0.7', note:'the compressing intervals, $3B lit' });
+  BW.punch('4b', [1300, 380, 1800, 800], { at:'99', note:'the hollow $4B beside the solid $3B' });
+  return tl;
+}
+
+function rest() {
+  BW.restAll();
+  Object.assign(ramp.st, FULL);
+  Object.keys(ramp.st.seg).forEach(k => ramp.st.seg[k] = 1);
+  gsap.set(zoomTicks, { opacity:0 }); gsap.set(fullTicks, { opacity:1 });
+  gsap.set('#inset-tag', { opacity:0 });
+  ramp.render();
+}
+
+function idle() {
+  BW.glow(ramp.marks[5], { color:'255,179,71', min:6, max:16, dur:3 });
+  BW.glow('#hero .v', { color:'255,179,71', min:18, max:38, dur:3.4 });
+  BW.march('.ramp-seg.est', { by:-14, dur:2.4 });
+  BW.raw(gsap.to(ramp.marks[6], { opacity:.55, duration:2.2, ease:'sine.inOut', yoyo:true, repeat:-1 }));
+}
+
+BW.ambient({ tint:'255,179,71', count:48 });
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  DASHBOARD 02 · THE FORK
+  Boardroom Wire · Cursor · Section: The Pivot
+  Lands on: "Forking simply means taking an existing open-source codebase
+  and building your own version on top of it."
+
+  A concept diagram, no figures. Hard vertical split. LEFT, deliberately
+  sparse and thin-lined: VS Code as a block, Copilot as a small box on
+  top, one thin arrow between them labelled "API — ask permission".
+  RIGHT, dense and integrated: Cursor as the block, forked from VS Code,
+  with four internal layers. The AI starts as the same bolted-on box,
+  then MORPHS into a thread woven through every layer; a glint runs the
+  thread and each capability lands as it passes. The asymmetry between
+  the halves is the argument — do not balance them.
+
+  Controls: R replay · F final · ?final · ?still · ?t=weave+1.6
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>02 · The Fork · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=4" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MotionPathPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MorphSVGPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(20,44,42,0.5); }
+  .amb-glow { --glow-tint: rgba(63,191,175,0.06); top: 60%; left: 72%; }
+
+  #kick     { position:absolute; left:56px; top:198px; }
+  #title    { position:absolute; left:56px; top:226px; width:1300px; }
+  #subtitle { position:absolute; left:56px; top:306px; width:1250px; }
+  #kicker   { position:absolute; left:56px; top:918px; }
+
+  svg.plot { position:absolute; inset:0; z-index:10; overflow:visible; }
+  .d02-split { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 6; }
+  .d02-block { fill: none; stroke: var(--cream-dim); stroke-width: 1.2; }
+  .d02-block.cursor { stroke: var(--cream); stroke-width: 1.6; }
+  .d02-box { fill: none; stroke: var(--cream-dim); stroke-width: 1.2; }
+  .d02-arrow { stroke: var(--cream-dim); stroke-width: 1.2; fill: none; }
+  .d02-band { fill: rgba(245,241,229,0.035); stroke: var(--line-faint); stroke-width: 1; }
+  .d02-thread { fill: none; stroke: var(--teal-bright); stroke-width: 3; stroke-linecap: round; }
+  .d02-aibox { fill: none; stroke: var(--teal-bright); stroke-width: 2; }
+  .d02-glint { fill: var(--teal-bright); }
+  text.d02-block-l { font-family: var(--mono); font-size: 26px; font-weight: 600; letter-spacing: .12em; fill: var(--cream-dim); }
+  text.d02-small { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; fill: var(--cream-faint); }
+  text.d02-box-l { font-family: var(--mono); font-size: 14px; font-weight: 600; letter-spacing: .16em; fill: var(--cream-dim); }
+  text.d02-arrow-l { font-family: var(--mono); font-size: 13px; letter-spacing: .1em; fill: var(--cream-dim); }
+  text.d02-ai { font-family: var(--mono); font-size: 14px; font-weight: 600; letter-spacing: .16em; fill: var(--teal-bright); }
+
+  .d02-eyebrow { position:absolute; top:372px; z-index:20; }
+  #eb-l { left:260px; }
+  #eb-r { left:1140px; color: var(--teal-bright); }
+  #cursor-l { position:absolute; left:1168px; top:462px; z-index:20; font-family:var(--mono); font-weight:600; font-size:26px; letter-spacing:.12em;
+              color:var(--teal-bright); --hero-glow-c: var(--teal-glow); --hero-glow-c2: rgba(63,191,175,0.2); }
+  .d02-cap { position:absolute; z-index:20; top:826px; font-family:var(--sans); font-weight:300; font-size:22px; color:var(--cream-dim); }
+  #cap-l { left:260px; }
+  #cap-r { left:1140px; color:var(--cream); }
+  .d02-lbl { position:absolute; z-index:20; width:400px; font-family:var(--sans); font-size:17px; line-height:1.3; color:var(--cream); }
+  .d02-lbl.r { text-align:right; }
+</style>
+</head>
+<body>
+<div class="stage raster">
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <svg class="plot" id="plot" viewBox="0 0 1920 1080">
+    <line class="d02-split" x1="960" y1="372" x2="960" y2="870" data-reveal="scalex" />
+
+    <!-- LEFT · the plugin -->
+    <g id="left">
+      <rect class="d02-block" x="260" y="580" width="520" height="220" rx="2" />
+      <text class="d02-block-l" x="520" y="700" text-anchor="middle" data-reveal="">VS CODE</text>
+      <text class="d02-small" x="520" y="728" text-anchor="middle" data-reveal="">MICROSOFT · OPEN SOURCE</text>
+      <rect class="d02-box" x="440" y="440" width="160" height="52" rx="2" />
+      <text class="d02-box-l" x="520" y="472" text-anchor="middle" data-reveal="">COPILOT</text>
+      <path id="arrow" class="d02-arrow" d="M520,492 V576 M512,568 L520,578 L528,568" />
+      <text id="arrow-l" class="d02-arrow-l" x="540" y="540" data-reveal="" data-type="API — ask permission">API — ask permission</text>
+    </g>
+
+    <!-- RIGHT · the fork -->
+    <g id="right">
+      <rect id="cursorBlock" class="d02-block cursor" x="1140" y="452" width="520" height="348" rx="2" />
+      <text class="d02-small" x="1632" y="480" text-anchor="end" data-reveal="">FORKED FROM VS CODE</text>
+      <g id="bands">
+        <rect class="d02-band" x="1170" y="512" width="460" height="56" data-reveal="" />
+        <rect class="d02-band" x="1170" y="580" width="460" height="56" data-reveal="" />
+        <rect class="d02-band" x="1170" y="648" width="460" height="56" data-reveal="" />
+        <rect class="d02-band" x="1170" y="716" width="460" height="56" data-reveal="" />
+      </g>
+      <path id="aibox" class="d02-aibox" d="M1330,392 H1470 V436 H1330 Z" opacity="0" />
+      <text id="ai-l" class="d02-ai" x="1400" y="419" text-anchor="middle" opacity="0">AI</text>
+      <path id="thread" class="d02-thread" opacity="0"
+            d="M1400,436 C1400,470 1230,500 1230,540 S1570,570 1570,608 S1230,640 1230,676 S1570,710 1570,744 S1400,775 1400,800" />
+      <circle id="glint" class="d02-glint" cx="0" cy="0" r="6" opacity="0" />
+    </g>
+  </svg>
+
+  <div class="kick" id="kick">The Pivot · 2023</div>
+  <div class="title" id="title">Plug into the editor, <b>or own it.</b></div>
+  <div class="subtitle" id="subtitle" data-reveal="blur">Copilot sits on top of the editor and asks. Cursor forked the editor and rebuilt everything above it.</div>
+
+  <div class="axis-label d02-eyebrow" id="eb-l" data-reveal="">GitHub Copilot · the plugin</div>
+  <div class="axis-label d02-eyebrow" id="eb-r" data-reveal="">Cursor · the fork</div>
+  <div id="cursor-l" class="hero-glow" data-reveal="">CURSOR</div>
+
+  <div class="d02-lbl r" id="l1" data-reveal="" style="left:1230px; top:530px">Tests changes in a private copy of your project</div>
+  <div class="d02-lbl"   id="l2" data-reveal="" style="left:1190px; top:598px">Reads your errors without being asked</div>
+  <div class="d02-lbl r" id="l3" data-reveal="" style="left:1230px; top:666px">Shows edits inside your code</div>
+  <div class="d02-lbl"   id="l4" data-reveal="" style="left:1190px; top:734px">Predicts your next move, not your next word</div>
+
+  <div class="d02-cap" id="cap-l" data-reveal="">Limited to what the editor hands it.</div>
+  <div class="d02-cap" id="cap-r" data-reveal="">Root access to everything.</div>
+
+  <div class="kicker" id="kicker" data-reveal="blur">Copilot asked the editor for permission. <b>Cursor owned the editor.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+  <div class="bw-hint">R replay · F final · ?t=weave+1.6</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/data.js?v=4"></script>
+<script src="shared/motion.js?v=4"></script>
+<script>
+BW.provenance({
+  uses: [],
+  chips: [{ tier:'P', text:'Primary · how each product attaches to the editor, per the companies' }],
+  footer: 'Copilot: an extension inside VS Code · Cursor: a fork of VS Code, launched March 2023 · capability beats as described in the script'
+});
+
+const svg = BW.$('#plot');
+const LBLS = ['#l1', '#l2', '#l3', '#l4'];
+/* where along the thread each band's label should land */
+const FRACS = [.18, .42, .66, .90];
+
+function play() {
+  BW.reset();
+  gsap.set(['#aibox', '#ai-l', '#thread', '#glint'], { opacity:0 });
+  gsap.set('#aibox', { attr:{ d:'M1330,392 H1470 V436 H1330 Z' } });
+
+  const tl = gsap.timeline();
+  BW.headerIn(tl);
+
+  BW.mark(tl, 'left', 1.2, 'the plugin: VS Code, Copilot on top, one thin arrow');
+  BW.reveal(tl, '.d02-split', 'left');
+  BW.reveal(tl, '#eb-l', 'left');
+  BW.draw(tl, '#left rect', { at:'left+=0.2', duration:1.0, stagger:.3 });
+  BW.reveal(tl, '#left text:not(#arrow-l)', 'left+=0.9', { stagger:.1 });
+  BW.draw(tl, '#arrow', { at:'left+=1.5', duration:.5 });
+  BW.reveal(tl, '#arrow-l', 'left+=1.9', { duration:.1 });
+  BW.typeIn(tl, '#arrow-l', { at:'left+=1.9', duration:.8 });
+  BW.reveal(tl, '#cap-l', 'left+=2.9');
+
+  BW.mark(tl, 'right_block', 4.6, 'the fork: the Cursor block, four layers');
+  BW.reveal(tl, '#eb-r', 'right_block');
+  BW.draw(tl, '#cursorBlock', { at:'right_block+=0.1', duration:1.0 });
+  BW.reveal(tl, '#cursor-l', 'right_block+=0.6');
+  BW.reveal(tl, '#right text.d02-small', 'right_block+=0.8');
+  BW.reveal(tl, '#bands rect', 'right_block+=0.9', { stagger:.12 });
+  /* the AI arrives the same way Copilot did — bolted on top */
+  tl.to(['#aibox', '#ai-l'], { opacity:1, duration:.4 }, 'right_block+=1.5');
+
+  BW.mark(tl, 'morph', 6.5, 'the bolted-on box morphs into a thread through every layer');
+  tl.to('#ai-l', { opacity:0, duration:.25 }, 'morph');
+  BW.morph(tl, '#aibox', '#thread', { at:'morph', duration:1.1, ease:'power2.inOut' });
+
+  BW.mark(tl, 'weave', 7.7, 'a glint runs the thread; each capability lands as it passes');
+  tl.set('#glint', { opacity:1 }, 'weave').set('#glint', { opacity:0 }, 'weave+=2.2');
+  BW.along(tl, '#glint', '#thread', { at:'weave', duration:2.2, ease:'power1.inOut' });
+  LBLS.forEach((sel, i) => {
+    const f = FRACS[i];
+    const t = f < .5 ? Math.sqrt(f / 2) : 1 - Math.sqrt((1 - f) / 2);
+    BW.reveal(tl, sel, `weave+=${(t * 2.2).toFixed(2)}`, { duration:.5 });
+  });
+
+  BW.mark(tl, 'captions', 10.1);
+  BW.reveal(tl, '#cap-r', 'captions');
+  BW.mark(tl, 'kicker', 10.5);
+  BW.reveal(tl, '#kicker', 'kicker');
+
+  BW.punch('weave', [1000, 360, 1860, 860], { star:true, at:'weave+1.6', note:'the thread woven through the layers' });
+  BW.punch('left', [180, 360, 940, 860], { at:'left+3.0', note:'the sparse plugin side' });
+  BW.punch('both', [180, 360, 1860, 860], { at:'99' });
+  return tl;
+}
+function rest() {
+  BW.restAll();
+  BW.drawRest('#left rect, #arrow, #cursorBlock');
+  gsap.set(['#ai-l', '#glint'], { opacity:0 });
+  BW.morphRest('#aibox', '#thread');
+  BW.$('#arrow-l').textContent = 'API — ask permission';
+}
+function idle() {
+  const thread = BW.has.morphSVG ? '#aibox' : '#thread';
+  BW.glow(thread, { color:'63,191,175', min:4, max:14, dur:3 });
+  BW.glow('#cursor-l', { color:'63,191,175', min:14, max:30, dur:3.4 });
+  BW.raw(gsap.set('#glint', { opacity:.9 }));
+  BW.glint('#glint', thread, { dur:4.4 });
+}
+
+BW.ambient({ tint:'63,191,175', count:44 });
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

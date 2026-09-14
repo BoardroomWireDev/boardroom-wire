@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  DASHBOARD 09 · REVENUE UP, SHARE DOWN
+  Boardroom Wire · Cursor · Section: The Leaky Token Bucket
+  Lands on: "Between June of 2025 and May of 2026, Cursor's revenue went
+  from $500 million to north of $3 billion."
+
+  The paradox in one frame. Two axes, one window (Jun 2025 → May 2026,
+  eleven months). Left axis: ARR, amber, solid — reported. Right axis:
+  share of spend (Ramp) and workplace adoption (JetBrains), dashed —
+  third-party estimates. The ARR line and the Ramp line cross; the
+  crossing gets a ripple. Claude Code's adoption line arrives last,
+  teal, the steepest thing on the chart.
+
+  The Claude Code series starts in April 2025, before the window, so the
+  frame extends one tick left and everything outside the window is dim.
+  JetBrains only has two points inside the window — the line is drawn
+  through exactly those two, nothing implied between.
+
+  Controls: R replay · F final · ?final · ?still · ?t=cross+0.4
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>09 · Revenue Up, Share Down · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=4" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MotionPathPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(58,38,18,0.5); }
+  .amb-glow { --glow-tint: rgba(255,179,71,0.06); top: 56%; left: 58%; }
+
+  #kick     { position:absolute; left:56px; top:198px; }
+  #title    { position:absolute; left:56px; top:226px; width:1300px; }
+  #subtitle { position:absolute; left:56px; top:306px; width:1250px; }
+  #kicker   { position:absolute; left:56px; top:918px; }
+  #legend   { position:absolute; left:200px; top:846px; }
+
+  svg.plot { position:absolute; inset:0; z-index:10; overflow:visible; }
+
+  .d09-window { fill: rgba(245,241,229,0.03); }
+  .d09-wline  { stroke: var(--cream-faint); stroke-width: 1; stroke-dasharray: 3 5; }
+  .d09-base   { stroke: var(--line-strong); stroke-width: 1.5; }
+  .d09-tick   { stroke: var(--line); stroke-width: 1; }
+  text.d09-x  { font-family: var(--mono); font-size: 12.5px; letter-spacing: .08em; fill: var(--cream-faint); }
+  text.d09-x.in { fill: var(--cream-dim); }
+  text.d09-yl { font-family: var(--mono); font-size: 13px; font-weight: 600; fill: var(--amber); letter-spacing: .04em; }
+  text.d09-yr { font-family: var(--mono); font-size: 13px; font-weight: 500; fill: var(--cream-dim); letter-spacing: .04em; }
+
+  .d09-arr    { stroke: var(--amber); stroke-width: 3.5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+  .d09-arr-pt { fill: var(--amber-bright); }
+  .d09-ramp   { stroke: var(--cream); stroke-width: 2.2; fill: none; stroke-dasharray: 7 7; opacity: .85; }
+  .d09-jb     { stroke: var(--grey-bright); stroke-width: 2.2; fill: none; stroke-dasharray: 7 7; }
+  .d09-cc     { stroke: var(--teal-bright); stroke-width: 2.6; fill: none; stroke-dasharray: 7 7; }
+  .d09-pt-c   { fill: var(--cream); }
+  .d09-pt-g   { fill: var(--grey-bright); }
+  .d09-pt-t   { fill: var(--teal-bright); }
+  .d09-hollow { fill: var(--bg); stroke-width: 2; }
+  text.d09-v  { font-family: var(--mono); font-size: 17px; font-weight: 600; fill: var(--cream); }
+  text.d09-v.a { fill: var(--amber-bright); font-size: 19px; }
+  text.d09-v.t { fill: var(--teal-bright); }
+  text.d09-v.g { fill: var(--cream-dim); }
+  text.d09-series { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .16em; }
+  text.d09-series.c { fill: var(--cream-dim); }
+  text.d09-series.g { fill: var(--grey-bright); }
+  text.d09-series.t { fill: var(--teal-bright); }
+  .d09-glint  { fill: var(--amber-bright); }
+  .d09-ring   { fill: none; stroke: var(--amber-bright); stroke-width: 1.5; }
+
+  .tile.d09-hero { --tile-size: 54px; z-index: 20; left: 1522px; top: 428px; }
+  .tile.d09-hero .k { margin-bottom: 6px; font-size: 11px; }
+  .tile.d09-hero .v { --hero-glow-c: var(--amber-glow); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <svg class="plot" id="plot" viewBox="0 0 1920 1080">
+    <defs>
+      <clipPath id="clipRamp"><rect id="cRamp" x="0" y="0" width="0" height="1080" /></clipPath>
+      <clipPath id="clipJb"><rect id="cJb" x="0" y="0" width="0" height="1080" /></clipPath>
+      <clipPath id="clipCc"><rect id="cCc" x="0" y="0" width="0" height="1080" /></clipPath>
+    </defs>
+  </svg>
+
+  <div class="kick" id="kick">The Leaky Token Bucket · Jun 2025 → May 2026</div>
+  <div class="title" id="title">Growing enormously. <b>Losing badly.</b> At the same time.</div>
+  <div class="subtitle" id="subtitle" data-reveal="blur">Annualised revenue against share of AI-coding spend and workplace adoption, over the same eleven months.</div>
+
+  <div class="tile d09-hero amber" id="hero" data-reveal="">
+    <div class="k">May 2026 · ARR</div>
+    <div class="v hero-glow">$3B</div>
+  </div>
+
+  <div class="legend" id="legend" data-reveal="">
+    <span><i class="sw" style="--sw:var(--amber)"></i>Cursor ARR · left axis · reported</span>
+    <span><i class="sw dashed" style="--sw:var(--cream)"></i>Ramp · share of spend · right</span>
+    <span><i class="sw dashed" style="--sw:var(--grey-bright)"></i>JetBrains · adoption · right</span>
+    <span><i class="sw dashed" style="--sw:var(--teal-bright)"></i>Claude Code · adoption · right</span>
+  </div>
+
+  <div class="kicker" id="kicker" data-reveal="blur">Revenue up 6×. <b>The slice shrank by a third.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+  <div class="bw-hint">R replay · F final · ?t=cross+0.4</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/data.js?v=4"></script>
+<script src="shared/motion.js?v=4"></script>
+<script>
+BW.provenance({
+  uses: ['arr_500m_jun25', 'arr_1b_nov25', 'arr_2b_feb26', 'arr_3b_may26',
+         'share_ramp_jun25', 'share_ramp_may26', 'adopt_jb_jan26', 'adopt_jb_mid26',
+         'cc_apr25', 'cc_jan26', 'cc_mid26'],
+  footer: 'Window Jun 2025 → May 2026, eleven months · Claude Code series starts Apr 2025 · mid-2026 survey points are May–Jul'
+});
+
+/* ---------- scales ------------------------------------------ */
+/* x: months from Apr 2025. Window = Jun 2025 (2) → May 2026 (13). */
+const X0 = 200, XM = 100;                    /* 100px per month */
+const xOf = m => X0 + m * XM;
+const Y0 = 780, YH = 360;                    /* baseline, plot height */
+const yL = v => Y0 - (v / 3.5) * YH;         /* $B, 0–3.5 */
+const yR = v => Y0 - (v / 60) * YH;          /* %,  0–60 */
+const WIN = [2, 13];
+
+const ARR  = [[2, 0.5, '$500M'], [7, 1.0, '$1B'], [10, 2.0, '$2B'], [13, 3.0, null]];
+const RAMP = [[2, 41, '41%'], [13, 26, '26%']];
+const JB   = [[9, 18, '18%'], [14, 12, '12%']];
+const CC   = [[0, 3, '3%'], [9, 18, '18%'], [14, 39, '39%']];
+const XL   = [[0, 'APR 25'], [2, 'JUN 25'], [5, 'SEP 25'], [7, 'NOV 25'], [9, 'JAN 26'], [11, 'MAR 26'], [13, 'MAY 26'], [15, 'JUL 26']];
+
+const svg = BW.$('#plot');
+const gAxes = BW.mk('g', { id:'axes' }, svg);
+const gRight = BW.mk('g', { id:'rightAxis' }, svg);
+
+/* window */
+BW.mk('rect', { x:xOf(WIN[0]), y:400, width:xOf(WIN[1]) - xOf(WIN[0]), height:Y0 - 400, class:'d09-window', 'data-reveal':'' }, gAxes);
+WIN.forEach(m => BW.mk('line', { x1:xOf(m), y1:400, x2:xOf(m), y2:Y0, class:'d09-wline', 'data-reveal':'' }, gAxes));
+BW.mk('text', { x:xOf(WIN[0]) + 12, y:392, class:'svg-eyebrow', 'data-reveal':'' }, gAxes, 'THE WINDOW · JUN 2025 → MAY 2026 · 11 MONTHS');
+
+/* baseline + ticks */
+BW.mk('line', { x1:X0, y1:Y0, x2:xOf(15), y2:Y0, class:'d09-base', 'data-reveal':'scalex' }, gAxes);
+XL.forEach(([m, t]) => {
+  BW.mk('line', { x1:xOf(m), y1:Y0, x2:xOf(m), y2:Y0 + 8, class:'d09-tick', 'data-reveal':'' }, gAxes);
+  BW.mk('text', { x:xOf(m), y:Y0 + 30, class:'d09-x' + (m >= WIN[0] && m <= WIN[1] ? ' in' : ''), 'text-anchor':'middle', 'data-reveal':'' }, gAxes, t);
+});
+/* left axis ($B) */
+[0.5, 1, 2, 3].forEach(v => {
+  BW.mk('line', { x1:X0 - 8, y1:yL(v), x2:X0, y2:yL(v), class:'d09-tick', 'data-reveal':'' }, gAxes);
+  BW.mk('text', { x:X0 - 16, y:yL(v) + 5, class:'d09-yl', 'text-anchor':'end', 'data-reveal':'' }, gAxes, v < 1 ? '$500M' : '$' + v + 'B');
+});
+BW.mk('text', { x:X0 - 16, y:412, class:'svg-eyebrow', 'text-anchor':'end', 'data-reveal':'' }, gAxes, 'ARR');
+/* right axis (%) */
+[20, 40, 60].forEach(v => {
+  BW.mk('line', { x1:xOf(15), y1:yR(v), x2:xOf(15) + 8, y2:yR(v), class:'d09-tick', 'data-reveal':'' }, gRight);
+  BW.mk('text', { x:xOf(15) + 16, y:yR(v) + 5, class:'d09-yr', 'data-reveal':'' }, gRight, v + '%');
+});
+BW.mk('text', { x:xOf(15) + 16, y:412, class:'svg-eyebrow', 'data-reveal':'' }, gRight, 'SHARE');
+
+/* ---------- series ------------------------------------------ */
+const pathD = (arr, y) => arr.map(([m, v], i) => (i ? 'L' : 'M') + xOf(m) + ',' + y(v)).join(' ');
+
+/* ARR — solid, drawn with DrawSVG; points pop as the head passes */
+const gArr = BW.mk('g', { id:'gArr' }, svg);
+const arrLine = BW.mk('path', { d:pathD(ARR, yL), class:'d09-arr', opacity:0 }, gArr);
+const arrPts = ARR.map(([m, v, lbl]) => {
+  const c = BW.mk('circle', { cx:xOf(m), cy:yL(v), r:6, class:'d09-arr-pt', 'data-reveal':'scale' }, gArr);
+  const t = lbl ? BW.mk('text', { x:xOf(m), y:yL(v) - 18, class:'d09-v a', 'text-anchor':'middle', 'data-reveal':'' }, gArr, lbl) : null;
+  return { c, t };
+});
+const glint = BW.mk('circle', { cx:0, cy:0, r:7, class:'d09-glint', opacity:0 }, gArr);
+
+/* dashed estimates — revealed by a clip rect growing left to right */
+function dashed(arr, y, cls, ptCls, vCls, clipId, series, seriesCls) {
+  const g = BW.mk('g', { 'clip-path':'url(#' + clipId + ')' }, svg);
+  BW.mk('path', { d:pathD(arr, y), class:cls }, g);
+  const gp = BW.mk('g', {}, svg);
+  arr.forEach(([m, v, lbl], i) => {
+    BW.mk('circle', { cx:xOf(m), cy:y(v), r:5.5, class:'d09-hollow ' + ptCls, style:'stroke:currentColor', 'data-reveal':'scale' }, gp)
+      .setAttribute('stroke', getComputedStyle(document.documentElement).getPropertyValue(ptCls === 'd09-pt-c' ? '--cream' : ptCls === 'd09-pt-g' ? '--grey-bright' : '--teal-bright').trim() || '');
+    const last = i === arr.length - 1;
+    BW.mk('text', { x:xOf(m) + (last ? 14 : 0), y:y(v) + (last ? 6 : -14), class:'d09-v ' + vCls, 'text-anchor': last ? 'start' : 'middle', 'data-reveal':'' }, gp, lbl);
+  });
+  const [lm, lv] = arr[arr.length - 1];
+  BW.mk('text', { x:xOf(lm) + 14, y:y(lv) + 26, class:'d09-series ' + seriesCls, 'data-reveal':'' }, gp, series);
+  return gp;
+}
+const gRamp = dashed(RAMP, yR, 'd09-ramp', 'd09-pt-c', '',  'clipRamp', 'RAMP · SPEND SHARE', 'c');
+const gJb   = dashed(JB,   yR, 'd09-jb',   'd09-pt-g', 'g', 'clipJb',   'JETBRAINS · ADOPTION', 'g');
+const gCc   = dashed(CC,   yR, 'd09-cc',   'd09-pt-t', 't', 'clipCc',   'CLAUDE CODE · ADOPTION', 't');
+
+/* the crossing of ARR and Ramp, solved on the ARR segments */
+function crossing() {
+  const [r0, r1] = RAMP.map(([m, v]) => ({ x:xOf(m), y:yR(v) }));
+  for (let i = 0; i < ARR.length - 1; i++) {
+    const a = { x:xOf(ARR[i][0]), y:yL(ARR[i][1]) }, b = { x:xOf(ARR[i + 1][0]), y:yL(ARR[i + 1][1]) };
+    const d = (b.x - a.x) * (r1.y - r0.y) - (b.y - a.y) * (r1.x - r0.x);
+    if (!d) continue;
+    const t = ((r0.x - a.x) * (r1.y - r0.y) - (r0.y - a.y) * (r1.x - r0.x)) / d;
+    const u = ((r0.x - a.x) * (b.y - a.y) - (r0.y - a.y) * (b.x - a.x)) / d;
+    if (t >= 0 && t <= 1 && u >= 0 && u <= 1) return { x:a.x + t * (b.x - a.x), y:a.y + t * (b.y - a.y) };
+  }
+  return null;
+}
+const X = crossing();
+const rings = [0, 1].map(() => BW.mk('circle', { cx:X.x, cy:X.y, r:8, class:'d09-ring', opacity:0 }, svg));
+const xMark = BW.mk('circle', { cx:X.x, cy:X.y, r:5, class:'d09-pt-c', 'data-reveal':'scale' }, svg);
+
+const clipW = { ramp:xOf(13) + 40, jb:xOf(14) + 40, cc:xOf(14) + 40 };
+function setClips(k) {
+  gsap.set('#cRamp', { attr:{ width:clipW.ramp * k } });
+  gsap.set('#cJb',   { attr:{ width:clipW.jb * k } });
+  gsap.set('#cCc',   { attr:{ width:clipW.cc * k } });
+}
+
+/* ---------- reveal ------------------------------------------ */
+function play() {
+  BW.reset();
+  setClips(0);
+  gsap.set([glint, rings], { opacity:0 });
+  gsap.set(arrLine, { opacity:0 });
+
+  const tl = gsap.timeline();
+  BW.headerIn(tl);
+
+  BW.mark(tl, 'axes', 1.1, 'window, baseline and the left axis');
+  BW.reveal(tl, '#axes [data-reveal]', 'axes', { stagger:.03 });
+
+  BW.mark(tl, 'arr', 2.0, 'ARR draws Jun 2025 → May 2026, points pop as the head passes');
+  const DUR = 2.0;
+  BW.draw(tl, arrLine, { at:'arr', duration:DUR, ease:'power1.inOut' });
+  tl.set(glint, { opacity:1 }, 'arr').set(glint, { opacity:0 }, `arr+=${DUR}`);
+  BW.along(tl, glint, arrLine, { at:'arr', duration:DUR, ease:'power1.inOut' });
+  /* point i lands when the head reaches its share of the path length */
+  const segs = []; let total = 0;
+  for (let i = 1; i < ARR.length; i++) {
+    const dx = xOf(ARR[i][0]) - xOf(ARR[i - 1][0]), dy = yL(ARR[i][1]) - yL(ARR[i - 1][1]);
+    total += Math.hypot(dx, dy); segs.push(total);
+  }
+  arrPts.forEach((p, i) => {
+    const frac = i === 0 ? 0 : segs[i - 1] / total;
+    /* power1.inOut: invert to get the time at which progress = frac */
+    const t = frac < .5 ? Math.sqrt(frac / 2) : 1 - Math.sqrt((1 - frac) / 2);
+    const at = `arr+=${(t * DUR).toFixed(2)}`;
+    BW.reveal(tl, p.c, at);
+    if (p.t) BW.reveal(tl, p.t, at, { duration:.4 });
+  });
+  BW.reveal(tl, '#hero', `arr+=${DUR}`, { duration:.1 });
+  BW.heroLand(tl, '#hero .v', `arr+=${DUR}`);
+
+  BW.mark(tl, 'ramp', 4.5, 'right axis appears; Ramp share of spend falls 41% → 26%');
+  BW.reveal(tl, '#rightAxis [data-reveal]', 'ramp', { stagger:.04 });
+  tl.to('#cRamp', { attr:{ width:clipW.ramp }, duration:1.4, ease:'power1.inOut' }, 'ramp+=0.3');
+  BW.reveal(tl, gRamp.children[0], 'ramp+=0.3');
+  BW.reveal(tl, gRamp.children[1], 'ramp+=0.4');
+  BW.reveal(tl, [gRamp.children[2], gRamp.children[3], gRamp.children[4]], 'ramp+=1.6', { stagger:.1 });
+
+  /* the crossing: the Ramp clip reaches X.x at this fraction of its sweep */
+  const xf = X.x / clipW.ramp;
+  const xt = xf < .5 ? Math.sqrt(xf / 2) : 1 - Math.sqrt((1 - xf) / 2);
+  BW.mark(tl, 'cross', 4.5 + 0.3 + xt * 1.4, 'the lines cross — ripple');
+  BW.reveal(tl, xMark, 'cross');
+  rings.forEach((r, i) => tl.fromTo(r, { attr:{ r:8 }, opacity:.7 }, { attr:{ r:70 }, opacity:0, duration:1.3, ease:'power1.out', immediateRender:false }, `cross+=${i * .35}`));
+
+  BW.mark(tl, 'jetbrains', 6.6, 'JetBrains adoption 18% → 12% — two points, nothing implied between');
+  tl.to('#cJb', { attr:{ width:clipW.jb }, duration:1.0, ease:'power1.inOut' }, 'jetbrains');
+  BW.reveal(tl, Array.from(gJb.children), 'jetbrains+=0.2', { stagger:.12 });
+
+  BW.mark(tl, 'claude', 7.6, 'Claude Code adoption 3% → 18% → 39% — the steepest line on the chart');
+  tl.to('#cCc', { attr:{ width:clipW.cc }, duration:1.5, ease:'power1.inOut' }, 'claude');
+  BW.reveal(tl, Array.from(gCc.children), 'claude+=0.2', { stagger:.14 });
+
+  BW.mark(tl, 'legend', 9.2);
+  BW.reveal(tl, '#legend', 'legend');
+  BW.mark(tl, 'kicker', 9.5);
+  BW.reveal(tl, '#kicker', 'kicker');
+
+  BW.punch('cross', [700, 380, 1560, 800], { star:true, at:'cross+0.4', note:'the crossing, ripple in flight' });
+  BW.punch('claude', [140, 380, 1800, 800], { at:'claude+1.6', note:'all four lines' });
+  BW.punch('hero', [1350, 400, 1800, 700], { at:'99', note:'$3B against 26%' });
+  return tl;
+}
+
+function rest() {
+  BW.restAll();
+  setClips(1);
+  BW.drawRest(arrLine);
+  gsap.set([glint, rings], { opacity:0 });
+}
+
+function idle() {
+  BW.glow(arrLine, { color:'255,179,71', min:6, max:16, dur:3.4 });
+  BW.glow('#hero .v', { color:'255,179,71', min:20, max:40, dur:3.4 });
+  BW.march('.d09-ramp, .d09-jb', { by:-14, dur:2.6 });
+  BW.march('.d09-cc', { by:-14, dur:1.8 });
+  BW.ripple(svg, { cx:X.x, cy:X.y, r0:6, r1:40, color:getComputedStyle(document.documentElement).getPropertyValue('--amber-bright').trim(), dur:3.2, count:2 });
+}
+
+BW.ambient({ tint:'255,179,71', count:50 });
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

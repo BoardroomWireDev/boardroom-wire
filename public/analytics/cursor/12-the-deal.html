@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  DASHBOARD 12 · THE DEAL
+  Boardroom Wire · Cursor · Section: The Deal
+  Lands on: "SpaceX issued 389,289,254 shares of stock."
+
+  Two acts. ACT 1 — the deal card: $60,000,000,000 settles out of a
+  digit scramble; the key-value grid lands; the share count types in
+  one digit at a time at full precision, because 389,289,254 is a more
+  interesting number than $60B — it is exact. ACT 2 — the card compresses
+  to the top right and dashboard 07's funding ladder returns, pixel-
+  identical, with a $60B column rising in the space 07 left empty.
+  Then the comparison strip.
+
+  $10B is NOT a break fee — it is a payment for the collaborative work
+  if the option is not exercised. The comparison set carries verify:true
+  in data.js: confirm Wiz and WhatsApp against a current list before air.
+  Optional discount panel behind SHOW_DISCOUNT (off).
+
+  Controls: R replay · F final · ?final · ?still · ?t=sixty_col+0.8
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>12 · The Deal · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=4" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrambleTextPlugin.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(52,42,16,0.55); }
+  .amb-glow { --glow-tint: rgba(242,203,82,0.07); top: 46%; left: 50%; }
+
+  #kick     { position:absolute; left:56px; top:198px; }
+  #title    { position:absolute; left:56px; top:226px; width:1250px; }
+  #subtitle { position:absolute; left:56px; top:306px; width:1200px; }
+  #kicker   { position:absolute; left:56px; top:918px; }
+
+  /* ACT 1 — the deal card */
+  #card { position:absolute; left:360px; top:390px; width:1200px; z-index:20; transform-origin: top right; }
+  #big  { font-family:var(--mono); font-weight:700; font-size:104px; line-height:1; letter-spacing:-.03em; text-align:center;
+          color:var(--gold-bright); text-shadow: 0 0 26px var(--gold-glow); }
+  #big-k { text-align:center; margin-top:10px; }
+  #grid { margin-top:34px; --cols: 300px 1fr; }
+  #grid .row { height:38px; font-size:17px; }
+  #grid .row .c.k { font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cream-dim); }
+  #grid .row .c.v { text-align:left; font-weight:500; font-size:17px; }
+  #grid .row .c.v .dim { color:var(--cream-dim); font-weight:400; }
+  #shares { font-size:22px; font-weight:700; color:var(--gold-bright); letter-spacing:.02em; }
+  #shares .ch { display:inline-block; }
+
+  /* ACT 2 — the ladder */
+  svg.plot { position:absolute; inset:0; z-index:10; overflow:visible; }
+  .ladder-base { stroke: var(--line-strong); stroke-width: 1.5; }
+  .ladder-tickline { stroke: var(--line); stroke-width: 1; }
+  text.ladder-y { font-family: var(--mono); font-size: 12.5px; font-weight: 500; fill: var(--cream-faint); letter-spacing: .04em; }
+  .ladder-rect { fill: var(--gold); opacity: .9; }
+  .ladder-rect.exit { fill: var(--gold-bright); opacity: 1; }
+  .ladder-tick { fill: var(--bg); stroke: var(--cream-dim); stroke-width: 2; }
+  .ladder-step { stroke: var(--amber); stroke-width: 2.5; fill: none; stroke-linejoin: round; }
+  .ladder-step.exit { stroke-dasharray: 6 6; }
+  text.ladder-name { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .16em; fill: var(--cream); }
+  text.ladder-name.exit { fill: var(--gold-bright); }
+  text.ladder-date { font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; fill: var(--cream-dim); }
+  text.ladder-raised { font-family: var(--sans); font-size: 15px; fill: var(--cream-dim); }
+  text.ladder-val { fill: var(--gold-bright); font-size: 20px; }
+  text.ladder-lead { fill: var(--cream-dim); }
+  text.ladder-lead.exit { fill: var(--gold); }
+  text.ladder-nd { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; fill: var(--cream-faint); }
+
+  .tile.d12-hero { --tile-size: 56px; z-index: 20; text-align: center; transform: translateX(-50%); }
+  .tile.d12-hero .k { font-size: 11px; margin-bottom: 6px; }
+  .tile.d12-hero .v { --hero-glow-c: var(--gold-glow); --hero-glow-c2: rgba(242,203,82,0.22); }
+
+  text.ladder-raised { display: none; }     /* the amounts raised are dashboard 07's job */
+
+  /* comparison strip */
+  #cmp { position:absolute; left:270px; top:822px; width:1100px; z-index:20; }
+  #cmp .r { display:grid; grid-template-columns: 300px 1fr 70px; align-items:center; column-gap:14px; height:26px; }
+  #cmp .n { font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--cream-dim); }
+  #cmp .n b { color:var(--cream); font-weight:600; }
+  #cmp .bar { height:10px; background:var(--grey-bright); transform-origin:left center; }
+  #cmp .r.hero .bar { background:var(--gold-bright); }
+  #cmp .v { font-family:var(--mono); font-size:14px; font-weight:600; color:var(--cream); text-align:right; }
+  #cmp-k { position:absolute; left:270px; top:800px; z-index:20; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <svg class="plot" id="plot" viewBox="0 0 1920 1080"></svg>
+
+  <div class="kick" id="kick">The Deal · 14 Aug 2026</div>
+  <div class="title" id="title">SpaceX issued <b>389,289,254 shares.</b></div>
+  <div class="subtitle" id="subtitle" data-reveal="blur">The largest acquisition of a venture-backed startup on record, paid entirely in stock.</div>
+
+  <div id="card" data-reveal="">
+    <div id="big">$60,000,000,000</div>
+    <div class="axis-label" id="big-k" data-reveal="">Implied equity value · all stock</div>
+    <div id="grid">
+      <div class="row" data-reveal=""><div class="c k">Announced</div><div class="c v">21 Apr 2026 <span class="dim">· an option to acquire</span></div></div>
+      <div class="row" data-reveal=""><div class="c k">Option terms</div><div class="c v">$60B strike <span class="dim">· or $10B for the collaborative work if not exercised</span></div></div>
+      <div class="row" data-reveal=""><div class="c k">Exercised</div><div class="c v">16 Jun 2026 <span class="dim">· four days after the SpaceX IPO</span></div></div>
+      <div class="row" data-reveal=""><div class="c k">Closed</div><div class="c v">14 Aug 2026 <span class="dim">· SEC Form 8-K</span></div></div>
+      <div class="row" data-reveal=""><div class="c k">Consideration</div><div class="c v">All stock</div></div>
+      <div class="row" data-reveal=""><div class="c k">Shares issued</div><div class="c v"><span id="shares">389,289,254</span> <span class="dim">SpaceX Class A</span></div></div>
+      <div class="row" data-reveal=""><div class="c k">Per founder</div><div class="c v">~$2.4B <span class="dim">· Forbes estimate, each held ~4.5%</span></div></div>
+    </div>
+  </div>
+
+  <div class="tile d12-hero gold" id="hero" data-reveal="">
+    <div class="k">SpaceX · Aug 2026</div>
+    <div class="v hero-glow">$60B</div>
+  </div>
+
+  <div class="axis-label" id="cmp-k" data-reveal="">Largest venture-backed acquisitions · verify before air</div>
+  <div id="cmp">
+    <div class="r hero" data-reveal=""><div class="n"><b>Cursor</b> · SpaceX · 2026</div><div class="bar" style="width:100%"></div><div class="v">$60B</div></div>
+    <div class="r" data-reveal=""><div class="n">Wiz · Google · 2025</div><div class="bar" style="width:53.3%"></div><div class="v">$32B</div></div>
+    <div class="r" data-reveal=""><div class="n">WhatsApp · Facebook · 2014</div><div class="bar" style="width:31.7%"></div><div class="v">$19B</div></div>
+  </div>
+
+  <div class="kicker" id="kicker" data-reveal="blur">The funding ladder, <b>with its missing column.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+  <div class="bw-hint">R replay · F final · ?t=sixty_col+0.8</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/data.js?v=4"></script>
+<script src="shared/motion.js?v=4"></script>
+<script src="shared/ladder.js?v=4"></script>
+<script>
+const SHOW_DISCOUNT = false;   /* the discount panel is out of the script; data.js holds the arithmetic */
+
+BW.provenance({
+  uses: ['deal_announced', 'deal_strike', 'deal_alt', 'deal_exercised', 'deal_closed', 'deal_consideration', 'shares',
+         'deal_value', 'founder_stake', 'founder_pct', 'deal_record', 'cmp_wiz', 'cmp_whatsapp',
+         'preseed_raised', 'seed_raised', 'seed_post', 'a_raised', 'a_post', 'b_raised', 'b_post', 'c_raised', 'c_post', 'd_raised', 'd_post'],
+  footer: '$10B is a payment for the collaborative work if the option lapses, not a break fee · comparison set to be confirmed against a current list'
+});
+
+const L = BW_LADDER.create(BW.$('#plot'), {
+  exit: { v: BW.fig('deal_value').v, name: 'SpaceX', date: 'Aug 2026', lead: 'Acquired', note: 'all stock', hero: true }
+});
+const hero = BW.$('#hero');
+hero.style.left = L.exit.x + 'px';
+hero.style.top = (L.yOf(L.exit.v) - 104) + 'px';
+
+/* where the card goes in act 2: a small receipt in the top-right corner */
+const CARD_END = { x: 300, y: -262, scale: .36 };
+
+function play() {
+  BW.reset();
+  L.valued.forEach(c => L.set(c, 0));
+  L.set(L.exit, 0);
+  gsap.set([L.step, L.exit.step], { opacity:0 });
+  gsap.set('#card', { x:0, y:0, scale:1 });
+  gsap.set('.ladder', { opacity:0 });
+  BW.$('#big').textContent = '$60,000,000,000';
+
+  const tl = gsap.timeline();
+  BW.headerIn(tl);
+
+  /* ACT 1 */
+  BW.mark(tl, 'card', 1.2, 'the deal card');
+  BW.reveal(tl, '#card', 'card', { duration:.5 });
+  BW.mark(tl, 'sixty', 1.5, '$60,000,000,000 settles out of a scramble');
+  BW.scramble(tl, '#big', { text:'$60,000,000,000', chars:'0123456789', at:'sixty', duration:1.7 });
+  BW.reveal(tl, '#big-k', 'sixty+=1.5');
+  BW.mark(tl, 'fields', 3.4, 'announced, option, exercised, closed, consideration');
+  BW.reveal(tl, '#grid .row', 'fields', { stagger:.18 });
+  BW.mark(tl, 'shares', 4.9, '389,289,254 — one digit at a time');
+  BW.typeChars(tl, '#shares', { at:'shares', stagger:.11, duration:.3, from:{ opacity:0, y:6 } });
+
+  /* ACT 2 */
+  BW.mark(tl, 'compress', 7.0, 'the card compresses to the top right');
+  tl.to('#card', { x:CARD_END.x, y:CARD_END.y, scale:CARD_END.scale, duration:1.0, ease:'power3.inOut' }, 'compress');
+  tl.to('.ladder', { opacity:1, duration:.4 }, 'compress+=0.6');
+
+  BW.mark(tl, 'ladder', 7.7, "dashboard 07's ladder returns, fast");
+  BW.reveal(tl, L.base, 'ladder');
+  BW.reveal(tl, L.ticks, 'ladder', { stagger:.03 });
+  BW.reveal(tl, '.ladder > text', 'ladder');
+  L.cols.filter(c => c.post === null).forEach((c, i) => BW.reveal(tl, c.g.querySelectorAll('[data-reveal]'), `ladder+=${.1 + i * .12}`, { stagger:.03 }));
+  L.valued.forEach((c, i) => {
+    const at = `ladder+=${(.4 + i * .3).toFixed(2)}`;
+    L.raise(tl, c, at, .45);
+    BW.reveal(tl, c.g.querySelectorAll('text'), at, { stagger:.03 });
+  });
+  BW.draw(tl, L.step, { at:'ladder+=1.6', duration:.6 });
+
+  BW.mark(tl, 'sixty_col', 9.7, '$60B rises into the empty third — the hero');
+  L.raise(tl, L.exit, 'sixty_col', 1.1);
+  BW.reveal(tl, L.exit.g.querySelectorAll('text'), 'sixty_col+=0.2', { stagger:.05 });
+  BW.draw(tl, L.exit.step, { at:'sixty_col+=0.3', duration:.8 });
+  BW.reveal(tl, '#hero', 'sixty_col+=1.05', { duration:.1 });
+  BW.heroLand(tl, '#hero .v', 'sixty_col+=1.05');
+
+  BW.mark(tl, 'compare', 11.4, 'largest venture-backed acquisitions');
+  BW.reveal(tl, '#cmp-k', 'compare');
+  BW.reveal(tl, '#cmp .r', 'compare+=0.1', { stagger:.2 });
+  tl.fromTo('#cmp .bar', { scaleX:0 }, { scaleX:1, duration:.7, ease:BW.ease.land, stagger:.2 }, 'compare+=0.2');
+
+  BW.mark(tl, 'kicker', 12.4);
+  BW.reveal(tl, '#kicker', 'kicker');
+
+  BW.punch('shares', [360, 380, 1560, 760], { at:'shares+1.2', note:'the card, share count typed in' });
+  BW.punch('sixty_col', [1180, 200, 1880, 800], { star:true, at:'sixty_col+1.3', note:'$60B beside the ladder' });
+  BW.punch('compare', [250, 780, 1400, 900], { at:'99' });
+  return tl;
+}
+function rest() {
+  BW.restAll();
+  L.valued.forEach(c => L.set(c, 1));
+  L.set(L.exit, 1);
+  BW.drawRest([L.step, L.exit.step]);
+  gsap.set('.ladder', { opacity:1 });
+  gsap.set('#card', CARD_END);
+  gsap.set('#cmp .bar', { scaleX:1 });
+  BW.$('#big').textContent = '$60,000,000,000';
+}
+function idle() {
+  BW.glow('#hero .v', { color:'242,203,82', min:22, max:46, dur:3.4 });
+  BW.glow(L.exit.rect, { color:'242,203,82', min:4, max:16, dur:3.4 });
+  BW.march(L.exit.step, { by:-12, dur:1.8 });
+  BW.shimmer('#cmp .r.hero .bar', { dur:2.8, repeatDelay:4 });
+}
+
+BW.ambient({ tint:'242,203,82', count:52 });
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  DASHBOARD 03 · THE 100× YEAR
+  Boardroom Wire · Cursor · Section: The Legendary Revenue Run
+  Lands on: "they scaled revenue 100x to $100M ARR by January of 2025."
+
+  The first look at the curve. One line on a log axis so the ramp reads
+  as a ramp, two labelled endpoints, nothing else. Both anchors are
+  Sacra estimates and the markers are hollow to say so. Monthly points
+  are not reliably sourced, so the line is the straight line a constant
+  growth rate draws on a log axis — it implies no data we don't have.
+  100× is the dominant type element, settling out of a scramble.
+
+  Controls: R replay · F final · ?final · ?still · ?t=hero+0.9
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>03 · The 100× Year · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=4" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MotionPathPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrambleTextPlugin.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(52,40,14,0.5); }
+  .amb-glow { --glow-tint: rgba(242,203,82,0.06); top: 56%; left: 74%; }
+
+  #kick     { position:absolute; left:56px; top:198px; }
+  #title    { position:absolute; left:56px; top:226px; width:1300px; }
+  #subtitle { position:absolute; left:56px; top:306px; width:1250px; }
+  #kicker   { position:absolute; left:56px; top:918px; }
+
+  svg.plot { position:absolute; inset:0; z-index:10; overflow:visible; }
+  .d03-base { stroke: var(--line-strong); stroke-width: 1.5; }
+  .d03-grid { stroke: var(--line-faint); stroke-width: 1; }
+  .d03-line { stroke: var(--amber); stroke-width: 3.5; fill: none; stroke-linecap: round; }
+  .d03-glint { fill: var(--amber-bright); }
+  .d03-mark { fill: var(--bg); stroke: var(--cream-dim); stroke-width: 2; }
+  text.d03-y { font-family: var(--mono); font-size: 13px; font-weight: 500; fill: var(--cream-dim); letter-spacing: .04em; }
+  text.d03-x { font-family: var(--mono); font-size: 12.5px; letter-spacing: .08em; fill: var(--cream-dim); }
+  text.d03-end { fill: var(--cream); font-size: 20px; }
+
+  #big { position:absolute; left:1330px; top:430px; z-index:20; font-family:var(--mono); font-weight:700; font-size:230px; line-height:1;
+         letter-spacing:-.04em; color:var(--gold-bright); --hero-glow-c: var(--gold-glow); --hero-glow-c2: rgba(242,203,82,0.2); }
+  #big-sub { position:absolute; left:1340px; top:680px; z-index:20; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <svg class="plot" id="plot" viewBox="0 0 1920 1080"></svg>
+
+  <div class="kick" id="kick">The Legendary Revenue Run · 2024</div>
+  <div class="title" id="title">One hundred times, <b>in twelve months.</b></div>
+  <div class="subtitle" id="subtitle" data-reveal="blur">Annualised revenue, January 2024 to January 2025, on a log scale.</div>
+
+  <div id="big" class="hero-glow" data-reveal="">100×</div>
+  <div class="axis-label" id="big-sub" data-reveal="">$1M → $100M ARR · Jan 2024 → Jan 2025</div>
+
+  <div class="kicker" id="kicker" data-reveal="blur">Among the fastest runs to $100M <b>in software history.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+  <div class="bw-hint">R replay · F final · ?t=hero+0.9</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/data.js?v=4"></script>
+<script src="shared/motion.js?v=4"></script>
+<script>
+BW.provenance({
+  uses: ['arr_1m_jan24', 'arr_100m_jan25', 'growth_100x'],
+  footer: 'Monthly figures are not reliably sourced; the line is the constant-growth path between the two anchors'
+});
+
+const X0 = 260, X1 = 1220, Y0 = 400, Y1 = 780;
+const yOf = usd => Y1 - ((Math.log10(usd) - 6) / 2) * (Y1 - Y0);      /* $1M → $100M */
+const svg = BW.$('#plot');
+
+/* axes: log ticks at $1M, $10M, $100M; x at Jan 2024, Jul 2024, Jan 2025 */
+[1e6, 1e7, 1e8].forEach((v, i) => {
+  BW.mk('line', { x1:X0, y1:yOf(v), x2:X1, y2:yOf(v), class: i ? 'd03-grid' : 'd03-base', 'data-reveal':'scalex' }, svg);
+  BW.mk('text', { x:X0 - 16, y:yOf(v) + 5, class:'d03-y', 'text-anchor':'end', 'data-reveal':'' }, svg, v === 1e6 ? '$1M' : v === 1e7 ? '$10M' : '$100M');
+});
+BW.mk('text', { x:X0 - 16, y:Y0 - 22, class:'svg-eyebrow', 'text-anchor':'end', 'data-reveal':'' }, svg, 'ARR · LOG SCALE');
+[[0, null], [.5, 'JUL 2024'], [1, 'JAN 2025']].forEach(([f, t]) => {
+  const x = X0 + f * (X1 - X0);
+  BW.mk('line', { x1:x, y1:Y1, x2:x, y2:Y1 + 8, class:'d03-grid', 'data-reveal':'' }, svg);
+  if (t) BW.mk('text', { x, y:Y1 + 30, class:'d03-x', 'text-anchor':'middle', 'data-reveal':'' }, svg, t);
+});
+
+const line = BW.mk('path', { d:`M${X0},${yOf(1e6)} L${X1},${yOf(1e8)}`, class:'d03-line', opacity:0 }, svg);
+const glint = BW.mk('circle', { cx:0, cy:0, r:7, class:'d03-glint', opacity:0 }, svg);
+const m0 = BW.mk('circle', { cx:X0, cy:yOf(1e6), r:7, class:'d03-mark', 'data-reveal':'scale' }, svg);
+const m1 = BW.mk('circle', { cx:X1, cy:yOf(1e8), r:8, class:'d03-mark', 'data-reveal':'scale' }, svg);
+/* the $1M anchor is labelled under the axis, where the rising line can't cross it */
+const l0 = BW.mk('text', { x:X0, y:Y1 + 32, class:'svg-val d03-end', 'text-anchor':'start', 'data-reveal':'' }, svg, BW.val('arr_1m_jan24') + ' · JAN 2024');
+const l1 = BW.mk('text', { x:X1, y:yOf(1e8) - 22, class:'svg-val d03-end', 'text-anchor':'end', 'data-reveal':'' }, svg, BW.val('arr_100m_jan25') + ' · JAN 2025');
+const e0 = BW.mk('text', { x:X0, y:Y1 + 54, class:'svg-eyebrow', 'text-anchor':'start', 'data-reveal':'' }, svg, 'SACRA ESTIMATE');
+const e1 = BW.mk('text', { x:X1, y:yOf(1e8) - 44, class:'svg-eyebrow', 'text-anchor':'end', 'data-reveal':'' }, svg, 'SACRA ESTIMATE');
+
+function play() {
+  BW.reset();
+  gsap.set([line, glint], { opacity:0 });
+  BW.$('#big').textContent = '100×';
+
+  const tl = gsap.timeline();
+  BW.headerIn(tl);
+
+  BW.mark(tl, 'axes', 1.1, 'log axis and the two anchors');
+  BW.reveal(tl, '#plot [data-reveal]', 'axes', { stagger:.04 });
+  BW.reveal(tl, [m0, l0, e0], 'axes+=0.5', { stagger:.1 });
+
+  BW.mark(tl, 'draw', 2.0, 'the line draws, a glint riding the head');
+  BW.draw(tl, line, { at:'draw', duration:1.8, ease:'power1.inOut' });
+  tl.set(glint, { opacity:1 }, 'draw').set(glint, { opacity:0 }, 'draw+=1.8');
+  BW.along(tl, glint, line, { at:'draw', duration:1.8, ease:'power1.inOut' });
+  BW.reveal(tl, [m1, l1, e1], 'draw+=1.8', { stagger:.1 });
+
+  BW.mark(tl, 'hero', 4.1, '100× settles out of a scramble');
+  BW.reveal(tl, '#big', 'hero', { duration:.1 });
+  BW.scramble(tl, '#big', { text:'100×', chars:'0123456789', at:'hero', duration:1.2 });
+  BW.reveal(tl, '#big-sub', 'hero+=1.1');
+
+  BW.mark(tl, 'kicker', 5.8);
+  BW.reveal(tl, '#kicker', 'kicker');
+
+  BW.punch('hero', [1280, 380, 1880, 760], { star:true, at:'hero+1.3', note:'100× settled' });
+  BW.punch('line', [200, 360, 1280, 830], { at:'draw+1.9', note:'the log-scale ramp' });
+  return tl;
+}
+function rest() {
+  BW.restAll();
+  BW.drawRest(line);
+  gsap.set(glint, { opacity:0 });
+  BW.$('#big').textContent = '100×';
+}
+function idle() {
+  BW.glow(line, { color:'255,179,71', min:6, max:16, dur:3.2 });
+  BW.glow('#big', { color:'242,203,82', min:24, max:52, dur:3.8 });
+  BW.glint(glint, line, { dur:4.5 });
+  BW.raw(gsap.set(glint, { opacity:.9 }));
+}
+
+BW.ambient({ tint:'242,203,82', count:46 });
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>
