@@ -4,19 +4,24 @@
  *
  * The one way a dashboard appears on the site — in an article, on its own
  * page, anywhere. The dashboards are authored as fixed 1920x1080 stages for
- * video capture, so the embed is scaled rather than reflowed:
+ * video capture, so the embed is scaled rather than reflowed.
  *
- *   desktop  the live dashboard in an iframe, CSS-scaled to the container.
- *            The iframe is created only when the figure scrolls near the
- *            viewport, so the reveal animation plays for the reader rather
- *            than finishing off-screen — and GSAP isn't fetched until needed.
- *            At most two embeds are live at once; boards far off-screen are
- *            unmounted and replay when the reader returns.
+ *   mode="poster"  (default, articles)  The finished frame as a still, with
+ *                  a Play button that runs the animation in place when the
+ *                  reader asks for it, and Fullscreen. Nothing mounts on its
+ *                  own, so a page with twelve charts costs nothing until a
+ *                  reader presses play — and what they start stays running.
  *
- *   mobile   the poster still, tappable to open full-size where the browser
- *            gives native pinch-zoom. Scaling a 1920px stage to phone width
- *            renders the 12.5px source lines at ~2.5px, which is unreadable,
- *            so the live version is desktop-only by design.
+ *   mode="live"    (the dashboard's own page)  The live board mounts at once
+ *                  and plays its reveal; Replay and Fullscreen.
+ *
+ *   under 900px    The poster is the dashboard on every mode: a tap opens the
+ *                  full-size still. Scaling a 1920px stage to phone width
+ *                  renders the 12.5px source lines at ~2.5px, unreadable, so
+ *                  the live version is desktop-only by design.
+ *
+ * "Open full screen" opens the board itself in a new tab, where its own
+ * R (replay) and F (final frame) keys work.
  *
  * A wrong collection or slug throws here, so a typo in an article fails the
  * build rather than the reader.
@@ -26,16 +31,13 @@ import { chipLabel, embedPath, findCollection, posterPath } from '../data/analyt
 interface Props {
   collection: string;
   slug: string;
-  /** 'final' skips the reveal and opens on the finished frame (idle motion still runs). */
-  mode?: 'reveal' | 'final';
+  mode?: 'poster' | 'live';
   caption?: string;
   /** Link to the dashboard's own page. Off on that page itself. */
   showAbout?: boolean;
-  /** Mount the live frame immediately instead of on scroll. */
-  eager?: boolean;
 }
 
-const { collection, slug, mode = 'reveal', caption, showAbout = true, eager = false } = Astro.props;
+const { collection, slug, mode = 'poster', caption, showAbout = true } = Astro.props;
 
 const c = findCollection(collection);
 if (!c) throw new Error(`DashboardEmbed: no analytics collection "${collection}"`);
@@ -53,7 +55,6 @@ const num = String(d.n).padStart(2, '0');
   data-embed={src}
   data-title={d.title}
   data-mode={mode}
-  data-eager={eager ? '1' : undefined}
 >
   <div class="stage">
     <div class="scaler"></div>
@@ -63,7 +64,7 @@ const num = String(d.n).padStart(2, '0');
         src={poster}
         alt={`${d.title} — dashboard`}
         width="1920" height="1080"
-        loading={eager ? 'eager' : 'lazy'}
+        loading={mode === 'live' ? 'eager' : 'lazy'}
         decoding="async"
       />
     </a>
@@ -74,8 +75,8 @@ const num = String(d.n).padStart(2, '0');
     <span class={`chip ${d.source}`}>{chipLabel(c, d.source)}</span>
     <span class="ttl"><span class="n">{num}</span>{d.title}</span>
     <span class="ctl">
-      <button type="button" data-act="replay" hidden>↻ Replay</button>
-      <button type="button" data-act="full" hidden>⤢ Fullscreen</button>
+      <button type="button" data-act="play">{mode === 'live' ? '↻ Replay' : '▶ Play'}</button>
+      <button type="button" data-act="full">⤢ Fullscreen</button>
       <a href={src} target="_blank" rel="noopener">Open full screen ↗</a>
       {showAbout && <a href={`/analytics/${c.slug}/${d.slug}/`}>About this chart →</a>}
     </span>
@@ -155,6 +156,7 @@ const num = String(d.n).padStart(2, '0');
   }
   .ctl button:hover,
   .ctl a:hover { color: var(--gold-bright); border-color: rgba(212, 175, 55, 0.5); }
+  .ctl button[data-act="play"] { color: var(--gold-bright); border-color: rgba(212, 175, 55, 0.45); }
   .ctl [hidden] { display: none; }
 
   /* ---- source ---- */
@@ -191,35 +193,24 @@ const num = String(d.n).padStart(2, '0');
   const STAGE_H = 1080;
   /** Below this the dashboard's own type is too small to read when scaled. */
   const MIN_LIVE = 900;
-  /** Live iframes each run an animation loop; cap them and evict the farthest. */
-  const MAX_LIVE = 2;
   const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  type Inst = {
-    fig: HTMLElement; stage: HTMLElement; scaler: HTMLElement;
-    frame: HTMLIFrameElement | null; mount: () => void; unmount: () => void; fit: () => void;
-  };
-  const live = new Set<Inst>();
+  type Inst = { stage: HTMLElement; fit: () => void };
   const all: Inst[] = [];
-
-  const distanceFromViewport = (el: HTMLElement) => {
-    const r = el.getBoundingClientRect();
-    const mid = (r.top + r.bottom) / 2 - innerHeight / 2;
-    return Math.abs(mid);
-  };
 
   function init(fig: HTMLElement) {
     const stage = fig.querySelector<HTMLElement>('.stage')!;
     const scaler = fig.querySelector<HTMLElement>('.scaler')!;
-    const replayBtn = fig.querySelector<HTMLButtonElement>('[data-act="replay"]');
-    const fullBtn = fig.querySelector<HTMLButtonElement>('[data-act="full"]');
+    const playBtn = fig.querySelector<HTMLButtonElement>('[data-act="play"]')!;
+    const fullBtn = fig.querySelector<HTMLButtonElement>('[data-act="full"]')!;
     const base = fig.dataset.embed!;
     const label = fig.dataset.title ?? 'Dashboard';
-    const mode = REDUCED ? 'final' : (fig.dataset.mode ?? 'reveal');
-    const src = mode === 'final' ? `${base}?final` : base;
+    const live = fig.dataset.mode === 'live';
+    // Readers who asked for less motion get the finished frame; the board's
+    // idle breathing still runs, which its own reduced-motion rules tone down.
+    const src = REDUCED ? `${base}?final` : base;
 
-    const inst: Inst = { fig, stage, scaler, frame: null, mount, unmount, fit };
-    all.push(inst);
+    let frame: HTMLIFrameElement | null = null;
 
     function fit() {
       if (document.fullscreenElement === stage) {
@@ -235,84 +226,55 @@ const num = String(d.n).padStart(2, '0');
     }
     fit();
     new ResizeObserver(fit).observe(stage);
+    all.push({ stage, fit });
 
-    const showButtons = (on: boolean) => {
-      if (replayBtn) replayBtn.hidden = !on;
-      if (fullBtn) fullBtn.hidden = !on || !document.fullscreenEnabled;
-    };
+    if (!document.fullscreenEnabled) fullBtn.hidden = true;
 
-    function mount() {
-      if (inst.frame || innerWidth < MIN_LIVE) return;
-      // Cap the number of running boards; drop the one farthest from view.
-      while (live.size >= MAX_LIVE) {
-        let far: Inst | null = null, farD = -1;
-        for (const o of live) {
-          if (document.fullscreenElement === o.stage) continue;
-          const dd = distanceFromViewport(o.stage);
-          if (dd > farD) { farD = dd; far = o; }
-        }
-        if (!far) break;
-        far.unmount();
-      }
-      const frame = document.createElement('iframe');
+    /** Create the live iframe. Returns false below the desktop threshold. */
+    function mount(): boolean {
+      if (frame) return true;
+      if (innerWidth < MIN_LIVE) return false;
+      frame = document.createElement('iframe');
       frame.title = label;
-      frame.loading = 'lazy';
       // Same-origin so Replay can reach contentWindow; no sandboxing needed
       // for our own static files.
       frame.setAttribute('scrolling', 'no');
       frame.addEventListener('load', () => stage.classList.add('live'), { once: true });
       frame.src = src;
       scaler.appendChild(frame);
-      inst.frame = frame;
-      live.add(inst);
-      showButtons(true);
+      playBtn.textContent = '↻ Replay';
+      return true;
     }
 
-    function unmount() {
-      if (!inst.frame) return;
-      inst.frame.remove();
-      inst.frame = null;
+    function replay() {
+      if (!frame) return;
       stage.classList.remove('live');
-      live.delete(inst);
-      showButtons(false);
-    }
-
-    if (fig.dataset.eager) {
-      mount();
-    } else if ('IntersectionObserver' in window) {
-      new IntersectionObserver((entries) => {
-        for (const e of entries) if (e.isIntersecting) mount();
-      }, { rootMargin: '200px 0px' }).observe(stage);
-    } else {
-      mount();
-    }
-    // Far off-screen: give the CPU back and let the reveal replay on return.
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver((entries) => {
-        for (const e of entries) {
-          if (!e.isIntersecting && inst.frame && document.fullscreenElement !== stage) unmount();
-        }
-      }, { rootMargin: '150% 0px' }).observe(stage);
-    }
-
-    replayBtn?.addEventListener('click', () => {
-      if (!inst.frame) return;
-      stage.classList.remove('live');
-      inst.frame.addEventListener('load', () => stage.classList.add('live'), { once: true });
+      frame.addEventListener('load', () => stage.classList.add('live'), { once: true });
       // A plain reload replays the reveal; no cache-busting wanted.
-      inst.frame.contentWindow?.location.reload();
+      frame.contentWindow?.location.reload();
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (frame) replay(); else mount();
     });
 
-    fullBtn?.addEventListener('click', async () => {
+    fullBtn.addEventListener('click', async () => {
       if (document.fullscreenElement === stage) {
         await document.exitFullscreen?.();
-      } else {
-        await stage.requestFullscreen?.();
-        // Give the board keyboard focus so its own R / F keys work.
-        inst.frame?.focus();
-        inst.frame?.contentWindow?.focus();
+        return;
       }
+      mount();
+      await stage.requestFullscreen?.();
+      // Give the board keyboard focus so its own R / F keys work.
+      frame?.focus();
+      frame?.contentWindow?.focus();
     });
+
+    if (live) {
+      mount();
+      // If the viewport crosses the threshold after load, mount late.
+      addEventListener('resize', () => { if (!frame && innerWidth >= MIN_LIVE) mount(); });
+    }
   }
 
   document.querySelectorAll<HTMLElement>('figure.dash').forEach(init);
@@ -322,18 +284,8 @@ const num = String(d.n).padStart(2, '0');
   let lastFull: Inst | null = null;
   document.addEventListener('fullscreenchange', () => {
     const now = all.find((i) => i.stage === document.fullscreenElement) ?? null;
-    (now ?? lastFull)?.fit();
+    lastFull?.fit();
     now?.fit();
     lastFull = now;
-  });
-
-  // If the viewport crosses the threshold after load, mount whatever is in view.
-  addEventListener('resize', () => {
-    if (innerWidth < MIN_LIVE) return;
-    for (const i of all) {
-      if (i.frame) continue;
-      const r = i.stage.getBoundingClientRect();
-      if (r.top < innerHeight && r.bottom > 0) i.mount();
-    }
   });
 </script>
