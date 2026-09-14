@@ -1,0 +1,91 @@
+---
+/**
+ * <YouTubeLite id="…" title="…" />
+ *
+ * A poster with a play button; the real YouTube iframe is injected only when
+ * the reader clicks, so an article page doesn't pay for YouTube's scripts up
+ * front. Without an id it renders a "Watch on YouTube" card that links to the
+ * channel — for articles published before the video is live.
+ */
+interface Props {
+  id?: string;
+  title: string;
+}
+const { id, title } = Astro.props;
+const CHANNEL = 'https://www.youtube.com/channel/UCthfphsDjHppg9SQv3JTdrg';
+---
+
+{id ? (
+  <div class="yt" data-yt={id} data-title={title}>
+    <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt={`${title} — watch on YouTube`} width="1280" height="720" loading="eager" decoding="async" />
+    <button type="button" class="play" aria-label={`Play: ${title}`}>
+      <span class="tri" aria-hidden="true"></span>
+      <span class="lbl">Watch the video</span>
+    </button>
+  </div>
+) : (
+  <a class="yt cta" href={CHANNEL} target="_blank" rel="noopener">
+    <span class="eyebrow">Boardroom Wire on YouTube</span>
+    <span class="big">The video for this piece is coming. <span class="dim">Subscribe to catch it.</span></span>
+    <span class="go">Open the channel ↗</span>
+  </a>
+)}
+
+<style>
+  .yt {
+    position: relative; display: block;
+    aspect-ratio: 16 / 9; overflow: hidden;
+    margin: 30px 0 0;
+    background: var(--black-soft); border: 1px solid var(--line);
+  }
+  .yt img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .yt :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .play {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.55));
+    border: 0; cursor: pointer; color: var(--white);
+    transition: background 0.2s;
+  }
+  .play:hover { background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.45)); }
+  .tri {
+    width: 0; height: 0;
+    border-left: 26px solid var(--gold-bright);
+    border-top: 16px solid transparent; border-bottom: 16px solid transparent;
+    margin-left: 6px;
+    filter: drop-shadow(0 0 14px var(--amber-glow));
+  }
+  .lbl {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.24em; text-transform: uppercase;
+  }
+  .yt.cta {
+    aspect-ratio: auto; text-decoration: none; color: var(--white);
+    display: flex; flex-direction: column; gap: 12px;
+    padding: 28px 30px;
+    border-left: 2px solid rgba(255, 179, 71, 0.5);
+    background: linear-gradient(180deg, rgba(255, 179, 71, 0.03), transparent 70%);
+    transition: border-color 0.2s;
+  }
+  .yt.cta:hover { border-color: rgba(255, 179, 71, 0.55); }
+  .yt.cta .big { font-size: clamp(18px, 2vw, 22px); font-weight: 700; line-height: 1.3; }
+  .yt.cta .dim { color: var(--white-dim); font-weight: 500; }
+  .yt.cta .go {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold-bright);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.yt[data-yt]').forEach((box) => {
+    box.querySelector('.play')?.addEventListener('click', () => {
+      const id = box.dataset.yt!;
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      f.title = box.dataset.title ?? 'Video';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      f.setAttribute('allowfullscreen', '');
+      box.replaceChildren(f);
+    }, { once: true });
+  });
+</script>

@@ -1,0 +1,188 @@
+---
+/**
+ * /wire/<slug>/ — one article. Body is MDX; dashboards are embedded inline
+ * with <DashboardEmbed collection="…" slug="…" /> and the component is
+ * supplied to the renderer here, so the MDX needs no import line.
+ */
+import { getCollection, render } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import DashboardEmbed from '../../components/DashboardEmbed.astro';
+import YouTubeLite from '../../components/YouTubeLite.astro';
+import { findCollection, chipLabel, ogPath, thumbPath, SITE_ORIGIN } from '../../data/analytics';
+
+export async function getStaticPaths() {
+  const all = (await getCollection('articles', (a) => (import.meta.env.PROD ? !a.data.draft : true)))
+    .sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+  return all.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, newer: all[i - 1] ?? null, older: all[i + 1] ?? null },
+  }));
+}
+
+const { entry, newer, older } = Astro.props;
+const { Content } = await render(entry);
+const a = entry.data;
+
+const c = a.collection ? findCollection(a.collection) : undefined;
+const heroDash = c && 'dashboard' in a.hero ? c.dashboards.find((d) => d.slug === a.hero.dashboard) : undefined;
+const ogImage = heroDash && c ? ogPath(c, heroDash) : ('image' in a.hero ? a.hero.image : undefined);
+const absOg = ogImage ? (ogImage.startsWith('http') ? ogImage : `${SITE_ORIGIN}${ogImage}`) : undefined;
+
+const path = `/wire/${entry.id}/`;
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: a.title,
+  description: a.dek,
+  datePublished: a.published.toISOString(),
+  dateModified: (a.updated ?? a.published).toISOString(),
+  ...(absOg && { image: [absOg] }),
+  mainEntityOfPage: `${SITE_ORIGIN}${path}`,
+  author: { '@type': 'Organization', name: 'Boardroom Wire', url: SITE_ORIGIN },
+  publisher: {
+    '@type': 'Organization', name: 'Boardroom Wire',
+    logo: { '@type': 'ImageObject', url: `${SITE_ORIGIN}/logo.png` },
+  },
+  ...(a.youtube && {
+    video: {
+      '@type': 'VideoObject', name: a.title, description: a.dek,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${a.youtube}`,
+      thumbnailUrl: `https://i.ytimg.com/vi/${a.youtube}/hqdefault.jpg`,
+      uploadDate: a.published.toISOString(),
+    },
+  }),
+};
+---
+
+<Site
+  title={`${a.title} · Boardroom Wire`}
+  description={a.dek}
+  pageLabel="Wire"
+  path={path}
+  ogImage={ogImage}
+  ogType="article"
+  publishedTime={a.published.toISOString()}
+  modifiedTime={(a.updated ?? a.published).toISOString()}
+  jsonLd={jsonLd}
+>
+  <main class="wrap">
+    <article class="art">
+      <a class="crumb" href="/wire/">← Wire</a>
+
+      <header class="art-head">
+        <p class="eyebrow">{a.kicker} · {fmtDate(a.published)}</p>
+        <h1 class="hd">{a.title}</h1>
+        <p class="lede">{a.dek}</p>
+        <YouTubeLite id={a.youtube} title={a.title} />
+      </header>
+
+      <div class="rule"></div>
+
+      <div class="prose">
+        <Content components={{ DashboardEmbed }} />
+      </div>
+
+      {c && (
+        <section class="charts" aria-label="Charts in this article">
+          <div class="rule"></div>
+          <p class="eyebrow">Charts in this article</p>
+          <h2 class="charts-h">{c.dashboards.length} dashboards, <span class="dim">each with its own page.</span></h2>
+          <div class="a-grid">
+            {c.dashboards.map((d) => (
+              <a class="a-card" href={`/analytics/${c.slug}/${d.slug}/`}>
+                <div class="thumb">
+                  <span class="num">{String(d.n).padStart(2, '0')}</span>
+                  {d.key && <span class="keyflag">Key chart</span>}
+                  <img src={thumbPath(c, d)} alt={`${d.title} — dashboard preview`} width="640" height="360" loading="lazy" decoding="async" />
+                </div>
+                <h3>{d.title}</h3>
+                <span class="foot">
+                  <span class="sec">{d.section}</span>
+                  <span class={`chip ${d.source}`}>{chipLabel(c, d.source)}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <nav class="pager" aria-label="More from the Wire">
+        {older
+          ? <a class="pg" href={`/wire/${older.id}/`}><span class="pg-k">← Earlier</span><span class="pg-t">{older.data.title}</span></a>
+          : <span></span>}
+        {newer
+          ? <a class="pg next" href={`/wire/${newer.id}/`}><span class="pg-k">Later →</span><span class="pg-t">{newer.data.title}</span></a>
+          : <span></span>}
+      </nav>
+    </article>
+  </main>
+</Site>
+
+<style is:global>
+  /* Article column. MDX output isn't scoped, so these are global under .prose. */
+  .art-head { max-width: 900px; }
+  .art-head .lede { max-width: 62ch; }
+
+  .prose {
+    max-width: 720px; margin: 0 auto;
+    font-size: clamp(16px, 1.5vw, 18px); line-height: 1.72; color: #C9C3B4;
+  }
+  .prose > * + * { margin-top: 22px; }
+  .prose p { margin: 0; }
+  .prose p:first-child::first-letter {
+    float: left; font-size: 3.6em; line-height: 0.82; padding: 6px 10px 0 0;
+    font-weight: 800; color: var(--gold-bright);
+  }
+  .prose h2 {
+    font-size: clamp(24px, 2.6vw, 32px); font-weight: 800; line-height: 1.15;
+    letter-spacing: -0.02em; color: var(--white); margin-top: 60px;
+  }
+  .prose h3 {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--amber-bright); margin-top: 44px;
+  }
+  .prose strong { color: var(--white); font-weight: 700; }
+  .prose em { color: var(--white); }
+  .prose a { color: var(--gold-bright); text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.35); }
+  .prose a:hover { border-bottom-color: var(--gold-bright); }
+  .prose blockquote {
+    margin: 34px 0; padding: 4px 0 4px 22px;
+    border-left: 2px solid var(--gold);
+    font-size: 1.12em; line-height: 1.5; color: var(--white);
+  }
+  .prose ul, .prose ol { padding-left: 1.3em; }
+  .prose li + li { margin-top: 8px; }
+  .prose hr { border: 0; height: 1px; background: var(--line); margin: 48px 0; }
+
+  /* Embedded dashboards break out of the 720px column to 1100px. Calc margins,
+     never a transform: a transformed ancestor would break fullscreen. */
+  .prose .dash {
+    width: min(1100px, 100vw - 48px);
+    margin-left: calc(50% - min(550px, 50vw - 24px));
+    margin-right: calc(50% - min(550px, 50vw - 24px));
+    margin-top: 44px; margin-bottom: 44px;
+  }
+  @media (max-width: 720px) {
+    .prose .dash { width: 100%; margin-left: 0; margin-right: 0; }
+  }
+
+  .charts { margin-top: 24px; }
+  .charts-h { font-size: clamp(20px, 2.2vw, 26px); font-weight: 800; letter-spacing: -0.015em; margin: 12px 0 24px; }
+  .charts-h .dim { color: var(--white-dim); font-weight: 600; }
+
+  .pager {
+    display: flex; justify-content: space-between; gap: 18px;
+    margin-top: 48px; padding-top: 26px; border-top: 1px solid var(--line);
+  }
+  a.pg { text-decoration: none; color: var(--white); max-width: 46%; }
+  a.pg.next { text-align: right; margin-left: auto; }
+  .pg-k {
+    display: block; font-family: var(--mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-dim);
+  }
+  .pg-t { display: block; margin-top: 7px; font-size: 15px; font-weight: 700; line-height: 1.3; }
+  a.pg:hover .pg-t { color: var(--amber-bright); }
+</style>

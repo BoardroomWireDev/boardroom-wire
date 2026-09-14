@@ -1,0 +1,100 @@
+---
+/**
+ * /wire/ — the articles index. Newest first; drafts hidden in production.
+ */
+import { getCollection } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import { findCollection, ogPath, thumbPath } from '../../data/analytics';
+
+const articles = (await getCollection('articles', (a) => (import.meta.env.PROD ? !a.data.draft : true)))
+  .sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+
+/** Card image: the hero dashboard's thumb, or the hero image. */
+function heroImg(a: (typeof articles)[number]): { src: string; alt: string; og?: string } {
+  const h = a.data.hero;
+  if ('image' in h) return { src: h.image, alt: h.alt };
+  const c = a.data.collection ? findCollection(a.data.collection) : undefined;
+  const d = c?.dashboards.find((x) => x.slug === h.dashboard);
+  if (!c || !d) return { src: '', alt: '' };
+  return { src: thumbPath(c, d), alt: `${d.title} — dashboard`, og: ogPath(c, d) };
+}
+
+const first = articles[0];
+const og = first ? heroImg(first).og : undefined;
+---
+
+<Site
+  title="Wire · Boardroom Wire"
+  description="Boardroom Wire investigations in full — the reporting behind each video, with the dashboards embedded where they belong."
+  pageLabel="Wire"
+  path="/wire/"
+  ogImage={og}
+>
+  <main class="wrap">
+    <p class="eyebrow">The Wire</p>
+    <h1 class="hd">The reporting, <span class="dim">in full.</span></h1>
+    <p class="lede">
+      Every Boardroom Wire video starts as a written investigation. These are those
+      pieces, published whole, with the charts embedded where they land in the story.
+    </p>
+
+    <div class="rule"></div>
+
+    <div class="list">
+      {articles.map((a, i) => {
+        const img = heroImg(a);
+        return (
+          <a class="art" href={`/wire/${a.id}/`}>
+            {img.src && (
+              <span class="art-img">
+                <img src={img.src} alt={img.alt} width="640" height="360" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />
+              </span>
+            )}
+            <span class="art-body">
+              <span class="art-k">{a.data.kicker} · {fmtDate(a.data.published)}</span>
+              <span class="art-t">{a.data.title}</span>
+              <span class="art-d">{a.data.dek}</span>
+              <span class="art-go">Read →</span>
+            </span>
+          </a>
+        );
+      })}
+    </div>
+  </main>
+</Site>
+
+<style>
+  .list { display: grid; gap: 26px; }
+  a.art {
+    display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+    gap: 30px; align-items: center;
+    text-decoration: none; color: var(--white);
+    border: 1px solid var(--line); padding: 24px;
+    background: linear-gradient(180deg, rgba(255, 179, 71, 0.03), transparent 60%);
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.25s ease;
+  }
+  a.art:hover {
+    border-color: rgba(255, 179, 71, 0.55);
+    box-shadow: 0 0 26px rgba(255, 179, 71, 0.12);
+    transform: translateY(-3px);
+  }
+  .art-img { display: block; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--line); background: var(--black-soft); }
+  .art-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+  a.art:hover .art-img img { transform: scale(1.04); }
+  .art-body { display: flex; flex-direction: column; gap: 12px; }
+  .art-k {
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber);
+  }
+  .art-t { font-size: clamp(22px, 2.4vw, 30px); font-weight: 800; letter-spacing: -0.015em; line-height: 1.18; }
+  a.art:hover .art-t { color: var(--amber-bright); }
+  .art-d { font-size: 15px; line-height: 1.6; color: #9C978B; max-width: 62ch; }
+  .art-go { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-bright); margin-top: 6px; }
+
+  @media (max-width: 860px) {
+    a.art { grid-template-columns: 1fr; gap: 18px; padding: 18px; }
+  }
+</style>

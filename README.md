@@ -1,22 +1,26 @@
 # Boardroom Wire — Website
 
-Forensic analysis of the companies shaping the future. Content hub and growth surface for the [Boardroom Wire](https://www.youtube.com/) YouTube channel.
+Forensic analysis of the companies shaping the future. Content hub for the
+[Boardroom Wire](https://www.youtube.com/channel/UCthfphsDjHppg9SQv3JTdrg) YouTube channel.
+Live at https://www.boardroomwire.com.
 
-The single source of truth for brand, design, and architecture decisions is [`design-spec.md`](./design-spec.md). Read it before changing anything visual or structural.
-
----
+Brand and design decisions live in [`design-spec.md`](./design-spec.md).
 
 ## Stack
 
-- [Astro 5](https://astro.build/) — static site generator, ships zero JS by default
-- [Tailwind CSS 3](https://tailwindcss.com/) — design tokens defined in [`tailwind.config.mjs`](./tailwind.config.mjs)
-- [MDX](https://mdxjs.com/) — for article and video pages with embeddable components
-- Content authored as Markdown / MDX in [`src/content/`](./src/content/)
+- [Astro 5](https://astro.build/), static output, zero JS by default
+- Articles as MDX in a content collection (`src/content/articles/`)
+- Dashboards as self-contained HTML in `public/analytics/<collection>/`, described by
+  the manifest in `src/data/analytics.ts`
 - RSS via `@astrojs/rss`, sitemap via `@astrojs/sitemap`
+- Deployed by Cloudflare Pages from `master`; every pushed branch gets a preview at
+  `https://<branch-slug>.boardroom-wire.pages.dev`
+
+Tailwind is installed but not wired in and not used. Ignore it.
 
 ## Local development
 
-Requires Node 18.20.8+ or 20.3.0+ (Node 22 LTS recommended).
+Node 22.6+ (24 recommended — the poster script imports the TypeScript manifest).
 
 ```bash
 npm install
@@ -25,57 +29,72 @@ npm run build    # static output to dist/
 npm run preview  # serve the built site locally
 ```
 
-## Project structure
+## Where things are
 
 ```
 src/
-├── components/   reusable UI (Nav, Footer, ArticleCard, VideoCard, etc.)
-├── content/      Markdown / MDX content collections (articles, videos, research)
-├── layouts/      BaseLayout + per-type layouts (Article, Video, Research)
-├── pages/        routes (Astro auto-generates URLs from this tree)
-├── styles/       global CSS (Tailwind directives + .article-prose)
-└── utils/        helpers (e.g. date formatting)
-public/           static files served as-is (robots.txt, favicon, OG images)
+├── components/
+│   ├── DashboardEmbed.astro   the one way a dashboard appears on the site
+│   └── YouTubeLite.astro      click-to-load video, or a channel CTA when no id yet
+├── content/articles/          one .mdx per article → /wire/<file-name>/
+├── content.config.ts          the articles schema
+├── data/analytics.ts          the dashboard manifest (collections, chips, paths)
+├── layouts/Site.astro         shell for /wire/ and /analytics/ (ticker, head, footer)
+├── lib/youtube.ts             channel stats for the ticker
+└── pages/
+    ├── index / about / videos standalone pages with inline styles (left as they are)
+    ├── wire/                  article index + article pages
+    ├── analytics/             hub, [collection] index, [collection]/[slug] pages
+    ├── rss.xml.ts             feed of articles
+    └── 404.astro
+public/analytics/<collection>/ the dashboards themselves + generated posters
+scripts/
+├── sync-dashboards.mjs        copies a video's dashboards folder into public/
+└── render-posters.mjs         headless-Chrome stills: poster, thumb, OG image
 ```
 
-## Authoring content
+## Publishing an article with dashboards
 
-Add a Markdown or MDX file under `src/content/<collection>/`:
+What you need: the essay as markdown, the video's `dashboards/` folder (boards that
+honour the `?final&still` capture contract, plus `shared/`), and four frontmatter
+values: title, dek, publish date, YouTube id (or leave it out until the video is up).
 
-- `src/content/articles/` for blog posts → publishes to `/articles/<slug>/`
-- `src/content/videos/` for video pages → publishes to `/videos/<slug>/`
-- `src/content/research/` for dashboards → publishes to `/research/<slug>/`
+1. **Add the dashboard collection** to `src/data/analytics.ts`: one `Collection` with an
+   entry per board (`slug`, `file`, `title`, public-facing `blurb`, `section`, `source`
+   of `primary` / `reported` / `estimate`, `sourceNote`, `key`), a `hero` slug, a
+   `headline`, and the `method` copy. Put it first in `collections` (newest first).
+2. **Point the sync script at the folder**: add the slug to `SOURCES` in
+   `scripts/sync-dashboards.mjs`, then
 
-Required frontmatter (per [`src/content/config.ts`](./src/content/config.ts)):
+   ```bash
+   npm run sync:dashboards -- --only <slug>
+   npm run render:posters -- --only <slug>
+   ```
 
-```yaml
----
-title: "Headline"
-dek: "One-sentence angle."
-category: business-of-ai          # one of the four pillars
-tags: [openai, financials]
-publishDate: 2026-04-25
-draft: false
-# article-only: image (optional), readTime (optional)
-# video-only: youtubeId (required), runtime "MM:SS" (required), keyTakeaways (optional)
-# research-only: dashboards [{ title, image?, embedUrl? }] (optional)
----
-```
+   The sync skips `index.html`, `posters/`, `beats.json` and `scripts/`; the render
+   writes `posters/`, `posters/thumb/` and `posters/og/`.
+3. **Write the article** at `src/content/articles/<slug>.mdx`. Paste the essay under the
+   frontmatter and drop a line wherever a chart belongs:
 
-`draft: true` excludes a piece from index pages, RSS, and sitemaps.
+   ```mdx
+   <DashboardEmbed collection="cursor" slug="where-the-dollar-goes" />
+   ```
 
-## Deployment
+   Blank lines above and below. A wrong slug fails the build, on purpose.
+   Set `draft: true` to keep it off the production index, feed and sitemap while it is
+   reviewed; previews always show drafts.
+4. **Preview**: `git checkout -b feat/<slug>`, `npm run build`, commit the article, the
+   manifest change, `public/analytics/<slug>/` and its posters, push, and open the
+   Cloudflare preview URL for the branch.
+5. **Publish**: merge to `master`. Check `/wire/<slug>/`, `/analytics/<slug>/`,
+   `/rss.xml` and `/sitemap-0.xml` on www.
 
-Not deployed yet. Target is Vercel from `main` (the spec's preference). Adapter and CI wiring land in a later milestone.
+Commit messages follow `area: short description`.
 
-## Roadmap
+## How the embed behaves
 
-The current milestone (foundation skeleton) wires up the brand and routes end-to-end with no content. Next milestones, in rough order:
-
-1. Visual polish pass — hero treatments, dashboard styling, animation
-2. Per-page OG image generation (probably via [satori](https://github.com/vercel/satori))
-3. Vercel deployment + analytics (Plausible)
-4. Newsletter provider integration
-5. First real content authoring pass
-
-See [`design-spec.md` section 10](./design-spec.md) for what's explicitly out of scope for v1.
+Dashboards are authored at a fixed 1920×1080 for video capture, so the site scales
+them rather than reflowing them. On screens 900px and wider the live board runs in an
+iframe that mounts as it scrolls into view (so its reveal plays for the reader), with
+Replay and Fullscreen controls; at most two boards are live at once. Under 900px the
+poster still stands in for the board and a tap opens the full-size image.
