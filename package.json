@@ -12,7 +12,7 @@
     "astro": "astro",
     "sync:dashboards": "node scripts/sync-dashboards.mjs",
     "render:posters": "node scripts/render-posters.mjs",
-    "analytics:refresh": "npm run sync:dashboards && npm run render:posters"
+    "analytics:refresh": "node scripts/sync-dashboards.mjs && node scripts/render-posters.mjs"
   },
   "dependencies": {
     "astro": "^5.18.1",

@@ -4,7 +4,8 @@
  * Renders a still of every dashboard for use as a card thumbnail, the mobile
  * fallback image, and the OG link preview.
  *
- *   npm run render:posters
+ *   npm run render:posters                  every collection
+ *   npm run render:posters -- --only cursor
  *
  * Each dashboard is opened at `?final&still` — its finished frame with all
  * ambient motion disabled — and captured at 1920x1080 by headless Chrome, then
@@ -21,6 +22,7 @@
  * are still unreliable with WebP.
  *
  * Run after `npm run sync:dashboards`. Override Chrome with CHROME_PATH.
+ * Needs Node 22.6+ (the manifest is imported as TypeScript).
  */
 import { execFile } from 'node:child_process';
 import { mkdir, readdir, rm, stat } from 'node:fs/promises';
@@ -50,11 +52,16 @@ const OG_H = 630;
 const THUMB_W = 640;
 const THUMB_H = 360;
 
+const onlyIdx = process.argv.indexOf('--only');
+const only = onlyIdx >= 0 ? (process.argv[onlyIdx + 1] ?? '').split(',').map((s) => s.trim()) : null;
+
 async function shoot(chromePath, fileUrl, outPath) {
   await run(chromePath, [
     '--headless=new',
     '--disable-gpu',
     '--hide-scrollbars',
+    '--no-first-run',
+    '--disable-extensions',
     '--force-device-scale-factor=1',
     '--window-size=1920,1080',
     `--screenshot=${outPath}`,
@@ -74,14 +81,20 @@ async function main() {
     process.exit(1);
   }
 
-  for (const c of collections) {
+  const targets = only ? collections.filter((c) => only.includes(c.slug)) : collections;
+  if (!targets.length) {
+    console.error(`\n  No collection matched --only ${only?.join(',')}\n`);
+    process.exit(1);
+  }
+
+  for (const c of targets) {
     const base = path.join(ROOT, 'public/analytics', c.slug);
     const posters = path.join(base, 'posters');
     const ogDir = path.join(posters, 'og');
     const thumbDir = path.join(posters, 'thumb');
 
     if (!existsSync(base)) {
-      console.error(`\n  Missing ${base} — run "npm run sync:dashboards" first.\n`);
+      console.error(`\n  Missing ${base} — run "npm run sync:dashboards -- --only ${c.slug}" first.\n`);
       process.exit(1);
     }
 
@@ -98,7 +111,9 @@ async function main() {
         continue;
       }
 
-      const url = `${pathToFileURL(src).href}?final&still`;
+      // fit=0 is a no-op on boards without a fit wrapper and keeps newer
+      // boards from scaling to the capture window.
+      const url = `${pathToFileURL(src).href}?final&still&fit=0`;
       const shot = path.join(posters, `${d.slug}.capture.png`);
       await shoot(chrome, url, shot);
 
@@ -120,7 +135,7 @@ async function main() {
       await rm(shot, { force: true });
 
       const kb = Math.round((await stat(full)).size / 1024);
-      console.log(`    ${String(d.n).padStart(2, '0')}  ${d.slug.padEnd(28)} ${kb}KB`);
+      console.log(`    ${String(d.n).padStart(2, '0')}  ${d.slug.padEnd(36)} ${kb}KB`);
     }
 
     const n = (await readdir(posters)).filter((f) => f.endsWith('.webp')).length;

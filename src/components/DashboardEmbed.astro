@@ -1,0 +1,326 @@
+---
+/**
+ * <DashboardEmbed collection="cursor" slug="where-the-dollar-goes" />
+ *
+ * The one way a dashboard appears on the site — in an article, on its own
+ * page, anywhere. The dashboards are authored as fixed 1920x1080 stages for
+ * video capture, so the embed is scaled rather than reflowed.
+ *
+ *   mode="auto"    (default, articles)  The live board mounts as the figure
+ *                  scrolls near the viewport, so its reveal plays for the
+ *                  reader instead of finishing off-screen. Boards that have
+ *                  scrolled well out of view are put back to their poster
+ *                  (and replay on return) so twelve charts never run at once;
+ *                  a board in view is never touched. Fullscreen only.
+ *
+ *   mode="live"    (the dashboard's own page)  The live board mounts at once
+ *                  and plays its reveal; Replay and Fullscreen.
+ *
+ *   under 900px    The poster is the dashboard on every mode: a tap opens the
+ *                  full-size still. Scaling a 1920px stage to phone width
+ *                  renders the 12.5px source lines at ~2.5px, unreadable, so
+ *                  the live version is desktop-only by design.
+ *
+ * "Open full screen" opens the board itself in a new tab, where its own
+ * R (replay) and F (final frame) keys work.
+ *
+ * A wrong collection or slug throws here, so a typo in an article fails the
+ * build rather than the reader.
+ */
+import { chipLabel, embedPath, findCollection, posterPath } from '../data/analytics';
+
+interface Props {
+  collection: string;
+  slug: string;
+  mode?: 'auto' | 'live';
+  caption?: string;
+  /** Link to the dashboard's own page. Off on that page itself. */
+  showAbout?: boolean;
+}
+
+const { collection, slug, mode = 'auto', caption, showAbout = true } = Astro.props;
+
+const c = findCollection(collection);
+if (!c) throw new Error(`DashboardEmbed: no analytics collection "${collection}"`);
+const d = c.dashboards.find((x) => x.slug === slug);
+if (!d) throw new Error(`DashboardEmbed: no dashboard "${slug}" in "${collection}"`);
+
+const src = embedPath(c, d);
+const poster = posterPath(c, d);
+const num = String(d.n).padStart(2, '0');
+---
+
+<figure
+  class="dash"
+  id={slug}
+  data-embed={src}
+  data-title={d.title}
+  data-mode={mode}
+>
+  <div class="stage">
+    <div class="scaler"></div>
+    <a class="poster-link" href={poster}>
+      <img
+        class="poster"
+        src={poster}
+        alt={`${d.title} — dashboard`}
+        width="1920" height="1080"
+        loading={mode === 'live' ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    </a>
+    <span class="tap-hint">Tap to enlarge</span>
+  </div>
+
+  <div class="bar">
+    <span class={`chip ${d.source}`}>{chipLabel(c, d.source)}</span>
+    <span class="ttl"><span class="n">{num}</span>{d.title}</span>
+    <span class="ctl">
+      {mode === 'live' && <button type="button" data-act="replay">↻ Replay</button>}
+      <button type="button" data-act="full">⤢ Fullscreen</button>
+      <a href={src} target="_blank" rel="noopener">Open full screen ↗</a>
+      {showAbout && <a href={`/analytics/${c.slug}/${d.slug}/`}>About this chart →</a>}
+    </span>
+  </div>
+
+  <p class="srcnote"><span>Source</span>{d.sourceNote}</p>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .dash { margin: 40px 0; }
+
+  /* ---- stage ---- */
+  .stage {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #0a0a0f;
+    border: 1px solid var(--line);
+  }
+  /* The dashboard is authored at exactly 1920x1080; --s is set by script to
+     containerWidth / 1920 so it fills the box without reflowing. In
+     fullscreen the box is viewport-shaped, so --ox/--oy centre it. */
+  .scaler {
+    position: absolute;
+    top: var(--oy, 0px); left: var(--ox, 0px);
+    width: 1920px; height: 1080px;
+    transform-origin: top left;
+    transform: scale(var(--s, 1));
+  }
+  .scaler :global(iframe) {
+    width: 1920px; height: 1080px;
+    border: 0; display: block;
+  }
+  .stage:fullscreen {
+    aspect-ratio: auto;
+    width: 100%; height: 100%;
+    border: 0; background: #000;
+  }
+  .stage:fullscreen .poster { object-fit: contain; }
+
+  .poster-link { position: absolute; inset: 0; display: block; }
+  .poster {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: opacity 0.45s ease;
+  }
+  .stage.live .poster { opacity: 0; pointer-events: none; }
+
+  .tap-hint {
+    position: absolute; right: 10px; bottom: 10px; z-index: 3;
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--amber); background: rgba(0, 0, 0, 0.72);
+    border: 1px solid rgba(255, 179, 71, 0.4);
+    padding: 5px 9px;
+  }
+
+  /* ---- bar ---- */
+  .bar {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .ttl {
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.08em; color: var(--white);
+  }
+  .ttl .n { color: var(--white-dim); margin-right: 10px; }
+  .ctl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+  .ctl button,
+  .ctl a {
+    font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--white-dim); background: transparent;
+    border: 1px solid var(--line); padding: 7px 11px;
+    cursor: pointer; text-decoration: none; white-space: nowrap;
+    transition: color 0.18s, border-color 0.18s;
+  }
+  .ctl button:hover,
+  .ctl a:hover { color: var(--gold-bright); border-color: rgba(212, 175, 55, 0.5); }
+  .ctl [hidden] { display: none; }
+
+  /* ---- source ---- */
+  .srcnote {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 11.5px; line-height: 1.7;
+    letter-spacing: 0.03em; color: #8E8A7E;
+  }
+  .srcnote span {
+    display: block; margin-bottom: 4px;
+    font-size: 9.5px; font-weight: 700; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--amber);
+  }
+  figcaption {
+    margin-top: 10px; font-size: 14px; line-height: 1.5; color: #B8B2A4;
+  }
+
+  /* Desktop: the live embed takes over, so the poster link and tap hint go. */
+  @media (min-width: 900px) {
+    .poster-link { pointer-events: none; }
+    .tap-hint { display: none; }
+  }
+  /* Mobile: no iframe is ever created, so the poster is the dashboard. */
+  @media (max-width: 899px) {
+    .ctl button { display: none !important; }
+    .ctl { margin-left: 0; }
+  }
+</style>
+
+<script>
+  /* One bundle per page drives every embed on it. */
+  const STAGE_W = 1920;
+  const STAGE_H = 1080;
+  /** Below this the dashboard's own type is too small to read when scaled. */
+  const MIN_LIVE = 900;
+  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /** Boards running at once before the ones farthest out of view are parked. */
+  const MAX_LIVE = 4;
+
+  type Inst = { stage: HTMLElement; fit: () => void; near: boolean; frame: HTMLIFrameElement | null; unmount: () => void };
+  const all: Inst[] = [];
+
+  function init(fig: HTMLElement) {
+    const stage = fig.querySelector<HTMLElement>('.stage')!;
+    const scaler = fig.querySelector<HTMLElement>('.scaler')!;
+    const replayBtn = fig.querySelector<HTMLButtonElement>('[data-act="replay"]');
+    const fullBtn = fig.querySelector<HTMLButtonElement>('[data-act="full"]')!;
+    const base = fig.dataset.embed!;
+    const label = fig.dataset.title ?? 'Dashboard';
+    const live = fig.dataset.mode === 'live';
+    // Readers who asked for less motion get the finished frame; the board's
+    // idle breathing still runs, which its own reduced-motion rules tone down.
+    const src = REDUCED ? `${base}?final` : base;
+
+    let frame: HTMLIFrameElement | null = null;
+    const inst: Inst = { stage, fit, near: false, frame: null, unmount };
+
+    function fit() {
+      if (document.fullscreenElement === stage) {
+        const s = Math.min(innerWidth / STAGE_W, innerHeight / STAGE_H);
+        scaler.style.setProperty('--s', String(s));
+        scaler.style.setProperty('--ox', `${(innerWidth - STAGE_W * s) / 2}px`);
+        scaler.style.setProperty('--oy', `${(innerHeight - STAGE_H * s) / 2}px`);
+      } else {
+        scaler.style.setProperty('--s', String(stage.clientWidth / STAGE_W));
+        scaler.style.setProperty('--ox', '0px');
+        scaler.style.setProperty('--oy', '0px');
+      }
+    }
+    fit();
+    new ResizeObserver(fit).observe(stage);
+    all.push(inst);
+
+    if (!document.fullscreenEnabled) fullBtn.hidden = true;
+
+    /** Create the live iframe. Returns false below the desktop threshold. */
+    function mount(): boolean {
+      if (frame) return true;
+      if (innerWidth < MIN_LIVE) return false;
+      // Too many boards running: park the ones that are well out of view.
+      // A board near the viewport is never parked.
+      const running = all.filter((o) => o.frame);
+      if (running.length >= MAX_LIVE) {
+        running.filter((o) => !o.near && document.fullscreenElement !== o.stage).forEach((o) => o.unmount());
+      }
+      frame = document.createElement('iframe');
+      frame.title = label;
+      // Same-origin so Replay can reach contentWindow; no sandboxing needed
+      // for our own static files.
+      frame.setAttribute('scrolling', 'no');
+      frame.addEventListener('load', () => stage.classList.add('live'), { once: true });
+      frame.src = src;
+      scaler.appendChild(frame);
+      inst.frame = frame;
+      return true;
+    }
+
+    /** Back to the poster. The reveal plays again on the next mount. */
+    function unmount() {
+      if (!frame) return;
+      frame.remove();
+      frame = null;
+      inst.frame = null;
+      stage.classList.remove('live');
+    }
+
+    function replay() {
+      if (!frame) return;
+      stage.classList.remove('live');
+      frame.addEventListener('load', () => stage.classList.add('live'), { once: true });
+      // A plain reload replays the reveal; no cache-busting wanted.
+      frame.contentWindow?.location.reload();
+    }
+
+    replayBtn?.addEventListener('click', replay);
+
+    fullBtn.addEventListener('click', async () => {
+      if (document.fullscreenElement === stage) {
+        await document.exitFullscreen?.();
+        return;
+      }
+      mount();
+      await stage.requestFullscreen?.();
+      // Give the board keyboard focus so its own R / F keys work.
+      frame?.focus();
+      frame?.contentWindow?.focus();
+    });
+
+    if (live) {
+      mount();
+      // If the viewport crosses the threshold after load, mount late.
+      addEventListener('resize', () => { if (!frame && innerWidth >= MIN_LIVE) mount(); });
+      return;
+    }
+
+    // Articles: mount as the figure comes near, so the reveal plays for the
+    // reader; park it again once it is well out of view.
+    if (!('IntersectionObserver' in window)) { mount(); return; }
+    new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        inst.near = e.isIntersecting;
+        if (e.isIntersecting) mount();
+      }
+    }, { rootMargin: '200px 0px' }).observe(stage);
+    new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting && frame && document.fullscreenElement !== stage) unmount();
+      }
+    }, { rootMargin: '150% 0px' }).observe(stage);
+    // If the viewport crosses the threshold after load, mount whatever is near.
+    addEventListener('resize', () => { if (!frame && inst.near && innerWidth >= MIN_LIVE) mount(); });
+  }
+
+  document.querySelectorAll<HTMLElement>('figure.dash').forEach(init);
+
+  // In fullscreen the stage fills the viewport, so rescale against that —
+  // and again on the way out.
+  let lastFull: Inst | null = null;
+  document.addEventListener('fullscreenchange', () => {
+    const now = all.find((i) => i.stage === document.fullscreenElement) ?? null;
+    lastFull?.fit();
+    now?.fit();
+    lastFull = now;
+  });
+</script>

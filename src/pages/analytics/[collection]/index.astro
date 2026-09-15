@@ -1,34 +1,48 @@
 ---
 /**
- * /analytics/situational-awareness/ — the collection index.
- *
- * Fourteen cards in video order. Cards carry the same source chip that is
- * baked into the dashboard frame itself, so the primary-vs-reported
- * distinction is visible before you open anything.
+ * /analytics/<collection>/ — a collection's index: every dashboard in video
+ * order, with the same source chip that is baked into the frame itself.
  */
-import Analytics from '../../../layouts/Analytics.astro';
-import { situationalAwareness as c, thumbPath, ogPath } from '../../../data/analytics';
+import { getCollection } from 'astro:content';
+import Site from '../../../layouts/Site.astro';
+import { collections, chipLabel, heroOf, thumbPath, ogPath } from '../../../data/analytics';
+import type { Collection } from '../../../data/analytics';
 
-const title = 'Situational Awareness — The $45B Blowup · Boardroom Wire';
-const description = c.summary;
+export function getStaticPaths() {
+  return collections.map((c) => ({ params: { collection: c.slug }, props: { c } }));
+}
 
-const heroCard = c.dashboards.find((d) => d.slug === 'seven-quarter-bridge') ?? c.dashboards[0];
-const primaryCount = c.dashboards.filter((d) => d.source === 'primary').length;
+const { c } = Astro.props as { c: Collection };
+
+const title = `${c.title} · Boardroom Wire`;
+const hero = heroOf(c);
+const hasEstimates = c.dashboards.some((d) => d.source === 'estimate');
+
+const articles = await getCollection('articles', (a) =>
+  a.data.collection === c.slug && (import.meta.env.PROD ? !a.data.draft : true));
+const article = articles[0];
 ---
 
-<Analytics
+<Site
   title={title}
-  description={description}
+  description={c.summary}
   pageLabel="Analytics"
   path={`/analytics/${c.slug}/`}
-  ogImage={ogPath(c, heroCard)}
+  ogImage={ogPath(c, hero)}
 >
   <main class="wrap">
     <a class="crumb" href="/analytics/">← All analysis</a>
 
     <p class="eyebrow">{c.kicker}</p>
-    <h1 class="hd">Situational Awareness <span class="dim">— the $45B blowup.</span></h1>
+    <h1 class="hd">{c.headline.lead} <span class="dim">{c.headline.dim}</span></h1>
     <p class="lede">{c.summary}</p>
+
+    {article && (
+      <a class="read" href={`/wire/${article.id}/`}>
+        <span class="read-k">Read the article</span>
+        <span class="read-t">{article.data.title} →</span>
+      </a>
+    )}
 
     <!-- Methodology. The chips are on every frame; this explains them once. -->
     <section class="method" aria-label="Methodology">
@@ -39,28 +53,21 @@ const primaryCount = c.dashboards.filter((d) => d.source === 'primary').length;
       </p>
       <ul>
         <li>
-          <span class="chip primary">SEC primary</span>
-          <span>
-            Taken straight from the fund's Form 13F filings (CIK&nbsp;0002045724).
-            {primaryCount} of the {c.dashboards.length} dashboards are built entirely on
-            filed documents.
-          </span>
+          <span class="chip primary">{chipLabel(c, 'primary')}</span>
+          <span>{c.method.primary}</span>
         </li>
         <li>
           <span class="chip reported">Reported</span>
-          <span>
-            Sourced to journalism — CNBC, the Wall Street Journal, the Financial Times —
-            or, in two cases, to our own arithmetic on reported figures. Attribution is
-            printed on the dashboard itself, not just here.
-          </span>
+          <span>{c.method.reported}</span>
         </li>
+        {hasEstimates && c.method.estimate && (
+          <li>
+            <span class="chip estimate">Estimate</span>
+            <span>{c.method.estimate}</span>
+          </li>
+        )}
       </ul>
-      <p class="caveat">
-        A 13F discloses US-listed long positions only. It does not show short positions,
-        foreign listings, private holdings or cash &mdash; which is why the filings total
-        $20.2&nbsp;billion against a fund reported at $45&nbsp;billion. Dashboard 04 exists
-        to reconcile exactly that.
-      </p>
+      {c.method.caveat && <p class="caveat">{c.method.caveat}</p>}
     </section>
 
     <div class="rule"></div>
@@ -83,17 +90,30 @@ const primaryCount = c.dashboards.filter((d) => d.source === 'primary').length;
           <p>{d.blurb}</p>
           <span class="foot">
             <span class="sec">{d.section}</span>
-            <span class={`chip ${d.source}`}>
-              {d.source === 'primary' ? 'SEC primary' : 'Reported'}
-            </span>
+            <span class={`chip ${d.source}`}>{chipLabel(c, d.source)}</span>
           </span>
         </a>
       ))}
     </div>
   </main>
-</Analytics>
+</Site>
 
 <style>
+  .read {
+    display: inline-flex; flex-direction: column; gap: 6px;
+    margin-top: 22px; padding: 16px 20px;
+    text-decoration: none; color: var(--white);
+    border: 1px solid var(--line); border-left: 2px solid var(--gold);
+    background: rgba(212, 175, 55, 0.04);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .read:hover { border-color: rgba(212, 175, 55, 0.5); background: rgba(212, 175, 55, 0.07); }
+  .read-k {
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold);
+  }
+  .read-t { font-size: 16px; font-weight: 700; line-height: 1.3; }
+
   .method {
     margin-top: 40px;
     border: 1px solid var(--line);

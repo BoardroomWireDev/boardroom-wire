@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # claude code harness state
 .claude/
+
+# scratch space used by scripts/sync-dashboards.mjs
+.posters-stash/

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  DASHBOARD 08 · WHERE THE DOLLAR GOES
+  Boardroom Wire · Cursor · Section: The Leaky Token Bucket
+  Lands on: "For every dollar of revenue Cursor collected, it spent about $1.23."
+
+  The thesis in one image. Two bar pairs on one baseline inside a drawn
+  frame. Revenue bars identical at $1.00. The normal company's cost bar
+  sits well short; Cursor's rises THROUGH the frame's own $1.00 rule and
+  snaps it — two fragments of the rule fly off (Physics2D). −23% lands
+  in red, the normal panel dims, then a full second of nothing.
+
+  Kill the music at `hero`. Hold `silence` with no VO.
+
+  Data: The Information (Apr 2026), quarter ended Jan 2026. $1.23 is
+  derived from the −23% margin — correct arithmetic, not a separately
+  reported figure. Chips and credits render from shared/data.js.
+
+  Controls: R replay · F final · ?final · ?still · ?t=hero+1.0
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>08 · Where the Dollar Goes · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=4" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Physics2DPlugin.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(52,20,20,0.5); }
+  .amb-glow { --glow-tint: rgba(255,82,71,0.055); top: 56%; left: 64%; }
+
+  #kick     { position:absolute; left:56px; top:198px; }
+  #title    { position:absolute; left:56px; top:226px; width:1250px; }
+  #subtitle { position:absolute; left:56px; top:306px; width:1150px; }
+  #kicker   { position:absolute; left:56px; top:918px; }
+
+  svg.plot { position:absolute; inset:0; z-index:10; overflow:visible; }
+
+  .d08-base { stroke: var(--line-strong); stroke-width: 1.5; }
+  .d08-rule { stroke: var(--cream-dim); stroke-width: 1.5; }
+  .d08-frag { stroke: var(--cream); stroke-width: 2; }
+  .d08-rev  { fill: var(--gold); opacity: .92; }
+  .d08-cost-grey { fill: var(--grey-bright); }
+  .d08-cost-red  { fill: var(--red); }
+  text.d08-gold { fill: var(--gold-bright); }
+  text.d08-red  { fill: var(--red); }
+  text.d08-grey { fill: var(--cream-dim); }
+
+  /* margin tiles */
+  .tile.d08-m { --tile-size: 96px; z-index: 20; }
+  .tile.d08-m .k { margin-bottom: 14px; }
+  .tile.d08-m .s { margin-top: 12px; font-size: 16px; }
+  #m_c .v { --hero-glow-c: var(--red-glow); --hero-glow-c2: rgba(255,82,71,0.22); }
+
+  /* companion strip, top right */
+  .tile.d08-s { --tile-size: 44px; z-index: 20; }
+  .tile.d08-s .s { font-size: 15px; }
+  #s1 { left: 1420px; top: 206px; }
+  #s2 { left: 1660px; top: 206px; }
+  #strip-rule { position:absolute; left:1420px; top:190px; width:440px; height:1px; background:var(--line); z-index:20; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <svg class="plot" id="plot" viewBox="0 0 1920 1080"></svg>
+
+  <div class="kick" id="kick">The Leaky Token Bucket · Q ended Jan 2026</div>
+  <div class="title" id="title">For every dollar in, <b>$1.23 out.</b></div>
+  <div class="subtitle" id="subtitle" data-reveal="blur">Gross margin, quarter ended January 2026, with revenue running at roughly $2.7B annualised.</div>
+
+  <div class="tile d08-m" id="m_n" data-reveal="" style="left:620px; top:585px">
+    <div class="k">Gross margin</div>
+    <div class="v gold" id="mv_n">+78%</div>
+    <div class="s">Typical software, 75–80%</div>
+  </div>
+  <div class="tile d08-m red" id="m_c" data-reveal="" style="left:1500px; top:585px">
+    <div class="k">Gross margin</div>
+    <div class="v hero-glow" id="mv_c">−23%</div>
+    <div class="s">Source: The Information</div>
+  </div>
+
+  <div id="strip-rule" data-reveal="scalex"></div>
+  <div class="tile d08-s" id="s1" data-reveal="up"><div class="k">2025 revenue booked</div><div class="v" id="sv1">~$770M</div></div>
+  <div class="tile d08-s red" id="s2" data-reveal="up"><div class="k">2025 net loss</div><div class="v" id="sv2">~$900M</div></div>
+
+  <div class="kicker" id="kicker" data-reveal="blur">Cursor was losing money on <b>every single customer.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+  <div class="bw-hint">R replay · F final · ?t=hero+1.0</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/data.js?v=4"></script>
+<script src="shared/motion.js?v=4"></script>
+<script>
+BW.provenance({
+  uses: ['gm_neg23', 'cost_123', 'rev_770m', 'loss_900m', 'arr_27b_run'],
+  footer: '$1.23 is derived from the −23% margin, not separately reported · run-rate ~$2.7B annualised'
+});
+
+/* ---------- geometry ---------------------------------------- */
+const W = 720, BASE = 830, UNIT = 330, RULE = BASE - UNIT, BAR = 150;
+const PANELS = [
+  { id:'n', x:160,  eyebrow:'A normal software company', cost:0.22, costLabel:BW.val('saas_cost'), tone:'grey' },
+  { id:'c', x:1040, eyebrow:'Cursor · quarter ended Jan 2026', cost:1.23, costLabel:BW.val('cost_123'), tone:'red' }
+];
+const svg = BW.$('#plot');
+const E = {};
+
+PANELS.forEach(p => {
+  const g = BW.mk('g', { id:'g_' + p.id }, svg);
+  const revX = p.x + 40, costX = p.x + 240;
+  E[p.id] = { g };
+
+  BW.mk('text', { x:p.x + 40, y:372, class:'svg-eyebrow d08-eyebrow', 'data-reveal':'' }, g, p.eyebrow.toUpperCase());
+  BW.mk('line', { x1:p.x, y1:BASE, x2:p.x + W, y2:BASE, class:'d08-base', 'data-reveal':'scalex' }, g);
+
+  /* the $1.00 rule — split around the cost bar where the bar will break it */
+  const segs = p.cost > 1
+    ? [[p.x, costX - 10, 'l'], [costX - 10, costX + BAR + 10, 'gap'], [costX + BAR + 10, p.x + W, 'r']]
+    : [[p.x, p.x + W, 'l']];
+  E[p.id].rules = segs.map(s => BW.mk('line', { x1:s[0], y1:RULE, x2:s[1], y2:RULE, class:'d08-rule', id: s[2] === 'gap' ? 'gap' : undefined }, g));
+  BW.mk('text', { x:p.x + W - 4, y:RULE - 12, class:'svg-eyebrow', 'text-anchor':'end', 'data-reveal':'' }, g, '$1.00 = REVENUE');
+
+  /* bars */
+  E[p.id].rev  = BW.mk('rect', { x:revX,  y:BASE, width:BAR, height:0, class:'d08-rev' }, g);
+  E[p.id].cost = BW.mk('rect', { x:costX, y:BASE, width:BAR, height:0, class:'d08-cost-' + p.tone }, g);
+
+  /* value labels above the final bar tops */
+  E[p.id].revLbl  = BW.mk('text', { x:revX + BAR / 2, y:RULE - 16, class:'svg-val d08-gold', 'text-anchor':'middle', 'data-reveal':'' }, g, '$1.00');
+  E[p.id].costLbl = BW.mk('text', { x:costX + BAR / 2, y:BASE - p.cost * UNIT - 16, class:'svg-val d08-' + (p.tone === 'red' ? 'red' : 'grey'), 'text-anchor':'middle', 'data-reveal':'' }, g, p.costLabel);
+
+  /* axis words under the bars */
+  BW.mk('text', { x:revX + BAR / 2,  y:BASE + 30, class:'svg-eyebrow d08-axis', 'text-anchor':'middle', 'data-reveal':'' }, g, 'REVENUE');
+  BW.mk('text', { x:costX + BAR / 2, y:BASE + 30, class:'svg-eyebrow d08-axis', 'text-anchor':'middle', 'data-reveal':'' }, g, 'COST OF DELIVERY');
+});
+
+/* rule fragments: the gap segment, split in two, ready to fly */
+const gapX0 = PANELS[1].x + 240 - 10, gapX1 = gapX0 + BAR + 20, gapM = (gapX0 + gapX1) / 2;
+const fragL = BW.mk('line', { x1:gapX0, y1:RULE, x2:gapM, y2:RULE, class:'d08-frag', opacity:0 }, E.c.g);
+const fragR = BW.mk('line', { x1:gapM, y1:RULE, x2:gapX1, y2:RULE, class:'d08-frag', opacity:0 }, E.c.g);
+
+function setBars(k) {           /* k = 0 (empty) or 1 (final) */
+  PANELS.forEach(p => {
+    const h = UNIT * k, hc = p.cost * UNIT * k;
+    gsap.set(E[p.id].rev,  { attr:{ y:BASE - h,  height:h } });
+    gsap.set(E[p.id].cost, { attr:{ y:BASE - hc, height:hc } });
+  });
+}
+function bar(tl, rect, v, at, dur, ease = BW.ease.land) {
+  const h = v * UNIT;
+  tl.to(rect, { attr:{ y:BASE - h, height:h }, duration:dur, ease }, at);
+}
+
+/* ---------- reveal ------------------------------------------ */
+function play() {
+  BW.reset();
+  setBars(0);
+  gsap.set([fragL, fragR], { opacity:0, x:0, y:0 });
+  gsap.set('#gap', { opacity:1 });
+  gsap.set('#g_n', { opacity:1 });            /* the SVG group only — the +78% tile stays hidden until its beat */
+  BW.$('#sv1').textContent = '~$0M'; BW.$('#sv2').textContent = '~$0M';
+  BW.$('#mv_n').textContent = '+0%';
+
+  const tl = gsap.timeline();
+  BW.headerIn(tl);
+
+  BW.mark(tl, 'frame', 1.1, 'panels, baselines and the $1.00 rule draw in');
+  BW.reveal(tl, '.d08-eyebrow', 'frame', { stagger:.18 });
+  BW.reveal(tl, '.d08-base', 'frame', { stagger:.18 });
+  BW.draw(tl, E.n.rules, { at:'frame+=0.25', duration:.8, ease:'power1.inOut' });
+  BW.draw(tl, E.c.rules, { at:'frame+=0.45', duration:.8, stagger:.05, ease:'power1.inOut' });
+  BW.reveal(tl, '.d08-axis', 'frame+=0.6', { stagger:.08 });
+
+  BW.mark(tl, 'normal', 2.0, 'a normal company: $1.00 in, $0.22 out, +78%');
+  bar(tl, E.n.rev, 1, 'normal', .9);
+  BW.reveal(tl, E.n.revLbl, 'normal+=0.8');
+  bar(tl, E.n.cost, .22, 'normal+=0.7', .6);
+  BW.reveal(tl, E.n.costLbl, 'normal+=1.2');
+  BW.reveal(tl, '#m_n', 'normal+=1.35', { duration:.5 });
+  BW.countUp(tl, '#mv_n', { from:0, to:78, format:v => '+' + Math.round(v) + '%', duration:1.0, at:'normal+=1.35' });
+
+  BW.mark(tl, 'cursor_rev', 3.6, 'Cursor: $1.00 in');
+  bar(tl, E.c.rev, 1, 'cursor_rev', .9);
+  BW.reveal(tl, E.c.revLbl, 'cursor_rev+=0.8');
+
+  BW.mark(tl, 'cursor_cost', 4.3, '$1.23 out — the bar rises through the frame');
+  bar(tl, E.c.cost, 1.23, 'cursor_cost', 1.3, 'power2.out');
+
+  /* power2.out reaches 81% (the rule) at ~0.56 of the duration */
+  BW.mark(tl, 'break', 4.3 + 1.3 * .56, 'the $1.00 rule snaps; two fragments fly off');
+  tl.set('#gap', { opacity:0 }, 'break');
+  const fly = (frag, angle) => {
+    if (BW.has.physics2D) {
+      tl.fromTo(frag, { opacity:1, x:0, y:0 },
+                      { physics2D:{ velocity:170, angle, gravity:520 }, opacity:0, duration:1.0, ease:'none', immediateRender:false }, 'break');
+    } else {
+      const a = angle * Math.PI / 180;
+      tl.fromTo(frag, { opacity:1, x:0, y:0 },
+                      { x:Math.cos(a) * 110, y:Math.sin(a) * 110 + 60, opacity:0, duration:1.0, ease:'power1.out', immediateRender:false }, 'break');
+    }
+  };
+  fly(fragL, -140);
+  fly(fragR, -40);
+  BW.flash(tl, E.c.cost, 'break', 'rgba(255,82,71,0.75)');
+  BW.reveal(tl, E.c.costLbl, 'cursor_cost+=1.25');
+
+  BW.mark(tl, 'hero', 5.75, '−23% lands in red; the normal panel dims. Kill the music.');
+  BW.reveal(tl, '#m_c', 'hero', { duration:.1 });
+  BW.heroLand(tl, '#mv_c', 'hero');
+  tl.to(['#g_n', '#m_n'], { opacity:.5, duration:.9, ease:'power2.out' }, 'hero');
+
+  BW.mark(tl, 'silence', 6.1, 'hold — nothing moves for a full second');
+
+  BW.mark(tl, 'strip', 7.2, '2025 booked revenue and net loss');
+  BW.reveal(tl, '#strip-rule', 'strip');
+  BW.reveal(tl, '#s1', 'strip+=0.1');
+  BW.reveal(tl, '#s2', 'strip+=0.35');
+  BW.countUp(tl, '#sv1', { from:0, to:770, format:v => '~$' + Math.round(v) + 'M', duration:1.1, at:'strip+=0.1' });
+  BW.countUp(tl, '#sv2', { from:0, to:900, format:v => '~$' + Math.round(v) + 'M', duration:1.1, at:'strip+=0.35' });
+
+  BW.mark(tl, 'kicker', 8.0);
+  BW.reveal(tl, '#kicker', 'kicker');
+
+  BW.punch('hero',  [1040, 330, 1800, 720], { star:true, at:'hero+1.0', note:'the bar through the rule, −23% lit' });
+  BW.punch('break', [1040, 300, 1800, 720], { at:'break+0.3', note:'fragments in flight' });
+  BW.punch('strip', [1400, 170, 1880, 330], { at:'99' });
+  return tl;
+}
+
+function rest() {
+  BW.restAll();
+  setBars(1);
+  BW.drawRest('.d08-rule');
+  gsap.set('#gap', { opacity:0 });
+  gsap.set([fragL, fragR], { opacity:0 });
+  gsap.set(['#g_n', '#m_n'], { opacity:.5 });
+  BW.$('#sv1').textContent = BW.val('rev_770m');
+  BW.$('#sv2').textContent = BW.val('loss_900m');
+  BW.$('#mv_n').textContent = BW.val('saas_margin');
+}
+
+function idle() {
+  /* the quietest idle in the set: the margin breathes, nothing else */
+  BW.glow('#mv_c', { color:'255,82,71', min:22, max:44, dur:3.2 });
+}
+
+BW.ambient({ tint:'255,120,90', count:40, speed:.8 });
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

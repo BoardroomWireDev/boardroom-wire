@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  DASHBOARD 05 · SAME MILESTONE, DIFFERENT BUSINESS
+  Boardroom Wire · Cursor · Section: The Legendary Revenue Run
+  Lands on: "Wiz reached $100M with 260 clients paying an average of around
+  $384K, while Cursor scaled to 360k developers paying an average of $276."
+
+  Two panels, the same $100M at the top of each. Wiz: 260 dots you can
+  count, lit one by one. Cursor: 360,000 dots. The Cursor field opens at
+  the SAME pitch as the Wiz grid — for a moment the two look identical —
+  then the camera pulls back inside the panel until the dots resolve
+  into texture. The density contrast is the whole argument; there is no
+  caption explaining it.
+
+  Technique: one 2D canvas. The Cursor field is 900 × 400 = 360,000 dots
+  pre-rendered once to an offscreen canvas; at high zoom, baked glow
+  sprites are stamped over the visible dots so they match Wiz's; the
+  camera interpolates on a log scale. At rest the field is cached at
+  screen size so the idle loop stays cheap.
+
+  Controls: R replay · F final · ?final · ?still · ?t=pullback+2.4
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>05 · Same Milestone, Different Business · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=4" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(48,36,18,0.5); }
+  .amb-glow { --glow-tint: rgba(255,179,71,0.05); top: 62%; left: 72%; }
+
+  #kick     { position:absolute; left:56px; top:198px; }
+  #title    { position:absolute; left:56px; top:226px; width:1400px; }
+  #subtitle { position:absolute; left:56px; top:306px; width:1250px; }
+  #kicker   { position:absolute; left:56px; top:918px; }
+
+  .d05-panel { position:absolute; top:392px; width:740px; height:470px; z-index:8;
+               border:1px solid var(--line-faint); border-radius:5px; background:var(--panel); }
+  #p_w { left:160px; }
+  #p_c { left:1020px; }
+  .d05-eyebrow { position:absolute; left:32px; top:22px; font-family:var(--mono); font-weight:500; font-size:12px;
+                 letter-spacing:.18em; text-transform:uppercase; color:var(--cream-dim); }
+  .d05-eyebrow.c { color:var(--amber); }
+
+  .tile.d05-head { --tile-size: 58px; z-index:20; top:404px; }
+  .tile.d05-head .k { font-size:11px; margin-bottom:6px; }
+  #h_w { left:660px; text-align:right; }
+  #h_c { left:1520px; text-align:right; }
+
+  .tile.d05-acv { --tile-size: 40px; z-index:20; top:770px; }
+  .tile.d05-acv .k { font-size:11px; margin-bottom:6px; }
+  .tile.d05-acv .s { font-size:16px; margin-top:6px; }
+  #a_w { left:192px; }
+  #a_c { left:1052px; }
+  #a_c .v { --hero-glow-c: var(--amber-glow); }
+
+  .d05-field { position:absolute; left:32px; top:70px; width:676px; height:290px; border-top:1px solid var(--line-faint); border-bottom:1px solid var(--line-faint); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <div class="d05-panel" id="p_w" data-reveal="up">
+    <div class="d05-eyebrow">Wiz · at $100M ARR</div>
+    <div class="d05-field"></div>
+  </div>
+  <div class="d05-panel" id="p_c" data-reveal="up">
+    <div class="d05-eyebrow c">Cursor · at $100M ARR · Jan 2025</div>
+    <div class="d05-field"></div>
+  </div>
+
+  <div class="kick" id="kick">The Legendary Revenue Run · the same milestone</div>
+  <div class="title" id="title">Same revenue. <b>A very different business.</b></div>
+  <div class="subtitle" id="subtitle" data-reveal="blur">Every dot is one paying customer at the $100M milestone. Wiz sold to companies. Cursor sold to developers.</div>
+
+  <div class="tile d05-head" id="h_w" data-reveal=""><div class="k">Annual recurring revenue</div><div class="v" id="hv_w">$0M</div></div>
+  <div class="tile d05-head amber" id="h_c" data-reveal=""><div class="k">Annual recurring revenue</div><div class="v" id="hv_c">$0M</div></div>
+
+  <div class="tile d05-acv" id="a_w" data-reveal=""><div class="k">Customers</div><div class="v" id="av_w">~260</div><div class="s">$384K average contract</div></div>
+  <div class="tile d05-acv amber" id="a_c" data-reveal=""><div class="k">Developers</div><div class="v hero-glow" id="av_c">~360,000</div><div class="s">$276 average contract</div></div>
+
+  <div class="kicker" id="kicker" data-reveal="blur">Same revenue. <b>1,400× the customers.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+  <div class="bw-hint">R replay · F final · ?t=pullback+2.4</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/data.js?v=4"></script>
+<script src="shared/motion.js?v=4"></script>
+<script>
+BW.provenance({
+  uses: ['arr_100m_jan25', 'wiz_customers', 'wiz_acv', 'cursor_customers', 'cursor_acv', 'milestone_mult',
+         'deel_customers', 'deel_acv', 'ramp_customers', 'ramp_acv'],
+  footer: 'Wiz and Cursor at $100M ARR · for scale, Deel got there with ~1,800 customers at $55K and Ramp with ~5,000 at $20K'
+});
+
+/* ---------- geometry ---------------------------------------- */
+const FIELD = { w:676, h:290 };
+const FW = { x:160 + 32, y:392 + 70 };          /* Wiz field origin (screen) */
+const FC = { x:1020 + 32, y:392 + 70 };         /* Cursor field origin (screen) */
+
+/* Wiz: 26 × 10 = 260 dots, pitch 26 */
+const WP = 26, WCOLS = 26, WROWS = 10;
+const WOX = FW.x + 20, WOY = FW.y + 28;
+
+/* Cursor: 900 × 400 = 360,000 dots at world pitch 4 */
+const CP = 4, CCOLS = 900, CROWS = 400, CW = CCOLS * CP, CH = CROWS * CP;
+
+/* camera: screen = fieldCentre + (world − c) · s */
+const S0 = WP / CP;                              /* 6.5 → same pitch as Wiz */
+const CAM0 = { s:S0, cx:CP / 2 + (FIELD.w / 2 - 20) / S0, cy:CP / 2 + (FIELD.h / 2 - 28) / S0 };
+const S1 = FIELD.w / CW;                         /* fit the whole field */
+const CAM1 = { s:S1, cx:CW / 2, cy:CH / 2 };
+const cam = Object.assign({}, CAM0);
+const state = { wizN:0, curA:0, sweep:0 };
+
+/* ---------- canvases ---------------------------------------- */
+const layer = BW.fx.layer({ z:12 });
+const ctx = layer.ctx;
+const spriteGold = BW.fx.sprite({ rgb:'242,203,82', size:32, stops:[[0,'rgba(255,250,232,1)'],[0.28,'rgba(242,203,82,0.95)'],[0.6,'rgba(242,203,82,0.22)'],[1,'rgba(242,203,82,0)']] });
+const spriteAmber = BW.fx.sprite({ rgb:'255,179,71', size:32 });
+
+/* the 360,000-dot texture, rendered once */
+const off = document.createElement('canvas');
+off.width = CW; off.height = CH;
+(function bake() {
+  const g = off.getContext('2d');
+  g.fillStyle = 'rgba(255,179,71,0.9)';
+  for (let r = 0; r < CROWS; r++) {
+    for (let c = 0; c < CCOLS; c++) {
+      const tw = 0.62 + 0.38 * ((c * 7 + r * 13) % 11) / 10;
+      g.globalAlpha = tw;
+      g.fillRect(c * CP + 1, r * CP + 1, 2, 2);
+    }
+  }
+  g.globalAlpha = 1;
+})();
+
+/* cached screen-size render of the field for the rest state */
+const cache = document.createElement('canvas');
+cache.width = FIELD.w; cache.height = FIELD.h;
+let cacheKey = '';
+
+function drawCursorField(now) {
+  const key = `${cam.s.toFixed(4)}|${cam.cx.toFixed(1)}|${cam.cy.toFixed(1)}`;
+  if (key !== cacheKey) {
+    const g = cache.getContext('2d');
+    g.clearRect(0, 0, FIELD.w, FIELD.h);
+    g.save();
+    g.translate(FIELD.w / 2, FIELD.h / 2);
+    g.scale(cam.s, cam.s);
+    g.translate(-cam.cx, -cam.cy);
+    g.imageSmoothingEnabled = true;
+    /* sprite overlay while zoomed in, so the first dots match Wiz's; the
+       2px texture only fades in as the camera pulls back */
+    const k = Math.max(0, Math.min(1, (cam.s - 2.6) / 2.2));
+    g.globalAlpha = 1 - k * 0.92;
+    g.drawImage(off, 0, 0);
+    g.globalAlpha = 1;
+    if (k > 0) {
+      const halfW = FIELD.w / 2 / cam.s, halfH = FIELD.h / 2 / cam.s;
+      const c0 = Math.max(0, Math.floor((cam.cx - halfW) / CP) - 1), c1 = Math.min(CCOLS - 1, Math.ceil((cam.cx + halfW) / CP) + 1);
+      const r0 = Math.max(0, Math.floor((cam.cy - halfH) / CP) - 1), r1 = Math.min(CROWS - 1, Math.ceil((cam.cy + halfH) / CP) + 1);
+      const sz = 16 / cam.s;
+      g.globalAlpha = k;
+      g.globalCompositeOperation = 'lighter';
+      for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
+        g.drawImage(spriteAmber, c * CP + CP / 2 - sz / 2, r * CP + CP / 2 - sz / 2, sz, sz);
+      }
+      g.globalCompositeOperation = 'source-over';
+      g.globalAlpha = 1;
+    }
+    g.restore();
+    cacheKey = key;
+  }
+  ctx.save();
+  ctx.globalAlpha = state.curA;
+  ctx.drawImage(cache, FC.x, FC.y);
+  /* idle: a slow luminance sweep across the texture */
+  if (state.sweep > 0 && cam.s < 1) {
+    const x = FC.x + ((now * 0.00006) % 1.3 - 0.15) * FIELD.w;
+    const gr = ctx.createLinearGradient(x - 120, 0, x + 120, 0);
+    gr.addColorStop(0, 'rgba(255,201,122,0)'); gr.addColorStop(.5, `rgba(255,201,122,${0.10 * state.sweep})`); gr.addColorStop(1, 'rgba(255,201,122,0)');
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.fillStyle = gr; ctx.fillRect(FC.x, FC.y, FIELD.w, FIELD.h);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+  ctx.restore();
+}
+
+function drawWiz(now) {
+  const n = Math.min(WCOLS * WROWS, Math.floor(state.wizN));
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < n; i++) {
+    const c = i % WCOLS, r = Math.floor(i / WCOLS);
+    const x = WOX + c * WP, y = WOY + r * WP;
+    const tw = state.sweep > 0 ? 0.72 + 0.28 * Math.sin(now * 0.0016 + i * 0.37) : 1;
+    ctx.globalAlpha = tw;
+    ctx.drawImage(spriteGold, x - 8, y - 8, 16, 16);
+  }
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.restore();
+}
+
+function frame(now) {
+  ctx.clearRect(0, 0, 1920, 1080);
+  drawWiz(now);
+  if (state.curA > 0) drawCursorField(now);
+}
+let loop = null;
+function startLoop() { if (loop) loop.stop(); loop = BW.fx.loop(frame); }
+
+/* camera tween on a log scale — pulling back reads evenly */
+function camTween(tl, from, to, at, duration) {
+  const p = { k:0 };
+  const la = Math.log(from.s), lb = Math.log(to.s);
+  tl.fromTo(p, { k:0 }, { k:1, duration, ease:'power2.inOut', onUpdate: () => {
+    cam.s = Math.exp(la + (lb - la) * p.k);
+    cam.cx = from.cx + (to.cx - from.cx) * p.k;
+    cam.cy = from.cy + (to.cy - from.cy) * p.k;
+  }}, at);
+}
+
+/* ---------- reveal ------------------------------------------ */
+function play() {
+  BW.reset();
+  Object.assign(cam, CAM0);
+  state.wizN = 0; state.curA = 0; state.sweep = 0;
+  BW.$('#hv_w').textContent = '$0M'; BW.$('#hv_c').textContent = '$0M';
+  startLoop();
+
+  const tl = gsap.timeline();
+  BW.headerIn(tl);
+
+  BW.mark(tl, 'heads', 1.2, 'both panels; the same $100M counts up on each');
+  BW.reveal(tl, '#p_w', 'heads');
+  BW.reveal(tl, '#p_c', 'heads+=0.15');
+  BW.reveal(tl, ['#h_w', '#h_c'], 'heads+=0.2', { stagger:.15 });
+  BW.countUp(tl, '#hv_w', { from:0, to:100, format:BW.fmt.m0, duration:1.3, at:'heads+=0.3' });
+  BW.countUp(tl, '#hv_c', { from:0, to:100, format:BW.fmt.m0, duration:1.3, at:'heads+=0.45' });
+
+  BW.mark(tl, 'wiz', 2.6, '260 dots light one by one');
+  tl.to(state, { wizN:260, duration:1.7, ease:'power1.in' }, 'wiz');
+  BW.reveal(tl, '#a_w', 'wiz+=1.6');
+
+  BW.mark(tl, 'cursor_seed', 4.6, 'Cursor opens at the same pitch — it looks identical');
+  tl.to(state, { curA:1, duration:.6, ease:'power1.out' }, 'cursor_seed');
+
+  BW.mark(tl, 'pullback', 5.4, 'the camera pulls back until 360,000 dots become texture');
+  camTween(tl, CAM0, CAM1, 'pullback', 2.8);
+
+  BW.mark(tl, 'acv', 8.0, '~360,000 developers at $276');
+  BW.reveal(tl, '#a_c', 'acv', { duration:.1 });
+  BW.heroLand(tl, '#av_c', 'acv');
+
+  BW.mark(tl, 'quiet', 8.8, 'the one quiet line');
+  BW.reveal(tl, '#kicker', 'quiet');
+
+  BW.punch('pullback', [1000, 380, 1780, 880], { star:true, at:'pullback+2.4', note:'the field resolving into texture' });
+  BW.punch('wiz', [140, 380, 920, 880], { at:'wiz+1.6', note:'260 countable dots' });
+  BW.punch('both', [140, 380, 1780, 880], { at:'99', note:'the density contrast' });
+  return tl;
+}
+
+function rest() {
+  BW.restAll();
+  Object.assign(cam, CAM1);
+  state.wizN = 260; state.curA = 1;
+  BW.$('#hv_w').textContent = '$100M'; BW.$('#hv_c').textContent = '$100M';
+  startLoop();
+}
+
+function idle() {
+  state.sweep = 1;
+  BW.glow('#av_c', { color:'255,179,71', min:16, max:34, dur:3.6 });
+  BW.raw(gsap.to(state, { sweep:1, duration:.1 }));   /* keeps sweep registered; killIdle resets via reset */
+}
+
+BW.ambient({ tint:'255,179,71', count:44 });
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

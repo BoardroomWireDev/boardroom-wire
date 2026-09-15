@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  DASHBOARD 04 · RACE TO $100M
+  Boardroom Wire · Cursor · Section: The Legendary Revenue Run
+  Lands on: "Wiz, the previous record holder, took eighteen months.
+  Cursor did it in twelve."
+
+  Four horizontal bars, shortest on top. Months from $1M to $100M ARR —
+  the axis says so, because the 12-month figure depends on where the
+  clock starts (Sacra: $1M Dec 2023 → $100M Jan 2025). Wiz, Deel and
+  Ramp are measured the same way. Lovable is NOT on this chart: it got
+  there faster and would hand a commenter an easy correction.
+
+  Controls: R replay · F final · ?final · ?still · ?t=hero+1.1
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>04 · Race to $100M · Boardroom Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/brand.css?v=4" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<style>
+  .stage { --mood-a: rgba(56,40,14,0.5); }
+  .amb-glow { --glow-tint: rgba(255,179,71,0.06); top: 44%; left: 40%; }
+
+  #kick     { position:absolute; left:56px; top:198px; }
+  #title    { position:absolute; left:56px; top:226px; width:1300px; }
+  #subtitle { position:absolute; left:56px; top:306px; width:1250px; }
+  #kicker   { position:absolute; left:56px; top:918px; }
+
+  svg.plot { position:absolute; inset:0; z-index:10; overflow:visible; }
+  .d04-grid { stroke: var(--line-faint); stroke-width: 1; }
+  .d04-base { stroke: var(--line-strong); stroke-width: 1.5; }
+  .d04-bar  { fill: var(--grey-bright); opacity: .85; }
+  .d04-bar.hero { fill: var(--amber); opacity: 1; }
+  text.d04-name { font-family: var(--mono); font-size: 19px; font-weight: 600; letter-spacing: .06em; fill: var(--cream); }
+  text.d04-name.hero { fill: var(--amber-bright); }
+  text.d04-sub { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; fill: var(--cream-faint); }
+  text.d04-x { font-family: var(--mono); font-size: 12.5px; letter-spacing: .08em; fill: var(--cream-dim); }
+
+  .tile.d04-n { --tile-size: 34px; z-index: 20; white-space: nowrap; }
+  .tile.d04-n .v { display: inline; }
+  .tile.d04-n .u { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; color: var(--cream-dim); margin-left: 8px; text-transform: uppercase; }
+  .tile.d04-n.amber .v { --hero-glow-c: var(--amber-glow); }
+  .tile.d04-n.amber .u { color: var(--amber); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="amb-grid"></div>
+  <div class="amb-glow"></div>
+
+  <svg class="plot" id="plot" viewBox="0 0 1920 1080"></svg>
+
+  <div class="kick" id="kick">The Legendary Revenue Run · the record</div>
+  <div class="title" id="title">The record was eighteen. <b>Cursor did twelve.</b></div>
+  <div class="subtitle" id="subtitle" data-reveal="blur">Months from $1M to $100M of annualised revenue. Same clock for every company.</div>
+
+  <div class="kicker" id="kicker" data-reveal="blur">Twelve months, <b>on the same clock as everyone else.</b></div>
+
+  <div class="chrome">
+    <div class="bw-logo"></div>
+    <div class="bw-wordmark">BOARDROOM <b>WIRE</b></div>
+    <div class="bw-handle">@BoardroomWire</div>
+  </div>
+  <div class="bw-hint">R replay · F final · ?t=hero+1.1</div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="shared/data.js?v=4"></script>
+<script src="shared/motion.js?v=4"></script>
+<script>
+BW.provenance({
+  uses: ['race_cursor', 'race_wiz', 'race_deel', 'race_ramp'],
+  footer: 'Clock starts at $1M ARR for every company · Cursor: Dec 2023 → Jan 2025 per Sacra · other clocks give 15 or 21 months and are not used'
+});
+
+const ROWS = [
+  { id:'race_cursor', name:'CURSOR', sub:'JAN 2025', hero:true },
+  { id:'race_wiz',    name:'WIZ',    sub:'PREVIOUS RECORD HOLDER' },
+  { id:'race_deel',   name:'DEEL',   sub:'' },
+  { id:'race_ramp',   name:'RAMP',   sub:'' }
+];
+const X0 = 440, XM = 1480, Y0 = 430, PITCH = 92, H = 44, MAX = 24;
+const xOf = m => X0 + (m / MAX) * (XM - X0);
+const svg = BW.$('#plot');
+
+/* grid + axis */
+[0, 6, 12, 18, 24].forEach(m => {
+  BW.mk('line', { x1:xOf(m), y1:Y0 - 50, x2:xOf(m), y2:Y0 + PITCH * 3 + 50, class:'d04-grid', 'data-reveal':'' }, svg);
+  BW.mk('text', { x:xOf(m), y:Y0 + PITCH * 3 + 78, class:'d04-x', 'text-anchor':'middle', 'data-reveal':'' }, svg, m === 0 ? '0' : String(m));
+});
+BW.mk('line', { x1:X0, y1:Y0 + PITCH * 3 + 50, x2:XM, y2:Y0 + PITCH * 3 + 50, class:'d04-base', 'data-reveal':'scalex' }, svg);
+BW.mk('text', { x:XM, y:Y0 + PITCH * 3 + 108, class:'svg-eyebrow', 'text-anchor':'end', 'data-reveal':'' }, svg, 'MONTHS FROM $1M TO $100M ARR');
+
+const bars = ROWS.map((r, i) => {
+  const y = Y0 + i * PITCH, v = BW.fig(r.id).v;
+  BW.mk('text', { x:X0 - 24, y:y + 7, class:'d04-name' + (r.hero ? ' hero' : ''), 'text-anchor':'end', 'data-reveal':'' }, svg, r.name);
+  if (r.sub) BW.mk('text', { x:X0 - 24, y:y + 26, class:'d04-sub', 'text-anchor':'end', 'data-reveal':'' }, svg, r.sub);
+  const rect = BW.mk('rect', { x:X0, y:y - H / 2, width:0, height:H, class:'d04-bar' + (r.hero ? ' hero' : '') }, svg);
+  const tile = BW.el('div', 'tile d04-n' + (r.hero ? ' amber' : ''), '.stage',
+    `<span class="v${r.hero ? ' hero-glow' : ''}">${v}</span><span class="u">months</span>`);
+  tile.setAttribute('data-reveal', '');
+  tile.style.left = (xOf(v) + 18) + 'px';
+  tile.style.top = (y - 20) + 'px';
+  return { r, v, rect, tile, y };
+});
+
+function setBars(k) { bars.forEach(b => gsap.set(b.rect, { attr:{ width:(xOf(b.v) - X0) * k } })); }
+function grow(tl, b, at, dur) { tl.to(b.rect, { attr:{ width:xOf(b.v) - X0 }, duration:dur, ease:BW.ease.land }, at); }
+
+function play() {
+  BW.reset();
+  setBars(0);
+  const tl = gsap.timeline();
+  BW.headerIn(tl);
+
+  BW.mark(tl, 'axis', 1.1, 'grid, names and the methodology axis');
+  BW.reveal(tl, '#plot [data-reveal]', 'axis', { stagger:.03 });
+
+  BW.mark(tl, 'bars', 1.9, 'Ramp, Deel, Wiz land — slowest first');
+  [3, 2, 1].forEach((i, k) => {
+    grow(tl, bars[i], `bars+=${k * .35}`, .9);
+    BW.reveal(tl, bars[i].tile, `bars+=${k * .35 + .85}`, { duration:.4 });
+  });
+
+  BW.mark(tl, 'hero', 3.7, 'Cursor lands last, twelve months');
+  grow(tl, bars[0], 'hero', 1.0);
+  BW.flash(tl, bars[0].rect, 'hero+=0.95', 'rgba(255,179,71,0.8)');
+  BW.reveal(tl, bars[0].tile, 'hero+=0.95', { duration:.1 });
+  BW.heroLand(tl, bars[0].tile.querySelector('.v'), 'hero+=0.95');
+
+  BW.mark(tl, 'kicker', 5.4);
+  BW.reveal(tl, '#kicker', 'kicker');
+
+  BW.punch('hero', [300, 380, 1500, 520], { star:true, at:'hero+1.1', note:'the Cursor bar lit against three grey ones' });
+  BW.punch('all', [240, 380, 1600, 800], { at:'99' });
+  return tl;
+}
+function rest() { BW.restAll(); setBars(1); }
+function idle() {
+  BW.glow(bars[0].tile.querySelector('.v'), { color:'255,179,71', min:16, max:34, dur:3.2 });
+  BW.glow(bars[0].rect, { color:'255,179,71', min:4, max:14, dur:3.2 });
+}
+
+BW.ambient({ tint:'255,179,71', count:44 });
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

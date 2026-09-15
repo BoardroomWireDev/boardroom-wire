@@ -1,0 +1,187 @@
+---
+title: "Cursor: How Four 25-Year-Olds Sold Their Startup to Elon Musk for $60 Billion"
+dek: "Four MIT friends built the fastest revenue ramp in software history, lost money on every customer while doing it, and sold to SpaceX for $60 billion. How it happened, with every number sourced on the frame."
+published: 2026-09-14
+kicker: "Investigation"
+collection: cursor
+hero:
+  dashboard: where-the-dollar-goes
+tags: [cursor, spacex, anthropic, openai, ai]
+draft: false
+---
+
+On August 14th, 2026, Elon Musk's SpaceX bought Cursor, the AI coding company, for $60 billion. It was the largest acquisition of a venture-backed startup in history, and it minted billions for four founders who were barely out of college.
+
+But how did four twenty-five year olds end up selling a company to the richest man on the planet?
+
+## Origins
+
+It all started when Cursor CEO Michael Truell and three friends met at MIT. Truell grew up in New York and started coding at eleven so he could build his own mobile games. In high school he co-created an AI programming competition that drew over ten thousand contestants, and after his freshman year at MIT he interned at Google working on language models for feed ranking. His cofounders came from similar backgrounds: Aman Sanger, Sualeh Asif and Arvid Lunnemark had spent their teenage years on math and informatics olympiads and their college summers at places like Stripe, Jane Street and Bridgewater.
+
+<DashboardEmbed collection="cursor" slug="the-founding-four" />
+
+But when they founded the company in 2022, it had nothing to do with AI coding.
+
+The team knew they wanted to build an AI startup, and they'd deliberately ruled out coding because they thought it was too competitive. So instead they set out to build the first AI CAD software. CAD, or computer-aided design, is what engineers and architects use to create precise 2D drawings and 3D models of physical objects. It wasn't a space any of them knew anything about, but they saw a market opportunity and went for it.
+
+They raised $400,000 in pre-seed funding, with $200,000 of it notably coming from Sam Bankman-Fried's Alameda Research. That position was ultimately liquidated in FTX's bankruptcy for exactly what they paid for it, but would've delivered an eye watering return had they been able to hold it through the 2026 acquisition.
+
+## Wandering Through the Desert
+
+Cursor ultimately failed as an AI CAD software. Truell's own account of why it failed is blunt: "It had really bad founder market fit. We weren't mechanical engineers, and the space didn't click for us." Truell would also go on to describe that year as "wandering the desert." But ultimately the market they thought was too competitive turned out to be the market they would pivot into.
+
+The Cursor team had become users of the GitHub Copilot product, which they described as the best dev tool they'd used in a decade, and it ultimately opened their eyes to how large the AI coding opportunity was. They also noticed that as the models continued to get better, the product was somewhat stagnant.
+
+Ultimately the Cursor team realized the problem was latency and friction. GitHub Copilot was great, but it had to ask for permission to access your terminal and codebase. That friction became the key insight that informed Cursor's pivot.
+
+## The Pivot
+
+In 2023 the Cursor team decided to take on the AI coding market head on, with an approach nobody else had tried. Truell described their mission as building "a magical tool that will one day write all the world's software."
+
+They decided to build an AI-powered IDE, or Integrated Development Environment. Think of an IDE as the workspace developers live in all day, where they write, test and ship code. The thesis was that by building AI directly into the IDE instead of bolting it on as a plugin, they could eliminate the friction Copilot was stuck with and actually take advantage of how fast the models were improving.
+
+The team initially tried to build the IDE from scratch, but that came with an array of challenges and similar problems around latency. So instead they landed on forking VS Code, the widely used open-source IDE built and maintained by Microsoft. Forking simply means taking an existing open-source codebase and building your own version on top of it.
+
+<DashboardEmbed collection="cursor" slug="the-fork" />
+
+Cursor's fork kept VS Code's scaffolding and rebuilt everything above it. The AI got a private copy of your project to test its changes before you ever saw them. It read your error messages without being asked. It showed you edits inside your code instead of in a side window. And it stopped predicting your next word and started predicting your next move.
+
+Cursor officially launched in March of 2023 to immediate traction. Users and revenue came fast, and in October of 2023 the company raised $8 million in seed funding led by the OpenAI Startup Fund, with participation from angels including former GitHub CEO Nat Friedman and Stripe cofounder Patrick Collison.
+
+## The Legendary Revenue Run
+
+Cursor would then proceed to go on one of the most legendary runs in Silicon Valley startup history. At the start of 2024, estimates peg Cursor's revenue around $1M ARR, which can seem modest by modern standards. But over the next 12 months Cursor's growth went absolutely parabolic, as estimates state they scaled revenue 100x to $100M ARR by January of 2025.
+
+<DashboardEmbed collection="cursor" slug="the-100x-year" />
+
+This puts Cursor in elite company with firms like Lovable, Wiz, Deel, and Ramp, as they became among the fastest companies in history to hit the $100M mark. Wiz, the previous record holder, took eighteen months. Cursor did it in twelve.
+
+<DashboardEmbed collection="cursor" slug="race-to-100m" />
+
+What's even more compelling is the breadth of their client base. Wiz reached $100M with 260 clients paying an average of around $384K, while Cursor scaled to 360k developers paying an average of $276 a piece, a much different business with a far larger base of clients.
+
+<DashboardEmbed collection="cursor" slug="same-milestone-different-business" />
+
+Cursor's growth did not just continue, it accelerated. By June 2025, just 5 months after hitting $100M, Cursor grew 5x reaching $500M ARR. It crossed $1 billion that November, and by May of 2026 Bloomberg reported the company had passed a $3 billion annual sales rate, with some analysts putting it as high as $4 billion by mid-year. An absolutely legendary revenue ramp even by elite Silicon Valley standards.
+
+<DashboardEmbed collection="cursor" slug="the-full-ramp" />
+
+## Valuation & Fundraising
+
+Along the way Cursor raised over $3.3 billion, from their original seed round through to their Series D, which ultimately valued the company at almost $30 billion at a 29x revenue multiple. The investor list read like a who's who of Silicon Valley, with most rounds led by a16z and Thrive, but participation from firms like Accel, Coatue, DST Global, and even strategics like Nvidia and Google.
+
+<DashboardEmbed collection="cursor" slug="the-funding-ladder" />
+
+On paper it reads like the classic Silicon Valley success story, and by any reasonable standard the company was one. But underneath it, Cursor was facing a structural problem and a competitive threat that together put the entire future of the business at risk.
+
+## The Leaky Token Bucket & the Rise of Claude Code
+
+**Cursor was losing money on every single one of their customers.**
+
+The appeal of traditional software businesses has always been that they carry extremely high gross margins. You take on enormous costs at the beginning to write the software, but from there it's not uncommon to see firms keeping 70 to 80 cents of every dollar that comes through the door.
+
+AI companies are different, because AI isn't software. It's a resource that has to be continuously produced. You need data centers equipped with GPUs, cooling systems, and a constant flow of energy to generate tokens. That makes AI usage far more similar to metered pricing like your water or electric bill than it does the legacy software model. And this is exactly what got Cursor into trouble.
+
+Cursor was providing the IDE and the tooling around the models, but their users were still running on the foundation models inside the platform: Claude, ChatGPT, Gemini and the rest. Cursor was booking a ton of revenue from all that token usage, but the vast majority of it was being passed straight back to Anthropic, OpenAI and Google. Even worse, many of Cursor's users were on fixed price plans, which meant a single power user could burn through vastly more in tokens than they were paying in subscription fees.
+
+According to reporting from The Information, in the quarter ending January of 2026, when Cursor was running at roughly $2.7 billion in annualized revenue, the company's gross margin was negative 23 percent. For every dollar of revenue Cursor collected, it spent about $1.23. For the full year of 2025, Cursor reportedly booked around $770 million in revenue and lost roughly $900 million.
+
+<DashboardEmbed collection="cursor" slug="where-the-dollar-goes" />
+
+So they were burning a lot of cash. But the problem was compounded by the intense competition they began facing from the model providers themselves.
+
+In early 2025, Anthropic launched Claude Code, a coding agent with a command line interface that could essentially write and manage your entire codebase for you. It wasn't an IDE, but it was a direct competitor to Cursor and it saw parabolic growth, with tools like OpenAI's Codex launching shortly after. And these products carried a structural cost advantage. Anthropic and OpenAI were serving their own tokens at cost through their own tools, which meant Claude Code and Codex could price at levels Cursor structurally couldn't match.
+
+One venture investor described the dynamic to Fortune bluntly: "Anthropic is trying to drown out Cursor."
+
+Now you might ask yourself, if there was all of this competition, how was Cursor still growing so fast?
+
+The reality is that the AI coding market was growing exponentially, and despite Cursor's impressive revenue and user growth, they were actually losing market share. Between June of 2025 and May of 2026, Cursor's revenue went from $500 million to north of $3 billion. Over that exact same stretch, its share of corporate spending on AI coding tools, tracked by Ramp, fell from 41% to 26%. Its workplace adoption in the JetBrains data fell from 18% to 12%.
+
+<DashboardEmbed collection="cursor" slug="revenue-up-share-down" />
+
+Cursor was growing enormously and losing badly at the same time.
+
+The category was simply growing faster than Cursor was losing share. The pie was expanding so violently that Cursor's slice could shrink by a third and the absolute number would still triple. Which is a fantastic position to be in, right up until the pie stops expanding.
+
+By early 2026, "Cursor is dead" had become a running joke in developer circles. Cursor's own president, Oskar Schulz, didn't really dispute the premise. He conceded that "the IDE isn't the right form factor anymore for a world where you can produce ten times more code," and countered that 95% of Cursor's users were already using its agent features anyway.
+
+So this was the position Cursor found itself in. Losing money on nearly every customer, and losing ground to competitors that were also its suppliers.
+
+## Fighting Back
+
+Cursor wasn't going down without a fight. And the problem, at least on paper, was fairly simple to diagnose. Gross margin has two sides: what you charge, and what it costs you to deliver. Cursor went after both.
+
+### The revenue side
+
+The most obvious lever was pricing, and in June of 2025 Cursor pulled it.
+
+The Pro plan had always been $20 a month for around 500 fast requests. On June 16th, Cursor changed it so that $20 now bought you $20 worth of usage, billed at whatever the models actually cost. They also introduced a new Ultra tier at $200 a month for the heaviest users.
+
+On paper it makes perfect sense. In practice it went about as badly as it possibly could have.
+
+Developers who had never thought about tokens in their lives were suddenly hitting limits. Overage charges started landing with no spending cap, and because usage based billing had been switched on by default for a lot of accounts, plenty of users found out about the new pricing model by getting a bill for it.
+
+The backlash got severe enough that on July 4th, 2025, while the rest of the country was grilling, Michael Truell published a public apology and refunded every unexpected charge from the previous three weeks.
+
+But buried in Cursor's explanation of all this was probably the most honest sentence anyone in the AI industry has said about their own business model.
+
+> "Our users love per seat pricing. It's just the cost side makes it harder."
+
+Customers wanted predictable pricing, but the cost structure made predictable pricing impossible.
+
+That's what pushed Cursor into the enterprise business. The company had been built on $20 monthly subscriptions for individuals, which was precisely the customer losing them money. Enterprise contracts were structured differently. They combined seat based pricing with negotiated usage commitments, capping the damage any single user could do while driving considerably more revenue per account. And it worked. Enterprise went from roughly a quarter of Cursor's revenue to somewhere between 60 and 75 percent in about eighteen months.
+
+### The cost side
+
+To tackle the cost side, Cursor had to reduce its dependency on expensive frontier models from Anthropic and OpenAI. So they decided to get into the model business themselves.
+
+In October of 2025, Cursor launched Composer, its first in-house coding model. The goal was to deliver frontier-level coding intelligence at a fraction of what the frontier labs charged, and the gap was enormous. By the time Composer 2 shipped in March of 2026, Cursor was charging 50 cents per million tokens against roughly $5 for Claude Opus. A tenth of the price, for comparable performance on a lot of everyday coding work.
+
+<DashboardEmbed collection="cursor" slug="composer-vs-opus" />
+
+But Cursor didn't have the money to train a frontier model from scratch. So for Composer 2, they built on top of Kimi, an open source model family developed by Moonshot AI, a Chinese startup based in Beijing backed by Alibaba and Tencent.
+
+The Cursor team did not disclose this when they released Composer 2, and they got serious backlash for the lack of transparency. Cofounder Aman Sanger later admitted it was a mistake not to say so upfront. Nothing improper had actually happened, as Moonshot had licensed the model commercially and no Cursor data ever went to China. But many pointed out the irony that in order to escape the American AI labs, they had to resort to building on a Chinese model.
+
+## Back to the Market
+
+By April of 2026, both levers were working. Enterprise was carrying the revenue mix, Composer was carrying a growing share of the traffic, and Cursor had crossed back into slightly positive gross margins, at least on its large accounts.
+
+But fixing a broken business while growing this fast is expensive, and training frontier models is more expensive still. So Cursor went back out to raise roughly $2 billion at a $50 billion valuation.
+
+On paper this should have been the easiest raise in Silicon Valley. Nearly $3 billion in revenue, growing faster than anything in the history of software, and valued at $29 billion just five months earlier.
+
+Instead, they hit resistance.
+
+According to The Information, late stage investors including Iconiq passed. They had already put money into OpenAI and Anthropic, and they weren't willing to fund a competitor to their own portfolio companies. The funds large enough to write Cursor a check that size had already written one to Cursor's suppliers.
+
+<DashboardEmbed collection="cursor" slug="the-trap" />
+
+That left a very short list of people on earth who could actually solve this. You'd need someone with GPUs at cost, who was already training frontier models, and who had no exposure to OpenAI or Anthropic to protect. Luckily there was such a company, and the founder just happened to have a bone to pick with the other AI labs.
+
+## Enter Elon
+
+Elon Musk has had a tumultuous relationship with both OpenAI and Anthropic. He cofounded OpenAI in 2015, left the board in 2018, and by 2024 was suing the company over its conversion to a for-profit structure, a fight that was still active in 2026. His own AI lab, xAI, had been built explicitly as a competitor to both.
+
+And in January of 2026, that rivalry got personal in a way that matters to this story. Anthropic cut off xAI's engineers from Claude, saying they'd been using Anthropic's models to help build Grok. Anthropic found them because they were logging in through Cursor, which was already widely used across xAI.
+
+So Musk already knew exactly what Cursor was and saw the value. But that's not the only reason he moved to acquire them. After absorbing xAI into SpaceX in February of 2026, the combined company had immense capital, a foundation model in Grok, and one of the largest GPU clusters on the planet in Colossus. Which was, more or less, everything Cursor needed to keep serving its customers and growing the business.
+
+And Cursor had something Musk desperately needed for Grok: distribution. Cursor was already a market leading AI coding tool with roughly 150 million lines of code written inside it every single day. Bringing that in house would instantly give Grok scale that could rival Anthropic, OpenAI and Google, along with a live feed of how the best engineers in the world actually build software.
+
+Two companies with the same enemy, each holding exactly what the other was missing.
+
+## The Deal
+
+On April 21st, 2026, SpaceX announced it had bought the right to buy Cursor, an option to acquire the company for $60 billion before the end of the year. If SpaceX didn't exercise it, the company would instead pay Cursor $10 billion for the work the two of them were doing together. Either way, Cursor got access to Colossus immediately.
+
+Cursor's explanation was blunt. "We've wanted to push our training efforts much further, but we've been bottlenecked by compute."
+
+SpaceX went public on June 12th, and four days later it exercised the option to acquire Cursor in an all stock deal.
+
+On August 14th, 2026, the deal closed. SpaceX issued 389,289,254 shares of stock, and four guys who met at MIT four years earlier sold their company to the richest man on the planet. Forbes valued each cofounder's stake at closing at roughly $2.4 billion, and it remains the largest acquisition of a venture-backed startup in history.
+
+<DashboardEmbed collection="cursor" slug="the-deal" />
+
+Shortly after the acquisition, OpenAI announced they would no longer provide access to their models in Cursor. It's a remarkable place to end up, considering the OpenAI Startup Fund wrote Cursor its very first institutional check back in 2023. But something tells me the team isn't too worried about it. SpaceX and Cursor now have the compute, the capital and the distribution to rival anyone on the planet. Four guys who met at MIT aren't the scrappy startup taking on the AI labs anymore. They're on the frontier themselves.
