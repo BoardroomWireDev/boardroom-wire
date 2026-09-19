@@ -8,7 +8,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About · Boardroom Wire</title>
-  <meta name="description" content="Boardroom Wire is forensic business analysis for people who would rather read the 10-K than the press release. Cap tables, unit economics and structural exposure, applied to the companies defining the next decade." />
+  <meta name="description" content="Boardroom Wire is strategic analysis and commentary on business and technology, with a focus on finance and AI." />
   <link rel="icon" type="image/png" href="/logo.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -212,45 +212,6 @@
       color: var(--amber);
       text-shadow: 0 0 10px rgba(255, 179, 71, 0.45);
     }
-    .section-h {
-      font-family: var(--display);
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 0.22em;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin: 48px 0 18px;
-    }
-    /* Editorial section markers (§ 00 — Standfirst, § 01 — Mission, etc.) */
-    .section-marker {
-      display: flex;
-      align-items: baseline;
-      gap: 14px;
-      margin: 64px 0 24px;
-      padding-top: 28px;
-      border-top: 1px solid var(--line);
-    }
-    .section-marker:first-of-type {
-      margin-top: 0;
-      padding-top: 0;
-      border-top: none;
-    }
-    .section-marker .num {
-      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      color: var(--amber-bright);
-      text-shadow: 0 0 16px rgba(255, 179, 71, 0.7);
-    }
-    .section-marker .name {
-      font-family: var(--display);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--white);
-    }
     .standfirst {
       font-family: var(--display);
       font-size: clamp(20px, 2.4vw, 26px);
@@ -260,22 +221,6 @@
       color: var(--white);
       margin-bottom: 18px;
       text-shadow: 0 0 28px rgba(255, 179, 71, 0.32);
-    }
-    /* Closing bookend — echoes the standfirst at a smaller size so the page
-       opens and closes on a lit line. Selector carries .body p specificity,
-       otherwise .body p's dim colour and size win. */
-    .body p.closer {
-      font-family: var(--display);
-      font-size: clamp(18px, 2vw, 22px);
-      font-weight: 600;
-      line-height: 1.4;
-      letter-spacing: -0.005em;
-      color: var(--amber-bright);
-      text-shadow: 0 0 22px rgba(255, 179, 71, 0.4);
-      margin-top: 56px;
-      margin-bottom: 0;
-      padding-top: 32px;
-      border-top: 1px solid var(--line);
     }
     .signoff {
       margin-top: 80px;
@@ -320,31 +265,6 @@
           transparent 1px,
           transparent 4px
         );
-    }
-    .body ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 28px;
-    }
-    .body li {
-      font-family: var(--display);
-      font-size: clamp(16px, 1.5vw, 18px);
-      line-height: 1.6;
-      color: var(--white-dim);
-      padding-left: 24px;
-      position: relative;
-      margin-bottom: 14px;
-    }
-    .body li::before {
-      content: "";
-      position: absolute;
-      left: 0; top: 0.7em;
-      width: 12px; height: 1px;
-      background: var(--gold);
-    }
-    .body li strong {
-      color: var(--white);
-      font-weight: 600;
     }
 
     .find-us-bottom {
@@ -464,63 +384,11 @@
     <p class="eyebrow">About</p>
 
     <div class="body">
-      <div class="section-marker">
-        <span class="num">§ 00</span>
-        <span class="name">Standfirst</span>
-      </div>
       <h1 class="standfirst">
-        Boardroom Wire is forensic business analysis for people who would rather read the 10-K than the press release.
+        Boardroom Wire is strategic analysis and commentary on business and technology, with a focus on finance and AI.
       </h1>
       <p>
-        It&rsquo;s built by a former private equity and technology operator who spent a decade on the deal side, reading the transactions most coverage only reacts to. The lens is the one you&rsquo;d find in a Goldman pitch deck or an Apollo diligence memo: cap tables, unit economics, structural exposure, strategic logic. Applied to the companies defining the next decade. AI labs, defense primes, hyperscalers, the founders running them, and the deals nobody else bothers to open.
-      </p>
-
-      <div class="section-marker">
-        <span class="num">§ 01</span>
-        <span class="name">Mission</span>
-      </div>
-      <p>
-        Most coverage of this industry stops at <em>this looks cool</em> or <em>this looks dangerous</em>. Boardroom Wire starts where that stops. Who is actually winning. Who is being recapitalized in slow motion. What the data room looks like behind the press release. What any of it means ten years out.
-      </p>
-      <p>
-        The premise is that AI is now a capital markets story as much as a technology story, and the audience sophisticated enough to want it covered that way is underserved.
-      </p>
-
-      <div class="section-marker">
-        <span class="num">§ 02</span>
-        <span class="name">Coverage</span>
-      </div>
-      <p>
-        What you get here: forensic deep dives on the companies everyone is talking about, and the ones they should be. Founder origin stories that explain the strategy. Big tech rivalries broken down to the cap table.
-      </p>
-
-      <div class="section-marker">
-        <span class="num">§ 03</span>
-        <span class="name">Method</span>
-      </div>
-      <p>
-        Three rules govern every dispatch.
-      </p>
-      <p>
-        <strong>Evidence first:</strong> every claim is sourced, and when the source is a filing, a deck, a transcript, or a primary interview, it gets named.
-      </p>
-      <p>
-        <strong>Frameworks over takes:</strong> a take ages in a week, a framework ages in years.
-      </p>
-      <p>
-        <strong>Compression:</strong> every sentence earns its place.
-      </p>
-
-      <div class="section-marker">
-        <span class="num">§ 04</span>
-        <span class="name">Editorial Independence</span>
-      </div>
-      <p>
-        No sponsorships from companies covered. No paid placements. No pre-publication review by subjects.
-      </p>
-
-      <p class="closer">
-        If the financial press has ever felt one step behind, you&rsquo;re in the right place.
+        The companies, the capital behind them, and what both mean ten years out.
       </p>
 
       <p class="signoff">
