@@ -14,9 +14,12 @@
  * Per-collection source override: DASHBOARD_SRC_<SLUG>=/path (slug upper-
  * cased, dashes to underscores), e.g. DASHBOARD_SRC_CURSOR=… .
  *
- * Not shipped: index.html (the Astro collection page replaces it), posters/
- * (the site renders its own), beats.json, scripts/, README.md, dotfiles and
- * any stray top-level PNG captures.
+ * Shipped, and nothing else: the numbered boards (NN-name.html) plus the
+ * shared/ and assets/ folders they load. The video folder also holds working
+ * files the site must never publish — the bg-*.html plate pages, concepts.html,
+ * clips/, index.html (the Astro collection page replaces it), beats.json,
+ * backups — so this is an allow-list, not a skip-list. posters/ are rendered
+ * by this repo and preserved across a sync.
  *
  * One transform is applied on the way in: the Boardroom Wire bust PNG is
  * 1.4MB for something rendered at 104x104. It gets resized to 256px.
@@ -30,12 +33,15 @@ import sharp from 'sharp';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BOARDROOM = path.resolve(ROOT, '../../OneDrive/Desktop/Boardroom 2.0');
 
+// Every video lives at Boardroom 2.0/videos/<slug>/ (since 24 Sep 2026).
 const SOURCES = {
-  'situational-awareness': path.join(BOARDROOM, 'Situational Awareness/dashboards'),
-  'cursor': path.join(BOARDROOM, 'Cursor Vid/dashboards'),
+  'situational-awareness': path.join(BOARDROOM, 'videos/situational-awareness/dashboards'),
+  'cursor': path.join(BOARDROOM, 'videos/cursor/dashboards'),
 };
 
-const SKIP = new Set(['index.html', 'posters', 'beats.json', 'scripts', 'README.md', 'Thumbs.db']);
+const BOARD = /^\d\d-[\w-]+\.html$/;
+const DIRS = new Set(['shared', 'assets']);
+const ships = (entry) => entry.isFile() ? BOARD.test(entry.name) : entry.isDirectory() && DIRS.has(entry.name);
 const LOGO = 'assets/logos/boardroom-wire-bust-transparent.png';
 const LOGO_PX = 256;
 
@@ -71,8 +77,7 @@ async function syncOne(slug, src) {
 
   let copied = 0;
   for (const entry of await readdir(src, { withFileTypes: true })) {
-    if (SKIP.has(entry.name) || entry.name.startsWith('.')) continue;
-    if (entry.isFile() && /\.png$/i.test(entry.name)) continue;   // stray captures
+    if (!ships(entry)) continue;
     await cp(path.join(src, entry.name), path.join(dest, entry.name), { recursive: true });
     copied += 1;
   }
@@ -107,8 +112,9 @@ async function main() {
     const src = sourceFor(slug);
     if (!src) { console.error(`\n  Unknown collection "${slug}" — add it to SOURCES.\n`); failed++; continue; }
     if (!existsSync(src)) {
+      // A missing source always fails: skipping it silently leaves the site on a stale copy.
       console.error(`\n  ${slug}: source not found:\n    ${src}\n  Set DASHBOARD_SRC_${slug.toUpperCase().replace(/-/g, '_')} and re-run.\n`);
-      if (only) failed++;
+      failed++;
       continue;
     }
     await syncOne(slug, src);
