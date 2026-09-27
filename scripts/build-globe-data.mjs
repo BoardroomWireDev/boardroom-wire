@@ -28,7 +28,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'public', 'globe');
 const LAT_MIN = -60, LAT_MAX = 84;
-const STEPS = [1.0, 1.25];             // desktop, phone
+const STEPS = [0.7, 1.0, 1.25];        // wide-screen horizon, desktop orbit, phone
 const d2r = Math.PI / 180;
 
 const geo = JSON.parse(readFileSync(join(ROOT, 'scripts', 'data', 'ne_110m_land.geojson'), 'utf8'));
@@ -103,6 +103,6 @@ function build(step) {
 const sets = STEPS.map(build);
 const bi = process.argv.indexOf('--blender');
 if (bi > 0 && process.argv[bi + 1]) {
-  writeFileSync(process.argv[bi + 1], JSON.stringify(sets[0]));
+  writeFileSync(process.argv[bi + 1], JSON.stringify(sets[1]));   // the 1.0° set
   console.log(`blender: ${sets[0].length} dots → ${process.argv[bi + 1]}`);
 }
