@@ -5,7 +5,7 @@
  * Layout: wide screens see a HORIZON (the planet ~1.3× the screen wide, its limb arcing across
  * the page, a gold atmosphere brightest where the real sun is); phones and portrait screens see
  * the whole planet in ORBIT. scene.ts picks per resize. Capitals whose exchange is in its regular
- * session breathe. One centred status row sits under the nav: the UTC clock, how many exchanges are
+ * session breathe. One centred status row sits below the globe: the UTC clock, how many exchanges are
  * in session (or, when none are, the next opening bell), and the pause control as an icon button.
  *
  * Motion: readers who prefer reduced motion get a calm globe (slower spin, no swoops, ripples,
@@ -51,8 +51,9 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
   }
   .gv2-poster, .gv2-canvas {
     position: absolute; inset: 0; width: 100%; height: 100%;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 13%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 13%);
+    /* the planet fades in under the nav and out above the footer (no hard cut at the band's edge) */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 74%, transparent 93%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 74%, transparent 93%);
   }
   .gv2-poster { object-fit: cover; object-position: 50% 0; transition: opacity 0.9s ease; }   /* the horizon still: keep the limb's height */
   .gv2-canvas { opacity: 0; transition: opacity 0.9s ease; }
@@ -80,17 +81,15 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
   .gv2-label :global(.lp-mkt) { margin-top: 9px; padding-top: 8px; border-top: 1px solid rgba(255, 179, 71, 0.18); font: 500 10px/1.4 var(--mono, monospace); letter-spacing: 0.12em; color: #888173; }
   .gv2-label :global(.lp-mkt.open) { color: #FFC97A; }
 
-  /* The status row, centred like the rest of the hero: clock · markets · pause. */
+  /* The status row, centred below the globe where the planet fades out: clock · markets · pause. */
   .gv2-status {
-    position: absolute; top: 9%; left: 50%; z-index: 3; transform: translateX(-50%);
+    position: absolute; bottom: 20px; left: 50%; z-index: 3; transform: translateX(-50%);
     display: flex; align-items: center; gap: 14px; white-space: nowrap;
     font: 500 10.5px/1 var(--mono, monospace); letter-spacing: 0.22em; text-transform: uppercase; color: #888173;
     opacity: 0; transition: opacity 1.2s ease 0.6s;
   }
   .gv2[data-state='live'] .gv2-status { opacity: 1; }
-  /* On the horizon the row sits on the planet's crest, 40px above the limb (scene.ts puts the limb at 27%). */
-  .gv2:has(.gv2-canvas[data-layout='horizon']) .gv2-status { top: calc(27% - 40px); }
-  .gv2-status p { text-shadow: 0 0 10px #000, 0 0 3px #000; }   /* legible over the glow when the sun is behind the planet */
+  .gv2-status p { text-shadow: 0 0 10px #000, 0 0 3px #000; }   /* legible over the last of the fading planet */
   .gv2-status p { margin: 0; }
   .gv2-caption:empty { display: none; }
   .gv2-caption::after { content: '·'; margin-left: 14px; color: #5A5448; }
@@ -127,7 +126,7 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
     .gv2 { width: 100vw; height: clamp(420px, 72vh, 640px); margin-top: -10px; }
     .gv2-label { max-width: 220px; }
     /* phones: the markets and the pause control only; when shut, just the next bell */
-    .gv2-status { top: 2%; gap: 10px; font-size: 9.5px; letter-spacing: 0.12em; }
+    .gv2-status { bottom: 16px; gap: 10px; font-size: 9.5px; letter-spacing: 0.12em; }
     .gv2-caption { display: none; }
     .gv2-markets[data-open='0'] :global(.m-lead), .gv2-markets[data-open='0'] :global(.m-sep) { display: none; }
     .gv2-pause { width: 30px; height: 30px; }
