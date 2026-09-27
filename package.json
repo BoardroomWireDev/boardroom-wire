@@ -9,6 +9,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "globe:data": "node scripts/build-globe-data.mjs",
     "astro": "astro",
     "sync:dashboards": "node scripts/sync-dashboards.mjs",
     "render:posters": "node scripts/render-posters.mjs",
@@ -16,7 +17,6 @@
   },
   "dependencies": {
     "astro": "^5.18.1",
-    "globe.gl": "^2.45.3",
     "three": "^0.184.0"
   },
   "devDependencies": {
