@@ -2,6 +2,9 @@
 /**
  * <Globe /> — the homepage globe (v2, 27 Sep 2026).
  *
+ * Motion: readers who prefer reduced motion get a calm globe (slower spin, no swoops, ripples,
+ * drift or parallax), not a frozen one; everyone gets a Pause control, remembered per browser.
+ *
  * Paint order: a poster still (the LCP) → when the globe is in view and the browser is idle,
  * scene.ts is imported and draws → the canvas crossfades in over the poster. Phones and touch
  * screens get the lite tier (coarser dots, one orbit, no dust); data-saver, ≤2 GB devices and
@@ -20,6 +23,7 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
   <div class="gv2-canvas" id="gv2-canvas"></div>
   <div class="gv2-label" id="gv2-label" aria-hidden="true"></div>
   <p class="gv2-caption" id="gv2-caption" aria-hidden="true"></p>
+  <button type="button" class="gv2-pause" id="gv2-pause" aria-pressed="false">Pause motion</button>
   <ol class="gv2-list" aria-label="Tech capitals on the globe">
     {westToEast.map((c) => <li><button type="button" data-i={c.i}>{c.name}: {c.role}</button></li>)}
   </ol>
@@ -66,6 +70,18 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
   }
   .gv2[data-state='live'] .gv2-caption { opacity: 0.85; }
 
+  /* Pause / play: small, mono, sits under the sun readout. */
+  .gv2-pause {
+    position: absolute; top: calc(9% + 22px); right: max(24px, 8%); z-index: 3;
+    padding: 4px 0; background: none; border: 0; cursor: pointer;
+    font: 500 10px/1 var(--mono, monospace); letter-spacing: 0.22em; text-transform: uppercase; color: #888173;
+    opacity: 0; transition: opacity 1.2s ease 0.6s, color 0.18s;
+  }
+  .gv2-pause::before { content: '❚❚ '; letter-spacing: 0.05em; }
+  .gv2-pause[aria-pressed='true']::before { content: '▶ '; }
+  .gv2-pause:hover { color: #F2CB52; }
+  .gv2[data-state='live'] .gv2-pause { opacity: 0.85; }
+
   /* Visually hidden, but reachable: the capitals as buttons. */
   .gv2-list, .gv2-sr {
     position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
@@ -76,6 +92,7 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
     .gv2 { width: 100vw; height: clamp(420px, 72vh, 640px); margin-top: -10px; }
     .gv2-label { max-width: 220px; }
     .gv2-caption { top: 2%; right: 50%; transform: translateX(50%); font-size: 10px; letter-spacing: 0.16em; }
+    .gv2-pause { top: calc(2% + 20px); right: 50%; transform: translateX(50%); }
   }
 </style>
 
@@ -83,12 +100,17 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
   const root = document.getElementById('gv2')!;
   const host = document.getElementById('gv2-canvas')!;
   const nav = navigator as Navigator & { connection?: { saveData?: boolean }; deviceMemory?: number };
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pauseBtn = document.getElementById('gv2-pause') as HTMLButtonElement;
+  let paused = false;
+  try { paused = localStorage.getItem('bw-globe-paused') === '1'; } catch {}
+  const showPaused = () => { pauseBtn.setAttribute('aria-pressed', String(paused)); pauseBtn.textContent = paused ? 'Play motion' : 'Pause motion'; };
+  showPaused();
   const weak = !!nav.connection?.saveData || (nav.deviceMemory !== undefined && nav.deviceMemory <= 2);
   const lite = innerWidth < 720 || matchMedia('(pointer: coarse)').matches;
   const gl2 = (() => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; } })();
 
-  type Api = { hover(i: number | null): void; select(i: number | null): void };
+  type Api = { hover(i: number | null): void; select(i: number | null): void; setPaused(p: boolean): void };
   let api: Api | null = null, starting = false;
 
   async function start() {
@@ -97,7 +119,7 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
     try {
       const { createGlobe } = await import('./scene');
       api = await createGlobe({
-        host, tier: lite ? 'lite' : 'full', reduced,
+        host, tier: lite ? 'lite' : 'full', calm, paused,
         label: document.getElementById('gv2-label')!,
         caption: document.getElementById('gv2-caption'),
         live: document.getElementById('gv2-live'),
@@ -126,4 +148,9 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
     });
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') api?.select(null); });
+
+  pauseBtn.addEventListener('click', () => {
+    paused = !paused; showPaused(); api?.setPaused(paused);
+    try { localStorage.setItem('bw-globe-paused', paused ? '1' : '0'); } catch {}
+  });
 </script>

@@ -29,7 +29,8 @@ const C = {
   amber: rgb('#FFB347'), amberBright: rgb('#FFC97A'), cream: rgb('#F5F1E5'),
 };
 const BASE_PITCH = 0.30, ROLL = -0.07;          // north tilted toward the viewer
-const AUTO_SPIN = (2 * Math.PI) / 120;           // one turn in two minutes, west → east
+const AUTO_SPIN = (2 * Math.PI) / 100;           // one turn in 100 s, west → east
+const CALM = 0.45;                               // spin factor when the reader prefers reduced motion
 const FOV = 28;
 
 export const ll2v = (lat: number, lon: number, r = 1) =>
@@ -42,12 +43,17 @@ export interface GlobeOptions {
   caption?: HTMLElement | null;      // "SUN 1.9°S …"
   live?: HTMLElement | null;         // aria-live region
   tier: Tier;
-  reduced: boolean;
+  /** prefers-reduced-motion: gentle motion only — slower spin, no swoops, ripples, drift or parallax. */
+  calm: boolean;
+  /** Start paused (the reader's saved choice from the Pause control). */
+  paused: boolean;
   onFirstFrame?: () => void;
 }
 export interface GlobeApi {
   hover(i: number | null): void;
   select(i: number | null): void;
+  /** Freeze all motion (the frame still redraws on drag and selection). */
+  setPaused(p: boolean): void;
   destroy(): void;
 }
 
@@ -242,7 +248,7 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
   landGeo.setAttribute('aSeed', new InstancedBufferAttribute(land.seed, 1));
   const rippleU = { value: Array.from({ length: 4 }, () => new Vector4(0, 0, 1, -1)) };
   const landMat = new ShaderMaterial({ vertexShader: LAND_VS, fragmentShader: LAND_FS, transparent: true, depthWrite: false,
-    uniforms: { ...common, uSize: { value: land.step * D2R * 0.40 }, uShimmer: { value: o.reduced ? 0 : 0.08 }, uNight: { value: 0.55 },
+    uniforms: { ...common, uSize: { value: land.step * D2R * 0.40 }, uShimmer: { value: o.calm ? 0 : 0.08 }, uNight: { value: 0.55 },
       uRipple: rippleU, uGold: { value: C.gold }, uGoldBright: { value: C.goldBright }, uAmber: { value: C.amber } } });
   const landMesh = new Mesh(landGeo, landMat); landMesh.frustumCulled = false; spin.add(landMesh);
 
@@ -331,10 +337,11 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
     const g = new BufferGeometry();
     g.setAttribute('position', new BufferAttribute(mp, 3)); g.setAttribute('aSize', new BufferAttribute(ms, 1));
     g.setAttribute('aDrift', new BufferAttribute(md, 3)); g.setAttribute('aPhase', new BufferAttribute(mph, 1));
-    const motes = new Points(g, glowMat(C.amberBright, 0.22, o.reduced ? 0 : 1)); motes.frustumCulled = false; scene.add(motes);
+    const motes = new Points(g, glowMat(C.amberBright, 0.22, o.calm ? 0 : 1)); motes.frustumCulled = false; scene.add(motes);
   }
 
   let running = false, raf = 0, last = performance.now(), dirty = true, firstDone = false;
+  let paused = o.paused;
 
   /* ---------------------------------------------------------- sizing */
   let W = 1, H = 1, rPx = 1;
@@ -362,7 +369,7 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
 
   /* ------------------------------------------------ state + controls */
   const st = {
-    yaw: -(10 * D2R), yawVel: 0, autoVel: o.reduced ? 0 : AUTO_SPIN * 0.6,
+    yaw: -(10 * D2R), yawVel: 0, autoVel: o.paused ? 0 : AUTO_SPIN * (o.calm ? CALM : 1),
     pitch: 0, pitchVel: 0, pitchTarget: 0,
     flyTo: null as number | null,
     par: { x: 0, y: 0, tx: 0, ty: 0 },
@@ -440,9 +447,9 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
     d = ((d + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
     st.flyTo = st.yaw + d; st.yawVel = 0;
     st.pitchTarget = Math.max(-0.35, Math.min(0.45, c.lat * D2R - BASE_PITCH));
-    if (o.reduced) { st.yaw = st.flyTo; st.pitch = st.pitchTarget; st.flyTo = null; }
+    if (o.calm || paused) { st.yaw = st.flyTo; st.pitch = st.pitchTarget; st.flyTo = null; st.pitchVel = 0; }
     st.lastInput = now();
-    if (!o.reduced) { ripple(i); let n = 0; edges.forEach((e, k) => { if (e.a === i || e.b === i) fire(k, i, 0.12 * n++); }); }
+    if (!paused) { if (!o.calm) ripple(i); let n = 0; edges.forEach((e, k) => { if (e.a === i || e.b === i) fire(k, i, 0.12 * n++); }); }
     showLabel(i);
     if (o.live) o.live.textContent = `${c.name}, ${fmts[i].format(new Date())} local, ${c.role}.`;
     invalidate();
@@ -476,7 +483,7 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
     }
     if (e.pointerType === 'mouse') {
       setHot(pick(x, y, 24));
-      if (!lite) { st.par.tx = ((x / W) - 0.5) * 0.07; st.par.ty = ((y / H) - 0.5) * 0.05; }
+      if (!lite && !o.calm) { st.par.tx = ((x / W) - 0.5) * 0.07; st.par.ty = ((y / H) - 0.5) * 0.05; }
     }
   });
   const endDrag = (e: PointerEvent, cancelled: boolean) => {
@@ -497,7 +504,7 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
   /* ------------------------------------------------------------ loop */
   let nextAmbient = 2.5;
   const frameTimes: number[] = [];
-  function invalidate() { dirty = true; if (o.reduced && !raf) raf = requestAnimationFrame(frame); }
+  function invalidate() { dirty = true; if (paused && !raf) raf = requestAnimationFrame(frame); }
 
   function update(dt: number) {
     const t = (common.uTime.value += dt);
@@ -509,7 +516,7 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
     } else if (!st.drag?.active) {
       st.yaw += st.yawVel * dt; st.yawVel *= Math.exp(-2.5 * dt);
     }
-    const autoTarget = !o.reduced && idle > 3 && st.sel == null && !st.drag ? AUTO_SPIN : 0;
+    const autoTarget = !paused && idle > 3 && st.sel == null && !st.drag ? AUTO_SPIN * (o.calm ? CALM : 1) : 0;
     st.autoVel += (autoTarget - st.autoVel) * (1 - Math.exp(-dt * 0.8));
     if (!st.drag?.active) st.yaw += st.autoVel * dt;
     // pitch: critically damped spring back to its target (0, or the selected city's latitude)
@@ -546,9 +553,9 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
       if (p > 1.4) flights[k] = null;
     });
     // ambient: one route every ~3.5 s from a city on the visible side, at most three in the air
-    if (!o.reduced && st.sel == null && t > nextAmbient) {
-      nextAmbient = t + 3.5;
-      if (flying < 3) {
+    if (!paused && st.sel == null && t > nextAmbient) {
+      nextAmbient = t + (o.calm ? 6 : 3.5);
+      if (flying < (o.calm ? 1 : 3)) {
         const cand = edges.map((e, k) => k).filter((k) => !flights[k] && screenOf(edges[k].a).facing > 0.3);
         if (cand.length) { const k = cand[Math.floor(Math.random() * cand.length)]; fire(k, edges[k].a); }
       }
@@ -564,12 +571,12 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
     raf = 0;
     const dt = Math.min(0.05, (ts - last) / 1000); last = ts;
     if (running || dirty) {
-      update(o.reduced ? 0 : dt);
+      update(paused ? 0 : dt);
       renderer.render(scene, camera);
       dirty = false;
       if (!firstDone) { firstDone = true; o.onFirstFrame?.(); }
       // adaptive quality: if the first seconds run slow, drop resolution (then the motes)
-      if (!o.reduced && frameTimes.length < 150) {
+      if (!paused && frameTimes.length < 150) {
         frameTimes.push(dt);
         if (frameTimes.length === 150) {
           const p90 = [...frameTimes].slice(30).sort((a, b) => a - b)[Math.floor(120 * 0.9)];
@@ -577,7 +584,7 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
         }
       }
     }
-    if (running && !o.reduced) raf = requestAnimationFrame(frame);
+    if (running && !paused) raf = requestAnimationFrame(frame);
   }
 
   /* pause off-screen and in background tabs */
@@ -597,13 +604,17 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
 
   resize();
   running = true; raf = requestAnimationFrame(frame);
-  if (o.reduced) running = false;
 
   if (location.search.includes('gvdebug')) (window as any).__gv2 = { st, flights, common, rippleU, get running() { return running; }, get raf() { return raf; } };
 
   return {
     hover: (i) => setHot(i),
     select,
+    setPaused(p: boolean) {
+      paused = p;
+      if (p) { st.autoVel = 0; invalidate(); }
+      else { st.lastInput = -1e9; last = performance.now(); if (running && !raf) raf = requestAnimationFrame(frame); }
+    },
     destroy() {
       running = false; cancelAnimationFrame(raf); clearInterval(sunTimer);
       ro.disconnect(); io.disconnect(); document.removeEventListener('visibilitychange', onVis);
