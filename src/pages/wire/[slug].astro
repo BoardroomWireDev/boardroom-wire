@@ -77,6 +77,12 @@ const jsonLd = {
         <h1 class="hd">{a.title}</h1>
         <p class="lede">{a.dek}</p>
         <YouTubeLite id={a.youtube} title={a.title} />
+        {c && (
+          <a class="dash-link" href={`/analytics/${c.slug}/`}>
+            <span class="dl-n">{c.dashboards.length}</span> interactive dashboards behind this story
+            <span class="dl-go">Open the analytics →</span>
+          </a>
+        )}
       </header>
 
       <div class="rule"></div>
@@ -90,6 +96,7 @@ const jsonLd = {
           <div class="rule"></div>
           <p class="eyebrow">Charts in this article</p>
           <h2 class="charts-h">{c.dashboards.length} dashboards, <span class="dim">each with its own page.</span></h2>
+          <a class="dash-link inline" href={`/analytics/${c.slug}/`}><span class="dl-go">Open the full set, with sources and method →</span></a>
           <div class="a-grid">
             {c.dashboards.map((d) => (
               <a class="a-card" href={`/analytics/${c.slug}/${d.slug}/`}>
@@ -168,6 +175,25 @@ const jsonLd = {
   @media (max-width: 720px) {
     .prose .dash { width: 100%; margin-left: 0; margin-right: 0; }
   }
+
+  /* The article's way into its analytics collection (the homepage no longer
+     links /analytics/; each article carries its own set). */
+  .dash-link {
+    display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px;
+    margin-top: 22px; padding: 12px 16px;
+    border: 1px solid rgba(242, 203, 82, 0.35); background: rgba(242, 203, 82, 0.05);
+    font-size: 14px; font-weight: 600; color: #C9C3B4; text-decoration: none;
+    transition: border-color 0.18s, background 0.18s;
+  }
+  .dash-link:hover { border-color: var(--gold-bright); background: rgba(242, 203, 82, 0.1); }
+  .dash-link .dl-n { font-weight: 800; color: var(--gold-bright); }
+  .dash-link .dl-go {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold-bright);
+  }
+  .dash-link.inline { margin: 0 0 24px; padding: 0; border: 0; background: none; }
+  .dash-link.inline:hover { background: none; }
+  .dash-link.inline:hover .dl-go { text-decoration: underline; }
 
   .charts { margin-top: 24px; }
   .charts-h { font-size: clamp(20px, 2.2vw, 26px); font-weight: 800; letter-spacing: -0.015em; margin: 12px 0 24px; }
