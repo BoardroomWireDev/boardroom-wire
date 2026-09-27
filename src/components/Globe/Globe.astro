@@ -2,6 +2,11 @@
 /**
  * <Globe /> — the homepage globe (v2, 27 Sep 2026).
  *
+ * Layout: wide screens see a HORIZON (the planet ~1.3× the screen wide, its limb arcing across
+ * the page, a gold atmosphere brightest where the real sun is); phones and portrait screens see
+ * the whole planet in ORBIT. scene.ts picks per resize. Capitals whose exchange is in its regular
+ * session breathe, and #gv2-markets counts them (markets.ts).
+ *
  * Motion: readers who prefer reduced motion get a calm globe (slower spin, no swoops, ripples,
  * drift or parallax), not a frozen one; everyone gets a Pause control, remembered per browser.
  *
@@ -17,12 +22,13 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
 
 <div class="gv2" id="gv2" data-state="poster">
   <picture>
-    <source media="(max-width: 720px)" srcset="/globe/poster-m.jpg" />
-    <img class="gv2-poster" src="/globe/poster.jpg" alt="" width="1600" height="1000" fetchpriority="high" decoding="async" />
+    <source media="(max-width: 720px), (max-aspect-ratio: 1/1)" srcset="/globe/poster-m.jpg" />
+    <img class="gv2-poster" src="/globe/poster.jpg" alt="" width="1600" height="800" fetchpriority="high" decoding="async" />
   </picture>
   <div class="gv2-canvas" id="gv2-canvas"></div>
   <div class="gv2-label" id="gv2-label" aria-hidden="true"></div>
   <p class="gv2-caption" id="gv2-caption" aria-hidden="true"></p>
+  <p class="gv2-markets" id="gv2-markets" aria-hidden="true"></p>
   <button type="button" class="gv2-pause" id="gv2-pause" aria-pressed="false">Pause motion</button>
   <ol class="gv2-list" aria-label="Tech capitals on the globe">
     {westToEast.map((c) => <li><button type="button" data-i={c.i}>{c.name}: {c.role}</button></li>)}
@@ -33,13 +39,17 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
 <style>
   .gv2 {
     position: relative;
-    width: min(1400px, 100vw);
+    width: 100vw;
     height: clamp(560px, 88vh, 1000px);
     margin-top: clamp(-90px, -4vw, -30px);
     margin-bottom: clamp(-80px, -3vw, -20px);
   }
-  .gv2-poster, .gv2-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .gv2-poster { object-fit: cover; transition: opacity 0.9s ease; }
+  .gv2-poster, .gv2-canvas {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 13%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 13%);
+  }
+  .gv2-poster { object-fit: cover; object-position: 50% 0; transition: opacity 0.9s ease; }   /* the horizon still: keep the limb's height */
   .gv2-canvas { opacity: 0; transition: opacity 0.9s ease; }
   .gv2[data-state='live'] .gv2-canvas { opacity: 1; }
   .gv2[data-state='live'] .gv2-poster { opacity: 0; }
@@ -62,6 +72,8 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
   .gv2-label :global(.lp-name) { margin-top: 8px; font: 800 18px/1.15 var(--display, sans-serif); color: #F5F1E5; letter-spacing: -0.01em; }
   .gv2-label :global(.lp-role) { margin-top: 4px; font: 700 10px/1.3 var(--display, sans-serif); letter-spacing: 0.2em; text-transform: uppercase; color: #FFB347; }
   .gv2-label :global(.lp-thesis) { margin-top: 8px; font: 400 13px/1.45 var(--display, sans-serif); color: #A9A497; }
+  .gv2-label :global(.lp-mkt) { margin-top: 9px; padding-top: 8px; border-top: 1px solid rgba(255, 179, 71, 0.18); font: 500 10px/1.4 var(--mono, monospace); letter-spacing: 0.12em; color: #888173; }
+  .gv2-label :global(.lp-mkt.open) { color: #FFC97A; }
 
   .gv2-caption {
     position: absolute; top: 9%; right: max(24px, 8%); z-index: 2; text-align: right;
@@ -69,10 +81,16 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
     opacity: 0; transition: opacity 1.2s ease 0.6s; pointer-events: none;
   }
   .gv2[data-state='live'] .gv2-caption { opacity: 0.85; }
+  .gv2-markets {
+    position: absolute; top: calc(9% + 20px); right: max(24px, 8%); z-index: 2; text-align: right;
+    font: 500 10px/1 var(--mono, monospace); letter-spacing: 0.2em; color: #FFB347;
+    opacity: 0; transition: opacity 1.2s ease 0.8s; pointer-events: none; white-space: nowrap;
+  }
+  .gv2[data-state='live'] .gv2-markets { opacity: 0.8; }
 
   /* Pause / play: small, mono, sits under the sun readout. */
   .gv2-pause {
-    position: absolute; top: calc(9% + 22px); right: max(24px, 8%); z-index: 3;
+    position: absolute; top: calc(9% + 40px); right: max(24px, 8%); z-index: 3;
     padding: 4px 0; background: none; border: 0; cursor: pointer;
     font: 500 10px/1 var(--mono, monospace); letter-spacing: 0.22em; text-transform: uppercase; color: #888173;
     opacity: 0; transition: opacity 1.2s ease 0.6s, color 0.18s;
@@ -92,7 +110,8 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
     .gv2 { width: 100vw; height: clamp(420px, 72vh, 640px); margin-top: -10px; }
     .gv2-label { max-width: 220px; }
     .gv2-caption { top: 2%; right: 50%; transform: translateX(50%); font-size: 10px; letter-spacing: 0.16em; }
-    .gv2-pause { top: calc(2% + 20px); right: 50%; transform: translateX(50%); }
+    .gv2-markets { top: calc(2% + 18px); right: 50%; transform: translateX(50%); font-size: 9px; letter-spacing: 0.12em; }
+    .gv2-pause { top: calc(2% + 36px); right: 50%; transform: translateX(50%); }
   }
 </style>
 
@@ -124,6 +143,7 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
         label: document.getElementById('gv2-label')!,
         caption: document.getElementById('gv2-caption'),
         live: document.getElementById('gv2-live'),
+        markets: document.getElementById('gv2-markets'),
         onFirstFrame: () => { root.dataset.state = 'live'; },
       });
     } catch (err) {
