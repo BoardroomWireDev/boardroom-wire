@@ -5,7 +5,8 @@
  * Layout: wide screens see a HORIZON (the planet ~1.3× the screen wide, its limb arcing across
  * the page, a gold atmosphere brightest where the real sun is); phones and portrait screens see
  * the whole planet in ORBIT. scene.ts picks per resize. Capitals whose exchange is in its regular
- * session breathe, and #gv2-markets counts them (markets.ts).
+ * session breathe. One centred status row sits below the globe: the UTC clock, how many exchanges are
+ * in session (or, when none are, the next opening bell), and the pause control as an icon button.
  *
  * Motion: readers who prefer reduced motion get a calm globe (slower spin, no swoops, ripples,
  * drift or parallax), not a frozen one; everyone gets a Pause control, remembered per browser.
@@ -27,9 +28,13 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
   </picture>
   <div class="gv2-canvas" id="gv2-canvas"></div>
   <div class="gv2-label" id="gv2-label" aria-hidden="true"></div>
-  <p class="gv2-caption" id="gv2-caption" aria-hidden="true"></p>
-  <p class="gv2-markets" id="gv2-markets" aria-hidden="true"></p>
-  <button type="button" class="gv2-pause" id="gv2-pause" aria-pressed="false">Pause motion</button>
+  <div class="gv2-status">
+    <p class="gv2-caption" id="gv2-caption" aria-hidden="true"></p>
+    <p class="gv2-markets" id="gv2-markets" aria-hidden="true" title="Regular trading hours. Public holidays are not reflected."></p>
+    <button type="button" class="gv2-pause" id="gv2-pause" aria-pressed="false" aria-label="Pause globe motion" title="Pause globe motion">
+      <svg viewBox="0 0 12 12" aria-hidden="true"><path class="i-pause" d="M3 2.5h2v7H3zM7 2.5h2v7H7z" /><path class="i-play" d="M4 2.2 10 6l-6 3.8z" /></svg>
+    </button>
+  </div>
   <ol class="gv2-list" aria-label="Tech capitals on the globe">
     {westToEast.map((c) => <li><button type="button" data-i={c.i}>{c.name}: {c.role}</button></li>)}
   </ol>
@@ -46,8 +51,9 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
   }
   .gv2-poster, .gv2-canvas {
     position: absolute; inset: 0; width: 100%; height: 100%;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 13%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 13%);
+    /* the planet fades in under the nav and out above the footer (no hard cut at the band's edge) */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 74%, transparent 93%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 74%, transparent 93%);
   }
   .gv2-poster { object-fit: cover; object-position: 50% 0; transition: opacity 0.9s ease; }   /* the horizon still: keep the limb's height */
   .gv2-canvas { opacity: 0; transition: opacity 0.9s ease; }
@@ -75,30 +81,40 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
   .gv2-label :global(.lp-mkt) { margin-top: 9px; padding-top: 8px; border-top: 1px solid rgba(255, 179, 71, 0.18); font: 500 10px/1.4 var(--mono, monospace); letter-spacing: 0.12em; color: #888173; }
   .gv2-label :global(.lp-mkt.open) { color: #FFC97A; }
 
-  .gv2-caption {
-    position: absolute; top: 9%; right: max(24px, 8%); z-index: 2; text-align: right;
-    font: 500 11px/1 var(--mono, monospace); letter-spacing: 0.22em; color: #888173; white-space: nowrap;
-    opacity: 0; transition: opacity 1.2s ease 0.6s; pointer-events: none;
+  /* The status row, centred below the globe where the planet fades out: clock · markets · pause. */
+  .gv2-status {
+    position: absolute; bottom: 20px; left: 50%; z-index: 3; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 14px; white-space: nowrap;
+    font: 500 10.5px/1 var(--mono, monospace); letter-spacing: 0.22em; text-transform: uppercase; color: #888173;
+    opacity: 0; transition: opacity 1.2s ease 0.6s;
   }
-  .gv2[data-state='live'] .gv2-caption { opacity: 0.85; }
-  .gv2-markets {
-    position: absolute; top: calc(9% + 20px); right: max(24px, 8%); z-index: 2; text-align: right;
-    font: 500 10px/1 var(--mono, monospace); letter-spacing: 0.2em; color: #FFB347;
-    opacity: 0; transition: opacity 1.2s ease 0.8s; pointer-events: none; white-space: nowrap;
+  .gv2[data-state='live'] .gv2-status { opacity: 1; }
+  .gv2-status p { text-shadow: 0 0 10px #000, 0 0 3px #000; }   /* legible over the last of the fading planet */
+  .gv2-status p { margin: 0; }
+  .gv2-caption:empty { display: none; }
+  .gv2-caption::after { content: '·'; margin-left: 14px; color: #5A5448; }
+  .gv2-markets { display: flex; align-items: center; gap: 10px; }
+  .gv2-markets::before {                              /* a hollow ring when the markets are shut, a beating amber dot when open */
+    content: ''; width: 7px; height: 7px; box-sizing: border-box; border-radius: 50%; border: 1px solid #888173;
   }
-  .gv2[data-state='live'] .gv2-markets { opacity: 0.8; }
+  .gv2-markets[data-open='1'] { color: #FFB347; }
+  .gv2-markets[data-open='1']::before { background: #FFB347; border-color: #FFB347; box-shadow: 0 0 8px rgba(255, 179, 71, 0.7); animation: gv2-beat 2.4s ease-in-out infinite; }
+  .gv2-markets :global(.m-sep) { color: #5A5448; }
+  .gv2-markets :global(.m-next) { color: #B9B3A3; }
+  @keyframes gv2-beat { 50% { opacity: 0.35; } }
+  @media (prefers-reduced-motion: reduce) { .gv2-markets[data-open='1']::before { animation: none; } }
 
-  /* Pause / play: small, mono, sits under the sun readout. */
+  /* Pause / play: a small ringed icon at the end of the row. The name stays constant; aria-pressed carries the state. */
   .gv2-pause {
-    position: absolute; top: calc(9% + 40px); right: max(24px, 8%); z-index: 3;
-    padding: 4px 0; background: none; border: 0; cursor: pointer;
-    font: 500 10px/1 var(--mono, monospace); letter-spacing: 0.22em; text-transform: uppercase; color: #888173;
-    opacity: 0; transition: opacity 1.2s ease 0.6s, color 0.18s;
+    display: grid; place-items: center; width: 26px; height: 26px; padding: 0; margin-left: 2px;
+    border-radius: 50%; background: rgba(10, 10, 15, 0.6); border: 1px solid rgba(212, 175, 55, 0.35);
+    color: #A9A497; cursor: pointer; transition: color 0.18s, border-color 0.18s;
   }
-  .gv2-pause::before { content: '❚❚ '; letter-spacing: 0.05em; }
-  .gv2-pause[aria-pressed='true']::before { content: '▶ '; }
-  .gv2-pause:hover { color: #F2CB52; }
-  .gv2[data-state='live'] .gv2-pause { opacity: 0.85; }
+  .gv2-pause svg { width: 10px; height: 10px; fill: currentColor; }
+  .gv2-pause .i-play { display: none; }
+  .gv2-pause[aria-pressed='true'] .i-pause { display: none; }
+  .gv2-pause[aria-pressed='true'] .i-play { display: inline; }
+  .gv2-pause:hover, .gv2-pause:focus-visible { color: #F2CB52; border-color: #F2CB52; }
 
   /* Visually hidden, but reachable: the capitals as buttons. */
   .gv2-list, .gv2-sr {
@@ -109,9 +125,11 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
   @media (max-width: 720px) {
     .gv2 { width: 100vw; height: clamp(420px, 72vh, 640px); margin-top: -10px; }
     .gv2-label { max-width: 220px; }
-    .gv2-caption { top: 2%; right: 50%; transform: translateX(50%); font-size: 10px; letter-spacing: 0.16em; }
-    .gv2-markets { top: calc(2% + 18px); right: 50%; transform: translateX(50%); font-size: 9px; letter-spacing: 0.12em; }
-    .gv2-pause { top: calc(2% + 36px); right: 50%; transform: translateX(50%); }
+    /* phones: the markets and the pause control only; when shut, just the next bell */
+    .gv2-status { bottom: 16px; gap: 10px; font-size: 9.5px; letter-spacing: 0.12em; }
+    .gv2-caption { display: none; }
+    .gv2-markets[data-open='0'] :global(.m-lead), .gv2-markets[data-open='0'] :global(.m-sep) { display: none; }
+    .gv2-pause { width: 30px; height: 30px; }
   }
 </style>
 
@@ -123,7 +141,7 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
   const pauseBtn = document.getElementById('gv2-pause') as HTMLButtonElement;
   let paused = false;
   try { paused = localStorage.getItem('bw-globe-paused') === '1'; } catch {}
-  const showPaused = () => { pauseBtn.setAttribute('aria-pressed', String(paused)); pauseBtn.textContent = paused ? 'Play motion' : 'Pause motion'; };
+  const showPaused = () => { pauseBtn.setAttribute('aria-pressed', String(paused)); pauseBtn.title = paused ? 'Play globe motion' : 'Pause globe motion'; };
   showPaused();
   const weak = !!nav.connection?.saveData || (nav.deviceMemory !== undefined && nav.deviceMemory <= 2);
   const lite = innerWidth < 720 || matchMedia('(pointer: coarse)').matches;
