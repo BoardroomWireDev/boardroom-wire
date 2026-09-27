@@ -6,7 +6,8 @@
  *
  * The map is the homepage globe's land dots (public/globe/land-1.25.bin, an equal-area grid) drawn
  * flat in the Equal Earth projection, which is also equal-area, so the dots stay evenly spaced.
- * Video and article titles come from the content collection at build time.
+ * Video and article titles come from the content collection at build time. Below the live panels, "Before
+ * Wire Telemetry" shows Cloudflare's own edge history (/api/telemetry/history, scripts/cf-history.mjs).
  */
 import { getCollection } from 'astro:content';
 import SeoHead from '../../components/SeoHead.astro';
@@ -16,6 +17,8 @@ const ARTICLES = (await getCollection('articles')).map((a) => ({
   slug: a.id, title: a.data.title, video: a.data.collection ?? null, youtube: a.data.youtube ?? null,
 }));
 const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead]));
+const DASH = Object.fromEntries(collections.flatMap((c) => [[`/analytics/${c.slug}/`, `${c.headline.lead} · dashboards`],
+  ...c.dashboards.map((d) => [`/analytics/${c.slug}/${d.slug}/`, `${d.title} · dashboard`])]));
 ---
 
 <!doctype html>
@@ -96,6 +99,12 @@ const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead
     .tech { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
     .tech h4 { margin: 0 0 10px; font: 600 9px/1 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
     .notes { margin: 28px 0 0; max-width: 900px; font: 400 12px/1.6 var(--mono); color: var(--mute); }
+    .notice { margin: 0 0 20px; padding: 14px 18px; border: 1px solid rgba(255, 179, 71, 0.35); border-left: 2px solid var(--amber); font: 500 13px/1.5 var(--display); color: var(--cream); }
+    .notice a { color: var(--gold-bright); }
+    .sect { margin: 56px 0 18px; padding-top: 28px; border-top: 1px solid var(--line); font: 800 22px/1.2 var(--display); color: var(--cream); display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; }
+    .sect em { font: 500 11px/1.4 var(--mono); letter-spacing: 0.06em; color: var(--mute); font-style: normal; }
+    .legend { display: flex; gap: 18px; margin-top: 10px; font: 500 10px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
+    .legend i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
 
     .state { position: fixed; inset: 0; z-index: 10; display: none; place-items: center; background: var(--bg); text-align: center; padding: 24px; }
     .state.on { display: grid; }
@@ -126,6 +135,7 @@ const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead
   </header>
 
   <main>
+    <p class="notice" id="notice" hidden></p>
     <section class="kpis" id="kpis"></section>
     <section class="grid">
       <article class="panel w8">
@@ -146,11 +156,28 @@ const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead
       <article class="panel w12"><h2>Devices and networks</h2><div class="tech" id="tech"></div></article>
     </section>
     <p class="notes" id="notes"></p>
+
+    <section id="history">
+      <h2 class="sect">Before Wire Telemetry <em>Cloudflare's own counts for the domain, copied in so they don't expire</em></h2>
+      <section class="kpis" id="hkpis"></section>
+      <section class="grid">
+        <article class="panel w12"><h2>Daily traffic <em id="hist-range"></em></h2>
+          <svg id="hseries" viewBox="0 0 1000 220" preserveAspectRatio="none"></svg><div class="ticks" id="hticks"></div>
+          <div class="legend"><span><i style="background: rgba(212,175,55,0.55)"></i>Page loads, real browsers</span><span><i style="background: #FFB347; height: 2px; vertical-align: 3px"></i>Unique addresses, bots included</span></div>
+          <span class="chip">Cloudflare edge · page detail kept 30 days</span></article>
+        <article class="panel w6"><h2>Pages <em id="hpages-note">real browsers</em></h2><table id="hpages"></table></article>
+        <article class="panel w6"><h2>By video <em>article pages and dashboards inside them</em></h2><table id="hvideos"></table></article>
+        <article class="panel"><h2>Countries</h2><ol class="bars" id="hcountries"></ol></article>
+        <article class="panel"><h2>Devices</h2><ol class="bars" id="hdevices"></ol></article>
+        <article class="panel"><h2>Browsers</h2><ol class="bars" id="hbrowsers"></ol></article>
+      </section>
+      <p class="notes" id="hnotes"></p>
+    </section>
   </main>
 
   <div class="state" id="state" role="alert"><div><h1 id="state-h"></h1><p id="state-p"></p></div></div>
 
-  <script define:vars={{ ARTICLES, SHORT }}>
+  <script define:vars={{ ARTICLES, SHORT, DASH }}>
     const $ = (id) => document.getElementById(id);
     const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
     const num = (n) => { n = Number(n) || 0; return n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'K' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'K' : String(Math.round(n)); };
@@ -164,6 +191,7 @@ const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead
     const byVideo = new Map(ARTICLES.filter((a) => a.video).map((a) => [a.video, a]));
     const byArticle = new Map(ARTICLES.map((a) => [a.slug, a]));
     const PAGE = { '/': 'Home', '/videos/': 'Videos', '/about/': 'About', '/wire/': 'The Wire', '/analytics/': 'Analytics', '/privacy/': 'Privacy' };
+    const labelOf = (path, video, article) => PAGE[path] || DASH[path] || titleOf(video, article) || path;
     const shortOf = (k) => SHORT[k] || (byArticle.get(k)?.video && SHORT[byArticle.get(k).video]) || PAGE[k] || k;
     const titleOf = (video, article) => (video && byVideo.get(video)?.title) || (article && byArticle.get(article)?.title) || video || article || '';
 
@@ -274,6 +302,10 @@ const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead
         return state('Couldn’t reach the data.', String(e.message || e));
       }
       const T = d.totals, out = Object.fromEntries(d.outboundBy.map((r) => [r.dest, r.clicks]));
+      const nt = $('notice'); nt.hidden = !!T.views;
+      const hist = $('history'), grid = document.querySelector('main > .grid');
+      if (!T.views && hist.compareDocumentPosition(grid) & Node.DOCUMENT_POSITION_FOLLOWING) {} else if (!T.views) grid.before(hist); else $('notes').after(hist);
+      if (!T.views) nt.innerHTML = `No readers recorded ${range === '24h' ? 'in the last 24 hours' : 'in this range'} yet. Wire Telemetry began counting on 27 September; for the weeks before, see <a href="#history">Cloudflare's history</a> below.`;
       $('kpis').innerHTML = [
         ['Visitors', num(T.visitors), 'counted per day'],
         ['Page views', num(T.views), T.visitors ? (T.views / T.visitors).toFixed(1) + ' per visitor' : ''],
@@ -307,12 +339,49 @@ const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead
         + `${num(T.bots)} crawler and script page views were left out. Organisations are the registered owners of readers' networks: `
         + `a best guess that hides home and mobile internet providers and data centres. Location is city-level. Updated ${new Date(d.generated).toLocaleTimeString()}.`;
     }
+    async function history() {
+      let h; try { h = await get('/api/telemetry/history'); } catch { $('history').hidden = true; return; }
+      const m = h.meta || {}, fmtDay = (d) => d ? new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }) : '–';
+      const days = h.daily.length, uniq = h.daily.reduce((a, r) => a + (r.uniques || 0), 0);
+      $('hkpis').innerHTML = [
+        ['Page loads', num(m.loads), `real browsers, ${fmtDay(m.pages_from)}–${fmtDay(m.pages_to)}`],
+        ['Visits started', num(m.visits), 'arrived from outside the site'],
+        ['Dashboard views', num(m.embeds), 'inside articles'],
+        ['Crawler loads', num(m.bot_loads), 'set aside'],
+        ['Unique addresses', num(days ? uniq / days : 0), `a day on average since ${fmtDay(m.daily_from)}, bots included`],
+        ['Days on record', num(days), `copied ${m.fetched ? new Date(m.fetched).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '–'}`],
+      ].map(([t, v, sub]) => `<div class="kpi"><h3>${t}</h3><p>${v}</p><small>${sub}</small></div>`).join('');
+      $('hist-range').textContent = `${fmtDay(m.daily_from)} to ${fmtDay(h.daily.at(-1)?.day)}`;
+      // chart: bars = real-browser page loads (where per-page detail exists), line = unique addresses
+      const svg = $('hseries'), rows = h.daily, W = 1000, H = 220, top = 12, n = rows.length || 1, bw = W / n;
+      const sorted = rows.map((r) => r.uniques || 0).sort((a, b) => a - b), p95 = sorted[Math.floor(sorted.length * 0.95)] || 1;
+      const max = Math.max(1, p95 * 1.25, ...rows.map((r) => r.loads || 0)), y = (v) => Math.max(top - 6, H - 2 - ((H - 2 - top) * v) / max);
+      const peaks = rows.map((r, i) => (r.uniques || 0) > max ? `<circle cx="${(i * bw + bw / 2).toFixed(1)}" cy="${top - 6}" r="2.5" fill="#FFB347"><title>${r.day}: ${r.uniques} unique addresses (off the scale)</title></circle>` : '').join('');
+      const rects = rows.map((r, i) => r.loads == null ? '' : `<rect x="${(i * bw + bw * 0.1).toFixed(1)}" y="${y(r.loads).toFixed(1)}" width="${Math.max(1, bw * 0.8).toFixed(1)}" height="${(H - 2 - y(r.loads)).toFixed(1)}" fill="rgba(212,175,55,0.55)"><title>${r.day}: ${r.loads} page loads, ${r.embeds || 0} dashboard views</title></rect>`).join('');
+      const line = rows.map((r, i) => `${i ? 'L' : 'M'}${(i * bw + bw / 2).toFixed(1)},${y(r.uniques || 0).toFixed(1)}`).join('');
+      const tIdx = m.telemetry_from ? rows.findIndex((r) => r.day >= m.telemetry_from) : -1;
+      const mark = tIdx >= 0 ? `<line x1="${(tIdx * bw).toFixed(1)}" x2="${(tIdx * bw).toFixed(1)}" y1="0" y2="${H}" stroke="#FFB347" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/>` : '';
+      svg.innerHTML = `<line x1="0" x2="${W}" y1="${H - 2}" y2="${H - 2}" stroke="#1c1c22" vector-effect="non-scaling-stroke"/>${rects}<path d="${line}" fill="none" stroke="#FFB347" stroke-width="1.5" vector-effect="non-scaling-stroke"/>${mark}${peaks}`;
+      $('hticks').innerHTML = rows.length ? [0, Math.floor((n - 1) / 2), n - 1].map((i) => `<span>${fmtDay(rows[i].day)}</span>`).join('') : '<span class="empty">No history copied yet.</span>';
+      table($('hpages'), ['Page', 'Loads', 'Visits'], h.pages.map((r) => [
+        `${esc(labelOf(r.path, r.video, r.article))}<small>${esc(r.path)}</small>`, num(r.loads), num(r.visits)]));
+      table($('hvideos'), ['Video', 'Page loads', 'Dashboard views'], h.videos.map((r) => [
+        `${esc(titleOf(r.video) || r.video)}<small>${esc(r.video)}</small>`, num(r.loads), num(r.embeds)]));
+      bars($('hcountries'), h.countries, (r) => esc(country(r.country)), (r) => r.loads);
+      bars($('hdevices'), h.tech.filter((r) => r.dim === 'device').sort((a, b) => b.n - a.n), (r) => esc(r.v), (r) => r.n);
+      bars($('hbrowsers'), h.tech.filter((r) => r.dim === 'browser').sort((a, b) => b.n - a.n).slice(0, 8), (r) => esc(r.v), (r) => r.n);
+      $('hnotes').textContent = 'These are Cloudflare\'s counts of pages it served, not our beacon. "Real browsers" means a known browser, with crawlers and '
+        + 'scripts set aside, but some bots pose as browsers, so treat these as a ceiling. Cloudflare keeps no referrer history on this plan, so '
+        + 'there is no source breakdown. Page detail lasts 30 days at Cloudflare. It is copied here by scripts/cf-history.mjs and kept for good. '
+        + (tIdx >= 0 ? 'The dashed line marks the day Wire Telemetry began.' : '');
+      return h;
+    }
     async function live() {
       try { const l = await get(`/api/telemetry/live?${envQ.slice(1)}`); $('live-n').textContent = l.readers; livePts = l.points; kick(); } catch { /* the report shows the error */ }
     }
     document.querySelectorAll('.ranges button').forEach((b) => b.addEventListener('click', () => { range = b.dataset.range; history.replaceState(null, '', '#' + range); report(); }));
     loadLand().then(kick);
-    report(); live(); setInterval(live, 30_000);
+    report(); live(); history(); setInterval(live, 30_000);
   </script>
 </body>
 </html>
