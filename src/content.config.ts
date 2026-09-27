@@ -22,6 +22,8 @@ const articles = defineCollection({
     kicker: z.string().default('Investigation'),
     /** YouTube video id (11 chars). Omit until the video is live. */
     youtube: z.string().optional(),
+    /** When the video went public (it can differ from the article's date). Feeds VideoObject.uploadDate. */
+    videoPublished: z.coerce.date().optional(),
     /** Slug of the analytics collection whose dashboards this article embeds. */
     collection: z.string().optional(),
     /** Hero / OG image: a dashboard in `collection`, or an image path. */

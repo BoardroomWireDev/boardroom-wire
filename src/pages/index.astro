@@ -1,5 +1,12 @@
 ---
-// Homepage — adapted from boardroom-wire-home.html (TBPN-inspired baseline).
+import SeoHead from '../components/SeoHead.astro';
+import { SITE_ORIGIN } from '../data/analytics';
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Organization', name: 'Boardroom Wire', url: SITE_ORIGIN, logo: `${SITE_ORIGIN}/logo.png`,
+    sameAs: ['https://www.youtube.com/@BoardroomWire', 'https://x.com/BoardroomWire', 'https://boardroomwire.substack.com/'] },
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Boardroom Wire', url: SITE_ORIGIN },
+];
+// Homepage — the hero (wordmark, tagline, nav) over the globe.
 // YouTube data and channel ID live in src/lib/youtube.ts; this page just
 // imports fetchChannelData() from there in the body script.
 ---
@@ -7,18 +14,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Boardroom Wire</title>
-  <meta name="description" content="Forensic analysis of the companies shaping the future." />
-  <link rel="icon" type="image/png" href="/logo.png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  />
+  <SeoHead title="Boardroom Wire — Strategic Analysis. Business & Technology." description="Strategic analysis of business and technology: filing-first video investigations and interactive dashboards on the companies shaping AI and finance." path="/" jsonLd={jsonLd} />
 
   <style>
     :root {
@@ -39,6 +35,7 @@
       --amber-glow:   rgba(255, 179, 71, 0.4);
 
       --display: 'Inter', system-ui, sans-serif;
+      --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -406,6 +403,7 @@
       transition: color 0.18s;
     }
     footer.tail a:hover { color: var(--gold-bright); }
+    .foot-links { display: flex; flex-wrap: wrap; gap: 22px; }
 
     /* Animations */
     @keyframes fadeUp {
@@ -455,6 +453,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Live Wire ticker -->
   <div class="ticker">
@@ -480,10 +479,10 @@
   </div>
 
   <!-- Hero -->
-  <main class="hero">
-    <div class="wordmark" aria-label="Boardroom Wire">
+  <main id="main" class="hero">
+    <h1 class="wordmark" aria-label="Boardroom Wire">
       BOARDROOM<span class="wire">WIRE</span>
-    </div>
+    </h1>
 
     <div class="find-row">
       <p class="tagline-row"><span>Strategic Analysis.</span> <em>Business &amp; Technology.</em></p>
@@ -513,8 +512,8 @@
   </main>
 
   <footer class="tail">
-    <span>© 2026 Boardroom Wire</span>
-    <a href="/wire/">Wire</a>
+    <span>© {new Date().getFullYear()} Boardroom Wire</span>
+    <span class="foot-links"><a href="/wire/">Wire</a><a href="/videos/">Videos</a><a href="/about/">About</a><a href="https://boardroomwire.substack.com/" target="_blank" rel="noopener">Substack</a></span>
   </footer>
 
   <!-- YouTube live data — both ticker and reel feed off one cached fetch -->

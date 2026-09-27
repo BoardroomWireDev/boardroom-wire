@@ -32,7 +32,7 @@ const fmtDate = (iso: string) =>
   path="/analytics/"
   ogImage={ogPath(hero, heroOf(hero))}
 >
-  <main class="wrap">
+  <main id="main" class="wrap">
     <p class="eyebrow">Research &amp; Analysis</p>
     <h1 class="hd">The charts behind <span class="dim">the reporting.</span></h1>
     <p class="lede">
@@ -48,7 +48,7 @@ const fmtDate = (iso: string) =>
         const article = articleFor(c.slug);
         return (
           <div class="coll">
-            <a class="coll-img" href={`/analytics/${c.slug}/`}>
+            <a class="coll-img" href={`/analytics/${c.slug}/`} aria-label={`${c.title} — open the collection`}>
               <img
                 src={thumbPath(c, heroOf(c))}
                 alt=""

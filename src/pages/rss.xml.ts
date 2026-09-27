@@ -7,7 +7,7 @@ export async function GET(context: APIContext) {
     .sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
   return rss({
     title: 'Boardroom Wire',
-    description: 'Forensic analysis of the companies shaping the future.',
+    description: 'Strategic analysis of business and technology: filing-first investigations of the companies shaping AI and finance.',
     site: context.site!,
     items: items.map((a) => ({
       title: a.data.title,

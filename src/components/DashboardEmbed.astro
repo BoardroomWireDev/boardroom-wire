@@ -216,6 +216,11 @@ const num = String(d.n).padStart(2, '0');
     let frame: HTMLIFrameElement | null = null;
     const inst: Inst = { stage, fit, near: false, frame: null, unmount };
 
+    // On desktop the poster link is inert (CSS pointer-events: none) — keep it out of the Tab order too.
+    const posterLink = fig.querySelector<HTMLAnchorElement>('.poster-link');
+    const syncPosterTab = () => { if (posterLink) posterLink.tabIndex = innerWidth >= MIN_LIVE ? -1 : 0; };
+    syncPosterTab(); addEventListener('resize', syncPosterTab);
+
     function fit() {
       if (document.fullscreenElement === stage) {
         const s = Math.min(innerWidth / STAGE_W, innerHeight / STAGE_H);

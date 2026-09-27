@@ -1,10 +1,10 @@
 # Boardroom Wire — Website
 
-Forensic analysis of the companies shaping the future. Content hub for the
+Strategic analysis of business and technology. Content hub for the
 [Boardroom Wire](https://www.youtube.com/channel/UCthfphsDjHppg9SQv3JTdrg) YouTube channel.
 Live at https://www.boardroomwire.com.
 
-Brand and design decisions live in [`design-spec.md`](./design-spec.md).
+Brand: black, cream `#F5F1E5`, gold `#F2CB52`/`#D4AF37`, amber `#FFB347`; Inter for words, IBM Plex Mono for numbers. The dashboard system and its rules live in the Boardroom 2.0 memory (see CLAUDE.md).
 
 ## Stack
 
@@ -71,7 +71,7 @@ values: title, dek, publish date, YouTube id (or leave it out until the video is
    npm run render:posters -- --only <slug>
    ```
 
-   The sync skips `index.html`, `posters/`, `beats.json` and `scripts/`; the render
+   The sync ships only the numbered boards (`NN-*.html`) plus `shared/` and `assets/` (an allow-list); the render
    writes `posters/`, `posters/thumb/` and `posters/og/`.
 3. **Write the article** at `src/content/articles/<slug>.mdx`. Paste the essay under the
    frontmatter and drop a line wherever a chart belongs:

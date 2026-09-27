@@ -11,7 +11,7 @@
  * Chrome, tokens and type are copied from videos.astro so these sections are
  * visually continuous with the rest of the site.
  */
-import { SITE_ORIGIN } from '../data/analytics';
+import SeoHead from '../components/SeoHead.astro';
 
 interface Props {
   title: string;
@@ -36,47 +36,13 @@ const {
   ogType = 'website', publishedTime, modifiedTime, jsonLd, noindex = false,
 } = Astro.props;
 
-const canonical = `${SITE_ORIGIN}${path}`;
-const og = ogImage
-  ? (ogImage.startsWith('http') ? ogImage : `${SITE_ORIGIN}${ogImage}`)
-  : undefined;
 ---
 
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  {noindex && <meta name="robots" content="noindex" />}
-  <link rel="icon" type="image/png" href="/logo.png" />
-  <link rel="canonical" href={canonical} />
-  <link rel="alternate" type="application/rss+xml" title="Boardroom Wire" href="/rss.xml" />
-
-  <meta property="og:type" content={ogType} />
-  <meta property="og:site_name" content="Boardroom Wire" />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:url" content={canonical} />
-  {og && <meta property="og:image" content={og} />}
-  {og && <meta property="og:image:width" content="1200" />}
-  {og && <meta property="og:image:height" content="630" />}
-  {ogType === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime} />}
-  {ogType === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
-  <meta name="twitter:card" content={og ? 'summary_large_image' : 'summary'} />
-  <meta name="twitter:site" content="@BoardroomWire" />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  {og && <meta name="twitter:image" content={og} />}
-  {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  />
+  <SeoHead title={title} description={description} path={path} ogImage={ogImage}
+    ogType={ogType} publishedTime={publishedTime} modifiedTime={modifiedTime} jsonLd={jsonLd} noindex={noindex} />
 
   <style is:global>
     :root {
@@ -91,7 +57,7 @@ const og = ogImage
       --amber-bright: #FFC97A;
       --amber-glow:   rgba(255, 179, 71, 0.4);
       --display: 'Inter', system-ui, sans-serif;
-      --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+      --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -355,6 +321,7 @@ const og = ogImage
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <div class="page-fx" aria-hidden="true"></div>
 
@@ -389,11 +356,12 @@ const og = ogImage
   <slot />
 
   <footer class="tail">
-    <span>© 2026 Boardroom Wire</span>
+    <span>© {new Date().getFullYear()} Boardroom Wire</span>
     <span class="links">
       <a href="/wire/">Wire</a>
       <a href="/videos/">Videos</a>
       <a href="/about/">About</a>
+      <a href="https://boardroomwire.substack.com/" target="_blank" rel="noopener">Substack</a>
       <a href="/">← Home</a>
     </span>
   </footer>

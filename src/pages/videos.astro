@@ -1,23 +1,34 @@
 ---
+import SeoHead from '../components/SeoHead.astro';
+import { getCollection } from 'astro:content';
+import { fetchChannelData, fmt, daysAgo, reelHtml, popularHtml, signature, type WireMap } from '../lib/youtube';
 // Videos page — same ticker / wordmark / footer shell as about.astro, with
-// the YouTube reel carousel as the body. Hydrated from src/lib/youtube.ts.
+// the YouTube reel carousel as the body.
+//
+// Since 27 Sep 2026 the cards are fetched at BUILD time and shipped in the HTML
+// (crawlers and slow connections see real videos; a failed browser fetch no longer
+// swaps them for fake "Episode 1–6" placeholders). The browser refreshes them from
+// src/lib/youtube.ts when its 30-minute cache is stale, and only re-renders if the
+// data changed (a rebuild resets the marquee).
+const snap = await fetchChannelData();   // null without a key or if YouTube is unreachable
+const wireFor: WireMap = Object.fromEntries(
+  (await getCollection('articles', (a) => !a.data.draft))
+    .filter((a) => a.data.youtube)
+    .map((a) => [a.data.youtube!, `/wire/${a.id}/`]),
+);
+const half = snap ? Math.ceil(snap.reel.length / 2) : 0;
+const rowA = snap ? reelHtml(snap.reel.slice(0, half), wireFor) : '';
+const rowB = snap ? reelHtml(snap.reel.slice(half).length ? snap.reel.slice(half) : snap.reel.slice(0, half), wireFor) : '';
+const T = snap
+  ? { videos: fmt(snap.videos), subs: fmt(snap.subs), views: fmt(snap.views),
+      top: snap.topVideo ? `${fmt(snap.topVideo.views)} views` : '—', newest: snap.newest ? daysAgo(snap.newest.publishedAt) : '—' }
+  : { videos: '—', subs: '—', views: '—', top: '—', newest: '—' };
 ---
 
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Videos · Boardroom Wire</title>
-  <meta name="description" content="Latest video analysis from Boardroom Wire — strategic breakdowns of business and technology, refreshed live from the YouTube channel." />
-  <link rel="icon" type="image/png" href="/logo.png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  />
+  <SeoHead title="Videos · Boardroom Wire" description="Latest video analysis from Boardroom Wire — strategic breakdowns of business and technology, refreshed live from the YouTube channel." path="/videos/" />
 
   <style>
     :root {
@@ -32,6 +43,7 @@
       --amber-bright: #FFC97A;
       --amber-glow:   rgba(255, 179, 71, 0.4);
       --display: 'Inter', system-ui, sans-serif;
+      --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -225,9 +237,15 @@
     :global(.reel-card .views) {
       display: none;
     }
+    /* Videos that have a Wire article open it (video + dashboards) and carry this chip. */
+    :global(.reel-card .wire-chip) {
+      display: inline-block; margin-top: 6px;
+      font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gold-bright);
+    }
     :global(.reel-card.pop .views) {
       display: block;
-      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-family: var(--mono);
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.08em;
@@ -363,6 +381,7 @@
       transition: color 0.18s;
     }
     footer.tail a:hover { color: var(--gold-bright); }
+    .foot-links { display: flex; flex-wrap: wrap; gap: 22px; }
 
     @media (max-width: 720px) {
       header.top { padding: 20px 24px 0; }
@@ -405,6 +424,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- CRT phosphor atmosphere overlay (matches /about/) -->
   <div class="page-fx" aria-hidden="true"></div>
@@ -417,16 +437,16 @@
     </div>
     <div class="ticker-stats" aria-label="Live channel statistics">
       <div class="ticker-track">
-        <div class="stat">Videos <span class="v" data-stat="videos">—</span><span class="sep" aria-hidden="true">·</span></div>
-        <div class="stat">Subscribers <span class="v" data-stat="subs">—</span><span class="sep" aria-hidden="true">·</span></div>
-        <div class="stat">Total Views <span class="v" data-stat="views">—</span><span class="sep" aria-hidden="true">·</span></div>
-        <div class="stat">Top Episode <span class="v" data-stat="top">—</span><span class="sep" aria-hidden="true">·</span></div>
-        <div class="stat">Newest <span class="v" data-stat="newest">—</span><span class="sep" aria-hidden="true">·</span></div>
-        <div class="stat" aria-hidden="true">Videos <span class="v" data-stat="videos">—</span><span class="sep">·</span></div>
-        <div class="stat" aria-hidden="true">Subscribers <span class="v" data-stat="subs">—</span><span class="sep">·</span></div>
-        <div class="stat" aria-hidden="true">Total Views <span class="v" data-stat="views">—</span><span class="sep">·</span></div>
-        <div class="stat" aria-hidden="true">Top Episode <span class="v" data-stat="top">—</span><span class="sep">·</span></div>
-        <div class="stat" aria-hidden="true">Newest <span class="v" data-stat="newest">—</span><span class="sep">·</span></div>
+        <div class="stat">Videos <span class="v" data-stat="videos">{T.videos}</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Subscribers <span class="v" data-stat="subs">{T.subs}</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Total Views <span class="v" data-stat="views">{T.views}</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Top Episode <span class="v" data-stat="top">{T.top}</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat">Newest <span class="v" data-stat="newest">{T.newest}</span><span class="sep" aria-hidden="true">·</span></div>
+        <div class="stat" aria-hidden="true">Videos <span class="v" data-stat="videos">{T.videos}</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Subscribers <span class="v" data-stat="subs">{T.subs}</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Total Views <span class="v" data-stat="views">{T.views}</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Top Episode <span class="v" data-stat="top">{T.top}</span><span class="sep">·</span></div>
+        <div class="stat" aria-hidden="true">Newest <span class="v" data-stat="newest">{T.newest}</span><span class="sep">·</span></div>
       </div>
     </div>
   </div>
@@ -435,145 +455,73 @@
     <a href="/" class="home-link" aria-label="Boardroom Wire — home">
       BOARDROOM<span class="wire">WIRE</span>
     </a>
-    <span class="page-label">Videos</span>
+    <h1 class="page-label">Videos</h1>
   </header>
 
   <section class="popular" aria-label="Most popular videos">
     <p class="popular-label">Most Popular</p>
-    <div class="popular-grid" id="popular-grid" role="list">
-      <!-- top 5 cards inserted by JS -->
-    </div>
+    <div class="popular-grid" id="popular-grid" set:html={snap ? popularHtml(snap.topVideos, wireFor) : ''} />
   </section>
 
-  <section class="reel" id="reel">
+  <section class="reel" id="reel" data-sig={snap ? signature(snap) : ''}>
     <div class="reel-row" aria-label="Latest videos, top row">
-      <div class="reel-track" id="reel-track-a" role="list">
-        <!-- cards inserted by JS, duplicated for seamless marquee loop -->
-      </div>
+      <div class="reel-track" id="reel-track-a" set:html={rowA} />
     </div>
     <div class="reel-row reverse" aria-label="Latest videos, bottom row">
-      <div class="reel-track" id="reel-track-b" role="list">
-        <!-- cards inserted by JS, duplicated for seamless marquee loop -->
-      </div>
+      <div class="reel-track" id="reel-track-b" set:html={rowB} />
     </div>
   </section>
+  <script type="application/json" id="wire-map" set:html={JSON.stringify(wireFor)} />
 
   <footer class="tail">
-    <span>© 2026 Boardroom Wire</span>
-    <span style="display:flex;gap:22px"><a href="/wire/">Wire</a><a href="/">← Home</a></span>
+    <span>© {new Date().getFullYear()} Boardroom Wire</span>
+    <span class="foot-links"><a href="/wire/">Wire</a><a href="/about/">About</a><a href="https://boardroomwire.substack.com/" target="_blank" rel="noopener">Substack</a><a href="/">← Home</a></span>
   </footer>
 
   <script>
-    import { fetchChannelData, fmt, daysAgo } from '../lib/youtube';
+    import { fetchChannelData, fmt, daysAgo, reelHtml, popularHtml, signature, type WireMap } from '../lib/youtube';
 
     const setStat = (name: string, value: string) => {
-      document.querySelectorAll(`[data-stat="${name}"]`).forEach((el) => {
-        el.textContent = value;
-      });
+      document.querySelectorAll(`[data-stat="${name}"]`).forEach((el) => { el.textContent = value; });
     };
-
     const trackA = document.getElementById('reel-track-a')!;
     const trackB = document.getElementById('reel-track-b')!;
     const popularGrid = document.getElementById('popular-grid')!;
+    const reel = document.getElementById('reel')!;
+    const wire: WireMap = JSON.parse(document.getElementById('wire-map')?.textContent || '{}');
 
-    const escape = (s: string) =>
-      s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-
-    function renderRow(
-      track: HTMLElement,
-      videos: Array<{ id: string; title: string; thumbnail: string }>,
-    ) {
-      // Duplicate for seamless 0 → -50% loop. Mark the second set aria-hidden
-      // so screen readers don't read every video twice.
-      const set = (hidden: boolean) =>
-        videos
-          .map(
-            (v) => `
-              <a class="reel-card"
-                 href="https://www.youtube.com/watch?v=${v.id}"
-                 target="_blank" rel="noopener noreferrer"
-                 ${hidden ? 'aria-hidden="true" tabindex="-1"' : 'role="listitem"'}
-                 aria-label="Watch: ${escape(v.title)}">
-                <div class="meta"><h3>${escape(v.title)}</h3></div>
-                <div class="thumb">
-                  <img src="${v.thumbnail}" alt="" loading="lazy" />
-                </div>
-              </a>`,
-          )
-          .join('');
-      track.innerHTML = set(false) + set(true);
-    }
-
-    function renderRowPlaceholders(track: HTMLElement, n = 6) {
-      const cards = Array.from({ length: n }, (_, i) =>
-        `<div class="reel-card placeholder" role="listitem"><div class="meta"><h3>Episode ${i + 1}</h3></div><div class="thumb"></div></div>`,
-      ).join('');
-      track.innerHTML = cards + cards; // duplicate for seamless loop
-    }
-
-    function renderPopular(
-      videos: Array<{ id: string; title: string; thumbnail: string; views: number }>,
-    ) {
-      popularGrid.innerHTML = videos
-        .map(
-          (v) => `
-            <a class="reel-card pop"
-               href="https://www.youtube.com/watch?v=${v.id}"
-               target="_blank" rel="noopener noreferrer"
-               role="listitem"
-               aria-label="Watch: ${escape(v.title)} (${fmt(v.views)} views)">
-              <div class="meta">
-                <h3>${escape(v.title)}</h3>
-                <span class="views">${fmt(v.views)} views</span>
-              </div>
-              <div class="thumb">
-                <img src="${v.thumbnail}" alt="" loading="lazy" />
-              </div>
-            </a>`,
-        )
-        .join('');
-    }
-
-    function renderPopularPlaceholders() {
-      popularGrid.innerHTML = Array.from({ length: 5 }, (_, i) =>
-        `<div class="reel-card pop placeholder" role="listitem"><div class="meta"><h3>Top ${i + 1}</h3><span class="views">— views</span></div><div class="thumb"></div></div>`,
-      ).join('');
-    }
+    const placeholders = (n: number, label: (i: number) => string, pop = false) =>
+      Array.from({ length: n }, (_, i) =>
+        `<div class="reel-card${pop ? ' pop' : ''} placeholder"><div class="meta"><h3>${label(i)}</h3></div><div class="thumb"></div></div>`).join('');
 
     async function hydrate() {
       const data = await fetchChannelData();
       if (!data) {
-        renderPopularPlaceholders();
-        renderRowPlaceholders(trackA);
-        renderRowPlaceholders(trackB);
+        // Keep the cards the build shipped; only an empty page gets placeholders.
+        if (!popularGrid.children.length) popularGrid.innerHTML = placeholders(5, (i) => `Top ${i + 1}`, true);
+        if (!trackA.children.length) { const c = placeholders(6, (i) => `Episode ${i + 1}`); trackA.innerHTML = c + c; trackB.innerHTML = c + c; }
         return;
       }
       setStat('videos', fmt(data.videos));
-      setStat('subs',   fmt(data.subs));
-      setStat('views',  fmt(data.views));
-      setStat('top',    data.topVideo ? `${fmt(data.topVideo.views)} views` : '—');
+      setStat('subs', fmt(data.subs));
+      setStat('views', fmt(data.views));
+      setStat('top', data.topVideo ? `${fmt(data.topVideo.views)} views` : '—');
       setStat('newest', data.newest ? daysAgo(data.newest.publishedAt) : '—');
 
-      if (data.topVideos && data.topVideos.length > 0) {
-        renderPopular(data.topVideos);
-      } else {
-        renderPopularPlaceholders();
-      }
-
-      if (data.reel.length > 0) {
+      const sig = signature(data);
+      if (sig === reel.dataset.sig) return;   // unchanged: leave the marquee where it is
+      reel.dataset.sig = sig;
+      if (data.topVideos.length) popularGrid.innerHTML = popularHtml(data.topVideos, wire);
+      if (data.reel.length) {
         const half = Math.ceil(data.reel.length / 2);
-        const topRow = data.reel.slice(0, half);
-        const bottomRow = data.reel.slice(half);
-        renderRow(trackA, topRow);
-        renderRow(trackB, bottomRow.length > 0 ? bottomRow : topRow);
-      } else {
-        renderRowPlaceholders(trackA);
-        renderRowPlaceholders(trackB);
+        const top = data.reel.slice(0, half), bottom = data.reel.slice(half);
+        trackA.innerHTML = reelHtml(top, wire);
+        trackB.innerHTML = reelHtml(bottom.length ? bottom : top, wire);
       }
     }
 
     hydrate();
-    setInterval(hydrate, 5 * 60_000);
+    setInterval(hydrate, 30 * 60_000);
   </script>
 </body>
 </html>
