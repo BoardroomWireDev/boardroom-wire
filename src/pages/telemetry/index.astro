@@ -1,0 +1,316 @@
+---
+/**
+ * /telemetry/ — Wire Telemetry, the private readership dashboard. Behind Cloudflare Access; the page
+ * holds no data itself, it reads /api/telemetry/report and /live (both check the Access token and fail
+ * closed). Never indexed, never in the sitemap, and the beacon skips it.
+ *
+ * The map is the homepage globe's land dots (public/globe/land-1.25.bin, an equal-area grid) drawn
+ * flat in the Equal Earth projection, which is also equal-area, so the dots stay evenly spaced.
+ * Video and article titles come from the content collection at build time.
+ */
+import { getCollection } from 'astro:content';
+import SeoHead from '../../components/SeoHead.astro';
+import { collections } from '../../data/analytics';
+
+const ARTICLES = (await getCollection('articles')).map((a) => ({
+  slug: a.id, title: a.data.title, video: a.data.collection ?? null, youtube: a.data.youtube ?? null,
+}));
+const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead]));
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <SeoHead title="Wire Telemetry · Boardroom Wire" description="Private readership dashboard." path="/telemetry/" noindex />
+  <style is:global>
+    :root {
+      --bg: #0a0a0f; --panel: #0f0f14; --line: #1c1c22; --cream: #F5F1E5; --dim: #A9A497; --mute: #6F6A5E;
+      --gold: #D4AF37; --gold-bright: #F2CB52; --amber: #FFB347;
+      --display: 'Inter', system-ui, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--cream); font-family: var(--display); }
+    .bar {
+      display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding: 18px 32px;
+      border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; background: rgba(10, 10, 15, 0.94);
+      backdrop-filter: blur(6px);
+    }
+    .brand { font: 900 18px/1 var(--display); letter-spacing: -0.01em; color: var(--cream); text-decoration: none; }
+    .brand span { color: var(--gold-bright); }
+    .tag { font: 600 11px/1 var(--mono); letter-spacing: 0.28em; color: var(--amber); }
+    .ranges { display: flex; gap: 4px; margin-left: auto; }
+    .ranges button {
+      font: 600 11px/1 var(--mono); letter-spacing: 0.16em; color: var(--dim); background: none; cursor: pointer;
+      border: 1px solid var(--line); padding: 8px 12px;
+    }
+    .ranges button[aria-pressed='true'] { color: #000; background: var(--gold-bright); border-color: var(--gold-bright); }
+    .live { margin: 0; font: 500 11px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); display: flex; align-items: center; gap: 8px; }
+    .live b { color: var(--amber); font-weight: 600; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 10px var(--amber); animation: beat 2.4s ease-in-out infinite; }
+    @keyframes beat { 50% { opacity: 0.35; } }
+
+    main { padding: 28px 32px 64px; max-width: 1500px; margin: 0 auto; }
+    .kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 20px; }
+    .kpi { background: var(--panel); padding: 18px 20px 20px; }
+    .kpi h3 { margin: 0 0 12px; font: 600 10px/1.2 var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--mute); }
+    .kpi p { margin: 0; font: 600 30px/1 var(--mono); color: var(--cream); letter-spacing: -0.02em; }
+    .kpi small { display: block; margin-top: 8px; font: 500 11px/1.3 var(--mono); color: var(--dim); letter-spacing: 0.04em; }
+
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+    .panel { grid-column: span 4; background: var(--panel); border: 1px solid var(--line); padding: 18px 20px 20px; min-width: 0; }
+    .panel.w8 { grid-column: span 8; } .panel.w6 { grid-column: span 6; } .panel.w12 { grid-column: span 12; }
+    .panel h2 { margin: 0 0 14px; font: 700 11px/1 var(--display); letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-bright); display: flex; gap: 10px; align-items: baseline; }
+    .panel h2 em { font: 500 10px/1 var(--mono); letter-spacing: 0.1em; color: var(--mute); font-style: normal; text-transform: none; margin-left: auto; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 4px 8px;
+      font: 600 9px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+    .chip::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+
+    .mapwrap { position: relative; }
+    canvas#map { display: block; width: 100%; }
+    .tip {
+      position: absolute; pointer-events: none; padding: 8px 10px; background: rgba(8, 8, 10, 0.94);
+      border: 1px solid rgba(255, 179, 71, 0.3); border-left: 2px solid var(--amber);
+      font: 500 11px/1.4 var(--mono); color: var(--cream); white-space: nowrap; opacity: 0; transition: opacity 0.12s;
+    }
+    .tip.on { opacity: 1; }
+
+    ol.bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+    ol.bars li { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 13px; color: var(--cream); }
+    ol.bars li span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    ol.bars li b { font: 500 12px/1.2 var(--mono); color: var(--dim); }
+    ol.bars li i { grid-column: 1 / -1; height: 3px; background: var(--line); position: relative; }
+    ol.bars li i::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--w); background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: right; font: 600 9px/1 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); padding: 0 0 10px 12px; }
+    th:first-child, td:first-child { text-align: left; padding-left: 0; }
+    td { text-align: right; padding: 9px 0 9px 12px; border-top: 1px solid var(--line); font: 500 12px/1.3 var(--mono); color: var(--dim); }
+    td:first-child { font: 500 13px/1.35 var(--display); color: var(--cream); max-width: 420px; }
+    td small { display: block; font: 500 10px/1.3 var(--mono); color: var(--mute); letter-spacing: 0.04em; margin-top: 2px; }
+
+    svg#series { width: 100%; height: 200px; display: block; }
+    .ticks { display: flex; justify-content: space-between; margin-top: 8px; font: 500 11px/1 var(--mono); color: var(--mute); }
+    .empty { color: var(--mute); font: 500 12px/1.5 var(--mono); }
+    .tech { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .tech h4 { margin: 0 0 10px; font: 600 9px/1 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
+    .notes { margin: 28px 0 0; max-width: 900px; font: 400 12px/1.6 var(--mono); color: var(--mute); }
+
+    .state { position: fixed; inset: 0; z-index: 10; display: none; place-items: center; background: var(--bg); text-align: center; padding: 24px; }
+    .state.on { display: grid; }
+    .state h1 { font: 800 28px/1.2 var(--display); margin: 0 0 12px; }
+    .state p { color: var(--dim); max-width: 460px; margin: 0 auto; line-height: 1.6; }
+
+    @media (max-width: 1100px) { .kpis { grid-template-columns: repeat(3, 1fr); } .panel, .panel.w6, .panel.w8 { grid-column: span 6; } .tech { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 720px) {
+      .bar { padding: 14px 16px; gap: 12px; } .ranges { margin-left: 0; width: 100%; } .ranges button { flex: 1; padding: 8px 0; }
+      main { padding: 16px 16px 48px; } .kpis { grid-template-columns: repeat(2, 1fr); } .kpi p { font-size: 24px; }
+      .panel, .panel.w6, .panel.w8 { grid-column: span 12; }
+    }
+    @media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="/">BOARDROOM<span>WIRE</span></a>
+    <span class="tag">TELEMETRY</span>
+    <nav class="ranges" aria-label="Range">
+      <button type="button" data-range="24h">24H</button>
+      <button type="button" data-range="7d">7D</button>
+      <button type="button" data-range="30d">30D</button>
+      <button type="button" data-range="90d">90D</button>
+      <button type="button" data-range="365d">1Y</button>
+    </nav>
+    <p class="live"><span class="dot"></span><b id="live-n">–</b> reading now</p>
+  </header>
+
+  <main>
+    <section class="kpis" id="kpis"></section>
+    <section class="grid">
+      <article class="panel w8">
+        <h2>Where readers are <em id="map-note"></em></h2>
+        <div class="mapwrap"><canvas id="map" aria-label="Map of reader locations"></canvas><div class="tip" id="tip"></div></div>
+        <span class="chip">City-level · Cloudflare edge</span>
+      </article>
+      <article class="panel"><h2>Countries</h2><ol class="bars" id="countries"></ol></article>
+      <article class="panel w12"><h2>Readers over time <em>bars: page views · line: visitors</em></h2><svg id="series" viewBox="0 0 1000 220" preserveAspectRatio="none"></svg><div class="ticks" id="ticks"></div></article>
+      <article class="panel"><h2>How they found us</h2><ol class="bars" id="sources"></ol></article>
+      <article class="panel"><h2>Referring sites</h2><ol class="bars" id="referrers"></ol></article>
+      <article class="panel"><h2>Clicks out</h2><ol class="bars" id="outbound"></ol></article>
+      <article class="panel w12"><h2>By video <em>articles and their dashboards</em></h2><table id="videos"></table></article>
+      <article class="panel w6"><h2>Organisations reading <em>network owner · home and mobile internet hidden</em></h2><table id="orgs"></table></article>
+      <article class="panel w6"><h2>Campaign links <em>utm tags</em></h2><table id="campaigns"></table></article>
+      <article class="panel w8"><h2>Pages</h2><table id="pages"></table></article>
+      <article class="panel"><h2>Cities</h2><ol class="bars" id="cities"></ol></article>
+      <article class="panel w12"><h2>Devices and networks</h2><div class="tech" id="tech"></div></article>
+    </section>
+    <p class="notes" id="notes"></p>
+  </main>
+
+  <div class="state" id="state" role="alert"><div><h1 id="state-h"></h1><p id="state-p"></p></div></div>
+
+  <script define:vars={{ ARTICLES, SHORT }}>
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+    const num = (n) => { n = Number(n) || 0; return n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'K' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'K' : String(Math.round(n)); };
+    const dur = (ms) => { if (!ms) return '–'; const s = Math.round(ms / 1000); return s < 60 ? s + 's' : Math.floor(s / 60) + 'm ' + String(s % 60).padStart(2, '0') + 's'; };
+    const pct = (x) => (x == null ? '–' : Math.round(x * 100) + '%');
+    const regions = (() => { try { return new Intl.DisplayNames(['en'], { type: 'region' }); } catch { return null; } })();
+    const country = (c) => (c && regions ? regions.of(c) : c) || 'Unknown';
+    const SOURCE = { youtube: 'YouTube', x: 'X', substack: 'Substack', google: 'Google', bing: 'Bing', duckduckgo: 'DuckDuckGo', linkedin: 'LinkedIn',
+      reddit: 'Reddit', 'hacker-news': 'Hacker News', meta: 'Facebook / Instagram', 'ai-assistant': 'AI assistants', direct: 'Direct or unknown', other: 'Other sites' };
+    const NET = { isp: 'Home and mobile internet', hosting: 'Data centres and VPNs', org: 'Organisations', unknown: 'Unknown' };
+    const byVideo = new Map(ARTICLES.filter((a) => a.video).map((a) => [a.video, a]));
+    const byArticle = new Map(ARTICLES.map((a) => [a.slug, a]));
+    const PAGE = { '/': 'Home', '/videos/': 'Videos', '/about/': 'About', '/wire/': 'The Wire', '/analytics/': 'Analytics', '/privacy/': 'Privacy' };
+    const shortOf = (k) => SHORT[k] || (byArticle.get(k)?.video && SHORT[byArticle.get(k).video]) || PAGE[k] || k;
+    const titleOf = (video, article) => (video && byVideo.get(video)?.title) || (article && byArticle.get(article)?.title) || video || article || '';
+
+    function bars(el, rows, label, value, fmt = num) {
+      if (!rows.length) { el.innerHTML = '<li class="empty">Nothing yet in this range.</li>'; return; }
+      const max = Math.max(...rows.map(value), 1);
+      el.innerHTML = rows.map((r) => `<li><span>${label(r)}</span><b>${fmt(value(r))}</b><i style="--w:${(100 * value(r) / max).toFixed(1)}%"></i></li>`).join('');
+    }
+    function table(el, head, rows) {
+      if (!rows.length) { el.innerHTML = `<tr><td class="empty">Nothing yet in this range.</td></tr>`; return; }
+      el.innerHTML = `<tr>${head.map((h) => `<th>${h}</th>`).join('')}</tr>` + rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('');
+    }
+    function state(h, p) { $('state-h').textContent = h; $('state-p').textContent = p; $('state').classList.add('on'); }
+
+    /* ------------------------------------------------------------ the map */
+    const A1 = 1.340264, A2 = -0.081106, A3 = 0.000893, A4 = 0.003796, M = Math.sqrt(3) / 2, D = Math.PI / 180;
+    const ee = (lat, lon) => {                                  // Equal Earth, in projection units
+      const t = Math.asin(M * Math.sin(lat * D)), t2 = t * t, t6 = t2 * t2 * t2;
+      return [(2 * Math.sqrt(3) * lon * D * Math.cos(t)) / (3 * (9 * A4 * t6 * t2 + 7 * A3 * t6 + 3 * A2 * t2 + A1)),
+              A4 * t6 * t2 * t + A3 * t6 * t + A2 * t2 * t + A1 * t];
+    };
+    const X_MAX = ee(0, 180)[0], Y_TOP = ee(80, 0)[1], Y_BOT = ee(-57, 0)[1];
+    let landPts = null, cityPts = [], livePts = [], mapBox = null;
+    async function loadLand() {
+      const dv = new DataView(await (await fetch('/globe/land-1.25.bin')).arrayBuffer());
+      const step = dv.getFloat32(0, true), latMin = dv.getFloat32(4, true), rings = dv.getUint16(12, true), ns = [];
+      for (let i = 0; i < rings; i++) ns.push(dv.getUint16(14 + i * 2, true));
+      const bits = 14 + rings * 2, pts = [];
+      for (let i = 0, k = 0; i < rings; i++) {
+        const lat = latMin + (i + 0.5) * step;
+        for (let j = 0; j < ns[i]; j++, k++) if ((dv.getUint8(bits + (k >> 3)) >> (k & 7)) & 1) pts.push(ee(lat, -180 + ((j + 0.5) * 360) / ns[i]));
+      }
+      landPts = pts;
+    }
+    const canvas = $('map'), ctx = canvas.getContext('2d');
+    const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function drawMap(t = 0) {
+      if (!landPts) return;
+      const w = canvas.clientWidth, h = Math.round((w * (Y_TOP - Y_BOT)) / (2 * X_MAX)), dpr = Math.min(2, devicePixelRatio || 1);
+      if (canvas.width !== Math.round(w * dpr)) { canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); canvas.style.height = h + 'px'; }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, h);
+      const px = ([x, y]) => [((x + X_MAX) / (2 * X_MAX)) * w, ((Y_TOP - y) / (Y_TOP - Y_BOT)) * h];
+      mapBox = { w, h, px };
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.28)';
+      const r = Math.max(0.7, w / 900);
+      for (const p of landPts) { const [x, y] = px(p); if (y < 0 || y > h) continue; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill(); }
+      const max = Math.max(1, ...cityPts.map((c) => c.visitors));
+      for (const c of cityPts) {
+        const [x, y] = px(ee(c.lat, c.lon)), R = 4 + 14 * Math.sqrt(c.visitors / max);
+        const g = ctx.createRadialGradient(x, y, 0, x, y, R);
+        g.addColorStop(0, 'rgba(255, 201, 122, 0.95)'); g.addColorStop(0.25, 'rgba(242, 203, 82, 0.55)'); g.addColorStop(1, 'rgba(212, 175, 55, 0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, 6.2832); ctx.fill();
+        c._xy = [x, y, R];
+      }
+      for (const p of livePts) {                                 // readers now: an amber ring that breathes outward
+        if (p.lat == null) continue;
+        const [x, y] = px(ee(p.lat, p.lon)), ph = calm ? 0.5 : (t / 1600 + (p.ts % 1000) / 1000) % 1;
+        ctx.strokeStyle = `rgba(255, 179, 71, ${0.9 * (1 - ph)})`; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(x, y, 4 + 16 * ph, 0, 6.2832); ctx.stroke();
+        ctx.fillStyle = '#FFC97A'; ctx.beginPath(); ctx.arc(x, y, 2.4, 0, 6.2832); ctx.fill();
+      }
+    }
+    let raf = 0;
+    const loop = (t) => { drawMap(t); raf = livePts.length && !calm && !document.hidden ? requestAnimationFrame(loop) : 0; };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
+    addEventListener('resize', () => { canvas.width = 0; kick(); });
+    document.addEventListener('visibilitychange', kick);
+    canvas.addEventListener('mousemove', (e) => {
+      const b = canvas.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top, tip = $('tip');
+      const hit = cityPts.find((c) => c._xy && Math.hypot(c._xy[0] - x, c._xy[1] - y) < Math.max(6, c._xy[2] * 0.6));
+      if (!hit) { tip.classList.remove('on'); return; }
+      tip.innerHTML = `${esc(hit.city || 'Unknown city')}, ${esc(country(hit.country))}<br>${num(hit.visitors)} visitors · ${num(hit.views)} views`;
+      tip.style.left = Math.min(x + 14, b.width - 200) + 'px'; tip.style.top = y + 14 + 'px'; tip.classList.add('on');
+    });
+    canvas.addEventListener('mouseleave', () => $('tip').classList.remove('on'));
+
+    /* ------------------------------------------------------------ the chart */
+    function series(rows, range) {
+      const svg = $('series');
+      if (!rows.length) { svg.innerHTML = ''; $('ticks').innerHTML = '<span class="empty">No readers yet in this range.</span>'; return; }
+      const W = 1000, H = 220, top = 12, bottom = 2, n = rows.length, bw = W / n;
+      const maxV = Math.max(1, ...rows.map((r) => r.views)), y = (v) => H - bottom - ((H - bottom - top) * v) / maxV;
+      const label = (k) => (range === '24h' ? k.slice(11) + ':00' : new Date(k + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }));
+      const barsS = rows.map((r, i) => `<rect x="${(i * bw + bw * 0.14).toFixed(1)}" y="${y(r.views).toFixed(1)}" width="${(bw * 0.72).toFixed(1)}" height="${(H - bottom - y(r.views)).toFixed(1)}" fill="rgba(212,175,55,0.45)"><title>${label(r.k)}: ${r.views} views, ${r.visitors} visitors</title></rect>`).join('');
+      const line = rows.map((r, i) => `${i ? 'L' : 'M'}${(i * bw + bw / 2).toFixed(1)},${y(r.visitors).toFixed(1)}`).join('');
+      $('ticks').innerHTML = [0, Math.floor((n - 1) / 2), n - 1].filter((v, i, a) => a.indexOf(v) === i).map((i) => `<span>${label(rows[i].k)}</span>`).join('');
+      svg.innerHTML = `<line x1="0" x2="${W}" y1="${H - bottom}" y2="${H - bottom}" stroke="#1c1c22" vector-effect="non-scaling-stroke"/>${barsS}<path d="${line}" fill="none" stroke="#FFB347" stroke-width="2" vector-effect="non-scaling-stroke"/>`;
+    }
+
+    /* ------------------------------------------------------------ data */
+    let range = (location.hash.slice(1) || '7d');
+    async function get(path) {
+      const r = await fetch(path, { credentials: 'same-origin', cache: 'no-store' });
+      if (r.status === 403) throw Object.assign(new Error('locked'), { code: 'locked' });
+      if (r.status === 503) throw Object.assign(new Error('no-db'), { code: 'no-db' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }
+    async function report() {
+      document.querySelectorAll('.ranges button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.range === range)));
+      let d;
+      try { d = await get(`/api/telemetry/report?range=${range}`); }
+      catch (e) {
+        if (e.code === 'locked') return state('Locked.', 'Wire Telemetry opens only through Cloudflare Access, for the Boardroom Wire account.');
+        if (e.code === 'no-db') return state('Not connected yet.', 'The database is not bound to the site yet.');
+        return state('Couldn’t reach the data.', String(e.message || e));
+      }
+      const T = d.totals, out = Object.fromEntries(d.outboundBy.map((r) => [r.dest, r.clicks]));
+      $('kpis').innerHTML = [
+        ['Visitors', num(T.visitors), 'counted per day'],
+        ['Page views', num(T.views), T.visitors ? (T.views / T.visitors).toFixed(1) + ' per visitor' : ''],
+        ['Time on page', dur(T.engaged), 'average, while visible'],
+        ['Single-page visits', pct(T.bounce), 'left after one page'],
+        ['Clicks to YouTube', num(out.youtube || 0), ''],
+        ['Clicks to Substack', num(out.substack || 0), (out.x ? num(out.x) + ' to X' : '')],
+      ].map(([h, v, s]) => `<div class="kpi"><h3>${h}</h3><p>${v}</p><small>${s || '&nbsp;'}</small></div>`).join('');
+
+      cityPts = d.cities; $('map-note').textContent = `${d.cities.length} cities`; kick();
+      bars($('countries'), d.countries.slice(0, 12), (r) => esc(country(r.country)), (r) => r.visitors);
+      series(d.series, range);
+      bars($('sources'), d.sources, (r) => esc(SOURCE[r.source] || r.source), (r) => r.visitors);
+      bars($('referrers'), d.referrers, (r) => esc(r.host), (r) => r.views);
+      bars($('outbound'), d.outbound, (r) => esc(r.target), (r) => r.clicks);
+      bars($('cities'), d.cities.slice(0, 12), (r) => esc(`${r.city || 'Unknown'}, ${country(r.country)}`), (r) => r.visitors);
+      table($('videos'), ['Video', 'Views', 'Visitors', 'Time on page', 'From YouTube', 'Dashboard views'], d.videos.map((r) => [
+        `${esc(titleOf(r.video, r.article))}<small>${esc(r.video || r.article)}</small>`, num(r.views), num(r.visitors), dur(r.engaged),
+        r.views ? pct(r.from_youtube / r.views) : '–', num(r.dashboard_views)]));
+      table($('pages'), ['Page', 'Views', 'Visitors', 'Time', 'Scroll'], d.pages.map((r) => [
+        `${esc((r.title || r.path).replace(/ · Boardroom Wire$/, ''))}<small>${esc(r.path)}</small>`, num(r.views), num(r.visitors), dur(r.engaged), r.scroll == null ? '–' : Math.round(r.scroll) + '%']));
+      table($('orgs'), ['Organisation', 'Visitors', 'Read'], d.orgs.map((r) => [
+        `${esc(r.org)}<small>${esc([r.city, country(r.country)].filter(Boolean).join(', '))} · AS${r.asn}</small>`, num(r.visitors),
+        esc([...new Set(String(r.pages || '').split(',').map(shortOf))].slice(0, 3).join(' · '))]));
+      table($('campaigns'), ['Source / medium', 'Campaign', 'Views'], d.campaigns.map((r) => [
+        esc([r.source, r.medium].filter(Boolean).join(' / ') || '–'), esc(r.campaign || '–'), num(r.views)]));
+      const dims = ['device', 'browser', 'os', 'net'], names = { device: 'Device', browser: 'Browser', os: 'System', net: 'Network' };
+      $('tech').innerHTML = dims.map((k) => `<div><h4>${names[k]}</h4><ol class="bars" id="tech-${k}"></ol></div>`).join('');
+      for (const k of dims) bars($(`tech-${k}`), d.tech.filter((r) => r.dim === k).sort((a, b) => b.n - a.n).slice(0, 6), (r) => esc(k === 'net' ? NET[r.v] || r.v : r.v || 'Unknown'), (r) => r.n);
+      $('notes').textContent = `Visitors are counted per day with a code that changes daily, so a reader on two days counts twice. `
+        + `${num(T.bots)} crawler and script page views were left out. Organisations are the registered owners of readers' networks: `
+        + `a best guess that hides home and mobile internet providers and data centres. Location is city-level. Updated ${new Date(d.generated).toLocaleTimeString()}.`;
+    }
+    async function live() {
+      try { const l = await get('/api/telemetry/live'); $('live-n').textContent = l.readers; livePts = l.points; kick(); } catch { /* the report shows the error */ }
+    }
+    document.querySelectorAll('.ranges button').forEach((b) => b.addEventListener('click', () => { range = b.dataset.range; history.replaceState(null, '', '#' + range); report(); }));
+    loadLand().then(kick);
+    report(); live(); setInterval(live, 30_000);
+  </script>
+</body>
+</html>

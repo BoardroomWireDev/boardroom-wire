@@ -8,6 +8,7 @@ export default defineConfig({
   site: 'https://www.boardroomwire.com',
   integrations: [
     mdx(),
-    sitemap({ filter: (page) => !page.endsWith('/404/') }),
+    // the 404 and the private telemetry dashboard stay out of the sitemap
+    sitemap({ filter: (page) => !page.endsWith('/404/') && !page.includes('/telemetry/') }),
   ],
 });

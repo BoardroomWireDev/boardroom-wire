@@ -8,8 +8,13 @@
  *
  * Fonts: Inter for words, IBM Plex Mono for numbers (--mono), the same face the
  * dashboards use.
+ *
+ * Also carries the Wire Telemetry beacon, and `video`: the pipeline slug of the video a page
+ * belongs to (an article, or a dashboard in its collection), emitted as <meta name="bw:video">
+ * so every page view is keyed to its video (db/README.md).
  */
 import { SITE_ORIGIN } from '../data/analytics';
+import Telemetry from './Telemetry.astro';
 
 interface Props {
   title: string;
@@ -23,11 +28,13 @@ interface Props {
   modifiedTime?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
+  /** Pipeline slug of the video this page belongs to, e.g. "situational-awareness". */
+  video?: string;
 }
 
 const {
   title, description, path, ogImage = '/og/boardroom-wire.jpg',
-  ogType = 'website', publishedTime, modifiedTime, jsonLd, noindex = false,
+  ogType = 'website', publishedTime, modifiedTime, jsonLd, noindex = false, video,
 } = Astro.props;
 
 const canonical = `${SITE_ORIGIN}${path}`;
@@ -59,6 +66,8 @@ const og = ogImage.startsWith('http') ? ogImage : `${SITE_ORIGIN}${ogImage}`;
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={og} />
 {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+{video && <meta name="bw:video" content={video} />}
+<Telemetry />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

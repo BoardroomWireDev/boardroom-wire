@@ -1,0 +1,66 @@
+---
+/**
+ * /privacy/ — what the site records about readers, in plain words. Every promise here is enforced in
+ * code: see db/README.md "Privacy rules", functions/api/t.ts and src/components/Telemetry.astro.
+ * Change this page and that code together.
+ */
+import Site from '../layouts/Site.astro';
+---
+
+<Site
+  title="Privacy · Boardroom Wire"
+  description="What Boardroom Wire records when you read the site, and what it never does."
+  pageLabel="Privacy"
+  path="/privacy/"
+>
+  <main id="main" class="wrap">
+    <p class="eyebrow">Privacy</p>
+    <h1 class="hd">What we record <span class="dim">when you read.</span></h1>
+    <p class="lede">We count readers so we know which stories land. We don't use cookies, we store nothing on your device, and we never know who you are.</p>
+    <div class="rule"></div>
+
+    <section class="copy">
+      <h2>What we record</h2>
+      <p>When you open a page, we record:</p>
+      <ul>
+        <li>the page, and the site that sent you, such as YouTube or a search engine;</li>
+        <li>your approximate location, to the city;</li>
+        <li>the kind of device and browser;</li>
+        <li>the network you're on: your internet provider, or the organization whose network it is;</li>
+        <li>how long the page stayed open and how far you scrolled;</li>
+        <li>clicks that leave the site for YouTube, Substack or X.</li>
+      </ul>
+
+      <h2>What we never do</h2>
+      <ul>
+        <li>No cookies, and nothing is saved on your device.</li>
+        <li>No advertising or third-party trackers.</li>
+        <li>No names or email addresses, and we don't try to work out who you are.</li>
+        <li>We never store your IP address.</li>
+      </ul>
+      <p>To count visitors without cookies, we turn your IP address and browser into a one-way code that changes every day. The key used to make it is deleted after two days, so the code can't be traced back to you, even by us. It also means someone who reads on two days counts as two visitors.</p>
+
+      <h2>Your choice</h2>
+      <p>If your browser sends Global Privacy Control or Do Not Track, we record nothing at all.</p>
+
+      <h2>Where it goes</h2>
+      <p>Only Boardroom Wire sees these records. They are kept with Cloudflare, which hosts this site, and are never sold or shared. Page records are deleted after 25 months.</p>
+
+      <h2>Videos</h2>
+      <p>Videos on this site play from YouTube only after you press play. From then on, YouTube's own privacy policy applies to that video.</p>
+
+      <p class="updated">Last updated 27 September 2026.</p>
+    </section>
+  </main>
+</Site>
+
+<style>
+  .copy { max-width: 680px; }
+  .copy h2 {
+    margin: 36px 0 12px; font: 700 12px/1 var(--display); letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold-bright);
+  }
+  .copy p, .copy li { font-size: 16px; line-height: 1.65; color: var(--white-dim, #BDB8AA); }
+  .copy ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+  .copy .updated { margin-top: 40px; font: 500 11px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: #6F6A5E; }
+</style>

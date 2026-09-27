@@ -13,7 +13,10 @@
     "astro": "astro",
     "sync:dashboards": "node scripts/sync-dashboards.mjs",
     "render:posters": "node scripts/render-posters.mjs",
-    "analytics:refresh": "node scripts/sync-dashboards.mjs && node scripts/render-posters.mjs"
+    "analytics:refresh": "node scripts/sync-dashboards.mjs && node scripts/render-posters.mjs",
+    "edge": "astro build && wrangler pages dev dist --port 8788",
+    "db:local": "wrangler d1 migrations apply bw-data --local",
+    "db:remote": "wrangler d1 migrations apply bw-data --remote"
   },
   "dependencies": {
     "astro": "^5.18.1",
@@ -23,6 +26,8 @@
     "@astrojs/mdx": "^4.3.14",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
-    "sharp": "^0.34.5"
+    "@cloudflare/workers-types": "^5.20260927.1",
+    "sharp": "^0.34.5",
+    "wrangler": "^4.142.0"
   }
 }
