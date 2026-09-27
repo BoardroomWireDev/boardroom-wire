@@ -389,7 +389,7 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
   let paused = o.paused;
 
   /* ---------------------------------------------------------- sizing */
-  let W = 1, H = 1, rPx = 1, horizon = false, basePitch = ORBIT_PITCH, focusAngle = 0;
+  let W = 1, H = 1, rPx = 1, horizon = false, basePitch = ORBIT_PITCH, focusAngle = 0, pitchMin = -0.5, selMin = -0.5, pitchMax = 0.45;
   function resize() {
     const r = o.host.getBoundingClientRect();
     W = Math.max(1, r.width); H = Math.max(1, r.height);
@@ -399,6 +399,15 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
     else { rPx = lite ? Math.min(W * 0.40, H * 0.36) : Math.min(W * 0.30, H * 0.36); cy = H / 2; basePitch = ORBIT_PITCH; }
     // a selected city is brought to ~56% down the band: on the horizon that is high on the sphere
     focusAngle = horizon ? Math.asin(Math.min(0.95, (cy - H * 0.56) / rPx)) : 0;
+    // How far the view may tilt. The horizon's home shot shows ~15°N to the pole. A drag may look south until
+    // 5°S sits 70% down the band (Bengaluru and Singapore in easy view, never a screen of open ocean) and a
+    // little way over the pole; selecting a city may go further, so São Paulo (23.5°S) lands at 70% too.
+    // 70%, not lower: on a 900px screen the bottom quarter of the band is below the fold.
+    if (horizon) {
+      const tilt = (lat: number, f: number) => lat * D2R - Math.asin(Math.max(-1, Math.min(1, (cy - f * H) / rPx))) - basePitch;
+      pitchMin = tilt(-5, 0.70); selMin = tilt(-24.5, 0.70); pitchMax = 0.3;
+    } else { pitchMin = selMin = -0.5; pitchMax = 0.45; }
+    st.pitchTarget = Math.max(selMin, Math.min(pitchMax, st.pitchTarget));
     camera.fov = horizon ? FOV_HORIZON : FOV_ORBIT;
     const f = (H / 2) / Math.tan((camera.fov / 2) * D2R);
     camera.aspect = W / H;
@@ -482,7 +491,9 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
     L.classList.add('on');
     const right = s.x < W * 0.62;
     L.classList.toggle('left', !right);
-    L.style.transform = `translate(${Math.round(right ? s.x + 22 : s.x - 22 - L.offsetWidth)}px, ${Math.round(s.y - 20)}px)`;
+    const shown = Math.min(H, window.innerHeight - o.host.getBoundingClientRect().top);   // the band may run below the fold
+    const y = Math.max(8, Math.min(s.y - 20, shown - 12 - L.offsetHeight));   // a city low in the band keeps its label in view
+    L.style.transform = `translate(${Math.round(right ? s.x + 22 : s.x - 22 - L.offsetWidth)}px, ${Math.round(y)}px)`;
   }
 
   function setHot(i: number | null) {
@@ -509,12 +520,12 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
     st.sel = i;
     for (let k = 0; k < nCap; k++) capHot[k] = k === i || k === st.hot ? 1 : 0;
     hotAttr.needsUpdate = true;
-    if (i == null) { st.pitchTarget = 0; showLabel(st.hot); invalidate(); return; }
+    if (i == null) { st.pitchTarget = st.pitch; showLabel(st.hot); invalidate(); return; }   // keep the tilt; idle brings it home
     const c = CAPITALS[i];
     let target = -c.lng * D2R, d = target - st.yaw;
     d = ((d + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
     st.flyTo = st.yaw + d; st.yawVel = 0;
-    st.pitchTarget = Math.max(-0.5, Math.min(0.45, c.lat * D2R - focusAngle - basePitch));
+    st.pitchTarget = Math.max(selMin, Math.min(pitchMax, c.lat * D2R - focusAngle - basePitch));
     if (o.calm || paused) { st.yaw = st.flyTo; st.pitch = st.pitchTarget; st.flyTo = null; st.pitchVel = 0; }
     st.lastInput = now();
     if (!paused) { if (!o.calm) ripple(i); let n = 0; edges.forEach((e, k) => { if (e.a === i || e.b === i) fire(k, i, 0.12 * n++); }); }
@@ -542,7 +553,8 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
         const mdx = e.clientX - d.lastX, t = now(), dt = Math.max(1e-3, t - d.lastT);
         st.yaw += mdx / rPx;
         st.yawVel = st.yawVel * 0.6 + (mdx / rPx / dt) * 0.4;
-        if (!d.touch) st.pitch = Math.max(-0.44, Math.min(0.44, st.pitch + (e.movementY || 0) / rPx));
+        // tilt within the drag limits; if a selection left the view beyond them, a drag may only come back
+        if (!d.touch) st.pitch = Math.max(Math.min(pitchMin, st.pitch), Math.min(pitchMax, st.pitch + (e.movementY || 0) / rPx));
         d.lastX = e.clientX; d.lastT = t; st.lastInput = t;
         if (st.hot != null) setHot(null);
         invalidate();
@@ -562,7 +574,10 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
       const r = canvas.getBoundingClientRect();
       const i = pick(e.clientX - r.left, e.clientY - r.top, d.touch ? 34 : 24);
       select(i === st.sel ? null : i);
-    } else if (now() - d.lastT > 0.08) st.yawVel = 0;                // released after holding still
+    } else {
+      if (now() - d.lastT > 0.08) st.yawVel = 0;                      // released after holding still
+      st.pitchTarget = st.pitch; st.pitchVel = 0;                      // the tilt stays where it was left
+    }
     st.lastInput = now();
   };
   canvas.addEventListener('pointerup', (e) => endDrag(e, false));
@@ -588,9 +603,12 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
     const autoTarget = !paused && idle > 3 && st.sel == null && st.hot == null && !st.drag ? AUTO_SPIN * (o.calm ? CALM : 1) * (horizon ? 0.5 : 1) : 0;
     st.autoVel += (autoTarget - st.autoVel) * (1 - Math.exp(-dt * (st.hot != null ? 4 : 0.8)));
     if (!st.drag?.active) st.yaw += st.autoVel * dt;
-    // pitch: critically damped spring back to its target (0, or the selected city's latitude)
+    // pitch: critically damped spring to its target (where the reader left it, or the selected city);
+    // after 12 s with nothing selected it drifts slowly back to the home shot
     if (!st.drag?.active) {
-      const w = 6, x = st.pitch - st.pitchTarget;
+      const home = st.sel == null && idle > 12;
+      if (home) st.pitchTarget = 0;
+      const w = home ? 1.4 : 6, x = st.pitch - st.pitchTarget;
       st.pitchVel += (-w * w * x - 2 * w * st.pitchVel) * dt; st.pitch += st.pitchVel * dt;
     }
     st.par.x += (st.par.tx - st.par.x) * (1 - Math.exp(-dt * 3)); st.par.y += (st.par.ty - st.par.y) * (1 - Math.exp(-dt * 3));
