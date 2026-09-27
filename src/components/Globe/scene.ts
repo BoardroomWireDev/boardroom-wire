@@ -23,8 +23,8 @@ import {
   Vector3, Vector4, WebGLRenderer, Color,
 } from 'three';
 import { CAPITALS, EDGES } from './capitals';
-import { subsolar, sunCaption } from './sun';
-import { status as marketStatus, summary as marketSummary } from './markets';
+import { subsolar } from './sun';
+import { status as marketStatus, summary as marketSummary, nextBell, span } from './markets';
 
 ColorManagement.enabled = false;   // hex in, hex out
 
@@ -46,9 +46,9 @@ export type Tier = 'full' | 'lite';
 export interface GlobeOptions {
   host: HTMLElement;                 // the element the canvas fills
   label: HTMLElement;                // floating label plate
-  caption?: HTMLElement | null;      // "SUN 1.9°S …"
+  caption?: HTMLElement | null;      // the UTC clock, "14:18 UTC"
   live?: HTMLElement | null;         // aria-live region
-  markets?: HTMLElement | null;      // "EXCHANGES IN SESSION 5 / 18"
+  markets?: HTMLElement | null;      // "8 of 18 exchanges in session", or the next opening bell
   tier: Tier;
   /** prefers-reduced-motion: gentle motion only — slower spin, no swoops, ripples, drift or parallax. */
   calm: boolean;
@@ -434,14 +434,25 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
   /* -------------------------------------------------------- the sun */
   function updateSun() {
     const s = subsolar(); sun.v.copy(ll2v(s.lat, s.lon));
-    if (o.caption) o.caption.textContent = sunCaption();
     const now = new Date();
+    if (o.caption) o.caption.textContent = `${String(now.getUTCHours()).padStart(2, '0')}:${String(now.getUTCMinutes()).padStart(2, '0')} UTC`;
     CAPITALS.forEach((c, i) => { capOpen[i] = marketStatus(c.code, now)?.open ? 1 : 0; });
     openAttr.needsUpdate = true;
-    if (o.markets) { const m = marketSummary(now); o.markets.textContent = `EXCHANGES IN SESSION ${m.open} / ${m.total} · REGULAR HOURS`; }
+    if (o.markets) {                                   // our own strings only, so innerHTML is safe here
+      const m = marketSummary(now);
+      o.markets.dataset.open = m.open ? '1' : '0';
+      if (m.open) o.markets.innerHTML = `<span class="m-lead">${m.open} of ${m.total} exchanges in session</span>`;
+      else {
+        const b = nextBell(now), who = b.cities.length > 2 ? `${b.cities.slice(0, 2).join(', ')} +${b.cities.length - 2}` : b.cities.join(' & ');
+        o.markets.innerHTML = `<span class="m-lead">Markets closed</span><span class="m-sep">·</span><span class="m-next">Next bell ${who} in ${span(b.inMin)}</span>`;
+      }
+    }
     invalidate();
   }
-  updateSun(); const sunTimer = setInterval(updateSun, 60_000);
+  // on the minute, so the clock reads true
+  let sunTimer = 0;
+  const tick = () => { updateSun(); sunTimer = window.setTimeout(tick, 60_000 - (Date.now() % 60_000) + 50); };
+  tick();
 
   /* ------------------------------------------------ state + controls */
   const st = {
@@ -705,7 +716,7 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
       else { st.lastInput = -1e9; last = performance.now(); if (running && !raf) raf = requestAnimationFrame(frame); }
     },
     destroy() {
-      running = false; cancelAnimationFrame(raf); clearInterval(sunTimer);
+      running = false; cancelAnimationFrame(raf); clearTimeout(sunTimer);
       ro.disconnect(); io.disconnect(); document.removeEventListener('visibilitychange', onVis);
       renderer.dispose(); canvas.remove();
     },

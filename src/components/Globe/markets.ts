@@ -56,6 +56,30 @@ export function status(code: string, d: Date = new Date()): Status {
   return { ex: s.ex, open: false, note: `opens ${NAMES[next]} ${s.open} local` };
 }
 
+// Where each exchange rings its opening bell, for the status line.
+const CITY: Record<string, string> = {
+  NYSE: 'New York', Nasdaq: 'New York', TSX: 'Toronto', B3: 'São Paulo', LSE: 'London', Euronext: 'Amsterdam',
+  Xetra: 'Frankfurt', SIX: 'Zurich', Tadawul: 'Riyadh', DFM: 'Dubai', ADX: 'Abu Dhabi', NSE: 'Mumbai',
+  SGX: 'Singapore', HKEX: 'Hong Kong', SSE: 'Shanghai', TWSE: 'Taipei', KRX: 'Seoul', TSE: 'Tokyo',
+};
+
+/** The next opening bell from `d`, e.g. { cities: ['Tokyo', 'Seoul'], inMin: 582 } (ties share it). */
+export function nextBell(d: Date = new Date()) {
+  const wait = new Map<string, number>();
+  for (const s of Object.values(SESSIONS)) {
+    if (!s || wait.has(s.ex)) continue;
+    const { day, min } = local(s.tz, d), o = toMin(s.open);
+    for (let k = 0; k <= 7; k++) {
+      const w = k * 1440 + o - min;
+      if (w > 0 && s.days.includes((day + k) % 7)) { wait.set(s.ex, w); break; }
+    }
+  }
+  const inMin = Math.min(...wait.values());
+  const cities = [...new Set([...wait].filter(([, w]) => w === inMin).map(([ex]) => CITY[ex] ?? ex))];
+  return { cities, inMin };
+}
+export { span };
+
 /** Distinct exchanges in session / total, e.g. { open: 5, total: 18 }. */
 export function summary(d: Date = new Date()) {
   const seen = new Map<string, boolean>();
