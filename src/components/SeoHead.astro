@@ -1,0 +1,80 @@
+---
+/**
+ * The <head> metadata every page shares: title, description, canonical, Open Graph,
+ * Twitter card, optional Article times and JSON-LD, the icon, RSS, and the fonts.
+ * Used by src/layouts/Site.astro and by the three standalone pages (index, about,
+ * videos), which until 27 Sep 2026 carried only a title and description — so a
+ * homepage link posted to X or iMessage rendered bare.
+ *
+ * Fonts: Inter for words, IBM Plex Mono for numbers (--mono), the same face the
+ * dashboards use.
+ */
+import { SITE_ORIGIN } from '../data/analytics';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Canonical path, e.g. "/about/". */
+  path: string;
+  /** Absolute or root-relative path to a 1200×630 image. Defaults to the brand card. */
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const {
+  title, description, path, ogImage = '/og/boardroom-wire.jpg',
+  ogType = 'website', publishedTime, modifiedTime, jsonLd, noindex = false,
+} = Astro.props;
+
+const canonical = `${SITE_ORIGIN}${path}`;
+const og = ogImage.startsWith('http') ? ogImage : `${SITE_ORIGIN}${ogImage}`;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex" />}
+<link rel="icon" type="image/png" href="/logo.png" />
+<link rel="canonical" href={canonical} />
+<link rel="alternate" type="application/rss+xml" title="Boardroom Wire" href="/rss.xml" />
+
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content="Boardroom Wire" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={og} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+{ogType === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+{ogType === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@BoardroomWire" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={og} />
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800;900&display=swap"
+  rel="stylesheet"
+/>
+
+<style is:global>
+  /* Keyboard users: a skip link to the page's <main id="main">, and a gold focus ring. */
+  .skip-link {
+    position: absolute; left: 16px; top: -60px; z-index: 2000;
+    padding: 10px 16px; background: #F2CB52; color: #000;
+    font: 700 12px/1 'Inter', system-ui, sans-serif; letter-spacing: 0.18em; text-transform: uppercase;
+    text-decoration: none; transition: top 0.15s;
+  }
+  .skip-link:focus { top: 12px; }
+  :focus-visible { outline: 2px solid #F2CB52; outline-offset: 3px; }
+</style>

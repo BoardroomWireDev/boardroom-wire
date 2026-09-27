@@ -51,7 +51,7 @@ const jsonLd = {
       '@type': 'VideoObject', name: a.title, description: a.dek,
       embedUrl: `https://www.youtube-nocookie.com/embed/${a.youtube}`,
       thumbnailUrl: `https://i.ytimg.com/vi/${a.youtube}/hqdefault.jpg`,
-      uploadDate: a.published.toISOString(),
+      uploadDate: (a.videoPublished ?? a.published).toISOString(),
     },
   }),
 };
@@ -68,7 +68,7 @@ const jsonLd = {
   modifiedTime={(a.updated ?? a.published).toISOString()}
   jsonLd={jsonLd}
 >
-  <main class="wrap">
+  <main id="main" class="wrap">
     <article class="art">
       <a class="crumb" href="/wire/">← Wire</a>
 
@@ -90,6 +90,22 @@ const jsonLd = {
       <div class="prose">
         <Content components={{ DashboardEmbed }} />
       </div>
+
+      <aside class="follow" aria-label="Follow Boardroom Wire">
+        <div class="rule"></div>
+        <p class="eyebrow">Get the next investigation</p>
+        <p class="follow-h">On YouTube and in your inbox, <span class="dim">with every number sourced.</span></p>
+        <div class="follow-row">
+          <a class="f-btn gold" href="https://boardroomwire.substack.com/" target="_blank" rel="noopener">Subscribe on Substack</a>
+          <a class="f-btn line" href="https://www.youtube.com/@BoardroomWire?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a>
+        </div>
+        <div class="share">
+          <span class="share-k">Share</span>
+          <a href={`https://x.com/intent/post?text=${encodeURIComponent(a.title)}&url=${encodeURIComponent(`${SITE_ORIGIN}${path}`)}`} target="_blank" rel="noopener">X</a>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_ORIGIN}${path}`)}`} target="_blank" rel="noopener">LinkedIn</a>
+          <button type="button" class="copy-link" data-url={`${SITE_ORIGIN}${path}`}>Copy link</button>
+        </div>
+      </aside>
 
       {c && (
         <section class="charts" aria-label="Charts in this article">
@@ -195,6 +211,29 @@ const jsonLd = {
   .dash-link.inline:hover { background: none; }
   .dash-link.inline:hover .dl-go { text-decoration: underline; }
 
+  /* Follow + share, after the article body. */
+  .follow { max-width: 720px; margin: 56px auto 0; }
+  .follow .rule { margin: 0 0 32px; }
+  .follow-h { font-size: clamp(20px, 2.2vw, 26px); font-weight: 800; letter-spacing: -0.015em; margin: 12px 0 22px; line-height: 1.25; }
+  .follow-h .dim { color: var(--white-dim); font-weight: 600; }
+  .follow-row { display: flex; flex-wrap: wrap; gap: 14px; }
+  .f-btn {
+    display: inline-block; padding: 14px 24px;
+    font-size: 12px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
+    transition: background 0.18s, color 0.18s, border-color 0.18s, transform 0.18s;
+  }
+  .f-btn.gold { background: var(--gold-bright); color: #000; box-shadow: 0 4px 0 0 var(--gold); }
+  .f-btn.gold:hover { background: var(--gold); transform: translateY(-2px); }
+  .f-btn.line { border: 1px solid rgba(242, 203, 82, 0.5); color: var(--gold-bright); }
+  .f-btn.line:hover { border-color: var(--gold-bright); background: rgba(242, 203, 82, 0.08); }
+  .share { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-top: 26px; }
+  .share-k { font-family: var(--mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--white-dim); }
+  .share a, .share .copy-link {
+    font: 600 13px var(--display); color: #C9C3B4; text-decoration: none;
+    background: none; border: 0; padding: 0; cursor: pointer; border-bottom: 1px solid transparent;
+  }
+  .share a:hover, .share .copy-link:hover { color: var(--gold-bright); border-bottom-color: var(--gold-bright); }
+
   .charts { margin-top: 24px; }
   .charts-h { font-size: clamp(20px, 2.2vw, 26px); font-weight: 800; letter-spacing: -0.015em; margin: 12px 0 24px; }
   .charts-h .dim { color: var(--white-dim); font-weight: 600; }
@@ -212,3 +251,13 @@ const jsonLd = {
   .pg-t { display: block; margin-top: 7px; font-size: 15px; font-weight: 700; line-height: 1.3; }
   a.pg:hover .pg-t { color: var(--amber-bright); }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy-link').forEach((b) => {
+    b.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(b.dataset.url || location.href); b.textContent = 'Link copied'; }
+      catch { b.textContent = 'Copy failed'; }
+      setTimeout(() => { b.textContent = 'Copy link'; }, 2200);
+    });
+  });
+</script>

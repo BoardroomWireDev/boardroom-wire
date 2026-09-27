@@ -1,0 +1,8 @@
+# Cloudflare Pages response headers (27 Sep 2026)
+# Hashed build assets never change: cache them for a year.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Dashboard posters change only when a collection is re-rendered.
+/analytics/*/posters/*
+  Cache-Control: public, max-age=604800

@@ -1,22 +1,12 @@
 ---
+import SeoHead from '../components/SeoHead.astro';
 // About page — shares the ticker shell + YouTube data fetcher with the homepage.
 ---
 
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About · Boardroom Wire</title>
-  <meta name="description" content="Boardroom Wire is strategic analysis and commentary on business and technology, with a focus on finance and AI." />
-  <link rel="icon" type="image/png" href="/logo.png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  />
+  <SeoHead title="About · Boardroom Wire" description="Boardroom Wire is strategic analysis and commentary on business and technology, with a focus on finance and AI." path="/about/" />
 
   <style>
     :root {
@@ -31,6 +21,7 @@
       --amber-bright: #FFC97A;
       --amber-glow:   rgba(255, 179, 71, 0.4);
       --display: 'Inter', system-ui, sans-serif;
+      --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -322,6 +313,7 @@
       transition: color 0.18s;
     }
     footer.tail a:hover { color: var(--gold-bright); }
+    .foot-links { display: flex; flex-wrap: wrap; gap: 22px; }
 
     @media (max-width: 720px) {
       header.top { padding: 20px 24px 0; }
@@ -349,6 +341,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- CRT phosphor atmosphere overlay (about-page only) -->
   <div class="page-fx" aria-hidden="true"></div>
@@ -380,7 +373,7 @@
     </a>
   </header>
 
-  <main class="about">
+  <main id="main" class="about">
     <p class="eyebrow">About</p>
 
     <div class="body">
@@ -397,8 +390,6 @@
         <span>New York</span>
         <span class="sep">·</span>
         <span id="signoff-time">--<span class="blink">:</span>-- EDT</span>
-        <span class="sep">·</span>
-        <span>Dispatch N° 0001</span>
       </p>
     </div>
 
@@ -419,8 +410,8 @@
   </main>
 
   <footer class="tail">
-    <span>© 2026 Boardroom Wire</span>
-    <span style="display:flex;gap:22px"><a href="/wire/">Wire</a><a href="/">← Home</a></span>
+    <span>© {new Date().getFullYear()} Boardroom Wire</span>
+    <span class="foot-links"><a href="/wire/">Wire</a><a href="/videos/">Videos</a><a href="/about/">About</a><a href="https://boardroomwire.substack.com/" target="_blank" rel="noopener">Substack</a><a href="/">← Home</a></span>
   </footer>
 
   <script>
