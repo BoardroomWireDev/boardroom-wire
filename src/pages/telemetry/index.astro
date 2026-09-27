@@ -255,6 +255,8 @@ const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead
 
     /* ------------------------------------------------------------ data */
     let range = (location.hash.slice(1) || '7d');
+    const site = new URLSearchParams(location.search).get('env');           // ?env=preview shows test traffic
+    const envQ = site ? `&env=${encodeURIComponent(site)}` : '';
     async function get(path) {
       const r = await fetch(path, { credentials: 'same-origin', cache: 'no-store' });
       if (r.status === 403) throw Object.assign(new Error('locked'), { code: 'locked' });
@@ -265,7 +267,7 @@ const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead
     async function report() {
       document.querySelectorAll('.ranges button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.range === range)));
       let d;
-      try { d = await get(`/api/telemetry/report?range=${range}`); }
+      try { d = await get(`/api/telemetry/report?range=${range}${envQ}`); }
       catch (e) {
         if (e.code === 'locked') return state('Locked.', 'Wire Telemetry opens only through Cloudflare Access, for the Boardroom Wire account.');
         if (e.code === 'no-db') return state('Not connected yet.', 'The database is not bound to the site yet.');
@@ -306,7 +308,7 @@ const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead
         + `a best guess that hides home and mobile internet providers and data centres. Location is city-level. Updated ${new Date(d.generated).toLocaleTimeString()}.`;
     }
     async function live() {
-      try { const l = await get('/api/telemetry/live'); $('live-n').textContent = l.readers; livePts = l.points; kick(); } catch { /* the report shows the error */ }
+      try { const l = await get(`/api/telemetry/live?${envQ.slice(1)}`); $('live-n').textContent = l.readers; livePts = l.points; kick(); } catch { /* the report shows the error */ }
     }
     document.querySelectorAll('.ranges button').forEach((b) => b.addEventListener('click', () => { range = b.dataset.range; history.replaceState(null, '', '#' + range); report(); }));
     loadLand().then(kick);

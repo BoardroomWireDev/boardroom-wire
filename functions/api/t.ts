@@ -15,6 +15,8 @@ const MAX_BODY = 4096, DAY_MS = 86_400_000, KEEP_MONTHS = 25, ENGAGED_CAP = 30 *
 const str = (v: unknown, n: number) => (typeof v === 'string' && v ? v.slice(0, n) : null);
 const int = (v: unknown, lo: number, hi: number) => (typeof v === 'number' && Number.isFinite(v) ? Math.max(lo, Math.min(hi, Math.round(v))) : 0);
 const slug = (v: unknown) => { const s = str(v, 80); return s && /^[a-z0-9-]+$/.test(s) ? s : null; };
+// which site a row came from: reports read one at a time, so previews and tests never touch real numbers
+const siteEnv = (host: string) => (/(^|\.)boardroomwire\.com$/.test(host) ? 'production' : host.endsWith('.pages.dev') ? 'preview' : 'local');
 const noContent = (status = 204) => new Response(null, { status, headers: { 'Cache-Control': 'no-store' } });
 
 // One salt per UTC day, cached per isolate. Making a new day's salt also does the housekeeping:
@@ -60,7 +62,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   const id = str(b.id, 40);
   if (!id || !/^[A-Za-z0-9_-]{8,40}$/.test(id)) return noContent(400);
 
-  const now = Date.now(), day = new Date(now).toISOString().slice(0, 10);
+  const now = Date.now(), day = new Date(now).toISOString().slice(0, 10), env_ = siteEnv(url.hostname);
   const ua = request.headers.get('User-Agent') ?? '';
   const bot = isBot(ua) ? 1 : 0;
   const db = env.DB;
@@ -81,11 +83,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
       const org = str(cf.asOrganization, 120);
       const { device, browser, os } = parseUA(ua);
       await db.prepare(`INSERT OR IGNORE INTO page_views
-        (id, ts, day, visitor, path, kind, article, video, title, ref_host, ref_path, source,
+        (id, ts, day, env, visitor, path, kind, article, video, title, ref_host, ref_path, source,
          utm_source, utm_medium, utm_campaign, utm_content, country, region, city, continent, tz, lat, lon,
          asn, org, net, device, browser, os, screen_w, lang, bot)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
-        id, now, day, visitor, path, kind, article, slug(b.v), str(b.t, 200), refHost, refPath, source(refHost, url.hostname, utm('source')),
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
+        id, now, day, env_, visitor, path, kind, article, slug(b.v), str(b.t, 200), refHost, refPath, source(refHost, url.hostname, utm('source')),
         utm('source'), utm('medium'), utm('campaign'), utm('content'),
         str(cf.country, 2), str(cf.region, 80), str(cf.city, 80), str(cf.continent, 2), str(cf.timezone, 60),
         round1(cf.latitude), round1(cf.longitude),
@@ -96,8 +98,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
       await db.prepare('UPDATE page_views SET engaged_ms = MAX(engaged_ms, ?), scroll_pct = MAX(scroll_pct, ?) WHERE id = ?')
         .bind(int(b.e, 0, ENGAGED_CAP), int(b.s, 0, 100), id).run();
     } else if (b.k === 'event' && b.n === 'outbound') {
-      await db.prepare('INSERT INTO events (ts, day, view_id, visitor, name, target, video, bot) VALUES (?,?,?,?,?,?,?,?)')
-        .bind(now, day, id, visitor, 'outbound', str(b.x, 200), slug(b.v), bot).run();
+      await db.prepare('INSERT INTO events (ts, day, env, view_id, visitor, name, target, video, bot) VALUES (?,?,?,?,?,?,?,?,?)')
+        .bind(now, day, env_, id, visitor, 'outbound', str(b.x, 200), slug(b.v), bot).run();
     }
   })().catch((err) => console.error('[telemetry] write failed', err));
 

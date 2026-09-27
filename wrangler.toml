@@ -1,0 +1,17 @@
+# Cloudflare Pages settings for boardroom-wire. With this file in the repo it is the source of truth for
+# the project's bindings (the dashboard shows them read-only). Build settings stay in the dashboard.
+name = "boardroom-wire"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-09-01"
+
+# The business data store (db/README.md).
+[[d1_databases]]
+binding = "DB"
+database_name = "bw-data"
+database_id = "ca9d0ebb-0246-499a-a891-ec716db10b7e"
+migrations_dir = "db/migrations"
+
+[vars]
+# Cloudflare Access, which guards /telemetry/ and /api/telemetry/. Until both are set the reports stay locked.
+ACCESS_TEAM_DOMAIN = ""
+ACCESS_AUD = ""

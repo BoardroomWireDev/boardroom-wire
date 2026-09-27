@@ -12,6 +12,7 @@ CREATE TABLE page_views (
   id          TEXT PRIMARY KEY,              -- random per page load, made in the browser; the leave beacon updates this row
   ts          INTEGER NOT NULL,              -- unix ms, UTC
   day         TEXT NOT NULL,
+  env         TEXT NOT NULL,                 -- production (boardroomwire.com) | preview (*.pages.dev) | local
   visitor     TEXT NOT NULL,
   path        TEXT NOT NULL,
   kind        TEXT NOT NULL,                 -- home | wire | analytics | videos | about | privacy | other
@@ -44,7 +45,7 @@ CREATE TABLE page_views (
   scroll_pct  INTEGER NOT NULL DEFAULT 0,    -- deepest scroll, 0–100
   bot         INTEGER NOT NULL DEFAULT 0     -- 1 = crawler, script or headless browser by user agent; kept, left out of reports
 );
-CREATE INDEX pv_ts      ON page_views (ts);
+CREATE INDEX pv_ts      ON page_views (env, ts);
 CREATE INDEX pv_day     ON page_views (day);
 CREATE INDEX pv_video   ON page_views (video, day);
 CREATE INDEX pv_visitor ON page_views (visitor, ts);
@@ -53,6 +54,7 @@ CREATE TABLE events (
   id       INTEGER PRIMARY KEY AUTOINCREMENT,
   ts       INTEGER NOT NULL,
   day      TEXT NOT NULL,
+  env      TEXT NOT NULL,
   view_id  TEXT,                             -- page_views.id of the page it happened on
   visitor  TEXT NOT NULL,
   name     TEXT NOT NULL,                    -- outbound
@@ -60,7 +62,7 @@ CREATE TABLE events (
   video    TEXT,
   bot      INTEGER NOT NULL DEFAULT 0
 );
-CREATE INDEX ev_ts ON events (ts, name);
+CREATE INDEX ev_ts ON events (env, ts, name);
 
 -- One random salt per UTC day. Today's and yesterday's are kept; older ones are deleted.
 CREATE TABLE salts (

@@ -44,6 +44,8 @@ keys in `Boardroom 2.0\library\orgs.json`.
 - Location is city-level, as Cloudflare's edge reports it. Coordinates are rounded to 0.1°.
 - Global Privacy Control and Do Not Track switch the beacon off.
 - Page records older than 25 months are deleted.
+- Every row has `env`: `production` (boardroomwire.com), `preview` (*.pages.dev) or `local`. Reports
+  read production unless asked (`/telemetry/?env=preview`), so previews and tests never touch the real numbers.
 
 ## Commands
 
