@@ -35,6 +35,16 @@ keys in `Boardroom 2.0\library\orgs.json`.
    editing framework learns where viewers actually leave.
 4. **Later.** Substack subscribers and opens (CSV import), consented signups from the site, X.
 
+**Cloudflare history (built).** `cf_daily` and `cf_pages` (`migrations/0002_cloudflare_history.sql`) hold Cloudflare's own
+edge counts, filled by `npm run cf:history` (`scripts/cf-history.mjs`).
+- Daily totals go back to 26 Apr 2026, when the site moved to Cloudflare. Cloudflare keeps these for a year.
+- Per-page detail comes with device, browser, OS and country, but no referrer on this plan. Cloudflare keeps
+  it for only 30 days, so **run the import at least monthly** or that detail is lost.
+- `human` means a real browser family. Dashboard frames loaded inside articles are `kind = embed`, and
+  scanners probing for files are dropped at import.
+
+The dashboard shows it as "Before Wire Telemetry" (`/api/telemetry/history`).
+
 ## Privacy rules (these are promises on /privacy/)
 
 - No cookies, and nothing stored on the reader's device. No IP address stored, ever.
