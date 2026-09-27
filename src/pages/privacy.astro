@@ -1,0 +1,32 @@
+---
+/**
+ * /privacy/ — the short notice. Every claim here is enforced in code (db/README.md "Privacy rules",
+ * functions/api/t.ts, src/components/Telemetry.astro); change this page and that code together.
+ * The user asked for it short (27 Sep 2026). A signup form that collects emails will need a fuller
+ * notice.
+ */
+import Site from '../layouts/Site.astro';
+---
+
+<Site
+  title="Privacy · Boardroom Wire"
+  description="How Boardroom Wire counts readers: no cookies, no IP addresses, no idea who you are."
+  pageLabel="Privacy"
+  path="/privacy/"
+>
+  <main id="main" class="wrap">
+    <p class="eyebrow">Privacy</p>
+    <h1 class="hd">No cookies. <span class="dim">No idea who you are.</span></h1>
+    <div class="rule"></div>
+    <section class="copy">
+      <p>We count readers to see which stories land. We record the pages read, where readers came from, and their approximate city, device and network.</p>
+      <p>We never set cookies, never store IP addresses and don't try to identify anyone. If your browser sends Global Privacy Control or Do Not Track, you aren't counted at all.</p>
+      <p>Videos play from YouTube once you press play, under YouTube's own privacy policy.</p>
+    </section>
+  </main>
+</Site>
+
+<style>
+  .copy { max-width: 640px; }
+  .copy p { font-size: 16px; line-height: 1.65; color: var(--white-dim, #BDB8AA); margin: 0 0 16px; }
+</style>

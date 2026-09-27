@@ -29,11 +29,13 @@ interface Props {
   /** Serialised into a JSON-LD script tag. */
   jsonLd?: Record<string, unknown>;
   noindex?: boolean;
+  /** Pipeline slug of the video this page belongs to (keys its page views). */
+  video?: string;
 }
 
 const {
   title, description, pageLabel, ogImage, path,
-  ogType = 'website', publishedTime, modifiedTime, jsonLd, noindex = false,
+  ogType = 'website', publishedTime, modifiedTime, jsonLd, noindex = false, video,
 } = Astro.props;
 
 ---
@@ -42,7 +44,7 @@ const {
 <html lang="en">
 <head>
   <SeoHead title={title} description={description} path={path} ogImage={ogImage}
-    ogType={ogType} publishedTime={publishedTime} modifiedTime={modifiedTime} jsonLd={jsonLd} noindex={noindex} />
+    ogType={ogType} publishedTime={publishedTime} modifiedTime={modifiedTime} jsonLd={jsonLd} noindex={noindex} video={video} />
 
   <style is:global>
     :root {
@@ -362,6 +364,7 @@ const {
       <a href="/videos/">Videos</a>
       <a href="/about/">About</a>
       <a href="https://boardroomwire.substack.com/" target="_blank" rel="noopener">Substack</a>
+      <a href="/privacy/">Privacy</a>
       <a href="/">← Home</a>
     </span>
   </footer>

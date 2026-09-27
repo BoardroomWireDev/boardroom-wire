@@ -1,0 +1,57 @@
+---
+/**
+ * Wire Telemetry beacon: first-party, no cookies, nothing stored on the reader's device.
+ *
+ * One POST to /api/t when a page opens (path, referrer, campaign tags, title, screen width,
+ * language, and the video the page belongs to from <meta name="bw:video">). One sendBeacon each
+ * time the page is hidden or closed, with visible time and scroll depth, both cumulative so
+ * repeats are harmless. One per outbound click. The server adds city-level location and the
+ * network's owner, and counts visitors with a daily hash (functions/api/t.ts, db/README.md).
+ *
+ * Global Privacy Control and Do Not Track switch it off. The dashboard itself is never counted.
+ * Rendered by SeoHead, so every page carries it.
+ */
+---
+
+<script is:inline>
+  (() => {
+    try {
+      const n = navigator;
+      if (n.globalPrivacyControl === true || n.doNotTrack === '1' || window.doNotTrack === '1') return;
+      if (location.pathname.startsWith('/telemetry')) return;
+      const id = (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2)).replace(/-/g, '').slice(0, 24);
+      const video = document.querySelector('meta[name="bw:video"]')?.getAttribute('content') || null;
+      const post = (body, beacon) => {
+        const s = JSON.stringify(body);
+        if (beacon && n.sendBeacon && n.sendBeacon('/api/t', s)) return;
+        fetch('/api/t', { method: 'POST', body: s, keepalive: true, headers: { 'Content-Type': 'text/plain' } }).catch(() => {});
+      };
+      post({ k: 'view', id, p: location.pathname, q: location.search, r: document.referrer, t: document.title, v: video, w: screen.width, l: n.language });
+
+      let shownAt = document.visibilityState === 'visible' ? performance.now() : 0, engaged = 0, scroll = 0;
+      const depth = () => {
+        const h = document.documentElement.scrollHeight - innerHeight;
+        scroll = Math.max(scroll, h > 0 ? Math.min(100, Math.round((100 * scrollY) / h)) : 100);
+      };
+      addEventListener('scroll', depth, { passive: true });
+      addEventListener('load', depth);
+      const leave = () => {
+        if (shownAt) { engaged += performance.now() - shownAt; shownAt = 0; }
+        post({ k: 'leave', id, e: Math.round(engaged), s: scroll }, true);
+      };
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') leave(); else shownAt = performance.now();
+      });
+      addEventListener('pagehide', leave);
+
+      document.addEventListener('click', (e) => {
+        const a = e.target instanceof Element ? e.target.closest('a[href]') : null;
+        if (!a) return;
+        const u = new URL(a.href, location.href);
+        if (u.host === location.host || !/^https?:$/.test(u.protocol)) return;
+        const v = /(^|\.)youtube\.com$/.test(u.hostname) && u.searchParams.get('v') ? `?v=${u.searchParams.get('v')}` : '';
+        post({ k: 'event', id, n: 'outbound', v: video, x: u.hostname.replace(/^www\./, '') + u.pathname + v }, true);
+      }, true);
+    } catch { /* telemetry must never break a page */ }
+  })();
+</script>

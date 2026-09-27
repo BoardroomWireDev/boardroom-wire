@@ -29,3 +29,7 @@ pnpm-debug.log*
 
 # scratch space used by scripts/sync-dashboards.mjs
 .posters-stash/
+
+# wrangler: the local copy of the database, and local-only settings (TELEMETRY_DEV_OPEN)
+.wrangler/
+.dev.vars
