@@ -30,8 +30,13 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
               (SELECT SUM(CASE WHEN human = 1 AND kind = 'embed' THEN loads END) FROM cf_pages) embeds,
               (SELECT SUM(CASE WHEN human = 0 THEN loads END) FROM cf_pages) bot_loads,
               (SELECT MIN(day) FROM page_views WHERE env = 'production' AND bot = 0) telemetry_from`),
+    // the daily collector's health: its last good run, and its latest run whatever the outcome
+    s(`SELECT (SELECT MAX(ts) FROM collector_runs WHERE job = 'cloudflare-history' AND ok = 1) last_ok,
+              (SELECT ts FROM collector_runs WHERE job = 'cloudflare-history' ORDER BY ts DESC LIMIT 1) last_ts,
+              (SELECT ok FROM collector_runs WHERE job = 'cloudflare-history' ORDER BY ts DESC LIMIT 1) last_ok_flag,
+              (SELECT detail FROM collector_runs WHERE job = 'cloudflare-history' ORDER BY ts DESC LIMIT 1) last_detail`),
   ]);
   const r = res.map((x) => x.results ?? []);
-  return Response.json({ daily: r[0], pages: r[1], videos: r[2], countries: r[3], tech: r[4], meta: r[5][0] ?? {} },
+  return Response.json({ daily: r[0], pages: r[1], videos: r[2], countries: r[3], tech: r[4], meta: r[5][0] ?? {}, collector: r[6][0] ?? {} },
     { headers: { 'Cache-Control': 'no-store' } });
 };

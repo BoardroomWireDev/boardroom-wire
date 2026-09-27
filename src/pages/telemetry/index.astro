@@ -159,6 +159,7 @@ const DASH = Object.fromEntries(collections.flatMap((c) => [[`/analytics/${c.slu
 
     <section id="history">
       <h2 class="sect">Before Wire Telemetry <em>Cloudflare's own counts for the domain, copied in so they don't expire</em></h2>
+      <p class="notice" id="collector-warn" hidden></p>
       <section class="kpis" id="hkpis"></section>
       <section class="grid">
         <article class="panel w12"><h2>Daily traffic <em id="hist-range"></em></h2>
@@ -341,6 +342,11 @@ const DASH = Object.fromEntries(collections.flatMap((c) => [[`/analytics/${c.slu
     }
     async function history() {
       let h; try { h = await get('/api/telemetry/history'); } catch { $('history').hidden = true; return; }
+      // the daily copy must keep running: Cloudflare discards per-page detail after 30 days
+      const cl = h.collector || {}, stale = !cl.last_ok || Date.now() - cl.last_ok > 3 * 86_400_000, cw = $('collector-warn');
+      cw.hidden = !stale && cl.last_ok_flag !== 0;
+      if (!cw.hidden) cw.textContent = (cl.last_ok ? `The daily copy last succeeded on ${new Date(cl.last_ok).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}.` : 'The daily copy has not run yet.')
+        + (cl.last_ok_flag === 0 ? ` Latest attempt failed: ${cl.last_detail}.` : '') + ' Cloudflare keeps page detail for 30 days, so anything older than that is lost if the copy stays down.';
       const m = h.meta || {}, fmtDay = (d) => d ? new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }) : '–';
       const days = h.daily.length, uniq = h.daily.reduce((a, r) => a + (r.uniques || 0), 0);
       $('hkpis').innerHTML = [

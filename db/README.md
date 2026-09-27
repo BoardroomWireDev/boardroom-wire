@@ -45,6 +45,17 @@ edge counts, filled by `npm run cf:history` (`scripts/cf-history.mjs`).
 
 The dashboard shows it as "Before Wire Telemetry" (`/api/telemetry/history`).
 
+**The daily collector (built).** `collector/` is a separate Worker, `bw-collector`: a cron at 06:23 UTC with no
+public URL, bound to the same database.
+- It re-copies the last 3 days of page detail and the last 7 days of totals each morning, using the same
+  code as the hand-run import (`server/cf-history.ts`).
+- It logs every run in `collector_runs` (`migrations/0003`). The dashboard warns if the last good run is
+  more than 3 days old, or the latest one failed.
+- Commands: `npm run collector:deploy` (it deploys by hand, not from git) and `npm run collector:logs`.
+- Its one secret is `CF_ANALYTICS_TOKEN`: a Cloudflare API token with only Zone · Analytics · Read on
+  boardroomwire.com.
+- Phase 2's nightly YouTube pull joins this Worker.
+
 ## Privacy rules (these are promises on /privacy/)
 
 - No cookies, and nothing stored on the reader's device. No IP address stored, ever.
