@@ -120,6 +120,7 @@ const westToEast = CAPITALS.map((c, i) => ({ ...c, i })).sort((a, b) => a.lng - 
       const { createGlobe } = await import('./scene');
       api = await createGlobe({
         host, tier: lite ? 'lite' : 'full', calm, paused,
+        palette: new URLSearchParams(location.search).get('palette') === 'v1' ? 'v1' : 'brand',
         label: document.getElementById('gv2-label')!,
         caption: document.getElementById('gv2-caption'),
         live: document.getElementById('gv2-live'),

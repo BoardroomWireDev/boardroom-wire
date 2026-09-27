@@ -47,6 +47,8 @@ export interface GlobeOptions {
   calm: boolean;
   /** Start paused (the reader's saved choice from the Pause control). */
   paused: boolean;
+  /** 'brand' (default) or 'v1' — the first preview's darker dots, kept for comparison via ?palette=v1. */
+  palette?: 'brand' | 'v1';
   onFirstFrame?: () => void;
 }
 export interface GlobeApi {
@@ -140,13 +142,15 @@ const LAND_VS = /* glsl */ `
     gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
   }`;
 const LAND_FS = /* glsl */ `
-  uniform vec3 uGold, uGoldBright, uAmber;
+  uniform vec3 uGold, uGoldBright, uAmber, uBronze; uniform float uLumBase, uLumCoast, uWarm;
   varying vec2 vUv; varying float vCoast, vSwell, vLum;
   void main() {
     float a = 1.0 - smoothstep(0.62, 1.0, length(vUv));
-    vec3 col = mix(mix(uGold, uGoldBright, vCoast), uAmber, vSwell);
-    float lum = (0.42 + 0.38 * vCoast) * vLum + 0.7 * vSwell;
-    gl_FragColor = vec4(col, a * clamp(lum, 0.0, 1.0));
+    float lum = clamp((uLumBase + uLumCoast * vCoast) * vLum + 0.7 * vSwell, 0.0, 1.0);
+    vec3 base = mix(uGold, uGoldBright, vCoast);
+    // Gold in shadow goes bronze, not olive: dim dots (night side, edges) lean warm.
+    base = mix(base, uBronze, uWarm * (1.0 - smoothstep(0.35, 0.8, lum)));
+    gl_FragColor = vec4(mix(base, uAmber, vSwell), a * lum);
   }`;
 
 const CAP_VS = /* glsl */ `
@@ -214,6 +218,7 @@ const GLOW_FS = /* glsl */ `
 /* ------------------------------------------------------------------ main */
 export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
   const lite = o.tier === 'lite';
+  const v1 = o.palette === 'v1';
   const land = await loadLand(lite ? '/globe/land-1.25.bin' : '/globe/land-1.00.bin');
 
   const renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -248,8 +253,11 @@ export async function createGlobe(o: GlobeOptions): Promise<GlobeApi> {
   landGeo.setAttribute('aSeed', new InstancedBufferAttribute(land.seed, 1));
   const rippleU = { value: Array.from({ length: 4 }, () => new Vector4(0, 0, 1, -1)) };
   const landMat = new ShaderMaterial({ vertexShader: LAND_VS, fragmentShader: LAND_FS, transparent: true, depthWrite: false,
-    uniforms: { ...common, uSize: { value: land.step * D2R * 0.40 }, uShimmer: { value: o.calm ? 0 : 0.08 }, uNight: { value: 0.55 },
-      uRipple: rippleU, uGold: { value: C.gold }, uGoldBright: { value: C.goldBright }, uAmber: { value: C.amber } } });
+    uniforms: { ...common, uSize: { value: land.step * D2R * 0.40 }, uShimmer: { value: o.calm ? 0 : 0.08 }, uNight: { value: v1 ? 0.55 : 0.6 },
+      uRipple: rippleU, uGold: { value: C.gold }, uGoldBright: { value: C.goldBright }, uAmber: { value: C.amber },
+      // palette 'brand' (27 Sep): dots at the brand gold, warm shadows. 'v1' keeps the first preview's darker, flatter dots.
+      uBronze: { value: rgb('#B07A2A') }, uWarm: { value: v1 ? 0 : 1 },
+      uLumBase: { value: v1 ? 0.42 : 0.74 }, uLumCoast: { value: v1 ? 0.38 : 0.26 } } });
   const landMesh = new Mesh(landGeo, landMat); landMesh.frustumCulled = false; spin.add(landMesh);
 
   // capitals
