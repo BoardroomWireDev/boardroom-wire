@@ -17,7 +17,9 @@
     "edge": "astro build && wrangler pages dev dist --port 8788",
     "db:local": "wrangler d1 migrations apply bw-data --local",
     "db:remote": "wrangler d1 migrations apply bw-data --remote",
-    "cf:history": "node scripts/cf-history.mjs"
+    "cf:history": "node scripts/cf-history.mjs",
+    "collector:deploy": "wrangler deploy --config collector/wrangler.toml",
+    "collector:logs": "wrangler d1 execute bw-data --remote --command \"SELECT datetime(ts/1000,'unixepoch') at, job, ok, detail FROM collector_runs ORDER BY ts DESC LIMIT 10\""
   },
   "dependencies": {
     "astro": "^5.18.1",

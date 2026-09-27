@@ -1,0 +1,21 @@
+# bw-collector: the daily collector for the bw-data database (collector/src/index.ts, db/README.md).
+# A Worker with a cron and no public URL. It deploys by hand, not from git: npm run collector:deploy
+name = "bw-collector"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+workers_dev = false
+preview_urls = false
+
+[triggers]
+crons = ["23 6 * * *"]   # 06:23 UTC every day
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bw-data"
+database_id = "ca9d0ebb-0246-499a-a891-ec716db10b7e"
+
+[observability]
+enabled = true
+
+# Secret (not in this file): CF_ANALYTICS_TOKEN, a Cloudflare API token with Zone · Analytics · Read on
+# boardroomwire.com only. Set it with: npx wrangler secret put CF_ANALYTICS_TOKEN --config collector/wrangler.toml
