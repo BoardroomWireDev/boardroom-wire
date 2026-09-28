@@ -355,7 +355,8 @@ const DASH = Object.fromEntries(collections.flatMap((c) => [[`/analytics/${c.slu
         + `${num(T.bots)} crawler and script page views were left out. Organisations are the registered owners of readers' networks: `
         + `a best guess that hides home and mobile internet providers and data centres. Location is city-level. Updated ${new Date(d.generated).toLocaleTimeString()}.`;
     }
-    const YT_SOURCE = { SUBSCRIBER: 'Subscribers\' feeds', YT_SEARCH: 'YouTube search', RELATED_VIDEO: 'Suggested videos', EXT_URL: 'Other sites and apps',
+    // YouTube's API codes for Studio's traffic sources. SUBSCRIBER is Studio's 'Browse features' (Home + subscriptions), not subscribers only.
+    const YT_SOURCE = { SUBSCRIBER: 'Home and subscription feeds', YT_SEARCH: 'YouTube search', RELATED_VIDEO: 'Suggested videos', EXT_URL: 'Other sites and apps',
       NO_LINK_OTHER: 'Direct or unknown', NOTIFICATION: 'Notifications', PLAYLIST: 'Playlists', YT_PLAYLIST_PAGE: 'Playlist pages', YT_CHANNEL: 'Channel page',
       YT_OTHER_PAGE: 'Other YouTube pages', END_SCREEN: 'End screens', SHORTS: 'Shorts feed', HASHTAGS: 'Hashtags', ANNOTATION: 'Cards', CAMPAIGN_CARD: 'Campaign cards',
       ADVERTISING: 'Ads', NO_LINK_EMBEDDED: 'Embedded players', SOUND_PAGE: 'Sound pages', LIVE_REDIRECT: 'Live redirects', VIDEO_REMIXES: 'Remixes', PRODUCT_PAGE: 'Product pages' };
