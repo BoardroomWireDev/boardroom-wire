@@ -10,7 +10,7 @@ CREATE TABLE videos (
   title       TEXT NOT NULL,
   published   TEXT,                     -- ISO timestamp, from YouTube
   duration_s  INTEGER,
-  short       INTEGER NOT NULL DEFAULT 0,   -- 1 = a Short (60 s or under, or tagged #shorts)
+  short       INTEGER NOT NULL DEFAULT 0,   -- 1 = a Short (3 minutes or under, or tagged #shorts)
   updated_at  INTEGER NOT NULL
 );
 CREATE INDEX videos_slug ON videos (slug);
