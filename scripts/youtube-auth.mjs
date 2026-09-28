@@ -36,6 +36,7 @@ const verifier = randomBytes(32).toString('base64url');
 const challenge = createHash('sha256').update(verifier).digest('base64url');
 const state = randomBytes(12).toString('hex');
 
+let port = 0;                                     // read while the listener is up: a closed server has no address
 const code = await new Promise((resolve, reject) => {
   const srv = createServer((req, res) => {
     const u = new URL(req.url, 'http://127.0.0.1');
@@ -46,9 +47,10 @@ const code = await new Promise((resolve, reject) => {
     srv.close();
     if (err) reject(new Error(`consent refused: ${err}`));
     else if (u.searchParams.get('state') !== state) reject(new Error('state mismatch'));
-    else resolve({ got, redirect: `http://127.0.0.1:${srv.address().port}` });
+    else resolve({ got, redirect: `http://127.0.0.1:${port}` });
   }).listen(0, '127.0.0.1', () => {
-    const redirect = `http://127.0.0.1:${srv.address().port}`;
+    port = srv.address().port;
+    const redirect = `http://127.0.0.1:${port}`;
     const url = 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams({
       client_id: client.client_id, redirect_uri: redirect, response_type: 'code', scope: SCOPES, access_type: 'offline',
       prompt: 'consent', state, code_challenge: challenge, code_challenge_method: 'S256',
