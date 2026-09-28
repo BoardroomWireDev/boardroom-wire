@@ -143,7 +143,8 @@ export function timeChart(host: HTMLElement, first: ChartSpec): ChartHandle {
     // x-axis labels: evenly spaced, first and last always
     const maxLabels = Math.max(2, Math.floor(plotW / 78)), every = Math.max(1, Math.ceil(n / maxLabels));
     const idx = new Set<number>(); for (let i = 0; i < n; i += every) idx.add(i); idx.add(n - 1);
-    if (n > 1 && idx.has(n - 1)) { const prev = [...idx].filter((i) => i < n - 1).pop(); if (prev != null && (n - 1 - prev) < every * 0.6) idx.delete(prev); }
+    // the last label is right-aligned to the plot edge: drop the one before it if the two would touch
+    if (n > 1) { const prev = [...idx].filter((i) => i < n - 1).pop(); if (prev != null && prev > 0 && left + plotW - X(prev) < 78) idx.delete(prev); }
     for (const i of idx) {
       const t = el('text', { x: X(i), y: bottom + 17, 'text-anchor': i === 0 && n > 1 ? 'start' : i === n - 1 && n > 1 ? 'end' : 'middle', class: 'tc-tick' });
       if (i === 0 && n > 1) t.setAttribute('x', String(left)); if (i === n - 1 && n > 1) t.setAttribute('x', String(left + plotW));

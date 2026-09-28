@@ -23,6 +23,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const KPI = `SELECT
       (SELECT SUM(views) FROM youtube_channel_daily WHERE day >= ?1 AND day <= ?2) yt_views,
       (SELECT SUM(minutes) FROM youtube_channel_daily WHERE day >= ?1 AND day <= ?2) yt_minutes,
+      (SELECT SUM(revenue) FROM youtube_channel_daily WHERE day >= ?1 AND day <= ?2) yt_revenue,
       (SELECT SUM(subs_gained) - SUM(subs_lost) FROM youtube_channel_daily WHERE day >= ?1 AND day <= ?2) yt_subs,
       (SELECT COUNT(DISTINCT day || visitor) FROM page_views WHERE ${SITE}) site_visitors,
       (SELECT COUNT(DISTINCT CASE WHEN source = 'youtube' THEN day || visitor END) FROM page_views WHERE ${SITE}) site_from_youtube,

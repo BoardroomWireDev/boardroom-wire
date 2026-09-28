@@ -15,7 +15,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
         (SELECT MIN(day) FROM page_views WHERE env = 'production' AND bot = 0) web_from,
         (SELECT MIN(day) FROM youtube_channel_daily) yt_from, (SELECT MAX(day) FROM youtube_channel_daily) yt_to,
         (SELECT MIN(day) FROM cf_daily) cf_from, (SELECT MIN(day) FROM cf_pages) cf_pages_from,
-        (SELECT COUNT(*) FROM videos) videos`),
+        (SELECT COUNT(*) FROM videos) videos,
+        (SELECT MIN(day) FROM youtube_channel_daily WHERE revenue > 0) rev_from`),
     one(`SELECT job, MAX(CASE WHEN ok = 1 THEN ts END) last_ok, MAX(ts) last_ts,
         (SELECT ok FROM collector_runs r2 WHERE r2.job = r.job ORDER BY ts DESC LIMIT 1) last_flag,
         (SELECT detail FROM collector_runs r2 WHERE r2.job = r.job ORDER BY ts DESC LIMIT 1) last_detail

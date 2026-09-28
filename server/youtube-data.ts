@@ -15,7 +15,9 @@
  */
 
 export const CHANNEL_ID = 'UCthfphsDjHppg9SQv3JTdrg';
-export const SCOPES = ['https://www.googleapis.com/auth/yt-analytics.readonly', 'https://www.googleapis.com/auth/youtube.readonly'];
+export const SCOPES = ['yt-analytics.readonly', 'youtube.readonly', 'yt-analytics-monetary.readonly'].map((x) => 'https://www.googleapis.com/auth/' + x);
+/** Revenue metrics (migration 0005), US dollars. Needs the monetary scope and a Partner Program channel. */
+export const R_METRICS = 'estimatedRevenue,estimatedAdRevenue,estimatedRedPartnerRevenue,grossRevenue,cpm,playbackBasedCpm,monetizedPlaybacks,adImpressions';
 const DAY_MS = 86_400_000;
 export const dayOf = (t: number) => new Date(t).toISOString().slice(0, 10);
 
@@ -93,6 +95,12 @@ export const videosOnDay = (token: string, day: string, budget?: Budget) =>
   report(token, { startDate: day, endDate: day, dimensions: 'video', sort: '-views', maxResults: '200',
     metrics: 'views,estimatedMinutesWatched,averageViewDuration,averageViewPercentage,subscribersGained,subscribersLost,likes,comments,shares' }, budget);
 
+export const channelRevenue = (token: string, start: string, end: string, budget?: Budget) =>
+  report(token, { startDate: start, endDate: end, dimensions: 'day', sort: 'day', metrics: R_METRICS, currency: 'USD' }, budget);
+/** Every video's revenue for one day, in one request. */
+export const revenueOnDay = (token: string, day: string, budget?: Budget) =>
+  report(token, { startDate: day, endDate: day, dimensions: 'video', sort: '-estimatedRevenue', maxResults: '200', metrics: R_METRICS, currency: 'USD' }, budget);
+
 export const sourcesForVideo = (token: string, id: string, start: string, end: string, budget?: Budget) =>
   report(token, { startDate: start, endDate: end, dimensions: 'day,insightTrafficSourceType', filters: `video==${id}`, metrics: 'views,estimatedMinutesWatched' }, budget);
 
@@ -106,7 +114,7 @@ export async function youtubeDaily(db: D1Database, creds: { clientId: string; cl
   budget.used++;                                                    // the token exchange
   const token = await accessToken(creds.clientId, creds.clientSecret, creds.refreshToken);
   const stmts: D1PreparedStatement[] = [], failed: string[] = [];
-  let rows = 0, srcRows = 0, chDays = 0, perVideo = 0, sourcesFor = 0, left = 0, uploads = 0;
+  let rows = 0, srcRows = 0, chDays = 0, perVideo = 0, sourcesFor = 0, left = 0, uploads = 0, revDays = 0, revVideoDays = 0, revLeft = 0;
   try {
     // 1. the uploads, and the site's article for each
     const videos = await listUploads(token, budget); uploads = videos.length;
@@ -125,9 +133,16 @@ export async function youtubeDaily(db: D1Database, creds: { clientId: string; cl
     const chFrom = lastChannel ? dayOf(Math.max(Date.parse(first), Date.parse(lastChannel) - 10 * DAY_MS)) : first;
     try {
       const ch = await channelDaily(token, chFrom, yesterday, budget); chDays = ch.length;
-      const chUp = db.prepare('INSERT OR REPLACE INTO youtube_channel_daily (day, views, minutes, subs_gained, subs_lost) VALUES (?, ?, ?, ?, ?)');
+      const chUp = db.prepare(`INSERT INTO youtube_channel_daily (day, views, minutes, subs_gained, subs_lost) VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(day) DO UPDATE SET views = excluded.views, minutes = excluded.minutes, subs_gained = excluded.subs_gained, subs_lost = excluded.subs_lost`);
       for (const r of ch) stmts.push(chUp.bind(r.day, r.views, r.estimatedMinutesWatched, r.subscribersGained, r.subscribersLost));
     } catch { failed.push('channel'); }
+    try {                                             // revenue per day, channel-wide, same window (after the rows above exist)
+      const cr = await channelRevenue(token, chFrom, yesterday, budget); revDays = cr.length;
+      const up = db.prepare(`UPDATE youtube_channel_daily SET revenue = ?, ad_revenue = ?, red_revenue = ?, gross_revenue = ?, cpm = ?, playback_cpm = ?,
+        monetized_playbacks = ?, ad_impressions = ? WHERE day = ?`);
+      for (const r of cr) stmts.push(up.bind(r.estimatedRevenue, r.estimatedAdRevenue, r.estimatedRedPartnerRevenue, r.grossRevenue, r.cpm, r.playbackBasedCpm, r.monetizedPlaybacks, r.adImpressions, r.day));
+    } catch { failed.push('channel revenue'); }
 
     // 3. per-video days: the last ten always, then the newest missing older days while the budget lasts,
     //    keeping room for the sources of up to four recent videos
@@ -139,7 +154,7 @@ export async function youtubeDaily(db: D1Database, creds: { clientId: string; cl
     const dayUp = db.prepare(`INSERT OR REPLACE INTO youtube_daily (youtube_id, day, views, minutes, avg_view_s, avg_view_pct, subs_gained, subs_lost, likes, comments, shares)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
     const doneUp = db.prepare('INSERT OR REPLACE INTO youtube_days_done (day, fetched_at) VALUES (?, ?)');
-    const reserve = young.length + 1;
+    const reserve = young.length + recent.length + 1;              // room for the sources and the recent revenue days
     for (const d of [...recent, ...older]) {
       if (budget.left <= reserve) break;
       try {
@@ -154,6 +169,25 @@ export async function youtubeDaily(db: D1Database, creds: { clientId: string; cl
     }
     left = older.filter((d) => !doneSet.has(d)).length;
 
+    // 3b. per-video revenue: the last ten days always (estimates move), then older missing days while the budget lasts
+    const { results: revDone } = await db.prepare('SELECT day FROM youtube_revenue_days_done').all<{ day: string }>();
+    const revSet = new Set(revDone.map((r) => r.day)), revOlder: string[] = [];
+    for (let t = now - 11 * DAY_MS; dayOf(t) >= first; t -= DAY_MS) if (!revSet.has(dayOf(t))) revOlder.push(dayOf(t));
+    const revUp = db.prepare(`INSERT OR REPLACE INTO youtube_revenue_daily (youtube_id, day, revenue, ad_revenue, red_revenue, gross_revenue, cpm, playback_cpm,
+      monetized_playbacks, ad_impressions) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+    const revDoneUp = db.prepare('INSERT OR REPLACE INTO youtube_revenue_days_done (day, fetched_at) VALUES (?, ?)');
+    for (const d of [...recent, ...revOlder]) {
+      if (budget.left <= young.length + 1) break;
+      try {
+        const rs = await revenueOnDay(token, d, budget);
+        stmts.push(db.prepare('DELETE FROM youtube_revenue_daily WHERE day = ?').bind(d));
+        for (const r of rs) stmts.push(revUp.bind(r.video, d, r.estimatedRevenue, r.estimatedAdRevenue, r.estimatedRedPartnerRevenue, r.grossRevenue, r.cpm,
+          r.playbackBasedCpm, r.monetizedPlaybacks, r.adImpressions));
+        stmts.push(revDoneUp.bind(d, now)); revVideoDays++; revSet.add(d);
+      } catch { failed.push(`revenue ${d}`); }
+    }
+    revLeft = revOlder.filter((d) => !revSet.has(d)).length;
+
     // 4. where the young videos' views came from, since publication
     const srcUp = db.prepare('INSERT OR REPLACE INTO youtube_sources (youtube_id, day, source, views, minutes) VALUES (?, ?, ?, ?, ?)');
     for (const v of young) {
@@ -166,7 +200,7 @@ export async function youtubeDaily(db: D1Database, creds: { clientId: string; cl
   } finally {
     for (let i = 0; i < stmts.length; i += 400) await db.batch(stmts.slice(i, i + 400));
   }
-  const summary = `${uploads} uploads; channel ${chDays} days; per-video ${perVideo} days (${rows} rows)`
+  const summary = `${uploads} uploads; channel ${chDays} days (revenue ${revDays}); per-video ${perVideo} days (${rows} rows); revenue ${revVideoDays} days${revLeft ? ` (${revLeft} older to backfill)` : ''}`
     + `${left ? `, ${left} older days still to backfill` : ', history complete'}; sources for ${sourcesFor} recent videos (${srcRows} rows); ${budget.used} requests`;
   if (!perVideo && !chDays) throw new Error(`nothing fetched${failed.length ? `; failed: ${failed.slice(0, 6).join(', ')}` : ''}`);
   return summary + (failed.length ? `; skipped after a retry: ${failed.slice(0, 6).join(', ')}${failed.length > 6 ? ' …' : ''}` : '');
