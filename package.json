@@ -19,6 +19,7 @@
     "db:remote": "wrangler d1 migrations apply bw-data --remote",
     "cf:history": "node scripts/cf-history.mjs",
     "collector:deploy": "wrangler deploy --config collector/wrangler.toml",
+    "yt:auth": "node scripts/youtube-auth.mjs",
     "collector:logs": "wrangler d1 execute bw-data --remote --command \"SELECT datetime(ts/1000,'unixepoch') at, job, ok, detail FROM collector_runs ORDER BY ts DESC LIMIT 10\""
   },
   "dependencies": {

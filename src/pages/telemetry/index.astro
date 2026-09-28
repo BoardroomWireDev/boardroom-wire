@@ -7,7 +7,8 @@
  * The map is the homepage globe's land dots (public/globe/land-1.25.bin, an equal-area grid) drawn
  * flat in the Equal Earth projection, which is also equal-area, so the dots stay evenly spaced.
  * Video and article titles come from the content collection at build time. Below the live panels, "Before
- * Wire Telemetry" shows Cloudflare's own edge history (/api/telemetry/history, scripts/cf-history.mjs).
+ * Wire Telemetry" shows Cloudflare's own edge history (/api/telemetry/history, scripts/cf-history.mjs). The YouTube
+ * section (/api/telemetry/youtube) puts the channel's own analytics beside the site's numbers, video by video.
  */
 import { getCollection } from 'astro:content';
 import SeoHead from '../../components/SeoHead.astro';
@@ -137,6 +138,20 @@ const DASH = Object.fromEntries(collections.flatMap((c) => [[`/analytics/${c.slu
   <main>
     <p class="notice" id="notice" hidden></p>
     <section class="kpis" id="kpis"></section>
+
+    <section id="yt">
+      <h2 class="sect">YouTube <em>the channel's own analytics, read nightly · two to three days behind</em></h2>
+      <p class="notice" id="yt-warn" hidden></p>
+      <section class="kpis" id="ykpis"></section>
+      <section class="grid">
+        <article class="panel w12"><h2>Views and site visits <em id="yt-range"></em></h2>
+          <svg id="yseries" viewBox="0 0 1000 220" preserveAspectRatio="none"></svg><div class="ticks" id="yticks"></div>
+          <div class="legend"><span><i style="background: rgba(212,175,55,0.55)"></i>YouTube views</span><span><i style="background: #FFB347; height: 2px; vertical-align: 3px"></i>Site visitors from YouTube (own scale)</span></div>
+          <span class="chip">YouTube Analytics · Wire Telemetry</span></article>
+        <article class="panel w8"><h2>By video <em>YouTube · and what each sent to the site</em></h2><table id="yvideos"></table></article>
+        <article class="panel"><h2>Where views came from <em>recent videos</em></h2><ol class="bars" id="ysources"></ol></article>
+      </section>
+    </section>
     <section class="grid">
       <article class="panel w8">
         <h2>Where readers are <em id="map-note"></em></h2>
@@ -340,6 +355,43 @@ const DASH = Object.fromEntries(collections.flatMap((c) => [[`/analytics/${c.slu
         + `${num(T.bots)} crawler and script page views were left out. Organisations are the registered owners of readers' networks: `
         + `a best guess that hides home and mobile internet providers and data centres. Location is city-level. Updated ${new Date(d.generated).toLocaleTimeString()}.`;
     }
+    const YT_SOURCE = { SUBSCRIBER: 'Subscribers\' feeds', YT_SEARCH: 'YouTube search', RELATED_VIDEO: 'Suggested videos', EXT_URL: 'Other sites and apps',
+      NO_LINK_OTHER: 'Direct or unknown', NOTIFICATION: 'Notifications', PLAYLIST: 'Playlists', YT_PLAYLIST_PAGE: 'Playlist pages', YT_CHANNEL: 'Channel page',
+      YT_OTHER_PAGE: 'Other YouTube pages', END_SCREEN: 'End screens', SHORTS: 'Shorts feed', HASHTAGS: 'Hashtags', ANNOTATION: 'Cards', CAMPAIGN_CARD: 'Campaign cards',
+      ADVERTISING: 'Ads', NO_LINK_EMBEDDED: 'Embedded players', SOUND_PAGE: 'Sound pages', LIVE_REDIRECT: 'Live redirects', VIDEO_REMIXES: 'Remixes', PRODUCT_PAGE: 'Product pages' };
+    async function youtube() {
+      let y; try { y = await get(`/api/telemetry/youtube?range=${range}`); } catch { $('yt').hidden = true; return; }
+      $('yt').hidden = false;
+      const st = y.status || {}, w = $('yt-warn'), T = y.totals || {}, S = T.site_from_youtube || {};
+      const stale = st.last_ok && Date.now() - st.last_ok > 3 * 86_400_000;
+      w.hidden = !!st.videos && !stale && st.last_ok_flag !== 0;
+      if (!w.hidden) w.textContent = !st.videos ? 'Not connected yet. The nightly pull starts once the channel owner has allowed read access (scripts/youtube-auth.mjs).'
+        : (stale ? `The YouTube pull last succeeded on ${new Date(st.last_ok).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}.` : '')
+          + (st.last_ok_flag === 0 ? ` Latest attempt failed: ${st.last_detail}` : '');
+      const hours = (m) => (m == null ? '–' : num(m / 60));
+      $('ykpis').innerHTML = [
+        ['Views', num(T.views), 'on YouTube'],
+        ['Watch time', hours(T.minutes), 'hours'],
+        ['Average viewed', T.avg_pct == null ? '–' : Math.round(T.avg_pct) + '%', 'of each video'],
+        ['Subscribers', T.subs == null ? '–' : (T.subs >= 0 ? '+' : '') + num(T.subs), 'gained, net'],
+        ['Site visitors from YouTube', num(S.visitors), `${num(S.views)} page views`],
+        ['Per 1,000 views', T.views ? (1000 * (S.visitors || 0) / T.views).toFixed(1) : '–', 'visited the site'],
+      ].map(([t, v, sub]) => `<div class="kpi"><h3>${t}</h3><p>${v}</p><small>${sub}</small></div>`).join('');
+      const rows = y.daily, n = rows.length || 1, W = 1000, H = 220, top = 12, bw = W / n;
+      const vmax = Math.max(1, ...rows.map((r) => r.views || 0)), smax = Math.max(1, ...rows.map((r) => r.site_visitors || 0));
+      const yv = (v) => H - 2 - ((H - 2 - top) * v) / vmax, ys = (v) => H - 2 - ((H - 2 - top) * v) / smax;
+      const rects = rows.map((r, i) => `<rect x="${(i * bw + bw * 0.12).toFixed(1)}" y="${yv(r.views || 0).toFixed(1)}" width="${Math.max(1, bw * 0.76).toFixed(1)}" height="${(H - 2 - yv(r.views || 0)).toFixed(1)}" fill="rgba(212,175,55,0.55)"><title>${r.day}: ${r.views} views, ${Math.round((r.minutes || 0) / 60)} watch hours, ${r.subs >= 0 ? '+' : ''}${r.subs} subscribers, ${r.site_visitors || 0} site visitors from YouTube</title></rect>`).join('');
+      const line = rows.map((r, i) => `${i ? 'L' : 'M'}${(i * bw + bw / 2).toFixed(1)},${ys(r.site_visitors || 0).toFixed(1)}`).join('');
+      $('yseries').innerHTML = `<line x1="0" x2="${W}" y1="${H - 2}" y2="${H - 2}" stroke="#1c1c22" vector-effect="non-scaling-stroke"/>${rects}${rows.length ? `<path d="${line}" fill="none" stroke="#FFB347" stroke-width="2" vector-effect="non-scaling-stroke"/>` : ''}`;
+      const fd = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+      $('yticks').innerHTML = rows.length ? [0, Math.floor((n - 1) / 2), n - 1].map((i) => `<span>${fd(rows[i].day)}</span>`).join('') : '<span class="empty">No YouTube data yet.</span>';
+      $('yt-range').textContent = rows.length ? `${fd(rows[0].day)} to ${fd(rows.at(-1).day)}` : '';
+      table($('yvideos'), ['Video', 'Views', 'Watch hours', 'Viewed', 'Subs', 'Site views', 'From YouTube', 'To Substack'], y.videos.map((v) => [
+        `${esc(v.title)}${v.short ? ' <small style="display:inline;color:#FFB347">SHORT</small>' : ''}<small>${esc(v.slug || v.youtube_id)} · ${v.published ? fd(v.published.slice(0, 10)) : ''}</small>`,
+        num(v.views), hours(v.minutes), v.avg_pct == null ? '–' : Math.round(v.avg_pct) + '%', (v.subs >= 0 ? '+' : '') + num(v.subs),
+        v.slug ? num(v.site_views) : '–', v.slug ? num(v.site_from_youtube) : '–', v.slug ? num(v.substack_clicks) : '–']));
+      bars($('ysources'), y.sources.slice(0, 10), (r) => esc(YT_SOURCE[r.source] || r.source.replace(/_/g, ' ').toLowerCase()), (r) => r.views);
+    }
     async function history() {
       let h; try { h = await get('/api/telemetry/history'); } catch { $('history').hidden = true; return; }
       // the daily copy must keep running: Cloudflare discards per-page detail after 30 days
@@ -385,9 +437,9 @@ const DASH = Object.fromEntries(collections.flatMap((c) => [[`/analytics/${c.slu
     async function live() {
       try { const l = await get(`/api/telemetry/live?${envQ.slice(1)}`); $('live-n').textContent = l.readers; livePts = l.points; kick(); } catch { /* the report shows the error */ }
     }
-    document.querySelectorAll('.ranges button').forEach((b) => b.addEventListener('click', () => { range = b.dataset.range; history.replaceState(null, '', '#' + range); report(); }));
+    document.querySelectorAll('.ranges button').forEach((b) => b.addEventListener('click', () => { range = b.dataset.range; window.history.replaceState(null, '', '#' + range); report(); youtube(); }));
     loadLand().then(kick);
-    report(); live(); history(); setInterval(live, 30_000);
+    report(); live(); history(); youtube(); setInterval(live, 30_000);
   </script>
 </body>
 </html>
