@@ -11,6 +11,12 @@
  *
  * Any other cron string (a temporary test schedule) runs both jobs. Every run is logged in collector_runs,
  * and the telemetry dashboard warns when a job's last good run is old.
+ * To run a job by hand, never deploy a test cron: on 27 Sep 2026 an every-minute schedule kept firing for about
+ * four hours after it was changed back (221 extra runs), and with the backfill it pushed D1 over the free plan's
+ * 100,000 rows written a day, which blocks every write, the site's beacon included, until 00:00 UTC. Instead run
+ * it once, on Cloudflare with the real bindings:
+ *   npx wrangler dev --config collector/wrangler.toml --remote --test-scheduled
+ *   then open http://localhost:8787/__scheduled?cron=41+6+*+*+*   (23+6+… for cloudflare-history)
  * Deploy: npm run collector:deploy. Secrets: CF_ANALYTICS_TOKEN (npx wrangler secret put … --config
  * collector/wrangler.toml), and the YouTube ones, set by scripts/youtube-auth.mjs.
  */

@@ -55,6 +55,10 @@ public URL, bound to the same database.
 - Its one secret is `CF_ANALYTICS_TOKEN`: a Cloudflare API token with only Zone · Analytics · Read on
   boardroomwire.com.
 - Phase 2's nightly YouTube pull joins this Worker.
+- **Never test it with an every-minute cron.** Cloudflare kept firing one for about four hours after it was changed
+  back (27 Sep), and D1's free plan allows 100,000 rows written a day. Past that, every write fails until 00:00 UTC,
+  the beacon's included. Run a job once with `wrangler dev --remote --test-scheduled` (see collector/src/index.ts).
+  Normal use is about 5,000 rows written a day.
 
 ## Privacy rules (these are promises on /privacy/)
 
