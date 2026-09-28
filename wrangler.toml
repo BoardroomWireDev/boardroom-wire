@@ -12,6 +12,9 @@ database_id = "ca9d0ebb-0246-499a-a891-ec716db10b7e"
 migrations_dir = "db/migrations"
 
 [vars]
+# Only non-secret settings belong here: this file replaces the dashboard's variables, and the repo is public.
+# PUBLIC_YOUTUBE_API_KEY is a Pages secret (production and preview), set with wrangler pages secret put. astro.config.mjs
+# fails the build if it is missing.
 # Cloudflare Access, which guards /telemetry/ and /api/telemetry/. Until both are set the reports stay locked.
 ACCESS_TEAM_DOMAIN = "noisy-base-590d.cloudflareaccess.com"   # auto-named team; rename in Zero Trust → Settings and update here
 ACCESS_AUD = "1bb2009d611fd2325af22b839de6d34e9f8ae9b48c9567c4ab52a8bda5dbbb68"   # the Wire Telemetry app (www…/telemetry, www…/api/telemetry)
