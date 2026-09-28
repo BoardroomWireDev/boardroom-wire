@@ -1,446 +1,294 @@
 ---
 /**
- * /telemetry/ — Wire Telemetry, the private readership dashboard. Behind Cloudflare Access; the page
- * holds no data itself, it reads /api/telemetry/report and /live (both check the Access token and fail
- * closed). Never indexed, never in the sitemap, and the beacon skips it.
+ * /telemetry/ — Wire Telemetry, the private business dashboard. Behind Cloudflare Access; the page holds no data
+ * itself: the app (src/components/telemetry/app.ts) reads /api/telemetry/* (each checks the Access token, fail closed).
+ * Never indexed, never in the sitemap, and the beacon skips it.
  *
- * The map is the homepage globe's land dots (public/globe/land-1.25.bin, an equal-area grid) drawn
- * flat in the Equal Earth projection, which is also equal-area, so the dots stay evenly spaced.
- * Video and article titles come from the content collection at build time. Below the live panels, "Before
- * Wire Telemetry" shows Cloudflare's own edge history (/api/telemetry/history, scripts/cf-history.mjs). The YouTube
- * section (/api/telemetry/youtube) puts the channel's own analytics beside the site's numbers, video by video.
+ * Views, from the icon sidebar: Overview (YouTube and the site together), Web analytics (Wire Telemetry), YouTube
+ * (the channel's own analytics) and Legacy (Cloudflare's edge history). One date-range control scopes every view.
+ * Charts follow the dataviz rules: one axis per panel (never two y-scales on a plot), YouTube in gold #AD8C29 and the
+ * site in blue #3987e5 (validated pair, dark surface, all pairs), a table view behind every chart.
  */
 import { getCollection } from 'astro:content';
 import SeoHead from '../../components/SeoHead.astro';
 import { collections } from '../../data/analytics';
 
-const ARTICLES = (await getCollection('articles')).map((a) => ({
-  slug: a.id, title: a.data.title, video: a.data.collection ?? null, youtube: a.data.youtube ?? null,
-}));
-const SHORT = Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead]));
-const DASH = Object.fromEntries(collections.flatMap((c) => [[`/analytics/${c.slug}/`, `${c.headline.lead} · dashboards`],
-  ...c.dashboards.map((d) => [`/analytics/${c.slug}/${d.slug}/`, `${d.title} · dashboard`])]));
+const site = {
+  articles: (await getCollection('articles')).map((a) => ({ slug: a.id, title: a.data.title, video: a.data.collection ?? null, youtube: a.data.youtube ?? null })),
+  short: Object.fromEntries(collections.map((c) => [c.slug, c.headline.lead])),
+  dash: Object.fromEntries(collections.flatMap((c) => [[`/analytics/${c.slug}/`, `${c.headline.lead} · dashboards`],
+    ...c.dashboards.map((d) => [`/analytics/${c.slug}/${d.slug}/`, `${d.title} · dashboard`])])),
+};
+const nav = [
+  { id: 'overview', label: 'Overview', key: 'g o', icon: '<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>' },
+  { id: 'web', label: 'Web analytics', key: 'g w', icon: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.3 3.8 8.5s-1.2 6.1-3.8 8.5M12 3.5C9.4 5.9 8.2 8.8 8.2 12s1.2 6.1 3.8 8.5"/>' },
+  { id: 'youtube', label: 'YouTube', key: 'g y', icon: '<rect x="3" y="5.5" width="18" height="13" rx="3.5"/><path d="M10.2 9.3v5.4l4.7-2.7z" fill="currentColor" stroke="none"/>' },
+  { id: 'legacy', label: 'Legacy', key: 'g l', icon: '<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4 4.5v3.2h3.2"/><path d="M12 8v4.3l2.8 1.7"/>' },
+];
 ---
 
 <!doctype html>
 <html lang="en">
 <head>
-  <SeoHead title="Wire Telemetry · Boardroom Wire" description="Private readership dashboard." path="/telemetry/" noindex />
+  <SeoHead title="Wire Telemetry · Boardroom Wire" description="Private business dashboard." path="/telemetry/" noindex />
   <style is:global>
     :root {
-      --bg: #0a0a0f; --panel: #0f0f14; --line: #1c1c22; --cream: #F5F1E5; --dim: #A9A497; --mute: #6F6A5E;
+      --bg: #0a0a0f; --panel: #101016; --panel-hi: #16161e; --line: #1e1e26; --grid: #22222a; --hover: rgba(245, 241, 229, 0.05);
+      --cream: #F5F1E5; --ink2: #BDB8AA; --mute: #858073; --faint: #5f5b52;
       --gold: #D4AF37; --gold-bright: #F2CB52; --amber: #FFB347;
+      --yt: #AD8C29; --web: #3987e5; --good: #3fb950; --bad: #f0706a;
       --display: 'Inter', system-ui, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+      --sb: 236px; --radius: 10px;
+      color-scheme: dark;
     }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--cream); font-family: var(--display); }
-    .bar {
-      display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding: 18px 32px;
-      border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; background: rgba(10, 10, 15, 0.94);
-      backdrop-filter: blur(6px);
+    html, body { margin: 0; background: var(--bg); color: var(--cream); font-family: var(--display); -webkit-font-smoothing: antialiased; }
+    button, input { font: inherit; color: inherit; }
+    a { color: inherit; }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    svg.ic { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ---------------------------------------------------------------- shell */
+    .app { display: grid; grid-template-columns: var(--sb) minmax(0, 1fr); min-height: 100vh; transition: grid-template-columns 0.18s ease; }
+    .app.collapsed { --sb: 68px; }
+    .side { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 6px; padding: 16px 12px; background: #0c0c11; border-right: 1px solid var(--line); overflow: hidden; }
+    .brand { display: flex; align-items: center; gap: 10px; padding: 4px 6px 18px; text-decoration: none; }
+    .brand img { width: 30px; height: 30px; border-radius: 7px; flex: none; }
+    .brand span { font: 900 13px/1.1 var(--display); letter-spacing: -0.01em; white-space: nowrap; }
+    .brand span b { color: var(--gold-bright); font-weight: 900; }
+    .brand small { display: block; font: 600 9.5px/1.3 var(--mono); letter-spacing: 0.24em; color: var(--amber); margin-top: 3px; }
+    .nav { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 0; list-style: none; }
+    .nav a, .side-foot a, .side-foot button {
+      position: relative; display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: 8px;
+      color: var(--ink2); text-decoration: none; font: 500 14px/1 var(--display); white-space: nowrap; background: none; border: 0; cursor: pointer; width: 100%; text-align: left;
     }
-    .brand { font: 900 18px/1 var(--display); letter-spacing: -0.01em; color: var(--cream); text-decoration: none; }
-    .brand span { color: var(--gold-bright); }
-    .tag { font: 600 11px/1 var(--mono); letter-spacing: 0.28em; color: var(--amber); }
-    .ranges { display: flex; gap: 4px; margin-left: auto; }
-    .ranges button {
-      font: 600 11px/1 var(--mono); letter-spacing: 0.16em; color: var(--dim); background: none; cursor: pointer;
-      border: 1px solid var(--line); padding: 8px 12px;
+    .nav a:hover, .side-foot a:hover, .side-foot button:hover { background: var(--hover); color: var(--cream); }
+    .nav a[aria-current='page'] { background: rgba(212, 175, 55, 0.1); color: var(--cream); }
+    .nav a[aria-current='page']::before { content: ''; position: absolute; left: -12px; top: 9px; bottom: 9px; width: 3px; border-radius: 0 3px 3px 0; background: var(--gold); }
+    .nav a[aria-current='page'] svg { color: var(--gold-bright); }
+    .nav kbd { margin-left: auto; font: 500 10px/1 var(--mono); color: var(--faint); letter-spacing: 0.08em; }
+    .side-foot { margin-top: auto; display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--line); padding-top: 10px; }
+    .collapsed .lbl, .collapsed .brand span, .collapsed .nav kbd { opacity: 0; pointer-events: none; }
+    .collapsed #collapse svg { transform: scaleX(-1); }
+    .collapsed .nav a:hover::after, .collapsed .side-foot a:hover::after, .collapsed .nav a:focus-visible::after {
+      content: attr(data-label); position: fixed; left: 76px; padding: 7px 10px; background: #1b1b23; border: 1px solid var(--line); border-radius: 6px;
+      color: var(--cream); font: 500 12px/1 var(--display); pointer-events: none; z-index: 30; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     }
-    .ranges button[aria-pressed='true'] { color: #000; background: var(--gold-bright); border-color: var(--gold-bright); }
-    .live { margin: 0; font: 500 11px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); display: flex; align-items: center; gap: 8px; }
-    .live b { color: var(--amber); font-weight: 600; }
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 10px var(--amber); animation: beat 2.4s ease-in-out infinite; }
-    @keyframes beat { 50% { opacity: 0.35; } }
 
-    main { padding: 28px 32px 64px; max-width: 1500px; margin: 0 auto; }
-    .kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 20px; }
-    .kpi { background: var(--panel); padding: 18px 20px 20px; }
-    .kpi h3 { margin: 0 0 12px; font: 600 10px/1.2 var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--mute); }
-    .kpi p { margin: 0; font: 600 30px/1 var(--mono); color: var(--cream); letter-spacing: -0.02em; }
-    .kpi small { display: block; margin-top: 8px; font: 500 11px/1.3 var(--mono); color: var(--dim); letter-spacing: 0.04em; }
+    .top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 16px 32px; background: rgba(10, 10, 15, 0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+    .top h1 { margin: 0; font: 800 22px/1.15 var(--display); letter-spacing: -0.015em; }
+    .top .sub { margin: 3px 0 0; font-size: 12.5px; color: var(--mute); }
+    .top-r { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .live { display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; font: 500 11px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute); }
+    .live i { width: 7px; height: 7px; border-radius: 50%; background: var(--faint); }
+    .live.active { color: var(--ink2); } .live.active i { background: var(--amber); box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.18); animation: beat 2.4s ease-in-out infinite; }
+    .live b { color: var(--cream); font-weight: 600; }
+    @keyframes beat { 50% { opacity: 0.4; } }
 
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
-    .panel { grid-column: span 4; background: var(--panel); border: 1px solid var(--line); padding: 18px 20px 20px; min-width: 0; }
-    .panel.w8 { grid-column: span 8; } .panel.w6 { grid-column: span 6; } .panel.w12 { grid-column: span 12; }
-    .panel h2 { margin: 0 0 14px; font: 700 11px/1 var(--display); letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-bright); display: flex; gap: 10px; align-items: baseline; }
-    .panel h2 em { font: 500 10px/1 var(--mono); letter-spacing: 0.1em; color: var(--mute); font-style: normal; text-transform: none; margin-left: auto; }
-    .chip {
-      display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 4px 8px;
-      font: 600 9px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.4);
+    /* date range */
+    .range { position: relative; display: flex; align-items: stretch; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+    .range > button { background: none; border: 0; cursor: pointer; color: var(--ink2); }
+    .range .step { width: 34px; display: grid; place-items: center; }
+    .range .step:hover, #range-btn:hover { background: var(--hover); color: var(--cream); }
+    .range .step:first-child { border-right: 1px solid var(--line); border-radius: 9px 0 0 9px; } .range .step:last-child { border-left: 1px solid var(--line); border-radius: 0 9px 9px 0; }
+    #range-btn { display: flex; align-items: center; gap: 10px; padding: 7px 14px; text-align: left; min-width: 250px; }
+    #range-btn .rl { display: block; font: 600 13.5px/1.2 var(--display); color: var(--cream); }
+    #range-btn .rd { display: block; font: 500 11px/1.3 var(--mono); color: var(--mute); margin-top: 2px; }
+    #range-btn .chev { margin-left: auto; width: 14px; height: 14px; }
+    .pop { position: absolute; right: 0; top: calc(100% + 8px); width: 320px; background: #121219; border: 1px solid #2a2a33; border-radius: 12px; box-shadow: 0 18px 48px rgba(0, 0, 0, 0.6); padding: 6px; z-index: 40; }
+    .preset { display: flex; align-items: center; gap: 10px; width: 100%; height: 36px; padding: 0 12px; border: 0; background: none; border-radius: 7px; cursor: pointer; color: var(--ink2); font-size: 13.5px; text-align: left; }
+    .preset:hover, .preset:focus-visible { background: var(--hover); color: var(--cream); outline: none; }
+    .preset .ck { width: 16px; height: 16px; flex: none; }
+    .preset[aria-checked='true'] { color: var(--cream); font-weight: 600; }
+    .preset[aria-checked='true'] .ck { background: no-repeat center/16px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3.2 3L13 4.5' fill='none' stroke='%23F2CB52' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+    .preset .pd { margin-left: auto; font: 500 11px/1 var(--mono); color: var(--faint); }
+    .pop form { border-top: 1px solid var(--line); margin-top: 6px; padding: 12px 10px 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
+    .pop form p { grid-column: 1 / -1; margin: 0; font: 600 10px/1 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
+    .pop label { display: grid; gap: 5px; font-size: 11.5px; color: var(--mute); }
+    .pop input[type='date'] { height: 34px; padding: 0 8px; background: var(--bg); border: 1px solid #2a2a33; border-radius: 7px; font: 500 12.5px var(--mono); }
+    .pop .apply { grid-column: 1 / -1; height: 34px; border: 0; border-radius: 7px; background: var(--gold-bright); color: #000; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; }
+    .pop form p.utc { grid-column: 1 / -1; margin: 0; font: 400 11px/1.5 var(--display); letter-spacing: 0; text-transform: none; color: var(--faint); }
+
+    /* ----------------------------------------------------------------- main */
+    main { padding: 24px 32px 72px; max-width: 1560px; outline: none; }
+    main > * { transition: opacity 0.2s ease; }
+    main.loading > * { opacity: 0.5; pointer-events: none; }
+    .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .card { grid-column: span 12; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px 20px; min-width: 0; }
+    .span-4 { grid-column: span 4; } .span-5 { grid-column: span 5; } .span-6 { grid-column: span 6; } .span-7 { grid-column: span 7; } .span-8 { grid-column: span 8; }
+    .card-h { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .card-h h2 { margin: 0; font: 700 15px/1.3 var(--display); letter-spacing: -0.005em; }
+    .card-sub { margin: 3px 0 0; font-size: 12.5px; color: var(--mute); }
+    .card-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .ctl-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .mini { height: 30px; padding: 0 11px; border: 1px solid var(--line); border-radius: 7px; background: none; color: var(--ink2); font: 500 12px/1 var(--display); cursor: pointer; display: inline-flex; align-items: center; text-decoration: none; }
+    .mini:hover { background: var(--hover); color: var(--cream); } .mini[aria-pressed='true'] { color: var(--cream); border-color: #34343d; }
+    .seg { display: inline-flex; padding: 3px; gap: 2px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+    .seg button { height: 26px; padding: 0 11px; border: 0; border-radius: 6px; background: none; color: var(--mute); font: 500 12px/1 var(--display); cursor: pointer; white-space: nowrap; }
+    .seg button:hover { color: var(--cream); } .seg button.on { background: var(--panel-hi); color: var(--cream); box-shadow: inset 0 0 0 1px #2c2c35; }
+    .card-body.show-table .tc, .card-body.show-table .map { display: none; }
+    .tv-wrap { max-height: 420px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+
+    /* stat tiles */
+    .kpis { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; }
+    .kpi { position: relative; background: var(--panel); padding: 16px 18px 16px; min-height: 118px; display: flex; flex-direction: column; }
+    .kpi h3 { margin: 0 0 10px; font: 600 12px/1.3 var(--display); color: var(--ink2); }
+    .kpi-v { margin: 0; font: 600 28px/1 var(--mono); letter-spacing: -0.03em; color: var(--cream); }
+    .kpi.hero .kpi-v { font-size: 34px; }
+    .kpi-foot { margin-top: auto; padding-top: 10px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+    .kpi-sub { font-size: 11.5px; color: var(--mute); }
+    .delta { font: 600 11.5px/1 var(--mono); color: var(--ink2); white-space: nowrap; }
+    .delta.good { color: var(--good); } .delta.bad { color: var(--bad); } .delta.flat { color: var(--mute); }
+    .kpi-spark { position: absolute; right: 14px; top: 14px; opacity: 0.9; }
+
+    /* charts */
+    .chart-host { width: 100%; }
+    .tc { position: relative; }
+    .tc-svg { display: block; overflow: visible; outline: none; }
+    .tc-svg:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 4px; border-radius: 4px; }
+    .tc-grid { stroke: var(--grid); stroke-width: 1; } .tc-base { stroke: #3a3a42; stroke-width: 1; }
+    .tc-tick { fill: var(--mute); font: 500 10.5px var(--mono); font-variant-numeric: tabular-nums; }
+    .tc-plabel { fill: var(--ink2); font: 600 11.5px var(--display); }
+    .tc-legend { fill: var(--ink2); font: 500 11.5px var(--display); }
+    .tc-ref { stroke: #6a655a; stroke-width: 1; } .tc-reflabel { fill: var(--mute); font: 500 10.5px var(--display); }
+    .tc-mark { stroke: #4a4740; stroke-width: 1; } .tc-marklabel { fill: var(--mute); font: 500 10.5px var(--display); }
+    .tc-hair { stroke: #8a8578; stroke-width: 1; } .tc-dot { stroke: var(--panel); stroke-width: 2; }
+    .tc-empty { fill: var(--mute); font: 500 13px var(--display); }
+    .tc-tip { position: absolute; top: 0; left: 0; min-width: 190px; padding: 10px 12px; background: rgba(12, 12, 17, 0.97); border: 1px solid #2c2c35; border-radius: 8px; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55); pointer-events: none; opacity: 0; transition: opacity 0.1s; z-index: 5; }
+    .tc-tip.on { opacity: 1; }
+    .tc-tip-h { font: 500 11px/1.3 var(--mono); color: var(--mute); margin-bottom: 7px; }
+    .tc-tip-r { display: grid; grid-template-columns: 14px auto 1fr; align-items: center; gap: 8px; font-size: 12px; color: var(--ink2); line-height: 1.7; }
+    .tc-tip-r i { width: 12px; height: 2px; border-radius: 2px; }
+    .tc-tip-r b { font: 600 13px var(--mono); color: var(--cream); }
+    .map { position: relative; } .map canvas { display: block; }
+
+    /* lists and tables */
+    ol.bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    ol.bars li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5px 12px; font-size: 13px; }
+    .bars-l { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--cream); }
+    ol.bars b { font: 500 12px/1.2 var(--mono); color: var(--ink2); font-variant-numeric: tabular-nums; }
+    ol.bars i { grid-column: 1 / -1; height: 4px; background: var(--grid); border-radius: 2px; position: relative; overflow: hidden; }
+    ol.bars i::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--w); background: var(--c); border-radius: 2px; opacity: 0.85; }
+    .tbl-wrap { overflow-x: auto; }
+    table.tbl, table.tv { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .tbl th, .tv th { text-align: left; font: 600 11px/1.2 var(--display); color: var(--mute); padding: 0 10px 10px; white-space: nowrap; border-bottom: 1px solid var(--line); }
+    .tv th { padding: 10px; position: sticky; top: 0; background: #13131a; }
+    .tbl th.num, .tbl td.num { text-align: right; }
+    .th-btn { background: none; border: 0; padding: 0; cursor: pointer; color: inherit; font: inherit; display: inline-flex; gap: 4px; align-items: center; }
+    .th-btn:hover { color: var(--cream); } .th-btn .arrow { color: var(--gold-bright); width: 8px; }
+    [aria-sort='ascending'] .th-btn, [aria-sort='descending'] .th-btn { color: var(--cream); }
+    .tbl td, .tv td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: middle; color: var(--ink2); }
+    .tbl td.num, .tv td { font: 500 12.5px var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .tv td:first-child { font-family: var(--display); color: var(--cream); }
+    .tv th:not(:first-child), .tv td:not(:first-child) { text-align: right; }
+    .tbl tr:last-child td { border-bottom: 0; } .tbl tbody tr:hover td { background: rgba(245, 241, 229, 0.025); }
+    .tbl th:first-child, .tbl td:first-child { padding-left: 0; } .tbl th:last-child, .tbl td:last-child { padding-right: 0; }
+    .cell-title { display: block; color: var(--cream); font-size: 13.5px; line-height: 1.35; min-width: 220px; }
+    .cell-title small { display: block; margin-top: 2px; font: 500 10.5px/1.3 var(--mono); color: var(--faint); }
+    table.compare th[scope='row'] { font: 500 13px var(--display); color: var(--ink2); padding: 10px 10px 10px 0; border-bottom: 1px solid var(--line); text-align: left; }
+    .more { margin-top: 12px; background: none; border: 1px solid var(--line); border-radius: 7px; height: 32px; padding: 0 14px; color: var(--ink2); cursor: pointer; font-size: 12.5px; }
+    .more:hover { color: var(--cream); background: var(--hover); }
+    .tech { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+    .tech h4 { margin: 0 0 12px; font: 600 11px/1 var(--display); color: var(--mute); }
+    .health { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 12px; }
+    .health li { display: grid; grid-template-columns: 10px 1fr; gap: 2px 10px; align-items: center; font-size: 13px; }
+    .health li > span:not(.hl-dot), .health small { grid-column: 2; color: var(--mute); font-size: 12px; }
+    .hl-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); }
+    .health li.bad .hl-dot { background: var(--bad); } .health li.bad small { color: var(--bad); }
+    .note { margin: 0 0 18px; padding: 12px 16px; border: 1px solid var(--line); border-left: 2px solid var(--faint); border-radius: 8px; font-size: 13px; line-height: 1.55; color: var(--ink2); background: var(--panel); }
+    .note.warn { border-left-color: var(--amber); color: var(--cream); }
+    .card .note { margin: 0; background: none; border: 0; padding: 0; font-size: 12px; color: var(--mute); }
+    .empty { padding: 26px 8px; text-align: center; } .empty p { margin: 0; color: var(--mute); font-size: 13px; } .empty-hint { margin-top: 6px !important; color: var(--faint) !important; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; font: 600 9.5px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 4px; }
+    .foot { margin: 8px 0 0; max-width: 900px; font-size: 12px; line-height: 1.6; color: var(--faint); }
+
+    .state { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; background: var(--bg); text-align: center; padding: 24px; }
+    .state[hidden] { display: none; }
+    .state h2 { font: 800 28px/1.2 var(--display); margin: 0 0 12px; } .state p { color: var(--ink2); max-width: 460px; margin: 0 auto; line-height: 1.6; }
+    :focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 2px; }
+
+    @media (max-width: 1200px) {
+      .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .span-4, .span-5, .span-7, .span-8 { grid-column: span 6; }
+      .tech { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-    .chip::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
-
-    .mapwrap { position: relative; }
-    canvas#map { display: block; width: 100%; }
-    .tip {
-      position: absolute; pointer-events: none; padding: 8px 10px; background: rgba(8, 8, 10, 0.94);
-      border: 1px solid rgba(255, 179, 71, 0.3); border-left: 2px solid var(--amber);
-      font: 500 11px/1.4 var(--mono); color: var(--cream); white-space: nowrap; opacity: 0; transition: opacity 0.12s;
+    @media (max-width: 860px) {
+      .app, .app.collapsed { grid-template-columns: minmax(0, 1fr); }
+      .side { position: fixed; inset: auto 0 0 0; height: 64px; flex-direction: row; padding: 6px 8px calc(6px + env(safe-area-inset-bottom)); border-right: 0; border-top: 1px solid var(--line); z-index: 30; }
+      .brand, .side-foot { display: none; }
+      .nav { flex-direction: row; width: 100%; justify-content: space-around; }
+      .nav a { flex-direction: column; gap: 4px; height: 52px; padding: 6px 4px; font-size: 10.5px; justify-content: center; }
+      .nav a[aria-current='page']::before { left: 30%; right: 30%; top: -7px; bottom: auto; width: auto; height: 3px; border-radius: 0 0 3px 3px; }
+      .nav kbd { display: none; } .collapsed .lbl { opacity: 1; }
+      /* no backdrop-filter here: it would make the fixed picker sheet position against the header, not the screen */
+      .top { padding: 12px 16px; backdrop-filter: none; background: var(--bg); }
+      .col { min-width: 0; }
+      .top-r { margin-left: 0; width: 100%; min-width: 0; } .range { flex: 1; min-width: 0; }
+      #range-btn { min-width: 0; flex: 1; padding: 7px 10px; } #range-btn > span { min-width: 0; overflow: hidden; }
+      .live { padding: 0 10px; }
+      .live span { display: none; }
+      .pop { position: fixed; left: 12px; right: 12px; top: auto; bottom: 76px; width: auto; max-height: calc(100vh - 100px); overflow-y: auto; }
+      #range-btn .rd { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 52vw; }
+      .delta { white-space: normal; }
+      main { padding: 16px 16px 96px; }
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi-v { font-size: 22px; } .kpi.hero .kpi-v { font-size: 26px; } .kpi-spark { display: none; }
+      .grid { gap: 14px; margin-bottom: 14px; } .span-4, .span-5, .span-6, .span-7, .span-8 { grid-column: span 12; }
+      .card { padding: 14px 14px 16px; } .card-actions { margin-left: 0; width: 100%; }
+      .tech { grid-template-columns: minmax(0, 1fr); }
     }
-    .tip.on { opacity: 1; }
-
-    ol.bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
-    ol.bars li { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 13px; color: var(--cream); }
-    ol.bars li span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    ol.bars li b { font: 500 12px/1.2 var(--mono); color: var(--dim); }
-    ol.bars li i { grid-column: 1 / -1; height: 3px; background: var(--line); position: relative; }
-    ol.bars li i::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--w); background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
-
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { text-align: right; font: 600 9px/1 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); padding: 0 0 10px 12px; }
-    th:first-child, td:first-child { text-align: left; padding-left: 0; }
-    td { text-align: right; padding: 9px 0 9px 12px; border-top: 1px solid var(--line); font: 500 12px/1.3 var(--mono); color: var(--dim); }
-    td:first-child { font: 500 13px/1.35 var(--display); color: var(--cream); max-width: 420px; }
-    td small { display: block; font: 500 10px/1.3 var(--mono); color: var(--mute); letter-spacing: 0.04em; margin-top: 2px; }
-
-    svg#series { width: 100%; height: 200px; display: block; }
-    .ticks { display: flex; justify-content: space-between; margin-top: 8px; font: 500 11px/1 var(--mono); color: var(--mute); }
-    .empty { color: var(--mute); font: 500 12px/1.5 var(--mono); }
-    .tech { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .tech h4 { margin: 0 0 10px; font: 600 9px/1 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
-    .notes { margin: 28px 0 0; max-width: 900px; font: 400 12px/1.6 var(--mono); color: var(--mute); }
-    .notice { margin: 0 0 20px; padding: 14px 18px; border: 1px solid rgba(255, 179, 71, 0.35); border-left: 2px solid var(--amber); font: 500 13px/1.5 var(--display); color: var(--cream); }
-    .notice a { color: var(--gold-bright); }
-    .sect { margin: 56px 0 18px; padding-top: 28px; border-top: 1px solid var(--line); font: 800 22px/1.2 var(--display); color: var(--cream); display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; }
-    .sect em { font: 500 11px/1.4 var(--mono); letter-spacing: 0.06em; color: var(--mute); font-style: normal; }
-    .legend { display: flex; gap: 18px; margin-top: 10px; font: 500 10px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
-    .legend i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
-
-    .state { position: fixed; inset: 0; z-index: 10; display: none; place-items: center; background: var(--bg); text-align: center; padding: 24px; }
-    .state.on { display: grid; }
-    .state h1 { font: 800 28px/1.2 var(--display); margin: 0 0 12px; }
-    .state p { color: var(--dim); max-width: 460px; margin: 0 auto; line-height: 1.6; }
-
-    @media (max-width: 1100px) { .kpis { grid-template-columns: repeat(3, 1fr); } .panel, .panel.w6, .panel.w8 { grid-column: span 6; } .tech { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 720px) {
-      .bar { padding: 14px 16px; gap: 12px; } .ranges { margin-left: 0; width: 100%; } .ranges button { flex: 1; padding: 8px 0; }
-      main { padding: 16px 16px 48px; } .kpis { grid-template-columns: repeat(2, 1fr); } .kpi p { font-size: 24px; }
-      .panel, .panel.w6, .panel.w8 { grid-column: span 12; }
-    }
-    @media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+    @media (prefers-reduced-motion: reduce) { .live.active i { animation: none; } .app { transition: none; } }
   </style>
 </head>
 <body>
-  <header class="bar">
-    <a class="brand" href="/">BOARDROOM<span>WIRE</span></a>
-    <span class="tag">TELEMETRY</span>
-    <nav class="ranges" aria-label="Range">
-      <button type="button" data-range="24h">24H</button>
-      <button type="button" data-range="7d">7D</button>
-      <button type="button" data-range="30d">30D</button>
-      <button type="button" data-range="90d">90D</button>
-      <button type="button" data-range="365d">1Y</button>
-    </nav>
-    <p class="live"><span class="dot"></span><b id="live-n">–</b> reading now</p>
-  </header>
+  <div class="app" id="app">
+    <aside class="side" aria-label="Sections">
+      <a class="brand" href="#/overview" data-label="Overview"><img src="/logo.png" alt="" width="30" height="30" /><span>BOARDROOM<b>WIRE</b><small>TELEMETRY</small></span></a>
+      <nav aria-label="Views"><ul class="nav">
+        {nav.map((n) => (
+          <li><a href={`#/${n.id}`} data-view={n.id} data-label={n.label} aria-keyshortcuts={n.key.replace(' ', ' ')}>
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true" set:html={n.icon} /><span class="lbl">{n.label}</span><kbd aria-hidden="true">{n.key.toUpperCase()}</kbd>
+          </a></li>
+        ))}
+      </ul></nav>
+      <div class="side-foot">
+        <a href="/" data-label="boardroomwire.com"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></svg><span class="lbl">boardroomwire.com</span></a>
+        <button type="button" id="collapse" aria-expanded="true" aria-controls="app" data-label="Expand"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5" /><path d="M9.5 4.5v15M15.5 9.5L13 12l2.5 2.5" /></svg><span class="lbl">Collapse</span></button>
+      </div>
+    </aside>
 
-  <main>
-    <p class="notice" id="notice" hidden></p>
-    <section class="kpis" id="kpis"></section>
-
-    <section id="yt">
-      <h2 class="sect">YouTube <em>the channel's own analytics, read nightly · two to three days behind</em></h2>
-      <p class="notice" id="yt-warn" hidden></p>
-      <section class="kpis" id="ykpis"></section>
-      <section class="grid">
-        <article class="panel w12"><h2>Views and site visits <em id="yt-range"></em></h2>
-          <svg id="yseries" viewBox="0 0 1000 220" preserveAspectRatio="none"></svg><div class="ticks" id="yticks"></div>
-          <div class="legend"><span><i style="background: rgba(212,175,55,0.55)"></i>YouTube views</span><span><i style="background: #FFB347; height: 2px; vertical-align: 3px"></i>Site visitors from YouTube (own scale)</span></div>
-          <span class="chip">YouTube Analytics · Wire Telemetry</span></article>
-        <article class="panel w8"><h2>By video <em>YouTube · and what each sent to the site</em></h2><table id="yvideos"></table></article>
-        <article class="panel"><h2>Where views came from <em>recent videos</em></h2><ol class="bars" id="ysources"></ol></article>
-      </section>
-    </section>
-    <section class="grid">
-      <article class="panel w8">
-        <h2>Where readers are <em id="map-note"></em></h2>
-        <div class="mapwrap"><canvas id="map" aria-label="Map of reader locations"></canvas><div class="tip" id="tip"></div></div>
-        <span class="chip">City-level · Cloudflare edge</span>
-      </article>
-      <article class="panel"><h2>Countries</h2><ol class="bars" id="countries"></ol></article>
-      <article class="panel w12"><h2>Readers over time <em>bars: page views · line: visitors</em></h2><svg id="series" viewBox="0 0 1000 220" preserveAspectRatio="none"></svg><div class="ticks" id="ticks"></div></article>
-      <article class="panel"><h2>How they found us</h2><ol class="bars" id="sources"></ol></article>
-      <article class="panel"><h2>Referring sites</h2><ol class="bars" id="referrers"></ol></article>
-      <article class="panel"><h2>Clicks out</h2><ol class="bars" id="outbound"></ol></article>
-      <article class="panel w12"><h2>By video <em>articles and their dashboards</em></h2><table id="videos"></table></article>
-      <article class="panel w6"><h2>Organisations reading <em>network owner · home and mobile internet hidden</em></h2><table id="orgs"></table></article>
-      <article class="panel w6"><h2>Campaign links <em>utm tags</em></h2><table id="campaigns"></table></article>
-      <article class="panel w8"><h2>Pages</h2><table id="pages"></table></article>
-      <article class="panel"><h2>Cities</h2><ol class="bars" id="cities"></ol></article>
-      <article class="panel w12"><h2>Devices and networks</h2><div class="tech" id="tech"></div></article>
-    </section>
-    <p class="notes" id="notes"></p>
-
-    <section id="history">
-      <h2 class="sect">Before Wire Telemetry <em>Cloudflare's own counts for the domain, copied in so they don't expire</em></h2>
-      <p class="notice" id="collector-warn" hidden></p>
-      <section class="kpis" id="hkpis"></section>
-      <section class="grid">
-        <article class="panel w12"><h2>Daily traffic <em id="hist-range"></em></h2>
-          <svg id="hseries" viewBox="0 0 1000 220" preserveAspectRatio="none"></svg><div class="ticks" id="hticks"></div>
-          <div class="legend"><span><i style="background: rgba(212,175,55,0.55)"></i>Page loads, real browsers</span><span><i style="background: #FFB347; height: 2px; vertical-align: 3px"></i>Unique addresses, bots included</span></div>
-          <span class="chip">Cloudflare edge · page detail kept 30 days</span></article>
-        <article class="panel w6"><h2>Pages <em id="hpages-note">real browsers</em></h2><table id="hpages"></table></article>
-        <article class="panel w6"><h2>By video <em>article pages and dashboards inside them</em></h2><table id="hvideos"></table></article>
-        <article class="panel"><h2>Countries</h2><ol class="bars" id="hcountries"></ol></article>
-        <article class="panel"><h2>Devices</h2><ol class="bars" id="hdevices"></ol></article>
-        <article class="panel"><h2>Browsers</h2><ol class="bars" id="hbrowsers"></ol></article>
-      </section>
-      <p class="notes" id="hnotes"></p>
-    </section>
-  </main>
-
-  <div class="state" id="state" role="alert"><div><h1 id="state-h"></h1><p id="state-p"></p></div></div>
-
-  <script define:vars={{ ARTICLES, SHORT, DASH }}>
-    const $ = (id) => document.getElementById(id);
-    const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-    const num = (n) => { n = Number(n) || 0; return n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'K' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'K' : String(Math.round(n)); };
-    const dur = (ms) => { if (!ms) return '–'; const s = Math.round(ms / 1000); return s < 60 ? s + 's' : Math.floor(s / 60) + 'm ' + String(s % 60).padStart(2, '0') + 's'; };
-    const pct = (x) => (x == null ? '–' : Math.round(x * 100) + '%');
-    const regions = (() => { try { return new Intl.DisplayNames(['en'], { type: 'region' }); } catch { return null; } })();
-    const country = (c) => (c && regions ? regions.of(c) : c) || 'Unknown';
-    const SOURCE = { youtube: 'YouTube', x: 'X', substack: 'Substack', google: 'Google', bing: 'Bing', duckduckgo: 'DuckDuckGo', linkedin: 'LinkedIn',
-      reddit: 'Reddit', 'hacker-news': 'Hacker News', meta: 'Facebook / Instagram', 'ai-assistant': 'AI assistants', direct: 'Direct or unknown', other: 'Other sites' };
-    const NET = { isp: 'Home and mobile internet', hosting: 'Data centres and VPNs', org: 'Organisations', unknown: 'Unknown' };
-    const byVideo = new Map(ARTICLES.filter((a) => a.video).map((a) => [a.video, a]));
-    const byArticle = new Map(ARTICLES.map((a) => [a.slug, a]));
-    const PAGE = { '/': 'Home', '/videos/': 'Videos', '/about/': 'About', '/wire/': 'The Wire', '/analytics/': 'Analytics', '/privacy/': 'Privacy' };
-    const labelOf = (path, video, article) => PAGE[path] || DASH[path] || titleOf(video, article) || path;
-    const shortOf = (k) => SHORT[k] || (byArticle.get(k)?.video && SHORT[byArticle.get(k).video]) || PAGE[k] || k;
-    const titleOf = (video, article) => (video && byVideo.get(video)?.title) || (article && byArticle.get(article)?.title) || video || article || '';
-
-    function bars(el, rows, label, value, fmt = num) {
-      if (!rows.length) { el.innerHTML = '<li class="empty">Nothing yet in this range.</li>'; return; }
-      const max = Math.max(...rows.map(value), 1);
-      el.innerHTML = rows.map((r) => `<li><span>${label(r)}</span><b>${fmt(value(r))}</b><i style="--w:${(100 * value(r) / max).toFixed(1)}%"></i></li>`).join('');
-    }
-    function table(el, head, rows) {
-      if (!rows.length) { el.innerHTML = `<tr><td class="empty">Nothing yet in this range.</td></tr>`; return; }
-      el.innerHTML = `<tr>${head.map((h) => `<th>${h}</th>`).join('')}</tr>` + rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('');
-    }
-    function state(h, p) { $('state-h').textContent = h; $('state-p').textContent = p; $('state').classList.add('on'); }
-
-    /* ------------------------------------------------------------ the map */
-    const A1 = 1.340264, A2 = -0.081106, A3 = 0.000893, A4 = 0.003796, M = Math.sqrt(3) / 2, D = Math.PI / 180;
-    const ee = (lat, lon) => {                                  // Equal Earth, in projection units
-      const t = Math.asin(M * Math.sin(lat * D)), t2 = t * t, t6 = t2 * t2 * t2;
-      return [(2 * Math.sqrt(3) * lon * D * Math.cos(t)) / (3 * (9 * A4 * t6 * t2 + 7 * A3 * t6 + 3 * A2 * t2 + A1)),
-              A4 * t6 * t2 * t + A3 * t6 * t + A2 * t2 * t + A1 * t];
-    };
-    const X_MAX = ee(0, 180)[0], Y_TOP = ee(80, 0)[1], Y_BOT = ee(-57, 0)[1];
-    let landPts = null, cityPts = [], livePts = [], mapBox = null;
-    async function loadLand() {
-      const dv = new DataView(await (await fetch('/globe/land-1.25.bin')).arrayBuffer());
-      const step = dv.getFloat32(0, true), latMin = dv.getFloat32(4, true), rings = dv.getUint16(12, true), ns = [];
-      for (let i = 0; i < rings; i++) ns.push(dv.getUint16(14 + i * 2, true));
-      const bits = 14 + rings * 2, pts = [];
-      for (let i = 0, k = 0; i < rings; i++) {
-        const lat = latMin + (i + 0.5) * step;
-        for (let j = 0; j < ns[i]; j++, k++) if ((dv.getUint8(bits + (k >> 3)) >> (k & 7)) & 1) pts.push(ee(lat, -180 + ((j + 0.5) * 360) / ns[i]));
-      }
-      landPts = pts;
-    }
-    const canvas = $('map'), ctx = canvas.getContext('2d');
-    const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    function drawMap(t = 0) {
-      if (!landPts) return;
-      const w = canvas.clientWidth, h = Math.round((w * (Y_TOP - Y_BOT)) / (2 * X_MAX)), dpr = Math.min(2, devicePixelRatio || 1);
-      if (canvas.width !== Math.round(w * dpr)) { canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); canvas.style.height = h + 'px'; }
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, h);
-      const px = ([x, y]) => [((x + X_MAX) / (2 * X_MAX)) * w, ((Y_TOP - y) / (Y_TOP - Y_BOT)) * h];
-      mapBox = { w, h, px };
-      ctx.fillStyle = 'rgba(212, 175, 55, 0.28)';
-      const r = Math.max(0.7, w / 900);
-      for (const p of landPts) { const [x, y] = px(p); if (y < 0 || y > h) continue; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill(); }
-      const max = Math.max(1, ...cityPts.map((c) => c.visitors));
-      for (const c of cityPts) {
-        const [x, y] = px(ee(c.lat, c.lon)), R = 4 + 14 * Math.sqrt(c.visitors / max);
-        const g = ctx.createRadialGradient(x, y, 0, x, y, R);
-        g.addColorStop(0, 'rgba(255, 201, 122, 0.95)'); g.addColorStop(0.25, 'rgba(242, 203, 82, 0.55)'); g.addColorStop(1, 'rgba(212, 175, 55, 0)');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, 6.2832); ctx.fill();
-        c._xy = [x, y, R];
-      }
-      for (const p of livePts) {                                 // readers now: an amber ring that breathes outward
-        if (p.lat == null) continue;
-        const [x, y] = px(ee(p.lat, p.lon)), ph = calm ? 0.5 : (t / 1600 + (p.ts % 1000) / 1000) % 1;
-        ctx.strokeStyle = `rgba(255, 179, 71, ${0.9 * (1 - ph)})`; ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.arc(x, y, 4 + 16 * ph, 0, 6.2832); ctx.stroke();
-        ctx.fillStyle = '#FFC97A'; ctx.beginPath(); ctx.arc(x, y, 2.4, 0, 6.2832); ctx.fill();
-      }
-    }
-    let raf = 0;
-    const loop = (t) => { drawMap(t); raf = livePts.length && !calm && !document.hidden ? requestAnimationFrame(loop) : 0; };
-    const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
-    addEventListener('resize', () => { canvas.width = 0; kick(); });
-    document.addEventListener('visibilitychange', kick);
-    canvas.addEventListener('mousemove', (e) => {
-      const b = canvas.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top, tip = $('tip');
-      const hit = cityPts.find((c) => c._xy && Math.hypot(c._xy[0] - x, c._xy[1] - y) < Math.max(6, c._xy[2] * 0.6));
-      if (!hit) { tip.classList.remove('on'); return; }
-      tip.innerHTML = `${esc(hit.city || 'Unknown city')}, ${esc(country(hit.country))}<br>${num(hit.visitors)} visitors · ${num(hit.views)} views`;
-      tip.style.left = Math.min(x + 14, b.width - 200) + 'px'; tip.style.top = y + 14 + 'px'; tip.classList.add('on');
-    });
-    canvas.addEventListener('mouseleave', () => $('tip').classList.remove('on'));
-
-    /* ------------------------------------------------------------ the chart */
-    function series(rows, range) {
-      const svg = $('series');
-      if (!rows.length) { svg.innerHTML = ''; $('ticks').innerHTML = '<span class="empty">No readers yet in this range.</span>'; return; }
-      const W = 1000, H = 220, top = 12, bottom = 2, n = rows.length, bw = W / n;
-      const maxV = Math.max(1, ...rows.map((r) => r.views)), y = (v) => H - bottom - ((H - bottom - top) * v) / maxV;
-      const label = (k) => (range === '24h' ? k.slice(11) + ':00' : new Date(k + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }));
-      const barsS = rows.map((r, i) => `<rect x="${(i * bw + bw * 0.14).toFixed(1)}" y="${y(r.views).toFixed(1)}" width="${(bw * 0.72).toFixed(1)}" height="${(H - bottom - y(r.views)).toFixed(1)}" fill="rgba(212,175,55,0.45)"><title>${label(r.k)}: ${r.views} views, ${r.visitors} visitors</title></rect>`).join('');
-      const line = rows.map((r, i) => `${i ? 'L' : 'M'}${(i * bw + bw / 2).toFixed(1)},${y(r.visitors).toFixed(1)}`).join('');
-      $('ticks').innerHTML = [0, Math.floor((n - 1) / 2), n - 1].filter((v, i, a) => a.indexOf(v) === i).map((i) => `<span>${label(rows[i].k)}</span>`).join('');
-      svg.innerHTML = `<line x1="0" x2="${W}" y1="${H - bottom}" y2="${H - bottom}" stroke="#1c1c22" vector-effect="non-scaling-stroke"/>${barsS}<path d="${line}" fill="none" stroke="#FFB347" stroke-width="2" vector-effect="non-scaling-stroke"/>`;
-    }
-
-    /* ------------------------------------------------------------ data */
-    let range = (location.hash.slice(1) || '7d');
-    const site = new URLSearchParams(location.search).get('env');           // ?env=preview shows test traffic
-    const envQ = site ? `&env=${encodeURIComponent(site)}` : '';
-    async function get(path) {
-      const r = await fetch(path, { credentials: 'same-origin', cache: 'no-store' });
-      if (r.status === 403) throw Object.assign(new Error('locked'), { code: 'locked' });
-      if (r.status === 503) throw Object.assign(new Error('no-db'), { code: 'no-db' });
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    }
-    async function report() {
-      document.querySelectorAll('.ranges button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.range === range)));
-      let d;
-      try { d = await get(`/api/telemetry/report?range=${range}${envQ}`); }
-      catch (e) {
-        if (e.code === 'locked') return state('Locked.', 'Wire Telemetry opens only through Cloudflare Access, for the Boardroom Wire account.');
-        if (e.code === 'no-db') return state('Not connected yet.', 'The database is not bound to the site yet.');
-        return state('Couldn’t reach the data.', String(e.message || e));
-      }
-      const T = d.totals, out = Object.fromEntries(d.outboundBy.map((r) => [r.dest, r.clicks]));
-      const nt = $('notice'); nt.hidden = !!T.views;
-      const hist = $('history'), grid = document.querySelector('main > .grid');
-      if (!T.views && hist.compareDocumentPosition(grid) & Node.DOCUMENT_POSITION_FOLLOWING) {} else if (!T.views) grid.before(hist); else $('notes').after(hist);
-      if (!T.views) nt.innerHTML = `No readers recorded ${range === '24h' ? 'in the last 24 hours' : 'in this range'} yet. Wire Telemetry began counting on 27 September; for the weeks before, see <a href="#history">Cloudflare's history</a> below.`;
-      $('kpis').innerHTML = [
-        ['Visitors', num(T.visitors), 'counted per day'],
-        ['Page views', num(T.views), T.visitors ? (T.views / T.visitors).toFixed(1) + ' per visitor' : ''],
-        ['Time on page', dur(T.engaged), 'average, while visible'],
-        ['Single-page visits', pct(T.bounce), 'left after one page'],
-        ['Clicks to YouTube', num(out.youtube || 0), ''],
-        ['Clicks to Substack', num(out.substack || 0), (out.x ? num(out.x) + ' to X' : '')],
-      ].map(([h, v, s]) => `<div class="kpi"><h3>${h}</h3><p>${v}</p><small>${s || '&nbsp;'}</small></div>`).join('');
-
-      cityPts = d.cities; $('map-note').textContent = `${d.cities.length} cities`; kick();
-      bars($('countries'), d.countries.slice(0, 12), (r) => esc(country(r.country)), (r) => r.visitors);
-      series(d.series, range);
-      bars($('sources'), d.sources, (r) => esc(SOURCE[r.source] || r.source), (r) => r.visitors);
-      bars($('referrers'), d.referrers, (r) => esc(r.host), (r) => r.views);
-      bars($('outbound'), d.outbound, (r) => esc(r.target), (r) => r.clicks);
-      bars($('cities'), d.cities.slice(0, 12), (r) => esc(`${r.city || 'Unknown'}, ${country(r.country)}`), (r) => r.visitors);
-      table($('videos'), ['Video', 'Views', 'Visitors', 'Time on page', 'From YouTube', 'Dashboard views'], d.videos.map((r) => [
-        `${esc(titleOf(r.video, r.article))}<small>${esc(r.video || r.article)}</small>`, num(r.views), num(r.visitors), dur(r.engaged),
-        r.views ? pct(r.from_youtube / r.views) : '–', num(r.dashboard_views)]));
-      table($('pages'), ['Page', 'Views', 'Visitors', 'Time', 'Scroll'], d.pages.map((r) => [
-        `${esc((r.title || r.path).replace(/ · Boardroom Wire$/, ''))}<small>${esc(r.path)}</small>`, num(r.views), num(r.visitors), dur(r.engaged), r.scroll == null ? '–' : Math.round(r.scroll) + '%']));
-      table($('orgs'), ['Organisation', 'Visitors', 'Read'], d.orgs.map((r) => [
-        `${esc(r.org)}<small>${esc([r.city, country(r.country)].filter(Boolean).join(', '))} · AS${r.asn}</small>`, num(r.visitors),
-        esc([...new Set(String(r.pages || '').split(',').map(shortOf))].slice(0, 3).join(' · '))]));
-      table($('campaigns'), ['Source / medium', 'Campaign', 'Views'], d.campaigns.map((r) => [
-        esc([r.source, r.medium].filter(Boolean).join(' / ') || '–'), esc(r.campaign || '–'), num(r.views)]));
-      const dims = ['device', 'browser', 'os', 'net'], names = { device: 'Device', browser: 'Browser', os: 'System', net: 'Network' };
-      $('tech').innerHTML = dims.map((k) => `<div><h4>${names[k]}</h4><ol class="bars" id="tech-${k}"></ol></div>`).join('');
-      for (const k of dims) bars($(`tech-${k}`), d.tech.filter((r) => r.dim === k).sort((a, b) => b.n - a.n).slice(0, 6), (r) => esc(k === 'net' ? NET[r.v] || r.v : r.v || 'Unknown'), (r) => r.n);
-      $('notes').textContent = `Visitors are counted per day with a code that changes daily, so a reader on two days counts twice. `
-        + `${num(T.bots)} crawler and script page views were left out. Organisations are the registered owners of readers' networks: `
-        + `a best guess that hides home and mobile internet providers and data centres. Location is city-level. Updated ${new Date(d.generated).toLocaleTimeString()}.`;
-    }
-    // YouTube's API codes for Studio's traffic sources. SUBSCRIBER is Studio's 'Browse features' (Home + subscriptions), not subscribers only.
-    const YT_SOURCE = { SUBSCRIBER: 'Home and subscription feeds', YT_SEARCH: 'YouTube search', RELATED_VIDEO: 'Suggested videos', EXT_URL: 'Other sites and apps',
-      NO_LINK_OTHER: 'Direct or unknown', NOTIFICATION: 'Notifications', PLAYLIST: 'Playlists', YT_PLAYLIST_PAGE: 'Playlist pages', YT_CHANNEL: 'Channel page',
-      YT_OTHER_PAGE: 'Other YouTube pages', END_SCREEN: 'End screens', SHORTS: 'Shorts feed', HASHTAGS: 'Hashtags', ANNOTATION: 'Cards', CAMPAIGN_CARD: 'Campaign cards',
-      ADVERTISING: 'Ads', NO_LINK_EMBEDDED: 'Embedded players', SOUND_PAGE: 'Sound pages', LIVE_REDIRECT: 'Live redirects', VIDEO_REMIXES: 'Remixes', PRODUCT_PAGE: 'Product pages' };
-    async function youtube() {
-      let y; try { y = await get(`/api/telemetry/youtube?range=${range}`); } catch { $('yt').hidden = true; return; }
-      $('yt').hidden = false;
-      const st = y.status || {}, w = $('yt-warn'), T = y.totals || {}, S = T.site_from_youtube || {};
-      const stale = st.last_ok && Date.now() - st.last_ok > 3 * 86_400_000;
-      w.hidden = !!st.videos && !stale && st.last_ok_flag !== 0;
-      if (!w.hidden) w.textContent = !st.videos ? 'Not connected yet. The nightly pull starts once the channel owner has allowed read access (scripts/youtube-auth.mjs).'
-        : (stale ? `The YouTube pull last succeeded on ${new Date(st.last_ok).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}.` : '')
-          + (st.last_ok_flag === 0 ? ` Latest attempt failed: ${st.last_detail}` : '');
-      const hours = (m) => (m == null ? '–' : num(m / 60));
-      $('ykpis').innerHTML = [
-        ['Views', num(T.views), 'on YouTube'],
-        ['Watch time', hours(T.minutes), 'hours'],
-        ['Average viewed', T.avg_pct == null ? '–' : Math.round(T.avg_pct) + '%', 'of each video'],
-        ['Subscribers', T.subs == null ? '–' : (T.subs >= 0 ? '+' : '') + num(T.subs), 'gained, net'],
-        ['Site visitors from YouTube', num(S.visitors), `${num(S.views)} page views`],
-        ['Per 1,000 views', T.views ? (1000 * (S.visitors || 0) / T.views).toFixed(1) : '–', 'visited the site'],
-      ].map(([t, v, sub]) => `<div class="kpi"><h3>${t}</h3><p>${v}</p><small>${sub}</small></div>`).join('');
-      const rows = y.daily, n = rows.length || 1, W = 1000, H = 220, top = 12, bw = W / n;
-      const vmax = Math.max(1, ...rows.map((r) => r.views || 0)), smax = Math.max(1, ...rows.map((r) => r.site_visitors || 0));
-      const yv = (v) => H - 2 - ((H - 2 - top) * v) / vmax, ys = (v) => H - 2 - ((H - 2 - top) * v) / smax;
-      const rects = rows.map((r, i) => `<rect x="${(i * bw + bw * 0.12).toFixed(1)}" y="${yv(r.views || 0).toFixed(1)}" width="${Math.max(1, bw * 0.76).toFixed(1)}" height="${(H - 2 - yv(r.views || 0)).toFixed(1)}" fill="rgba(212,175,55,0.55)"><title>${r.day}: ${r.views} views, ${Math.round((r.minutes || 0) / 60)} watch hours, ${r.subs >= 0 ? '+' : ''}${r.subs} subscribers, ${r.site_visitors || 0} site visitors from YouTube</title></rect>`).join('');
-      const line = rows.map((r, i) => `${i ? 'L' : 'M'}${(i * bw + bw / 2).toFixed(1)},${ys(r.site_visitors || 0).toFixed(1)}`).join('');
-      $('yseries').innerHTML = `<line x1="0" x2="${W}" y1="${H - 2}" y2="${H - 2}" stroke="#1c1c22" vector-effect="non-scaling-stroke"/>${rects}${rows.length ? `<path d="${line}" fill="none" stroke="#FFB347" stroke-width="2" vector-effect="non-scaling-stroke"/>` : ''}`;
-      const fd = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
-      $('yticks').innerHTML = rows.length ? [0, Math.floor((n - 1) / 2), n - 1].map((i) => `<span>${fd(rows[i].day)}</span>`).join('') : '<span class="empty">No YouTube data yet.</span>';
-      $('yt-range').textContent = rows.length ? `${fd(rows[0].day)} to ${fd(rows.at(-1).day)}` : '';
-      table($('yvideos'), ['Video', 'Views', 'Watch hours', 'Viewed', 'Subs', 'Site views', 'From YouTube', 'To Substack'], y.videos.map((v) => [
-        `${esc(v.title)}${v.short ? ' <small style="display:inline;color:#FFB347">SHORT</small>' : ''}<small>${esc(v.slug || v.youtube_id)} · ${v.published ? fd(v.published.slice(0, 10)) : ''}</small>`,
-        num(v.views), hours(v.minutes), v.avg_pct == null ? '–' : Math.round(v.avg_pct) + '%', (v.subs >= 0 ? '+' : '') + num(v.subs),
-        v.slug ? num(v.site_views) : '–', v.slug ? num(v.site_from_youtube) : '–', v.slug ? num(v.substack_clicks) : '–']));
-      bars($('ysources'), y.sources.slice(0, 10), (r) => esc(YT_SOURCE[r.source] || r.source.replace(/_/g, ' ').toLowerCase()), (r) => r.views);
-    }
-    async function history() {
-      let h; try { h = await get('/api/telemetry/history'); } catch { $('history').hidden = true; return; }
-      // the daily copy must keep running: Cloudflare discards per-page detail after 30 days
-      const cl = h.collector || {}, stale = !cl.last_ok || Date.now() - cl.last_ok > 3 * 86_400_000, cw = $('collector-warn');
-      cw.hidden = !stale && cl.last_ok_flag !== 0;
-      if (!cw.hidden) cw.textContent = (cl.last_ok ? `The daily copy last succeeded on ${new Date(cl.last_ok).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}.` : 'The daily copy has not run yet.')
-        + (cl.last_ok_flag === 0 ? ` Latest attempt failed: ${cl.last_detail}.` : '') + ' Cloudflare keeps page detail for 30 days, so anything older than that is lost if the copy stays down.';
-      const m = h.meta || {}, fmtDay = (d) => d ? new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }) : '–';
-      const days = h.daily.length, uniq = h.daily.reduce((a, r) => a + (r.uniques || 0), 0);
-      $('hkpis').innerHTML = [
-        ['Page loads', num(m.loads), `real browsers, ${fmtDay(m.pages_from)}–${fmtDay(m.pages_to)}`],
-        ['Visits started', num(m.visits), 'arrived from outside the site'],
-        ['Dashboard views', num(m.embeds), 'inside articles'],
-        ['Crawler loads', num(m.bot_loads), 'set aside'],
-        ['Unique addresses', num(days ? uniq / days : 0), `a day on average since ${fmtDay(m.daily_from)}, bots included`],
-        ['Days on record', num(days), `copied ${m.fetched ? new Date(m.fetched).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '–'}`],
-      ].map(([t, v, sub]) => `<div class="kpi"><h3>${t}</h3><p>${v}</p><small>${sub}</small></div>`).join('');
-      $('hist-range').textContent = `${fmtDay(m.daily_from)} to ${fmtDay(h.daily.at(-1)?.day)}`;
-      // chart: bars = real-browser page loads (where per-page detail exists), line = unique addresses
-      const svg = $('hseries'), rows = h.daily, W = 1000, H = 220, top = 12, n = rows.length || 1, bw = W / n;
-      const sorted = rows.map((r) => r.uniques || 0).sort((a, b) => a - b), p95 = sorted[Math.floor(sorted.length * 0.95)] || 1;
-      const max = Math.max(1, p95 * 1.25, ...rows.map((r) => r.loads || 0)), y = (v) => Math.max(top - 6, H - 2 - ((H - 2 - top) * v) / max);
-      const peaks = rows.map((r, i) => (r.uniques || 0) > max ? `<circle cx="${(i * bw + bw / 2).toFixed(1)}" cy="${top - 6}" r="2.5" fill="#FFB347"><title>${r.day}: ${r.uniques} unique addresses (off the scale)</title></circle>` : '').join('');
-      const rects = rows.map((r, i) => r.loads == null ? '' : `<rect x="${(i * bw + bw * 0.1).toFixed(1)}" y="${y(r.loads).toFixed(1)}" width="${Math.max(1, bw * 0.8).toFixed(1)}" height="${(H - 2 - y(r.loads)).toFixed(1)}" fill="rgba(212,175,55,0.55)"><title>${r.day}: ${r.loads} page loads, ${r.embeds || 0} dashboard views</title></rect>`).join('');
-      const line = rows.map((r, i) => `${i ? 'L' : 'M'}${(i * bw + bw / 2).toFixed(1)},${y(r.uniques || 0).toFixed(1)}`).join('');
-      const tIdx = m.telemetry_from ? rows.findIndex((r) => r.day >= m.telemetry_from) : -1;
-      const mark = tIdx >= 0 ? `<line x1="${(tIdx * bw).toFixed(1)}" x2="${(tIdx * bw).toFixed(1)}" y1="0" y2="${H}" stroke="#FFB347" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/>` : '';
-      svg.innerHTML = `<line x1="0" x2="${W}" y1="${H - 2}" y2="${H - 2}" stroke="#1c1c22" vector-effect="non-scaling-stroke"/>${rects}<path d="${line}" fill="none" stroke="#FFB347" stroke-width="1.5" vector-effect="non-scaling-stroke"/>${mark}${peaks}`;
-      $('hticks').innerHTML = rows.length ? [0, Math.floor((n - 1) / 2), n - 1].map((i) => `<span>${fmtDay(rows[i].day)}</span>`).join('') : '<span class="empty">No history copied yet.</span>';
-      table($('hpages'), ['Page', 'Loads', 'Visits'], h.pages.map((r) => [
-        `${esc(labelOf(r.path, r.video, r.article))}<small>${esc(r.path)}</small>`, num(r.loads), num(r.visits)]));
-      table($('hvideos'), ['Video', 'Page loads', 'Dashboard views'], h.videos.map((r) => [
-        `${esc(titleOf(r.video) || r.video)}<small>${esc(r.video)}</small>`, num(r.loads), num(r.embeds)]));
-      bars($('hcountries'), h.countries, (r) => esc(country(r.country)), (r) => r.loads);
-      bars($('hdevices'), h.tech.filter((r) => r.dim === 'device').sort((a, b) => b.n - a.n), (r) => esc(r.v), (r) => r.n);
-      bars($('hbrowsers'), h.tech.filter((r) => r.dim === 'browser').sort((a, b) => b.n - a.n).slice(0, 8), (r) => esc(r.v), (r) => r.n);
-      $('hnotes').textContent = 'These are Cloudflare\'s counts of pages it served, not our beacon. "Real browsers" means a known browser, with crawlers and '
-        + 'scripts set aside, but some bots pose as browsers, so treat these as a ceiling. Cloudflare keeps no referrer history on this plan, so '
-        + 'there is no source breakdown. Page detail lasts 30 days at Cloudflare. It is copied here by scripts/cf-history.mjs and kept for good. '
-        + (tIdx >= 0 ? 'The dashed line marks the day Wire Telemetry began.' : '');
-      return h;
-    }
-    async function live() {
-      try { const l = await get(`/api/telemetry/live?${envQ.slice(1)}`); $('live-n').textContent = l.readers; livePts = l.points; kick(); } catch { /* the report shows the error */ }
-    }
-    document.querySelectorAll('.ranges button').forEach((b) => b.addEventListener('click', () => { range = b.dataset.range; window.history.replaceState(null, '', '#' + range); report(); youtube(); }));
-    loadLand().then(kick);
-    report(); live(); history(); youtube(); setInterval(live, 30_000);
+    <div class="col">
+      <header class="top">
+        <div><h1 id="view-title">Overview</h1><p class="sub" id="view-sub"></p></div>
+        <div class="top-r">
+          <div class="range">
+            <button type="button" class="step" id="range-prev" title="Previous period" aria-label="Previous period"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6" /></svg></button>
+            <button type="button" id="range-btn" aria-haspopup="true" aria-expanded="false" aria-controls="range-pop">
+              <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5" /><path d="M3.5 10h17M8 3v4M16 3v4" /></svg>
+              <span><span class="rl" id="range-label">Last 28 days</span><span class="rd" id="range-dates"></span></span>
+              <svg class="ic chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+            </button>
+            <button type="button" class="step" id="range-next" title="Next period" aria-label="Next period"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" /></svg></button>
+            <div class="pop" id="range-pop" hidden>
+              <div role="menu" aria-label="Date range" id="range-list"></div>
+              <form id="range-form">
+                <p>Custom range</p>
+                <label>From <input type="date" id="range-from" required /></label>
+                <label>To <input type="date" id="range-to" required /></label>
+                <button type="submit" class="apply">Apply</button>
+                <p class="utc">Days are UTC. Changes compare against the previous period of the same length.</p>
+              </form>
+            </div>
+          </div>
+          <p class="live" id="live" title="Readers on the site in the last 30 minutes"><i></i><b id="live-n">–</b><span>reading now</span></p>
+        </div>
+      </header>
+      <main id="main" tabindex="-1" aria-live="polite"></main>
+    </div>
+  </div>
+  <div class="state" id="state" role="alert" hidden><div><h2 id="state-h"></h2><p id="state-p"></p></div></div>
+  <script type="application/json" id="tele-site" set:html={JSON.stringify(site)} />
+  <script>
+    import '../../components/telemetry/app';
   </script>
 </body>
 </html>
