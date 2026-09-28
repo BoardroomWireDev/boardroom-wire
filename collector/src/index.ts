@@ -1,23 +1,30 @@
 /**
  * bw-collector: the business data store's daily collector (db/README.md). A scheduled Worker with no
- * public URL, bound to the same bw-data database as the site.
+ * public URL, bound to the same bw-data database as the site. Two jobs, one cron each:
  *
- * Every morning at 06:23 UTC:
- *   1. Cloudflare history. Re-copies the last 3 days of per-page detail and the last 7 days of daily
- *      totals. Each day is replaced whole, so the overlap is harmless, and nothing ages out of
- *      Cloudflare's 30-day window uncopied. The import code is shared with scripts/cf-history.mjs.
- *   2. Phase 2 will add the YouTube Analytics pull here.
+ *   06:23 UTC  cloudflare-history  Re-copies the last 3 days of Cloudflare's per-page detail and 7 days of
+ *              totals, so nothing ages out of Cloudflare's 30-day window (server/cf-history.ts, shared with
+ *              scripts/cf-history.mjs).
+ *   06:41 UTC  youtube-daily       The channel's YouTube Analytics: uploads, channel per day, every video per
+ *              day (the last ten re-fetched, older days backfilled newest first), and traffic sources for
+ *              recent videos (server/youtube-data.ts). It stays under the free plan's 50 requests per run.
  *
- * Every run is logged in collector_runs. The telemetry dashboard warns when the last good run is old.
- * Deploy: npm run collector:deploy. The token is a secret: npx wrangler secret put CF_ANALYTICS_TOKEN
- * --config collector/wrangler.toml
+ * Any other cron string (a temporary test schedule) runs both jobs. Every run is logged in collector_runs,
+ * and the telemetry dashboard warns when a job's last good run is old.
+ * Deploy: npm run collector:deploy. Secrets: CF_ANALYTICS_TOKEN (npx wrangler secret put … --config
+ * collector/wrangler.toml), and the YouTube ones, set by scripts/youtube-auth.mjs.
  */
 import { d1Statements, fetchDaily, fetchPages, gqlClient, type ArticleVideo, type PageRow } from '../../server/cf-history';
+import { youtubeDaily } from '../../server/youtube-data';
 
 interface Env {
   DB: D1Database;
   /** A Cloudflare API token with Zone · Analytics · Read on boardroomwire.com, and nothing else. */
   CF_ANALYTICS_TOKEN?: string;
+  /** Google OAuth (Desktop client) and the channel owner's refresh token, scopes yt-analytics.readonly + youtube.readonly. */
+  YT_CLIENT_ID?: string;
+  YT_CLIENT_SECRET?: string;
+  YT_REFRESH_TOKEN?: string;
 }
 
 const DAY_MS = 86_400_000;
@@ -46,7 +53,16 @@ async function cloudflareHistory(env: Env): Promise<string> {
   return `${daily.length} daily totals; ${days.join(', ')}: ${pages.length} page rows, ${human} real-browser loads, ${dropped} scanner loads dropped`;
 }
 
-async function log(db: D1Database, job: string, ok: boolean, detail: string) {
+async function youtube(env: Env): Promise<string> {
+  if (!env.YT_CLIENT_ID || !env.YT_CLIENT_SECRET || !env.YT_REFRESH_TOKEN) throw new Error('YouTube secrets are not set (run scripts/youtube-auth.mjs)');
+  let mapping: Array<{ youtube: string; slug: string | null; article: string }> = [];
+  try { const r = await fetch('https://www.boardroomwire.com/data/videos.json'); if (r.ok) mapping = await r.json(); } catch { /* labels can wait a day */ }
+  return youtubeDaily(env.DB, { clientId: env.YT_CLIENT_ID, clientSecret: env.YT_CLIENT_SECRET, refreshToken: env.YT_REFRESH_TOKEN }, mapping);
+}
+
+async function run(db: D1Database, job: string, work: () => Promise<string>) {
+  let ok = true, detail: string;
+  try { detail = await work(); } catch (e) { ok = false; detail = String((e as Error)?.message ?? e); }
   await db.batch([
     db.prepare('INSERT INTO collector_runs (ts, job, ok, detail) VALUES (?, ?, ?, ?)').bind(Date.now(), job, ok ? 1 : 0, detail.slice(0, 500)),
     db.prepare('DELETE FROM collector_runs WHERE ts < ?').bind(Date.now() - 400 * DAY_MS),
@@ -54,10 +70,11 @@ async function log(db: D1Database, job: string, ok: boolean, detail: string) {
 }
 
 export default {
-  async scheduled(_controller, env, ctx) {
-    ctx.waitUntil((async () => {
-      try { await log(env.DB, 'cloudflare-history', true, await cloudflareHistory(env)); }
-      catch (e) { await log(env.DB, 'cloudflare-history', false, String((e as Error)?.message ?? e)); }
-    })());
+  async scheduled(controller, env, ctx) {
+    const minute = controller.cron.split(' ')[0];
+    const jobs: Array<[string, () => Promise<string>]> = [];
+    if (minute !== '41') jobs.push(['cloudflare-history', () => cloudflareHistory(env)]);
+    if (minute !== '23') jobs.push(['youtube-daily', () => youtube(env)]);
+    ctx.waitUntil((async () => { for (const [job, work] of jobs) await run(env.DB, job, work); })());
   },
 } satisfies ExportedHandler<Env>;
