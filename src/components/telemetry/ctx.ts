@@ -2,7 +2,7 @@
 import type { RangeState } from './dates';
 
 export interface Meta {
-  sources: { web_from: string | null; yt_from: string | null; yt_to: string | null; cf_from: string | null; cf_pages_from: string | null; videos: number };
+  sources: { web_from: string | null; yt_from: string | null; yt_to: string | null; cf_from: string | null; cf_pages_from: string | null; videos: number; rev_from: string | null };
   jobs: { job: string; last_ok: number | null; last_ts: number; last_flag: number; last_detail: string }[];
 }
 export interface SiteData {

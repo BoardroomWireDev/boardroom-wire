@@ -5,7 +5,7 @@
  * Never indexed, never in the sitemap, and the beacon skips it.
  *
  * Views, from the icon sidebar: Overview (YouTube and the site together), Web analytics (Wire Telemetry), YouTube
- * (the channel's own analytics) and Legacy (Cloudflare's edge history). One date-range control scopes every view.
+ * (the channel's own analytics), Revenue (Partner Program earnings) and Legacy (Cloudflare's edge history). One date-range control scopes every view.
  * Charts follow the dataviz rules: one axis per panel (never two y-scales on a plot), YouTube in gold #AD8C29 and the
  * site in blue #3987e5 (validated pair, dark surface, all pairs), a table view behind every chart.
  */
@@ -23,6 +23,7 @@ const nav = [
   { id: 'overview', label: 'Overview', key: 'g o', icon: '<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>' },
   { id: 'web', label: 'Web analytics', key: 'g w', icon: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.3 3.8 8.5s-1.2 6.1-3.8 8.5M12 3.5C9.4 5.9 8.2 8.8 8.2 12s1.2 6.1 3.8 8.5"/>' },
   { id: 'youtube', label: 'YouTube', key: 'g y', icon: '<rect x="3" y="5.5" width="18" height="13" rx="3.5"/><path d="M10.2 9.3v5.4l4.7-2.7z" fill="currentColor" stroke="none"/>' },
+  { id: 'revenue', label: 'Revenue', key: 'g r', icon: '<circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2c-.5-.9-1.5-1.4-2.8-1.4-1.6 0-2.8.8-2.8 2.1 0 2.9 5.8 1.6 5.8 4.3 0 1.3-1.2 2.2-3 2.2-1.4 0-2.5-.6-3-1.6M12 6.3v1.5M12 16.4v1.4"/>' },
   { id: 'legacy', label: 'Legacy', key: 'g l', icon: '<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4 4.5v3.2h3.2"/><path d="M12 8v4.3l2.8 1.7"/>' },
 ];
 ---

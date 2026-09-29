@@ -9,6 +9,7 @@ import { fillRange, timeChart, weekly, sparkline, zeroFrom, type ChartHandle, ty
 import { COLORS, type Ctx } from '../ctx';
 import { dayLong, dayShort, full, hours, num, per1k, signed } from '../fmt';
 import { card, empty, grid, h, kpis, note, segmented, sortTable } from '../ui';
+import { usd } from './revenue';
 
 export async function render(ctx: Ctx): Promise<Node[]> {
   const d = await ctx.api('overview');
@@ -27,7 +28,7 @@ export async function render(ctx: Ctx): Promise<Node[]> {
   const out: Node[] = [];
   out.push(kpis([
     { label: 'YouTube views', value: num(T.yt_views), cur: T.yt_views, prev: P.yt_views, spark: spark('yt_views', COLORS.yt), hero: true },
-    { label: 'Watch hours', value: hours(T.yt_minutes), cur: T.yt_minutes, prev: P.yt_minutes },
+    { label: 'Estimated revenue', value: usd(T.yt_revenue), cur: T.yt_revenue, prev: P.yt_revenue, sub: `${hours(T.yt_minutes)} watch hours` },
     { label: 'Net subscribers', value: signed(T.yt_subs), cur: T.yt_subs, prev: P.yt_subs },
     { label: 'Site visitors', value: num(T.site_visitors), cur: T.site_visitors, prev: P.site_visitors, spark: spark('site_visitors', COLORS.web),
       sub: d.telemetryFrom && d.telemetryFrom > d.range.from ? `counted from ${dayShort(d.telemetryFrom)}` : 'Wire Telemetry' },
