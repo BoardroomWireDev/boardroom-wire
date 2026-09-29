@@ -54,7 +54,7 @@ export const YT_SOURCE: Record<string, string> = {
   NO_LINK_OTHER: 'Direct or unknown', NOTIFICATION: 'Notifications', PLAYLIST: 'Playlists', YT_PLAYLIST_PAGE: 'Playlist pages', YT_CHANNEL: 'Channel page',
   YT_OTHER_PAGE: 'Other YouTube pages', END_SCREEN: 'End screens', SHORTS: 'Shorts feed', HASHTAGS: 'Hashtags', ANNOTATION: 'Cards',
   CAMPAIGN_CARD: 'Campaign cards', ADVERTISING: 'Ads', NO_LINK_EMBEDDED: 'Embedded players', SOUND_PAGE: 'Sound pages', LIVE_REDIRECT: 'Live redirects',
-  VIDEO_REMIXES: 'Remixes', PRODUCT_PAGE: 'Product pages',
+  VIDEO_REMIXES: 'Remixes', PRODUCT_PAGE: 'Product pages', SHORTS_CONTENT_LINKS: 'Links in Shorts',
 };
 export const WEB_SOURCE: Record<string, string> = {
   youtube: 'YouTube', x: 'X', substack: 'Substack', google: 'Google', bing: 'Bing', duckduckgo: 'DuckDuckGo', linkedin: 'LinkedIn',

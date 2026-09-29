@@ -132,6 +132,41 @@ if (HISTORY) {
   if (failed.length) console.log('  failed days (the collector fills them later):', failed.slice(0, 5).join(' | '));
 }
 
+// --deep-history <file.sql>: every audience breakdown and every video's retention since the first upload, once, from
+// this PC (no per-run request limit). Same report code as the nightly youtube-deep job (server/youtube-deep.ts).
+const DEEP = process.argv.includes('--deep-history') ? process.argv[process.argv.indexOf('--deep-history') + 1] : null;
+if (DEEP) {
+  const { listUploads, report } = await import('../server/youtube-data.ts');
+  const deep = await import('../server/youtube-deep.ts');
+  const token = tok.access_token, now = Date.now(), latest = d(1);
+  const rep = (p) => report(token, p);
+  const titles = async (ids) => {
+    const j = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${ids.slice(0, 50).join(',')}`, { headers: auth })).json();
+    return Object.fromEntries((j.items ?? []).map((v) => [v.id, `${v.snippet.title} · ${v.snippet.channelTitle}`]));
+  };
+  const videos = await listUploads(token);
+  const stmts = videos.filter((v) => v.chapters).map((v) => ({ sql: 'UPDATE videos SET chapters = ? WHERE youtube_id = ?', params: [v.chapters, v.youtube_id] }));
+  const first = videos.reduce((a, v) => (v.published < a ? v.published : a), latest).slice(0, 7), ms = deep.months(first, latest.slice(0, 7));
+  const tasks = [];
+  for (const m of ms) {
+    const { start, end } = deep.monthSpan(m, latest);
+    for (const dim of Object.keys(deep.DAILY)) tasks.push([`daily ${dim} ${m}`, () => deep.dailyDim(rep, dim, start, end, now, `daily:${dim}:${m}`)]);
+    tasks.push([`cards ${m}`, () => deep.cardsDaily(rep, start, end, now)]);
+    for (const dim of deep.MONTHLY) tasks.push([`${dim} ${m}`, () => deep.monthlyDim(rep, dim, m, latest, now, titles)]);
+  }
+  for (const v of videos) tasks.push([`video ${v.youtube_id}`, () => deep.videoProfile(rep, v, latest, now)]);
+  const failed = [];
+  for (let i = 0; i < tasks.length; i += 4) {
+    const got = await Promise.all(tasks.slice(i, i + 4).map(async ([name, fn]) => { try { return await fn(); } catch (e) { failed.push(`${name}: ${String(e.message).slice(0, 80)}`); return []; } }));
+    for (const g of got) stmts.push(...g);
+    if (i % 60 === 0) console.log(`  ${Math.min(i + 4, tasks.length)} / ${tasks.length} reports`);
+  }
+  (await import('node:fs')).writeFileSync(DEEP, stmts.map(deep.toSql).join('\n'));
+  const count = (re) => stmts.filter((s) => re.test(s.sql)).length;
+  console.log(`deep history: ${tasks.length - failed.length}/${tasks.length} reports, ${stmts.length} statements (${count(/INTO yt_dim_daily/)} daily rows, ${count(/INTO yt_dim_monthly/)} monthly rows, ${count(/INTO yt_retention/)} retention points, ${count(/UPDATE videos SET chapters/)} videos with chapters) → ${DEEP}`);
+  if (failed.length) { console.log(`  failed (${failed.length}; the nightly job retries them):`); for (const f of failed.slice(0, 12)) console.log('   ', f); }
+}
+
 // secrets, through stdin only
 for (const [name, value] of [['YT_CLIENT_ID', client.client_id], ['YT_CLIENT_SECRET', client.client_secret], ['YT_REFRESH_TOKEN', tok.refresh_token]]) {
   const r = spawnSync(process.execPath, ['node_modules/wrangler/bin/wrangler.js', 'secret', 'put', name, '--config', 'collector/wrangler.toml'], { input: value, encoding: 'utf8' });

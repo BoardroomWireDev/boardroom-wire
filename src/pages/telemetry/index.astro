@@ -5,7 +5,8 @@
  * Never indexed, never in the sitemap, and the beacon skips it.
  *
  * Views, from the icon sidebar: Overview (YouTube and the site together), Web analytics (Wire Telemetry), YouTube
- * (the channel's own analytics), Revenue (Partner Program earnings) and Legacy (Cloudflare's edge history). One date-range control scopes every view.
+ * (the channel's own analytics), Audience (who watches and how they find it), Retention (where viewers leave), Revenue
+ * (Partner Program earnings) and Legacy (Cloudflare's edge history). One date-range control scopes every view.
  * Charts follow the dataviz rules: one axis per panel (never two y-scales on a plot), YouTube in gold #AD8C29 and the
  * site in blue #3987e5 (validated pair, dark surface, all pairs), a table view behind every chart.
  */
@@ -21,8 +22,10 @@ const site = {
 };
 const nav = [
   { id: 'overview', label: 'Overview', key: 'g o', icon: '<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>' },
-  { id: 'web', label: 'Web analytics', key: 'g w', icon: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.3 3.8 8.5s-1.2 6.1-3.8 8.5M12 3.5C9.4 5.9 8.2 8.8 8.2 12s1.2 6.1 3.8 8.5"/>' },
+  { id: 'web', label: 'Web analytics', short: 'Web', key: 'g w', icon: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.3 3.8 8.5s-1.2 6.1-3.8 8.5M12 3.5C9.4 5.9 8.2 8.8 8.2 12s1.2 6.1 3.8 8.5"/>' },
   { id: 'youtube', label: 'YouTube', key: 'g y', icon: '<rect x="3" y="5.5" width="18" height="13" rx="3.5"/><path d="M10.2 9.3v5.4l4.7-2.7z" fill="currentColor" stroke="none"/>' },
+  { id: 'audience', label: 'Audience', short: 'Audience', key: 'g a', icon: '<circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9.5" r="2.4"/><path d="M15.8 14.6c2.5-.3 4.3 1.2 4.8 4.4"/>' },
+  { id: 'retention', label: 'Retention', short: 'Retention', key: 'g t', icon: '<path d="M3.5 4.5v15h17"/><path d="M6 6.5c1.2 3.8 2.5 5.2 4.5 6 2.6 1 3.2 1.7 4.6 2.9 1.2 1 2.5 1.6 4.4 1.6"/>' },
   { id: 'revenue', label: 'Revenue', key: 'g r', icon: '<circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2c-.5-.9-1.5-1.4-2.8-1.4-1.6 0-2.8.8-2.8 2.1 0 2.9 5.8 1.6 5.8 4.3 0 1.3-1.2 2.2-3 2.2-1.4 0-2.5-.6-3-1.6M12 6.3v1.5M12 16.4v1.4"/>' },
   { id: 'legacy', label: 'Legacy', key: 'g l', icon: '<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4 4.5v3.2h3.2"/><path d="M12 8v4.3l2.8 1.7"/>' },
 ];
@@ -67,6 +70,7 @@ const nav = [
     .nav a[aria-current='page'] { background: rgba(212, 175, 55, 0.1); color: var(--cream); }
     .nav a[aria-current='page']::before { content: ''; position: absolute; left: -12px; top: 9px; bottom: 9px; width: 3px; border-radius: 0 3px 3px 0; background: var(--gold); }
     .nav a[aria-current='page'] svg { color: var(--gold-bright); }
+    .lbl-short { display: none; }
     .nav kbd { margin-left: auto; font: 500 10px/1 var(--mono); color: var(--faint); letter-spacing: 0.08em; }
     .side-foot { margin-top: auto; display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--line); padding-top: 10px; }
     .collapsed .lbl, .collapsed .brand span, .collapsed .nav kbd { opacity: 0; pointer-events: none; }
@@ -191,6 +195,13 @@ const nav = [
     .more:hover { color: var(--cream); background: var(--hover); }
     .tech { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
     .tech h4 { margin: 0 0 12px; font: 600 11px/1 var(--display); color: var(--mute); }
+    select.pick { height: 30px; max-width: 320px; padding: 0 28px 0 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--bg); color: var(--cream); font: 500 12.5px var(--display); }
+    ol.drops { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    ol.drops li { display: grid; grid-template-columns: 56px 1fr auto; gap: 10px; align-items: baseline; font-size: 13px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+    ol.drops li:last-child { border-bottom: 0; } ol.drops b { font: 600 13px var(--mono); color: var(--cream); } ol.drops i { font: 600 12px var(--mono); color: var(--bad); font-style: normal; }
+    .row-link { background: none; border: 0; padding: 0; text-align: left; cursor: pointer; color: inherit; font: inherit; }
+    .row-link:hover .cell-title { color: var(--gold-bright); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; } .two-col h4 { margin: 0 0 12px; font: 600 11px/1 var(--display); color: var(--mute); }
     .health { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 12px; }
     .health li { display: grid; grid-template-columns: 10px 1fr; gap: 2px 10px; align-items: center; font-size: 13px; }
     .health li > span:not(.hl-dot), .health small { grid-column: 2; color: var(--mute); font-size: 12px; }
@@ -220,7 +231,10 @@ const nav = [
       .nav { flex-direction: row; width: 100%; justify-content: space-around; }
       .nav a { flex-direction: column; gap: 4px; height: 52px; padding: 6px 4px; font-size: 10.5px; justify-content: center; }
       .nav a[aria-current='page']::before { left: 30%; right: 30%; top: -7px; bottom: auto; width: auto; height: 3px; border-radius: 0 0 3px 3px; }
-      .nav kbd { display: none; } .collapsed .lbl { opacity: 1; }
+      .nav kbd { display: none; } .nav .lbl { display: none; } .nav .lbl-short { display: block; } .collapsed .lbl { opacity: 1; }
+      .side > nav { flex: 1; min-width: 0; } .nav { gap: 0; }
+      .nav a { font-size: 9.5px; padding: 6px 1px; min-width: 0; } .nav li { flex: 1; min-width: 0; } .nav .lbl-short { overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+      .card-actions .ctl-row { width: 100%; } select.pick { flex: 1 1 100%; max-width: 100%; } .two-col { gap: 16px; }
       /* no backdrop-filter here: it would make the fixed picker sheet position against the header, not the screen */
       .top { padding: 12px 16px; backdrop-filter: none; background: var(--bg); }
       .col { min-width: 0; }
@@ -247,7 +261,7 @@ const nav = [
       <nav aria-label="Views"><ul class="nav">
         {nav.map((n) => (
           <li><a href={`#/${n.id}`} data-view={n.id} data-label={n.label} aria-keyshortcuts={n.key.replace(' ', ' ')}>
-            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true" set:html={n.icon} /><span class="lbl">{n.label}</span><kbd aria-hidden="true">{n.key.toUpperCase()}</kbd>
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true" set:html={n.icon} /><span class="lbl">{n.label}</span><span class="lbl-short" aria-hidden="true">{(n as any).short ?? n.label}</span><kbd aria-hidden="true">{n.key.toUpperCase()}</kbd>
           </a></li>
         ))}
       </ul></nav>

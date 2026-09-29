@@ -5,11 +5,13 @@
  *   06:23 UTC  cloudflare-history  Re-copies the last 3 days of Cloudflare's per-page detail and 7 days of
  *              totals, so nothing ages out of Cloudflare's 30-day window (server/cf-history.ts, shared with
  *              scripts/cf-history.mjs).
+ *   06:59 UTC  youtube-deep        Audience and retention (server/youtube-deep.ts): the last ten days of each daily
+ *              breakdown, this month's period breakdowns, video retention profiles (new videos daily, the rest weekly).
  *   06:41 UTC  youtube-daily       The channel's YouTube Analytics: uploads, channel per day, every video per
  *              day (the last ten re-fetched, older days backfilled newest first), and traffic sources for
  *              recent videos (server/youtube-data.ts). It stays under the free plan's 50 requests per run.
  *
- * Any other cron string (a temporary test schedule) runs both jobs. Every run is logged in collector_runs,
+ * Each cron minute runs one job, in its own run. Every run is logged in collector_runs,
  * and the telemetry dashboard warns when a job's last good run is old.
  * To run a job by hand, never deploy a test cron: on 27 Sep 2026 an every-minute schedule kept firing for about
  * four hours after it was changed back (221 extra runs), and with the backfill it pushed D1 over the free plan's
@@ -21,7 +23,8 @@
  * collector/wrangler.toml), and the YouTube ones, set by scripts/youtube-auth.mjs.
  */
 import { d1Statements, fetchDaily, fetchPages, gqlClient, type ArticleVideo, type PageRow } from '../../server/cf-history';
-import { youtubeDaily } from '../../server/youtube-data';
+import { Budget, accessToken, report, youtubeDaily } from '../../server/youtube-data';
+import { deepNightly } from '../../server/youtube-deep';
 
 interface Env {
   DB: D1Database;
@@ -66,6 +69,19 @@ async function youtube(env: Env): Promise<string> {
   return youtubeDaily(env.DB, { clientId: env.YT_CLIENT_ID, clientSecret: env.YT_CLIENT_SECRET, refreshToken: env.YT_REFRESH_TOKEN }, mapping);
 }
 
+async function youtubeDeep(env: Env): Promise<string> {
+  if (!env.YT_CLIENT_ID || !env.YT_CLIENT_SECRET || !env.YT_REFRESH_TOKEN) throw new Error('YouTube secrets are not set (run scripts/youtube-auth.mjs)');
+  const budget = new Budget(46); budget.used++;
+  const token = await accessToken(env.YT_CLIENT_ID, env.YT_CLIENT_SECRET, env.YT_REFRESH_TOKEN);
+  const titles = async (ids: string[]) => {                     // names for the videos that suggested ours
+    budget.used++;
+    const r = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${ids.slice(0, 50).join(',')}`, { headers: { Authorization: `Bearer ${token}` } });
+    const j: any = await r.json();
+    return Object.fromEntries((j.items ?? []).map((v: any) => [v.id, `${v.snippet.title} · ${v.snippet.channelTitle}`]));
+  };
+  return deepNightly(env.DB, (p) => report(token, p, budget), () => budget.left, titles);
+}
+
 async function run(db: D1Database, job: string, work: () => Promise<string>) {
   let ok = true, detail: string;
   try { detail = await work(); } catch (e) { ok = false; detail = String((e as Error)?.message ?? e); }
@@ -77,10 +93,13 @@ async function run(db: D1Database, job: string, work: () => Promise<string>) {
 
 export default {
   async scheduled(controller, env, ctx) {
+    // one job per cron minute, each in its own run (its own 50-request budget). A test schedule must use a job's
+    // minute at another hour, e.g. "59 17 * * *", never every minute (see the header).
     const minute = controller.cron.split(' ')[0];
-    const jobs: Array<[string, () => Promise<string>]> = [];
-    if (minute !== '41') jobs.push(['cloudflare-history', () => cloudflareHistory(env)]);
-    if (minute !== '23') jobs.push(['youtube-daily', () => youtube(env)]);
+    const table: Record<string, [string, () => Promise<string>]> = {
+      '23': ['cloudflare-history', () => cloudflareHistory(env)], '41': ['youtube-daily', () => youtube(env)], '59': ['youtube-deep', () => youtubeDeep(env)],
+    };
+    const jobs = table[minute] ? [table[minute]] : [];
     ctx.waitUntil((async () => { for (const [job, work] of jobs) await run(env.DB, job, work); })());
   },
 } satisfies ExportedHandler<Env>;
