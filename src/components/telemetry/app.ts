@@ -1,5 +1,5 @@
 /**
- * Wire Telemetry, the app shell: a collapsible icon sidebar (Overview · Web · YouTube · Revenue · Legacy), one date-range
+ * Wire Telemetry, the app shell: a collapsible icon sidebar (Overview · Web · YouTube · Audience · Retention · Revenue · Legacy), one date-range
  * control that scopes every view, a live-readers pill, and hash routing (#/youtube?preset=28d or ?from=…&to=…) so a
  * view and range can be bookmarked. While a view reloads, the previous render stays on screen at reduced opacity.
  */
@@ -10,11 +10,15 @@ import * as web from './views/web';
 import * as youtube from './views/youtube';
 import * as legacy from './views/legacy';
 import * as revenue from './views/revenue';
+import * as audience from './views/audience';
+import * as retention from './views/retention';
 
 const VIEWS: Record<string, { title: string; sub: string; mod: { render: (c: Ctx) => Promise<Node[]> }; earliest: (m: Meta) => string | null }> = {
   overview: { title: 'Overview', sub: 'YouTube and the site together', mod: overview, earliest: (m) => m.sources.yt_from ?? m.sources.cf_from },
   web: { title: 'Web analytics', sub: 'Wire Telemetry · the site’s own readers', mod: web, earliest: (m) => m.sources.web_from },
   youtube: { title: 'YouTube', sub: 'The channel’s own analytics', mod: youtube, earliest: (m) => m.sources.yt_from },
+  audience: { title: 'Audience', sub: 'Who watches the channel, and how they find it', mod: audience, earliest: (m) => m.sources.yt_from },
+  retention: { title: 'Retention', sub: 'Where viewers stay and where they leave, video by video', mod: retention, earliest: (m) => m.sources.yt_from },
   revenue: { title: 'Revenue', sub: 'YouTube Partner Program earnings, estimated', mod: revenue, earliest: (m) => m.sources.rev_from ?? m.sources.yt_from },
   legacy: { title: 'Legacy', sub: 'Cloudflare’s edge history, before Wire Telemetry', mod: legacy, earliest: (m) => m.sources.cf_from },
 };
@@ -110,7 +114,7 @@ document.querySelectorAll<HTMLAnchorElement>('.nav a[data-view]').forEach((a) =>
 document.addEventListener('keydown', (e) => {                                     // g then o / w / y / l
   if (e.target instanceof HTMLInputElement || e.metaKey || e.ctrlKey || e.altKey) return;
   if (e.key === 'g') { gPressed = Date.now(); return; }
-  const map: Record<string, string> = { o: 'overview', w: 'web', y: 'youtube', r: 'revenue', l: 'legacy' };
+  const map: Record<string, string> = { o: 'overview', w: 'web', y: 'youtube', a: 'audience', t: 'retention', r: 'revenue', l: 'legacy' };
   if (Date.now() - gPressed < 900 && map[e.key]) { view = map[e.key]; if (range.preset === 'all') range = { preset: 'all', from: '', to: '' }; render(); }
 });
 let gPressed = 0;

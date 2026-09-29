@@ -14,6 +14,8 @@
  * Erasable TypeScript only (Node 24 can import this file directly): no parameter properties, enums or namespaces.
  */
 
+import { parseChapters } from './youtube-deep.ts';
+
 export const CHANNEL_ID = 'UCthfphsDjHppg9SQv3JTdrg';
 export const SCOPES = ['yt-analytics.readonly', 'youtube.readonly', 'yt-analytics-monetary.readonly'].map((x) => 'https://www.googleapis.com/auth/' + x);
 /** Revenue metrics (migration 0005), US dollars. Needs the monetary scope and a Partner Program channel. */
@@ -66,7 +68,7 @@ const isoSeconds = (d: string) => {
 
 // Shorts can run up to 3 minutes (since Oct 2024). Every upload of this channel at 3 minutes or under is a vertical Short;
 // its essays run 5 to 40 minutes.
-export interface Video { youtube_id: string; title: string; published: string; duration_s: number | null; short: number }
+export interface Video { youtube_id: string; title: string; published: string; duration_s: number | null; short: number; chapters: string | null }
 
 /** Every upload: the uploads playlist, then details 50 at a time. About two requests for this channel. */
 export async function listUploads(token: string, budget?: Budget): Promise<Video[]> {
@@ -81,7 +83,9 @@ export async function listUploads(token: string, budget?: Budget): Promise<Video
     for (const v of j.items) {
       const secs = isoSeconds(v.contentDetails.duration);
       const tagged = /#shorts?\b/i.test(`${v.snippet.title} ${v.snippet.description ?? ''}`);
-      videos.push({ youtube_id: v.id, title: v.snippet.title, published: v.snippet.publishedAt, duration_s: secs, short: (secs != null && secs <= 180) || tagged ? 1 : 0 });
+      const ch = parseChapters(v.snippet.description ?? '');
+      videos.push({ youtube_id: v.id, title: v.snippet.title, published: v.snippet.publishedAt, duration_s: secs, short: (secs != null && secs <= 180) || tagged ? 1 : 0,
+        chapters: ch ? JSON.stringify(ch) : null });
     }
   }
   return videos;
@@ -119,12 +123,12 @@ export async function youtubeDaily(db: D1Database, creds: { clientId: string; cl
     // 1. the uploads, and the site's article for each
     const videos = await listUploads(token, budget); uploads = videos.length;
     const bySite = new Map(mapping.map((m) => [m.youtube, m]));
-    const upsert = db.prepare(`INSERT INTO videos (youtube_id, slug, article, title, published, duration_s, short, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    const upsert = db.prepare(`INSERT INTO videos (youtube_id, slug, article, title, published, duration_s, short, updated_at, chapters) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT(youtube_id) DO UPDATE SET title = excluded.title, published = excluded.published, duration_s = excluded.duration_s, short = excluded.short,
-        slug = COALESCE(excluded.slug, videos.slug), article = COALESCE(excluded.article, videos.article), updated_at = excluded.updated_at`);
+        slug = COALESCE(excluded.slug, videos.slug), article = COALESCE(excluded.article, videos.article), updated_at = excluded.updated_at, chapters = excluded.chapters`);
     for (const v of videos) {
       const m = bySite.get(v.youtube_id);
-      stmts.push(upsert.bind(v.youtube_id, m?.slug ?? null, m?.article ?? null, v.title, v.published, v.duration_s, v.short, now));
+      stmts.push(upsert.bind(v.youtube_id, m?.slug ?? null, m?.article ?? null, v.title, v.published, v.duration_s, v.short, now, v.chapters));
     }
     const first = videos.reduce((a, v) => (v.published < a ? v.published : a), yesterday).slice(0, 10);
 
