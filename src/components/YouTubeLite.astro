@@ -17,7 +17,7 @@ const CHANNEL = 'https://www.youtube.com/channel/UCthfphsDjHppg9SQv3JTdrg';
 
 {id ? (
   <div class="yt" data-yt={id} data-title={title}>
-    <img src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`} alt={`${title} — watch on YouTube`} width="1280" height="720" loading="eager" decoding="async"
+    <img src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`} alt={`${title}, watch on YouTube`} width="1280" height="720" loading="eager" decoding="async"
       onerror={`this.onerror=null;this.src='https://i.ytimg.com/vi/${id}/hqdefault.jpg'`} />
     <button type="button" class="play" aria-label={`Play: ${title}`}>
       <span class="tri" aria-hidden="true"></span>

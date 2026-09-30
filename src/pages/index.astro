@@ -15,7 +15,7 @@ const jsonLd = [
 <!doctype html>
 <html lang="en">
 <head>
-  <SeoHead title="Boardroom Wire — Strategic Analysis. Business & Technology." description="Strategic analysis of business and technology: filing-first video investigations and interactive dashboards on the companies shaping AI and finance." path="/" jsonLd={jsonLd} />
+  <SeoHead title="Boardroom Wire: Strategic Analysis. Business & Technology." description="Strategic analysis of business and technology: filing-first video investigations and dashboards on the companies shaping AI and finance." path="/" jsonLd={jsonLd} />
 
   <style>
     :root {
@@ -85,19 +85,6 @@ const jsonLd = [
       /* Faint amber halo so the gold chip reads as "lit" alongside the
          globe's bloom — tiny, not glowy. */
       box-shadow: 0 0 14px var(--amber-glow);
-    }
-    .ticker-label .pulse {
-      width: 9px; height: 9px;
-      background: #FF3B30;
-      border-radius: 50%;
-      box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
-      filter: drop-shadow(0 0 4px rgba(255, 59, 48, 0.55));
-      animation: pulse-red 1.4s ease-in-out infinite;
-    }
-    @keyframes pulse-red {
-      0%   { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); opacity: 1; }
-      70%  { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); opacity: 0.85; }
-      100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); opacity: 1; }
     }
     .ticker-stats {
       flex: 1;
@@ -324,7 +311,6 @@ const jsonLd = [
       .stat { font-size: 11px; letter-spacing: 0.12em; gap: 8px; }
       .stat .sep { margin-left: 36px; }
       .ticker-label { font-size: 11px; padding: 0 14px; gap: 8px; }
-      .ticker-label .pulse { width: 8px; height: 8px; }
       main.hero { padding: 40px 24px 64px; }
       /* The wordmark runs ~9.2x its font size wide; 9.2vw keeps it inside the
          24px gutters (12vw ran it off both edges of a 390px phone). */
@@ -360,7 +346,6 @@ const jsonLd = [
   <!-- Live Wire ticker -->
   <div class="ticker">
     <div class="ticker-label">
-      <span class="pulse"></span>
       <span>Live Wire</span>
     </div>
     <div class="ticker-stats" aria-label="Live channel statistics">

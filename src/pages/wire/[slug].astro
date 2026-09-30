@@ -74,13 +74,13 @@ const jsonLd = {
       <a class="crumb" href="/wire/">← Wire</a>
 
       <header class="art-head">
-        <p class="eyebrow">{a.kicker} · {fmtDate(a.published)}</p>
+        <p class="eyebrow">{fmtDate(a.published)}</p>
         <h1 class="hd">{a.title}</h1>
         <p class="lede">{a.dek}</p>
         <YouTubeLite id={a.youtube} title={a.title} />
         {c && (
           <a class="dash-link" href={`/analytics/${c.slug}/`}>
-            <span class="dl-n">{c.dashboards.length}</span> interactive dashboards behind this story
+            <span class="dl-n">{c.dashboards.length}</span> dashboards behind this story
             <span class="dl-go">Open the analytics →</span>
           </a>
         )}
@@ -119,8 +119,7 @@ const jsonLd = {
               <a class="a-card" href={`/analytics/${c.slug}/${d.slug}/`}>
                 <div class="thumb">
                   <span class="num">{String(d.n).padStart(2, '0')}</span>
-                  {d.key && <span class="keyflag">Key chart</span>}
-                  <img src={thumbPath(c, d)} alt={`${d.title} — dashboard preview`} width="640" height="360" loading="lazy" decoding="async" />
+                  <img src={thumbPath(c, d)} alt={`${d.title}, dashboard preview`} width="640" height="360" loading="lazy" decoding="async" />
                 </div>
                 <h3>{d.title}</h3>
                 <span class="foot">
