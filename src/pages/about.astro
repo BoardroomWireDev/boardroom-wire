@@ -67,19 +67,6 @@ import SeoHead from '../components/SeoHead.astro';
       text-transform: uppercase;
       box-shadow: 0 0 14px var(--amber-glow);
     }
-    .ticker-label .pulse {
-      width: 9px; height: 9px;
-      background: #FF3B30;
-      border-radius: 50%;
-      box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
-      filter: drop-shadow(0 0 4px rgba(255, 59, 48, 0.55));
-      animation: pulse-red 1.4s ease-in-out infinite;
-    }
-    @keyframes pulse-red {
-      0%   { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); opacity: 1; }
-      70%  { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); opacity: 0.85; }
-      100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); opacity: 1; }
-    }
     .ticker-stats {
       flex: 1;
       overflow: hidden;
@@ -213,29 +200,6 @@ import SeoHead from '../components/SeoHead.astro';
       margin-bottom: 18px;
       text-shadow: 0 0 28px rgba(255, 179, 71, 0.32);
     }
-    .signoff {
-      margin-top: 80px;
-      padding-top: 32px;
-      border-top: 1px solid var(--line);
-      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      color: var(--amber);
-      text-align: center;
-      text-transform: uppercase;
-    }
-    .signoff .sep {
-      color: var(--white-dim);
-      margin: 0 14px;
-    }
-    .signoff .blink {
-      animation: signoff-blink 1s step-end infinite;
-    }
-    @keyframes signoff-blink {
-      0%, 50%   { opacity: 1; }
-      50.01%, 100% { opacity: 0; }
-    }
 
     /* CRT atmosphere — fixed overlay with scanlines + corner phosphor glow.
        Scoped to about page only via the .page-fx element rendered there. */
@@ -323,7 +287,6 @@ import SeoHead from '../components/SeoHead.astro';
       .stat { font-size: 11px; letter-spacing: 0.12em; gap: 8px; }
       .stat .sep { margin-left: 36px; }
       .ticker-label { font-size: 11px; padding: 0 14px; gap: 8px; }
-      .ticker-label .pulse { width: 8px; height: 8px; }
       main.about { padding: 64px 24px 80px; }
       footer.tail { padding: 20px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
     }
@@ -348,7 +311,6 @@ import SeoHead from '../components/SeoHead.astro';
 
   <div class="ticker">
     <div class="ticker-label">
-      <span class="pulse"></span>
       <span>Live Wire</span>
     </div>
     <div class="ticker-stats" aria-label="Live channel statistics">
@@ -368,7 +330,7 @@ import SeoHead from '../components/SeoHead.astro';
   </div>
 
   <header class="top">
-    <a href="/" class="home-link" aria-label="Boardroom Wire — home">
+    <a href="/" class="home-link" aria-label="Boardroom Wire, home">
       BOARDROOM<span class="wire">WIRE</span>
     </a>
   </header>
@@ -384,13 +346,6 @@ import SeoHead from '../components/SeoHead.astro';
         The companies, the capital behind them, and what both mean ten years out.
       </p>
 
-      <p class="signoff">
-        <span>Boardroom Wire</span>
-        <span class="sep">·</span>
-        <span>New York</span>
-        <span class="sep">·</span>
-        <span id="signoff-time">--<span class="blink">:</span>-- EDT</span>
-      </p>
     </div>
 
     <div class="find-us-bottom">
@@ -434,26 +389,6 @@ import SeoHead from '../components/SeoHead.astro';
     }
     hydrate();
     setInterval(hydrate, 5 * 60_000);
-
-    // Live terminal-style signoff: NYC time updates every 30s, the colon
-    // between hours and minutes blinks once per second via CSS animation.
-    function updateSignoffTime() {
-      const el = document.getElementById('signoff-time');
-      if (!el) return;
-      const parts = new Intl.DateTimeFormat('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-        timeZone: 'America/New_York',
-        timeZoneName: 'short',
-      }).formatToParts(new Date());
-      const hour = parts.find((p) => p.type === 'hour')?.value ?? '--';
-      const minute = parts.find((p) => p.type === 'minute')?.value ?? '--';
-      const tz = parts.find((p) => p.type === 'timeZoneName')?.value ?? 'EDT';
-      el.innerHTML = `${hour}<span class="blink">:</span>${minute} ${tz}`;
-    }
-    updateSignoffTime();
-    setInterval(updateSignoffTime, 30_000);
   </script>
 </body>
 </html>

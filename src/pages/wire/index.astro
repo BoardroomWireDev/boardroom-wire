@@ -19,7 +19,7 @@ function heroImg(a: (typeof articles)[number]): { src: string; alt: string; og?:
   const c = a.data.collection ? findCollection(a.data.collection) : undefined;
   const d = c?.dashboards.find((x) => x.slug === h.dashboard);
   if (!c || !d) return { src: '', alt: '' };
-  return { src: thumbPath(c, d), alt: `${d.title} — dashboard`, og: ogPath(c, d) };
+  return { src: thumbPath(c, d), alt: `${d.title}, dashboard`, og: ogPath(c, d) };
 }
 
 const first = articles[0];
@@ -28,7 +28,7 @@ const og = first ? heroImg(first).og : undefined;
 
 <Site
   title="Wire · Boardroom Wire"
-  description="Boardroom Wire investigations in full — the reporting behind each video, with the dashboards embedded where they belong."
+  description="Boardroom Wire investigations in full: the reporting behind each video, with the dashboards embedded where they belong."
   pageLabel="Wire"
   path="/wire/"
   ogImage={og}
@@ -54,7 +54,7 @@ const og = first ? heroImg(first).og : undefined;
               </span>
             )}
             <span class="art-body">
-              <span class="art-k">{a.data.kicker} · {fmtDate(a.data.published)}</span>
+              <span class="art-k">{fmtDate(a.data.published)}</span>
               <span class="art-t">{a.data.title}</span>
               <span class="art-d">{a.data.dek}</span>
               <span class="art-go">Read →</span>

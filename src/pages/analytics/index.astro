@@ -11,7 +11,7 @@ import { collections, heroOf, thumbPath, ogPath } from '../../data/analytics';
 
 const title = 'Analytics · Boardroom Wire';
 const description =
-  'Interactive dashboards behind the Boardroom Wire investigations — built from primary filings, with every figure sourced on the frame.';
+  'The dashboards behind the Boardroom Wire investigations, built from primary filings, with every figure sourced on the frame.';
 
 // The hub's own preview uses the newest collection's hero chart.
 const hero = collections[0];
@@ -37,7 +37,7 @@ const fmtDate = (iso: string) =>
     <h1 class="hd">The charts behind <span class="dim">the reporting.</span></h1>
     <p class="lede">
       Every Boardroom Wire investigation is built on primary documents. These are the
-      dashboards that came out of them — interactive, individually citable, and marked
+      dashboards that came out of them: individually citable, and marked
       throughout with where each number came from.
     </p>
 
@@ -48,7 +48,7 @@ const fmtDate = (iso: string) =>
         const article = articleFor(c.slug);
         return (
           <div class="coll">
-            <a class="coll-img" href={`/analytics/${c.slug}/`} aria-label={`${c.title} — open the collection`}>
+            <a class="coll-img" href={`/analytics/${c.slug}/`} aria-label={`${c.title}, open the collection`}>
               <img
                 src={thumbPath(c, heroOf(c))}
                 alt=""

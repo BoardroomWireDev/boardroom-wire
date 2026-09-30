@@ -68,21 +68,21 @@ export const heroOf = (c: Collection) =>
 
 export const cursor: Collection = {
   slug: 'cursor',
-  title: 'Four College Friends — The $60B Cursor Deal',
+  title: 'Four College Friends: The $60B Cursor Deal',
   kicker: 'Twelve dashboards',
   summary:
-    'Four MIT friends built the fastest revenue ramp in software history, lost money on every customer while doing it, and sold to SpaceX for $60 billion. The ramp, the negative margin, the closed ring of investors and the deal itself — charted, with every figure sourced on the frame.',
+    'Four MIT friends built the fastest revenue ramp in software history, lost money on every customer while doing it, and sold to SpaceX for $60 billion. The ramp, the negative margin, the closed ring of investors and the deal itself, charted, with every figure sourced on the frame.',
   published: '2026-09-14',
   hero: 'where-the-dollar-goes',
-  headline: { lead: 'Four College Friends', dim: '— the $60B Cursor deal.' },
+  headline: { lead: 'Four College Friends', dim: ': the $60B Cursor deal.' },
   primaryLabel: 'Primary',
   method: {
     primary:
       'Stated by the company, filed with the SEC (the Form 8-K share count) or published by the model providers themselves.',
     reported:
-      'Sourced to journalism — Bloomberg, The Information, CNBC, TechCrunch, Fortune. Attribution is printed on the dashboard itself, not just here.',
+      'Sourced to journalism: Bloomberg, The Information, CNBC, TechCrunch, Fortune. Attribution is printed on the dashboard itself, not just here.',
     estimate:
-      'Analyst or survey modelling — Sacra, Ramp, JetBrains, Forbes — or our own arithmetic on reported figures. Marked as an estimate every time it appears.',
+      'Analyst or survey modelling (Sacra, Ramp, JetBrains, Forbes) or our own arithmetic on reported figures. Marked as an estimate every time it appears.',
     caveat:
       'Cursor never filed an S-1. Churn, net revenue retention, the seed valuation and 2026 headcount were never disclosed and are not charted. The −23% gross margin and the ~$900M loss originate with The Information and are credited on every frame that shows them.',
   },
@@ -130,7 +130,7 @@ export const cursor: Collection = {
       file: '04-race-to-100m.html',
       title: 'Race to $100M',
       blurb:
-        'Months from $1M to $100M ARR, on the same clock for everyone: Ramp 24, Deel 20, Wiz 18 — Cursor 12.',
+        'Months from $1M to $100M ARR, on the same clock for everyone: Ramp 24, Deel 20, Wiz 18, Cursor 12.',
       section: 'The revenue run',
       source: 'estimate',
       sourceNote:
@@ -168,7 +168,7 @@ export const cursor: Collection = {
       file: '07-funding-ladder.html',
       title: 'The Funding Ladder',
       blurb:
-        'Seed to Series D: six rounds, roughly $3.3 billion raised, a $29.3 billion valuation — and a deliberate gap on the right of the frame.',
+        'Seed to Series D: six rounds, roughly $3.3 billion raised, a $29.3 billion valuation, and a deliberate gap on the right of the frame.',
       section: 'Valuation',
       source: 'primary',
       sourceNote:
@@ -184,7 +184,7 @@ export const cursor: Collection = {
       section: 'The leaky token bucket',
       source: 'reported',
       sourceNote:
-        'Source: The Information, April 2026 — quarter ended January 2026, at roughly $2.7B annualised revenue · $1.23 is derived from the −23% gross margin, not separately reported · FY2025 ~$770M revenue, ~$900M loss.',
+        'Source: The Information, April 2026, quarter ended January 2026, at roughly $2.7B annualised revenue · $1.23 is derived from the −23% gross margin, not separately reported · FY2025 ~$770M revenue, ~$900M loss.',
       key: true,
     },
     {
@@ -206,7 +206,7 @@ export const cursor: Collection = {
       file: '10-composer-vs-opus.html',
       title: 'Composer vs Opus',
       blurb:
-        '$0.50 against $5.00 per million tokens at list price — and why Cursor keeps a spread on Claude but keeps everything on Composer.',
+        '$0.50 against $5.00 per million tokens at list price, and why Cursor keeps a spread on Claude but keeps everything on Composer.',
       section: 'Fighting back',
       source: 'reported',
       sourceNote:
@@ -230,7 +230,7 @@ export const cursor: Collection = {
       file: '12-the-deal.html',
       title: 'The Deal',
       blurb:
-        '$60,000,000,000 and 389,289,254 shares, in full — then the funding ladder returns with its missing column filled in.',
+        '$60,000,000,000 and 389,289,254 shares, in full, then the funding ladder returns with its missing column filled in.',
       section: 'The deal',
       source: 'primary',
       sourceNote:
@@ -246,21 +246,21 @@ export const cursor: Collection = {
 
 export const situationalAwareness: Collection = {
   slug: 'situational-awareness',
-  title: 'Situational Awareness — The $45B Blowup',
+  title: 'Situational Awareness: The $45B Blowup',
   kicker: 'Fourteen dashboards',
   summary:
-    'Leopold Aschenbrenner raised $225 million, compounded it past $20 billion, and lost most of it in twenty-nine days. Every filing the fund ever made, charted — plus the mechanics of how a 25% drawdown became a 100% loss.',
+    'Leopold Aschenbrenner raised $225 million, compounded it past $20 billion, and lost most of it in twenty-nine days. Every filing the fund ever made, charted, plus the mechanics of how a 25% drawdown became a 100% loss.',
   published: '2026-08-24',
   hero: 'seven-quarter-bridge',
-  headline: { lead: 'Situational Awareness', dim: '— the $45B blowup.' },
+  headline: { lead: 'Situational Awareness', dim: ': the $45B blowup.' },
   primaryLabel: 'SEC primary',
   method: {
     primary:
       'Taken straight from the fund’s Form 13F filings (CIK 0002045724). Six of the fourteen dashboards are built entirely on filed documents.',
     reported:
-      'Sourced to journalism — CNBC, the Wall Street Journal, the Financial Times — or, in two cases, to our own arithmetic on reported figures. Attribution is printed on the dashboard itself, not just here.',
+      'Sourced to journalism (CNBC, the Wall Street Journal, the Financial Times) or, in two cases, to our own arithmetic on reported figures. Attribution is printed on the dashboard itself, not just here.',
     caveat:
-      'A 13F discloses US-listed long positions only. It does not show short positions, foreign listings, private holdings or cash — which is why the filings total $20.2 billion against a fund reported at $45 billion. Dashboard 04 exists to reconcile exactly that.',
+      'A 13F discloses US-listed long positions only. It does not show short positions, foreign listings, private holdings or cash, which is why the filings total $20.2 billion against a fund reported at $45 billion. Dashboard 04 exists to reconcile exactly that.',
   },
   dashboards: [
     {
@@ -269,7 +269,7 @@ export const situationalAwareness: Collection = {
       file: '01-cold-open-collapse.html',
       title: '$45B to $10B',
       blurb:
-        'The month runs on one clock — the number falls down the frame, shrinking as it goes, and leaves its starting point struck through behind it.',
+        'The month runs on one clock: the number falls down the frame, shrinking as it goes, and leaves its starting point struck through behind it.',
       section: 'Cold open',
       source: 'reported',
       sourceNote:
@@ -293,7 +293,7 @@ export const situationalAwareness: Collection = {
       file: '03-seven-quarter-bridge.html',
       title: 'The Seven-Quarter Bridge',
       blurb:
-        'Every 13F the fund ever filed, in order. The y-axis retreats as each quarter overruns it — the axis moving is the growth.',
+        'Every 13F the fund ever filed, in order. The y-axis retreats as each quarter overruns it. The axis moving is the growth.',
       section: 'The rise',
       source: 'primary',
       sourceNote:
@@ -306,7 +306,7 @@ export const situationalAwareness: Collection = {
       file: '04-iceberg-13f.html',
       title: "What a 13F Can't See",
       blurb:
-        '$20.2 billion is the part that files. The camera dives past the waterline and the rest of the fund surfaces — SK Hynix, Anthropic, the short book, the leverage.',
+        '$20.2 billion is the part that files. The camera dives past the waterline and the rest of the fund surfaces: SK Hynix, Anthropic, the short book, the leverage.',
       section: 'The rise',
       source: 'primary',
       sourceNote:
@@ -318,7 +318,7 @@ export const situationalAwareness: Collection = {
       file: '05-put-exposure-switch.html',
       title: 'The Hedge Switch',
       blurb:
-        'Put options as a share of the book, quarter by quarter: zero, to 62%, to zero — the quarter before the fund blew up.',
+        'Put options as a share of the book, quarter by quarter: zero, to 62%, to zero, the quarter before the fund blew up.',
       section: 'The rise',
       source: 'primary',
       sourceNote:
@@ -355,7 +355,7 @@ export const situationalAwareness: Collection = {
       file: '08-july-layers-break.html',
       title: 'The Layers Break',
       blurb:
-        'July 2026, from the June 22 peak. Every layer that broke was a layer he owned — and unquantified falls are drawn as unquantified.',
+        'July 2026, from the June 22 peak. Every layer that broke was a layer he owned, and unquantified falls are drawn as unquantified.',
       section: 'July',
       source: 'reported',
       sourceNote:
@@ -384,7 +384,7 @@ export const situationalAwareness: Collection = {
       section: 'The mechanics',
       source: 'reported',
       sourceNote:
-        'Long positions per SEC Form 13F. July 2026 moves and the Adobe short are reported (CNBC), not filed — 13Fs do not disclose shorts.',
+        'Long positions per SEC Form 13F. July 2026 moves and the Adobe short are reported (CNBC), not filed; 13Fs do not disclose shorts.',
     },
     {
       n: 11,
@@ -392,7 +392,7 @@ export const situationalAwareness: Collection = {
       file: '11-doors-closing.html',
       title: 'Doors Closing',
       blurb:
-        'Six approaches in six days. Five lamps go out — including Jane Street, an investor in his own fund — and then Citadel lights gold.',
+        'Six approaches in six days. Five lamps go out, including Jane Street, an investor in his own fund, and then Citadel lights gold.',
       section: 'Trying to survive',
       source: 'reported',
       sourceNote:
@@ -404,7 +404,7 @@ export const situationalAwareness: Collection = {
       file: '12-citadel-playbook.html',
       title: "Citadel's Crisis Playbook",
       blurb:
-        'Five rescues across twenty-five years — including Melvin, which Citadel backed in 2021 and which wound down the year after.',
+        'Five rescues across twenty-five years, including Melvin, which Citadel backed in 2021 and which wound down the year after.',
       section: 'Citadel',
       source: 'reported',
       sourceNote:
@@ -414,9 +414,9 @@ export const situationalAwareness: Collection = {
       n: 13,
       slug: 'july-30-rebound-tell',
       file: '13-july-30-rebound.html',
-      title: 'July 30 — The Rebound Tell',
+      title: 'July 30: The Rebound Tell',
       blurb:
-        'The session Citadel bought the book, everything rallied. Cipher Mining — already sold, not in the block — outran every name that was.',
+        'The session Citadel bought the book, everything rallied. Cipher Mining (already sold, not in the block) outran every name that was.',
       section: 'The day after',
       source: 'reported',
       sourceNote:

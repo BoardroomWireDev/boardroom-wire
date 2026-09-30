@@ -35,7 +35,7 @@ const article = articles[0];
     <a class="crumb" href="/analytics/">← All analysis</a>
 
     <p class="eyebrow">{c.kicker}</p>
-    <h1 class="hd">{c.headline.lead} <span class="dim">{c.headline.dim}</span></h1>
+    <h1 class="hd">{c.headline.lead}<span class="dim">{c.headline.dim}</span></h1>
     <p class="lede">{c.summary}</p>
 
     {article && (
@@ -78,10 +78,9 @@ const article = articles[0];
         <a class="a-card" href={`/analytics/${c.slug}/${d.slug}/`}>
           <div class="thumb">
             <span class="num">{String(d.n).padStart(2, '0')}</span>
-            {d.key && <span class="keyflag">Key chart</span>}
             <img
               src={thumbPath(c, d)}
-              alt={`${d.title} — dashboard preview`}
+              alt={`${d.title}, dashboard preview`}
               width="640" height="360"
               loading={i < 4 ? 'eager' : 'lazy'}
               decoding="async"
