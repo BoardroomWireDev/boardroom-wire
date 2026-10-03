@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — Booking revenue at a pace we've never seen (anthropic-ipo flagship 21)</title>
+<!-- ANTHROPIC IPO · FLAGSHIP 21 · REVENUE (2 Oct 2026). Standalone (site embed / article), not a video beat.
+       1. the climb: every run-rate milestone Anthropic or the press put a number on, Jan 2025 → Jul 2026, straight
+          segments between them (no smoothing invents months), and the New York Times' "on track" $100B as a dashed
+          projection. Linear by default; the Log switch (web only) shows the growth rate held almost steady.
+       2. booked, not run rate: Q2 2025 against Q2 2026 (the 14×), and 2025's booked $4.6B against the $9B run rate
+          it closed on, which is the gap the essay's first misconception is about.
+     Every figure from shared/data.js. Title: the essay, verbatim ("…is booking revenue at a pace we've never seen").
+     Capture contract: BW.run({play, rest}); R / F; ?final ?still ?t= ?capture (labels: climb, projection, booked);
+     ?brand=0; ?scale=log; ?hover=<key>; ?video=1 is the video cut (no wordmark, no Linear/Log switch, no hover, and the
+     panel head "Booked in the second quarter" goes: it is not a line of the script).
+     ?tour=1 is the chapter recap (FX.tour in shared/flagship.js; use with ?video=1): a camera that visits the panels in
+     order and pulls back to the whole board for the last 1.8 s. The reveal is cut per panel and plays while its panel is on camera.
+     The tour (refined 3 Oct): each panel is its own layer; only the panels in play show, so no edge cuts a glyph and no
+     neighbour leaks in. A glide is one camera move (log-scale, a small lift) with the window morphing in step; the panel
+     left fades out over 55–95% of the glide while the next builds once 85% of it is in frame. Each panel's reveal is done
+     0.6 s or more before the camera leaves (squeezed automatically for a tighter at=). The header rises in the pull-back.
+     The climb takes all the time its panel has (the line draws over 2.2–3.4 s; 2.7 s at the default at=).
+       panels  1 the climb (line, milestones, the NYT's dashed $100B; about 1.36x)   2 the Q2 bars and 14x (2.6x)   3 booked 2025 against the Dec run rate (2.6x)
+       at = 4.6, 8.0   (when the glides to panel 2 and panel 3 start, page seconds: set from the VO)      secs = 12.5   (pull-back at secs - 1.8)
+       render: bw render page --file=21-revenue.html --name=21-revenue-recap --seconds=12.5 --query="video=1&tour=1&at=4.6,8.0&secs=12.5"
+       a held panel (the close's callback): ?video=1&tour=1&panel=1&hold=1 (the climb, camera still, only that panel is revealed);
+       labels for ?t=: climb, projection, booked, tour2, tour3, tourback -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<style>
+  svg#cv { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; z-index: 4; }
+  .grid { stroke: var(--line); stroke-width: 1; }
+  .gtx { font-family: var(--mono); font-size: 17px; font-weight: 500; fill: var(--cream-dim); }
+  .xtx { font-family: var(--sans); font-size: 18px; font-weight: 400; fill: var(--cream-dim); }
+  .line { fill: none; stroke: var(--gold); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+  .proj { fill: none; stroke: var(--gold); stroke-width: 3; stroke-dasharray: 9 9; opacity: .7; }
+  .area { fill: rgba(var(--gold-rgb), .07); stroke: none; }
+  .pt { fill: var(--bg); stroke: var(--gold); stroke-width: 3; }
+  .pt.hero { fill: var(--gold); }
+  .pt.pj { stroke-dasharray: 4 4; }
+  .pv { font-family: var(--mono); font-weight: 600; font-size: 26px; fill: var(--cream); letter-spacing: -.02em; }
+  .pv.hero { font-size: 40px; fill: var(--gold); font-weight: 700; }
+  .pq { font-family: var(--sans); font-weight: 400; font-size: 18px; fill: var(--cream-dim); }
+  .hitc { fill: transparent; cursor: default; }
+  .panel { position: absolute; left: 1360px; width: 440px; }
+  .ph { font-family: var(--sans); font-weight: 500; font-size: 22px; color: var(--cream); }
+  .ps { font-family: var(--sans); font-weight: 400; font-size: 17px; color: var(--cream-dim); margin-top: 4px; }
+  .vb { position: absolute; bottom: 0; width: 120px; transform-origin: 50% 100%; }
+  .vbl { position: absolute; width: 160px; text-align: center; white-space: nowrap; }
+  .vbl .v { font-family: var(--mono); font-weight: 600; font-size: 30px; color: var(--cream); letter-spacing: -.02em; }
+  .vbl .d { font-family: var(--sans); font-size: 17px; color: var(--cream-dim); }
+  .x14 { position: absolute; font-family: var(--mono); font-weight: 700; font-size: 54px; color: var(--gold); letter-spacing: -.03em; }
+  .hb { position: absolute; height: 34px; transform-origin: 0 50%; }
+  .hbl { position: absolute; white-space: nowrap; }
+  .hbl .v { font-family: var(--mono); font-weight: 600; font-size: 28px; color: var(--cream); letter-spacing: -.02em; }
+  .hbl .d { font-family: var(--sans); font-size: 18px; color: var(--cream-dim); margin-left: 10px; }
+  .pbase { position: absolute; height: 1px; background: var(--line-strong); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg id="cv" viewBox="0 0 1920 1080"></svg>
+  <div id="world"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=6"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script>
+const W = document.getElementById('world'), SV = document.getElementById('cv');
+const Q = new URLSearchParams(location.search);
+
+FX.head('Anthropic', "Booking revenue at a pace we've never seen", { logo: 'anthropic' });
+FX.meta('run rate', 'rr_65x', 'in just 19 months', { inputs: ['rr_jan25', 'rr_jul26'] });
+FX.sig();
+
+/* ---- the climb ---- */
+const ACT = ['rr_jan25', 'rr_aug25', 'rr_dec25', 'rr_feb26', 'rr_apr26', 'rr_may26', 'rr_jul26'];
+const PROJ = 'rr_dec26';
+const mIdx = (id) => { const [y, m] = BW.fig(id).asOf.split('-').map(Number); return (y - 2025) * 12 + (m - 1); };
+const X0 = 230, X1 = 1220, Y0 = 300, Y1 = 860, M1 = 23;
+const xOf = (m) => X0 + (m / M1) * (X1 - X0);
+const LIN = { max: 110, y: (v) => Y1 - (v / 110) * (Y1 - Y0), ticks: [25, 50, 75, 100] };
+const LOG = { y: (v) => Y1 - ((Math.log2(v) - Math.log2(.5)) / (Math.log2(128) - Math.log2(.5))) * (Y1 - Y0), ticks: [2, 4, 8, 16, 32, 64] };
+let SC = Q.get('scale') === 'log' ? LOG : LIN;
+
+const g = (cls, parent = SV) => BW.mk('g', { class: cls }, parent);
+const gGrid = g('grid-g'), gX = g('x-g'), gArea = g('area-g'), gLine = g('line-g'), gPts = g('pts-g');
+const area = BW.mk('path', { class: 'area' }, gArea);
+const line = BW.mk('path', { class: 'line' }, gLine);
+const proj = BW.mk('path', { class: 'proj' }, gLine);
+const PTS = [...ACT, PROJ].map((id) => {
+  const pg = BW.mk('g', { 'data-k': id }, gPts);
+  const hero = id === 'rr_jul26', pj = id === PROJ;
+  const c = BW.mk('circle', { class: 'pt' + (hero ? ' hero' : '') + (pj ? ' pj' : ''), r: hero ? 11 : 8 }, pg);
+  const q = FX.qualOf(id) || (pj ? 'on track' : '');
+  const v = BW.mk('text', { class: 'pv' + (hero ? ' hero' : ''), 'text-anchor': 'end' }, pg, BW.val(id));
+  const qt = q ? BW.mk('text', { class: 'pq', 'text-anchor': 'end' }, pg, q) : null;
+  const hit = BW.mk('circle', { class: 'hitc', r: 26 }, pg);
+  return { id, pg, c, v, qt, hit, m: mIdx(id), hero, pj };
+});
+
+/* x axis: the months that matter, and a baseline */
+const XT = [[0, 'Jan 2025'], [6, 'Jul 2025'], [12, 'Jan 2026'], [18, 'Jul 2026'], [23, 'Dec 2026']];
+const xbase = BW.mk('line', { class: 'grid', x1: X0, x2: X1, y1: Y1, y2: Y1, style: 'stroke: var(--line-strong)' }, gX);
+const XL = XT.map(([m, t]) => { const n = BW.mk('text', { class: 'xtx', x: xOf(m), y: Y1 + 34, 'text-anchor': m === 0 ? 'start' : m === 23 ? 'end' : 'middle' }, gX, t);
+  const tk = BW.mk('line', { class: 'grid', x1: xOf(m), x2: xOf(m), y1: Y1, y2: Y1 + 8, style: 'stroke: var(--line-strong)' }, gX); return [n, tk]; }).flat();
+
+function layout(sc) {
+  /* grid */
+  gGrid.innerHTML = '';
+  sc.ticks.forEach(t => {
+    BW.mk('line', { class: 'grid', x1: X0, x2: X1, y1: sc.y(t), y2: sc.y(t) }, gGrid);
+    BW.mk('text', { class: 'gtx', x: X0 - 18, y: sc.y(t) + 6, 'text-anchor': 'end' }, gGrid, '$' + t + 'B');
+  });
+  /* the line, the area under it, the projection */
+  const P = (id) => [xOf(mIdx(id)), sc.y(BW.fig(id).v)];
+  const pts = ACT.map(P);
+  line.setAttribute('d', 'M' + pts.map(p => p.join(',')).join(' L'));
+  area.setAttribute('d', 'M' + pts.map(p => p.join(',')).join(' L') + ` L${pts[pts.length - 1][0]},${Y1} L${pts[0][0]},${Y1} Z`);
+  const last = pts[pts.length - 1], pp = P(PROJ);
+  proj.setAttribute('d', `M${last.join(',')} L${pp.join(',')}`);
+  /* points and their figures: the label sits up-left of its point, clear of the line */
+  PTS.forEach((p) => {
+    const [x, y] = P(p.id);
+    p.c.setAttribute('cx', x); p.c.setAttribute('cy', y); p.hit.setAttribute('cx', x); p.hit.setAttribute('cy', y);
+    const anchor = p.hero ? 'start' : 'end';
+    const dx = p.hero ? 24 : -16, dy = p.hero ? 52 : -14;
+    p.v.setAttribute('text-anchor', anchor); if (p.qt) p.qt.setAttribute('text-anchor', anchor);
+    p.v.setAttribute('x', x + dx); p.v.setAttribute('y', y + dy);
+    if (p.qt) { p.qt.setAttribute('x', x + dx); p.qt.setAttribute('y', y + dy - (p.hero ? 42 : 30)); }
+  });
+}
+layout(SC);
+
+/* ---- booked, not run rate ---- */
+const PA = BW.el('div', 'panel', W); PA.style.top = '300px';
+PA.innerHTML = `<div class="bw-m fx-web"><span class="ph">Booked in the second quarter</span></div>`;
+const QB = { h: 180, base: 612 };
+const qa = 'rev_q2_2025', qb = 'rev_q2_2026', VMQ = BW.fig(qb).v;
+const mkVB = (id, left, c) => {
+  const b = BW.el('div', 'vb', W); b.dataset.k = id; b.style.cssText = `left:${left}px; top:${QB.base - QB.h * BW.fig(id).v / VMQ}px; height:${QB.h * BW.fig(id).v / VMQ}px; background:${c}`;
+  const q = FX.qualOf(id);
+  const l = BW.el('div', 'vbl', W); l.dataset.k = id; l.style.cssText = `left:${left - 20}px; top:${QB.base - QB.h * BW.fig(id).v / VMQ - 46}px`;
+  if (q) l.style.top = (QB.base - QB.h * BW.fig(id).v / VMQ - 70) + 'px';
+  l.innerHTML = (q ? `<div class="bw-m"><span class="d">${q}</span></div>` : '') + `<div class="bw-m"><span class="v">${BW.val(id)}</span></div>`;
+  const d = BW.el('div', 'vbl', W); d.dataset.k = id; d.style.cssText = `left:${left - 20}px; top:${QB.base + 12}px`;
+  d.innerHTML = `<div class="bw-m"><span class="d">${BW.fig(id).label}</span></div>`;
+  return { b, l, d, id };
+};
+const VBA = mkVB(qa, 1400, 'rgba(var(--cream-rgb), .55)'), VBB = mkVB(qb, 1640, 'var(--gold)');
+const qbase = BW.el('div', 'pbase', W); qbase.style.cssText = `left:1360px; width:440px; top:${QB.base}px`;
+const x14 = BW.el('div', 'x14', W); x14.dataset.k = 'q2_yoy'; x14.style.cssText = `left:1520px; top:${QB.base - 150}px`;
+x14.innerHTML = `<div class="bw-m"><span>${BW.val('q2_yoy')}</span></div>`;
+
+const PB = BW.el('div', 'panel', W); PB.style.top = '690px';
+PB.innerHTML = `<div class="bw-m"><span class="ph">2025</span></div>`;
+const HB = { left: 1360, w: 250, top: 760 };
+const hb = (id, i, c, desc) => {
+  const v = BW.fig(id).v, w = HB.w * v / BW.fig('rr_dec25').v, y = HB.top + i * 64;
+  const b = BW.el('div', 'hb', W); b.dataset.k = id; b.style.cssText = `left:${HB.left}px; top:${y}px; width:${w}px; background:${c}`;
+  const l = BW.el('div', 'hbl', W); l.dataset.k = id; l.style.cssText = `left:${HB.left + w + 16}px; top:${y - 1}px`;
+  const q = FX.qualOf(id);
+  l.innerHTML = `<div class="bw-m"><span><span class="v">${BW.val(id)}</span><span class="d">${desc}</span></span></div>`;
+  return { b, l, id };
+};
+const HBA = hb('rev_2025', 0, 'rgba(var(--cream-rgb), .55)', 'booked'), HBB = hb('rr_dec25', 1, 'var(--gold)', 'run rate, Dec');
+
+/* the scale switch (web only) */
+let seg = null;
+if (FX.LIVE) {
+  seg = BW.el('div', 'fx-ctl', W); seg.style.cssText = 'left:230px; top:244px';
+  seg.innerHTML = `<div class="fx-seg"><button data-s="lin">Linear</button><button data-s="log">Log</button></div>`;
+  const setS = (s) => { SC = s === 'log' ? LOG : LIN; seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.s === s)); layout(SC); };
+  seg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => setS(b.dataset.s)));
+  setS(SC === LOG ? 'log' : 'lin');
+}
+
+BW.provenance({ uses: [...ACT, PROJ, 'rr_65x', qa, qb, 'q2_yoy', 'rev_2025'] });
+
+/* hover */
+PTS.forEach(p => FX.hover(p.pg, p.id, () => FX.tipFor(p.id, { name: BW.fig(p.id).label + (p.pj ? ', projected' : ''), meta: p.pj ? 'Annualized revenue, on track per people familiar with the finances' : 'Annualized revenue run rate' })));
+[VBA, VBB].forEach(o => [o.b, o.l, o.d].forEach(n => FX.hover(n, o.id, () => FX.tipFor(o.id, { meta: o.id === qb ? 'Booked in the quarter; preliminary' : 'Booked in the quarter' }))));
+FX.hover(x14, 'q2_yoy', () => FX.tipFor('q2_yoy', { name: 'Q2 2026 against Q2 2025' }));
+[HBA, HBB].forEach(o => [o.b, o.l].forEach(n => FX.hover(n, o.id, () => FX.tipFor(o.id, { name: o.id === 'rev_2025' ? 'Booked in 2025' : 'Run rate, Dec 2025' }))));
+
+/* ---- the recap camera (?tour=1) ---- */
+const TOURP = [
+  { name: 'climb',  x: 130,  y: 280, w: 1130, h: 625 },
+  { name: 'q2',     x: 1350, y: 340, w: 470,  h: 330 },
+  { name: 'booked', x: 1350, y: 685, w: 490,  h: 185 }
+];
+const T = FX.tour(TOURP, { at: [4.6, 8.0], secs: 12.5 });
+
+/* ---- reveal ---- */
+const len = (p) => { try { return p.getTotalLength(); } catch (e) { return 2000; } };
+function play() {
+  const tl = gsap.timeline();
+  T.head(tl);
+  layout(SC);
+  const L = len(line);
+  gsap.set(gGrid.children, { opacity: 0 }); gsap.set(gX.children, { opacity: 0 });
+  gsap.set(line, { strokeDasharray: L, strokeDashoffset: L }); gsap.set(area, { opacity: 0 });
+  gsap.set(proj, { opacity: 0 });
+  PTS.forEach(p => gsap.set([p.c, p.v, p.qt].filter(Boolean), { opacity: 0 }));
+  if (seg) gsap.set(seg, { opacity: 0 });
+  const P2 = [PA, PB].map(n => n.querySelector('.bw-m > span'));
+  gsap.set(P2, { yPercent: 105 });
+  [VBA, VBB].forEach(o => { gsap.set(o.b, { scaleY: 0 }); gsap.set([...o.l.querySelectorAll('.bw-m > span'), o.d.querySelector('.bw-m > span')], { yPercent: 105 }); });
+  [HBA, HBB].forEach(o => { gsap.set(o.b, { scaleX: 0 }); gsap.set(o.l.querySelector('.bw-m > span'), { yPercent: 105 }); });
+  gsap.set(qbase, { scaleX: 0, transformOrigin: '0 50%' }); gsap.set(x14.querySelector('span'), { yPercent: 105 });
+
+  /* the sections: 0 the climb, 1 the Q2 bars, 2 booked against the run rate. u(t) is t, unless a tour re-times the section */
+  const u0 = T.sec(0, T.on ? .85 : .5), u1 = T.sec(1, 3.8, .75, 5.6), u2 = T.sec(2, 5.2, 1, 6.7);   /* o1: when the section's last move ends */
+  if (u0) {
+    /* the frame: grid and axis */
+    if (T.on) gsap.set([...gGrid.children, ...gX.children], { opacity: 1 });   /* the recap's first frame is never empty: the frame is already there */
+    else {
+      tl.to(gGrid.children, { opacity: 1, duration: .5, stagger: .04 }, u0(.5));
+      tl.to(gX.children, { opacity: 1, duration: .5, stagger: .03 }, u0(.6));
+    }
+    if (seg) tl.to(seg, { opacity: 1, duration: .4 }, 1.0);
+    /* the climb: the line draws through time; each milestone lands as the line reaches it */
+    BW.mark(tl, 'climb', u0(1.1));
+    /* the recap gives the climb all the time its panel has (2.2–3.4 s), done 0.6 s before the camera leaves */
+    const D = T.on ? Math.max(T.nv < T.n ? 1.4 : 2.2, Math.min(3.4, T.done(0) - .05 - .25 - 1.0)) : 2.6;   /* ?visit (3 Oct): a short recap may draw faster */
+    const PJ = T.on ? [.15, .6, .5, .35] : [.3, .7, 1.0, .4];   /* the projection: start, length; its point: start, length */
+    tl.to(line, { strokeDashoffset: 0, duration: D, ease: 'power1.in' }, u0(1.1));
+    tl.to(area, { opacity: 1, duration: .8 }, u0(1.1 + D - .4));
+    const span = PTS[ACT.length - 1].m - PTS[0].m;
+    PTS.slice(0, ACT.length).forEach((p) => {
+      const f = (p.m - PTS[0].m) / span, t = 1.1 + D * Math.pow(f, .55);      /* power1.in on length ≈ late arrivals; points follow */
+      tl.to([p.c, p.v, p.qt].filter(Boolean), { opacity: 1, duration: .35 }, u0(t));
+    });
+    /* the projection */
+    BW.mark(tl, 'projection', u0(1.1 + D + PJ[0]));
+    tl.to(proj, { opacity: .7, duration: PJ[1], ease: 'power1.out' }, u0(1.1 + D + PJ[0]));
+    const pp = PTS[PTS.length - 1];
+    tl.to([pp.c, pp.v, pp.qt].filter(Boolean), { opacity: 1, duration: PJ[3] }, u0(1.1 + D + PJ[2]));
+  }
+  /* booked */
+  const B = 2.0;
+  if (u1) {
+    BW.mark(tl, 'booked', u1(B + 1.8));
+    BW.maskIn(tl, P2[0], u1(B + 1.8), .55);
+    tl.to(qbase, { scaleX: 1, duration: .6, ease: 'power3.out' }, u1(B + 1.9));
+    [VBA, VBB].forEach((o, i) => {
+      const t = B + 2.1 + i * .35;
+      tl.to(o.b, { scaleY: 1, duration: .7, ease: 'power2.out' }, u1(t));
+      BW.maskIn(tl, o.l.querySelectorAll('.bw-m > span'), u1(t + .45), .5);
+      BW.maskIn(tl, o.d.querySelector('.bw-m > span'), u1(t + .1), .5);
+    });
+    BW.maskIn(tl, x14.querySelector('span'), u1(B + 3.0), .6);
+  }
+  if (u2) {
+    BW.maskIn(tl, P2[1], u2(B + 3.2), .55);
+    [HBA, HBB].forEach((o, i) => {
+      const t = B + 3.4 + i * .3;
+      tl.to(o.b, { scaleX: 1, duration: .7, ease: 'power2.out' }, u2(t));
+      BW.maskIn(tl, o.l.querySelector('.bw-m > span'), u2(t + .5), .5);
+    });
+  }
+  tl.to('.bw-source', { opacity: 1, duration: .6 }, T.on ? .4 : B + 4.4);
+  if (T.on) { T.run(tl); T.end(tl); } else tl.to({}, { duration: .01 }, B + 5.2);
+  return tl;
+}
+function rest() {
+  T.restHead(); layout(SC);
+  gsap.set([...gGrid.children, ...gX.children], { opacity: 1 });
+  gsap.set(line, { strokeDasharray: 'none', strokeDashoffset: 0 }); gsap.set(area, { opacity: 1 });
+  gsap.set(proj, { opacity: .7 });
+  PTS.forEach(p => gsap.set([p.c, p.v, p.qt].filter(Boolean), { opacity: 1 }));
+  if (seg) gsap.set(seg, { opacity: 1 });
+  gsap.set([PA, PB].map(n => n.querySelector('.bw-m > span')), { yPercent: 0 });
+  [VBA, VBB].forEach(o => { gsap.set(o.b, { scaleY: 1 }); gsap.set([...o.l.querySelectorAll('.bw-m > span'), o.d.querySelector('.bw-m > span')], { yPercent: 0 }); });
+  [HBA, HBB].forEach(o => { gsap.set(o.b, { scaleX: 1 }); gsap.set(o.l.querySelector('.bw-m > span'), { yPercent: 0 }); });
+  gsap.set(qbase, { scaleX: 1 }); gsap.set(x14.querySelector('span'), { yPercent: 0 });
+  T.rest();
+}
+BW.run({ play, rest, idle() {} });
+</script>
+</body>
+</html>

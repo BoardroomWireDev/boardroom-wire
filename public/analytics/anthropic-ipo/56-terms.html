@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — The contracts, year by year (anthropic-ipo flagship 56)</title>
+<!-- ANTHROPIC IPO · FLAGSHIP 56 · THE CONTRACTS, YEAR BY YEAR (3 Oct 2026). Standalone (site embed / article), not a video beat.
+     Built from 31-terms.html (+ its ?mode=time) for ARTICLE-DASHBOARDS-BRIEF row #11; 31 is untouched (the cut uses it).
+     One ruler, Jan 2026 → 2036, and the six commitments laid on it, largest first, each with its mark and its figure in a
+     column on the left. Spans are only what data.js holds:
+       Google      term_google  Apr 2026–Jul 2033 (a closed outline)
+       Amazon      term_amazon  May 2026–Apr 2036
+       Microsoft   term_msft    Nov 2026–May 2033
+       xAI         term_xai     no start held, an end year only: the bar fades in from the ruler's start and fades out across
+                                2029 (no month invented); its end reads "through 2029"
+       Broadcom    no term held: the bar starts at online_2027 (capacity starts coming online) and fades out from 2030 to
+                                nothing, with no right edge
+       AMD         no dates held: no bar; the row says so
+     The 2027 marker (online_2027) stands over the two rows it is about, Broadcom and Google.
+     Interaction (web only): hover a row for its span and its terms (the rest dims); "Signed" / "Pays as it goes" switches the
+     bars from signed outlines to a gold fill that advances a year at a time, in lockstep, under a gold cursor (the fill is time,
+     not money: no year-by-year amounts are reported). ?pay=1 opens on "Pays as it goes".
+     Title: the essay and the article, verbatim ("Two: time. This isn't a bill that's due tomorrow.").
+     Capture contract: BW.run({play, rest}); R / F; ?final ?still ?t= ?capture (labels: ruler, bars, online, pay, end);
+     ?brand=0; ?hover=<key> (broadcom, google, amazon, xai, microsoft, amd, online). The site plays it once on scroll-into-view
+     and loads ?final under prefers-reduced-motion (DashboardEmbed); phones get the ?final&still poster.
+     Figures: commit_* (all six), commit_total, term_google, term_amazon, term_msft, term_xai, online_2027. Nothing typed. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<style>
+  svg#tl { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; z-index: 4; }
+  .abs { position: absolute; white-space: nowrap; z-index: 5; }
+  .lg { text-align: right; }
+  .lg .fx-lg { font-family: var(--sans); font-weight: 600; font-size: 30px; line-height: 1.2; letter-spacing: -.01em; color: var(--cream); }
+  .fv { text-align: right; }
+  .fv .v { font-family: var(--mono); font-weight: 700; font-size: 34px; line-height: 1.1; letter-spacing: -.03em; color: var(--cream); font-variant-numeric: tabular-nums; }
+  .fv small { font-family: var(--sans); font-weight: 400; font-size: 17px; letter-spacing: 0; color: var(--cream-dim); margin-right: 8px; }
+  .ed .v { font-family: var(--mono); font-weight: 500; font-size: 22px; line-height: 1.2; letter-spacing: -.01em; color: var(--cream-dim); }
+  .na .v { font-family: var(--sans); font-weight: 400; font-size: 20px; line-height: 1.2; color: var(--cream-dim); }
+  .yr { transform: translateX(-50%); }
+  .yr .v { font-family: var(--mono); font-weight: 600; font-size: 28px; line-height: 1.1; letter-spacing: -.02em; color: rgba(var(--cream-rgb), .78); }
+  .yr.on .v { color: var(--gold); }
+  .m27 .v { font-family: var(--mono); font-weight: 700; font-size: 40px; line-height: 1.05; letter-spacing: -.03em; color: var(--gold); }
+  .m27 .d { font-family: var(--sans); font-weight: 400; font-size: 20px; color: var(--cream-dim); margin-left: 14px; letter-spacing: 0; }
+  .m27 .bw-m > span { display: flex; align-items: baseline; }
+  .rowhit { position: absolute; left: 120px; width: 1680px; z-index: 9; }
+  .fx-seg button { font-size: 17px; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg id="tl" viewBox="0 0 1920 1080"><defs id="defs"></defs></svg>
+  <div id="world"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script>
+const W = document.getElementById('world'), SV = document.getElementById('tl'), DEFS = document.getElementById('defs');
+const Q = new URLSearchParams(location.search);
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+
+FX.head('Anthropic', "This isn't a bill that's due tomorrow.", { logo: 'anthropic' });
+FX.meta('at least', 'commit_total', 'over about a decade');
+FX.sig();
+
+/* ---- the contracts: spans from data.js only ---- */
+/* "YYYY-MM" → a decimal year at the month's start; "YYYY" alone is a year with no month */
+const dec = (s) => { if (!s) return null; const m = /^(\d{4})(?:-(\d{2}))?$/.exec(String(s)); return m ? +m[1] + (m[2] ? (+m[2] - 1) / 12 : 0) : null; };
+const yearOnly = (s) => /^\d{4}$/.test(String(s || ''));
+const ONLINE = BW.fig('online_2027').v;
+const ROWS = [
+  { k: 'broadcom',  commit: 'commit_broadcom',  term: null },
+  { k: 'google',    commit: 'commit_google',    term: 'term_google' },
+  { k: 'amazon',    commit: 'commit_amazon',    term: 'term_amazon' },
+  { k: 'xai',       commit: 'commit_xai',       term: 'term_xai' },
+  { k: 'microsoft', commit: 'commit_microsoft', term: 'term_msft' },
+  { k: 'amd',       commit: 'commit_amd',       term: null }
+].sort((a, b) => BW.fig(b.commit).v - BW.fig(a.commit).v);   /* largest first, as the article lists them */
+const nameOf = (r) => BW.fig(r.commit).label;
+
+/* ---- geometry: the ruler Jan 2026 → mid 2036, one year = 100 px ---- */
+const X26 = 650, PY = 100, YMAX = 2036.5;
+const yx = (y) => X26 + (y - 2026) * PY;
+const XEND = yx(YMAX);
+const XL = 360, XF = 600;                 /* the logo column's right edge; the figure column's right edge */
+const ROW0 = 326, ROWP = 92, ROWH = 48, RY = 884;
+const NS = 'http://www.w3.org/2000/svg';
+const mk = (parent, tag, a, st) => { const n = BW.mk(tag, a, parent); if (st) n.setAttribute('style', st); return n; };
+const lbl = (cls, html, x, y, k, extra = '') => {
+  const d = BW.el('div', 'abs ' + cls, W, `<div class="bw-m"><span>${html}</span></div>`);
+  d.style.cssText = `left:${x}px; top:${y}px;` + extra; if (k) d.dataset.k = k; return d;
+};
+const spanOf = (n) => n.querySelector('.bw-m > span');
+
+/* the ruler, its ticks and years (dates) */
+const gRuler = mk(SV, 'g', {});
+const rulerL = mk(gRuler, 'line', { x1: X26, y1: RY, x2: X26, y2: RY }, 'stroke:rgba(var(--cream-rgb), .66); stroke-width:3');
+const ticks = [], yrs = [];
+for (let y = 2026; y <= 2036; y++) {
+  ticks.push(mk(gRuler, 'line', { x1: yx(y), y1: RY - 12, x2: yx(y), y2: RY + 12 }, 'stroke:rgba(var(--cream-rgb), .66); stroke-width:3'));
+  yrs.push(lbl('yr', `<span class="v">${y}</span>`, yx(y), RY + 22));
+}
+
+/* the idle "now" tick: the reader's own month on the ruler, no label; hidden at rest and on every poster */
+const NOWD = new Date(), NOWY = clamp(NOWD.getFullYear() + NOWD.getMonth() / 12, 2026, YMAX);
+const nowTick = mk(SV, 'line', { x1: yx(NOWY), y1: RY - 22, x2: yx(NOWY), y2: RY + 14 }, 'stroke:var(--gold); stroke-width:3; opacity:0');
+
+/* the cursor (pays as it goes): a gold line through the rows, down to the ruler */
+const cursor = mk(SV, 'line', { x1: X26, y1: ROW0 - 18, x2: X26, y2: RY + 12 }, 'stroke:var(--gold); stroke-width:3; opacity:0');
+
+/* the idle glint's band: cream, transparent at both edges */
+const GW = 150;
+const glintG = mk(DEFS, 'linearGradient', { id: 'glintG', x1: 0, y1: 0, x2: 1, y2: 0 });
+[[0, 0], [.5, .2], [1, 0]].forEach(([o, a]) => mk(glintG, 'stop', { offset: o }, `stop-color:var(--cream); stop-opacity:${a}`));
+
+/* a bar per row */
+ROWS.forEach((r, i) => {
+  r.y = ROW0 + i * ROWP; r.yc = r.y + ROWH / 2;
+  const t = r.term ? BW.fig(r.term) : null;
+  r.t = t;
+  if (r.k === 'broadcom') { r.start = ONLINE; r.end = null; }        /* capacity online from 2027; no end held */
+  else if (t) { r.start = dec(t.start); r.end = dec(t.end); r.endYearOnly = yearOnly(t.end); }
+  else { r.start = null; r.end = null; }                              /* AMD: no dates held */
+  r.bar = !(r.start == null && r.end == null);
+  if (!r.bar) return;
+
+  r.xs = r.start != null ? yx(r.start) : X26;
+  r.xe = r.end == null ? XEND : (r.endYearOnly ? yx(r.end + 1) : yx(r.end));
+  const openL = r.start == null, openR = r.end == null || r.endYearOnly;
+  /* fades: no start → in from the ruler's start; an end year only → out across that year; no end → out from 2030 to nothing */
+  const fadeIn = openL ? [X26, yx(2026.6)] : null;
+  const fadeOut = r.end == null ? [yx(2030), yx(2036)] : (r.endYearOnly ? [yx(r.end), yx(r.end + 1)] : null);
+
+  r.g = mk(SV, 'g', {}); r.g.dataset.k = r.k;
+  const rc = mk(mk(DEFS, 'clipPath', { id: 'rv_' + r.k }), 'rect', { x: X26 - 12, y: r.y - 10, width: 0, height: ROWH + 20 });
+  r.rvR = rc;
+  r.g.setAttribute('clip-path', `url(#rv_${r.k})`);
+  const inner = mk(r.g, 'g', {});
+  if (fadeIn || fadeOut) {
+    const lg = mk(DEFS, 'linearGradient', { id: 'gr_' + r.k, gradientUnits: 'userSpaceOnUse', x1: 0, y1: 0, x2: 1920, y2: 0 });
+    const stop = (x, c) => mk(lg, 'stop', { offset: (x / 1920).toFixed(5), 'stop-color': c });
+    if (fadeIn) { stop(fadeIn[0], 'black'); stop(fadeIn[1], 'white'); } else stop(0, 'white');
+    if (fadeOut) { stop(fadeOut[0], 'white'); stop(fadeOut[1], 'black'); } else stop(1920, 'white');
+    const m = mk(DEFS, 'mask', { id: 'm_' + r.k, maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: 1920, height: 1080 });
+    mk(m, 'rect', { x: 0, y: 0, width: 1920, height: 1080, fill: `url(#gr_${r.k})` });
+    inner.setAttribute('mask', `url(#m_${r.k})`);
+  }
+  /* a faint ground, so an open-ended bar still reads as one shape */
+  mk(inner, 'rect', { x: r.xs, y: r.y, width: r.xe - r.xs, height: ROWH }, 'fill:rgba(var(--cream-rgb), .06)');
+  /* the fill (pays as it goes): gold from the start to the cursor, with ink seams at each year */
+  const fc = mk(DEFS, 'clipPath', { id: 'cf_' + r.k });
+  r.fillR = mk(fc, 'rect', { x: r.xs, y: r.y - 2, width: 0, height: ROWH + 4 });
+  const gf = mk(inner, 'g', { 'clip-path': `url(#cf_${r.k})` });
+  mk(gf, 'rect', { x: r.xs, y: r.y, width: r.xe - r.xs, height: ROWH }, 'fill:var(--gold)');
+  for (let y = Math.floor(r.start != null ? r.start : 2026) + 1; yx(y) < r.xe - 4; y++)
+    mk(gf, 'line', { x1: yx(y), y1: r.y, x2: yx(y), y2: r.y + ROWH }, 'stroke:var(--bg); stroke-opacity:.55; stroke-width:3');
+  /* the idle glint: a soft band that runs along the bar, clipped to the bar and inside its fade mask (hidden at rest) */
+  const glc = mk(DEFS, 'clipPath', { id: 'gl_' + r.k });
+  mk(glc, 'rect', { x: r.xs, y: r.y, width: r.xe - r.xs, height: ROWH });
+  r.glint = mk(mk(inner, 'g', { 'clip-path': `url(#gl_${r.k})` }), 'rect', { x: r.xs - GW, y: r.y, width: GW, height: ROWH, fill: 'url(#glintG)' }, 'opacity:0');
+  /* the outline: signed. An open side has no edge */
+  const top = r.y, bot = r.y + ROWH;
+  const d = (openL && openR) ? `M ${r.xs} ${top} H ${r.xe} M ${r.xs} ${bot} H ${r.xe}`
+          : openR ? `M ${r.xe} ${top} H ${r.xs} V ${bot} H ${r.xe}`
+          : openL ? `M ${r.xs} ${top} H ${r.xe} V ${bot} H ${r.xs}`
+          : `M ${r.xs} ${top} H ${r.xe} V ${bot} H ${r.xs} Z`;
+  mk(inner, 'path', { d }, 'fill:none; stroke:var(--cream); stroke-width:3; stroke-linejoin:miter');
+});
+
+/* the 2027 marker: Google's and Broadcom's capacity starts coming online; it stands over their two rows */
+const GB = ROWS.filter(r => r.k === 'google' || r.k === 'broadcom');
+const M27_TOP = 252, M27_BOT = Math.max(...GB.map(r => r.y + ROWH)) + 12;
+const markerG = mk(SV, 'g', {}); markerG.dataset.k = 'online google broadcom';
+const marker = mk(markerG, 'line', { x1: yx(ONLINE), y1: M27_TOP, x2: yx(ONLINE), y2: M27_BOT }, 'stroke:var(--gold); stroke-width:4');
+const mLen = M27_BOT - M27_TOP;
+const m27 = lbl('m27', `<span class="v">${BW.val('online_2027')}</span><span class="d">start coming online</span>`, yx(ONLINE) + 16, M27_TOP - 6, 'online google broadcom');
+
+/* labels: the mark (and name), the figure with its data.js qualifier, the end date (a date from data.js) */
+ROWS.forEach((r) => {
+  const q = FX.qualOf(r.commit);
+  r.logoEl = lbl('lg', FX.logo(r.k, nameOf(r)), 120, r.yc - 21, r.k, `width:${XL - 120}px`);
+  r.figEl = lbl('fv', `${q ? `<small>${q}</small>` : ''}<span class="v">${BW.val(r.commit)}</span>`, XL + 20, r.yc - 21, r.k, `width:${XF - XL - 20}px`);
+  r.lbls = [spanOf(r.logoEl), spanOf(r.figEl)];
+  if (r.bar && r.end != null) {
+    const txt = r.t.display.includes('–') ? r.t.display.split('–').pop() : r.t.display;   /* "Jul 2033"; xAI: "through 2029" */
+    r.endEl = lbl('ed', `<span class="v">${txt}</span>`, r.xe + 16, r.yc - 14, r.k);
+    r.lbls.push(spanOf(r.endEl));
+  }
+  if (!r.bar) {   /* AMD: no dates reported, so no bar */
+    r.naEl = lbl('na fx-web', `<span class="v">dates not reported</span>`, X26, r.yc - 13, r.k);
+    r.lbls.push(spanOf(r.naEl));
+  }
+});
+
+/* ---- pays as it goes (web only): a segment switch ---- */
+let PAY = Q.get('pay') === '1';
+let seg = null;
+
+/* the ids written out (not mapped from ROWS), so the static audit can read them */
+BW.provenance({ uses: ['commit_total', 'commit_broadcom', 'commit_google', 'commit_amazon', 'commit_xai', 'commit_microsoft', 'commit_amd',
+                       'term_google', 'term_amazon', 'term_xai', 'term_msft', 'online_2027'] });
+
+/* ---- hover (web only): a row's span and terms ---- */
+const META = {
+  broadcom: () => `Chip leases tied to Broadcom. Capacity starts coming online in ${BW.val('online_2027')}; no end date reported. Non-cancelable by either party except in the case of a default.`,
+  google: () => `${BW.val('term_google')}. Capacity starts coming online in ${BW.val('online_2027')}. Take-or-pay: "If our actual spend falls short, we must pay Google the difference."`,
+  amazon: () => `${BW.val('term_amazon')}.`,
+  xai: () => `No start date reported; runs ${BW.val('term_xai')}. Largely cancelable with a 90-day notice.`,
+  microsoft: () => `${BW.val('term_msft')}. Non-cancelable except in the event of Microsoft's uncured material breach.`,
+  amd: () => `No dates reported.`
+};
+const CRED = (r) => (r.k === 'google' || r.k === 'broadcom') ? `${FX.credit(r.commit)} ${FX.credit('online_2027')}` : FX.credit(r.commit);
+ROWS.forEach((r) => {
+  const hit = BW.el('div', 'rowhit', W); hit.style.cssText = `top:${r.y - 20}px; height:${ROWH + 40}px`;
+  r.hit = hit;
+  FX.hover(hit, r.k, () => FX.tipFor(r.commit, { name: nameOf(r), meta: META[r.k](), credit: CRED(r) }));
+});
+FX.hover(m27, 'online', () => FX.tipFor('online_2027', { name: 'Google and Broadcom', meta: 'Capacity starts coming online' }));
+
+/* ---- state, drawn by one render() ---- */
+const S = { ruler: 0, year: 2026, cur: 0 };
+ROWS.forEach(r => { r.rev = 0; });
+function render() {
+  rulerL.setAttribute('x2', X26 + S.ruler * (XEND - X26));
+  ROWS.forEach((r) => {
+    if (!r.bar) return;
+    r.rvR.setAttribute('width', Math.max(0, r.rev * (XEND + 24 - (X26 - 12))));
+    r.fillR.setAttribute('width', clamp(yx(S.year) - r.xs, 0, r.xe - r.xs));
+  });
+  const cx = Math.min(yx(S.year), XEND);
+  cursor.setAttribute('x1', cx); cursor.setAttribute('x2', cx);
+  cursor.style.opacity = S.cur && S.year > 2026.01 ? 1 : 0;
+  const lit = S.cur ? Math.round(S.year) - 1 : -1;      /* the year just filled */
+  yrs.forEach((n, i) => n.classList.toggle('on', 2026 + i === lit));
+}
+
+/* the sweep: a year at a time, in lockstep, then the cursor leaves; the reverse is a quick retract */
+let sweepTl = null;
+function sweep(tl, at) {
+  tl.set(S, { cur: 1, year: 2026 }, at);
+  tl.to(S, { year: 2037, duration: 11 * .36, ease: 'steps(11)' }, at + .05);
+  tl.set(S, { cur: 0 }, at + .05 + 11 * .36 + .35);
+  return tl;
+}
+let playTl = null;
+function setMode(pay, animate) {
+  PAY = pay;
+  if (playTl && playTl.isActive()) playTl.progress(1);   /* a click during the reveal finishes it first, so two clocks never drive the fill */
+  if (seg) seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', (b.dataset.m === 'pay') === pay));
+  if (sweepTl) { sweepTl.kill(); sweepTl = null; }
+  if (!animate) { S.cur = 0; S.year = pay ? 2037 : 2026; render(); return; }
+  sweepTl = gsap.timeline({ onUpdate: render, onComplete: render });
+  if (pay) sweep(sweepTl, 0);
+  else { sweepTl.set(S, { cur: 0 }, 0); sweepTl.to(S, { year: 2026, duration: .6, ease: 'power2.inOut' }, 0); }
+}
+if (FX.LIVE) {
+  seg = BW.el('div', 'fx-ctl', W); seg.style.cssText = 'right:120px; top:236px';
+  seg.innerHTML = `<div class="fx-seg"><button data-m="signed">Signed</button><button data-m="pay">Pays as it goes</button></div>`;
+  seg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    const pay = b.dataset.m === 'pay';
+    idleHold(); setMode(pay, true); idleRelease((pay ? 11 * .36 + .4 : .6) * 1000 + 4000);   /* resume about 4 s after the fill settles */
+  }));
+  seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', (b.dataset.m === 'pay') === PAY));
+}
+
+/* ---- reveal ---- */
+/* a label rises out of its own baseline. 150%, not 105%: a row holding a mark has extra room under its mask (flagship.css),
+   so at 105% the top of a tall wordmark would show before its reveal */
+const DROP = 150;
+const maskUp = (tl, nodes, at, dur = .5) => [].concat(nodes).forEach((n, i) =>
+  tl.fromTo(n, { yPercent: DROP }, { yPercent: 0, duration: dur, ease: 'power3.out', immediateRender: false }, at + i * .08));
+function setStart() {
+  if (sweepTl) { sweepTl.kill(); sweepTl = null; }
+  S.ruler = 0; S.year = 2026; S.cur = 0;
+  ROWS.forEach(r => { r.rev = 0; gsap.set(r.lbls, { yPercent: DROP }); });
+  ticks.forEach(t => { t.style.opacity = 0; });
+  gsap.set(yrs.map(spanOf), { yPercent: 105 });
+  marker.style.strokeDasharray = `${mLen} ${mLen + 8}`; marker.style.strokeDashoffset = mLen;
+  idleReset();
+  gsap.set(spanOf(m27), { yPercent: 105 });
+  if (seg) gsap.set(seg, { opacity: 0 });
+  render();
+}
+function play() {
+  const tl = gsap.timeline({ onUpdate: render });
+  playTl = tl;
+  setStart();
+  FX.headIn(tl, 0);
+  if (seg) seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', (b.dataset.m === 'pay') === PAY));
+  /* the ruler draws left to right; each year rises as the line reaches it */
+  BW.mark(tl, 'ruler', .45);
+  const RD = 1.3;
+  tl.to(S, { ruler: 1, duration: RD, ease: 'power2.inOut' }, .45);
+  ticks.forEach((t, i) => {
+    const at = .45 + RD * (i / 10.5) * .9;
+    tl.set(t, { opacity: 1 }, at);
+    BW.maskIn(tl, spanOf(yrs[i]), at + .02, .35);
+  });
+  /* the six contracts, largest first: the mark and figure rise, the bar draws onto the ruler */
+  BW.mark(tl, 'bars', 1.05);
+  ROWS.forEach((r, i) => {
+    const a = 1.05 + i * .2;
+    maskUp(tl, r.lbls.slice(0, 2), a, .5);
+    if (r.bar) tl.to(r, { rev: 1, duration: 1.0, ease: 'power2.inOut' }, a + .1);
+    maskUp(tl, r.lbls.slice(2), a + .85, .45);
+  });
+  /* 2027: the marker drops over Broadcom and Google */
+  BW.mark(tl, 'online', 2.75);
+  tl.to(marker, { strokeDashoffset: 0, duration: .45, ease: 'power3.in' }, 2.75);
+  BW.maskIn(tl, spanOf(m27), 2.95, .5);
+  if (seg) tl.to(seg, { opacity: 1, duration: .4 }, 3.0);
+  tl.to('.bw-source', { opacity: 1, duration: .6 }, 3.1);
+  /* ?pay=1: the bars then fill a year at a time */
+  if (PAY) { BW.mark(tl, 'pay', 3.9); sweep(tl, 3.9); }
+  if (FX.LIVE && !seen) { tl.pause(); whenSeen(() => tl.play()); }
+  const END = PAY ? 3.9 + .05 + 11 * .36 + .6 : 3.9;
+  BW.mark(tl, 'end', END - .05);
+  tl.to({}, { duration: .01 }, END);
+  return tl;
+}
+function rest() {
+  if (sweepTl) { sweepTl.kill(); sweepTl = null; }
+  FX.headRest();
+  S.ruler = 1; S.cur = 0; S.year = PAY ? 2037 : 2026;
+  ROWS.forEach(r => { r.rev = 1; gsap.set(r.lbls, { yPercent: 0 }); });
+  ticks.forEach(t => { t.style.opacity = 1; });
+  gsap.set(yrs.map(spanOf), { yPercent: 0 });
+  marker.style.strokeDasharray = 'none'; marker.style.strokeDashoffset = 0;
+  idleReset();
+  gsap.set(spanOf(m27), { yPercent: 0 });
+  if (seg) { gsap.set(seg, { opacity: 1 }); seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', (b.dataset.m === 'pay') === PAY)); }
+  render();
+}
+/* ---- live only: wait until the board is on screen (as 51 / 53) ---- */
+let seen = !FX.LIVE;
+function whenSeen(go) {
+  if (seen || !('IntersectionObserver' in window)) { seen = true; go(); return; }
+  const io = new IntersectionObserver((es) => { if (es.some(e => e.isIntersecting)) { io.disconnect(); seen = true; go(); } }, { threshold: .35 });
+  io.observe(document.querySelector('.stage'));
+}
+
+/* ---- idle (after the reveal, and under ?final; motion.js never starts it under ?still, ?t= or ?capture, and it is
+   web-only here, so posters and captured frames are untouched). The meter is running: a soft glint runs along each
+   contract in turn, the reader's "now" tick breathes on the ruler, the 2027 marker breathes. It holds while a row is
+   hovered or the switch is used (resuming about 4 s later), while the board is off screen, and while the tab is hidden. ---- */
+const IDLE = { tl: null, tw: [], hold: false, timer: null, onscreen: true, running: null };
+function idleReset() {
+  IDLE.tl = null; IDLE.tw = []; clearTimeout(IDLE.timer); IDLE.hold = false; IDLE.running = null;
+  gsap.set(ROWS.filter(r => r.glint).map(r => r.glint), { opacity: 0 });
+  gsap.set(nowTick, { opacity: 0 }); gsap.set(marker, { opacity: 1 });
+}
+function idleSync() {
+  const run = !IDLE.hold && IDLE.onscreen && !document.hidden;
+  if (run === IDLE.running) return;
+  IDLE.running = run;
+  IDLE.tw.forEach(t => { if (t) run ? t.resume() : t.pause(); });
+  if (!IDLE.tl) return;
+  if (run) IDLE.tl.restart();                                   /* the glints start again from the first row */
+  else { IDLE.tl.pause(); gsap.set(ROWS.filter(r => r.glint).map(r => r.glint), { opacity: 0 }); }   /* no band left frozen on a bar */
+}
+function idleHold() { IDLE.hold = true; clearTimeout(IDLE.timer); idleSync(); }
+function idleRelease(ms = 4000) { clearTimeout(IDLE.timer); IDLE.timer = setTimeout(() => { IDLE.hold = false; idleSync(); }, ms); }
+if (FX.LIVE) {
+  [...ROWS.map(r => r.hit), m27].forEach(n => { n.addEventListener('mouseenter', idleHold); n.addEventListener('mouseleave', () => idleRelease(4000)); });
+  if ('IntersectionObserver' in window) new IntersectionObserver((es) => { IDLE.onscreen = es.some(e => e.isIntersecting); idleSync(); }, { threshold: 0 }).observe(document.querySelector('.stage'));
+  document.addEventListener('visibilitychange', idleSync);
+}
+function idle() {
+  if (!FX.LIVE || BW.STILL || BW.CAPTURE || BW.SEEK !== undefined) return;
+  idleReset();
+  IDLE.tw.push(BW.raw(gsap.fromTo(nowTick, { opacity: .2 }, { opacity: .95, duration: 1.6, ease: 'sine.inOut', yoyo: true, repeat: -1 })));
+  IDLE.tw.push(BW.raw(gsap.fromTo(marker, { opacity: 1 }, { opacity: .4, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 })));
+  const tl = gsap.timeline({ repeat: -1, repeatDelay: 1.6 });
+  ROWS.filter(r => r.glint).forEach((r, i) => {
+    const at = i * 1.3, d = (r.xe - r.xs + GW) / 480;
+    tl.fromTo(r.glint, { attr: { x: r.xs - GW } }, { attr: { x: r.xe }, duration: d, ease: 'none', immediateRender: false }, at);
+    tl.fromTo(r.glint, { opacity: 0 }, { opacity: 1, duration: .35, ease: 'none', immediateRender: false }, at);
+    tl.to(r.glint, { opacity: 0, duration: .35, ease: 'none' }, at + d - .35);
+  });
+  IDLE.tl = BW.raw(tl);
+  IDLE.running = true;   /* everything above starts playing; idleSync pauses it at once if the board is hidden */
+  idleSync();
+}
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

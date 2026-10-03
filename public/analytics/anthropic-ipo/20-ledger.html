@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — The $518 Billion (anthropic-ipo flagship 20)</title>
+<!-- ANTHROPIC IPO · FLAGSHIP 20 · THE $518 BILLION (2 Oct 2026). Standalone (site embed / article), not a video beat.
+     Every figure is from shared/data.js; the words are names, the writer's lines from the essay, and qualifiers from data.js.
+       1. the slab: all six commitments as one proportional bar, renting compute (gold) and straight to the hardware (amber),
+          each group bracketed with its sum
+          (palette 2 Oct: the hardware group is amber, the brand's second accent; teal is retired)
+       2. take-or-pay: the $518B as 80% locked in ($414B) and the rest ($104B)
+       3. the ledger: each partner, its qualifier, its share, sorted by size
+     Hover anything: that partner (or group) lights across all three and a tooltip carries its credit.
+     Capture contract: BW.run({play, rest}); R replay, F final; ?final ?still ?t= ?capture (labels: slab, groups, lock, ledger);
+     ?brand=0 drops the wordmark; ?video=1 is the video cut (no wordmark, no hover, no group column or ledger qualifiers).
+     ?tour=1 is the chapter recap (FX.tour in shared/flagship.js; use with ?video=1): a camera that visits the panels in
+     order and pulls back to the whole board for the last 1.8 s. The reveal is cut per panel and plays while its panel is on camera.
+     The tour (refined 3 Oct): each panel is its own layer; only the panels in play show, so no edge cuts a glyph and no
+     neighbour leaks in. A glide is one camera move (log-scale, a small lift) with the window morphing in step; the panel
+     left fades out over 55–95% of the glide while the next builds once 85% of it is in frame. Each panel's reveal is done
+     0.6 s or more before the camera leaves (squeezed automatically for a tighter at=). The header rises in the pull-back.
+     A tour has its own two-column build (only behind ?tour=1): left, the slab at 1040 px over the take-or-pay band (60 px,
+     figures 60 px; its caption line is left off, the voice says it); right, the ledger as a column of larger rows. So every
+     panel is a real close-up: the band and the slab at about 1.42x, the ledger at about 2.1x.
+       panels  1 take-or-pay: the whole band, 80% / $414B and 20% / $104B   2 the slab of six, bracketed   3 the ledger, sorted by size
+       at = 3.8, 8.0   (when the glides to panel 2 and panel 3 start, page seconds: set from the VO)      secs = 12.6   (pull-back at secs - 1.8)
+       render: bw render page --file=20-ledger.html --name=20-ledger-recap --seconds=12.6 --query="video=1&tour=1&at=3.8,8.0&secs=12.6"
+       a held panel: ?video=1&tour=1&panel=N&hold=1 (camera still, only that panel is revealed)
+       labels for ?t=: lock, slab, groups, ledger, tour2, tour3, tourback -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<style>
+  .blk { position: absolute; transform-origin: 0 50%; overflow: hidden; }
+  .blk .in { position: absolute; left: 20px; top: 18px; color: var(--ink); white-space: nowrap; }
+  .blk .nm { font-family: var(--sans); font-weight: 600; font-size: 27px; line-height: 1.1; letter-spacing: -.01em; }
+  .blk .fv { font-family: var(--mono); font-weight: 700; font-size: 42px; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  .blk .fv small { font-family: var(--sans); font-weight: 500; font-size: 17px; letter-spacing: 0; opacity: .72; margin-right: 8px; }
+  .blk .bw-m + .bw-m { margin-top: 30px; }
+  .out { position: absolute; white-space: nowrap; }
+  .out .tick { position: absolute; left: 0; top: -14px; width: 1px; height: 12px; background: var(--line-strong); }
+  .out .nm { font-family: var(--sans); font-weight: 600; font-size: 22px; color: var(--cream); }
+  .out .fv { font-family: var(--mono); font-weight: 600; font-size: 26px; color: var(--cream); letter-spacing: -.02em; }
+  .out .fv small { font-family: var(--sans); font-weight: 400; font-size: 15px; color: var(--cream-dim); letter-spacing: 0; margin-right: 6px; }
+  .brk { position: absolute; height: 1px; background: var(--line-strong); transform-origin: 0 50%; }
+  .brk::before, .brk::after { content: ''; position: absolute; top: 0; width: 1px; height: 12px; background: var(--line-strong); }
+  .brk::before { left: 0; } .brk::after { right: 0; }
+  .glbl { position: absolute; white-space: nowrap; }
+  .glbl .l { font-family: var(--sans); font-weight: 500; font-size: 21px; color: var(--cream-dim); }
+  .glbl .v { font-family: var(--mono); font-weight: 600; font-size: 26px; letter-spacing: -.02em; margin-left: 12px; }
+  .cap { position: absolute; font-family: var(--sans); font-weight: 400; font-size: 22px; color: var(--cream-dim); white-space: nowrap; }
+  .lock { position: absolute; height: 34px; transform-origin: 0 50%; }
+  .lock.a { background: rgba(var(--cream-rgb), .86); }
+  .lock.b { border: 1px dashed rgba(var(--cream-rgb), .45); box-sizing: border-box; }
+  .lock .p { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-weight: 700; font-size: 20px; }
+  .lock.a .p { color: var(--ink); } .lock.b .p { color: var(--cream-dim); }
+  .lfig { position: absolute; white-space: nowrap; }
+  .lfig .v { font-family: var(--mono); font-weight: 700; font-size: 40px; letter-spacing: -.03em; color: var(--cream); font-variant-numeric: tabular-nums; }
+  .lfig .l { font-family: var(--sans); font-weight: 400; font-size: 20px; color: var(--cream-dim); margin-left: 12px; }
+  .lrow { position: absolute; left: 120px; width: 1680px; height: 44px; }
+  .lrow .rrule { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line); }
+  .lrow .nm { position: absolute; left: 0; top: 7px; font-family: var(--sans); font-weight: 500; font-size: 24px; color: var(--cream); }
+  .lrow .gp { position: absolute; left: 300px; top: 11px; font-family: var(--sans); font-weight: 400; font-size: 18px; }
+  .lrow .fv { position: absolute; right: 830px; top: 6px; font-family: var(--mono); font-weight: 600; font-size: 26px; color: var(--cream); letter-spacing: -.02em; text-align: right; }
+  .lrow .fv small { font-family: var(--sans); font-weight: 400; font-size: 15px; color: var(--cream-dim); letter-spacing: 0; margin-right: 8px; }
+  .lrow .sh { position: absolute; right: 700px; top: 9px; font-family: var(--mono); font-weight: 500; font-size: 22px; color: var(--cream-dim); text-align: right; }
+  .lrow .sb { position: absolute; left: 1020px; top: 14px; height: 16px; transform-origin: 0 50%; }
+  .lrow .nm .fx-mk { opacity: .92; }
+  .lrow .sbt { position: absolute; left: 1020px; top: 21px; width: 660px; height: 2px; background: var(--line-faint); }
+  /* the recap build (?tour=1, 3 Oct): two columns, so every panel is a close-up of 1.4x or more. Left: the slab
+     (1040 px) over the take-or-pay band; right: the ledger as a narrow column of larger rows */
+  :root[data-tour] .lock { height: 60px; }
+  :root[data-tour] .lock .p { font-size: 32px; left: 20px; }
+  :root[data-tour] .lfig .v { font-size: 60px; }
+  :root[data-tour] .lfig .l { font-size: 28px; }
+  :root[data-tour] .lrow { width: 560px; height: 62px; }
+  :root[data-tour] .lrow .nm { top: 12px; font-size: 28px; }
+  :root[data-tour] .lrow .gp { display: none; }
+  :root[data-tour] .lrow .fv { right: 250px; top: 12px; font-size: 30px; }
+  :root[data-tour] .lrow .sh { right: 172px; top: 16px; font-size: 24px; }
+  :root[data-tour] .lrow .sb { left: 400px; top: 23px; height: 18px; }
+  :root[data-tour] .lrow .sbt { left: 400px; top: 31px; width: 160px; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="world"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=6"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script>
+const W = document.getElementById('world');
+const GOLD = 'var(--gold)', AMBER = 'var(--amber)';
+
+/* the partners, in slab order: renting compute first (the order the essay names them), then the hardware */
+const P = [
+  { k: 'google',    id: 'commit_google',    sh: 'share_google',    g: 'rent' },
+  { k: 'amazon',    id: 'commit_amazon',    sh: 'share_amazon',    g: 'rent' },
+  { k: 'xai',       id: 'commit_xai',       sh: 'share_xai',       g: 'rent' },
+  { k: 'microsoft', id: 'commit_microsoft', sh: 'share_microsoft', g: 'rent' },
+  { k: 'broadcom',  id: 'commit_broadcom',  sh: 'share_broadcom',  g: 'hw' },
+  { k: 'amd',       id: 'commit_amd',       sh: 'share_amd',       g: 'hw' }
+];
+const G = { rent: { name: 'Renting compute', id: 'group_rent', c: GOLD }, hw: { name: 'Straight to the hardware', id: 'group_hw', c: AMBER } };
+const nameOf = (p) => BW.fig(p.id).label;
+
+FX.head('Anthropic', 'The $518 Billion', { logo: 'anthropic' });
+FX.meta('at least', 'commit_total', 'over about a decade');
+FX.sig();
+
+/* ---- 1. the slab ---- */
+const TL = FX.TOUR;   /* the recap's two-column build */
+const X0 = 120, XW = TL ? 1040 : 1680, GAP = 4, GGAP = 22, SY = TL ? 370 : 300, SH = TL ? 170 : 140;
+const SUM = P.reduce((a, p) => a + BW.fig(p.id).v, 0);
+const K = (XW - GGAP - GAP * (P.length - 2)) / SUM;
+let x = X0;
+P.forEach((p, i) => {
+  if (i && P[i - 1].g !== p.g) x += GGAP; else if (i) x += GAP;
+  p.x = x; p.w = BW.fig(p.id).v * K; x += p.w;
+  const b = BW.el('div', 'blk', W); b.dataset.k = `${p.k} ${p.g}`;
+  b.style.cssText = `left:${p.x}px; top:${SY}px; width:${p.w}px; height:${SH}px; background:${G[p.g].c}`;
+  p.blk = b;
+  const q = FX.qualOf(p.id);
+  if (p.w >= 200) {
+    b.innerHTML = `<div class="in"><div class="bw-m"><span class="nm">${FX.logo(p.k, nameOf(p))}</span></div>` +
+      `<div class="bw-m"><span class="fv" style="display:block">${q ? `<small>${q}</small>` : ''}${BW.val(p.id)}</span></div></div>`;
+    p.lbls = [...b.querySelectorAll('.nm, .fv')];
+  } else {   /* too narrow to carry its own label: hang it below the slab on a tick */
+    const o = BW.el('div', 'out', W); o.dataset.k = `${p.k} ${p.g}`;
+    const rightAlign = p.x + 200 > X0 + XW;   /* the last block hangs its label leftward, flush with the slab's end */
+    o.style.cssText = rightAlign ? `right:${1920 - (p.x + p.w)}px; top:${SY + SH + 26}px; text-align:right` : `left:${p.x}px; top:${SY + SH + 26}px`;
+    o.innerHTML = `<div class="tick" style="${rightAlign ? 'left:auto;right:0' : ''}"></div>` +
+      `<div class="bw-m"><span class="nm">${FX.logo(p.k, nameOf(p))}</span></div>` +
+      `<div class="bw-m"><span class="fv">${q ? `<small>${q}</small>` : ''}${BW.val(p.id)}</span></div>`;
+    p.lbls = [...o.querySelectorAll('.nm, .fv')]; p.out = o;
+  }
+});
+
+/* the group brackets and sums above the slab */
+const GR = {};
+['rent', 'hw'].forEach(g => {
+  const ps = P.filter(p => p.g === g), gx0 = ps[0].x, gx1 = ps[ps.length - 1].x + ps[ps.length - 1].w;
+  const br = BW.el('div', 'brk', W); br.dataset.k = g; br.style.cssText = `left:${gx0}px; top:${SY - 22}px; width:${gx1 - gx0}px`;
+  const lb = BW.el('div', 'glbl', W); lb.dataset.k = g; lb.style.cssText = `left:${gx0}px; top:${SY - 64}px`;
+  lb.innerHTML = `<div class="bw-m"><span class="l">${G[g].name}</span><span class="v" style="color:${G[g].c}">${BW.val(G[g].id)}</span></div>`;
+  GR[g] = { br, lb, t: lb.querySelector('.bw-m > span') };
+});
+/* the label row of the bracket is a single span pair; rise the pair together */
+['rent', 'hw'].forEach(g => { const m = GR[g].lb.querySelector('.bw-m'); m.innerHTML = `<span style="display:block">${m.innerHTML}</span>`; GR[g].t = m.firstChild; });
+
+/* ---- 2. take-or-pay ---- */
+const LY = TL ? 720 : 556, LH = FX.TOUR ? 60 : 34, LOCKW = XW * BW.fig('locked_pct').v / 100;
+const cap = BW.el('div', 'cap', W); cap.style.cssText = `left:${X0}px; top:${LY - 46}px`;
+cap.innerHTML = `<div class="bw-m"><span style="display:block">Most of these contracts are take-or-pay.</span></div>`;
+if (FX.TOUR) cap.style.display = 'none';   /* the recap: the voice says it */
+const la = BW.el('div', 'lock a', W); la.dataset.k = 'locked'; la.style.cssText = `left:${X0}px; top:${LY}px; width:${LOCKW - 3}px`;
+la.innerHTML = `<span class="p">${BW.val('locked_pct')}</span>`;
+const lb = BW.el('div', 'lock b', W); lb.dataset.k = 'unlocked'; lb.style.cssText = `left:${X0 + LOCKW + 3}px; top:${LY}px; width:${XW - LOCKW - 3}px`;
+lb.innerHTML = `<span class="p">${BW.val('unlocked_pct')}</span>`;
+const lfA = BW.el('div', 'lfig', W); lfA.dataset.k = 'locked'; lfA.style.cssText = `left:${X0}px; top:${LY + LH + 12}px`;
+lfA.innerHTML = `<div class="bw-m"><span style="display:block"><span class="v">${BW.val('locked_amt')}</span><span class="l">locked in</span></span></div>`;
+const lfB = BW.el('div', 'lfig', W); lfB.dataset.k = 'unlocked'; lfB.style.cssText = `left:${X0 + LOCKW + 3}px; top:${LY + LH + 12}px`;
+lfB.innerHTML = `<div class="bw-m"><span style="display:block"><span class="v" style="color:var(--cream-dim)">${BW.val('unlocked_amt')}</span></span></div>`;
+
+/* ---- 3. the ledger: sorted by size ---- */
+const ROWY = TL ? 397 : 712, RH = TL ? 62 : 44, SBW = TL ? 160 : 660;
+const SORTED = [...P].sort((a, b) => BW.fig(b.id).v - BW.fig(a.id).v);
+const SHMAX = BW.fig(SORTED[0].sh).v;
+SORTED.forEach((p, i) => {
+  const r = BW.el('div', 'lrow', W); r.dataset.k = `${p.k} ${p.g}`; r.style.top = (ROWY + i * RH) + 'px';
+  if (TL) r.style.left = '1240px';
+  const q = FX.qualOf(p.id);
+  r.innerHTML = `<div class="rrule"></div>` +
+    `<div class="bw-m nm"><span style="display:block">${FX.logo(p.k, nameOf(p))}</span></div>` +
+    `<div class="bw-m gp fx-web"><span style="display:block; color:${G[p.g].c}">${G[p.g].name}</span></div>` +
+    `<div class="bw-m fv"><span style="display:block">${q ? `<small class="fx-web">${q}</small>` : ''}${BW.val(p.id)}</span></div>` +
+    `<div class="bw-m sh"><span style="display:block">${BW.val(p.sh)}</span></div>` +
+    `<div class="sbt"></div><div class="sb" style="width:${SBW * BW.fig(p.sh).v / SHMAX}px; background:${G[p.g].c}"></div>`;
+  p.lrow = r; p.rowT = [...r.querySelectorAll('.bw-m > span')]; p.rowBar = r.querySelector('.sb'); p.rowRule = r.querySelector(".rrule"); p.rowTrack = r.querySelector('.sbt');
+});
+
+BW.provenance({ uses: [...P.map(p => p.id), 'commit_total', 'locked_pct', 'locked_amt', 'group_rent'] });
+
+/* ---- hover (web only) ---- */
+const tipP = (p) => FX.tipFor(p.id, { meta: `${G[p.g].name}, ${BW.val(p.sh)} of the $518B` });
+P.forEach(p => {
+  FX.hover(p.blk, p.k, () => tipP(p));
+  if (p.out) FX.hover(p.out, p.k, () => tipP(p));
+  FX.hover(p.lrow, p.k, () => tipP(p));
+});
+['rent', 'hw'].forEach(g => {
+  const html = () => FX.tipFor(G[g].id, { name: G[g].name, meta: P.filter(p => p.g === g).map(nameOf).join(', ') });
+  FX.hover(GR[g].lb, g, html); FX.hover(GR[g].br, g, html);
+});
+FX.hover(la, 'locked', () => FX.tipFor('locked_amt', { name: 'Locked in', meta: `${BW.val('locked_pct')} of the $518B is non-cancelable or requires payment regardless of usage`, credit: FX.credit('locked_pct') }));
+FX.hover(lfA, 'locked', () => FX.tipFor('locked_amt', { name: 'Locked in', meta: `${BW.val('locked_pct')} of the $518B is non-cancelable or requires payment regardless of usage`, credit: FX.credit('locked_pct') }));
+FX.hover(lb, 'unlocked', () => FX.tipFor('unlocked_amt', { name: 'The rest', meta: `${BW.val('unlocked_pct')} of the $518B` }));
+
+/* ---- the recap camera (?tour=1) ---- */
+/* the tour's own build (two columns, above): the whole band, the slab with its brackets and hanging labels, the ledger */
+const T = FX.tour([
+  { name: 'lock',   x: 100,  y: 700, w: 1080, h: 168 },   /* the whole take-or-pay band: 80% and $414B, 20% and $104B (about 1.42x) */
+  { name: 'slab',   x: 100,  y: 292, w: 1080, h: 350 },   /* the six commitments, bracketed (about 1.42x) */
+  { name: 'ledger', x: 1220, y: 380, w: 600,  h: 404 }    /* the ledger, sorted by size (about 2.1x) */
+], { at: [3.8, 8.0], secs: 12.6 });
+
+/* ---- reveal ---- */
+function play() {
+  const tl = gsap.timeline();
+  T.head(tl);
+  P.forEach(p => { gsap.set(p.blk, { clipPath: 'inset(0% 100% 0% 0%)' }); gsap.set(p.lbls, { yPercent: 105 }); if (p.out) gsap.set(p.out.querySelector('.tick'), { scaleY: 0 }); });
+  ['rent', 'hw'].forEach(g => { gsap.set(GR[g].br, { scaleX: 0 }); gsap.set(GR[g].t, { yPercent: 105 }); });
+  gsap.set(cap.querySelector('span'), { yPercent: 105 });
+  gsap.set([la, lb], { scaleX: 0 }); gsap.set([la.firstChild, lb.firstChild], { opacity: 0 });
+  gsap.set([lfA, lfB].map(n => n.querySelector('.bw-m > span')), { yPercent: 105 });
+  SORTED.forEach(p => { gsap.set(p.rowT, { yPercent: 105 }); gsap.set(p.rowBar, { scaleX: 0 }); gsap.set(p.rowRule, { scaleX: 0, transformOrigin: '0 50%' }); gsap.set(p.rowTrack, { scaleX: 0, transformOrigin: '0 50%' }); });
+
+  /* the sections: 0 take-or-pay, 1 the slab and its brackets, 2 the ledger. u(t) is t, unless a tour re-times the section.
+     The page's own order is slab, take-or-pay, ledger; the recap opens on take-or-pay (it follows 05-locked's $414 billion) */
+  const u0 = T.sec(0, 3.75, 1, 5.45), u1 = T.sec(1, .9, .8, 3.75), u2 = T.sec(2, 5.2, 1, 6.7);
+  /* 1. the slab lands left to right; each block's label rises once it is wide enough to read */
+  if (u1) {
+    BW.mark(tl, 'slab', u1(.9));
+    P.forEach((p, i) => {
+      const t = .9 + i * .3;
+      tl.to(p.blk, { clipPath: 'inset(0% 0% 0% 0%)', duration: .55, ease: 'power2.out' }, u1(t));
+      if (p.out) tl.to(p.out.querySelector('.tick'), { scaleY: 1, duration: .3, ease: 'power2.out', transformOrigin: '50% 0' }, u1(t + .35));
+      p.lbls.forEach((n, j) => BW.maskIn(tl, n, u1(t + .3 + j * .08), .5));
+    });
+    /* the group brackets and sums */
+    BW.mark(tl, 'groups', u1(2.9));
+    ['rent', 'hw'].forEach((g, i) => { tl.to(GR[g].br, { scaleX: 1, duration: .6, ease: 'power3.out' }, u1(2.9 + i * .2)); BW.maskIn(tl, GR[g].t, u1(3.0 + i * .2), .55); });
+  }
+  /* 2. take-or-pay */
+  if (u0) {
+    BW.mark(tl, 'lock', u0(3.6));
+    BW.maskIn(tl, cap.querySelector('span'), u0(3.6), .55);
+    tl.to(la, { scaleX: 1, duration: .9, ease: 'power2.out' }, u0(3.8));
+    tl.to(la.firstChild, { opacity: 1, duration: .3 }, u0(4.4));
+    BW.maskIn(tl, lfA.querySelector('.bw-m > span'), u0(4.3), .55);
+    tl.to(lb, { scaleX: 1, duration: .5, ease: 'power2.out' }, u0(4.6));
+    tl.to(lb.firstChild, { opacity: 1, duration: .3 }, u0(4.9));
+    BW.maskIn(tl, lfB.querySelector('.bw-m > span'), u0(4.9), .55);
+  }
+  /* 3. the ledger */
+  if (u2) {
+    BW.mark(tl, 'ledger', u2(5.2));
+    SORTED.forEach((p, i) => {
+      const t = 5.2 + i * .12;
+      tl.to(p.rowRule, { scaleX: 1, duration: .6, ease: 'power3.out' }, u2(t));
+      p.rowT.forEach((n, j) => BW.maskIn(tl, n, u2(t + .05 + j * .04), .5));
+      tl.to(p.rowTrack, { scaleX: 1, duration: .6, ease: 'power3.out' }, u2(t + .1));
+      tl.to(p.rowBar, { scaleX: 1, duration: .7, ease: 'power2.out' }, u2(t + .2));
+    });
+  }
+  tl.to('.bw-source', { opacity: 1, duration: .6 }, T.on ? .4 : 6.2);
+  if (T.on) { T.run(tl); T.end(tl); } else tl.to({}, { duration: .01 }, 7.2);
+  return tl;
+}
+function rest() {
+  T.restHead();
+  P.forEach(p => { gsap.set(p.blk, { clipPath: 'inset(0% 0% 0% 0%)' }); gsap.set(p.lbls, { yPercent: 0 }); if (p.out) gsap.set(p.out.querySelector('.tick'), { scaleY: 1 }); });
+  ['rent', 'hw'].forEach(g => { gsap.set(GR[g].br, { scaleX: 1 }); gsap.set(GR[g].t, { yPercent: 0 }); });
+  gsap.set(cap.querySelector('span'), { yPercent: 0 });
+  gsap.set([la, lb], { scaleX: 1 }); gsap.set([la.firstChild, lb.firstChild], { opacity: 1 });
+  gsap.set([lfA, lfB].map(n => n.querySelector('.bw-m > span')), { yPercent: 0 });
+  SORTED.forEach(p => { gsap.set(p.rowT, { yPercent: 0 }); gsap.set([p.rowBar, p.rowRule, p.rowTrack], { scaleX: 1 }); });
+  T.rest();
+}
+BW.run({ play, rest, idle() {} });
+</script>
+</body>
+</html>

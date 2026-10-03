@@ -1,0 +1,149 @@
+---
+title: "Inside Anthropic's $518 Billion Bet"
+dek: "Anthropic's draft IPO filing shows a $42 billion loss and at least $518 billion in compute commitments, ahead of a listing rumored at $2 trillion. How it plans to pay for it, and what that price rests on."
+published: 2026-10-03
+kicker: "Investigation"
+collection: anthropic-ipo
+hero:
+  dashboard: the-518-billion
+tags: [anthropic, ipo, ai, amazon, google]
+draft: false
+---
+
+Anthropic's IPO filings leaked and revealed they lost $42 billion in 2025, and are on the hook for over $500 billion in data center spending. On top of that, their potential November IPO is rumored to be for $2 trillion, the largest IPO ever, even including the mammoth SpaceX.
+
+So how does a company that just lost $42 billion sign up to spend $518 billion?
+
+I'm going to explain exactly how Anthropic is paying for this, but we need to clear up two massive misconceptions first.
+
+On September 28th, Reuters reported that it had seen a draft of Anthropic's confidential IPO filing. It's the clearest look at Anthropic's finances to date.
+
+## Misconception #1: The Revenue
+
+The number everyone latched onto first was revenue. According to the draft, Anthropic booked nearly $4.6 billion in 2025. That's an impressive number for a five-year-old company. But next to a $2 trillion price tag, it looks absurd, and plenty of people online have said exactly that.
+
+<DashboardEmbed collection="anthropic-ipo" slug="the-435x-gap" />
+
+But that number is already badly out of date.
+
+In the second quarter of 2026 alone, Anthropic booked more than $11.5 billion in revenue, according to Bloomberg. That's more than double everything it made in all of 2025, in just three months. Compared with the same quarter a year earlier, revenue was up roughly 14x. So essentially, Anthropic is on the most staggering revenue run in history and it's hard to measure with GAAP financials.
+
+The best way to understand the growth is looking at their run-rate. A run-rate takes a recent stretch of revenue and stretches it out over a full year. The idea is it tells you how big the business is right now, on an annual basis. At the start of 2025, Anthropic's run-rate was about $1 billion. By the end of the year, it was about $9 billion.
+
+<DashboardEmbed collection="anthropic-ipo" slug="what-a-run-rate-is" />
+
+And by the end of July, it hit an eye-watering $65 billion, according to CNBC. A 65x increase in run-rate in just 19 months, putting them comfortably in the top 100 of the S&P 500 if they were publicly traded right now.
+
+<DashboardEmbed collection="anthropic-ipo" slug="the-run-rate-climb" />
+
+One asterisk: nearly half of those sales go through Amazon and Google, who take a cut, and Anthropic still books the full amount as revenue. OpenAI says that inflates the numbers. Asterisk or not, this is growth at a scale we've flatly never seen before.
+
+So the revenue isn't the problem. "Oh, but they lost $42 billion!?"
+
+Not quite.
+
+## Misconception #2: The $42 Billion Loss
+
+Of that $42 billion loss, about $34 billion never left the building.
+
+Over the years, Anthropic raised part of its money through deals that can convert into shares later. Think of them as IOUs that get paid back in stock. When Anthropic's valuation shot up, those IOUs became worth a lot more, and the accounting rules make Anthropic book that increase as a loss. Reuters describes it as an accounting charge, not money the company spent running its business. So it's not like they're losing over $3 billion a month. No cash actually went out the door.
+
+<DashboardEmbed collection="anthropic-ipo" slug="the-42-billion-that-wasnt-cash" />
+
+Take that $34 billion out, and you're left with about $8 billion. It's still a lot of money, but it's a very different story from $42 billion. In 2025, the company was 100% burning cash. Though by the second quarter of 2026, Bloomberg reported Anthropic was turning a profit on an adjusted basis.
+
+And at the end of 2025, Anthropic still had about $20 billion in cash to cover the burn.
+
+So if the real loss is about $8 billion, where's all that money actually going? One word: compute.
+
+## The Real Cost: Compute
+
+Compute is like oxygen for AI companies. It's the computing power it takes to train and run AI models: data centers full of chips, plus the cooling and electricity to keep them running. And this is where a lot of people get AI wrong. AI isn't like traditional software. Every answer Claude gives has to be produced in real time on a chip somewhere, which makes it a lot more like your electric bill than a software license.
+
+<DashboardEmbed collection="anthropic-ipo" slug="an-electric-bill" />
+
+In 2025, Anthropic spent $7.33 billion on compute and infrastructure, about three times the year before. That's roughly $1.60 spent on compute for every dollar of revenue it brought in.
+
+<DashboardEmbed collection="anthropic-ipo" slug="a-dollar-sixty" />
+
+So why keep buying more? Two reasons.
+
+First, Anthropic is selling every bit of compute it can get. In the draft, Anthropic says the main thing limiting its growth isn't customers, it's how much compute it can get its hands on. In other words, if Anthropic buys more compute, they drive more revenue.
+
+Second, you have to buy compute years in advance. Some of the capacity Anthropic has already signed for, like its Google and Broadcom deals, doesn't even start coming online until 2027. So Anthropic has to sign these compute deals and effectively guess how big it'll be years from now, and commit to paying for it today.
+
+And if you guess wrong, it can sink the whole company. Here's Anthropic CEO Dario Amodei on the Dwarkesh Podcast in February, walking through what happens if you buy compute for growth that doesn't fully show up:
+
+> "I could buy a trillion dollars of compute that starts at the end of 2027. And if my revenue is not a trillion dollars, if it's even 800 billion, there's no force on earth, there's no hedge on earth that could stop me from going bankrupt if I buy that much compute."
+
+Those were hypothetical numbers, but it's the exact spot Anthropic is in. It's stuck between a rock and a hard place. If it doesn't buy enough compute, it leaves revenue on the table. If it buys too much, it could go bankrupt. And it has to pick a number years before it finds out which mistake it made.
+
+And that's exactly how they ended up with over half a trillion dollars in spending commitments.
+
+## The $518 Billion
+
+According to Reuters, Anthropic expects to spend at least $518 billion over about a decade. That's not debt, and it's not this year's spending. It's a stack of long-term contracts for computing power, broken out across 6 core partners.
+
+Broadcom, about $161 billion. Google, at least $111 billion. Amazon, $110 billion. Elon Musk's xAI, up to $84.5 billion. Microsoft, $31.4 billion. And AMD, more than $20 billion.
+
+So what is Anthropic actually buying? Two things. It's renting compute from Google, Amazon, Microsoft and xAI, who run Claude in their own data centers. And it's going straight to the hardware, with chip leases tied to Broadcom and a deal with AMD. In other words, it's starting to build its own infrastructure instead of renting everything from big tech.
+
+And here's the important part. Most of these contracts are take-or-pay. Anthropic commits to a set amount over a set number of years, and if it uses less, it pays anyway. As the draft puts it: "If our actual spend falls short, we must pay Google the difference."
+
+So about 80% of the $518 billion is locked in, which is roughly $414 billion Anthropic has to pay whether it ends up needing the compute or not.
+
+<DashboardEmbed collection="anthropic-ipo" slug="the-518-billion" />
+
+Which brings us back to the question from the very beginning. How is Anthropic actually going to pay for all of this?
+
+## How Anthropic Pays for It
+
+It comes down to four things.
+
+**One: growth.** This is the big one. At July's $65 billion run-rate, the $518 billion is about 8 years of revenue. But Anthropic has already shown that its growth is speeding up through 2026, and it's betting that keeps going. According to Reuters' sources, the whole IPO valuation hinges on Anthropic doing $190 to $200 billion of revenue in 2028. If they hit that, the entire $518 billion is less than 3 years of sales, and Anthropic would be bringing in about as much as Meta made in all of 2025.
+
+**Two: time.** This isn't a bill that's due tomorrow. These contracts are spread out over 7 to 10 years (Google's runs through 2033, Amazon's through 2036), and the capacity comes online in stages. So Anthropic pays as it goes, and ideally, as the revenue comes in.
+
+<DashboardEmbed collection="anthropic-ipo" slug="the-contracts-year-by-year" />
+
+**Three: other people's money.** Anthropic raised $30 billion in February and another $65 billion in May, and it's reportedly lining up a $15 billion credit line on top of that. And then there's the IPO itself. According to Reuters' sources, Anthropic wants to raise as much as $100 billion (roughly a fifth of the entire $518 billion, in one shot) if it gets the $2 trillion valuation it's after. We'll get to that shortly.
+
+**Four: circular financing.** Amazon and Google aren't just Anthropic's suppliers. They're also major investors. Amazon has committed up to $33 billion to Anthropic, and Anthropic has committed $110 billion right back to Amazon for compute. Google's setup looks a lot like it. So the money moves in a circle: they invest in Anthropic, and a lot of it comes back to them as compute spending. That makes them more than vendors. They're partners with a real stake in Anthropic's success, even if, as the draft admits, their incentives "may not be fully aligned."
+
+<DashboardEmbed collection="anthropic-ipo" slug="how-it-pays" />
+
+That's how Anthropic plans to pay for it. Which brings us to the $2 trillion question: is it actually worth that?
+
+## The $2 Trillion Math
+
+So let's put it all together. Anthropic is booking revenue at a pace we've never seen. Its run-rate hit $65 billion in July, and according to The New York Times, it's on track to pass $100 billion by the end of this year.
+
+Yes, it's burning a lot of money, more than $8 billion last year. But all things considered, it's well funded.
+
+So what's that worth?
+
+In March of 2025, Anthropic was valued at $61.5 billion. From there, it kept raising money at higher and higher valuations: $183 billion that September, $380 billion in February of this year, and most recently, in May, $965 billion.
+
+On paper, that looks like a bubble. But while the price kept doubling, Anthropic actually got cheaper every round, measured against its run-rate. Investors paid about 61x run-rate in early 2025, and that dropped to about 20x in the most recent round in May. The revenue was simply growing faster than the price.
+
+So how do you get to $2 trillion? It depends entirely on which revenue number you use.
+
+Against what Anthropic actually booked in 2025, $2 trillion is more than 400x revenue. That's the number the skeptics are using. Against the July run-rate, it's about 31x. If Anthropic hits that $100 billion run-rate by the end of the year, it's about 20x, the same multiple private investors paid just four months ago, and right in line with Morningstar, which told Reuters it expects a multiple of around 18 to 20 times sales. And if Anthropic is able to achieve the 2028 forecast of nearly $200 billion, it starts to look a lot more reasonable at just 10x forward revenue.
+
+<DashboardEmbed collection="anthropic-ipo" slug="the-2-trillion-math" />
+
+So essentially, the whole IPO hinges on the growth continuing. According to Reuters' sources, the valuation is built on that 2028 forecast, not on what Anthropic made last year. If it keeps growing anywhere near this pace, $2 trillion could look reasonable in hindsight. If the growth slows, the math gets ugly fast, and the $518 billion bill doesn't go anywhere.
+
+And if it prices anywhere near $2 trillion, it would be the biggest IPO ever. Anthropic is reportedly looking to raise up to $100 billion. SpaceX, the current record holder, raised $75 billion in June at a $1.77 trillion valuation.
+
+<DashboardEmbed collection="anthropic-ipo" slug="the-biggest-ipo-ever" />
+
+## When the S-1 Drops
+
+Ultimately, none of this is final yet, and we'll need to relitigate all of it when the public S-1 lands. According to The New York Times, the IPO is rumored for as soon as November.
+
+When it drops, I'll be looking at a few things. What does Anthropic's revenue run-rate actually look like in 2026? How much cash does it actually have when the S-1 lands? And what's the final price it's asking for, and how does that square with its run-rate?
+
+There are also a number of risk factors we haven't been able to see in full. About 80 pages of the 261-page draft are dedicated to risk factors alone, so I'll cover them in their own piece the day it lands.
+
+And if you want to go deeper, every chart in this piece, with its sources, is in [the full set](/analytics/anthropic-ipo/).

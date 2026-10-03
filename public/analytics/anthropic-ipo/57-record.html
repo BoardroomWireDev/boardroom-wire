@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — The biggest IPO ever? (anthropic-ipo flagship 57)</title>
+<!-- ANTHROPIC IPO · FLAGSHIP 57 · THE BIGGEST IPO EVER? (3 Oct 2026). Standalone (article embed), not a video beat.
+     Built from 33-record.html (the video page, untouched): its bell and its rocket are 17's drawings, copied here.
+     Article placement: the close of "The $2 Trillion Math".
+     Title: the article, verbatim ("And if it prices anywhere near $2 trillion, it would be the biggest IPO ever.").
+     One ground, one honest scale per view (zero baseline, heights in proportion):
+       raise       Anthropic's IPO raise, as much as $100B (a target, so hatched), against SpaceX's $75B: the rocket climbs
+                   and stalls with its nose at $75B; a dashed line carries that record height across Anthropic's column,
+                   which climbs through it; the bell (hung from the header rule) swings once as the column passes it
+       valuation   the same two on the valuation: $2T (reportedly, hatched) against SpaceX's $1.77T; the rocket's nose moves
+                   to $1.77T on the same ground
+     Each side also carries the other measure as a small figure line under its name, so the still (phones see the
+     ?final&still frame) holds all four figures.
+     Interaction (web): a toggle Raise / Valuation; hover a side for its figure, qualifier and credit (the rest dims).
+     Figures: ipo_raise, val_ipo, spacex_raise, spacex_val (data.js). Nothing typed; the credit is rendered from data.js.
+     Aramco is not shown (not in data.js as a figure).
+     Capture contract: BW.run({play, rest}); R replay, F final; ?final ?still ?t= ?capture (labels: spacex, record, climb,
+     bell, figures, end); ?brand=0; ?hover=anth|spx; ?mode=val opens on the valuation view. prefers-reduced-motion opens on
+     the final state (the site's embed also passes ?final for it). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<style>
+  /* the title is a full sentence of the article: two lines, the header rule a little lower */
+  .fx-title { font-size: 52px; }
+  .fx-hair { top: 246px; }
+  svg.layer { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; pointer-events: none; }
+  svg.layer .hit { pointer-events: visiblePainted; }
+  .ground { position: absolute; height: 2px; background: var(--line-strong); transform-origin: 0 50%; }
+  .colA { position: absolute; box-sizing: border-box;
+    background: repeating-linear-gradient(135deg, rgba(var(--gold-rgb), .75) 0 4px, transparent 4px 17px), rgba(var(--gold-rgb), .14);
+    border: 4px solid var(--gold); }
+  /* the record line: dashes drawn as a repeating fill (period 15 px) so the idle can march them */
+  .rec { position: absolute; height: 3px; background: repeating-linear-gradient(90deg, rgba(var(--cream-rgb), .62) 0 9px, transparent 9px 15px); transform-origin: 100% 50%; }
+  .tk { position: absolute; height: 0; border-top: 3px solid rgba(var(--cream-rgb), .6); transform-origin: 0 50%; }
+  .ctr { position: absolute; width: 520px; text-align: center; white-space: nowrap; }
+  .lft { position: absolute; white-space: nowrap; }
+  .qa { font-family: var(--sans); font-weight: 500; font-size: 34px; line-height: 1.2; color: var(--cream-dim); }
+  .fa { font-family: var(--mono); font-weight: 700; font-size: 104px; line-height: 1; letter-spacing: -.045em; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .fs { font-family: var(--mono); font-weight: 700; font-size: 88px; line-height: 1; letter-spacing: -.04em; color: var(--cream); font-variant-numeric: tabular-nums; }
+  .ds { font-family: var(--sans); font-weight: 400; font-size: 30px; line-height: 1.25; color: var(--cream-dim); }
+  .nm { font-family: var(--sans); font-weight: 600; font-size: 44px; line-height: 1.15; color: var(--cream); }
+  .sec .sv { font-family: var(--mono); font-weight: 600; font-size: 34px; letter-spacing: -.02em; color: var(--cream); font-variant-numeric: tabular-nums; }
+  .sec .sw { font-family: var(--sans); font-weight: 400; font-size: 28px; color: var(--cream-dim); margin-left: 10px; }
+  .sec .sq { font-family: var(--sans); font-weight: 400; font-size: 28px; color: var(--cream-dim); margin-right: 2px; }
+  .fx-seg button { font-size: 19px; padding: 11px 20px; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="world"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=7"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script>
+const W = document.getElementById('world');
+const Q = new URLSearchParams(location.search);
+const NS = 'http://www.w3.org/2000/svg';
+const mk = (parent, tag, a, st) => { const n = document.createElementNS(NS, tag); for (const k in a) n.setAttribute(k, a[k]); if (st) n.setAttribute('style', st); parent.appendChild(n); return n; };
+const INK = (o) => `rgba(10,10,15,${o})`, CRM = (o) => `rgba(245,241,229,${o})`;
+const REDUCED_MOTION = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]replay(?:&|$)/.test(location.search));
+/* live only: the reveal waits until the board is at least 35% on screen (51-runrate / 53-dollar) */
+let seen = !FX.LIVE;
+function whenSeen(go) {
+  if (seen || !('IntersectionObserver' in window)) { seen = true; go(); return; }
+  const io = new IntersectionObserver((es) => { if (es.some(e => e.isIntersecting)) { io.disconnect(); seen = true; go(); } }, { threshold: .35 });
+  io.observe(document.querySelector('.stage'));
+}
+
+FX.head('Anthropic', 'And if it prices anywhere near $2 trillion,<br>it would be the biggest IPO ever.', { logo: 'anthropic' });
+FX.meta('IPO valuation', 'val_ipo', '');
+FX.sig();
+
+/* ---- the two views: the same ground, one scale each ---- */
+const V = {
+  raise: { a: 'ipo_raise', s: 'spacex_raise', a2: 'val_ipo',   s2: 'spacex_val',   w2: 'valuation' },
+  val:   { a: 'val_ipo',   s: 'spacex_val',   a2: 'ipo_raise', s2: 'spacex_raise', w2: 'raise' }
+};
+let mode = Q.get('mode') === 'val' ? 'val' : 'raise';
+const BASE = 884, HMAX = 440, XA = 790, CW = 240, XS = 1250;
+const geo = (m) => {
+  const a = BW.fig(V[m].a).v, s = BW.fig(V[m].s).v, k = HMAX / Math.max(a, s);
+  return { colTop: BASE - a * k, hA: a * k, nose: BASE - s * k };
+};
+
+/* a masked line: <div class="pos"><div class="bw-m"><span class="cls">…</span></div></div> */
+const line = (cls, pos, key, html = '') => {
+  const n = BW.el('div', pos, W); if (key) n.dataset.k = key;
+  n.innerHTML = `<div class="bw-m"><span class="${cls}">${html}</span></div>`;
+  return { box: n, t: n.querySelector('.bw-m > span') };
+};
+
+/* ---- the bell (17's engraving, copied from 33): hung from the header rule, left of the chart ---- */
+const BS = .75, BX = 320, BY = 246;          /* scale, centre x, the top of its fixture */
+const bellSvg = mk(W, 'svg', { class: 'layer', viewBox: '0 0 1920 1080', width: 1920, height: 1080 });
+bellSvg.dataset.k = 'bell';
+const PIV = [960, 150], LIP_Y = 646, LIP = [960, 646];
+(function drawBell() {
+  const s = mk(bellSvg, 'g', { id: 'bellG', transform: `translate(${BX - 960 * BS} ${BY}) scale(${BS})` });
+  const defs = mk(s, 'defs', {});
+  const R = 'C 1022 205 1062 207 1076 240 C 1088 268 1085 322 1089 382 C 1095 470 1121 546 1172 593 C 1194 612 1211 623 1213 646';
+  const probe = mk(s, 'path', { d: 'M 960 205 ' + R }, 'fill:none; stroke:none');
+  const L = probe.getTotalLength(), prof = [];
+  for (let i = 0; i <= 400; i++) { const p = probe.getPointAtLength(L * i / 400); prof.push([p.x, p.y]); }
+  probe.remove();
+  const hw = (y) => { for (let i = 1; i < prof.length; i++) if (prof[i][1] >= y) { const a = prof[i - 1], b = prof[i]; return (a[0] + (b[0] - a[0]) * (y - a[1]) / Math.max(.001, b[1] - a[1])) - 960; } return 253; };
+  const Y0 = 205, ys = []; for (let y = Y0; y <= LIP_Y; y += 4) ys.push(y); ys[ys.length - 1] = LIP_Y;
+  const edge = (f) => ys.map(y => [960 + f * hw(y), y]);
+  const bodyD = 'M ' + edge(-1).map(p => p.join(' ')).join(' L ') + ' L ' + edge(1).reverse().map(p => p.join(' ')).join(' L ') + ' Z';
+  const cp = mk(defs, 'clipPath', { id: 'bodyClip' }); mk(cp, 'path', { d: bodyD });
+  const fix = mk(s, 'g', {});
+  [[860, 0, 872, 118], [1048, 0, 1060, 118]].forEach(([x, y, x2, y2]) => mk(fix, 'rect', { x, y, width: x2 - x, height: y2 - y }, `fill:${INK(1)}; stroke:var(--cream); stroke-width:2.5`));
+  mk(fix, 'rect', { x: 786, y: 116, width: 348, height: 52, rx: 4 }, `fill:${INK(1)}; stroke:var(--cream); stroke-width:3`);
+  [128, 142, 156].forEach((y, i) => mk(fix, 'path', { d: `M 796 ${y} C 880 ${y - 3 + i * 2} 1040 ${y + 3 - i * 2} 1124 ${y}` }, `fill:none; stroke:${CRM(.18)}; stroke-width:2`));
+  [806, 1114].forEach(x => { mk(fix, 'circle', { cx: x, cy: 142, r: 9 }, `fill:${INK(1)}; stroke:var(--cream); stroke-width:2.5`); mk(fix, 'circle', { cx: x, cy: 142, r: 3 }, 'fill:var(--cream)'); });
+  const rings = mk(s, 'g', {});
+  const g = mk(rings, 'g', { class: 'ring', id: 'ring0' });
+  [[0, 3.5, .9], [34, 2.5, .6], [64, 1.5, .4]].forEach(([dr, w, o]) => {
+    const r = 300 + dr, a = Math.PI / 6.5, dx = r * Math.cos(a), dy = r * Math.sin(a);
+    ['0 0 0', '0 0 1'].forEach((flag, side) => {
+      const x = side ? LIP[0] + dx : LIP[0] - dx;
+      mk(g, 'path', { d: `M ${x} ${LIP[1] - 40 - dy} A ${r} ${r} ${flag} ${x} ${LIP[1] - 40 + dy}` }, `fill:none; stroke:${CRM(o)}; stroke-width:${w}; stroke-linecap:round`);
+    });
+  });
+  const b = mk(s, 'g', { id: 'bell' });
+  mk(b, 'rect', { x: 926, y: 160, width: 68, height: 18, rx: 3 }, `fill:${INK(1)}; stroke:var(--cream); stroke-width:2.5`);
+  const cl = mk(b, 'g', { id: 'clap' });
+  mk(cl, 'line', { x1: 960, y1: 240, x2: 960, y2: 640 }, `stroke:${INK(.9)}; stroke-width:12`);
+  mk(cl, 'circle', { cx: 960, cy: 664, r: 27 }, `fill:var(--gold); stroke:${INK(.7)}; stroke-width:3`);
+  mk(b, 'path', { d: 'M 924 210 C 924 160 996 160 996 210 L 978 210 C 978 182 942 182 942 210 Z' }, `fill:var(--gold); stroke:${INK(.6)}; stroke-width:3`);
+  mk(b, 'path', { d: bodyD }, 'fill:var(--gold)');
+  const fg = mk(b, 'g', { 'clip-path': 'url(#bodyClip)' });
+  const facet = (f0, f1, fill) => mk(fg, 'path', { d: 'M ' + edge(f0).map(p => p.join(' ')).join(' L ') + ' L ' + edge(f1).reverse().map(p => p.join(' ')).join(' L ') + ' Z' }, 'fill:' + fill);
+  /* flat fills (rule 12, the flagship brief): three gold tones, no graded bands. The body is gold; one flat light
+     band left of centre; the shadow side one flat deep-gold tone */
+  facet(-.38, -.14, 'color-mix(in srgb, var(--gold) 62%, var(--cream))');
+  facet(.42, 1.02, 'color-mix(in srgb, var(--gold) 66%, var(--ink))');
+  const band = (y, w, o, sag = 10) => { const h = hw(y); mk(fg, 'path', { d: `M ${960 - h - 4} ${y} Q 960 ${y + sag * 2} ${960 + h + 4} ${y}` }, `fill:none; stroke:${INK(o)}; stroke-width:${w}`); };
+  band(250, 3, .55, 6); band(262, 2, .4, 6); band(312, 2, .4, 7); band(326, 3, .55, 7);
+  for (let i = -6; i <= 6; i++) { const y = 287 + Math.cos(i / 6 * Math.PI / 2) * 6, x = 960 + i / 6.6 * hw(287); mk(fg, 'circle', { cx: x, cy: y, r: 4.2 }, `fill:${INK(.45)}`); }
+  band(560, 2, .4, 13); band(592, 4, .6, 15); band(616, 2, .4, 16);
+  mk(b, 'path', { d: bodyD }, `fill:none; stroke:${INK(.65)}; stroke-width:3`);
+  mk(b, 'ellipse', { cx: 960, cy: LIP_Y, rx: hw(LIP_Y) - 2, ry: 20 }, `fill:${INK(.92)}; stroke:${INK(.7)}; stroke-width:2`);
+  mk(b, 'path', { d: `M ${960 - hw(LIP_Y) + 6} ${LIP_Y} A ${hw(LIP_Y) - 6} 20 0 0 0 ${960 + hw(LIP_Y) - 6} ${LIP_Y}` }, `fill:none; stroke:${CRM(.35)}; stroke-width:2`);
+  const cc = mk(defs, 'clipPath', { id: 'belowLip' }); mk(cc, 'rect', { x: 600, y: LIP_Y - 2, width: 720, height: 200 });
+  const cl2w = mk(b, 'g', { 'clip-path': 'url(#belowLip)' });
+  const cl2 = mk(cl2w, 'g', { id: 'clap2' });
+  mk(cl2, 'circle', { cx: 960, cy: 664, r: 27 }, `fill:var(--gold); stroke:${INK(.7)}; stroke-width:3`);
+  mk(cl2, 'circle', { cx: 951, cy: 655, r: 8 }, `fill:${CRM(.35)}`);
+})();
+
+/* ---- the ground, Anthropic's column, the record line ---- */
+const ground = BW.el('div', 'ground', W); ground.style.cssText = `left:600px; width:${XS + 210 - 600}px; top:${BASE}px`;
+const col = BW.el('div', 'colA', W); col.dataset.k = 'anth';
+const rec = BW.el('div', 'rec', W); rec.dataset.k = 'spx';
+rec.style.cssText = `left:${XA - CW / 2 - 36}px; width:${XS - 40 - (XA - CW / 2 - 36)}px`;
+
+/* ---- the rocket (17's drawing, copied from 33): a generic two-stage launcher, nose at local (0,0), pointing up ---- */
+const RS = .85, RH = 248 * RS, KR = RS / 1.12;   /* KR: 33's flame and plume widths, scaled with the body */
+const PADY = BASE - RH - 4;                        /* the nose on the pad */
+const rk = { y: PADY, flame: 0, sag: 0, tilt: 0, gap: 0, puff: 0 };
+const rs = mk(W, 'svg', { class: 'layer', viewBox: '0 0 1920 1080', width: 1920, height: 1080 });
+const plumeG = mk(rs, 'g', { class: 'hit' }); plumeG.dataset.k = 'spx';
+const SMK = `fill:rgb(36,35,39); stroke:${CRM(.5)}; stroke-width:1.8; stroke-linejoin:round`;
+const puffL = mk(plumeG, 'ellipse', {}, SMK), puffR = mk(plumeG, 'ellipse', {}, SMK), puffC = mk(plumeG, 'ellipse', {}, SMK);
+const plO = mk(plumeG, 'path', {}, SMK), plM = mk(plumeG, 'path', {}, `fill:none; stroke:${CRM(.28)}; stroke-width:1.4`);
+const rkG = mk(rs, 'g', { class: 'hit' }); rkG.dataset.k = 'spx';
+const flO = mk(rkG, 'path', {}, 'fill:var(--amber)'), flI = mk(rkG, 'path', {}, 'fill:var(--cream)');
+(function drawRocketBody() {
+  const g = mk(rkG, 'g', { transform: `scale(${RS})` });
+  const st = `stroke:${INK(.55)}; stroke-width:1.6`;
+  mk(g, 'path', { d: 'M 0 0 C 14 7 27 31 28 64 L -28 64 C -27 31 -14 7 0 0 Z' }, 'fill:var(--cream);' + st);
+  mk(g, 'rect', { x: -22, y: 64, width: 44, height: 40 }, 'fill:var(--cream);' + st);
+  mk(g, 'rect', { x: -22, y: 104, width: 44, height: 16 }, `fill:${INK(.9)}; stroke:var(--cream); stroke-width:1.4`);
+  [[-33, -22], [22, 33]].forEach(([a, b]) => mk(g, 'rect', { x: a, y: 107, width: b - a, height: 10 }, `fill:${INK(.9)}; stroke:var(--cream); stroke-width:1.2`));
+  mk(g, 'rect', { x: -22, y: 120, width: 44, height: 116 }, 'fill:var(--cream);' + st);
+  [150, 182, 212].forEach(y => mk(g, 'line', { x1: -22, y1: y, x2: 22, y2: y }, `stroke:${INK(.22)}; stroke-width:1.2`));
+  mk(g, 'rect', { x: 8, y: 64, width: 14, height: 172 }, `fill:${INK(.12)}`);
+  mk(g, 'path', { d: 'M 0 0 C 14 7 27 31 28 64 L 14 64 C 13 34 8 12 0 0 Z' }, `fill:${INK(.12)}`);
+  [[-22, 196, -29, 236], [22, 196, 29, 236]].forEach(([x1, y1, x2, y2]) => mk(g, 'line', { x1, y1, x2, y2 }, `stroke:${INK(.7)}; stroke-width:3`));
+  mk(g, 'path', { d: 'M -19 236 L 19 236 L 23 248 L -23 248 Z' }, `fill:${INK(.85)}; stroke:var(--cream); stroke-width:1.2`);
+})();
+const flick = (t) => .82 + .1 * Math.sin(t * 47) + .08 * Math.sin(t * 83 + 1.3);
+function drawRocket(t) {
+  const noseY = rk.y + rk.sag, tail = noseY + RH;
+  rkG.setAttribute('transform', `translate(${XS} ${noseY}) rotate(${rk.tilt} 0 ${RH * .55})`);
+  const fl = rk.flame * flick(t), Lo = 120 * fl * KR, Li = 62 * fl * KR, a = 20 * KR, b = 11 * KR;
+  flO.setAttribute('d', fl > .01 ? `M ${-a} ${RH} C ${-a - 2} ${RH + Lo * .35} -6 ${RH + Lo * .8} 0 ${RH + Lo} C 6 ${RH + Lo * .8} ${a + 2} ${RH + Lo * .35} ${a} ${RH} Z` : '');
+  flI.setAttribute('d', fl > .01 ? `M ${-b} ${RH} C ${-b - 1} ${RH + Li * .4} -3 ${RH + Li * .8} 0 ${RH + Li} C 3 ${RH + Li * .8} ${b + 1} ${RH + Li * .4} ${b} ${RH} Z` : '');
+  const top = tail + 40 * KR * Math.max(fl, .25) + rk.gap;
+  const plume = (w0, w1) => { w0 *= KR; w1 *= KR; return `M ${XS - w0} ${top} C ${XS - w0 - 4} ${(top + BASE) / 2} ${XS - w1 * .7} ${BASE - 50} ${XS - w1} ${BASE} L ${XS + w1} ${BASE} C ${XS + w1 * .7} ${BASE - 50} ${XS + w0 + 4} ${(top + BASE) / 2} ${XS + w0} ${top} Z`; };
+  const on = rk.y < PADY - 1 && top < BASE - 4;
+  plO.setAttribute('d', on ? plume(20, 120) : ''); plM.setAttribute('d', on ? plume(8, 52) : '');
+  const pf = rk.puff;
+  [[puffL, XS - (120 + 40 * pf) * KR, 74], [puffR, XS + (120 + 40 * pf) * KR, 74], [puffC, XS, 150]].forEach(([e, cx, rx]) => {
+    e.setAttribute('cx', cx); e.setAttribute('cy', BASE - 7); e.setAttribute('rx', rx * KR * pf + .01); e.setAttribute('ry', 24 * KR * pf + .01);
+  });
+}
+const tick = BW.el('div', 'tk', W); tick.dataset.k = 'spx'; tick.style.cssText = `left:${XS + 34}px; width:76px`;
+
+/* ---- the words: figures, names, the article's own phrases ---- */
+const qa = line('qa', 'ctr', 'anth');                 /* "as much as" (data.js's qualifier) */
+const fa = line('fa', 'ctr', 'anth');                 /* Anthropic's figure */
+const nmA = line('nm', 'ctr', 'anth', FX.logo('anthropic', 'Anthropic'));
+const secA = line('sec', 'ctr', 'anth');
+const fs = line('fs', 'lft', 'spx');                  /* SpaceX's figure, at the nose */
+const ds = line('ds', 'lft', 'spx', 'the current record holder');
+const nmS = line('nm', 'ctr', 'spx', 'SpaceX');
+const secS = line('sec', 'ctr', 'spx');
+[qa, fa, nmA, secA].forEach(o => { o.box.style.left = (XA - 260) + 'px'; });
+[nmS, secS].forEach(o => { o.box.style.left = (XS - 260) + 'px'; });
+[fs, ds].forEach(o => { o.box.style.left = (XS + 124) + 'px'; });
+nmA.box.style.top = nmS.box.style.top = (BASE + 18) + 'px';
+secA.box.style.top = secS.box.style.top = (BASE + 80) + 'px';
+
+const secHTML = (id, w) => { const q = FX.qualOf(id); return (q ? `<span class="sq">${q}</span> ` : '') + `<span class="sv">${BW.val(id)}</span><span class="sw">${w}</span>`; };
+/* the words and the geometry of one view, set at once (no tween) */
+function fill(m) {
+  const v = V[m];
+  qa.t.textContent = FX.qualOf(v.a); fa.t.textContent = BW.val(v.a); fs.t.textContent = BW.val(v.s);
+  secA.t.innerHTML = secHTML(v.a2, v.w2); secS.t.innerHTML = secHTML(v.s2, v.w2);
+}
+function place(m) {
+  const G = geo(m);
+  col.style.cssText = `left:${XA - CW / 2}px; top:${G.colTop}px; width:${CW}px; height:${G.hA}px`;
+  fa.box.style.top = (G.colTop - 128) + 'px'; qa.box.style.top = (G.colTop - 174) + 'px';
+  rec.style.top = tick.style.top = (G.nose - 1.5) + 'px';
+  fs.box.style.top = (G.nose - 48) + 'px'; ds.box.style.top = (G.nose + 50) + 'px';
+}
+/* in a view, which lines are up: the qualifier only when the figure has one, the record line's words only on the raise */
+const shown = (m) => ({ qa: !!FX.qualOf(V[m].a), ds: m === 'raise' });
+fill(mode); place(mode);
+
+/* ---- the toggle (web only) ---- */
+let seg = null;
+if (FX.LIVE) {
+  seg = BW.el('div', 'fx-ctl', W); seg.style.cssText = 'left:120px; top:852px';
+  seg.innerHTML = `<div class="fx-seg"><button data-m="raise">Raise</button><button data-m="val">Valuation</button></div>`;
+  seg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.m)));
+  seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.m === mode));
+}
+let swapTl = null;
+function setMode(m) {
+  if (m === mode) return;
+  const from = mode; mode = m;
+  seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
+  if (swapTl) swapTl.progress(1).kill();
+  const G = geo(m), S0 = shown(from), S1 = shown(m);
+  const tl = swapTl = gsap.timeline({ onUpdate: () => drawRocket(tl.time()) });
+  /* the words drop out of their lines, the marks move, the new words rise */
+  const out = [fa.t, fs.t, secA.t, secS.t]; if (S0.qa) out.push(qa.t); if (S0.ds) out.push(ds.t);
+  tl.to(out, { yPercent: 105, duration: .22, ease: 'power2.in' }, 0);
+  tl.call(() => { fill(m); }, null, .24);
+  const up = G.nose < rk.y;
+  if (up) { tl.to(rk, { flame: 1, duration: .12 }, .1); tl.to(rk, { flame: 0, duration: .2, ease: 'power2.in' }, .62); }
+  tl.to(rk, { y: G.nose, duration: .8, ease: 'power2.inOut' }, .1);
+  tl.to([rec, tick], { top: G.nose - 1.5, duration: .8, ease: 'power2.inOut' }, .1);
+  tl.to(fs.box, { top: G.nose - 48, duration: .8, ease: 'power2.inOut' }, .1);
+  tl.to(ds.box, { top: G.nose + 50, duration: .8, ease: 'power2.inOut' }, .1);
+  tl.to(col, { top: G.colTop, height: G.hA, duration: .8, ease: 'power2.inOut' }, .1);
+  tl.to(fa.box, { top: G.colTop - 128, duration: .8, ease: 'power2.inOut' }, .1);
+  tl.to(qa.box, { top: G.colTop - 174, duration: .8, ease: 'power2.inOut' }, .1);
+  const inn = [fa.t, fs.t, secA.t, secS.t]; if (S1.qa) inn.push(qa.t); if (S1.ds) inn.push(ds.t);
+  tl.to(inn, { yPercent: 0, duration: .45, ease: 'power3.out', stagger: .05 }, .7);
+  if (REDUCED_MOTION) tl.progress(1);   /* no motion asked for: the new view at once */
+}
+
+BW.provenance({ uses: ['ipo_raise', 'val_ipo', 'spacex_raise', 'spacex_val'] });
+
+/* ---- hover (web only): the side, its figure in this view, its credit ---- */
+const TIP = {
+  ipo_raise:    { name: 'Anthropic', meta: 'What Anthropic reportedly wants to raise in its IPO' },
+  val_ipo:      { name: 'Anthropic', meta: 'The valuation the IPO is reportedly aiming for' },
+  spacex_raise: { name: 'SpaceX', meta: 'Raised in its June 2026 IPO, the current record' },
+  spacex_val:   { name: 'SpaceX', meta: 'Its valuation when it listed in June 2026' }
+};
+const tip = (side) => () => { const id = V[mode][side]; return FX.tipFor(id, TIP[id]); };
+[col, qa.box, fa.box, nmA.box, secA.box].forEach(n => FX.hover(n, 'anth', tip('a')));
+[rkG, plumeG, rec, fs.box, ds.box, nmS.box, secS.box].forEach(n => FX.hover(n, 'spx', tip('s')));
+
+/* ---- reveal ---- */
+const SWING = [[-15, .3], [10, .5], [-4, .44], [0, .45]];
+const TXT = () => [qa, fa, nmA, secA, fs, ds, nmS, secS].map(o => o.t);
+function play() {
+  if (REDUCED_MOTION && FX.LIVE) { rest(); return gsap.timeline().to({}, { duration: .01 }); }
+  const tl = gsap.timeline({ onUpdate: () => drawRocket(tl.time()) });
+  if (swapTl) { swapTl.kill(); swapTl = null; }
+  fill(mode); place(mode);
+  const G = geo(mode), S = shown(mode);
+  FX.headIn(tl, 0);
+  gsap.set(TXT(), { yPercent: 105 });
+  gsap.set('#bellG', { opacity: 0 });
+  gsap.set('#bell', { rotation: 0, svgOrigin: PIV.join(' ') });
+  gsap.set(['#clap', '#clap2'], { rotation: 0, svgOrigin: '960 240' });
+  gsap.set('#ring0', { scale: 1, opacity: 0, svgOrigin: `${LIP[0]} ${LIP[1] - 40}` });
+  gsap.set(ground, { scaleX: 0 }); gsap.set([rec, tick], { scaleX: 0 });
+  gsap.set(col, { clipPath: 'inset(100% 0% 0% 0%)' });
+  Object.assign(rk, { y: PADY, flame: 0, sag: 0, tilt: 0, gap: 0, puff: 0 }); drawRocket(0);
+  if (seg) gsap.set(seg, { opacity: 0 });
+
+  /* the ground and the two names */
+  tl.to('#bellG', { opacity: 1, duration: .5 }, .3);
+  tl.to(ground, { scaleX: 1, duration: .8, ease: 'power3.out' }, .5);
+  BW.maskIn(tl, [nmA.t, nmS.t], .8, .5);
+  /* SpaceX: the rocket lights, climbs and stalls with its nose at its figure */
+  const R0 = 1.2;
+  BW.mark(tl, 'spacex', R0);
+  tl.to(rk, { flame: 1, puff: .55, duration: .25, ease: 'power2.out' }, R0 - .25);
+  tl.to(rk, { y: G.nose, duration: 1.1, ease: 'power2.out' }, R0);
+  tl.to(rk, { puff: 1, duration: 1.2, ease: 'power2.out' }, R0);
+  const S0 = R0 + 1.0;
+  tl.to(rk, { flame: 0, duration: .22, ease: 'power2.in' }, S0);
+  tl.to(rk, { gap: 4, duration: 1.0, ease: 'power1.out' }, S0);
+  tl.to(rk, { sag: 6, duration: .35, ease: 'sine.inOut' }, S0 + .12);
+  tl.to(rk, { sag: 0, duration: .5, ease: 'sine.inOut' }, S0 + .47);
+  tl.to(rk, { tilt: 2, duration: .3, ease: 'sine.inOut' }, S0 + .1);
+  tl.to(rk, { tilt: -1, duration: .4, ease: 'sine.inOut' }, S0 + .4);
+  tl.to(rk, { tilt: 0, duration: .45, ease: 'sine.inOut' }, S0 + .8);
+  tl.to(tick, { scaleX: 1, duration: .35, ease: 'power2.out' }, S0 + .1);
+  BW.maskIn(tl, fs.t, S0 + .2, .5);
+  if (S.ds) BW.maskIn(tl, ds.t, S0 + .4, .5);
+  /* the record line carries SpaceX's height across to Anthropic */
+  BW.mark(tl, 'record', S0 + .6);
+  tl.to(rec, { scaleX: 1, duration: .7, ease: 'power2.inOut' }, S0 + .6);
+  /* Anthropic's column climbs through it */
+  const C0 = S0 + 1.2, CD = 1.5;
+  BW.mark(tl, 'climb', C0);
+  tl.to(col, { clipPath: 'inset(0% 0% 0% 0%)', duration: CD, ease: 'power1.inOut' }, C0);
+  /* the bell swings once as the column passes the record line */
+  const pass = C0 + CD * .66;
+  BW.mark(tl, 'bell', pass);
+  let t = pass;
+  SWING.forEach(([r, d], i) => {
+    tl.to('#bell', { rotation: r, duration: d, ease: i ? 'sine.inOut' : 'power2.out' }, t);
+    tl.to(['#clap', '#clap2'], { rotation: -r * .4, duration: d, ease: 'sine.inOut' }, t + .06);
+    t += d;
+    if (i === 0) tl.fromTo('#ring0', { scale: 1, opacity: 1 }, { scale: 1.5, opacity: 0, duration: 1.0, ease: 'power2.out', immediateRender: false }, t - .02);
+  });
+  /* the figures land over the column */
+  const F0 = C0 + CD - .2;
+  BW.mark(tl, 'figures', F0);
+  if (S.qa) BW.maskIn(tl, qa.t, F0, .45);
+  BW.maskIn(tl, fa.t, F0 + .15, .55);
+  BW.maskIn(tl, [secA.t, secS.t], F0 + .7, .5);
+  tl.to('.bw-source', { opacity: 1, duration: .6 }, F0 + .9);
+  if (seg) tl.to(seg, { opacity: 1, duration: .5 }, F0 + 1.0);
+  BW.mark(tl, 'end', t + .05);
+  tl.to({}, { duration: .01 }, Math.max(t, F0 + 1.6));
+  if (FX.LIVE && !seen) { tl.pause(); whenSeen(() => tl.play()); }   /* held at frame 0 until the board is on screen */
+  return tl;
+}
+function rest() {
+  if (swapTl) { swapTl.kill(); swapTl = null; }
+  FX.headRest();
+  fill(mode); place(mode);
+  const G = geo(mode), S = shown(mode);
+  gsap.set(TXT(), { yPercent: 0 });
+  if (!S.qa) gsap.set(qa.t, { yPercent: 105 });
+  if (!S.ds) gsap.set(ds.t, { yPercent: 105 });
+  gsap.set('#bellG', { opacity: 1 });
+  gsap.set('#bell', { rotation: 0, svgOrigin: PIV.join(' ') }); gsap.set(['#clap', '#clap2'], { rotation: 0, svgOrigin: '960 240' });
+  gsap.set('#ring0', { opacity: 0 });
+  gsap.set([ground, rec, tick], { scaleX: 1 });
+  gsap.set(col, { clipPath: 'inset(0% 0% 0% 0%)' });
+  Object.assign(rk, { y: G.nose, flame: 0, sag: 0, tilt: 0, gap: 4, puff: 1 }); drawRocket(0);
+  if (seg) gsap.set(seg, { opacity: 1 });
+  rec.style.backgroundPosition = '0 0';
+}
+
+/* ---- idle (live and ?final; never ?still, ?t=, ?capture, ?video, ?tour, so posters are untouched) ----
+   The bell sways a degree or so and gives one soft swing every ~9 s; the rocket's smoke breathes; the record line's
+   dashes march slowly from SpaceX toward Anthropic. It pauses while the reader toggles or hovers (resuming ~4 s after
+   the last touch), while the board is off screen, and while the tab is hidden. */
+let idleTl = null, onScreen = true, quietUntil = 0, resumeT = null;
+function idleSync() {
+  if (!idleTl) return;
+  const ok = onScreen && !document.hidden && performance.now() >= quietUntil;
+  if (ok) idleTl.resume(); else idleTl.pause();
+}
+function touched() {
+  quietUntil = performance.now() + 4000; idleSync();
+  clearTimeout(resumeT); resumeT = setTimeout(idleSync, 4050);
+}
+if (FX.LIVE) {
+  document.addEventListener('visibilitychange', idleSync);
+  if ('IntersectionObserver' in window) new IntersectionObserver((es) => { onScreen = es.some(e => e.isIntersecting); idleSync(); }).observe(document.querySelector('.stage'));
+  const st = document.querySelector('.stage');
+  st.addEventListener('pointermove', (e) => { if (e.target.closest && e.target.closest('.fx-hit, .fx-ctl')) touched(); });
+  st.addEventListener('click', (e) => { if (e.target.closest && e.target.closest('.fx-ctl')) touched(); });
+}
+function idle() {
+  if (!FX.LIVE) return;
+  const m = gsap.timeline();
+  /* the bell: a slow sway, then one soft swing; the clapper lags it */
+  const bell = gsap.timeline({ repeat: -1 });
+  [[1.2, 1.6], [-1.2, 3.2], [0, 1.6], [-5, .45], [3.5, .6], [-1.5, .55], [0, .6]].forEach(([r, d], i) => {
+    bell.to('#bell', { rotation: r, duration: d, ease: i === 3 ? 'power2.out' : 'sine.inOut' });
+    bell.to(['#clap', '#clap2'], { rotation: -r * .4, duration: d, ease: 'sine.inOut' }, '<+.06');
+  });
+  bell.to({}, { duration: .5 });
+  m.add(bell, 0);
+  /* the rocket's smoke breathes, the drift between it and the tail opens a little */
+  m.add(gsap.to(rk, { puff: 1.07, gap: 9, duration: 2.8, ease: 'sine.inOut', yoyo: true, repeat: -1, onUpdate: () => drawRocket(0) }), 0);
+  /* the record line marches: 10 periods of 15 px over 15 s, seamless */
+  const mp = { x: 0 };
+  m.add(gsap.to(mp, { x: -150, duration: 15, ease: 'none', repeat: -1, onUpdate: () => { rec.style.backgroundPosition = mp.x + 'px 0'; } }), 0);
+  BW.raw(m);   /* motion.js kills it on R / F before the next reveal or rest */
+  idleTl = m; idleSync();
+}
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

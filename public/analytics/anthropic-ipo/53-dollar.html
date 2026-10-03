@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — $1.60 for every dollar (anthropic-ipo flagship 53)</title>
+<!-- ANTHROPIC IPO · FLAGSHIP 53 · $1.60 FOR EVERY DOLLAR (3 Oct 2026). Standalone (site embed / article), not a video beat.
+     Article placement: The Real Cost: Compute, beside the $7.33B paragraph (it may later share an embed with the
+     electric-bill board; built standalone).
+     Built from 40-dollar.html (the video page; its banknote drawing is borrowed, the page itself is untouched). The voice-
+     timed camera, the chip and the feed are dropped: the board is the hero state of 40, composed to be read on its own.
+       one cream dollar of revenue beside the compute it took: a full gold bill with a 0.6 bill on top, one scale, both on
+       one ground. The 0.6 is cut at compute_per_dollar − 1 of the bill's length; the rest of that bill is the bill ghosted
+       (solid, not dashed: on these boards a dash means a projection, and this is a reported year).
+       Under each pile, the year's total it stands for: revenue $4.6B, compute $7.33B (7.33 ÷ 4.6 ≈ 1.59, shown as $1.60).
+     Title: the article (and the essay), verbatim: "That's roughly $1.60 spent on compute for every dollar of revenue it
+     brought in." The $1.60 in it is rendered from data.js. Hero top-right: compute_per_dollar with its chip.
+     Every figure from shared/data.js: compute_per_dollar, compute_2025, rev_2025; the labels are data.js labels.
+     Interaction: none beyond replay (the brief: small, no interaction). R replays, F jumps to the final state.
+     Idle (after the reveal and under ?final; never under ?still or ?t=, so posters are unchanged): the compute stack breathes from the ground
+     (under 1%) and a soft sheen crosses the gold every 7 s or so; the revenue dollar stays still. Paused off screen or hidden.
+     The unspent 0.4 of the top bill is that bill ghosted (faint cream tint, engraving, outer edges), never dashed.
+     Live (no ?final/?still/?t=/?capture/?video): the reveal waits until the board is on screen, then plays once and rests;
+     prefers-reduced-motion opens on the final state (the site's embed also passes ?final for those readers).
+     Capture contract: BW.run({play, rest}); ?final ?still ?t= ?capture (labels: ground, revenue, compute, part, rest);
+     ?brand=0 drops the wordmark; ?video=1 drops the wordmark (no web-only words on this board). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<style>
+  /* the title is a full sentence from the article: two lines, clear of the hero figure; the hairline sits under it */
+  #fxTitle { max-width: 1240px; }
+  /* the hero figure stands over its chip, so the title keeps the width it needs */
+  .stage .fx-meta .bw-m > .vr { flex-direction: column-reverse; align-items: flex-end; gap: 12px; }
+  svg#ink { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; z-index: 3; }
+  .tot { position: absolute; white-space: nowrap; z-index: 4; }
+  .tot .v { font-family: var(--mono); font-weight: 700; font-size: 54px; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  .tot .l { font-family: var(--sans); font-weight: 500; font-size: 26px; color: var(--cream-dim); margin-left: 16px; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg id="ink" viewBox="0 0 1920 1080"><defs id="defs"></defs></svg>
+  <div id="world"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script>
+const W = document.getElementById('world'), SV = document.getElementById('ink'), DEFS = document.getElementById('defs');
+const HERO = 'compute_per_dollar', COMP = 'compute_2025', REV = 'rev_2025';
+
+FX.head('Anthropic', `That's roughly ${BW.val(HERO)} spent on compute for every dollar of revenue it brought in.`, { logo: 'anthropic' });
+FX.meta('', HERO, '', { inputs: [COMP, REV] });
+FX.sig();
+
+/* =====================================================================================================================
+   THE DRAWING (stage px). One ground; bills are 560 × 238 (a banknote's 2.35 : 1), one scale for every bill
+   ===================================================================================================================== */
+const GY = 846, BWID = 560, BH = 238, SEAM = 6;
+const X_CREAM = 300, X_STACK = 1060;                          /* left edges: the dollar of revenue, the compute stack */
+const PART = BW.fig(HERO).v - 1, PW = BWID * PART;            /* the part bill: cut at (1.60 − 1) of a bill */
+const Y1 = GY - BH, Y2 = Y1 - BH - SEAM;                      /* the full bill's top; the part bill's top */
+const ENG_ON_GOLD = 'rgba(10, 10, 15, .58)', ENG_ON_INK = 'rgba(245, 241, 229, .62)';
+const mk = (tag, a, parent, st) => { const n = BW.mk(tag, a, parent); if (st) n.setAttribute('style', st); return n; };
+
+/* the ground */
+const ground = mk('line', { x1: 200, y1: GY, x2: 1720, y2: GY }, SV, 'stroke: var(--line-strong); stroke-width: 3; stroke-linecap: round');
+
+/* a banknote (40-dollar's drawing): border, inner rules, a rosette in an oval, four roundels, engraving rules. No text. */
+function bill(parent, gold) {
+  const g = mk('g', {}, parent);
+  const e = gold ? ENG_ON_GOLD : ENG_ON_INK;
+  const st = (w = 2) => `fill: none; stroke: ${e}; stroke-width: ${w}; stroke-linejoin: round; stroke-linecap: round`;
+  const body = mk('rect', { x: 0, y: 0, width: BWID, height: BH, rx: 10 }, g,
+    gold ? 'fill: var(--gold); stroke: var(--gold); stroke-width: 3' : 'fill: var(--bg); stroke: var(--cream); stroke-width: 4');
+  const fine = mk('g', {}, g);
+  const w = BWID, h = BH, cx = w / 2, cy = h / 2;
+  mk('rect', { x: 16, y: 16, width: w - 32, height: h - 32, rx: 5 }, fine, st(2.4));
+  mk('rect', { x: 26, y: 26, width: w - 52, height: h - 52, rx: 3 }, fine, st(2));
+  mk('ellipse', { cx, cy, rx: 74, ry: 84 }, fine, st(2.4));
+  mk('ellipse', { cx, cy, rx: 48, ry: 58 }, fine, st(2));
+  let d = ''; for (let i = 0; i <= 180; i++) { const t = i / 180 * Math.PI * 2, r = 1 + .085 * Math.sin(t * 14); d += (i ? ' L ' : 'M ') + (cx + 61 * r * Math.cos(t)).toFixed(1) + ' ' + (cy + 71 * r * Math.sin(t)).toFixed(1); }
+  mk('path', { d: d + ' Z' }, fine, st(2));
+  [[58, 58], [w - 58, 58], [58, h - 58], [w - 58, h - 58]].forEach(([x, y]) => { mk('circle', { cx: x, cy: y, r: 20 }, fine, st(2.2)); mk('circle', { cx: x, cy: y, r: 11 }, fine, st(2)); });
+  for (let i = 0; i < 6; i++) {
+    const y = cy - 40 + i * 16, l = i % 2 ? 66 : 82;
+    mk('line', { x1: cx - 98, y1: y, x2: cx - 98 - l, y2: y }, fine, st(2));
+    mk('line', { x1: cx + 98, y1: y, x2: cx + 98 + l, y2: y }, fine, st(2));
+  }
+  [38, h - 38].forEach((y) => { let p = ''; for (let x = 96; x <= w - 96; x += 6) p += (x === 96 ? 'M ' : ' L ') + x + ' ' + (y + 3 * Math.sin((x - 96) / 9)).toFixed(1); mk('path', { d: p }, fine, st(2)); });
+  return { g, body, fine };
+}
+
+/* the dollar of revenue: cream line on ink; its outline and engraving draw on */
+const cream = mk('g', { transform: `translate(${X_CREAM} ${Y1})` }, SV);
+const cb = bill(cream, false);
+const creamStrokes = [cb.body, ...cb.fine.querySelectorAll('*')];
+creamStrokes.forEach((e) => { e._L = e.getTotalLength(); });
+
+/* the compute: a full gold bill, revealed up from the ground; the part bill on top, revealed left to right.
+   All of it sits in one group (the stack), which the idle breathes from the ground */
+const stackG = mk('g', {}, SV);
+const clipFull = mk('rect', { x: X_STACK - 4, y: GY, width: BWID + 8, height: 0 }, mk('clipPath', { id: 'cFull' }, DEFS));
+const clipPart = mk('rect', { x: X_STACK - 4, y: Y2 - 4, width: 0, height: BH + 8 }, mk('clipPath', { id: 'cPart' }, DEFS));
+const cutPart = mk('rect', { x: -6, y: -6, width: PW + 6, height: BH + 12 }, mk('clipPath', { id: 'cCut' }, DEFS));
+const full = mk('g', { transform: `translate(${X_STACK} ${Y1})` }, mk('g', { 'clip-path': 'url(#cFull)' }, stackG));
+bill(full, true);
+const partWrap = mk('g', { 'clip-path': 'url(#cPart)' }, stackG);
+const part = mk('g', { transform: `translate(${X_STACK} ${Y2})` }, partWrap);
+bill(mk('g', { 'clip-path': 'url(#cCut)' }, part), true);
+mk('line', { x1: PW, y1: 0, x2: PW, y2: BH }, part, 'stroke: var(--bg); stroke-width: 3');      /* the clean cut */
+/* the rest of that bill, not spent: the same bill ghosted (a faint cream tint, its engraving and outer edges at low
+   ink), so the part reads as a fraction of one bill. Solid, never dashed: a dash means a projection. Revealed left to right */
+const clipRest = mk('rect', { x: PW + 4, y: -6, width: 0, height: BH + 12 }, mk('clipPath', { id: 'cRest' }, DEFS));
+const restG = mk('g', { transform: `translate(${X_STACK} ${Y2})`, opacity: .3 }, stackG);
+const ghost = bill(mk('g', { 'clip-path': 'url(#cRest)' }, restG), false);
+ghost.body.setAttribute('style', 'fill: var(--cream); fill-opacity: .14; stroke: var(--cream); stroke-width: 3');
+const REST_W = BWID - PW + 4;
+/* the idle's glint: a soft cream sheen that crosses the gold now and then (flat, clipped to the gold; nothing glows) */
+const gr = mk('linearGradient', { id: 'gGlint', x1: 0, y1: 0, x2: 1, y2: 0 }, DEFS);
+[[0, 0], [.5, .24], [1, 0]].forEach(([o, a]) => mk('stop', { offset: o, 'stop-color': 'var(--cream)', 'stop-opacity': a }, gr).setAttribute('style', `stop-color: var(--cream); stop-opacity: ${a}`));
+const cGl = mk('clipPath', { id: 'cGlint' }, DEFS);
+mk('rect', { x: X_STACK, y: Y1, width: BWID, height: BH, rx: 10 }, cGl);
+mk('rect', { x: X_STACK, y: Y2, width: PW, height: BH, rx: 10 }, cGl);
+const glint = mk('polygon', { points: `0 ${Y2 - 10} 120 ${Y2 - 10} ${120 - 150} ${GY + 10} ${-150} ${GY + 10}` }, mk('g', { 'clip-path': 'url(#cGlint)' }, stackG), 'fill: url(#gGlint)');
+const GL0 = X_STACK - 140, GL1 = X_STACK + BWID + 170;      /* the band's x, off the gold on either side */
+const STACK_CX = X_STACK + BWID / 2;
+const idleState = { s: 1, gx: GL0 };
+const drawIdle = () => {
+  stackG.setAttribute('transform', idleState.s === 1 ? '' : `translate(${STACK_CX} ${GY}) scale(1 ${idleState.s.toFixed(5)}) translate(${-STACK_CX} ${-GY})`);
+  glint.setAttribute('transform', `translate(${idleState.gx.toFixed(1)} 0)`);
+};
+const resetIdle = () => { idleState.s = 1; idleState.gx = GL0; drawIdle(); };
+drawIdle();
+
+/* the year's totals under each pile: the figure and its data.js label */
+function total(x, id, label, color) {
+  const n = BW.el('div', 'tot', W);
+  n.style.cssText = `left:${x}px; top:${GY + 26}px`;
+  n.innerHTML = `<div class="bw-m"><span><span class="v" style="color:${color}">${BW.val(id)}</span><span class="l">${label}</span></span></div>`;
+  return n.querySelector('.bw-m > span');
+}
+const totRev = total(X_CREAM, REV, BW.fig('rev_2025_in').label, 'var(--cream)');
+const totComp = total(X_STACK, COMP, BW.fig(COMP).label, 'var(--gold)');
+
+BW.provenance({ uses: ['compute_per_dollar', 'compute_2025', 'rev_2025'] });   /* literal ids: audit.mjs reads them from the source */
+
+/* the hairline sits under the two-line title (the shared one assumes a one-line title) */
+function placeHair() {
+  const h = document.querySelector('.fx-head'), hair = document.getElementById('fxHair');
+  if (h && hair) hair.style.top = Math.round(h.offsetTop + h.offsetHeight + 22) + 'px';
+}
+
+/* ---- live only: wait until the board is on screen; readers who asked for less motion get the final state ---- */
+const CALM = FX.LIVE && matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]replay(?:&|$)/.test(location.search);
+let seen = !FX.LIVE;
+function whenSeen(go) {
+  if (seen || !('IntersectionObserver' in window)) { seen = true; go(); return; }
+  const io = new IntersectionObserver((es) => { if (es.some(e => e.isIntersecting)) { io.disconnect(); seen = true; go(); } }, { threshold: .35 });
+  io.observe(document.querySelector('.stage'));
+}
+
+/* ---- reveal ---- */
+const hide = (e, L) => { e.style.strokeDasharray = L + ' ' + (L + 6); e.style.strokeDashoffset = L; };
+function setStart() {
+  placeHair();
+  creamStrokes.forEach((e) => hide(e, e._L));
+  gsap.set(cb.body, { fillOpacity: 0 });
+  const gL = 1520; ground.style.strokeDasharray = gL + ' ' + (gL + 6); ground.style.strokeDashoffset = gL;
+  clipFull.setAttribute('y', GY); clipFull.setAttribute('height', 0);
+  clipPart.setAttribute('width', 0);
+  clipRest.setAttribute('width', 0);
+  resetIdle();
+  gsap.set([totRev, totComp], { yPercent: 105 });
+}
+function play() {
+  if (CALM) { rest(); return gsap.timeline().to({}, { duration: .01 }); }
+  const tl = gsap.timeline();
+  setStart();
+  FX.headIn(tl, 0);
+  BW.mark(tl, 'ground', .45);
+  tl.to(ground, { strokeDashoffset: 0, duration: .7, ease: 'power2.inOut' }, .45);
+  /* the dollar of revenue draws on */
+  BW.mark(tl, 'revenue', .75);
+  tl.to(cb.body, { strokeDashoffset: 0, duration: .55, ease: 'power1.inOut' }, .75);
+  tl.set(cb.body, { fillOpacity: 1 }, .75);
+  creamStrokes.slice(1).forEach((e, i) => tl.to(e, { strokeDashoffset: 0, duration: .4, ease: 'power1.out' }, 1.0 + (i % 6) * .03));
+  BW.maskIn(tl, totRev, 1.15, .6);
+  /* the compute: a full bill rises off the ground, one scale with the dollar beside it */
+  BW.mark(tl, 'compute', 1.7);
+  tl.to(clipFull, { attr: { y: Y1 - 4, height: BH + 8 }, duration: .55, ease: 'power2.out' }, 1.7);
+  BW.maskIn(tl, totComp, 2.0, .6);
+  /* and the part bill lands on it, left to right; the rest of that bill follows, ghosted */
+  BW.mark(tl, 'part', 2.35);
+  tl.to(clipPart, { attr: { width: PW + 8 }, duration: .5, ease: 'power2.out' }, 2.35);
+  tl.to(clipRest, { attr: { width: REST_W }, duration: .45, ease: 'power1.inOut' }, 2.8);
+  BW.mark(tl, 'rest', 3.3);
+  tl.to('.bw-source', { opacity: 1, duration: .6 }, 2.9);
+  tl.to({}, { duration: .01 }, 3.6);
+  if (FX.LIVE && !seen) { tl.pause(); whenSeen(() => tl.play()); }
+  return tl;
+}
+function rest() {
+  placeHair();
+  FX.headRest();
+  creamStrokes.forEach((e) => { e.style.strokeDasharray = 'none'; e.style.strokeDashoffset = 0; });
+  gsap.set(cb.body, { fillOpacity: 1 });
+  ground.style.strokeDasharray = 'none'; ground.style.strokeDashoffset = 0;
+  clipFull.setAttribute('y', Y1 - 4); clipFull.setAttribute('height', BH + 8);
+  clipPart.setAttribute('width', PW + 8);
+  clipRest.setAttribute('width', REST_W);
+  resetIdle();
+  gsap.set([totRev, totComp], { yPercent: 0 });
+}
+/* ---- idle (after the reveal, and under ?final; motion.js never runs it under ?still or ?t=, so posters are unchanged):
+   the revenue dollar stays still; the compute keeps going. The stack breathes from the ground (under 1% of its height,
+   a 6 s cycle) and a soft sheen crosses the gold every 7 s or so. No words, no figures, nothing glows.
+   Live, it pauses while the board is off screen or the tab is hidden. ---- */
+let idleTw = [], onScreen = true;
+const idleSync = () => { const on = onScreen && !document.hidden; idleTw.forEach(t => on ? t.resume() : t.pause()); };
+if (FX.LIVE) {
+  document.addEventListener('visibilitychange', idleSync);
+  if ('IntersectionObserver' in window) new IntersectionObserver((es) => { onScreen = es.some(e => e.isIntersecting); idleSync(); }).observe(document.querySelector('.stage'));
+}
+function idle() {
+  resetIdle();
+  const breathe = gsap.to(idleState, { s: 1.008, duration: 3, ease: 'sine.inOut', yoyo: true, repeat: -1, onUpdate: drawIdle });
+  const sweep = gsap.timeline({ repeat: -1, repeatDelay: 5.6, delay: .6 })
+    .fromTo(idleState, { gx: GL0 }, { gx: GL1, duration: 1.8, ease: 'power1.inOut', onUpdate: drawIdle, immediateRender: false });
+  idleTw = [BW.raw(breathe), BW.raw(sweep)];
+  if (FX.LIVE) idleSync();
+}
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

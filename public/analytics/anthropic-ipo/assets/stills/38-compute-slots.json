@@ -1,0 +1,38 @@
+{
+  "page": "38-compute.html",
+  "_": "Footage windows on 38-compute (defaults, no at=/sa=/sb= overrides). Rects are the FOOTAGE AREA in stage pixels at 1920x1080 (double every value for the 4K render). The page draws a 2 px cream frame just OUTSIDE each rect, so footage cropped exactly to the rect sits inside it. Times are seconds from the page's first frame (page 0 = VO 209.6); frames at 30 fps. Render the edit's copy with slots=0 so each window is a flat dark ground (#050507) for the footage to cover. Never two windows at once.",
+  "fps": 30,
+  "page_start_vo": 209.6,
+  "wipe": "Opening: eased (cubic in-out) over 'opening'; the window first grows as a 2 px horizontal line from its centre out to full width, then opens vertically from its centre line to full height. Closing is the reverse over 'closing' (A 0.12 s, B 0.22 s). Simplest composite: cut the footage in at visible_open.in and out at visible_open.out (the window shows its dark ground during the wipes). To ride the wipe instead, crop the footage to the same centre-out rectangle.",
+  "slots": [
+    {
+      "id": "A",
+      "subject": "Trainium2 chip in a hand (Amazon, Inside Amazon's new AI supercomputer, 29 Oct 2025)",
+      "beside": "the detail callout of the gold rack (the lifted chip); a vertical hairline drops from the window's bottom edge to the chip",
+      "rect": { "x": 84, "y": 136, "w": 528, "h": 297 },
+      "rect_4k": { "x": 168, "y": 272, "w": 1056, "h": 594 },
+      "frame_outset_px": 2,
+      "opening": { "in": 9.18, "out": 9.46, "in_f": 275, "out_f": 284 },
+      "visible_open": { "in": 9.46, "out": 11.03, "in_f": 284, "out_f": 331, "seconds": 1.57, "frames": 47 },
+      "closing": { "in": 11.03, "out": 11.15, "in_f": 331, "out_f": 335 },
+      "vo": { "visible_in": 219.06, "visible_out": 220.63 },
+      "limit": "footage allows up to 74 f (2.47 s) visibly open; this uses 47 f",
+      "preview": "assets/stills/38-slotA-preview.jpg (amazonnews …0TnHSRNqDqM.mp4 @ 6.5 s; review only, hidden by slots=0)"
+    },
+    {
+      "id": "B",
+      "subject": "TPU liquid-cooling pipework (Google Cloud, Inside a Google Cloud TPU data center, 29 Aug 2023)",
+      "beside": "above the dry coolers; a vertical hairline drops from the window's bottom edge to the coolers",
+      "rect": { "x": 1312, "y": 120, "w": 528, "h": 297 },
+      "rect_4k": { "x": 2624, "y": 240, "w": 1056, "h": 594 },
+      "frame_outset_px": 2,
+      "opening": { "in": 11.15, "out": 11.43, "in_f": 335, "out_f": 343 },
+      "visible_open": { "in": 11.43, "out": 12.78, "in_f": 343, "out_f": 383, "seconds": 1.35, "frames": 40 },
+      "closing": { "in": 12.78, "out": 13.00, "in_f": 383, "out_f": 390 },
+      "vo": { "visible_in": 221.03, "visible_out": 222.38 },
+      "limit": "footage allows up to 115 f (3.83 s) visibly open; this uses 40 f",
+      "preview": "assets/stills/38-slotB-preview.jpg (stock-pack 06-section google-tpu-liquid-cooling-pipes @ 5.0 s; review only, hidden by slots=0)"
+    }
+  ],
+  "overrides": "sa=open,close and sb=open,close on the page query move the windows (open = wipe start, close = wipe end; visible_open = [open+0.28, close-0.12] for A and [open+0.28, close-0.22] for B). Keep A's visible time <= 2.47 s and B's <= 3.83 s, and B's open >= A's close. If you change them, recompute this file's times the same way."
+}

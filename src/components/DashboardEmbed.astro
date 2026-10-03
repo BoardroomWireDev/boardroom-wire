@@ -11,7 +11,9 @@
  *                  reader instead of finishing off-screen. Boards that have
  *                  scrolled well out of view are put back to their poster
  *                  (and replay on return) so twelve charts never run at once;
- *                  a board in view is never touched. Fullscreen only.
+ *                  a board in view is never touched. Replay and Fullscreen;
+ *                  Replay plays the full reveal even for readers who asked
+ *                  for less motion, since they asked for it.
  *
  *   mode="live"    (the dashboard's own page)  The live board mounts at once
  *                  and plays its reveal; Replay and Fullscreen.
@@ -76,7 +78,7 @@ const num = String(d.n).padStart(2, '0');
     <span class={`chip ${d.source}`}>{chipLabel(c, d.source)}</span>
     <span class="ttl"><span class="n">{num}</span>{d.title}</span>
     <span class="ctl">
-      {mode === 'live' && <button type="button" data-act="replay">↻ Replay</button>}
+      <button type="button" data-act="replay">↻ Replay</button>
       <button type="button" data-act="full">⤢ Fullscreen</button>
       <a href={src} target="_blank" rel="noopener">Open full screen ↗</a>
       {showAbout && <a href={`/analytics/${c.slug}/${d.slug}/`}>About this chart →</a>}
@@ -271,14 +273,23 @@ const num = String(d.n).padStart(2, '0');
     }
 
     function replay() {
-      if (!frame) return;
+      if (!frame && !mount()) return;
+      const f = frame!;
       stage.classList.remove('live');
-      frame.addEventListener('load', () => stage.classList.add('live'), { once: true });
-      // A plain reload replays the reveal; no cache-busting wanted.
-      frame.contentWindow?.location.reload();
+      f.addEventListener('load', () => stage.classList.add('live'), { once: true });
+      // The reader asked for the reveal, so play it in full even for readers
+      // who asked for less motion: ?replay tells the board so, past both the
+      // embed's ?final and a board's own reduced-motion check. Once on that
+      // URL, a plain reload replays it; no cache-busting wanted.
+      const again = `${base}?replay`;
+      if (f.src.endsWith(again)) f.contentWindow?.location.reload();
+      else f.src = again;
     }
 
     replayBtn?.addEventListener('click', replay);
+    // Below the desktop threshold the poster stands in for the board: nothing to replay.
+    const syncReplay = () => { if (replayBtn) replayBtn.hidden = innerWidth < MIN_LIVE; };
+    syncReplay(); addEventListener('resize', syncReplay);
 
     fullBtn.addEventListener('click', async () => {
       if (document.fullscreenElement === stage) {
