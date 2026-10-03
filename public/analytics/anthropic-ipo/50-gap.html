@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — So how do you get to $2 trillion? (anthropic-ipo flagship 50)</title>
+<!-- ANTHROPIC IPO · FLAGSHIP 50 · THE 435× GAP (3 Oct 2026). Standalone (site embed / article), not a video beat.
+     Row #5 of review\ARTICLE-DASHBOARDS-BRIEF.md; placed at the opening of Misconception #1. Built from 25-pullout (the
+     column, the one-scale pull-back, the hatched $2T tower, the leader to the sliver) and 09-multiples (one price, four
+     revenue bases). Neither source page is touched.
+       the chart   one revenue base as a gold column beside the $2T the IPO is reportedly aiming at, on ONE linear scale
+                   (both columns always share it; the axis ticks rescale with it). It opens close on the revenue, then
+                   pulls back to true scale, where $4.6B is a sliver of about 1.2 px against a 540 px tower (435×).
+                   A label that would sit on a sliver stays put and a leader line drops to it.
+       the bases   four rows, which are the toggle: booked in 2025 / run rate Jul 2026 / on track Dec 2026 / 2028
+                   forecast, each with its multiple of $2T (435× / 31× / 20× / 10×). The multiples are computed here,
+                   round(val_ipo ÷ base), and checked against data.js's mult_* (a mismatch is logged).
+                   Projections are hatched with a dashed edge (the $100B year-end and the 2028 forecast); the $2T tower is
+                   hatched with a solid edge, as on 25.
+     Interaction (web only, never under ?final ?still ?t= ?capture ?video=1):
+       scroll      scrubs the pull-back. In the site's same-origin iframe the parent page's scroll drives it: close on the
+                   revenue while the board's centre sits low in the window, true scale once it reaches about 40% from the
+                   top (rescaled when the page can't scroll that far; fullscreen rests at true scale). Opened on its own
+                   (a top-level tab), the reveal pulls back by itself and the mouse wheel then scrubs it either way.
+                   In a cross-origin frame there is no scrub: the reveal plays and rests.
+       the rows    click (or Enter) a row: the column re-scales to that base and the header's multiple follows.
+       hover       the rows, the column and the tower carry tooltips with their qualifier and credit; the rest dims.
+       R / F       replay / final state. prefers-reduced-motion: the final state, no scrub, instant toggles.
+     Every figure from shared/data.js (rev_2025, rr_jul26, rr_dec26, fcst_2028, val_ipo; mult_* for the credits).
+     Title: the essay, verbatim ("So how do you get to $2 trillion?", The $2 Trillion Math).
+     Capture contract: BW.run({play, rest, idle}) (the idle: see above BW.run); ?final ?still ?t= ?capture (labels: rise, pullback, rest); ?brand=0;
+     ?hover=<key> (booked, jul, dec, y2028, rev, ipo); ?base=booked|jul|dec|y2028 sets the base. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<style>
+  /* the chart: one clipped layer, so the zoomed tower never runs over the header or the rows */
+  #plot { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 4; clip-path: inset(232px 690px 110px 100px); }
+  #plot svg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+  .gl { stroke: var(--line); stroke-width: 1; }
+  .gt { font-family: var(--mono); font-size: 19px; font-weight: 500; fill: var(--cream-dim); }
+  .tk { transition: opacity .25s ease; }
+  :root[data-fxstatic] .tk { transition: none; }
+  .bl0 { stroke: var(--line-strong); stroke-width: 2; }
+  .hit { fill: transparent; pointer-events: all; }
+  .cfig { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+  .cfig span { font-family: var(--mono); font-weight: 700; letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+  #revv span { color: var(--gold); }
+  #twv span { color: var(--cream); font-size: 84px; }
+  .cnm { position: absolute; top: 898px; transform: translateX(-50%); white-space: nowrap; }
+  .cnm span { font-family: var(--sans); font-weight: 500; font-size: 26px; color: var(--cream-dim); }
+
+  /* the bases: four rows, which are the toggle */
+  .brow { position: absolute; left: 1290px; width: 510px; height: 112px; padding: 0; margin: 0; border: 0; background: transparent;
+    text-align: left; font: inherit; color: inherit; cursor: default; z-index: 5; }
+  :root:not([data-fxstatic]) .brow { cursor: pointer; }
+  .brow:focus { outline: none; }
+  .brow:focus-visible .bi { outline: 1px solid var(--line-strong); outline-offset: 6px; }
+  .bi { position: absolute; inset: 0; }
+  .brule { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--line-strong); }
+  .brow.on .brule { height: 3px; background: var(--gold); }
+  .bsw { position: absolute; left: 0; top: 26px; width: 26px; height: 26px; overflow: visible; }
+  .bnm { position: absolute; left: 44px; top: 22px; }
+  .bnm span { font-family: var(--sans); font-weight: 500; font-size: 25px; color: var(--cream-dim); white-space: nowrap; }
+  .bbv { position: absolute; left: 44px; top: 60px; }
+  .bbv span { font-family: var(--mono); font-weight: 600; font-size: 29px; letter-spacing: -.02em; color: var(--cream-dim); white-space: nowrap; }
+  .bmx { position: absolute; right: 0; top: 24px; text-align: right; }
+  .bmx span { font-family: var(--mono); font-weight: 700; font-size: 64px; line-height: 1; letter-spacing: -.035em; color: var(--cream-dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .brow.on .bnm span, .brow.on .bbv span { color: var(--cream); }
+  .brow.on .bmx span { color: var(--gold); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="plot">
+    <svg id="cv" viewBox="0 0 1920 1080">
+      <defs>
+        <pattern id="hT" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="17" height="17" style="fill: rgba(var(--gold-rgb), .14)"/><rect width="4" height="17" style="fill: rgba(var(--gold-rgb), .75)"/></pattern>
+        <pattern id="hR" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="17" height="17" style="fill: rgba(var(--gold-rgb), .14)"/><rect width="4" height="17" style="fill: rgba(var(--gold-rgb), .75)"/></pattern>
+        <pattern id="hS" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="8" height="8" style="fill: rgba(var(--gold-rgb), .14)"/><rect width="2.5" height="8" style="fill: rgba(var(--gold-rgb), .8)"/></pattern>
+      </defs>
+      <g id="gAx"></g>
+      <line id="base" class="bl0"/>
+      <rect id="tow" data-k="ipo booked jul dec y2028" style="fill: url(#hT); stroke: var(--gold); stroke-width: 4"/>
+      <rect id="rev" style="fill: var(--gold)"/>
+      <line id="lead" style="stroke: rgba(var(--cream-rgb), .6); stroke-width: 2"/>
+      <rect id="hitR" class="hit"/>
+    </svg>
+    <div class="cfig" id="revv"><div class="bw-m"><span></span></div></div>
+    <div class="cfig" id="twv" data-k="ipo booked jul dec y2028"><div class="bw-m"><span></span></div></div>
+    <div class="cnm" id="revd"><div class="bw-m"><span></span></div></div>
+    <div class="cnm" id="twd" data-k="ipo booked jul dec y2028"><div class="bw-m"><span></span></div></div>
+  </div>
+  <div id="world"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=7"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script>
+const $ = (s) => document.querySelector(s);
+const W = document.getElementById('world');
+const Q = new URLSearchParams(location.search);
+const IPO = 'val_ipo';
+const clamp = (q) => q < 0 ? 0 : q > 1 ? 1 : q;
+const sm = (q) => { q = clamp(q); return q * q * (3 - 2 * q); };
+const lerp = (a, b, e) => a + (b - a) * e;
+const span = (n) => n.querySelector('.bw-m > span');
+const setA = (n, a) => { for (const k in a) n.setAttribute(k, a[k]); };
+
+/* ---- the four revenue bases; each multiple is computed, then checked against data.js ---- */
+const B = [
+  { k: 'booked', lbl: 'Booked in 2025',     id: 'rev_2025',  m: 'mult_booked', proj: false, meta: 'Revenue booked in 2025' },
+  { k: 'jul',    lbl: 'Run rate, Jul 2026', id: 'rr_jul26',  m: 'mult_jul',    proj: false, meta: 'Annualized revenue run rate' },
+  { k: 'dec',    lbl: 'On track, Dec 2026', id: 'rr_dec26',  m: 'mult_dec26',  proj: true,  meta: 'Annualized revenue, on track per people familiar with the finances' },
+  { k: 'y2028',  lbl: '2028 forecast',      id: 'fcst_2028', m: 'mult_2028',   proj: true,  meta: "The 2028 revenue the valuation hinges on, according to Reuters' sources" }
+];
+B.forEach(b => {
+  b.v = BW.fig(b.id).v;
+  b.x = Math.round(BW.fig(IPO).v / b.v);
+  b.mx = b.x.toLocaleString('en-US') + '×';
+  if (b.mx !== BW.val(b.m)) console.warn('50-gap: computed ' + b.mx + ' but data.js ' + b.m + ' is ' + BW.val(b.m));
+});
+let sel = Math.max(0, B.findIndex(b => b.k === Q.get('base')));
+
+/* ---- header ---- */
+FX.head('Anthropic', 'So how do you get to $2 trillion?', { logo: 'anthropic' });
+FX.meta(`${BW.val(IPO)} ÷ ${BW.val(B[sel].id)}`, B[sel].m, '');
+FX.sig();
+
+/* ---- what moves: reduced motion, the scroll scrub ---- */
+const RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]replay(?:&|$)/.test(location.search));
+const MOVE = FX.LIVE && !BW.FINAL && !RM;
+let HOST = null, PW = null;   /* the site's iframe and its page (same origin only) */
+if (MOVE && window.top !== window) { try { if (window.frameElement && parent.document) { HOST = window.frameElement; PW = parent; } } catch (e) { HOST = null; } }
+const WHEEL = MOVE && window.top === window;
+
+/* ---- one scale: at true scale the $2T tower is 540 px; K px per $B ---- */
+const BASE = 880, CLIP_T = 232, HT = 540, K = HT / BW.fig(IPO).v, HZ = 470;
+const CWR = 220, CWT = 260, CLIP_R = 1230;                /* CLIP_R: the clip's right edge (#plot's inset) */
+const XRZ = 700, XR = 470, XTZ = 1560, XT = 920;          /* column centres: close (p = 0) → true scale (p = 1) */
+const FSZ = 112, FSR = 66, LMIN = 172;                      /* the revenue figure's size, close → true; the lowest it sits */
+const st = { p: 0, rise: 0, rv: B[sel].v, c: B[sel].v };   /* p: the pull-back; rv: the base drawn; c: the base counted */
+let drift = 0;                                              /* the idle's hatch offset (0 on every captured frame) */
+
+const SV = $('#cv'), gAx = $('#gAx'), rev = $('#rev'), tow = $('#tow'), lead = $('#lead'), hitR = $('#hitR');
+setA($('#base'), { x1: 210, x2: 1210, y1: BASE, y2: BASE });
+span($('#twv')).textContent = BW.val(IPO);
+span($('#twd')).textContent = BW.fig(IPO).label;
+
+/* the axis: one step, the smallest of 1-2-5 that leaves 110 px between lines; ticks are kept by value */
+const STEPS = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
+const TK = new Map();
+const tfmt = (v) => v >= 1000 ? '$' + (v / 1000) + 'T' : '$' + v + 'B';
+function axis(kz) {
+  const s = STEPS.find(x => x * kz >= 110) || 1000, top = (BASE - CLIP_T - 14) / kz, on = new Set();
+  for (let v = s, n = 0; v <= top && n < 14; v += s, n++) on.add(v);
+  on.forEach(v => { if (!TK.has(v)) {
+    const g = BW.mk('g', { class: 'tk', style: 'opacity: 0' }, gAx);
+    TK.set(v, { g, ln: BW.mk('line', { class: 'gl', x1: 210, x2: 1210 }, g), tx: BW.mk('text', { class: 'gt', x: 196, 'text-anchor': 'end' }, g, tfmt(v)) });
+  } });
+  TK.forEach((t, v) => {
+    const y = BASE - v * kz;
+    t.ln.setAttribute('y1', y); t.ln.setAttribute('y2', y); t.tx.setAttribute('y', y + 7);
+    t.g.style.opacity = on.has(v) ? 1 : 0;
+  });
+}
+
+const revFmt = () => {
+  const b = B[sel];
+  if (Math.abs(st.c - b.v) < .005) return BW.val(b.id);
+  return '$' + (st.c < 10 ? st.c.toFixed(1) : Math.round(st.c)) + 'B';
+};
+function draw() {
+  const pe = sm(st.p), ps = sm((st.p - .08) / .84);
+  const Z0 = HZ / (st.rv * K), z = Math.exp(Math.log(Z0) * (1 - pe)), kz = K * z;
+  const xr = lerp(XRZ, XR, ps), xt = lerp(XTZ, XT, ps);
+  const hr = st.rv * kz * st.rise, ht = BW.fig(IPO).v * kz;
+  /* the columns (a tower far taller than the frame is drawn only as far as the clip needs) */
+  setA(rev, { x: xr - CWR / 2, y: BASE - hr, width: CWR, height: Math.max(0, hr) });
+  const ty = Math.max(BASE - ht, 150);
+  setA(tow, { x: xt - CWT / 2, y: ty, width: CWT, height: BASE - ty });
+  $('#hT').setAttribute('patternTransform', `translate(${xt - CWT / 2 + drift} 0) rotate(45)`);
+  $('#hR').setAttribute('patternTransform', `translate(${xr - CWR / 2 + drift} 0) rotate(45)`);
+  /* the revenue figure rides the column's top until the column is too short to carry it; then it stays and a leader drops */
+  const fs = lerp(FSZ, FSR, pe), top = Math.min(BASE - hr, BASE - LMIN) - fs - 18;
+  const rv = $('#revv'); rv.style.left = xr + 'px'; rv.style.top = top + 'px'; span(rv).style.fontSize = fs + 'px';
+  span(rv).textContent = revFmt();
+  const gap = BASE - hr - (top + fs + 10);
+  setA(lead, { x1: xr, x2: xr, y1: top + fs + 10, y2: BASE - hr - 5, style: `stroke: rgba(var(--cream-rgb), ${gap > 22 ? .6 : 0}); stroke-width: 2` });
+  setA(hitR, { x: xr - CWR / 2, y: top - 8, width: CWR, height: BASE - top + 8 });
+  $('#revd').style.left = xr + 'px';
+  /* the tower's figure: pinned under the clip's top while the tower runs off it, then it rides the top */
+  const tw = $('#twv'); tw.style.left = xt + 'px'; tw.style.top = Math.max(BASE - ht - 84 - 22, CLIP_T + 8) + 'px';
+  $('#twd').style.left = xt + 'px';
+  /* its words wait until the tower is inside the frame, so the clip's edge never cuts a glyph */
+  const inF = sm((CLIP_R - (xt + CWT / 2) + 20) / 120);
+  [tw, $('#twd')].forEach(n => { n.firstElementChild.style.opacity = inF; });
+  axis(kz);
+}
+
+/* ---- the rows ---- */
+const ROWS = B.map((b, i) => {
+  const r = BW.el('button', 'brow', W); r.type = 'button'; r.dataset.k = b.k; r.style.top = (372 + i * 132) + 'px';
+  r.setAttribute('aria-label', `${b.lbl}: ${BW.val(b.id)}, ${b.mx}`);
+  r.innerHTML = `<div class="bi"><div class="brule"></div>` +
+    `<svg class="bsw" viewBox="0 0 26 26"><rect x="1" y="1" width="24" height="24" style="${b.proj ? 'fill: url(#hS); stroke: var(--gold); stroke-width: 2; stroke-dasharray: 5 3' : 'fill: var(--gold)'}"/></svg>` +
+    `<div class="bnm bw-m"><span>${b.lbl}</span></div>` +
+    `<div class="bbv bw-m"><span>${BW.val(b.id)}</span></div>` +
+    `<div class="bmx bw-m"><span>${b.mx}</span></div></div>`;
+  b.row = r; b.inner = r.querySelector('.bi');
+  return r;
+});
+function paint() {
+  const b = B[sel];
+  ROWS.forEach((r, i) => { r.classList.toggle('on', i === sel); r.setAttribute('aria-pressed', i === sel ? 'true' : 'false'); });
+  span($('#revd')).textContent = BW.fig(b.id).label;
+  rev.setAttribute('style', b.proj ? 'fill: url(#hR); stroke: var(--gold); stroke-width: 3; stroke-dasharray: 10 7' : 'fill: var(--gold)');
+  ['rev', 'lead', 'hitR'].forEach(id => { $('#' + id).dataset.k = 'rev ' + b.k; });
+  ['revv', 'revd'].forEach(id => { $('#' + id).dataset.k = 'rev ' + b.k; });
+  const mq = $('#fxMq1'), mv = $('#fxMv .v');
+  if (mq) mq.textContent = `${BW.val(IPO)} ÷ ${BW.val(b.id)}`;
+  if (mv) mv.textContent = b.mx;
+}
+function select(i) {
+  poke();
+  if (i === sel) return;
+  sel = i; paint();
+  const v = B[sel].v;
+  if (RM) { st.rv = st.c = v; draw(); return; }
+  gsap.to(st, { rv: v, c: v, duration: .8, ease: 'power2.inOut', onUpdate: draw, overwrite: false });
+}
+paint();
+
+BW.provenance({ uses: ['rev_2025', 'rr_jul26', 'rr_dec26', 'fcst_2028', 'val_ipo', 'mult_booked', 'mult_jul', 'mult_dec26', 'mult_2028'] });
+
+/* ---- hover and clicks (web only) ---- */
+if (FX.LIVE) ROWS.forEach((r, i) => r.addEventListener('click', () => select(i)));
+B.forEach(b => FX.hover(b.row, b.k, () => FX.tipFor(b.m, {
+  name: b.lbl, meta: `${BW.val(IPO)} ÷ ${BW.val(b.id)}${b.proj ? ', a projection' : ''}`,
+  credit: 'Boardroom Wire calculation. Revenue: ' + FX.credit(b.id) })));
+[hitR, $('#revv'), $('#revd')].forEach(n => FX.hover(n, 'rev', () => FX.tipFor(B[sel].id, { name: B[sel].lbl, meta: B[sel].meta })));
+[tow, $('#twv'), $('#twd')].forEach(n => FX.hover(n, 'ipo', () => FX.tipFor(IPO, { name: 'IPO, reportedly', meta: 'The valuation the IPO is reportedly aiming for' })));
+
+/* ---- the scrub ---- */
+let live = false, target = 1;
+const pTo = (q) => { poke(); target = q; gsap.to(st, { p: q, duration: .5, ease: 'power2.out', overwrite: 'auto', onUpdate: draw }); };
+function scrollQ() {
+  if (!HOST.isConnected) { PW.removeEventListener('scroll', onScroll); PW.removeEventListener('resize', onScroll); return null; }
+  if (PW.document.fullscreenElement) return 1;
+  const r = HOST.getBoundingClientRect(), vh = PW.innerHeight, c = r.top + r.height / 2;
+  const de = PW.document.scrollingElement || PW.document.documentElement;
+  const y = PW.scrollY, maxY = Math.max(0, de.scrollHeight - vh);
+  const end = Math.max(vh * .4, c - (maxY - y));      /* where the board's centre can get to at the bottom of the page */
+  const start = Math.min(vh * .8, c + y);             /* and where it starts at the top */
+  if (start - end < vh * .15) return 1;               /* no room to scrub: rest at true scale */
+  return clamp((start - c) / (start - end));
+}
+function onScroll() { try { if (!live) return; const q = scrollQ(); if (q !== null) pTo(q); } catch (e) {} }
+if (HOST) {
+  PW.addEventListener('scroll', onScroll, { passive: true });
+  PW.addEventListener('resize', onScroll);
+  PW.document.addEventListener('fullscreenchange', onScroll);
+}
+if (WHEEL) addEventListener('wheel', (e) => {
+  if (!live) return;
+  e.preventDefault();
+  pTo(clamp(target + e.deltaY * .0012));
+}, { passive: false });
+
+/* ---- reveal ---- */
+function play() {
+  live = false; idleReset();
+  if (RM && FX.LIVE) { rest(); return gsap.timeline().to({}, { duration: .01 }); }
+  const tl = gsap.timeline({ onUpdate: draw });
+  FX.headIn(tl, 0);
+  const b = B[sel];
+  Object.assign(st, { p: 0, rise: 0, rv: b.v, c: 0 });
+  const txt = [...document.querySelectorAll('#plot .bw-m > span'), ...W.querySelectorAll('.bw-m > span')];
+  gsap.set(txt, { yPercent: 105 });
+  gsap.set(B.map(x => x.inner), { opacity: 0 });
+  gsap.set('#base', { opacity: 0 }); gsap.set(gAx, { opacity: 0 });
+  draw();
+
+  /* the revenue alone, close: it looks big */
+  tl.to('#base', { opacity: 1, duration: .5 }, .3);
+  tl.to(gAx, { opacity: 1, duration: .6 }, .35);
+  BW.mark(tl, 'rise', .6);
+  tl.to(st, { rise: 1, duration: 1.3, ease: 'power2.out' }, .6);
+  tl.to(st, { c: b.v, duration: 1.2, ease: 'power1.out' }, .8);
+  BW.maskIn(tl, span($('#revv')), .8, .5);
+  BW.maskIn(tl, span($('#revd')), 1.2, .45);
+  /* the bases */
+  B.forEach((x, i) => {
+    tl.to(x.inner, { opacity: 1, duration: .4 }, 1.6 + i * .12);
+    BW.maskIn(tl, x.inner.querySelectorAll('.bw-m > span'), 1.65 + i * .12, .45);
+  });
+  tl.to('.bw-source', { opacity: 1, duration: .6 }, 2.2);
+  if (HOST) {
+    /* in the article the reader's scroll does the pull-back */
+    BW.maskIn(tl, [span($('#twv')), span($('#twd'))], 2.2, .01);
+    tl.call(() => { live = true; onScroll(); }, null, 2.3);
+    tl.to({}, { duration: .01 }, 2.6);
+    return tl;
+  }
+  /* on its own: the pull-back plays, one scale shrinking until the revenue is a sliver */
+  BW.mark(tl, 'pullback', 2.7);
+  tl.to(st, { p: 1, duration: 2.1, ease: 'none' }, 2.7);
+  BW.maskIn(tl, span($('#twd')), 3.4, .45);
+  BW.maskIn(tl, span($('#twv')), 3.5, .55);
+  BW.mark(tl, 'rest', 4.8);
+  tl.call(() => { live = true; target = 1; }, null, 4.8);
+  tl.to({}, { duration: .01 }, 4.9);
+  return tl;
+}
+function rest() {
+  FX.headRest();
+  gsap.set([...document.querySelectorAll('#plot .bw-m > span'), ...W.querySelectorAll('.bw-m > span')], { yPercent: 0 });
+  gsap.set(B.map(x => x.inner), { opacity: 1 });
+  gsap.set(['#base', gAx], { opacity: 1 });
+  Object.assign(st, { p: 1, rise: 1, rv: B[sel].v, c: B[sel].v });
+  draw();
+  live = MOVE; target = 1;
+}
+/* ---- idle: after the reveal, and under ?final (the site loads ?final where Windows animation effects are off).
+   motion.js never starts it under ?still, ?t= or a capture's reveal, so posters are unchanged. Two slow, small things:
+   the hatching of the price and the projections drifts (24 px per 8 s, one stripe) and the selected row's swatch
+   breathes by 5% over 4 s. The leader to the sliver stays solid and still: $4.6B is booked, and a dashed line reads as a
+   projection (writer, 3 Oct). One clock; it pauses while
+   the reader works the board (rows, scroll, wheel; resumes 4 s after the last touch), off screen, and in a hidden tab. */
+const IDLE = { t: 0, tw: null, hold: 0, seen: true, timer: null };
+const HP = 17 / Math.cos(Math.PI / 4);                     /* one stripe of the 45° hatch, measured along x */
+function idleDraw() {
+  const t = IDLE.t;
+  drift = ((t % 8) / 8) * HP;
+  const sw = B[sel].row.querySelector('.bsw');
+  B.forEach(b => { const n = b.row.querySelector('.bsw'); if (n !== sw) n.style.transform = ''; });
+  sw.style.transform = `scale(${(1 + .05 * (.5 - .5 * Math.cos(2 * Math.PI * (t % 4) / 4))).toFixed(4)})`;
+  draw();
+}
+function idleSync() {
+  if (!IDLE.tw) return;
+  const run = IDLE.seen && !document.hidden && Date.now() >= IDLE.hold;
+  if (run && IDLE.tw.paused()) IDLE.tw.resume(); else if (!run && !IDLE.tw.paused()) IDLE.tw.pause();
+}
+function poke() {                                          /* the reader touched the board: hold the idle for 4 s */
+  IDLE.hold = Date.now() + 4000; idleSync();
+  clearTimeout(IDLE.timer); IDLE.timer = setTimeout(idleSync, 4050);
+}
+function idleReset() {
+  if (IDLE.tw) { IDLE.tw.kill(); IDLE.tw = null; }
+  drift = 0;
+  B.forEach(b => { b.row.querySelector('.bsw').style.transform = ''; });
+}
+function idle() {
+  idleReset();
+  B.forEach(b => { b.row.querySelector('.bsw').style.transformOrigin = '50% 50%'; });
+  IDLE.t = 0;
+  IDLE.tw = BW.raw(gsap.to(IDLE, { t: 600, duration: 600, ease: 'none', repeat: -1, onUpdate: idleDraw }));   /* 600 s: every period divides it */
+  idleSync();
+}
+document.addEventListener('visibilitychange', idleSync);
+if ('IntersectionObserver' in window) new IntersectionObserver((es) => { IDLE.seen = es[es.length - 1].isIntersecting; idleSync(); }).observe($('.stage'));
+if (FX.LIVE) ROWS.forEach(r => r.addEventListener('mouseenter', poke));
+
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

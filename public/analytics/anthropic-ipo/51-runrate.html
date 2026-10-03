@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — What a run-rate is (anthropic-ipo flagship 51)</title>
+<!-- ANTHROPIC IPO · FLAGSHIP 51 · WHAT A RUN-RATE IS (3 Oct 2026). Standalone (site embed / article), not a video beat.
+     Article placement: Misconception #1, after the Q2 figure (row #6 of review\ARTICLE-DASHBOARDS-BRIEF.md).
+     Built from 27-stretch.html (the video page; its idea and its hatch are borrowed, the page itself is untouched). The
+     voice-timed camera, the tip-over and the hand-off to 02 are dropped: the board is the stretch, laid flat and read on its own.
+       1. the stretch: a 12-month axis. One recent stretch of revenue is the solid bar (booked); the rest of the year is
+          the same stretch copied, hatched (projected), one hatched box per copy, so the × is counted, not written out.
+          A bracket under the whole year carries the run rate it makes.
+            Quarter (the default and the still): Q2 2026, more than $11.5B booked (Apr–Jun 2026), × 4 → ≈$46B.
+            Month: May 2026, one month, × 12 → over $47B, Anthropic's own reported run rate for May. The month's own
+            revenue is not in data.js, so the solid month carries no figure.
+       2. against Anthropic's own: one $B scale. Q2 2026 × 4 (the solid $11.5B, then three hatched copies) beside the
+          over-$47B May run rate (amber, hatched whole: a run rate, not money booked over a year).
+     Interaction (web): a Month / Quarter switch; the stretched part folds back and stretches out again ×12 or ×4, and
+     the bracket's run rate changes with it. Hover any part for its figure, qualifier and credit; the rest dims.
+     Title: the article (and the essay), verbatim. Hero top-right: rr_q2_annualised with its chip.
+     Every figure from shared/data.js: rev_q2_2026, rr_q2_annualised, rr_may26; month and year labels come from their asOf.
+     "Run-rate" / "run rate", never "ARR".
+     Live (no ?final/?still/?t=/?capture/?video): the reveal waits until the board is on screen, then plays once and rests;
+     prefers-reduced-motion opens on the final state (the site's embed also passes ?final for those readers).
+     Capture contract: BW.run({play, rest, idle}); R / F; ?final ?still ?t= ?capture (labels: axis, booked, stretch, runrate,
+     against); ?brand=0 drops the wordmark; ?mode=month opens on the month; ?hover=<key> (strip, c1, c2). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<style>
+  /* the title is a full sentence from the article: two lines, clear of the hero figure; the hairline sits under it */
+  #fxTitle { max-width: 1240px; }
+  /* the hero figure stands over its chip, so the title keeps the width it needs */
+  .stage .fx-meta .bw-m > .vr { flex-direction: column-reverse; align-items: flex-end; gap: 12px; }
+
+  /* 1. the stretch. The mode sets the series colour: gold for the quarter, amber for the month */
+  #strip { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none;
+           --c: var(--gold); --c-rgb: var(--gold-rgb); }
+  #strip.may { --c: var(--amber); --c-rgb: var(--amber-rgb); }
+  #strip > * { pointer-events: auto; }
+  .sbar { position: absolute; background: var(--c); }
+  .hwrap { position: absolute; }
+  /* 27-stretch's hatch: one copy of the stretch per box */
+  .copy { position: absolute; top: 0; height: 100%; box-sizing: border-box; border: 1.5px solid var(--c);
+          background: repeating-linear-gradient(135deg, rgba(var(--c-rgb), .72) 0 4px, rgba(var(--c-rgb), .12) 4px 17px); }
+  .alab { position: absolute; white-space: nowrap; }
+  .alab.c { text-align: center; }
+  .alab .q { font-family: var(--sans); font-weight: 400; font-size: 21px; line-height: 1.3; color: var(--cream-dim); }
+  .alab .v { font-family: var(--mono); font-weight: 700; font-size: 46px; line-height: 1.1; letter-spacing: -.03em;
+             color: var(--cream); font-variant-numeric: tabular-nums; }
+  .alab .v.c { color: var(--c); }
+  .alab .v small, .ctop .v small { font-family: var(--sans); font-weight: 400; font-size: 20px; letter-spacing: 0;
+             color: var(--cream-dim); margin-right: 8px; }
+  #rr .v { font-size: 60px; }
+  .axis { position: absolute; height: 1px; background: var(--line-strong); transform-origin: 0 50%; }
+  .tk { position: absolute; width: 1px; height: 10px; background: var(--line-strong); }
+  .mo { position: absolute; text-align: center; font-family: var(--sans); font-size: 19px; color: var(--cream-dim); }
+  .yr { position: absolute; text-align: center; font-family: var(--mono); font-weight: 500; font-size: 18px; color: var(--cream-dim); }
+  /* idle (after the reveal, never in a still): the hatching drifts by --hx (one stripe period is 17/sin45 = 24.04px across,
+     so a loop is seamless) and a hairline pass travels the projected copies. At rest --hx is 0 and the pass is unseen */
+  .stage .copy, .stage .blk.hg, .stage .blk.ha { background-position: var(--hx, 0px) 0; }
+  #strip > .pass { position: absolute; width: 3px; background: var(--c); opacity: 0; pointer-events: none; }
+  .brk { position: absolute; height: 16px; box-sizing: border-box; border: 1.5px solid rgba(var(--cream-rgb), .4); border-top: 0; }
+
+  /* 2. against Anthropic's own: one $B scale */
+  .base2 { position: absolute; height: 1px; background: var(--line-strong); transform-origin: 0 50%; }
+  .blk { position: absolute; box-sizing: border-box; }
+  .blk.solid { background: var(--gold); }
+  .blk.hg { border: 1.5px solid var(--gold);
+            background: repeating-linear-gradient(135deg, rgba(var(--gold-rgb), .72) 0 4px, rgba(var(--gold-rgb), .12) 4px 17px); }
+  .blk.ha { border: 1.5px solid var(--amber);
+            background: repeating-linear-gradient(135deg, rgba(var(--amber-rgb), .72) 0 4px, rgba(var(--amber-rgb), .12) 4px 17px); }
+  .blk .in { position: absolute; left: 12px; top: 8px; font-family: var(--mono); font-weight: 700; font-size: 22px;
+             letter-spacing: -.02em; white-space: nowrap; color: var(--ink); }
+  .ctop { position: absolute; width: 240px; text-align: center; white-space: nowrap; }
+  .ctop .v { font-family: var(--mono); font-weight: 700; font-size: 42px; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  .cbot { position: absolute; width: 240px; text-align: center; font-family: var(--sans); font-size: 20px; color: var(--cream-dim); white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="world"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script>
+const W = document.getElementById('world');
+const Q = new URLSearchParams(location.search);
+const QTR = 'rev_q2_2026', ANN = 'rr_q2_annualised', MAY = 'rr_may26';
+FX.head('Anthropic', 'A run-rate takes a recent stretch of revenue and stretches it out over a full year.', { logo: 'anthropic' });
+FX.meta('', ANN, `${BW.fig(QTR).label} × 4`, { inputs: [QTR] });
+FX.sig();
+const T = (html, cls, parent = W) => { const n = BW.el('div', cls, parent); n.innerHTML = `<div class="bw-m"><span>${html}</span></div>`; return n; };
+const span = (n) => n.querySelector('.bw-m > span');
+const v = (id) => BW.fig(id).v;
+const sm = (q) => q ? `<small>${q}</small>` : '';
+const qv = (id) => sm(FX.qualOf(id)) + BW.val(id);
+
+/* ---- the months, from data.js: the quarter ends at rev_q2_2026's asOf; the month is rr_may26's ---- */
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const absOf = (asOf) => { const [y, m] = asOf.split('-').map(Number); return y * 12 + (m - 1); };
+const MODES = {
+  quarter: { n: 3, start: absOf(BW.fig(QTR).asOf) - 2, x: v(ANN) / v(QTR), col: 'c1', rr: ANN,
+             sq: `booked, ${BW.fig(QTR).label}`, sv: qv(QTR), rq: BW.fig(ANN).label, rv: qv(ANN) },
+  month:   { n: 1, start: absOf(BW.fig(MAY).asOf), x: 12, col: 'c2', rr: MAY,
+             sq: `booked, ${BW.fig(MAY).label}`, sv: '', rq: `run rate, ${BW.fig(MAY).label}`, rv: qv(MAY) }
+};
+let mode = Q.get('mode') === 'month' ? 'month' : 'quarter';
+
+/* =====================================================================================================================
+   1. THE STRETCH (stage px): twelve month slots; the solid bar is the stretch, the hatched boxes are its copies
+   ===================================================================================================================== */
+const X0 = 120, SW = 92, GAP = 4, BAR_T = 496, BAR_H = 136, AX_Y = BAR_T + BAR_H + 22;
+const XEND = X0 + 12 * SW - GAP, XMID = (X0 + XEND) / 2;
+const S = BW.el('div', '', W); S.id = 'strip';
+const solid = BW.el('div', 'sbar', S); solid.dataset.k = 'strip';
+const hwrap = BW.el('div', 'hwrap', S); hwrap.dataset.k = 'strip';
+const two = (cls) => { const n = BW.el('div', 'alab ' + cls, S); n.dataset.k = 'strip';
+  n.innerHTML = `<div class="bw-m"><span class="q"></span></div><div class="bw-m"><span class="v"></span></div>`; return n; };
+const sL = two(''), hL = two('c'), rr = two('c'); rr.id = 'rr';
+hL.querySelector('.v').classList.add('c'); rr.querySelector('.v').classList.add('c');
+const axis = BW.el('div', 'axis', S); axis.style.cssText = `left:${X0}px; width:${XEND - X0}px; top:${AX_Y}px`;
+const ticks = [...Array(13)].map((_, i) => { const t = BW.el('div', 'tk', S); t.style.cssText = `left:${X0 + i * SW - (i ? GAP / 2 : 0) - (i === 12 ? GAP / 2 : 0)}px; top:${AX_Y}px`; return t; });
+const months = [...Array(12)].map((_, i) => { const m = BW.el('div', 'mo', S); m.style.cssText = `left:${X0 + i * SW}px; width:${SW - GAP}px; top:${AX_Y + 16}px`; return m; });
+const years = [0, 1].map(() => { const y = BW.el('div', 'yr', S); y.style.cssText = `width:${SW - GAP}px; top:${AX_Y + 44}px`; return y; });
+const brk = BW.el('div', 'brk', S); brk.dataset.k = 'strip'; brk.style.cssText = `left:${X0}px; width:${XEND - X0}px; top:${AX_Y + 84}px`;
+rr.style.cssText = `left:${XMID - 300}px; width:600px; top:${AX_Y + 112}px`;
+
+/* =====================================================================================================================
+   2. AGAINST ANTHROPIC'S OWN: one $B scale. Q2 2026 × 4 beside the May run rate
+   ===================================================================================================================== */
+const B2 = 880, K2 = 10, CW = 120, CX1 = 1530, CX2 = 1710;
+const base2 = BW.el('div', 'base2', W); base2.style.cssText = `left:1420px; width:380px; top:${B2}px`;
+const C1 = { blocks: [] }, C2 = { blocks: [] };
+{
+  const per = v(QTR), n = Math.round(v(ANN) / per);
+  let y = B2;
+  for (let i = 0; i < n; i++) {
+    const h = per * K2; y -= h;
+    const b = BW.el('div', 'blk ' + (i ? 'hg' : 'solid'), W);
+    b.style.cssText = `left:${CX1 - CW / 2}px; top:${y + 1.5}px; width:${CW}px; height:${h - 3}px`;
+    if (!i) b.innerHTML = `<div class="in">${BW.val(QTR)}</div>`;
+    C1.blocks.push(b);
+  }
+  C1.top = T(qv(ANN), 'ctop'); span(C1.top).classList.add('v'); span(C1.top).style.color = 'var(--gold)';
+  C1.top.style.cssText = `left:${CX1 - 120}px; top:${y - 64}px`;
+  C1.bot = T(`${BW.fig(QTR).label} × ${n}`, 'cbot'); C1.bot.style.cssText = `left:${CX1 - 120}px; top:${B2 + 14}px`;
+  const h2 = v(MAY) * K2;
+  const b2 = BW.el('div', 'blk ha', W); b2.style.cssText = `left:${CX2 - CW / 2}px; top:${B2 - h2 + 1.5}px; width:${CW}px; height:${h2 - 1.5}px`;
+  C2.blocks.push(b2);
+  C2.top = T(qv(MAY), 'ctop'); span(C2.top).classList.add('v'); span(C2.top).style.color = 'var(--amber)';
+  C2.top.style.cssText = `left:${CX2 - 120}px; top:${B2 - h2 - 64}px`;
+  C2.bot = T(`run rate, ${BW.fig(MAY).label}`, 'cbot'); C2.bot.style.cssText = `left:${CX2 - 120}px; top:${B2 + 14}px`;
+}
+const colNodes = (c) => [...c.blocks, c.top, c.bot];
+
+/* ---- lay the strip out for one mode (keepSolid: the switch tweens the solid's width itself) ---- */
+function layout(m, keepSolid) {
+  const M = MODES[m];
+  S.classList.toggle('may', m === 'month');
+  if (!keepSolid) Object.assign(solid.style, { left: X0 + 'px', top: BAR_T + 'px', width: (M.n * SW - GAP) + 'px', height: BAR_H + 'px' });
+  Object.assign(hwrap.style, { left: (X0 + M.n * SW) + 'px', top: BAR_T + 'px', width: ((12 - M.n) * SW - GAP) + 'px', height: BAR_H + 'px' });
+  hwrap.innerHTML = '';
+  for (let k = 0; k < M.x - 1; k++) { const c = BW.el('div', 'copy', hwrap); c.style.left = (k * M.n * SW) + 'px'; c.style.width = (M.n * SW - GAP) + 'px'; }
+  /* the labels stand on the bar: anchored by their bottom edge, so an empty line takes no room */
+  const above = (1080 - BAR_T + 14) + 'px';
+  Object.assign(sL.style, { left: X0 + 'px', bottom: above });
+  sL.querySelector('.q').innerHTML = M.sq; sL.querySelector('.v').innerHTML = M.sv;
+  const hc = X0 + M.n * SW + ((12 - M.n) * SW - GAP) / 2;
+  Object.assign(hL.style, { left: (hc - 300) + 'px', width: '600px', bottom: above });
+  hL.querySelector('.q').innerHTML = 'over a full year'; hL.querySelector('.v').innerHTML = '×' + M.x;
+  rr.querySelector('.q').innerHTML = M.rq; rr.querySelector('.v').innerHTML = M.rv;
+  months.forEach((n, i) => { n.textContent = MON[(M.start + i) % 12]; });
+  const jan = [...Array(12).keys()].find(i => i > 0 && (M.start + i) % 12 === 0);
+  [[0, years[0]], [jan, years[1]]].forEach(([i, y]) => { y.style.left = (X0 + i * SW) + 'px'; y.textContent = Math.floor((M.start + i) / 12); });
+  /* hovering the strip lights the column it matches */
+  colNodes(C1).forEach(n => { n.dataset.k = 'c1' + (M.col === 'c1' ? ' strip' : ''); });
+  colNodes(C2).forEach(n => { n.dataset.k = 'c2' + (M.col === 'c2' ? ' strip' : ''); });
+  if (seg) seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
+}
+
+/* ---- the switch (web only) ---- */
+let seg = null, swTl = null;
+const CALM = FX.LIVE && matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]replay(?:&|$)/.test(location.search);
+const lblSpans = () => [sL, hL, rr].flatMap(n => [...n.querySelectorAll('.bw-m > span')]);
+function restStrip() {
+  gsap.set([solid, hwrap], { clipPath: 'inset(0% 0% 0% 0%)' });
+  gsap.set(lblSpans(), { yPercent: 0 });
+}
+function switchTo(m) {
+  if (m === mode) return;
+  mode = m;
+  if (swTl) { swTl.kill(); swTl = null; }
+  if (CALM) { layout(m); restStrip(); return; }
+  const tl = swTl = gsap.timeline();
+  /* the copies fold back into the stretch, the stretch changes length, then it stretches out again over the year */
+  tl.to(lblSpans(), { yPercent: 105, duration: .25, ease: 'power2.in' }, 0);
+  tl.to(hwrap, { clipPath: 'inset(0% 100% 0% 0%)', duration: .35, ease: 'power2.in' }, 0);
+  tl.add(() => layout(m, true), .36);
+  tl.to(solid, { width: MODES[m].n * SW - GAP, duration: .35, ease: 'power2.inOut' }, .36);
+  BW.maskIn(tl, sL.querySelectorAll('.bw-m > span'), .62, .45);
+  tl.to(hwrap, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.0, ease: 'power3.out' }, .72);
+  BW.maskIn(tl, hL.querySelectorAll('.bw-m > span'), 1.15, .45);
+  BW.maskIn(tl, rr.querySelectorAll('.bw-m > span'), 1.4, .5);
+}
+if (FX.LIVE) {
+  seg = BW.el('div', 'fx-ctl', W); seg.style.cssText = 'left:120px; top:300px';
+  seg.innerHTML = `<div class="fx-seg"><button data-m="month">Month</button><button data-m="quarter">Quarter</button></div>`;
+  seg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => switchTo(b.dataset.m)));
+}
+layout(mode);
+
+BW.provenance({ uses: ['rev_q2_2026', 'rr_q2_annualised', 'rr_may26'] });   /* literal ids: audit.mjs reads them from the source */
+
+/* ---- hover: the figure, its qualifier and its credit; the rest dims ---- */
+const tipQ = () => FX.tipFor(QTR, { name: BW.fig(QTR).label, meta: 'Booked in the quarter; preliminary' });
+const tipM = () => `<div class="n">${BW.fig(MAY).label}</div><div class="m">One recent month of revenue, stretched out over a full year</div><div class="s">${FX.credit(MAY)}</div>`;
+const tipAnn = () => FX.tipFor(ANN, { name: `${BW.fig(QTR).label} × 4`, meta: `${FX.qual(QTR)} booked in three months, stretched out over a full year`,
+  credit: 'Boardroom Wire calculation. Revenue: ' + FX.credit(QTR) });
+const tipMay = () => FX.tipFor(MAY, { name: `Run rate, ${BW.fig(MAY).label}`, meta: 'Run-rate revenue, as Anthropic reported it' });
+const tipStretch = () => mode === 'quarter' ? tipAnn() : tipMay();
+[solid, sL].forEach(n => FX.hover(n, 'strip', () => mode === 'quarter' ? tipQ() : tipM()));
+[hwrap, hL, brk, rr].forEach(n => FX.hover(n, 'strip', tipStretch));
+colNodes(C1).forEach(n => FX.hover(n, 'c1', tipAnn));
+colNodes(C2).forEach(n => FX.hover(n, 'c2', tipMay));
+
+/* the hairline sits under the two-line title (the shared one assumes a one-line title) */
+function placeHair() {
+  const h = document.querySelector('.fx-head'), hair = document.getElementById('fxHair');
+  if (h && hair) hair.style.top = Math.round(h.offsetTop + h.offsetHeight + 22) + 'px';
+}
+
+/* ---- live only: wait until the board is on screen; readers who asked for less motion get the final state ---- */
+let seen = !FX.LIVE;
+function whenSeen(go) {
+  if (seen || !('IntersectionObserver' in window)) { seen = true; go(); return; }
+  const io = new IntersectionObserver((es) => { if (es.some(e => e.isIntersecting)) { io.disconnect(); seen = true; go(); } }, { threshold: .35 });
+  io.observe(document.querySelector('.stage'));
+}
+
+/* ---- reveal ---- */
+const ALLB = () => [...C1.blocks, ...C2.blocks];
+function play() {
+  if (CALM) { rest(); return gsap.timeline().to({}, { duration: .01 }); }
+  if (swTl) { swTl.kill(); swTl = null; }
+  const tl = gsap.timeline();
+  placeHair();
+  layout(mode);
+  FX.headIn(tl, 0);
+  gsap.set([...W.querySelectorAll('.bw-m > span')], { yPercent: 105 });
+  gsap.set([solid, hwrap], { clipPath: 'inset(0% 100% 0% 0%)' });
+  gsap.set(axis, { scaleX: 0 }); gsap.set([...ticks, ...months, ...years], { opacity: 0 });
+  gsap.set(brk, { clipPath: 'inset(0% 50% 0% 50%)' });
+  gsap.set(base2, { scaleX: 0 }); gsap.set(ALLB(), { clipPath: 'inset(100% 0% 0% 0%)' });
+  if (seg) gsap.set(seg, { opacity: 0, pointerEvents: 'none' });
+
+  /* the year: an axis of twelve months */
+  BW.mark(tl, 'axis', .5);
+  tl.to(axis, { scaleX: 1, duration: .8, ease: 'power3.out' }, .5);
+  tl.to([...ticks, ...months, ...years], { opacity: 1, duration: .35, stagger: .02 }, .65);
+  /* the recent stretch, booked */
+  BW.mark(tl, 'booked', 1.25);
+  tl.to(solid, { clipPath: 'inset(0% 0% 0% 0%)', duration: .6, ease: 'power2.out' }, 1.25);
+  BW.maskIn(tl, sL.querySelectorAll('.bw-m > span'), 1.45, .5);
+  /* stretched out over the full year: the copies, hatched */
+  BW.mark(tl, 'stretch', 2.15);
+  tl.to(hwrap, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'power3.out' }, 2.15);
+  BW.maskIn(tl, hL.querySelectorAll('.bw-m > span'), 2.75, .5);
+  /* the run rate the whole year makes */
+  BW.mark(tl, 'runrate', 3.35);
+  tl.to(brk, { clipPath: 'inset(0% 0% 0% 0%)', duration: .6, ease: 'power2.inOut' }, 3.35);
+  BW.maskIn(tl, rr.querySelectorAll('.bw-m > span'), 3.6, .55);
+  /* against Anthropic's own */
+  BW.mark(tl, 'against', 4.2);
+  tl.to(base2, { scaleX: 1, duration: .6, ease: 'power3.out' }, 4.2);
+  BW.maskIn(tl, span(C1.bot), 4.3, .45);
+  C1.blocks.forEach((b, i) => tl.to(b, { clipPath: 'inset(0% 0% 0% 0%)', duration: .3, ease: 'power1.out' }, 4.4 + i * .2));
+  BW.maskIn(tl, span(C1.top), 4.4 + C1.blocks.length * .2, .5);
+  BW.maskIn(tl, span(C2.bot), 5.1, .45);
+  tl.to(C2.blocks, { clipPath: 'inset(0% 0% 0% 0%)', duration: .7, ease: 'power2.out' }, 5.2);
+  BW.maskIn(tl, span(C2.top), 5.75, .5);
+  tl.to('.bw-source', { opacity: 1, duration: .6 }, 5.6);
+  if (seg) { tl.to(seg, { opacity: 1, duration: .4 }, 5.9); tl.set(seg, { pointerEvents: 'auto' }, 5.9); }
+  tl.to({}, { duration: .01 }, 6.5);
+  if (FX.LIVE && !seen) { tl.pause(); whenSeen(() => tl.play()); }
+  return tl;
+}
+function rest() {
+  if (swTl) { swTl.kill(); swTl = null; }
+  placeHair();
+  FX.headRest();
+  layout(mode);
+  gsap.set([...W.querySelectorAll('.bw-m > span')], { yPercent: 0 });
+  restStrip();
+  gsap.set(axis, { scaleX: 1 }); gsap.set([...ticks, ...months, ...years], { opacity: 1 });
+  gsap.set(brk, { clipPath: 'inset(0% 0% 0% 0%)' });
+  gsap.set(base2, { scaleX: 1 }); gsap.set(ALLB(), { clipPath: 'inset(0% 0% 0% 0%)' });
+  if (seg) gsap.set(seg, { opacity: 1, pointerEvents: 'auto' });
+}
+/* ---- idle: the board stays alive after the reveal (and under ?final; motion.js never runs it under ?still, ?t= or
+     ?capture, so posters are unchanged). Slow and low, and about the idea: the stretch keeps being stretched.
+       a pass    a hairline in the series colour leaves the end of the booked stretch and travels to the year's end
+       drift     the hatching in every projected copy creeps along, one stripe every 8 s
+       bracket   the bracket's ends rise and settle (its run rate is the whole year)
+     It pauses while the reader hovers or uses the switch (resumes 4 s after the last touch), while the board is off
+     screen and while the tab is hidden. No words, no figures, nothing glows. ---- */
+const STG = document.querySelector('.stage');
+const pass = BW.el('div', 'pass', S);
+const LIFE = { on: false, tws: [], passTw: null, wait: null, why: { user: false, off: false, hidden: document.hidden }, timer: null };
+const paused = () => LIFE.why.user || LIFE.why.off || LIFE.why.hidden;
+function runPass() {
+  if (!LIFE.on) return;
+  const M = MODES[mode], x0 = X0 + M.n * SW - GAP / 2 - 1.5, x1 = XEND - 1.5;
+  Object.assign(pass.style, { left: x0 + 'px', top: BAR_T + 'px', height: BAR_H + 'px' });
+  LIFE.passTw = gsap.timeline({ onComplete: () => { LIFE.wait = gsap.delayedCall(2.6, runPass); } })
+    .fromTo(pass, { x: 0, opacity: 0 }, { x: x1 - x0, duration: 4.6, ease: 'sine.inOut' }, 0)
+    .to(pass, { opacity: .85, duration: .5, ease: 'power1.out' }, 0)
+    .to(pass, { opacity: 0, duration: .8, ease: 'power1.in' }, 3.8);
+}
+function life(go) {
+  if (!LIFE.on) return;
+  const all = [...LIFE.tws, LIFE.passTw, LIFE.wait].filter(Boolean);
+  if (go) {
+    all.forEach(t => t.resume());
+    if (LIFE.held) { LIFE.held = false; if (LIFE.passTw) LIFE.passTw.kill(); if (LIFE.wait) LIFE.wait.kill(); runPass(); }
+  } else { all.forEach(t => t.pause()); gsap.set(pass, { opacity: 0 }); LIFE.held = true; }
+}
+const sync = () => life(!paused());
+function stopLife() {
+  LIFE.on = false; clearTimeout(LIFE.timer);
+  [...LIFE.tws, LIFE.passTw, LIFE.wait].forEach(t => t && t.kill());
+  LIFE.tws = []; LIFE.passTw = LIFE.wait = null; LIFE.held = false;
+  gsap.set(pass, { opacity: 0, x: 0 }); STG.style.setProperty('--hx', '0px'); gsap.set(brk, { scaleY: 1 });
+}
+function idle() {
+  stopLife();
+  LIFE.on = true;
+  const hx = { v: 0 };
+  LIFE.tws.push(gsap.to(hx, { v: 24.04, duration: 8, ease: 'none', repeat: -1, onUpdate: () => STG.style.setProperty('--hx', hx.v.toFixed(2) + 'px') }));
+  LIFE.tws.push(gsap.to(brk, { scaleY: 1.45, transformOrigin: '50% 100%', duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+  LIFE.wait = gsap.delayedCall(.8, runPass);
+  BW.raw({ kill: stopLife });   /* motion.js's killIdle (R, F, a replay) stops all of it */
+  LIFE.held = false;
+  if (paused()) life(false);
+}
+/* the reader's hand: hovering a part or using the switch holds the board still; it resumes 4 s after the last touch */
+function touched() {
+  clearTimeout(LIFE.timer);
+  if (!LIFE.why.user) { LIFE.why.user = true; sync(); }
+  LIFE.timer = setTimeout(() => { LIFE.why.user = false; sync(); }, 4000);
+}
+if (FX.LIVE || BW.FINAL) {
+  STG.addEventListener('pointermove', (e) => { if (e.target.closest('[data-k], .fx-ctl')) touched(); });
+  STG.addEventListener('click', (e) => { if (e.target.closest('.fx-ctl')) touched(); });
+  document.addEventListener('visibilitychange', () => { LIFE.why.hidden = document.hidden; sync(); });
+  if ('IntersectionObserver' in window) new IntersectionObserver((es) => { LIFE.why.off = !es.some(x => x.isIntersecting); sync(); }).observe(STG);
+}
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

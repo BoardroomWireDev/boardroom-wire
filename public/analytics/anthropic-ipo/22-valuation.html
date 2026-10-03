@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — The $2 Trillion Math (anthropic-ipo flagship 22)</title>
+<!-- ANTHROPIC IPO · FLAGSHIP 22 · THE $2 TRILLION MATH (2 Oct 2026). Standalone (site embed / article), not a video beat.
+       1. valuation: the four rounds and the $2T the IPO is reportedly aiming at, on one linear scale, with each round's
+          multiple of the run rate at the time (61× → 20×)
+       2. multiple of revenue: $2T against four revenue bases (435× of 2025's booked revenue down to 10× of the 2028
+          forecast), Morningstar's 18–20× marked; the 435× bar is broken, not shrunk
+       3. the calculator (web): a revenue base × a multiple → the implied valuation, against the $965B round and $2T
+     Every figure from shared/data.js; the calculator multiplies two of them. Title: the writer's chapter title.
+     Capture contract: BW.run({play, rest}); R / F; ?final ?still ?t= ?capture (labels: rounds, multiples, calc);
+     ?brand=0; ?hover=<key>; ?base=booked|jul|dec|y2028 &mult=N set the calculator.
+     ?video=1 is the video cut: no wordmark, no hover, the calculator panel is dropped (an interactive control has no
+     place in a frame, and its fixed result would be a sum the voice doesn't say), the section heads "Valuation" and
+     "Multiple of revenue at $2T" go (not lines of the script), and the four multiple bars take the freed column.
+     ?tour=1 is the chapter recap (FX.tour in shared/flagship.js; use with ?video=1): a camera that visits the panels in
+     order and pulls back to the whole board for the last 1.8 s. The reveal is cut per panel and plays while its panel is on camera.
+     The tour (refined 3 Oct): each panel is its own layer; only the panels in play show, so no edge cuts a glyph and no
+     neighbour leaks in. A glide is one camera move (log-scale, a small lift) with the window morphing in step; the panel
+     left fades out over 55–95% of the glide while the next builds once 85% of it is in frame. Each panel's reveal is done
+     0.6 s or more before the camera leaves (squeezed automatically for a tighter at=). The header rises in the pull-back.
+       panels  1 the rounds and the $2T column, with each round's multiple of run rate (about 1.36x)   2 the four multiples of revenue at $2T, Morningstar's band (about 1.56x)
+       at = 3.6   (when the glide to panel 2 starts, page seconds: set from the VO)      secs = 9.6   (pull-back at secs - 1.8)
+       render: bw render page --file=22-valuation.html --name=22-valuation-recap --seconds=9.6 --query="video=1&tour=1&at=3.6&secs=9.6"
+       a held panel (the close's callback to the multiples): ?video=1&tour=1&panel=2&hold=1 (camera still, only the multiples are revealed)
+       labels for ?t=: rounds, multiples, calc, tour2, tourback -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<style>
+  .sh { position: absolute; font-family: var(--sans); font-weight: 500; font-size: 22px; color: var(--cream); white-space: nowrap; }
+  .col { position: absolute; bottom: 0; width: 108px; transform-origin: 50% 100%; }
+  .col.ipo { background: repeating-linear-gradient(135deg, rgba(var(--gold-rgb), .5) 0 2px, transparent 2px 12px); border: 2px solid var(--gold); box-sizing: border-box; }
+  .cv { position: absolute; width: 200px; text-align: center; white-space: nowrap; }
+  .cv .v { font-family: var(--mono); font-weight: 600; font-size: 30px; color: var(--cream); letter-spacing: -.02em; }
+  .cv .v.big { font-size: 54px; color: var(--gold); font-weight: 700; }
+  .cd { position: absolute; width: 200px; text-align: center; font-family: var(--sans); font-size: 18px; color: var(--cream-dim); white-space: nowrap; }
+  .cm { position: absolute; width: 200px; text-align: center; font-family: var(--mono); font-weight: 600; font-size: 26px; color: var(--cream); white-space: nowrap; }
+  .cm small { font-family: var(--sans); font-weight: 400; font-size: 16px; color: var(--cream-dim); margin-left: 6px; }
+  .base { position: absolute; height: 1px; background: var(--line-strong); transform-origin: 0 50%; }
+  .mrow { position: absolute; left: 1060px; width: 740px; height: 40px; }
+  .mrow .bl { position: absolute; left: 0; top: 0; font-family: var(--sans); font-size: 19px; color: var(--cream-dim); white-space: nowrap; }
+  .mrow .bv { position: absolute; left: 0; top: 22px; font-family: var(--mono); font-weight: 600; font-size: 19px; color: var(--cream); white-space: nowrap; }
+  .mbar { position: absolute; height: 30px; transform-origin: 0 50%; background: var(--gold); }
+  .mval { position: absolute; font-family: var(--mono); font-weight: 700; font-size: 28px; color: var(--cream); letter-spacing: -.02em; white-space: nowrap;
+    background: var(--bg); padding: 0 8px 0 4px; margin-left: -4px; }   /* a flat ground behind the figure, so the Morningstar band's edge never runs through it */
+  .brkm { position: absolute; width: 14px; height: 44px; background: var(--bg); transform: skewX(-18deg); }
+  .band { position: absolute; background: rgba(var(--cream-rgb), .10); border-left: 1px dashed rgba(var(--cream-rgb), .5); border-right: 1px dashed rgba(var(--cream-rgb), .5); }
+  .bandl { position: absolute; white-space: nowrap; text-align: center; }
+  .bandl .n { font-family: var(--sans); font-size: 17px; color: var(--cream-dim); }
+  .bandl .v { font-family: var(--mono); font-weight: 600; font-size: 19px; color: var(--cream); }
+  .mx { position: absolute; font-family: var(--mono); font-size: 17px; color: var(--cream-dim); }
+  :root[data-video] .mrow .bl { font-size: 24px; }
+  :root[data-video] .mrow .bv { top: 32px; font-size: 24px; }
+  :root[data-video] .mval { font-size: 36px; }
+  :root[data-video] .bandl .n { font-size: 21px; } :root[data-video] .bandl .v { font-size: 23px; }
+  .calc { position: absolute; left: 1060px; top: 650px; width: 740px; }
+  .calc .rowc { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
+  .calc .lab { font-family: var(--sans); font-size: 18px; color: var(--cream-dim); width: 92px; }
+  .calc .mv { font-family: var(--mono); font-weight: 700; font-size: 34px; color: var(--cream); width: 90px; text-align: right; }
+  .calc .out { font-family: var(--mono); font-weight: 700; font-size: 78px; color: var(--gold); letter-spacing: -.03em; line-height: 1; }
+  .calc .outl { font-family: var(--sans); font-size: 18px; color: var(--cream-dim); margin-top: 6px; }
+  .gauge { position: relative; height: 14px; margin-top: 18px; background: var(--line-faint); }
+  .gauge .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--gold); }
+  .gauge .tk { position: absolute; top: -8px; width: 2px; height: 30px; background: var(--cream); }
+  .gauge .tl { position: absolute; top: 26px; transform: translateX(-50%); font-family: var(--mono); font-size: 16px; color: var(--cream-dim); white-space: nowrap; }
+  .fx-seg button { font-size: 16px; padding: 9px 12px; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="world"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=6"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script>
+const W = document.getElementById('world');
+const Q = new URLSearchParams(location.search);
+FX.head('Anthropic', 'The $2 Trillion Math', { logo: 'anthropic' });
+FX.meta('IPO', 'val_ipo', '');
+FX.sig();
+const T = (s, cls, parent = W) => { const n = BW.el('div', cls, parent); n.innerHTML = `<div class="bw-m"><span>${s}</span></div>`; return n; };
+const span = (n) => n.querySelector('.bw-m > span');
+
+/* ---- 1. valuation: the rounds and the IPO on one scale ---- */
+const R = [
+  { id: 'val_e', m: 'mult_e' }, { id: 'val_f', m: 'mult_f' }, { id: 'val_g', m: 'mult_g' }, { id: 'val_h', m: 'mult_h' },
+  { id: 'val_ipo', ipo: true }
+];
+const BASE = 840, HMAX = 470, VMAX = BW.fig('val_ipo').v, CX0 = 190, CDX = 172;
+const sh1 = T('Valuation', 'sh fx-web'); sh1.style.cssText = 'left:120px; top:262px';
+const base1 = BW.el('div', 'base', W); base1.style.cssText = `left:120px; width:860px; top:${BASE}px`;
+R.forEach((r, i) => {
+  const cx = CX0 + i * CDX, h = HMAX * BW.fig(r.id).v / VMAX;
+  r.col = BW.el('div', 'col' + (r.ipo ? ' ipo' : ''), W); r.col.dataset.k = r.id;
+  r.col.style.cssText = `left:${cx - 54}px; top:${BASE - h}px; height:${h}px;` + (r.ipo ? '' : ' background: var(--gold)');
+  r.v = T(BW.val(r.id), 'cv'); r.v.dataset.k = r.id; r.v.style.cssText = `left:${cx - 100}px; top:${BASE - h - (r.ipo ? 70 : 46)}px`;
+  if (r.ipo) span(r.v).classList.add('v', 'big'); else span(r.v).classList.add('v');
+  r.d = T(BW.fig(r.id).label, 'cd'); r.d.dataset.k = r.id; r.d.style.cssText = `left:${cx - 100}px; top:${BASE + 14}px`;
+  if (r.m) { r.mm = T(BW.val(r.m) + (i === 0 ? '<small>run rate</small>' : ''), 'cm'); r.mm.dataset.k = r.id; r.mm.style.cssText = `left:${cx - 100}px; top:${BASE + 48}px`; }
+});
+
+/* ---- 2. multiple of revenue: $2T against four bases ---- */
+const M = [
+  { k: 'booked', lbl: 'Booked in 2025', base: 'rev_2025', m: 'mult_booked' },
+  { k: 'jul',    lbl: 'Run rate, Jul 2026', base: 'rr_jul26', m: 'mult_jul' },
+  { k: 'dec',    lbl: 'On track, Dec 2026', base: 'rr_dec26', m: 'mult_dec26' },
+  { k: 'y2028',  lbl: '2028 forecast', base: 'fcst_2028', m: 'mult_2028' }
+];
+const VID = FX.VIDEO;   /* the video cut spreads the four bars over the column the calculator leaves */
+const MX0 = VID ? 1340 : 1290, MXW = VID ? 360 : 400, MMAX = 50, MY0 = VID ? 400 : 346, MDY = VID ? 124 : 66, MBH = VID ? 46 : 30;
+const xm = (v) => MX0 + MXW * Math.min(v, MMAX) / MMAX;
+const sh2 = T('Multiple of revenue at $2T', 'sh fx-web'); sh2.style.cssText = 'left:1060px; top:262px';
+/* the Morningstar band first, under the bars */
+const MS = BW.fig('morningstar_mult');
+const band = BW.el('div', 'band', W); band.dataset.k = 'morningstar';
+band.style.cssText = `left:${xm(18)}px; width:${xm(20) - xm(18)}px; top:${MY0 - 12}px; height:${MDY * 3 + MBH + 24}px`;
+const bandl = BW.el('div', 'bandl', W); bandl.dataset.k = 'morningstar';
+bandl.style.cssText = `left:${xm(19) - 140}px; width:280px; top:${MY0 + MDY * 3 + MBH + 18}px`;
+bandl.innerHTML = `<div class="bw-m"><span><span class="n">Morningstar </span><span class="v">${BW.val('morningstar_mult').replace(/×?$/, '×')}</span></span></div>`;
+/* axis marks every 10× */
+const MXL = [0, 10, 20, 30, 40, 50].map(v => { const n = BW.el('div', 'mx', W); n.textContent = v + '×'; n.style.cssText = `left:${xm(v) - 12}px; top:${MY0 - (VID ? 46 : 42)}px`; return n; });
+M.forEach((r, i) => {
+  const y = MY0 + i * MDY, v = BW.fig(r.m).v;
+  r.row = BW.el('div', 'mrow', W); r.row.dataset.k = r.k; r.row.style.top = (y + (VID ? -4 : -6)) + 'px';
+  r.row.innerHTML = `<div class="bw-m bl"><span>${r.lbl}</span></div><div class="bw-m bv"><span>${BW.val(r.base)}</span></div>`;
+  r.bar = BW.el('div', 'mbar', W); r.bar.dataset.k = r.k; r.bar.style.cssText = `left:${MX0}px; top:${y}px; height:${MBH}px; width:${xm(v) - MX0}px; background:${v > MMAX ? 'rgba(var(--cream-rgb), .55)' : 'var(--gold)'}`;
+  if (v > MMAX) {   /* the off-scale bar is broken, never shortened silently */
+    r.brk = BW.el('div', 'brkm', W); r.brk.style.cssText = `left:${MX0 + MXW - 60}px; top:${y - 7}px; height:${MBH + 14}px`;
+  }
+  {
+    r.val = T(BW.val(r.m), 'mval'); r.val.style.cssText = `left:${xm(v) + 12}px; top:${y + (VID ? 2 : -1)}px`;
+  }
+  r.val.dataset.k = r.k;
+});
+
+/* ---- 3. the calculator ---- */
+const CB = { booked: 'rev_2025', jul: 'rr_jul26', dec: 'rr_dec26', y2028: 'fcst_2028' };
+const range = (id) => { const d = BW.fig(id).display.replace(/[$B]/g, ''); return d.includes('–') ? d.split('–').map(Number) : [BW.fig(id).v, BW.fig(id).v]; };
+const tr = (bn) => bn >= 1000 ? '$' + (bn / 1000).toFixed(bn >= 10000 ? 0 : 2).replace(/\.?0+$/, '') + 'T' : '$' + Math.round(bn) + 'B';
+let st = { base: CB[Q.get('base')] ? Q.get('base') : 'y2028', mult: Math.max(1, Math.min(60, +(Q.get('mult') || BW.fig('mult_2028').v))) };
+const calc = BW.el('div', 'calc fx-web', W);
+calc.innerHTML =
+  `<div class="rowc"><span class="lab">Revenue</span><div class="fx-seg" id="segB">${M.map(r => `<button data-b="${r.k}">${r.lbl}</button>`).join('')}</div></div>` +
+  `<div class="rowc"><span class="lab">Multiple</span><input class="fx-range" id="rng" type="range" min="1" max="60" step="1" style="width:470px"><span class="mv" id="mv"></span></div>` +
+  `<div class="rowc" style="align-items:flex-end; gap:22px"><span class="lab"></span><div><div class="out" id="out"></div><div class="outl" id="outl"></div></div></div>` +
+  `<div class="gauge" id="gauge" style="margin-left:110px; width:600px"><div class="fill" id="gfill"></div></div>`;
+const GMAX = 3000, gauge = calc.querySelector('#gauge');
+[['val_h', 'May 2026'], ['val_ipo', 'IPO']].forEach(([id, l]) => {
+  const x = 600 * BW.fig(id).v / GMAX;
+  const tk = BW.el('div', 'tk', gauge); tk.style.left = x + 'px';
+  const tl = BW.el('div', 'tl', gauge); tl.style.left = x + 'px'; tl.textContent = `${BW.val(id)} ${l}`;
+});
+function draw() {
+  const id = CB[st.base], [lo, hi] = range(id), a = lo * st.mult, b = hi * st.mult;
+  calc.querySelectorAll('#segB button').forEach(bn => bn.classList.toggle('on', bn.dataset.b === st.base));
+  calc.querySelector('#rng').value = st.mult;
+  calc.querySelector('#mv').textContent = st.mult + '×';
+  calc.querySelector('#out').textContent = a === b ? tr(a) : tr(a) + '–' + tr(b).replace('$', '');
+  calc.querySelector('#outl').textContent = `${BW.val(id)} × ${st.mult}`;
+  calc.querySelector('#gfill').style.width = Math.min(600, 600 * b / GMAX) + 'px';
+}
+draw();
+if (FX.LIVE) {
+  calc.querySelectorAll('#segB button').forEach(bn => bn.addEventListener('click', () => { st.base = bn.dataset.b; draw(); }));
+  calc.querySelector('#rng').addEventListener('input', (e) => { st.mult = +e.target.value; draw(); });
+}
+
+BW.provenance({ uses: ['val_e', 'val_f', 'val_g', 'val_h', 'val_ipo', 'mult_e', 'rev_2025', 'rr_jul26', 'rr_dec26', 'fcst_2028', 'morningstar_mult'] });
+
+/* hover */
+R.forEach(r => [r.col, r.v, r.d, r.mm].filter(Boolean).forEach(n => FX.hover(n, r.id, () => FX.tipFor(r.id, {
+  name: r.ipo ? 'IPO, reportedly' : BW.fig(r.id).label,
+  meta: r.ipo ? 'The valuation the IPO is reportedly aiming for' : `Post-money valuation, ${BW.val(r.m)} the run rate at the time`,
+  credit: r.ipo ? FX.credit(r.id) : FX.credit(r.id) + ' Multiple: Boardroom Wire calculation.' }))));
+M.forEach(r => [r.row, r.bar, r.val].forEach(n => FX.hover(n, r.k, () => FX.tipFor(r.m, {
+  name: `$2T ÷ ${r.lbl.toLowerCase()}`, meta: `${BW.val('val_ipo')} ÷ ${BW.val(r.base)}`, credit: 'Boardroom Wire calculation. Revenue: ' + FX.credit(r.base) }))));
+[band, bandl].forEach(n => FX.hover(n, 'morningstar', () => FX.tipFor('morningstar_mult', { name: 'Morningstar', meta: 'The multiple Morningstar sees as justifiable, via Reuters' })));
+
+/* ---- the recap camera (?tour=1) ---- */
+const TR = FX.tour([
+  { name: 'rounds',    x: 90,   y: 290, w: 890, h: 635, clip: [74, 274, 996, 941] },
+  { name: 'multiples', x: 1040, y: 335, w: 790, h: 555, clip: [1024, 320, 1846, 906] }
+], { at: [3.6], secs: 9.6 });
+
+/* ---- reveal ---- */
+function play() {
+  const tl = gsap.timeline();
+  TR.head(tl);
+  const allT = [...W.querySelectorAll('.bw-m > span')];
+  gsap.set(allT, { yPercent: 105 });
+  gsap.set(R.map(r => r.col), { scaleY: 0 }); gsap.set(base1, { scaleX: 0 });
+  gsap.set(M.map(r => r.bar), { scaleX: 0 }); gsap.set(M.filter(r => r.brk).map(r => r.brk), { opacity: 0 });
+  gsap.set([band, ...MXL], { opacity: 0 }); gsap.set(calc, { opacity: 0, y: 14 });
+
+  /* the sections: 0 the rounds, 1 the multiples (and the calculator). u(t) is t, unless a tour re-times the section */
+  const u0 = TR.sec(0, .85, .75, 4.0), u1 = TR.sec(1, 3.7, 1, 5.8);   /* o1: when the section's last move ends */
+  /* 1. the rounds rise one by one; the IPO column last, outlined */
+  if (u0) {
+    BW.mark(tl, 'rounds', u0(.7));
+    BW.maskIn(tl, span(sh1), u0(.6), .5);
+    if (TR.on) gsap.set(base1, { scaleX: 1 });   /* the recap's first frame is never empty: the ground line is already there */
+    else tl.to(base1, { scaleX: 1, duration: .8, ease: 'power3.out' }, u0(.7));
+    R.forEach((r, i) => {
+      const t = 1.0 + i * .45;
+      tl.to(r.col, { scaleY: 1, duration: r.ipo ? 1.0 : .6, ease: 'power2.out' }, u0(t));
+      BW.maskIn(tl, span(r.d), u0(t), .45);
+      BW.maskIn(tl, span(r.v), u0(t + (r.ipo ? .7 : .4)), .5);
+      if (r.mm) BW.maskIn(tl, span(r.mm), u0(t + .5), .45);
+    });
+  }
+  /* 2. the multiples */
+  if (u1) {
+    BW.mark(tl, 'multiples', u1(3.6));
+    BW.maskIn(tl, span(sh2), u1(3.5), .5);
+    if (TR.on) gsap.set(MXL, { opacity: 1 });   /* the axis is already there when the camera arrives */
+    else tl.to(MXL, { opacity: 1, duration: .4, stagger: .04 }, u1(3.6));
+    M.forEach((r, i) => {
+      const t = 3.8 + i * .32;
+      BW.maskIn(tl, r.row.querySelectorAll('.bw-m > span'), u1(t), .45);
+      tl.to(r.bar, { scaleX: 1, duration: .7, ease: 'power2.out' }, u1(t + .1));
+      if (r.brk) tl.to(r.brk, { opacity: 1, duration: .2 }, u1(t + .6));
+      BW.maskIn(tl, span(r.val), u1(t + .55), .45);
+    });
+    tl.to(band, { opacity: 1, duration: .5 }, u1(5.2));
+    BW.maskIn(tl, span(bandl), u1(5.3), .5);
+    /* 3. the calculator */
+    BW.mark(tl, 'calc', u1(5.8));
+    tl.to(calc, { opacity: 1, y: 0, duration: .6, ease: 'power2.out' }, u1(5.8));
+  }
+  tl.to('.bw-source', { opacity: 1, duration: .6 }, TR.on ? .4 : 6.2);
+  if (TR.on) { TR.run(tl); TR.end(tl); } else tl.to({}, { duration: .01 }, 7.0);
+  return tl;
+}
+function rest() {
+  TR.restHead();
+  gsap.set([...W.querySelectorAll('.bw-m > span')], { yPercent: 0 });
+  gsap.set(R.map(r => r.col), { scaleY: 1 }); gsap.set(base1, { scaleX: 1 });
+  gsap.set(M.map(r => r.bar), { scaleX: 1 }); gsap.set(M.filter(r => r.brk).map(r => r.brk), { opacity: 1 });
+  gsap.set([band, ...MXL], { opacity: 1 }); gsap.set(calc, { opacity: 1, y: 0 });
+  TR.rest();
+}
+BW.run({ play, rest, idle() {} });
+</script>
+</body>
+</html>

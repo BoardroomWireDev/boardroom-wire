@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — How Anthropic Pays for It (anthropic-ipo flagship 23)</title>
+<!-- ANTHROPIC IPO · FLAGSHIP 23 · HOW ANTHROPIC PAYS FOR IT (2 Oct 2026). Standalone (site embed / article), not a video beat.
+     Every figure from shared/data.js; the title is the writer's chapter title, the section heads are the writer's own leads.
+       1. growth: one $B scale. The $518B bill (80% locked in) beside a year of revenue stacked until it covers the bill:
+          July 2026's run rate (about 8 years) and the 2028 forecast (2.7 years); Meta's 2025 revenue in grey
+       2. other people's money: Feb 2026, May 2026, the credit line and the IPO (as much as, hatched), laid end to end
+          against a $518B track, no total drawn (the essay doesn't sum them)
+       3. circular financing: Amazon invests up to $33B, Anthropic commits $110B back; Google $111B (its equity unlabelled:
+          no figure in data.js)
+     "Two: time" (contract terms to 2033 / 2036) is not drawn: those dates are not in data.js yet.
+     Capture contract: BW.run({play, rest}); R / F; ?final ?still ?t= ?capture (labels: growth, money, circle);
+     ?brand=0; ?hover=<key> (bill, jul, y2028, meta, feb, may, credit, ipo, amazon, google, amzn_in, amzn_out, goog_out).
+     ?video=1 is the video cut: no wordmark, no hover, and "Commitments" goes (not a line of the script; the $518B names it).
+     2 Oct: money in (invest) is amber, the brand's second accent (teal retired); each year of revenue past the first is a
+     gold hairline box, one per year; the four raises read on a full-width track; company names carry their marks.
+     ?tour=1 is the chapter recap (FX.tour in shared/flagship.js; use with ?video=1): a camera that visits the panels in
+     order and pulls back to the whole board for the last 1.8 s. The reveal is cut per panel and plays while its panel is on camera.
+     The recap follows 07-circle's loop, so it opens on the circle, its heading and three boxes already there at frame 0.
+     The tour (refined 3 Oct): each panel is its own layer; only the panels in play show, so no edge cuts a glyph and no
+     neighbour leaks in. A glide is one camera move (log-scale, a small lift) with the window morphing in step; the panel
+     left fades out over 55–95% of the glide while the next builds once 85% of it is in frame. Each panel's reveal is done
+     0.6 s or more before the camera leaves (squeezed automatically for a tighter at=). The header rises in the pull-back.
+       panels  1 circular financing: Amazon invests, Anthropic commits back, Google   2 growth: the $518B bill and the years of revenue that cover it
+               3 other people's money: the four raises end to end against the $518B
+       at = 3.4, 7.4   (when the glides to panel 2 and panel 3 start, page seconds: set from the VO)      secs = 13.0   (pull-back at secs - 1.8)
+       render: bw render page --file=23-money-map.html --name=23-money-map-recap --seconds=13 --query="video=1&tour=1&at=3.4,7.4&secs=13"
+       a held panel: ?video=1&tour=1&panel=N&hold=1 (camera still, only that panel is revealed)
+       labels for ?t=: circle, growth, money, tour2, tour3, tourback -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<style>
+  .sh { position: absolute; font-family: var(--sans); font-weight: 500; font-size: 22px; color: var(--cream); white-space: nowrap; }
+  .blkv { position: absolute; box-sizing: border-box; }
+  .blkv.solid { background: var(--gold); }
+  .blkv.copy { border: 1.5px solid var(--gold); background: transparent; }   /* one more year of the same revenue: a gold hairline box */
+  .blkv.lock { background: rgba(var(--cream-rgb), .86); }
+  .blkv.free { border: 1px dashed rgba(var(--cream-rgb), .45); }
+  .blkv.meta { background: var(--grey-bright); }
+  .blkv .in { position: absolute; left: 12px; top: 8px; font-family: var(--mono); font-weight: 700; font-size: 22px; letter-spacing: -.02em; white-space: nowrap; color: var(--ink); }
+  .blkv.meta .in { color: var(--cream); }
+  .ref { position: absolute; height: 0; border-top: 1px dashed rgba(var(--cream-rgb), .4); transform-origin: 0 50%; }
+  .base { position: absolute; height: 1px; background: var(--line-strong); transform-origin: 0 50%; }
+  .ctop { position: absolute; width: 230px; text-align: center; white-space: nowrap; }
+  .ctop .v { font-family: var(--mono); font-weight: 700; font-size: 40px; letter-spacing: -.03em; color: var(--cream); }
+  .ctop .v.g { color: var(--gold); }
+  .ctop .v small { font-family: var(--sans); font-weight: 400; font-size: 19px; letter-spacing: 0; color: var(--cream-dim); margin-left: 8px; }
+  .ctop .v small.pre { margin: 0 8px 0 0; }
+  .cbot { position: absolute; width: 230px; text-align: center; font-family: var(--sans); font-size: 19px; color: var(--cream-dim); white-space: nowrap; }
+  .orow { position: absolute; left: 1120px; width: 680px; height: 28px; white-space: nowrap; }
+  .orow .nm { font-family: var(--sans); font-size: 20px; color: var(--cream-dim); }
+  .orow .fv { font-family: var(--mono); font-weight: 600; font-size: 23px; color: var(--cream); margin-left: 14px; letter-spacing: -.01em; }
+  .orow .fv small { font-family: var(--sans); font-weight: 400; font-size: 16px; color: var(--cream-dim); margin-right: 6px; letter-spacing: 0; }
+  .obar { position: absolute; transform-origin: 0 50%; background: var(--amber); }
+  .obar.h { background: repeating-linear-gradient(135deg, rgba(var(--amber-rgb), .6) 0 2px, transparent 2px 10px); border: 1.5px solid var(--amber); box-sizing: border-box; }
+  .otrk { position: absolute; border: 1px solid var(--line-strong); box-sizing: border-box; }
+  .oend { position: absolute; font-family: var(--mono); font-weight: 600; font-size: 20px; color: var(--cream-dim); white-space: nowrap; }
+  .ocap { position: absolute; font-family: var(--sans); font-size: 18px; color: var(--cream-dim); white-space: nowrap; }
+  .box { position: absolute; height: 64px; border: 1px solid var(--line-strong); box-sizing: border-box; background: var(--bg);
+    font-family: var(--sans); font-weight: 600; font-size: 22px; color: var(--cream); display: flex; align-items: center; justify-content: center; }
+  .box.a { border: 2px solid var(--gold); }
+  .alb { position: absolute; width: 200px; text-align: center; font-family: var(--mono); font-weight: 700; font-size: 25px; letter-spacing: -.02em; white-space: nowrap; }
+  .alb small { font-family: var(--sans); font-weight: 400; font-size: 15px; letter-spacing: 0; color: var(--cream-dim); margin-right: 6px; }
+  .alb.in { color: var(--amber); } .alb.out { color: var(--gold); }
+  .lg { position: absolute; font-family: var(--sans); font-size: 17px; color: var(--cream-dim); white-space: nowrap; }
+  .lg .it + .it { margin-left: 32px; }
+  .lg i { display: inline-block; width: 22px; height: 0; border-top: 3px solid; vertical-align: middle; margin: 0 8px 3px 0; }
+  svg.fx { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+  svg.fx path.hit { pointer-events: stroke; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="world"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=6"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script>
+const W = document.getElementById('world');
+FX.head('Anthropic', 'How Anthropic Pays for It', { logo: 'anthropic' });
+FX.meta('at least', 'commit_total', 'about 8 years of revenue');
+FX.sig();
+const T = (s, cls, parent = W) => { const n = BW.el('div', cls, parent); n.innerHTML = `<div class="bw-m"><span>${s}</span></div>`; return n; };
+const span = (n) => n.querySelector('.bw-m > span');
+const v = (id) => BW.fig(id).v;
+const sm = (q) => q ? `<small class="pre">${q}</small>` : '';
+
+/* ---- 1. growth: one $B scale ---- */
+const BASE = 900, K = 520 / v('commit_total'), CW = 130;
+const COLS = { bill: 225, jul: 455, y2028: 685, meta: 905 };
+const sh1 = T('Growth', 'sh'); sh1.style.cssText = 'left:120px; top:262px';
+const base1 = BW.el('div', 'base', W); base1.style.cssText = `left:120px; width:900px; top:${BASE}px`;
+const ref = BW.el('div', 'ref', W); ref.style.cssText = `left:120px; width:900px; top:${BASE - v('commit_total') * K}px`;
+const G = {};   /* per column: blocks, top label, bottom label */
+function col(k, blocks, top, bot) {
+  const cx = COLS[k]; G[k] = { blocks: [] };
+  let y = BASE;
+  blocks.forEach((b) => {
+    const h = b.v * K; y -= h;
+    const n = BW.el('div', 'blkv ' + b.cls, W); n.dataset.k = k;
+    n.style.cssText = `left:${cx - CW / 2}px; top:${y + 1.5}px; width:${CW}px; height:${h - 3}px`;
+    if (b.txt) n.innerHTML = `<div class="in">${b.txt}</div>`;
+    G[k].blocks.push(n);
+  });
+  if (top) { G[k].top = T(top, 'ctop'); G[k].top.dataset.k = k; G[k].top.style.cssText = `left:${cx - 115}px; top:${y - 58}px`; span(G[k].top).classList.add('v'); }
+  G[k].bot = T(bot, 'cbot' + (k === 'bill' ? ' fx-web' : '')); G[k].bot.dataset.k = k; G[k].bot.style.cssText = `left:${cx - 115}px; top:${BASE + 14}px`;
+}
+/* the bill: 80% locked in, the rest dashed (as on The $518 Billion) */
+col('bill', [{ v: v('locked_amt'), cls: 'lock', txt: BW.val('locked_pct') }, { v: v('unlocked_amt'), cls: 'free' }],
+  sm(FX.qualOf('commit_total')) + BW.val('commit_total'), 'Commitments');
+/* a year of revenue, stacked until it covers the bill (the last block is the fraction) */
+function stack(id, n) {
+  const out = [], per = v(id), full = Math.floor(n), frac = n - full;
+  for (let i = 0; i < full; i++) out.push({ v: per, cls: i ? 'copy' : 'solid', txt: i ? '' : BW.val(id) });
+  if (frac > .02) out.push({ v: per * frac, cls: 'copy' });
+  return out;
+}
+col('jul', stack('rr_jul26', v('commit_total') / v('rr_jul26')), `${BW.val('years_at_jul')}<small>${BW.fig('years_at_jul').label}</small>`, 'Run rate, Jul 2026');
+col('y2028', stack('fcst_2028', v('commit_total') / v('fcst_2028')), `${BW.val('years_at_2028')}<small>${BW.fig('years_at_2028').label}</small>`, '2028 forecast');
+/* 'Meta, 2025': the name takes its mark (the file carries the word, so the mark replaces it), the year stays */
+const [metaNm, metaYr] = BW.fig('meta_rev_2025').label.split(', ');
+col('meta', [{ v: v('meta_rev_2025'), cls: 'meta', txt: BW.val('meta_rev_2025') }], '', `${FX.logo('meta', metaNm + ',')} ${metaYr}`);
+span(G.jul.top).classList.add('g'); span(G.y2028.top).classList.add('g');
+
+/* ---- 2. other people's money, end to end against the $518B ---- */
+const sh2 = T('Other people\'s money', 'sh'); sh2.style.cssText = 'left:1120px; top:262px';
+const TX0 = 1120, TXW = 580, TK = TXW / v('commit_total');
+const O = [
+  { k: 'feb', id: 'raised_feb26', nm: BW.fig('raised_feb26').label },
+  { k: 'may', id: 'raised_may26', nm: BW.fig('raised_may26').label },
+  { k: 'credit', id: 'credit_line', nm: 'Credit line' },
+  { k: 'ipo', id: 'ipo_raise', nm: BW.fig('ipo_raise').label, h: true }
+];
+/* each raise: its name and figure on one line, then its bar laid end to end on a full-width $518B track */
+const OY0 = 314, ODY = 74, OBY = 32, OBH = 30;
+let acc = 0;
+O.forEach((r, i) => {
+  const y = OY0 + i * ODY;
+  r.row = BW.el('div', 'orow', W); r.row.dataset.k = r.k; r.row.style.top = y + 'px';
+  r.row.innerHTML = `<div class="bw-m"><span><span class="nm">${r.nm}</span><span class="fv">${sm(FX.qualOf(r.id))}${BW.val(r.id)}</span></span></div>`;
+  r.trk = BW.el('div', 'otrk', W); r.trk.style.cssText = `left:${TX0}px; top:${y + OBY}px; width:${TXW}px; height:${OBH}px`;
+  r.bar = BW.el('div', 'obar' + (r.h ? ' h' : ''), W); r.bar.dataset.k = r.k;
+  r.bar.style.cssText = `left:${TX0 + acc * TK}px; top:${y + OBY}px; width:${v(r.id) * TK}px; height:${OBH}px`;
+  acc += v(r.id);
+});
+const oend = T(BW.val('commit_total'), 'oend'); oend.style.cssText = `left:${TX0 + TXW + 14}px; top:${OY0 + 3 * ODY + OBY + 3}px`;
+const ocap = T('roughly a fifth of the entire $518 billion', 'ocap'); ocap.dataset.k = 'ipo';
+ocap.style.cssText = `left:${TX0 + (acc - v('ipo_raise')) * TK}px; top:${OY0 + 3 * ODY + OBY + OBH + 10}px`;
+
+/* ---- 3. circular financing ---- */
+const sh3 = T('Circular financing', 'sh'); sh3.style.cssText = 'left:1120px; top:660px';
+const lg = BW.el('div', 'lg', W); lg.style.cssText = 'left:1120px; top:698px';
+lg.innerHTML = `<div class="bw-m"><span><span class="it"><i style="border-color:var(--amber)"></i>invest in Anthropic</span><span class="it"><i style="border-color:var(--gold)"></i>compute spending</span></span></div>`;
+const BY = 830, BH = 64;
+const BX = { amazon: [1120, 124], anthropic: [1390, 164], google: [1676, 124] };
+const box = (k, nm, cls = '') => { const b = BW.el('div', 'box ' + cls, W); const [x, w] = BX[k]; b.style.cssText = `left:${x}px; top:${BY}px; width:${w}px`; b.innerHTML = FX.logo(k, nm); return b; };
+const bAm = box('amazon', BW.fig('amzn_equity').label); bAm.dataset.k = 'amazon amzn_in amzn_out';
+const bAn = box('anthropic', 'Anthropic', 'a'); bAn.dataset.k = 'amazon google amzn_in amzn_out goog_out';
+const bGo = box('google', BW.fig('goog_compute').label); bGo.dataset.k = 'google goog_out';
+const NS = 'http://www.w3.org/2000/svg';
+const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'fx'); svg.setAttribute('width', 1920); svg.setAttribute('height', 1080);
+svg.innerHTML = `<defs>
+  <marker id="hT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--amber)"/></marker>
+  <marker id="hG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--gold)"/></marker></defs>`;
+W.appendChild(svg);
+const L = (a, b) => [BX[a][0] + BX[a][1], BX[b][0]];   /* right edge of a, left edge of b */
+const yT = BY + 18, yB = BY + BH - 18;
+function arc(x1, x2, y, up, col, mk, key, dash) {
+  const p = document.createElementNS(NS, 'path'), dy = up ? -62 : 62, d = Math.abs(x2 - x1) * .22;
+  const [a, b] = x1 < x2 ? [x1 + 4, x2 - 4] : [x1 - 4, x2 + 4];
+  p.setAttribute('d', `M${a} ${y} C${a + (b - a) * .1 + (x1 < x2 ? d : -d) * .2} ${y + dy}, ${b - (b - a) * .1} ${y + dy}, ${b} ${y}`);
+  p.setAttribute('style', `fill:none; stroke:var(--${col}); stroke-width:3;${dash ? ' stroke-dasharray:7 6;' : ''}`);
+  p.setAttribute('marker-end', `url(#${mk})`); p.dataset.k = key; svg.appendChild(p); return p;
+}
+const [amR, anL] = L('amazon', 'anthropic'), [anR, goL] = L('anthropic', 'google');
+const aIn  = arc(amR, anL, yT, true,  'amber', 'hT', 'amazon amzn_in');
+const aOut = arc(anL, amR, yB, false, 'gold',        'hG', 'amazon amzn_out');
+const gIn  = arc(goL, anR, yT, true,  'amber', 'hT', 'google', true);
+const gOut = arc(anR, goL, yB, false, 'gold',        'hG', 'google goog_out');
+const lab = (html, cls, x, y, key) => { const n = T(html, 'alb ' + cls); n.style.cssText = `left:${x - 100}px; top:${y}px`; n.dataset.k = key; return n; };
+const lAIn  = lab(sm(FX.qualOf('amzn_equity')) + BW.val('amzn_equity'), 'in', (amR + anL) / 2, BY - 96, 'amazon amzn_in');
+const lAOut = lab(BW.val('amzn_compute'), 'out', (amR + anL) / 2, BY + BH + 46, 'amazon amzn_out');
+const lGOut = lab(BW.val('goog_compute'), 'out', (anR + goL) / 2, BY + BH + 46, 'google goog_out');
+
+BW.provenance({ uses: ['commit_total', 'locked_pct', 'rr_jul26', 'years_at_jul', 'fcst_2028', 'meta_rev_2025', 'raised_feb26', 'raised_may26', 'credit_line', 'ipo_raise', 'amzn_equity', 'amzn_compute', 'goog_compute'] });
+
+/* hover */
+const nodes = (k) => [...(G[k].blocks || []), G[k].top, G[k].bot].filter(Boolean);
+nodes('bill').forEach(n => FX.hover(n, 'bill', () => FX.tipFor('commit_total', { name: 'Compute commitments', meta: `${BW.val('locked_pct')} non-cancelable or requires payment regardless of usage, over about a decade` })));
+nodes('jul').forEach(n => FX.hover(n, 'jul', () => FX.tipFor('rr_jul26', { name: 'Run rate, Jul 2026', meta: `${BW.val('commit_total')} ÷ ${BW.val('rr_jul26')}: about 8 years of revenue`, credit: FX.credit('rr_jul26') + ' Years: Boardroom Wire calculation.' })));
+nodes('y2028').forEach(n => FX.hover(n, 'y2028', () => FX.tipFor('fcst_2028', { name: '2028 forecast', meta: `${BW.val('commit_total')} ÷ ${BW.val('fcst_2028')}: less than 3 years of sales`, credit: FX.credit('fcst_2028') + ' Years: Boardroom Wire calculation.' })));
+nodes('meta').forEach(n => FX.hover(n, 'meta', () => FX.tipFor('meta_rev_2025', { name: 'Meta, 2025', meta: 'Revenue, fiscal 2025' })));
+O.forEach(r => [r.row, r.bar].concat(r.k === 'ipo' ? [ocap] : []).forEach(n => FX.hover(n, r.k, () => FX.tipFor(r.id, { name: r.nm }))));
+FX.hover(bAm, 'amazon', () => FX.tipFor('amzn_equity', { name: 'Amazon', meta: `Invests ${FX.qual('amzn_equity')}; Anthropic has committed ${BW.val('amzn_compute')} right back for compute` }));
+FX.hover(bGo, 'google', () => FX.tipFor('goog_compute', { name: 'Google', meta: 'Committed by Anthropic for compute' }));
+[aIn, lAIn].forEach(n => FX.hover(n, 'amzn_in', () => FX.tipFor('amzn_equity', { name: 'Amazon → Anthropic', meta: 'Committed to Anthropic' })));
+[aOut, lAOut].forEach(n => FX.hover(n, 'amzn_out', () => FX.tipFor('amzn_compute', { name: 'Anthropic → Amazon', meta: 'Committed for compute' })));
+[gOut, lGOut].forEach(n => FX.hover(n, 'goog_out', () => FX.tipFor('goog_compute', { name: 'Anthropic → Google', meta: 'Committed for compute' })));
+[aIn, aOut, gIn, gOut].forEach(p => p.classList.add('hit'));
+
+/* ---- the recap camera (?tour=1) ---- */
+const TR = FX.tour([
+  { name: 'circle', x: 1100, y: 650, w: 730, h: 325, clip: [1084, 634, 1846, 991] },
+  { name: 'growth', x: 110,  y: 255, w: 920, h: 690, clip: [94, 239, 1046, 961] },
+  { name: 'money',  x: 1100, y: 255, w: 730, h: 385, clip: [1084, 239, 1846, 640] }
+], { at: [3.4, 7.4], secs: 13.0 });
+
+/* ---- reveal ---- */
+const ARCS = [aIn, aOut, gIn, gOut];
+function play() {
+  const tl = gsap.timeline();
+  TR.head(tl);
+  gsap.set([...W.querySelectorAll('.bw-m > span')], { yPercent: 105 });
+  const allBlk = Object.values(G).flatMap(g => g.blocks);
+  gsap.set(allBlk, { clipPath: 'inset(100% 0% 0% 0%)' });
+  gsap.set([base1, ref], { scaleX: 0 });
+  gsap.set(O.map(r => r.bar), { scaleX: 0 }); gsap.set(O.map(r => r.trk), { opacity: 0 });
+  gsap.set([bAm, bAn, bGo], { opacity: 0 });
+  ARCS.forEach(p => { const L = p.getTotalLength(); p._L = L; gsap.set(p, { attr: { 'marker-end': '' }, strokeDasharray: p === gIn ? '7 6' : L, strokeDashoffset: p === gIn ? 0 : L, opacity: 0 }); });
+
+  /* the sections: 0 the circle, 1 growth, 2 other people's money. u(t) is t, unless a tour re-times the section.
+     The page's own order is growth, money, circle; the recap opens on the circle (it follows 07-circle's loop) */
+  const u0 = TR.sec(0, 7.2, .8, 9.4), u1 = TR.sec(1, .6, .8, 4.6), u2 = TR.sec(2, 4.5, .85, 6.8);   /* o1: when the section's last move ends */
+
+  /* 1. growth: the bill, then each year of revenue stacks up to it */
+  if (u1) {
+    BW.mark(tl, 'growth', u1(.7));
+    BW.maskIn(tl, span(sh1), u1(.6), .5);
+    tl.to(base1, { scaleX: 1, duration: .8, ease: 'power3.out' }, u1(.7));
+    G.bill.blocks.forEach((b, i) => tl.to(b, { clipPath: 'inset(0% 0% 0% 0%)', duration: .5, ease: 'power2.out' }, u1(.9 + i * .35)));
+    BW.maskIn(tl, span(G.bill.bot), u1(.9), .45); BW.maskIn(tl, span(G.bill.top), u1(1.5), .5);
+    tl.to(ref, { scaleX: 1, duration: .9, ease: 'power2.inOut' }, u1(1.6));
+    [['jul', 2.0, .16], ['y2028', 3.0, .3]].forEach(([k, t, st]) => {
+      BW.maskIn(tl, span(G[k].bot), u1(t), .45);
+      G[k].blocks.forEach((b, i) => tl.to(b, { clipPath: 'inset(0% 0% 0% 0%)', duration: .22, ease: 'power1.out' }, u1(t + .1 + i * st)));
+      BW.maskIn(tl, span(G[k].top), u1(t + .1 + G[k].blocks.length * st), .5);
+    });
+    BW.maskIn(tl, span(G.meta.bot), u1(4.0), .45);
+    tl.to(G.meta.blocks, { clipPath: 'inset(0% 0% 0% 0%)', duration: .5, ease: 'power2.out' }, u1(4.1));
+  }
+
+  /* 2. other people's money, end to end */
+  if (u2) {
+    BW.mark(tl, 'money', u2(4.6));
+    BW.maskIn(tl, span(sh2), u2(4.5), .5);
+    tl.to(O.map(r => r.trk), { opacity: 1, duration: .4 }, u2(4.6));
+    BW.maskIn(tl, span(oend), u2(4.7), .45);
+    O.forEach((r, i) => {
+      const t = 4.8 + i * .35;
+      BW.maskIn(tl, r.row.querySelectorAll('.bw-m > span'), u2(t), .45);
+      tl.to(r.bar, { scaleX: 1, duration: .45, ease: 'power2.out' }, u2(t + .15));
+    });
+    BW.maskIn(tl, span(ocap), u2(6.3), .5);
+  }
+
+  /* 3. the circle */
+  if (u0) {
+    BW.mark(tl, 'circle', u0(6.8));
+    if (TR.on) {   /* the recap opens on the circle straight after 07-circle's loop: the boxes are there at frame 0, the money then moves */
+      gsap.set([span(sh3), span(lg)], { yPercent: 0 }); gsap.set([bAm, bAn, bGo], { opacity: 1 });
+    } else {
+      BW.maskIn(tl, span(sh3), u0(6.7), .5);
+      BW.maskIn(tl, span(lg), u0(6.85), .5);
+      tl.to([bAm, bAn, bGo], { opacity: 1, duration: .5, stagger: .1 }, u0(6.9));
+    }
+    [[aIn, lAIn, 7.4], [aOut, lAOut, 7.9], [gOut, lGOut, 8.4], [gIn, null, 8.9]].forEach(([p, l, t]) => {
+      if (p === gIn) tl.to(p, { opacity: 1, duration: .5 }, u0(t));
+      else { tl.set(p, { opacity: 1 }, u0(t)); tl.to(p, { strokeDashoffset: 0, duration: .6, ease: 'power2.inOut' }, u0(t)); }
+      tl.set(p, { attr: { 'marker-end': MK.get(p) } }, u0(t + (p === gIn ? 0 : .6)));
+      if (l) BW.maskIn(tl, span(l), u0(t + .3), .45);
+    });
+  }
+  tl.to('.bw-source', { opacity: 1, duration: .6 }, TR.on ? .4 : 9.2);
+  if (TR.on) { TR.run(tl); TR.end(tl); } else tl.to({}, { duration: .01 }, 10.0);
+  return tl;
+}
+const MK = new Map(ARCS.map(p => [p, p.getAttribute('marker-end')]));
+function rest() {
+  TR.restHead();
+  gsap.set([...W.querySelectorAll('.bw-m > span')], { yPercent: 0 });
+  gsap.set(Object.values(G).flatMap(g => g.blocks), { clipPath: 'inset(0% 0% 0% 0%)' });
+  gsap.set([base1, ref], { scaleX: 1 });
+  gsap.set(O.map(r => r.bar), { scaleX: 1 }); gsap.set(O.map(r => r.trk), { opacity: 1 });
+  gsap.set([bAm, bAn, bGo], { opacity: 1 });
+  ARCS.forEach(p => gsap.set(p, { strokeDasharray: p === gIn ? '7 6' : 'none', strokeDashoffset: 0, opacity: 1, attr: { 'marker-end': MK.get(p) } }));
+  TR.rest();
+}
+BW.run({ play, rest, idle() {} });
+</script>
+</body>
+</html>

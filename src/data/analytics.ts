@@ -15,9 +15,10 @@
  *   reported — journalism, attributed on the dashboard itself
  *   estimate — analyst or survey modelling, or our own arithmetic on reported
  *              figures; marked as an estimate every time it appears
+ *   illustration — an idea drawn with no figures on it
  */
 
-export type SourceKind = 'primary' | 'reported' | 'estimate';
+export type SourceKind = 'primary' | 'reported' | 'estimate' | 'illustration';
 
 export interface Dashboard {
   /** Position in the video, 1-indexed. */
@@ -57,7 +58,10 @@ export interface Collection {
 }
 
 export const chipLabel = (c: Collection, kind: SourceKind) =>
-  kind === 'primary' ? (c.primaryLabel ?? 'Primary') : kind === 'reported' ? 'Reported' : 'Estimate';
+  kind === 'primary' ? (c.primaryLabel ?? 'Primary')
+    : kind === 'reported' ? 'Reported'
+    : kind === 'illustration' ? 'Illustration'
+    : 'Estimate';
 
 export const heroOf = (c: Collection) =>
   c.dashboards.find((d) => d.slug === c.hero) ?? c.dashboards[0];
@@ -438,8 +442,172 @@ export const situationalAwareness: Collection = {
   ],
 };
 
+/* ==================================================================== */
+/*  Anthropic IPO — Inside Anthropic's $518 Billion Bet                 */
+/* ==================================================================== */
+
+export const anthropicIpo: Collection = {
+  slug: 'anthropic-ipo',
+  title: "Inside Anthropic's $518 Billion Bet",
+  kicker: 'Eleven dashboards',
+  summary:
+    "Anthropic lost $42 billion in 2025 and has signed up to spend at least $518 billion on compute. How the revenue really looks, what the loss was made of, where the money goes, how it plans to pay, and what a $2 trillion IPO price rests on, charted from its draft IPO filing as Reuters reported it.",
+  published: '2026-10-03',
+  hero: 'the-518-billion',
+  headline: { lead: "Anthropic's IPO", dim: ': the $518 billion bet.' },
+  primaryLabel: 'Primary',
+  method: {
+    primary:
+      'Stated by Anthropic in its own funding and compute announcements, or filed with the SEC (Meta’s Form 10-K for its 2025 revenue).',
+    reported:
+      'Sourced to journalism: Reuters, Bloomberg, CNBC and The New York Times. Every figure from Anthropic’s draft IPO filing is credited as reported by Reuters, on the dashboard itself as well as here.',
+    estimate:
+      'Our own arithmetic on reported figures: the multiples, the $1.60 per dollar, the years of revenue, the locked-in $414 billion. Marked as an estimate every time it appears.',
+    caveat:
+      'Anthropic’s S-1 is not public yet; these figures come from a confidential draft that Reuters saw, and every one will be re-checked when the filing is published. A run-rate is a recent stretch of revenue stretched across a year, not revenue booked. Projections and targets are drawn hatched or dashed.',
+  },
+  dashboards: [
+    {
+      n: 1,
+      slug: 'the-435x-gap',
+      file: '50-gap.html',
+      title: 'The 435× Gap',
+      blurb:
+        'The $4.6 billion Anthropic booked in 2025 against a $2 trillion price, on one honest scale. Switch the revenue base and the multiple falls from 435× to 10×.',
+      section: 'Misconception #1: The Revenue',
+      source: 'estimate',
+      sourceNote:
+        'Revenue, 2025: Anthropic’s draft IPO filing, as reported by Reuters. Run-rates: CNBC (July) and The New York Times (on track for December). 2028 forecast and the $2 trillion: Reuters, citing sources. Multiples are our arithmetic.',
+    },
+    {
+      n: 2,
+      slug: 'what-a-run-rate-is',
+      file: '51-runrate.html',
+      title: 'What a Run-Rate Is',
+      blurb:
+        'One recent stretch of revenue, stretched across a year. Q2 2026’s $11.5 billion times four is about $46 billion, close to the run-rate Anthropic reported in May.',
+      section: 'Misconception #1: The Revenue',
+      source: 'estimate',
+      sourceNote:
+        'Q2 2026 revenue: Bloomberg. May 2026 run-rate: Anthropic. The annualised figure is our arithmetic.',
+    },
+    {
+      n: 3,
+      slug: 'the-run-rate-climb',
+      file: '21-revenue.html',
+      title: 'The Run-Rate Climb',
+      blurb:
+        'From about $1 billion in January 2025 to $65 billion in July 2026, with the $100 billion the company is on track for by the end of the year drawn dashed.',
+      section: 'Misconception #1: The Revenue',
+      source: 'reported',
+      sourceNote:
+        'Run-rate milestones: Anthropic. July 2026: CNBC. On track for $100 billion: The New York Times. Quarterly revenue: Bloomberg and CNBC. Revenue, 2025: Anthropic’s draft IPO filing, as reported by Reuters.',
+      key: true,
+    },
+    {
+      n: 4,
+      slug: 'the-42-billion-that-wasnt-cash',
+      file: '52-charge.html',
+      title: 'The $42 Billion That Wasn’t Cash',
+      blurb:
+        'As Anthropic’s valuation climbed, the IOUs it had sold grew with it, and $34 billion of that growth landed in the loss as an accounting charge. The cash never moved.',
+      section: 'Misconception #2: The $42 Billion Loss',
+      source: 'reported',
+      sourceNote:
+        'Loss, charge, operating loss and cash: Anthropic’s draft IPO filing, as reported by Reuters. Valuations: Anthropic.',
+      key: true,
+    },
+    {
+      n: 5,
+      slug: 'an-electric-bill',
+      file: '54-bill.html',
+      title: 'An Electric Bill, Not a Software License',
+      blurb:
+        'Software is built once and copied, so its cost goes flat. Every AI answer is produced on a chip, so the cost climbs with every answer served.',
+      section: 'The Real Cost: Compute',
+      source: 'illustration',
+      sourceNote: 'An illustration of the idea; no figures are shown.',
+    },
+    {
+      n: 6,
+      slug: 'a-dollar-sixty',
+      file: '53-dollar.html',
+      title: '$1.60 for Every Dollar',
+      blurb:
+        'Anthropic spent $7.33 billion on compute in 2025 against $4.6 billion of revenue: about $1.60 for every dollar it brought in, drawn to scale.',
+      section: 'The Real Cost: Compute',
+      source: 'estimate',
+      sourceNote:
+        'Compute and revenue, 2025: Anthropic’s draft IPO filing, as reported by Reuters. The ratio is our arithmetic.',
+    },
+    {
+      n: 7,
+      slug: 'the-518-billion',
+      file: '20-ledger.html',
+      title: 'The $518 Billion',
+      blurb:
+        'Six compute commitments in one proportional slab, split between renting compute and going straight to the hardware, with the 80% that is take-or-pay.',
+      section: 'The $518 Billion',
+      source: 'reported',
+      sourceNote:
+        'Commitments and the 80% take-or-pay share: Anthropic’s draft IPO filing, as reported by Reuters. Group totals and the $414 billion are our arithmetic.',
+      key: true,
+    },
+    {
+      n: 8,
+      slug: 'the-contracts-year-by-year',
+      file: '56-terms.html',
+      title: 'The Contracts, Year by Year',
+      blurb:
+        'Each commitment on a 2026 to 2036 timeline, where its dates are reported. Hover a contract for its terms, or watch them paid off as they run.',
+      section: 'How Anthropic Pays for It',
+      source: 'reported',
+      sourceNote:
+        'Contract terms: Anthropic’s draft IPO filing, as reported by Reuters. Capacity coming online in 2027: Anthropic. Broadcom’s end date, xAI’s start date and AMD’s dates are not reported, and are not drawn.',
+    },
+    {
+      n: 9,
+      slug: 'how-it-pays',
+      file: '23-money-map.html',
+      title: 'How Anthropic Pays for It',
+      blurb:
+        'The bill against years of revenue, the money raised and still to raise, and the circle in which Amazon and Google invest in Anthropic and are paid back in compute spending.',
+      section: 'How Anthropic Pays for It',
+      source: 'reported',
+      sourceNote:
+        'Commitments: Anthropic’s draft IPO filing, as reported by Reuters. Funding rounds and Amazon’s investment: Anthropic. 2028 forecast and IPO raise: Reuters, citing sources. Credit line: Bloomberg. Meta revenue: Form 10-K. Years of revenue are our arithmetic.',
+      key: true,
+    },
+    {
+      n: 10,
+      slug: 'the-2-trillion-math',
+      file: '22-valuation.html',
+      title: 'The $2 Trillion Math',
+      blurb:
+        'Every round from $61.5 billion to $965 billion, with the multiple of run-rate falling as the price rose, then $2 trillion against four revenue bases. Try your own numbers.',
+      section: 'The $2 Trillion Math',
+      source: 'reported',
+      sourceNote:
+        'Valuations: Anthropic. The $2 trillion and the 2028 forecast: Reuters, citing sources. Run-rates: Anthropic, CNBC and The New York Times. Morningstar’s range: via Reuters. Multiples are our arithmetic.',
+      key: true,
+    },
+    {
+      n: 11,
+      slug: 'the-biggest-ipo-ever',
+      file: '57-record.html',
+      title: 'The Biggest IPO Ever?',
+      blurb:
+        'Anthropic’s raise of as much as $100 billion against SpaceX’s record $75 billion, and a $2 trillion valuation against SpaceX’s $1.77 trillion.',
+      section: 'The $2 Trillion Math',
+      source: 'reported',
+      sourceNote:
+        'Anthropic’s raise and valuation: Reuters, citing sources. SpaceX: Reuters market data, June 2026.',
+    },
+  ],
+};
+
 /** Newest first. The hub and the poster renderer both iterate this. */
-export const collections: Collection[] = [cursor, situationalAwareness];
+export const collections: Collection[] = [anthropicIpo, cursor, situationalAwareness];
 
 export const findCollection = (slug: string) => collections.find((c) => c.slug === slug);
 

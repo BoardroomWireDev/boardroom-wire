@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — AI isn't like traditional software (anthropic-ipo flagship 54)</title>
+<!-- ANTHROPIC IPO · FLAGSHIP 54 · THE BILL (3 Oct 2026). Standalone (site embed / article), not a video beat.
+     Built from the video page 39-bill.html (drawing code borrowed; that page is never edited). Article placement:
+     The Real Cost: Compute, beside "…a lot more like your electric bill than a software license."
+     A concept board: no figures are shown, so data.js carries nothing for it, the axes are unlabelled (as in the video),
+     the header has no hero figure or source chip, and the credit line is empty (BW.provenance({uses: []})): it names no
+     source because it uses none.
+       left   traditional software: one product block is built (the cost line takes one big step), then copies stamp out
+              beside it while the cost line runs flat. "software license" under the block.
+       right  AI: a chip drawn as a technical drawing, a meter beside it. Each answer is a prompt in, a pulse through the
+              chip (amber, the die lights) and a gold card out into the meter; the meter turns and the cost line adds one
+              step. The meter becomes a utility meter (housing, a disc seen edge-on); "electric bill" under it.
+       both   one baseline, one scale: the left level runs on as a dashed hairline across the right chart, and the
+              right line climbs through it.
+     Interaction (web): the "answers served" slider (0 to 20, one step per answer). The right cost line, the meter's
+     rollers and disc follow it and the die lights on each change; on the left the copies and the flat run follow it while
+     the cost line stays at one level. At rest the slider sits at its end (the composed final state the phone still shows).
+     No hover: there is no figure to qualify or credit.
+     Live (3 Oct, the writer: make it feel alive): the reveal holds at its first frame until the board is 35% on screen.
+     After it, and under ?final (the site's reduced-motion load), an idle keeps serving answers every 1.2–1.6 s: prompt
+     in, pulse, card into the meter, one more step on the AI line; both charts ease out to one smaller scale so the line
+     keeps climbing in frame (the license's level sinks with it, same scale), and past 44 answers the lines fade and a
+     fresh run starts. The disc turns slowly; a copy stamps out now and then. Paused off screen, in a hidden tab, and
+     while the reader uses the slider (resumes from the slider's state ~4 s after the last touch). Never under ?still,
+     ?t= or ?capture, so posters are unchanged.
+     Words: the title (essay, verbatim, as 20–23 drop the full stop), "traditional software", "AI", "software license",
+     "electric bill" (the writer's words) and the slider's "answers served" (the brief's name for it).
+     Capture contract: BW.run({play, rest, idle}); R / F; ?final ?still ?t= ?capture (labels: divide, build, copies, chip,
+     stream, meter, level, slider, end); ?brand=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<style>
+  #world { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 4; }
+  svg.plot { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+  .ph, .pl { position: absolute; white-space: nowrap; font-family: var(--sans); line-height: 1.1; }
+  .ph { font-weight: 600; font-size: 36px; color: var(--cream); }
+  .pl { font-weight: 600; font-size: 38px; color: var(--cream); transform: translate(-50%, 0); text-align: center; }
+  .slide { left: 120px; top: 968px; display: flex; align-items: center; gap: 26px; }
+  .slide .lab { font-family: var(--sans); font-weight: 500; font-size: 24px; color: var(--cream-dim); white-space: nowrap; }
+  .slide .fx-range { width: 640px; height: 3px; }
+  .slide .fx-range::-webkit-slider-thumb { width: 26px; height: 26px; }
+  .slide .fx-range::-moz-range-thumb { width: 26px; height: 26px; }
+  .slide .fx-range:disabled { cursor: default; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="world">
+    <svg class="plot" id="plot" viewBox="0 0 1920 1080">
+      <defs>
+        <clipPath id="laneIn"><rect id="laneR" x="0" y="0" width="0" height="0"/></clipPath>
+        <g id="mini"></g>
+      </defs>
+      <g id="frames"></g>
+      <g id="left">
+        <g id="axesL"></g>
+        <path id="areaL" style="fill:rgba(var(--cream-rgb),.08)"/>
+        <path id="costL" style="fill:none; stroke:var(--cream); stroke-width:6; stroke-linecap:round; stroke-linejoin:round"/>
+        <circle id="headL" r="0" style="fill:var(--cream)"/>
+        <g id="copies"></g>
+        <g id="cube"></g>
+      </g>
+      <g id="right">
+        <g id="axesR"></g>
+        <path id="areaR" style="fill:rgba(var(--gold-rgb),.14)"/>
+        <line id="level" style="stroke:rgba(var(--cream-rgb),.42); stroke-width:3; stroke-dasharray:12 14"/>
+        <path id="costR" style="fill:none; stroke:var(--gold); stroke-width:6; stroke-linecap:round; stroke-linejoin:round"/>
+        <circle id="headR" r="0" style="fill:var(--gold)"/>
+        <g id="meter"></g>
+        <g id="chip"></g>
+        <g id="stream" clip-path="url(#laneIn)"></g>
+      </g>
+      <path id="divider" style="fill:none; stroke:var(--gold); stroke-width:4; stroke-linecap:round"/>
+    </svg>
+    <div class="ph" id="hSw"><div class="bw-m"><span>traditional software</span></div></div>
+    <div class="ph" id="hAi"><div class="bw-m"><span>AI</span></div></div>
+    <div class="pl" id="lLic"><div class="bw-m"><span>software license</span></div></div>
+    <div class="pl" id="lBill"><div class="bw-m"><span>electric bill</span></div></div>
+  </div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=7"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script>
+const W = document.getElementById('world');
+const $ = (s) => document.querySelector(s);
+const NS = 'http://www.w3.org/2000/svg';
+const mk = (parent, tag, a, st) => { const n = document.createElementNS(NS, tag); for (const k in a) n.setAttribute(k, a[k]); if (st) n.setAttribute('style', st); parent.appendChild(n); return n; };
+const att = (sel, a) => { const n = typeof sel === 'string' ? $(sel) : sel; for (const key in a) n.setAttribute(key, a[key]); };
+const place = (sel, x, y) => { const n = typeof sel === 'string' ? $(sel) : sel; n.style.left = x + 'px'; n.style.top = y + 'px'; };
+const lerp = (a, b, t) => a + (b - a) * t;
+const cl = (x) => Math.max(0, Math.min(1, x));
+const eo = (x) => 1 - Math.pow(1 - cl(x), 3);
+const eio = (x) => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const CREAM = (a) => `rgba(var(--cream-rgb),${a})`;
+const PEN = 'fill:none; stroke:var(--gold); stroke-linecap:round; stroke-linejoin:round';
+const DRAW = `fill:none; stroke:${CREAM(.88)}; stroke-linecap:round; stroke-linejoin:round`;
+const dash = (p) => { p.L = p.getTotalLength(); return p; };
+
+FX.head('Anthropic', "AI isn't like traditional software", { logo: 'anthropic' });
+FX.sig();
+
+/* ---- the world: two framed panels either side of the gold divider; their cost charts share one baseline and one scale ---- */
+const DIVX = 850, FY0 = 244, FY1 = 950;
+const FL = [120, DIVX - 22], FR = [DIVX + 22, 1800];
+const TOP = 712, BASE = 914;                            /* the charts' axis top and baseline */
+const X0L = 168, X1L = 786, X0R = 920, X1R = 1756;
+const HB = 118;                                         /* the build: one big step on the left */
+const XSL = X0L + 40;                                   /* where the left line steps up */
+const CLIMB = 1.42 * HB;                                /* where the right line ends: past the left level */
+const NA = 20;                                          /* answers at the slider's end: one step each */
+
+const frames = $('#frames');
+const panel = (x0, x1) => { const r = 16;
+  mk(frames, 'rect', { x: x0, y: FY0, width: x1 - x0, height: FY1 - FY0, rx: r }, `fill:${CREAM(.028)}`).classList.add('pfill');
+  return dash(mk(frames, 'path', { d: `M ${x0 + r} ${FY0} L ${x1 - r} ${FY0} Q ${x1} ${FY0} ${x1} ${FY0 + r} L ${x1} ${FY1 - r} Q ${x1} ${FY1} ${x1 - r} ${FY1} L ${x0 + r} ${FY1} Q ${x0} ${FY1} ${x0} ${FY1 - r} L ${x0} ${FY0 + r} Q ${x0} ${FY0} ${x0 + r} ${FY0}` },
+    `fill:none; stroke:${CREAM(.32)}; stroke-width:3`)); };
+const frL = panel(FL[0], FL[1]), frR = panel(FR[0], FR[1]);
+att('#divider', { d: `M ${DIVX} ${FY0 - 6} C ${DIVX + 3} ${FY0 + 220}, ${DIVX - 3} ${FY0 + 480}, ${DIVX + 1} ${FY1 + 6}` });
+const divL = dash($('#divider'));
+
+/* the axes: a vertical and a baseline, open arrowheads, no labels, no ticks */
+const axes = (g, x0, x1) => dash(mk(g, 'path', { d: `M ${x0} ${TOP} L ${x0} ${BASE} L ${x1} ${BASE} M ${x0 - 10} ${TOP + 15} L ${x0} ${TOP} L ${x0 + 10} ${TOP + 15} M ${x1 - 15} ${BASE - 10} L ${x1} ${BASE} L ${x1 - 15} ${BASE + 10}` },
+  `fill:none; stroke:${CREAM(.55)}; stroke-width:3; stroke-linecap:round; stroke-linejoin:round`));
+const axL = axes($('#axesL'), X0L, X1L), axR = axes($('#axesR'), X0R, X1R);
+att('#level', { x1: X1L + 10, x2: X1R - 20, y1: BASE - HB, y2: BASE - HB });
+
+/* ---- LEFT: the product block (an isometric box) and its copies ---- */
+const CUBE = { cx: 300, cy: 462, a: 118 };
+const iso = (cx, cy, a) => { const c = a * Math.cos(Math.PI / 6);
+  return { T: [cx, cy - a], UR: [cx + c, cy - a / 2], LR: [cx + c, cy + a / 2], B: [cx, cy + a], LL: [cx - c, cy + a / 2], UL: [cx - c, cy - a / 2], C: [cx, cy] }; };
+const pts = (...p) => p.map(q => q.join(',')).join(' ');
+const P = (q) => q.join(' ');
+/* three flat tones of cream on the ink (faces never overlap, so a tone is exact) */
+const FACE = { top: 'fill:var(--cream)', left: `fill:${CREAM(.66)}`, right: `fill:${CREAM(.42)}` };
+const cube = $('#cube');
+{ const v = iso(CUBE.cx, CUBE.cy, CUBE.a), st = '; stroke:var(--bg); stroke-width:5; stroke-linejoin:round';
+  CUBE.faces = [mk(cube, 'polygon', { points: pts(v.T, v.UR, v.C, v.UL) }, FACE.top + st),
+                mk(cube, 'polygon', { points: pts(v.UL, v.C, v.B, v.LL) }, FACE.left + st),
+                mk(cube, 'polygon', { points: pts(v.C, v.UR, v.LR, v.B) }, FACE.right + st)];
+  CUBE.pen = dash(mk(cube, 'path', { d: `M ${P(v.UL)} L ${P(v.T)} L ${P(v.UR)} L ${P(v.LR)} L ${P(v.B)} L ${P(v.LL)} Z M ${P(v.UL)} L ${P(v.C)} L ${P(v.UR)} M ${P(v.C)} L ${P(v.B)}` }, PEN + '; stroke-width:6')); }
+{ const v = iso(0, 0, 16), st = '; stroke:var(--bg); stroke-width:2; stroke-linejoin:round', mini = $('#mini');
+  mk(mini, 'polygon', { points: pts(v.T, v.UR, v.C, v.UL) }, FACE.top + st);
+  mk(mini, 'polygon', { points: pts(v.UL, v.C, v.B, v.LL) }, FACE.left + st);
+  mk(mini, 'polygon', { points: pts(v.C, v.UR, v.LR, v.B) }, FACE.right + st); }
+const COPIES = [], GC = 6, GR = 6, GX0 = 486, GY0 = 372, GDX = 48, GDY = 40;
+for (let r = 0; r < GR; r++) for (let c = 0; c < GC; c++)
+  COPIES.push({ u: mk($('#copies'), 'use', { href: '#mini' }), x: GX0 + c * GDX + (r % 2 ? GDX / 2 : 0), y: GY0 + r * GDY });
+COPIES.sort((p, q) => (p.x - GX0 + (p.y - GY0) * .6) - (q.x - GX0 + (q.y - GY0) * .6));   /* a diagonal sweep out from the block */
+
+/* ---- RIGHT: the chip (a technical drawing), the stream, the meter ---- */
+const CX = 1066, CY = 462, PS = 104, DS = 48, PINL = 20, PIT = 24;
+const chip = $('#chip');
+const chipParts = [];
+{ const x0 = CX - PS, x1 = CX + PS, y0 = CY - PS, y1 = CY + PS, ch = 17;
+  mk(chip, 'rect', { x: x0, y: y0, width: 2 * PS, height: 2 * PS }, `fill:${CREAM(.035)}; stroke:none`).classList.add('chipFill');
+  chipParts.push(mk(chip, 'path', { d: `M ${x0 + ch} ${y0} L ${x1} ${y0} L ${x1} ${y1} L ${x0} ${y1} L ${x0} ${y0 + ch} Z` }, DRAW + '; stroke-width:4'));
+  let d = '';
+  for (let i = -3; i <= 3; i++) { const o = i * PIT;
+    d += `M ${x0} ${CY + o} L ${x0 - PINL} ${CY + o} M ${x1} ${CY + o} L ${x1 + PINL} ${CY + o} M ${CX + o} ${y0} L ${CX + o} ${y0 - PINL} M ${CX + o} ${y1} L ${CX + o} ${y1 + PINL} `; }
+  chipParts.push(mk(chip, 'path', { d }, `fill:none; stroke:${CREAM(.62)}; stroke-width:3; stroke-linecap:butt`));
+  mk(chip, 'rect', { x: CX - DS, y: CY - DS, width: 2 * DS, height: 2 * DS }, 'fill:var(--amber); stroke:none; opacity:0').id = 'dieLit';
+  chipParts.push(mk(chip, 'path', { d: `M ${CX - DS} ${CY - DS} L ${CX + DS} ${CY - DS} L ${CX + DS} ${CY + DS} L ${CX - DS} ${CY + DS} Z` }, DRAW + '; stroke-width:3'));
+  chipParts.push(mk(chip, 'path', { d: `M ${CX} ${y0} L ${CX} ${CY - DS} M ${CX + DS} ${CY} L ${x1} ${CY}` }, `fill:none; stroke:${CREAM(.42)}; stroke-width:3`));
+  mk(chip, 'circle', { cx: x0 + 26, cy: y0 + 26, r: 6 }, `fill:${CREAM(.6)}`).classList.add('pin1');
+  const dy = y1 + PINL + 32;   /* an unnumbered dimension line under the package (a drawing's convention, no figure) */
+  chipParts.push(mk(chip, 'path', { d: `M ${x0} ${y1 + PINL + 8} L ${x0} ${dy + 11} M ${x1} ${y1 + PINL + 8} L ${x1} ${dy + 11} M ${x0} ${dy} L ${x1} ${dy} M ${x0 + 15} ${dy - 8} L ${x0} ${dy} L ${x0 + 15} ${dy + 8} M ${x1 - 15} ${dy - 8} L ${x1} ${dy} L ${x1 - 15} ${dy + 8}` },
+    `fill:none; stroke:${CREAM(.45)}; stroke-width:3; stroke-linecap:round; stroke-linejoin:round`));
+}
+chipParts.forEach(dash);
+const YIN0 = FY0 - 30, YIN1 = CY - PS - PINL - 26;      /* the prompts' lane: down into the top pins (enters through the panel's top edge) */
+const YP0 = CY - PS - PINL, XP1 = CX + PS + PINL;       /* the pulse: top pin tip → die → right pin tip */
+const MX = 1606, MY = CY;                               /* the meter: its window's centre */
+const RW = 38, RH = 60, RG = 7, NR = 5, WW = NR * RW + (NR - 1) * RG + 24, WH = RH + 24;
+const XOUT0 = XP1 + 34, XOUT1 = MX - WW / 2 - 30;       /* the answers' lane, into the meter window */
+att('#laneR', { x: FR[0] + 2, y: FY0 + 3, width: FR[1] - FR[0] - 4, height: FY1 - FY0 - 6 });
+
+const meter = $('#meter');
+const HCY = MY + 24, HR = 138, DISCY = MY + 94;
+const housing = mk(meter, 'g', {});
+const hFill = mk(housing, 'circle', { cx: MX, cy: HCY, r: HR }, `fill:${CREAM(.03)}; stroke:none`);
+const hOuter = dash(mk(housing, 'circle', { cx: MX, cy: HCY, r: HR + 12, transform: `rotate(-90 ${MX} ${HCY})` }, `fill:none; stroke:${CREAM(.42)}; stroke-width:3`));
+const hInner = dash(mk(housing, 'circle', { cx: MX, cy: HCY, r: HR, transform: `rotate(-90 ${MX} ${HCY})` }, `fill:none; stroke:${CREAM(.88)}; stroke-width:4`));
+const disc = mk(housing, 'g', {});
+mk(disc, 'rect', { x: MX - 96, y: DISCY - 15, width: 192, height: 30, rx: 4 }, `fill:var(--bg); stroke:${CREAM(.62)}; stroke-width:3`);
+mk(disc, 'ellipse', { cx: MX, cy: DISCY, rx: 84, ry: 7 }, `fill:${CREAM(.22)}; stroke:${CREAM(.78)}; stroke-width:3`);
+const dMark = mk(disc, 'rect', { x: MX - 8, y: DISCY - 8, width: 16, height: 16 }, 'fill:var(--gold)');
+const win = mk(meter, 'g', {});
+mk(win, 'rect', { x: MX - WW / 2, y: MY - WH / 2, width: WW, height: WH, rx: 5 }, `fill:var(--bg); stroke:${CREAM(.88)}; stroke-width:4`);
+const ROLL = [], RIDGE = 15;
+for (let i = 0; i < NR; i++) {
+  const x = MX - WW / 2 + 12 + i * (RW + RG), y = MY - RH / 2;
+  const cp = mk($('defs'), 'clipPath', { id: 'rc' + i }); mk(cp, 'rect', { x, y, width: RW, height: RH });
+  mk(win, 'rect', { x, y, width: RW, height: RH }, `fill:${CREAM(.12)}`);
+  const g = mk(win, 'g', { 'clip-path': `url(#rc${i})` });
+  const rg = mk(g, 'g', {});
+  for (let k = -1; k <= RH / RIDGE + 1; k++) mk(rg, 'line', { x1: x, x2: x + RW, y1: y + k * RIDGE, y2: y + k * RIDGE }, `stroke:${CREAM(.4)}; stroke-width:2.5`);
+  mk(g, 'rect', { x, y, width: RW, height: 12 }, 'fill:var(--bg); opacity:.55');
+  mk(g, 'rect', { x, y: y + RH - 12, width: RW, height: 12 }, 'fill:var(--bg); opacity:.55');
+  ROLL.push(rg);
+}
+mk(win, 'line', { x1: MX - WW / 2 + 5, x2: MX + WW / 2 - 5, y1: MY, y2: MY }, 'stroke:var(--gold); stroke-width:3');   /* the index line */
+
+/* label places */
+place('#hSw', FL[0] + 36, FY0 + 24);
+place('#hAi', FR[0] + 36, FY0 + 24);
+place('#lLic', CUBE.cx, CUBE.cy + CUBE.a + 22);
+place('#lBill', MX, HCY + HR + 24);
+
+/* ---- the answers in the reveal: a schedule, accelerating; each a prompt in, a pulse through the chip, an answer out ---- */
+const P_IN0 = 2.9;
+const SCH = [];
+{ let c = 3.2, g = .4, prev = g;
+  for (let i = 0; i < NA; i++) {
+    const din = i === 0 ? c - P_IN0 : Math.max(.22, Math.min(.5, .9 * prev));
+    const p = Math.max(.1, Math.min(.28, .55 * g)), dout = Math.max(.22, Math.min(.5, .9 * g));
+    SCH.push({ c, din, p, dout, a: c + p + dout, dur: Math.max(.08, Math.min(.25, .85 * g)) });
+    prev = g; c += g; g = Math.max(.1, g * .85);
+  } }
+const END = Math.max(...SCH.map(s => s.a + s.dur)) + .35;
+const DX = (X1R - X0R - 40) / NA, DY = CLIMB / NA;
+const STEPX = (i) => X0R + 26 + i * DX, STEPY = (i) => BASE - i * DY;
+const TH0 = .45 - (Math.PI * NA * .5 + 1.2);            /* the disc's mark sits on the plate's front, right of centre, at the end */
+
+const stream = $('#stream');
+const card = (fill, line, stroke) => { const g = mk(stream, 'g', {});
+  mk(g, 'rect', { x: -32, y: -21, width: 64, height: 42, rx: 5 }, `fill:${fill};` + (stroke ? ` stroke:${stroke}; stroke-width:3` : ''));
+  mk(g, 'line', { x1: -18, x2: 18, y1: -7, y2: -7 }, `stroke:${line}; stroke-width:4; stroke-linecap:round`);
+  mk(g, 'line', { x1: -18, x2: 6, y1: 7, y2: 7 }, `stroke:${line}; stroke-width:4; stroke-linecap:round`);
+  g.style.opacity = 0; return g; };
+const promptG = SCH.map(() => card('var(--bg)', CREAM(.62), CREAM(.9)));
+const pulseN = SCH.map(() => { const n = mk(stream, 'rect', { x: -17, y: -6, width: 34, height: 12, rx: 3 }, 'fill:var(--amber)'); n.style.opacity = 0; return n; });
+const answerG = SCH.map(() => card('var(--gold)', 'var(--bg)'));
+
+/* ---- state, drawn by one render(). mode 'play': the reveal's clock decides the answers; 'set': the slider does;
+        'idle': the idle clock serves new answers on top of the slider's count ---- */
+const S = { mode: 'set', t: 0, build: 1, nl: 1, ans: NA, meterW: 1, disc: 1, level: 1, lit: 0 };
+/* the idle's own state. It runs on live pages only (never under ?still, ?t=, ?capture), so posters are untouched */
+const I = { t: 0, last: 0, list: [], next: 0, done: 0, kz: 1, spin: 0, th0: 0, wrapT: -1, fade: 1, stampI: -1, stampT: -99, stampNext: 0,
+            slot: 0, tw: null, on: false, held: false, timer: 0, vis: true };
+const WRAP = 2.2 * NA;     /* the idle zooms both charts out as answers pile up; past this many it fades and starts a fresh run */
+let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };   /* the same rhythm on every load */
+const LINES = ['#costL', '#areaL', '#headL', '#costR', '#areaR', '#headR'].map(s => $(s));
+
+function hideStream() { for (let i = 0; i < NA; i++) { promptG[i].style.opacity = 0; pulseN[i].style.opacity = 0; answerG[i].style.opacity = 0; } }
+/* one answer in flight: a prompt down into the top pins, a pulse through the die, a gold card out into the meter; 1 while the die is lit */
+function drawAnswer(i, s, t) {
+  let lit = 0;
+  const pu = (t - (s.c - s.din)) / s.din, pg = promptG[i];
+  if (pu > 0 && pu < 1) { const y = lerp(YIN0, YIN1, eio(pu)), sy = pu > .82 ? lerp(1, .2, (pu - .82) / .18) : 1;
+    pg.setAttribute('transform', `translate(${CX} ${y}) scale(1 ${sy})`); pg.style.opacity = Math.min(1, pu * 6); }
+  else pg.style.opacity = 0;
+  const qu = (t - s.c) / s.p, pn = pulseN[i];
+  if (qu > 0 && qu < 1) {
+    if (qu < .3) { pn.setAttribute('transform', `translate(${CX} ${lerp(YP0, CY - DS, qu / .3)}) rotate(90)`); pn.style.opacity = 1; }
+    else if (qu > .7) { pn.setAttribute('transform', `translate(${lerp(CX + DS, XP1, (qu - .7) / .3)} ${CY})`); pn.style.opacity = 1; }
+    else pn.style.opacity = 0;
+    if (qu > .22 && qu < .8) lit = 1;
+  } else pn.style.opacity = 0;
+  const au = (t - (s.c + s.p)) / s.dout, ag = answerG[i];
+  if (au > 0 && au < 1) { const x = lerp(XOUT0, XOUT1, eio(au)), sc = au > .8 ? lerp(1, .25, (au - .8) / .2) : 1;
+    ag.setAttribute('transform', `translate(${x} ${CY}) scale(${sc})`); ag.style.opacity = au > .8 ? lerp(1, 0, (au - .8) / .2) : Math.min(1, au * 6); }
+  else ag.style.opacity = 0;
+  return lit;
+}
+
+function render() {
+  const idle = S.mode === 'idle';
+  /* the steps: K[i] is how far step i has drawn (0..1) */
+  let K, lit = 0;
+  if (S.mode === 'play') K = SCH.map((s, i) => { lit = Math.max(lit, drawAnswer(i, s, S.t)); return cl((S.t - s.a) / s.dur); });
+  else if (S.mode === 'set') { hideStream(); K = SCH.map((s, i) => cl(S.ans - i)); }
+  else { K = new Array(S.ans + I.done).fill(1); I.list.forEach(s => { lit = Math.max(lit, drawAnswer(s.slot, s, I.t)); K.push(cl((I.t - s.a) / s.dur)); }); }
+  const count = K.reduce((n, k) => n + k, 0);
+  /* one zoom for both charts (they keep one scale); never wider than the axis, so the head stays inside the arrow */
+  const kz = idle ? Math.min(I.kz, (X1R - X0R - 40) / (Math.max(count, 1) * DX)) : 1;
+  const alpha = idle ? I.fade : 1;
+  /* LEFT: one big step with the build, then flat while the copies stamp */
+  const nl = idle ? Math.min(1, count / NA) : S.nl;
+  const yb = BASE - HB * S.build * kz, xf = lerp(XSL, X1L - 30, nl);
+  att('#costL', { d: S.build > 0 ? `M ${X0L} ${BASE} L ${XSL} ${BASE} L ${XSL} ${yb}` + (nl > 0 ? ` L ${xf} ${yb}` : '') : '' });
+  att('#areaL', { d: nl > 0 && S.build > 0 ? `M ${XSL} ${BASE} L ${XSL} ${yb} L ${xf} ${yb} L ${xf} ${BASE} Z` : '' });
+  att('#headL', { cx: nl > 0 ? xf : XSL, cy: yb, r: S.build > 0 ? 10 : 0 });
+  const NC = COPIES.length;
+  COPIES.forEach((c, i) => {
+    let u = S.mode === 'set' ? cl(Math.round(nl * NC) - i) : idle ? cl((nl * (NC + 2.2) - i) / 2.2) : cl((nl * NC - i) / 2.2);
+    if (idle && i === I.stampI && u >= 1) u = cl((I.t - I.stampT) / .4);   /* now and then a copy stamps out again */
+    c.u.setAttribute('transform', `translate(${c.x} ${c.y}) scale(${u > 0 ? lerp(1.35, 1, eo(u)) : 1})`); c.u.style.opacity = u > 0 ? Math.min(1, u * 2) : 0; });
+  /* RIGHT: the steps, the meter and the line */
+  const dx = DX * kz, dy = DY * kz, sx = (i) => X0R + 26 + i * dx, sy = (i) => BASE - i * dy;
+  const started = S.mode !== 'play' || S.t >= P_IN0;
+  let dR = '', area = '', hx = X0R, hy = BASE;
+  if (started) {
+    dR = `M ${X0R} ${BASE} L ${sx(0)} ${BASE}`; area = `M ${sx(0)} ${BASE}`; hx = sx(0);
+    K.forEach((k, i) => {
+      if (k <= 0) return;
+      const r = cl(k * 2), run = cl(k * 2 - 1), y1 = sy(i) - dy * eo(r), x1 = sx(i) + dx * eo(run);
+      dR += ` L ${sx(i)} ${y1}` + (run > 0 ? ` L ${x1} ${y1}` : '');
+      area += ` L ${sx(i)} ${y1}` + (run > 0 ? ` L ${x1} ${y1}` : '');
+      hx = run > 0 ? x1 : sx(i); hy = y1;
+    });
+  }
+  att('#costR', { d: dR });
+  att('#areaR', { d: started && hx > sx(0) + 1 ? area + ` L ${hx} ${BASE} Z` : '' });
+  att('#headR', { cx: hx, cy: hy, r: started ? 11 : 0 });
+  $('#dieLit').style.opacity = Math.max(lit, S.lit) * S.meterW;
+  /* the rollers: the rightmost turns one ridge per answer, the next on each tenth (an odometer's carry); no figures */
+  const c0 = count, c1 = Math.floor(count / 10) + cl((count % 10) - 9), c2 = Math.floor(count / 100) + cl((count % 100) - 99);
+  [c2, c2, c2, c1, c0].forEach((v, i) => ROLL[i].setAttribute('transform', `translate(0 ${-((v * RIDGE) % RIDGE)})`));
+  /* the disc: half a turn per answer in the reveal and on the slider; a slow, steady turn in the idle */
+  const th = idle ? I.th0 + I.spin : Math.PI * count * .5 + S.disc * 1.2 + TH0;
+  { const mw = Math.max(3, 16 * Math.abs(Math.cos(th))); att(dMark, { x: MX + 76 * Math.sin(th) - mw / 2, width: mw }); dMark.style.opacity = Math.cos(th) > 0 ? 1 : 0; }
+  att('#level', { y1: BASE - HB * kz, y2: BASE - HB * kz, x2: lerp(X1L + 10, X1R - 20, eio(S.level)) });
+  $('#level').style.opacity = S.level > 0 ? alpha : 0;
+  LINES.forEach(n => { n.style.opacity = alpha < 1 ? alpha : ''; });
+}
+
+/* ---- the idle: answers keep being served after the reveal (and under ?final) ----
+     every 1.2–1.6 s a prompt goes into the chip, pulses through it and lands in the meter; the AI line adds a step, and
+     both charts ease out to one smaller scale so the line keeps climbing inside its frame (the license's level sinks with
+     it: same scale). Past WRAP answers the lines fade and a fresh run starts from the slider's count. The disc turns
+     slowly; a copy on the left stamps out now and then while its line stays flat. One clock (BW.raw), paused while the
+     board is off screen, the tab is hidden, or the reader has the slider (it resumes about 4 s after the last touch).
+     BW.march and BW.breathe are not used: a marching dash or a breathing scale would be motion for its own sake (rule 12). */
+function launch(t) {
+  const din = .5, p = .28, dout = .5, c = t + din;
+  I.list.push({ c, din, p, dout, a: c + p + dout, dur: .3, slot: I.slot });
+  I.slot = (I.slot + 1) % NA;
+  I.next = t + 1.2 + rnd() * .4;
+}
+function fresh(t) {   /* a fresh run from the slider's count */
+  I.list.forEach(s => { promptG[s.slot].style.opacity = 0; pulseN[s.slot].style.opacity = 0; answerG[s.slot].style.opacity = 0; });
+  Object.assign(I, { list: [], done: 0, kz: 1, wrapT: -1, fade: 1, next: t + .5 });
+}
+function idleStep() {
+  const t = I.t, dt = Math.max(0, Math.min(.1, t - I.last)); I.last = t;
+  if (I.wrapT < 0 && t >= I.next && S.ans + I.done + I.list.length < WRAP) launch(t);
+  while (I.list.length && t >= I.list[0].a + I.list[0].dur) {
+    const s = I.list.shift(); I.done++;
+    promptG[s.slot].style.opacity = 0; pulseN[s.slot].style.opacity = 0; answerG[s.slot].style.opacity = 0;
+  }
+  const N = S.ans + I.done + I.list.reduce((n, s) => n + cl((t - s.a) / s.dur), 0);
+  I.kz += (NA / Math.max(N, NA) - I.kz) * (1 - Math.exp(-dt / .45));
+  I.spin += dt * .9;
+  if (I.wrapT < 0 && N >= WRAP && !I.list.length) I.wrapT = t;
+  if (I.wrapT >= 0) {
+    const u = (t - I.wrapT) / 1.6;
+    I.fade = u < .4 ? 1 - u / .4 : u < .6 ? 0 : Math.min(1, (u - .6) / .4);
+    if (u >= .5 && I.done > 0) { I.done = 0; I.kz = 1; }
+    if (u >= 1) { I.wrapT = -1; I.fade = 1; I.next = t + .5; }
+  }
+  if (t >= I.stampNext) { I.stampI = Math.floor(rnd() * COPIES.length); I.stampT = t; I.stampNext = t + 2.4 + rnd() * 1.8; }
+  render();
+}
+function gate() {
+  if (!I.on || !I.tw) return;
+  if (I.vis && !document.hidden && !I.held) { I.last = I.t; I.tw.resume(); } else I.tw.pause();
+}
+function idle() {
+  if (!FX.LIVE) return;
+  clearTimeout(I.timer); I.held = false; seed = 7;
+  Object.assign(I, { t: 0, last: 0, list: [], next: .8, done: 0, kz: 1, spin: 0, wrapT: -1, fade: 1, stampI: -1, stampT: -99, stampNext: 1.6, slot: 0 });
+  I.th0 = Math.PI * S.ans * .5 + 1.2 + TH0;              /* the disc starts where the slider's state left it */
+  S.mode = 'idle'; hideStream();
+  I.tw = BW.raw(gsap.to(I, { t: '+=36000', duration: 36000, ease: 'none', onUpdate: idleStep }));
+  I.on = true; gate();
+}
+if (FX.LIVE) {
+  if ('IntersectionObserver' in window) new IntersectionObserver((es) => { I.vis = es[es.length - 1].isIntersecting; gate(); }, { threshold: 0 }).observe($('.stage'));
+  document.addEventListener('visibilitychange', gate);
+}
+
+/* ---- the slider: answers served ---- */
+const ctl = BW.el('div', 'fx-ctl slide', W);
+ctl.innerHTML = `<span class="lab">answers served</span><input class="fx-range" id="rng" type="range" min="0" max="${NA}" step="1" value="${NA}" aria-label="answers served">`;
+const rng = ctl.querySelector('#rng');
+const setAns = (v) => { S.mode = 'set'; S.ans = v; S.nl = v / NA; render(); };
+/* a touch pauses the idle and shows the slider's state; about 4 s after the last touch the idle resumes from it */
+function hold() {
+  if (!I.on) return;
+  I.held = true; gate(); clearTimeout(I.timer);
+  if (S.mode === 'idle') { fresh(I.t); setAns(+rng.value); }
+  I.timer = setTimeout(() => {
+    if (!I.on) return;
+    I.held = false; fresh(I.t);
+    I.th0 = Math.PI * S.ans * .5 + 1.2 + TH0 - I.spin;   /* no jump: the disc carries on from the slider's angle */
+    S.mode = 'idle'; render(); gate();
+  }, 4000);
+}
+if (FX.LIVE) {
+  rng.addEventListener('pointerdown', hold);
+  rng.addEventListener('keydown', hold);
+  rng.addEventListener('input', () => {
+    hold(); setAns(+rng.value);
+    gsap.killTweensOf(S, 'lit');
+    gsap.fromTo(S, { lit: 1 }, { lit: 0, duration: .35, ease: 'power1.out', onUpdate: render });   /* the die lights for the answer */
+  });
+}
+
+BW.provenance({ uses: [] });   /* a concept board: no figure, so no source is claimed */
+
+/* ---- live only: hold the reveal at its first frame until the board is a third on screen (as 51 and 53) ---- */
+const CALM = FX.LIVE && matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]replay(?:&|$)/.test(location.search);
+let seen = !FX.LIVE;
+function whenSeen(go) {
+  if (seen || !('IntersectionObserver' in window)) { seen = true; go(); return; }
+  const io = new IntersectionObserver((es) => { if (es.some(e => e.isIntersecting)) { io.disconnect(); seen = true; go(); } }, { threshold: .35 });
+  io.observe($('.stage'));
+}
+
+/* ---- reveal ---- */
+const LBL = ['#hSw', '#hAi', '#lLic', '#lBill'].map(s => $(s + ' .bw-m > span'));
+const hide = (p) => gsap.set(p, { attr: { 'stroke-dasharray': p.L + ' ' + p.L, 'stroke-dashoffset': p.L } });
+function build(resting) {
+  I.on = false; clearTimeout(I.timer); hideStream();
+  const tl = gsap.timeline({ onUpdate: render });
+  Object.assign(S, { mode: 'play', t: 0, build: 0, nl: 0, ans: NA, meterW: 0, disc: 0, level: 0, lit: 0 });
+  rng.value = NA; rng.disabled = true;
+  FX.headIn(tl, 0);
+  gsap.set(LBL, { yPercent: 105 });
+  [divL, frL, frR, axL, axR, CUBE.pen, hOuter, hInner, ...chipParts].forEach(hide);
+  gsap.set(CUBE.pen, { opacity: 1 });
+  gsap.set(['.pfill', ...CUBE.faces, '.chipFill', '.pin1', hFill, disc], { opacity: 0 });
+  gsap.set(win, { opacity: 0, y: 10 });
+  gsap.set(ctl, { opacity: 0, y: 12 });
+  render();
+
+  tl.to(S, { t: END, duration: END, ease: 'none' }, 0);   /* the clock the stream reads (seek-safe) */
+
+  /* the divider; the panels and their axes draw with it */
+  BW.mark(tl, 'divide', .2);
+  tl.to(divL, { attr: { 'stroke-dashoffset': 0 }, duration: .85, ease: 'power2.inOut' }, .2);
+  tl.to(frL, { attr: { 'stroke-dashoffset': 0 }, duration: .95, ease: 'power2.inOut' }, .3);
+  tl.to(frR, { attr: { 'stroke-dashoffset': 0 }, duration: .95, ease: 'power2.inOut' }, .38);
+  tl.to('.pfill', { opacity: 1, duration: .5 }, .7);
+  tl.to(axL, { attr: { 'stroke-dashoffset': 0 }, duration: .6, ease: 'power2.out' }, .65);
+  tl.to(axR, { attr: { 'stroke-dashoffset': 0 }, duration: .6, ease: 'power2.out' }, .75);
+  BW.maskIn(tl, LBL[0], .8, .55);
+  BW.maskIn(tl, LBL[1], .95, .55);
+
+  /* left: the pen builds the block while the cost line takes its one step; then the copies stamp and the line runs flat */
+  BW.mark(tl, 'build', 1.0);
+  tl.to(CUBE.pen, { attr: { 'stroke-dashoffset': 0 }, duration: .8, ease: 'power1.inOut' }, 1.0);
+  tl.to(S, { build: 1, duration: .8, ease: 'power2.inOut' }, 1.0);
+  tl.to(CUBE.faces, { opacity: 1, duration: .22, stagger: .05 }, 1.68);
+  tl.to(CUBE.pen, { opacity: 0, duration: .3 }, 1.85);
+  BW.mark(tl, 'copies', 1.9);
+  tl.to(S, { nl: 1, duration: .75, ease: 'none' }, 1.9);
+  BW.maskIn(tl, LBL[2], 2.3, .55);
+
+  /* right: the chip draws; the meter's window; then the answers */
+  BW.mark(tl, 'chip', 2.3);
+  chipParts.forEach((p, i) => tl.to(p, { attr: { 'stroke-dashoffset': 0 }, duration: i === 0 ? .5 : .35, ease: 'power1.inOut' }, 2.3 + [0, .3, .4, .55, .6][i]));
+  tl.to('.chipFill', { opacity: 1, duration: .3 }, 2.6);
+  tl.to('.pin1', { opacity: 1, duration: .2 }, 3.0);
+  tl.to(win, { opacity: 1, y: 0, duration: .45, ease: 'power3.out' }, 2.55);
+  tl.set(S, { meterW: 1 }, 2.55);
+  BW.mark(tl, 'stream', P_IN0);
+
+  /* the window becomes a utility meter */
+  BW.mark(tl, 'meter', 4.5);
+  tl.to(hFill, { opacity: 1, duration: .35 }, 4.5);
+  tl.to(hInner, { attr: { 'stroke-dashoffset': 0 }, duration: .55, ease: 'power2.inOut' }, 4.5);
+  tl.to(hOuter, { attr: { 'stroke-dashoffset': 0 }, duration: .6, ease: 'power2.inOut' }, 4.6);
+  tl.to(disc, { opacity: 1, duration: .3 }, 4.8);
+  tl.to(S, { disc: 1, duration: 1, ease: 'none' }, 4.8);
+  BW.maskIn(tl, LBL[3], 4.85, .55);
+
+  /* the left level runs on, dashed, across the right chart; the right line climbs through it */
+  BW.mark(tl, 'level', Math.min(5.6, END - .8));
+  tl.to(S, { level: 1, duration: .7, ease: 'power2.inOut' }, Math.min(5.6, END - .8));
+  BW.mark(tl, 'slider', END - .4);
+  tl.to(ctl, { opacity: 1, y: 0, duration: .5, ease: 'power2.out' }, END - .4);
+  tl.to('.bw-source', { opacity: 1, duration: .4 }, END - .4);
+  tl.call(() => { S.mode = 'set'; S.ans = NA; S.nl = 1; rng.disabled = false; render(); }, null, END + .1);
+  BW.mark(tl, 'end', END + .1);
+  tl.to({}, { duration: .01 }, END + .11);
+  if (!resting && FX.LIVE && !seen) { tl.pause(); whenSeen(() => tl.play()); }
+  return tl;
+}
+function play() {
+  if (CALM) { rest(); return gsap.timeline().to({}, { duration: .01 }); }   /* less motion asked for: the final state (the idle still runs) */
+  return build(false);
+}
+/* the last frame: the timeline run to its end (the stream is a function of the clock), then the slider's own state */
+function rest() {
+  const tl = build(true); tl.progress(1); tl.kill();
+  FX.headRest();
+  gsap.set(LBL, { yPercent: 0 }); gsap.set(ctl, { opacity: 1, y: 0 });
+  Object.assign(S, { mode: 'set', t: END, build: 1, nl: 1, ans: NA, meterW: 1, disc: 1, level: 1, lit: 0 });
+  rng.value = NA; rng.disabled = false;
+  render();
+}
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>

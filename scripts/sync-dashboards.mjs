@@ -37,11 +37,26 @@ const BOARDROOM = path.resolve(ROOT, '../../OneDrive/Desktop/Boardroom 2.0');
 const SOURCES = {
   'situational-awareness': path.join(BOARDROOM, 'videos/situational-awareness/dashboards'),
   'cursor': path.join(BOARDROOM, 'videos/cursor/dashboards'),
+  'anthropic-ipo': path.join(BOARDROOM, 'videos/anthropic-ipo/dashboards'),
+};
+
+// Optional per-collection board list. Since Anthropic IPO, a video folder holds
+// its motion pages for the cut (chapter cards, end card, voice-timed pages)
+// beside the boards made for the site, all numbered alike. Where a list is
+// given, only those boards ship; without one, every NN-name.html does.
+const BOARDS = {
+  'anthropic-ipo': new Set([
+    '20-ledger.html', '21-revenue.html', '22-valuation.html', '23-money-map.html',
+    '50-gap.html', '51-runrate.html', '52-charge.html', '53-dollar.html',
+    '54-bill.html', '56-terms.html', '57-record.html',
+  ]),
 };
 
 const BOARD = /^\d\d-[\w-]+\.html$/;
 const DIRS = new Set(['shared', 'assets']);
-const ships = (entry) => entry.isFile() ? BOARD.test(entry.name) : entry.isDirectory() && DIRS.has(entry.name);
+const ships = (entry, slug) => entry.isFile()
+  ? BOARD.test(entry.name) && (!BOARDS[slug] || BOARDS[slug].has(entry.name))
+  : entry.isDirectory() && DIRS.has(entry.name);
 const LOGO = 'assets/logos/boardroom-wire-bust-transparent.png';
 const LOGO_PX = 256;
 
@@ -77,7 +92,7 @@ async function syncOne(slug, src) {
 
   let copied = 0;
   for (const entry of await readdir(src, { withFileTypes: true })) {
-    if (!ships(entry)) continue;
+    if (!ships(entry, slug)) continue;
     await cp(path.join(src, entry.name), path.join(dest, entry.name), { recursive: true });
     copied += 1;
   }

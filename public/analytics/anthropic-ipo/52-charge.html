@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — Of that $42 billion loss, about $34 billion never left the building (anthropic-ipo flagship 52)</title>
+<!-- ANTHROPIC IPO · FLAGSHIP 52 · THE CHARGE (3 Oct 2026). Standalone article board (ARTICLE-DASHBOARDS-BRIEF row #7,
+     "The $42 billion that wasn't cash"), for Misconception #2. Built from the video's 36-charge.html (its notes, hatch,
+     pit and still cash column) with 03-loss's honest split of the block; the voice-timed camera is gone. Never edits 36.
+       1. the valuation    a 2025 axis on its own scale (a valuation is not a loss): Mar 2025 $61.5B → Sep 2025 $183B.
+                           Under the line, the IOUs (three flat notes with a folded corner, no figures on them) grow with
+                           it: area ∝ valuation, the growth drawn as hatched paper. Not to scale against the loss.
+       2. the loss         one linear scale for the loss and the cash (K px per $1B), its own ground. The 2025 loss is a red
+                           pit, $42B deep. The hatched growth lands in it as the $34B accounting charge (the same hatch,
+                           filled from the floor); the solid red left under the ground is the rest, more than $8B.
+       3. the cash         cash_2025 ($20.3B, Dec 31, 2025) stands beside the pit, same scale. It never moves.
+     Toggle (web only): Reported loss / Cash loss. Cash loss empties the hatched $34B to a dashed outline and the loss
+     figure becomes $8B; the cash column does not move. Hover: each figure's qualifier and credit, the rest dims; the $34B
+     carries Reuters' own wording. Hovering the charge lights the notes' growth and the arrow too (one key).
+     Figures: val_e, val_f, loss_2025, noncash_2025, burn_2025, cash_2025 (data.js). Dates from their labels. Nothing typed
+     but the title, which is the article's sentence, verbatim.
+     Idle (after the reveal, and under ?final; never under ?still / ?t= / ?capture): a glint travels the arrow into the pit,
+     the hatch drifts, the valuation's end dot breathes; the cash column stays still. Paused off screen, on a hidden tab,
+     and for about 4 s after a toggle or hover.
+     Plays once when the board scrolls into view (an IntersectionObserver holds the reveal at frame 0 until then; the site
+     embed also mounts it near the viewport), then rests composed. prefers-reduced-motion: the final state, no reveal.
+     Capture contract: BW.run({play, rest, idle}); R / F; ?final ?still ?t= ?capture (labels: valuation, climb, charge, cash);
+     ?brand=0; ?hover=<key> (loss, nc, burn, cash, val_e, val_f, iou); ?mode=cash (the cash-loss state). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<style>
+  /* the title is a full sentence: two lines, so the hairline moves down under it */
+  .fx-title { font-size: 50px; max-width: 1180px; }
+  .fx-hair { top: 252px; }
+  svg#cv { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; z-index: 4; pointer-events: none; }
+  #cv [data-k], #cv [data-k] * { pointer-events: visiblePainted; }
+  #world { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 5; pointer-events: none; }
+  #world > * { pointer-events: auto; }
+  .lb { position: absolute; white-space: nowrap; }
+  .lb .v { font-family: var(--mono); font-weight: 700; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  .lb .d { font-family: var(--sans); font-weight: 400; font-size: 18px; line-height: 1.3; color: var(--cream-dim); }
+  .lb .n { font-family: var(--sans); font-weight: 500; font-size: 20px; line-height: 1.3; color: var(--cream); }
+  /* spacing between lines sits on the mask, never on the line inside it, so a hidden line leaves no sliver showing */
+  .lb .bw-m:has(> .gap) { margin-top: 8px; }
+  .lb .bw-m:has(> .up) { margin-bottom: 6px; }
+  .stage .lb .inl { display: flex; align-items: baseline; gap: 10px; }
+  .stage .lb .inl.r { justify-content: flex-end; }
+  .grid { stroke: var(--line-strong); stroke-width: 2; }
+  .tick { stroke: rgba(var(--cream-rgb), .3); stroke-width: 2; }
+  .tick.on { stroke: rgba(var(--cream-rgb), .6); }
+  .dim { fill: none; stroke: rgba(var(--cream-rgb), .5); stroke-width: 2; }
+  .dim.loss { stroke: rgba(var(--red-rgb), .85); }
+  .hitc { fill: transparent; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg id="cv" viewBox="0 0 1920 1080">
+    <defs>
+      <!-- the hatched paper: the IOUs' growth, and the part of the loss it becomes -->
+      <pattern id="hatchN" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="12" height="12" style="fill: var(--bg)"/><rect width="3" height="12" style="fill: rgba(var(--cream-rgb), .62)"/></pattern>
+      <pattern id="hatchP" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="16" height="16" style="fill: color-mix(in srgb, var(--red) 16%, var(--bg))"/><rect width="4" height="16" style="fill: rgba(var(--cream-rgb), .62)"/></pattern>
+      <clipPath id="above"><rect id="aboveR" x="-200" y="-2000" width="2400"/></clipPath>
+    </defs>
+  </svg>
+  <div id="world"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=7"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script>
+const W = document.getElementById('world'), SV = document.getElementById('cv');
+const Q = new URLSearchParams(location.search);
+const VE = 'val_e', VF = 'val_f', LOSS = 'loss_2025', NC = 'noncash_2025', BURN = 'burn_2025', CASH = 'cash_2025';
+const fv = (id) => BW.fig(id).v;
+const lerp = (a, b, t) => a + (b - a) * t;
+
+FX.head('Anthropic', 'Of that $42 billion loss, about $34 billion never left the building.', { logo: 'anthropic' });
+const META = FX.meta('about', NC, '');
+FX.sig();
+
+/* ---- geometry. GY is the ground for all three panels ---- */
+const GY = 600;
+/* 1. the valuation: a 2025 axis (one month = MW px), its own linear scale above the ground */
+const AX0 = 200, AX1 = 800, MW = (AX1 - AX0) / 12;
+const mo = (iso) => { const [y, m, d] = iso.split('-').map(Number); return (y - 2025) * 12 + (m - 1) + (d - 1) / new Date(y, m, 0).getDate(); };
+const XE = AX0 + mo(BW.fig(VE).asOf) * MW, XF = AX0 + mo(BW.fig(VF).asOf) * MW;
+const KV = 250 / fv(VF), YE = GY - fv(VE) * KV, YF = GY - fv(VF) * KV;
+/* the IOUs: a tidy row of three notes standing just above the axis, under the line; their growth is area ∝ valuation
+   (scale = √(Sep ÷ Mar)). Spaced for their grown size, so they never touch each other, the axis, its ticks or the line */
+const NW = 60, NH = 38, SCMAX = Math.sqrt(fv(VF) / fv(VE)), OW = NW * SCMAX, OHT = NH * SCMAX, NGAP = 14;
+const NB = GY - 22, NX0 = 360;                       /* the row's foot (clear of the 16 px round ticks) and its left edge */
+const NOTES = [0, 1, 2].map(i => ({ x: NX0 + OW / 2 + i * (OW + NGAP), y: NB - OHT / 2 }));
+const NX = NOTES[1].x;
+/* 2–3. the loss and the cash: one linear scale, K px per $1B */
+const K = 8, PX0 = 1000, PX1 = 1240, PW = PX1 - PX0;
+const D = fv(LOSS) * K, FLOOR = GY + D, HH = fv(NC) * K, SD = D - HH;   /* SD: the solid part, the loss without the charge */
+const CX0 = 1560, CX1 = 1760, CH = fv(CASH) * K;
+const BX0 = 930, BX1 = 1800;                                          /* the loss panel's ground */
+const DLX = PX0 - 28, DRX = PX1 + 28, TK = 10;
+
+const g = (k, parent = SV) => { const n = BW.mk('g', k ? { 'data-k': k } : {}, parent); return n; };
+const mk = (tag, a, parent, style) => { const n = BW.mk(tag, a, parent); if (style) n.setAttribute('style', style); return n; };
+SV.querySelector('#aboveR').setAttribute('height', 2000 + GY);
+
+/* ---- marks (SVG) ---- */
+const gGround = g(null);
+const axA = mk('line', { class: 'grid', x1: AX0, x2: AX0, y1: GY, y2: GY }, gGround);
+const gB1 = mk('line', { class: 'grid', x1: BX0, y1: GY, y2: GY }, gGround);
+const gLip = mk('line', { class: 'grid', x1: PX0, y1: GY, y2: GY }, gGround);
+const gB2 = mk('line', { class: 'grid', x1: PX1, y1: GY, y2: GY }, gGround);
+const ticks = [];
+for (let i = 0; i <= 12; i++) ticks.push(mk('line', { class: 'tick', x1: AX0 + i * MW, x2: AX0 + i * MW, y1: GY, y2: GY - 8 }, gGround));
+[XE, XF].forEach(x => ticks.push(mk('line', { class: 'tick on', x1: x, x2: x, y1: GY, y2: GY - 16 }, gGround)));
+
+/* the valuation line and its two rounds */
+const gV = g('val');
+const vline = mk('path', {}, gV, 'fill: none; stroke: var(--gold); stroke-width: 5; stroke-linecap: round');
+const vhit = mk('path', { d: `M ${XE} ${YE} L ${XF} ${YF}` }, gV, 'fill: none; stroke: transparent; stroke-width: 26');
+const gDE = g('val val_e'), gDF = g('val val_f');
+const dotE = mk('circle', { cx: XE, cy: YE, r: 0 }, gDE, 'fill: var(--gold)');
+mk('circle', { class: 'hitc', cx: XE, cy: YE, r: 24 }, gDE);
+const dotF = mk('circle', { cx: XF, cy: YF, r: 0 }, gDF, 'fill: var(--gold)');
+mk('circle', { class: 'hitc', cx: XF, cy: YF, r: 24 }, gDF);
+
+/* the IOUs: outer = the growth (hatched), core = the note itself; they rise out of the ground */
+const notePath = (f) => { const w = NW / 2, h = NH / 2; return `M ${-w} ${-h} L ${w - f} ${-h} L ${w} ${-h + f} L ${w} ${h} L ${-w} ${h} Z`; };
+const foldPath = (f) => { const w = NW / 2, h = NH / 2; return `M ${w - f} ${-h} L ${w - f} ${-h + f} L ${w} ${-h + f} Z`; };
+const gNotes = mk('g', { 'clip-path': 'url(#above)' }, SV);
+const lift = mk('g', {}, gNotes);
+const gOuterK = g('iou nc', lift), gCoreK = g('iou', lift);
+const outerG = mk('g', {}, gOuterK), coreG = mk('g', {}, gCoreK);
+const outerN = NOTES.map(n => {
+  const go = mk('g', { transform: `translate(${n.x} ${n.y})` }, outerG);
+  mk('path', { d: notePath(12) }, go, 'fill: url(#hatchN); stroke: rgba(var(--cream-rgb), .75); stroke-width: 2; vector-effect: non-scaling-stroke');
+  mk('path', { d: foldPath(12) }, go, 'fill: rgba(var(--cream-rgb), .75)');
+  const gc = mk('g', { transform: `translate(${n.x} ${n.y})` }, coreG);
+  mk('path', { d: notePath(12) }, gc, 'fill: var(--cream); stroke: var(--bg); stroke-width: 3; stroke-linejoin: round');
+  mk('path', { d: foldPath(12) }, gc, 'fill: color-mix(in srgb, var(--cream) 72%, var(--bg)); stroke: var(--bg); stroke-width: 2; stroke-linejoin: round');
+  return go;
+});
+
+/* the growth's way into the loss: one thin arrow from the notes to the hatched part of the pit; it stays above the
+   valuation's axis and crosses the ground in the gap between the two panels (the two scales never touch) */
+const gArrow = g('nc');
+const AS = [NOTES[2].x + OW / 2 + 14, NB - OHT / 2], AE = [DLX - 16, GY + SD + 48];
+const CURVE = `M ${AS[0]} ${AS[1]} C ${AS[0] + 180} ${AS[1]}, ${AE[0] - 120} ${AE[1]}, ${AE[0]} ${AE[1]}`;
+const arrow = mk('path', { d: `${CURVE} M ${AE[0] - 13} ${AE[1] - 10} L ${AE[0]} ${AE[1]} L ${AE[0] - 13} ${AE[1] + 10}` }, gArrow,
+  'fill: none; stroke: rgba(var(--cream-rgb), .8); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round');
+const arrowL = arrow.getTotalLength();
+mk('path', { d: arrow.getAttribute('d') }, gArrow, 'fill: none; stroke: transparent; stroke-width: 22');
+/* the idle's glint: a small cream mark that travels the arrow's curve (never drawn on a still: opacity 0 until the idle runs) */
+const glintPath = mk('path', { d: CURVE }, gArrow, 'fill: none; stroke: none');
+const glintDot = mk('circle', { r: 5, cx: AS[0], cy: AS[1] }, gArrow, 'fill: var(--cream); opacity: 0');
+
+/* the pit: red is the loss; the hatched part is the charge, filled from the floor; the hollow is the charge taken out */
+const gRed = g('loss burn'), gHatch = g('loss nc'), gHollow = g('nc');
+const pitRed = mk('rect', { x: PX0, width: PW }, gRed, 'fill: var(--red)');
+const pitHatch = mk('rect', { x: PX0, width: PW }, gHatch, 'fill: url(#hatchP)');
+const pitHollow = mk('rect', { x: PX0 + 1.5, width: PW - 3 }, gHollow, 'fill: transparent; stroke: rgba(var(--cream-rgb), .45); stroke-width: 3; stroke-dasharray: 14 10');
+/* dimension lines: the whole loss on the left; the solid part and the charge on the right */
+const gDL = g('loss'), gD8 = g('burn'), gD34 = g('nc');
+const dimL = mk('path', { class: 'dim loss' }, gDL), dim8 = mk('path', { class: 'dim' }, gD8), dim34 = mk('path', { class: 'dim' }, gD34);
+const dimHit = (gr, x) => mk('rect', { x: x - 14, width: 28, class: 'hitc' }, gr);
+const hDL = dimHit(gDL, DLX), hD8 = dimHit(gD8, DRX), hD34 = dimHit(gD34, DRX);
+/* the cash: beside the pit, same scale */
+const gCash = g('cash');
+const cash = mk('rect', { x: CX0, width: CX1 - CX0 }, gCash, 'fill: var(--cream)');
+
+/* ---- words and figures (HTML) ---- */
+/* L(lines, k, ax, ay): a label anchored at (ax, ay) of its own box; each line rises through its own mask */
+const L = (lines, k, ax = 0, ay = 0) => {
+  const n = BW.el('div', 'lb', W); if (k) n.dataset.k = k;
+  n.style.transform = `translate(${-ax * 100}%, ${-ay * 100}%)`; n.style.textAlign = ax === 0 ? 'left' : ax === 1 ? 'right' : 'center';
+  n.innerHTML = `<div class="in">${lines.map(l => `<div class="bw-m"><span class="${l[0]}"${l[2] ? ` style="${l[2]}"` : ''}>${l[1]}</span></div>`).join('')}</div>`;
+  n.in = n.querySelector('.in');
+  return n;
+};
+const at = (n, x, y) => { n.style.left = x + 'px'; n.style.top = y + 'px'; };
+
+const lE = L([['v', BW.val(VE), 'font-size: 46px; color: var(--cream)']], 'val val_e', 1, .5); at(lE, XE - 22, YE);
+const lEd = L([['d', BW.fig(VE).label]], 'val val_e', .5, 0); at(lEd, XE, GY + 14);
+const lF = L([['d up', 'valuation'], ['v', BW.val(VF), 'font-size: 58px; color: var(--gold)']], 'val val_f', 0, .5); at(lF, XF + 24, YF - 12);
+const lFd = L([['d', BW.fig(VF).label]], 'val val_f', .5, 0); at(lFd, XF, GY + 14);
+const lIOU = L([['n', 'IOUs']], 'iou', .5, 1); at(lIOU, NX, NB - OHT - 10);   /* above the middle note, under the line */
+
+const l42 = L([['v', BW.val(LOSS), 'font-size: 100px; color: var(--red)']], 'loss', 1, 1);
+const l8L = L([['inl r', `<span class="d">${FX.qualOf(BURN)}</span><span class="v" style="font-size: 100px; color: var(--red)">${BW.val(BURN)}</span>`]], 'burn', 1, 0); at(l8L, DLX - 24, GY + 14);
+const l8R = L([['inl', `<span class="d">${FX.qualOf(BURN)}</span><span class="v" style="font-size: 56px; color: var(--red)">${BW.val(BURN)}</span>`]], 'burn', 0, .5); at(l8R, DRX + 24, GY + SD / 2);
+const l34 = L([['v', BW.val(NC), 'font-size: 84px; color: rgba(var(--cream-rgb), .85)'], ['d gap', 'accounting charge']], 'nc', 0, .5); at(l34, DRX + 24, GY + SD + HH / 2);
+const lC = L([['v', BW.val(CASH), 'font-size: 72px; color: var(--cream)']], 'cash', .5, 1);
+const lCd = L([['n', 'cash'], ['d', BW.fig(CASH).label]], 'cash', .5, 0); at(lCd, (CX0 + CX1) / 2, GY + 14);
+META.dataset.k = 'nc';
+
+const SPANS = [lE, lEd, lF, lFd, lIOU, l42, l8R, l34, lC, lCd].flatMap(n => [...n.querySelectorAll('.bw-m > span')]);
+const sp = (n) => n.querySelectorAll('.bw-m > span');
+
+/* ---- the toggle (web only): reported loss / cash loss ---- */
+let MODE = Q.get('mode') === 'cash' ? 1 : 0;
+let seg = null;
+function setMode(m, anim) {
+  MODE = m;
+  if (seg) seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', +b.dataset.m === m));
+  gsap.killTweensOf(S, 'cut');
+  if (anim) gsap.to(S, { cut: m, duration: .7, ease: 'power2.inOut', onUpdate: render });
+  else { S.cut = m; render(); }
+}
+if (FX.LIVE) {
+  seg = BW.el('div', 'fx-ctl', W); seg.style.cssText = `left:${PX0}px; top:318px`;
+  seg.innerHTML = `<div class="fx-seg"><button data-m="0">Reported loss</button><button data-m="1">Cash loss</button></div>`;
+  seg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => setMode(+b.dataset.m, true)));
+}
+
+BW.provenance({ uses: ['val_e', 'val_f', 'loss_2025', 'noncash_2025', 'burn_2025', 'cash_2025'] });   /* literal ids: audit.mjs reads them */
+
+/* ---- state, drawn by one render() ---- */
+const S = { axis: 0, dot: 0, rise: 0, v: 0, sc: 0, arrow: 0, pit: 0, fill: 0, d8: 0, d34: 0, cash: 0, cut: 0 };
+const dim = (x, y0, y1) => Math.abs(y1 - y0) < .5 ? '' : `M ${x} ${y0} L ${x} ${y1} M ${x - TK} ${y0} L ${x + TK} ${y0} M ${x - TK} ${y1} L ${x + TK} ${y1}`;
+function render() {
+  const c = S.cut;
+  /* the grounds draw left to right; the pit's lip goes when it opens */
+  axA.setAttribute('x2', lerp(AX0, AX1, S.axis));
+  ticks.forEach(t => t.style.opacity = +t.getAttribute('x1') <= lerp(AX0, AX1, S.axis) + .5 ? 1 : 0);
+  const bx = lerp(BX0, BX1, S.axis);
+  gB1.setAttribute('x2', Math.min(bx, PX0));
+  gLip.setAttribute('x2', Math.max(PX0, Math.min(bx, PX1))); gLip.style.opacity = S.pit > .001 ? 0 : 1;
+  gB2.setAttribute('x2', Math.max(PX1, bx)); gB2.style.opacity = bx > PX1 ? 1 : 0;
+  /* the valuation climbs Mar → Sep; the notes' growth in the same tween */
+  dotE.setAttribute('r', 9 * S.dot);
+  const hx = lerp(XE, XF, S.v), hy = lerp(YE, YF, S.v);
+  vline.setAttribute('d', S.v > .001 ? `M ${XE} ${YE} L ${hx} ${hy}` : '');
+  if (S.v <= .001) dotF.setAttribute('r', 0); else if (+dotF.getAttribute('r') === 0) dotF.setAttribute('r', 9);   /* the idle's breath owns r after that */
+  dotF.setAttribute('cx', hx); dotF.setAttribute('cy', hy);
+  lift.setAttribute('transform', `translate(0 ${(1 - S.rise) * 120})`);
+  const nsc = 1 + (SCMAX - 1) * S.sc;
+  outerN.forEach((go, i) => go.setAttribute('transform', `translate(${NOTES[i].x} ${NOTES[i].y}) scale(${nsc})`));
+  outerG.style.opacity = lerp(1, .3, c);
+  /* the arrow draws on; it goes when the charge is taken out */
+  arrow.setAttribute('stroke-dasharray', `${arrowL} ${arrowL + 40}`); arrow.setAttribute('stroke-dashoffset', arrowL * (1 - S.arrow) + (S.arrow < .001 ? 20 : 0));
+  arrow.style.opacity = 1 - c;
+  /* the pit: red opens down from the ground; the hatch fills up from the floor */
+  const pd = D * S.pit, hh = HH * S.fill;
+  pitRed.setAttribute('y', GY); pitRed.setAttribute('height', Math.max(0, Math.min(pd, D - hh)));
+  pitHatch.setAttribute('y', FLOOR - hh); pitHatch.setAttribute('height', Math.max(0, hh)); pitHatch.style.opacity = 1 - c;
+  pitHollow.setAttribute('y', FLOOR - hh + 1.5); pitHollow.setAttribute('height', Math.max(0, hh - 3)); pitHollow.style.opacity = c;
+  /* the left bracket is the loss in the chosen view: $42B, or the solid part alone */
+  const tot = lerp(pd, SD, c);
+  dimL.setAttribute('d', dim(DLX, GY, GY + tot)); hDL.setAttribute('y', GY); hDL.setAttribute('height', Math.max(0, tot));
+  at(l42, DLX - 24, GY + pd + 8); l42.in.style.opacity = 1 - c;
+  l8L.in.style.opacity = c; l8L.style.visibility = c > .001 ? '' : 'hidden';
+  dim8.setAttribute('d', dim(DRX, GY, GY + SD)); hD8.setAttribute('y', GY); hD8.setAttribute('height', SD);
+  dim8.style.opacity = S.d8 * (1 - c); l8R.in.style.opacity = 1 - c;
+  dim34.setAttribute('d', dim(DRX, FLOOR - hh, FLOOR)); hD34.setAttribute('y', FLOOR - hh); hD34.setAttribute('height', Math.max(0, hh));
+  dim34.style.opacity = S.d34 * lerp(1, .4, c); l34.in.style.opacity = lerp(1, .45, c);
+  /* the cash rises beside it and never moves again */
+  const ch = CH * S.cash;
+  cash.setAttribute('y', GY - ch); cash.setAttribute('height', Math.max(0, ch));
+  at(lC, (CX0 + CX1) / 2, GY - ch - 14);
+}
+
+/* ---- hover ---- */
+const tip = (name, q, val, meta, credit) => `<div class="n">${name}</div>` +
+  (val ? `<div class="v">${q ? `<small>${q}</small>` : ''}${val}</div>` : '') +
+  (meta ? `<div class="m">${meta}</div>` : '') + `<div class="s">${credit}</div>`;
+const T_NC = () => tip('Accounting charge, 2025', 'about', BW.val(NC),
+  'Reuters: “…accounting charge that reflected an increase in the estimated value of financing that could eventually turn into Anthropic shares, rather than money the company spent running its business.”', FX.credit(NC));
+const T_LOSS = () => tip('Net loss, ' + BW.fig(LOSS).label, '', BW.val(LOSS), `Of that loss, about ${BW.val(NC)} never left the building`, FX.credit(LOSS));
+const T_BURN = () => tip('Without the accounting charge', FX.qualOf(BURN), BW.val(BURN), `${BW.val(LOSS)} less the ${BW.val(NC)} charge. Reuters puts the 2025 operating loss at ${FX.qual(BURN)}`, FX.credit(BURN));
+const T_CASH = () => tip('Cash, ' + BW.fig(CASH).label, '', BW.val(CASH), 'Cash and short-term investments at the end of 2025', FX.credit(CASH));
+const T_VAL = (id) => () => tip('Valuation, ' + BW.fig(id).label, '', BW.val(id), 'Post-money valuation at the funding round', FX.credit(id));
+const T_IOU = () => tip('IOUs', '', '', 'Deals that can convert into shares later. When Anthropic’s valuation shot up, those IOUs became worth a lot more, and the accounting rules make Anthropic book that increase as a loss. The notes are drawn to show the idea, not to scale.', FX.credit(NC));
+[gHatch, gHollow, gD34, l34, gArrow, META].forEach(n => FX.hover(n, 'nc', T_NC));
+[gDL, l42].forEach(n => FX.hover(n, 'loss', T_LOSS));
+[gRed, gD8, l8R, l8L].forEach(n => FX.hover(n, 'burn', T_BURN));
+[gCash, lC, lCd].forEach(n => FX.hover(n, 'cash', T_CASH));
+[gDE, lE, lEd].forEach(n => FX.hover(n, 'val_e', T_VAL(VE)));
+[gDF, lF, lFd].forEach(n => FX.hover(n, 'val_f', T_VAL(VF)));
+FX.hover(gV, 'val', () => tip('Valuation, 2025', '', `${BW.val(VE)} → ${BW.val(VF)}`, `${BW.fig(VE).label} to ${BW.fig(VF).label}`, FX.credit(VF)));
+[gOuterK, gCoreK, lIOU].forEach(n => FX.hover(n, 'iou', T_IOU));
+/* the notes' growth is the charge: hovering it lights the hatched part of the pit too */
+gOuterK.addEventListener('mouseenter', () => document.querySelectorAll('[data-k~="nc"]').forEach(n => n.classList.add('fx-on')));
+
+/* ---- plays once it is on screen; the reader who asked for less motion gets the final state ---- */
+const RM = FX.LIVE && matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]replay(?:&|$)/.test(location.search);
+let seen = !FX.LIVE || !('IntersectionObserver' in window);
+function gate(tl) {
+  if (seen) return;
+  tl.pause(0);
+  const io = new IntersectionObserver((es) => {
+    if (!es.some(e => e.isIntersecting && e.intersectionRatio >= .3)) return;
+    seen = true; io.disconnect(); tl.play();
+  }, { threshold: [0, .3, .6] });
+  io.observe(document.querySelector('.stage'));
+}
+
+/* ---- reveal ---- */
+function play() {
+  idleReset();
+  if (RM) { rest(); return gsap.timeline(); }
+  const M = MODE;
+  setMode(0, false);
+  Object.assign(S, { axis: 0, dot: 0, rise: 0, v: 0, sc: 0, arrow: 0, pit: 0, fill: 0, d8: 0, d34: 0, cash: 0, cut: 0 });
+  const tl = gsap.timeline({ onUpdate: render });
+  FX.headIn(tl, 0);
+  gsap.set(SPANS, { yPercent: 105 });
+  gsap.set(sp(l8L), { yPercent: 0 });
+  if (seg) gsap.set(seg, { opacity: 0 });
+  render();
+  /* the grounds */
+  tl.to(S, { axis: 1, duration: 1.1, ease: 'power2.inOut' }, .35);
+  /* 1. Mar 2025, the IOUs, then the climb to Sep 2025 with the notes growing in the same tween */
+  BW.mark(tl, 'valuation', .9);
+  tl.to(S, { dot: 1, duration: .3, ease: 'power2.out' }, .9);
+  BW.maskIn(tl, sp(lE), .95, .55); BW.maskIn(tl, sp(lEd), 1.05, .5);
+  tl.to(S, { rise: 1, duration: .6, ease: 'power3.out' }, 1.25);
+  BW.maskIn(tl, sp(lIOU), 1.45, .5);
+  BW.mark(tl, 'climb', 1.9);
+  tl.to(S, { v: 1, sc: 1, duration: 1.3, ease: 'power2.inOut' }, 1.9);
+  BW.maskIn(tl, sp(lFd), 2.6, .5);
+  BW.maskIn(tl, sp(lF), 2.85, .6);
+  /* 2. the growth lands in the loss: the pit opens red, the hatch fills from the floor */
+  BW.mark(tl, 'charge', 3.4);
+  tl.to(S, { arrow: 1, duration: .6, ease: 'power1.inOut' }, 3.4);
+  tl.to(S, { pit: 1, duration: .5, ease: 'power3.in' }, 3.7);
+  BW.maskIn(tl, sp(l42), 4.1, .55);
+  tl.to(S, { fill: 1, duration: .8, ease: 'power1.inOut' }, 4.3);
+  tl.to(S, { d34: 1, duration: .3 }, 4.3);
+  BW.maskIn(tl, sp(l34), 4.8, .55);
+  tl.to(S, { d8: 1, duration: .3 }, 5.0);
+  BW.maskIn(tl, sp(l8R), 5.05, .5);
+  /* 3. the cash: beside it, same scale, still */
+  BW.mark(tl, 'cash', 5.4);
+  tl.to(S, { cash: 1, duration: .7, ease: 'power2.out' }, 5.4);
+  BW.maskIn(tl, sp(lCd), 5.6, .5);
+  BW.maskIn(tl, sp(lC), 5.75, .55);
+  tl.to('.bw-source', { opacity: 1, duration: .6 }, 6.0);
+  if (seg) tl.to(seg, { opacity: 1, duration: .4 }, 6.1);
+  if (M) tl.call(() => setMode(1, true), null, 6.4);
+  tl.to({}, { duration: .01 }, 6.6);
+  gate(tl);
+  return tl;
+}
+function rest() {
+  idleReset(); dotF.setAttribute('r', 9);
+  FX.headRest();
+  Object.assign(S, { axis: 1, dot: 1, rise: 1, v: 1, sc: 1, arrow: 1, pit: 1, fill: 1, d8: 1, d34: 1, cash: 1 });
+  gsap.set(SPANS, { yPercent: 0 });
+  if (seg) gsap.set(seg, { opacity: 1 });
+  setMode(MODE, false);
+}
+/* ---- idle: after the reveal and under ?final (the site loads ?final for readers with animation effects off); never on a
+   still, a seek or a capture (FX.LIVE is false there), so posters stay identical. Slow and low, and about the story:
+     a glint travels the arrow from the IOUs into the pit every few seconds (gone in the cash-loss view);
+     the hatch in the charge, and in the notes' growth, drifts slowly; the valuation's end dot breathes.
+     The cash column never moves: that is the point.
+   Paused while the board is off screen or the tab is hidden, and for about 4 s after a toggle or a hover (longer while
+   the pointer still rests on a figure). ---- */
+const PAT_P = SV.querySelector('#hatchP'), PAT_N = SV.querySelector('#hatchN');
+const IDLE = [], WHY = new Set();
+const applyIdle = () => IDLE.forEach(t => WHY.size ? t.pause() : t.resume());
+function idleReset() {
+  glintDot.style.opacity = 0;
+  PAT_P.setAttribute('patternTransform', 'rotate(45)'); PAT_N.setAttribute('patternTransform', 'rotate(45)');
+}
+function idle() {
+  if (!FX.LIVE) return;
+  IDLE.length = 0;
+  const add = (tw) => { BW.raw(tw); IDLE.push(tw); return tw; };
+  const GL = glintPath.getTotalLength(), gp = { u: 0 };
+  add(gsap.timeline({ repeat: -1, repeatDelay: 3.6, delay: .8 }).fromTo(gp, { u: 0 }, { u: 1, duration: 2.4, ease: 'power1.inOut',
+    onUpdate: () => {
+      const p = glintPath.getPointAtLength(gp.u * GL);
+      glintDot.setAttribute('cx', p.x); glintDot.setAttribute('cy', p.y);
+      glintDot.style.opacity = (Math.max(0, Math.min(1, gp.u / .12, (1 - gp.u) / .12)) * (1 - S.cut)).toFixed(3);
+    },
+    onComplete: () => { glintDot.style.opacity = 0; } }));
+  const hp = { x: 0 }, hn = { x: 0 };   /* one stripe period per loop, so the drift is seamless */
+  add(gsap.to(hp, { x: 16, duration: 10, ease: 'none', repeat: -1, onUpdate: () => PAT_P.setAttribute('patternTransform', `rotate(45) translate(${hp.x.toFixed(2)} 0)`) }));
+  add(gsap.to(hn, { x: 12, duration: 10, ease: 'none', repeat: -1, onUpdate: () => PAT_N.setAttribute('patternTransform', `rotate(45) translate(${hn.x.toFixed(2)} 0)`) }));
+  add(gsap.fromTo(dotF, { attr: { r: 9 } }, { attr: { r: 11.5 }, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+  applyIdle();
+}
+if (FX.LIVE) {
+  const stg = document.querySelector('.stage');
+  let wakeT = 0;
+  const touch = () => {
+    WHY.add('touch'); applyIdle(); clearTimeout(wakeT);
+    const wake = () => { if (stg.classList.contains('fx-focus')) { wakeT = setTimeout(wake, 1000); return; } WHY.delete('touch'); applyIdle(); };
+    wakeT = setTimeout(wake, 4000);
+  };
+  stg.addEventListener('mouseover', (e) => { if (e.target.closest && e.target.closest('.fx-hit')) touch(); });
+  if (seg) seg.addEventListener('click', touch);
+  if ('IntersectionObserver' in window) new IntersectionObserver((es) => {
+    es.forEach(e => { if (e.isIntersecting) WHY.delete('off'); else WHY.add('off'); }); applyIdle();
+  }).observe(stg);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) WHY.add('hidden'); else WHY.delete('hidden'); applyIdle(); });
+}
+BW.run({ play, rest, idle });
+</script>
+</body>
+</html>
