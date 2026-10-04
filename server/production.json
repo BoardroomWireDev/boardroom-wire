@@ -1,0 +1,431 @@
+{
+ "built": "2026-10-04T16:58:09.631Z",
+ "today": "2026-10-04",
+ "from": "2026-09-28",
+ "until": "2026-11-08",
+ "steps": [
+  {
+   "id": "idea",
+   "label": "Idea",
+   "expect": "The angle, and why now."
+  },
+  {
+   "id": "scouting",
+   "label": "Scouting",
+   "expect": "A one-page pitch: how well known the company is, two or three titles, the thumbnail idea, the key figures."
+  },
+  {
+   "id": "greenlit",
+   "label": "Greenlit",
+   "expect": "Your click to start it."
+  },
+  {
+   "id": "research",
+   "label": "Research",
+   "expect": "Every figure sourced, the research file, the story in order."
+  },
+  {
+   "id": "prepackaging",
+   "label": "Pre-packaging",
+   "expect": "Two or three angles, each with a name the audience knows. You pick one."
+  },
+  {
+   "id": "outlining",
+   "label": "Outlining",
+   "expect": "The story in order, section by section, and three hooks to write from."
+  },
+  {
+   "id": "scripting",
+   "label": "Scripting",
+   "expect": "Your script, with the voice and hook reviews answered."
+  },
+  {
+   "id": "packaging",
+   "label": "Packaging",
+   "expect": "Ten titles cut to three, and two thumbnails. You pick the pair."
+  },
+  {
+   "id": "edit",
+   "label": "In the edit",
+   "expect": "Footage cleared, the charts built, your voice recorded, the first cut and your notes on it, then finishing and upload."
+  },
+  {
+   "id": "owed",
+   "label": "Shipped, still owed",
+   "expect": "The article, the analytics page, the Substack post, the look back at how it did."
+  }
+ ],
+ "decisions": [
+  {
+   "kind": "ask",
+   "slug": "nebius",
+   "title": "Microsoft's $17 Billion GPU Deal Came With One Condition",
+   "text": "Where does the Yandex origin sit? The two retention FAIL rows in review/RETENTION-hook.md, each with two options",
+   "opened": "2026-10-04",
+   "days": 0,
+   "stage": "scripting"
+  },
+  {
+   "kind": "ask",
+   "slug": "nebius",
+   "title": "Microsoft's $17 Billion GPU Deal Came With One Condition",
+   "text": "The editor's one line in the master (L297, the 30% older-GPU price point): keep with 'in the second quarter', or strike (review/VOICE-essay.md row 1)",
+   "opened": "2026-10-04",
+   "days": 0,
+   "stage": "scripting"
+  }
+ ],
+ "week": {
+  "slug": "nebius",
+  "title": "Microsoft's $17 Billion GPU Deal Came With One Condition",
+  "due": "2026-10-09",
+  "projected": true,
+  "says": "the angle picked and packaging drafted",
+  "weekend": true,
+  "status": "ahead"
+ },
+ "cards": [
+  {
+   "slug": "cursor",
+   "title": "Four College Friends Sold Their Startup to Elon Musk for $60 Billion",
+   "kind": "video",
+   "tier": "flagship",
+   "step": "owed",
+   "where": "",
+   "ask": false,
+   "thesis": "",
+   "titles": [],
+   "owed": [
+    "substack"
+   ],
+   "peg": "",
+   "published": "2026-09-21",
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "ai-doom-hoax",
+   "title": "Nvidia's CEO Put Trump on Speakerphone",
+   "kind": "video",
+   "tier": "wire",
+   "step": "owed",
+   "where": "",
+   "ask": false,
+   "thesis": "In about ten days a researcher's resignation became the president's position, said on Jensen Huang's speakerphone, and the companies that already ship AI to customers did not say it with him.",
+   "titles": [
+    "Nvidia's CEO Put Trump on Speakerphone."
+   ],
+   "owed": [
+    "article",
+    "analytics",
+    "substack",
+    "close-out"
+   ],
+   "peg": "",
+   "published": "2026-10-04",
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "anthropic-ipo",
+   "title": "Anthropic IPO",
+   "kind": "video",
+   "tier": "flagship",
+   "step": "owed",
+   "where": "",
+   "ask": false,
+   "thesis": "To be decided at scouting. The user named the topic on 28 Sep 2026, then said the prospectus had",
+   "titles": [],
+   "owed": [
+    "close-out",
+    "55-ceiling card",
+    "web idle motion on boards 20-23",
+    "substack post URL into ship.substack"
+   ],
+   "peg": "",
+   "published": "2026-10-03",
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "situational-awareness",
+   "title": "Situational Awareness",
+   "kind": "video",
+   "tier": "flagship",
+   "step": "owed",
+   "where": "",
+   "ask": false,
+   "thesis": "",
+   "titles": [],
+   "owed": [
+    "close-out"
+   ],
+   "peg": "",
+   "published": "2026-09-26",
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "nebius",
+   "title": "Microsoft's $17 Billion GPU Deal Came With One Condition",
+   "kind": "video",
+   "tier": "flagship",
+   "step": "scripting",
+   "where": "",
+   "ask": true,
+   "thesis": "",
+   "titles": [
+    "Microsoft's $17 Billion GPU Deal Came With One Condition",
+    "Meta Signed a $27 Billion AI Deal. The Filing Says Otherwise.",
+    "AI's Landlord Just Raised the Rent. Twice."
+   ],
+   "owed": [],
+   "peg": "",
+   "published": null,
+   "window": [],
+   "touched": 0
+  },
+  {
+   "slug": "ai-czar",
+   "title": "The AI Czar",
+   "kind": "video",
+   "tier": "",
+   "step": "research",
+   "where": "",
+   "ask": false,
+   "thesis": "To be written at scouting. The raw material (the writer, 30 Sep 2026): a deep dive on David Sacks,",
+   "titles": [],
+   "owed": [],
+   "peg": "",
+   "published": null,
+   "window": [],
+   "touched": 0
+  },
+  {
+   "slug": "ai-five-layer-cake",
+   "title": "AI's 5 Layer Cake",
+   "kind": "video",
+   "tier": "",
+   "step": "research",
+   "where": "",
+   "ask": false,
+   "thesis": "To be written at scouting. The raw material (the writer, 30 Sep 2026): build on Jensen Huang's",
+   "titles": [],
+   "owed": [],
+   "peg": "",
+   "published": null,
+   "window": [],
+   "touched": 0
+  },
+  {
+   "slug": "bending-spoons",
+   "title": "Bending Spoons",
+   "kind": "video",
+   "tier": "",
+   "step": "research",
+   "where": "",
+   "ask": false,
+   "thesis": "To be written at scouting. The raw material: a Milan company that buys well-known consumer software",
+   "titles": [],
+   "owed": [],
+   "peg": "",
+   "published": null,
+   "window": [],
+   "touched": 0
+  },
+  {
+   "slug": "white-house-ai-luncheon",
+   "title": "White House AI Luncheon",
+   "kind": "video",
+   "tier": "",
+   "step": "research",
+   "where": "",
+   "ask": false,
+   "thesis": "",
+   "titles": [],
+   "owed": [],
+   "peg": "",
+   "published": null,
+   "window": [],
+   "touched": 0
+  },
+  {
+   "slug": "nvidia-vs-everybody",
+   "title": "Nvidia vs Everybody",
+   "kind": "idea",
+   "tier": "flagship",
+   "step": "scouting",
+   "where": "",
+   "ask": false,
+   "thesis": "Every company that buys the most Nvidia chips is building its own chip — and all of them are buying",
+   "titles": [
+    "Everyone Built a Chip to Kill Nvidia. Nvidia Doubled.",
+    "Nvidia Is Losing. It Just Made $96 Billion in 90 Days."
+   ],
+   "owed": [],
+   "peg": "",
+   "published": null,
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "cohere-aleph-alpha",
+   "title": "Sovereign AI M&A, Cohere x Aleph Alpha",
+   "kind": "idea",
+   "tier": "wire",
+   "step": "idea",
+   "where": "",
+   "ask": false,
+   "thesis": "Europe and Canada trying to own a non-US stack, and what a merger of two sub-scale labs actually buys.",
+   "titles": [],
+   "owed": [],
+   "peg": "the Cohere x Aleph Alpha deal",
+   "published": null,
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "coreweave-landlord",
+   "title": "CoreWeave, the landlord OpenAI might not pay",
+   "kind": "idea",
+   "tier": "",
+   "step": "idea",
+   "where": "",
+   "ask": false,
+   "thesis": "Contracted compute as the real AI asset class: a ~$100B backlog, one customer's concentration, and GPU-backed debt that has to be serviced whether or not the tenant pays.",
+   "titles": [],
+   "owed": [],
+   "peg": "quarterly results; backlog disclosures",
+   "published": null,
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "defense-tech-after-anduril",
+   "title": "Defense tech after Anduril",
+   "kind": "idea",
+   "tier": "",
+   "step": "idea",
+   "where": "",
+   "ask": false,
+   "thesis": "A category reset: the Anduril mark re-priced every peer, and late-stage venture money followed. Pick one peer as the spine and read its contracts, not its press.",
+   "titles": [],
+   "owed": [],
+   "peg": "late-stage rounds (Shield AI, Helsing, Saronic); Anduril's ~$61B mark",
+   "published": null,
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "meta",
+   "title": "Meta — the AI comeback",
+   "kind": "idea",
+   "tier": "",
+   "step": "idea",
+   "where": "",
+   "ask": false,
+   "thesis": "Meta fell behind on AI, bought a founder to restart the lab, closed its best model, and shipped.",
+   "titles": [],
+   "owed": [],
+   "peg": "",
+   "published": null,
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "nvidia-hugging-face",
+   "title": "Nvidia buys Hugging Face",
+   "kind": "idea",
+   "tier": "",
+   "step": "idea",
+   "where": "",
+   "ask": false,
+   "thesis": "Nvidia bought distribution for open weights and the place agents get built, not a model company. Read the price against the ~$500M offer the company once rejected.",
+   "titles": [],
+   "owed": [],
+   "peg": "the acquisition (~$12.9B, Sep 2026); figures need fresh verification",
+   "published": null,
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "qualcomm-amazon-ceiling",
+   "title": "Qualcomm x Amazon, a $60B ceiling is not an order",
+   "kind": "idea",
+   "tier": "",
+   "step": "idea",
+   "where": "",
+   "ask": false,
+   "thesis": "Read the contract, not the headline: a ceiling plus an equity warrant is an option on Qualcomm, not a purchase order. Pair with Marvell x Google.",
+   "titles": [],
+   "owed": [],
+   "peg": "the Amazon inference-silicon agreement and warrant",
+   "published": null,
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "scale-ai-meta",
+   "title": "Scale AI, Meta bought the labeling moat",
+   "kind": "idea",
+   "tier": "",
+   "step": "idea",
+   "where": "",
+   "ask": false,
+   "thesis": "The bottleneck in frontier training is ground-truth data, and Meta bought half the company that sells it. The structure (a stake, not an acquisition) is the story.",
+   "titles": [],
+   "owed": [],
+   "peg": "the ~49% / ~$14B structure",
+   "published": null,
+   "window": [],
+   "touched": null
+  }
+ ],
+ "releases": [
+  {
+   "slug": "ai-doom-hoax",
+   "date": "2026-10-04",
+   "kind": "published"
+  },
+  {
+   "slug": "anthropic-ipo",
+   "date": "2026-10-03",
+   "kind": "published"
+  },
+  {
+   "slug": "nebius",
+   "date": "2026-10-09",
+   "kind": "projected"
+  },
+  {
+   "slug": "white-house-ai-luncheon",
+   "date": "2026-10-16",
+   "kind": "projected"
+  },
+  {
+   "slug": "bending-spoons",
+   "date": "2026-10-23",
+   "kind": "projected"
+  },
+  {
+   "slug": "ai-five-layer-cake",
+   "date": "2026-10-30",
+   "kind": "projected"
+  },
+  {
+   "slug": "ai-czar",
+   "date": "2026-11-06",
+   "kind": "projected"
+  }
+ ],
+ "flags": [
+  {
+   "level": "warn",
+   "text": "hopper low: 1 greenlit + scouting (want 2)"
+  },
+  {
+   "level": "info",
+   "text": "5 in prep (guide: 2)"
+  }
+ ]
+}

@@ -12,14 +12,16 @@ import * as legacy from './views/legacy';
 import * as revenue from './views/revenue';
 import * as audience from './views/audience';
 import * as retention from './views/retention';
+import * as production from './views/production';
 
-const VIEWS: Record<string, { title: string; sub: string; mod: { render: (c: Ctx) => Promise<Node[]> }; earliest: (m: Meta) => string | null }> = {
+const VIEWS: Record<string, { title: string; sub: string; mod: { render: (c: Ctx) => Promise<Node[]> }; earliest: (m: Meta) => string | null; noRange?: boolean }> = {
   overview: { title: 'Overview', sub: 'YouTube and the site together', mod: overview, earliest: (m) => m.sources.yt_from ?? m.sources.cf_from },
   web: { title: 'Web analytics', sub: 'Wire Telemetry · the site’s own readers', mod: web, earliest: (m) => m.sources.web_from },
   youtube: { title: 'YouTube', sub: 'The channel’s own analytics', mod: youtube, earliest: (m) => m.sources.yt_from },
   audience: { title: 'Audience', sub: 'Who watches the channel, and how they find it', mod: audience, earliest: (m) => m.sources.yt_from },
   retention: { title: 'Retention', sub: 'Where viewers stay and where they leave, video by video', mod: retention, earliest: (m) => m.sources.yt_from },
   revenue: { title: 'Revenue', sub: 'YouTube Partner Program earnings, estimated', mod: revenue, earliest: (m) => m.sources.rev_from ?? m.sources.yt_from },
+  production: { title: 'Production', sub: 'What is in the works, what waits on you, and when it comes out', mod: production, earliest: () => null, noRange: true },
   legacy: { title: 'Legacy', sub: 'Cloudflare’s edge history, before Wire Telemetry', mod: legacy, earliest: (m) => m.sources.cf_from },
 };
 
@@ -75,6 +77,7 @@ async function render() {
   });
   $('view-title').textContent = V.title;
   $('view-sub').textContent = V.sub;
+  (document.querySelector('.range') as HTMLElement).hidden = !!V.noRange;          // the schedule has no date range
   $('range-label').textContent = d.label;
   const span = `${d.days} day${d.days === 1 ? '' : 's'} · vs previous ${d.days}`;
   $('range-dates').textContent = range.preset === 'all' ? `${d.dates} · all time` : range.preset ? `${d.dates} · ${span}` : span;   // a custom range already shows its dates as the label
@@ -111,10 +114,10 @@ document.querySelectorAll<HTMLAnchorElement>('.nav a[data-view]').forEach((a) =>
   if (range.preset === 'all') range = { preset: 'all', from: '', to: '' };          // "All time" re-resolves per view
   render(); $('main').focus({ preventScroll: true }); window.scrollTo({ top: 0 });
 }));
-document.addEventListener('keydown', (e) => {                                     // g then o / w / y / l
+document.addEventListener('keydown', (e) => {                                     // g then o / w / y / a / t / r / p / l
   if (e.target instanceof HTMLInputElement || e.metaKey || e.ctrlKey || e.altKey) return;
   if (e.key === 'g') { gPressed = Date.now(); return; }
-  const map: Record<string, string> = { o: 'overview', w: 'web', y: 'youtube', a: 'audience', t: 'retention', r: 'revenue', l: 'legacy' };
+  const map: Record<string, string> = { o: 'overview', w: 'web', y: 'youtube', a: 'audience', t: 'retention', r: 'revenue', p: 'production', l: 'legacy' };
   if (Date.now() - gPressed < 900 && map[e.key]) { view = map[e.key]; if (range.preset === 'all') range = { preset: 'all', from: '', to: '' }; render(); }
 });
 let gPressed = 0;
