@@ -1,5 +1,5 @@
 {
- "built": "2026-10-04T16:58:09.631Z",
+ "built": "2026-10-04T17:32:48.507Z",
  "today": "2026-10-04",
  "from": "2026-09-28",
  "until": "2026-11-08",
@@ -122,7 +122,7 @@
     "close-out"
    ],
    "peg": "",
-   "published": "2026-10-04",
+   "published": "2026-09-30",
    "window": [],
    "touched": null
   },
@@ -188,9 +188,9 @@
   {
    "slug": "ai-czar",
    "title": "The AI Czar",
-   "kind": "video",
+   "kind": "idea",
    "tier": "",
-   "step": "research",
+   "step": "scouting",
    "where": "",
    "ask": false,
    "thesis": "To be written at scouting. The raw material (the writer, 30 Sep 2026): a deep dive on David Sacks,",
@@ -199,14 +199,14 @@
    "peg": "",
    "published": null,
    "window": [],
-   "touched": 0
+   "touched": null
   },
   {
    "slug": "ai-five-layer-cake",
    "title": "AI's 5 Layer Cake",
-   "kind": "video",
+   "kind": "idea",
    "tier": "",
-   "step": "research",
+   "step": "scouting",
    "where": "",
    "ask": false,
    "thesis": "To be written at scouting. The raw material (the writer, 30 Sep 2026): build on Jensen Huang's",
@@ -215,14 +215,14 @@
    "peg": "",
    "published": null,
    "window": [],
-   "touched": 0
+   "touched": null
   },
   {
    "slug": "bending-spoons",
    "title": "Bending Spoons",
-   "kind": "video",
+   "kind": "idea",
    "tier": "",
-   "step": "research",
+   "step": "scouting",
    "where": "",
    "ask": false,
    "thesis": "To be written at scouting. The raw material: a Milan company that buys well-known consumer software",
@@ -231,23 +231,7 @@
    "peg": "",
    "published": null,
    "window": [],
-   "touched": 0
-  },
-  {
-   "slug": "white-house-ai-luncheon",
-   "title": "White House AI Luncheon",
-   "kind": "video",
-   "tier": "",
-   "step": "research",
-   "where": "",
-   "ask": false,
-   "thesis": "",
-   "titles": [],
-   "owed": [],
-   "peg": "",
-   "published": null,
-   "window": [],
-   "touched": 0
+   "touched": null
   },
   {
    "slug": "nvidia-vs-everybody",
@@ -384,7 +368,7 @@
  "releases": [
   {
    "slug": "ai-doom-hoax",
-   "date": "2026-10-04",
+   "date": "2026-09-30",
    "kind": "published"
   },
   {
@@ -396,36 +380,16 @@
    "slug": "nebius",
    "date": "2026-10-09",
    "kind": "projected"
-  },
-  {
-   "slug": "white-house-ai-luncheon",
-   "date": "2026-10-16",
-   "kind": "projected"
-  },
-  {
-   "slug": "bending-spoons",
-   "date": "2026-10-23",
-   "kind": "projected"
-  },
-  {
-   "slug": "ai-five-layer-cake",
-   "date": "2026-10-30",
-   "kind": "projected"
-  },
-  {
-   "slug": "ai-czar",
-   "date": "2026-11-06",
-   "kind": "projected"
   }
  ],
  "flags": [
   {
-   "level": "warn",
-   "text": "hopper low: 1 greenlit + scouting (want 2)"
+   "level": "info",
+   "text": "ai-czar: research never dated"
   },
   {
    "level": "info",
-   "text": "5 in prep (guide: 2)"
+   "text": "ai-five-layer-cake: research never dated"
   }
  ]
 }
