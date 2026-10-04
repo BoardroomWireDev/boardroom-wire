@@ -1,5 +1,5 @@
 {
- "built": "2026-10-04T17:32:48.507Z",
+ "built": "2026-10-04T17:49:34.080Z",
  "today": "2026-10-04",
  "from": "2026-09-28",
  "until": "2026-11-08",
@@ -73,6 +73,15 @@
    "opened": "2026-10-04",
    "days": 0,
    "stage": "scripting"
+  },
+  {
+   "kind": "proposal",
+   "slug": "",
+   "title": "The team: one chief of staff, eight named heads, standing desks",
+   "text": "Approve or edit the proposal (it changes AGENTS.md (rewritten as the team), .claude\\agents\\, .claude\\skills\\, a new team roster and `bw team`).",
+   "opened": "2026-10-04",
+   "days": 0,
+   "stage": ""
   }
  ],
  "week": {
@@ -210,6 +219,22 @@
    "where": "",
    "ask": false,
    "thesis": "To be written at scouting. The raw material (the writer, 30 Sep 2026): build on Jensen Huang's",
+   "titles": [],
+   "owed": [],
+   "peg": "",
+   "published": null,
+   "window": [],
+   "touched": null
+  },
+  {
+   "slug": "alexandr-wang",
+   "title": "The 20-something Meta paid $15 billion to save its AI strategy",
+   "kind": "idea",
+   "tier": "flagship",
+   "step": "scouting",
+   "where": "",
+   "ask": false,
+   "thesis": "A founder piece on Alexandr Wang, just like the Cursor video: the 20-something Meta paid $15 billion to save its AI strategy.",
    "titles": [],
    "owed": [],
    "peg": "",
@@ -390,6 +415,10 @@
   {
    "level": "info",
    "text": "ai-five-layer-cake: research never dated"
+  },
+  {
+   "level": "info",
+   "text": "alexandr-wang: research never dated"
   }
  ]
 }
