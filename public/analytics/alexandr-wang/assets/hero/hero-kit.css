@@ -1,0 +1,17 @@
+/* Hero kit (alexandr-wang, Ive, 9 Oct 2026): the type and plot layer the hero boards share. Pages load it after shared/brand.css.
+   Labels are HTML (so type rises through its own mask), marks are SVG; the 1920x1080 stage, tokens from brand.css only. */
+.stage { background: var(--bg); }
+svg.plot { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+#labs { position: absolute; inset: 0; pointer-events: none; }
+.hk { position: absolute; white-space: nowrap; line-height: 1; }
+.hk.e { transform: translateX(-100%); }
+.hk.m { transform: translateX(-50%); text-align: center; }
+.hk .bw-m { display: block; overflow: hidden; padding: .06em 0 .12em; }
+.hk .bw-m > span { display: inline-block; will-change: transform; }
+.hk .w  { font-family: var(--sans); font-weight: 500; color: var(--cream); }
+.hk .wd { font-family: var(--sans); font-weight: 500; color: rgba(var(--cream-rgb), .62); }
+.hk .n  { font-family: var(--mono); font-weight: 600; color: var(--cream); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.hk .ax { font-family: var(--mono); font-weight: 500; color: rgba(var(--cream-rgb), .55); font-variant-numeric: tabular-nums; }
+.hk .h  { font-family: var(--mono); font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; letter-spacing: -.04em; }
+.hk .g  { color: var(--gold); }
+.hk .ink { color: var(--ink); }

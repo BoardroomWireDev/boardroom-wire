@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>H8 The face of it, style frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/brand.css">
+<link rel="stylesheet" href="sf.css">
+</head><body>
+<div class="stage">
+  <svg class="sf" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="sf-credit" id="credit"></div>
+</div>
+<script src="sf-figures.js"></script>
+<script src="sf.js"></script>
+<script>
+/* H8, final step: Wang's posts counted one cell each, in blocks of 50. The first 100 (the five days after launch)
+   in full gold, the rest to 350 by 27 Sep; both counts are floors, so the last block runs out with no edge.
+   No per-day counts exist, so nothing here is spread over a calendar. His followers, dated, under his name; below the cells, a slot for a real post window. */
+const s = document.getElementById('s'); const D = defs(s);
+const n5 = F('wang_muse_posts_5days').v, nAll = F('wang_muse_posts').v;
+const PC = 24, CS = 18, BW = 10 * PC, BH = 5 * PC, GAP = 30, X0 = 742, Y0 = 250;
+for (let i = 0; i < nAll; i++) {
+  const b = Math.floor(i / 50), j = i % 50;
+  const bx = X0 + (b % 4) * (BW + GAP), by = Y0 + Math.floor(b / 4) * (BH + GAP + 6);
+  const cx = bx + (j % 10) * PC, cy = by + Math.floor(j / 10) * PC;
+  const last = nAll - i;                                      // the floor: the final cells fade out
+  const op = last <= 12 ? (last / 13) : 1;
+  el(s, 'rect', { x: cx, y: cy, width: CS, height: CS, fill: i < n5 ? 'var(--gold)' : 'rgba(212,175,55,.38)', 'fill-opacity': op });
+}
+// the first five days
+el(s, 'path', { d: `M${X0},${Y0 - 18} V${Y0 - 30} H${X0 + 2 * BW + GAP - 6} V${Y0 - 18}`, fill: 'none', stroke: 'var(--cream)', 'stroke-width': 2 });
+el(s, 'text', { x: X0, y: Y0 - 50, class: 'fn', 'font-size': 40, style: 'fill:var(--gold)' }, F('wang_muse_posts_5days').v + '+');
+el(s, 'text', { x: X0 + 118, y: Y0 - 50, class: 'nd', 'font-size': 32 }, +F('muse_launch').v.slice(8, 10) + '–' + fmt.day(F('wang_muse_posts_5days').asOf));
+// the end of the count
+const lb = Math.floor((nAll - 1) / 50), ex = X0 + (lb % 4) * (BW + GAP) + BW + 22, ey = Y0 + Math.floor(lb / 4) * (BH + GAP + 6);
+el(s, 'text', { x: ex, y: ey + 72, class: 'nd', 'font-size': 32 }, fmt.day(F('wang_muse_posts').asOf));
+
+// the hero
+el(s, 'text', { x: 108, y: 400, class: 'fh', 'font-size': 200 }, F('wang_muse_posts').v + '+');
+el(s, 'text', { x: 120, y: 470, class: 'nm', 'font-size': 32 }, 'Alexandr Wang');
+el(s, 'text', { x: 120, y: 520, class: 'nd', 'font-size': 32 }, 'on X, ' + +F('muse_launch').v.slice(8, 10) + '–' + fmt.day(F('wang_muse_posts').asOf));
+
+// his audience, dated, under his name
+const fw = F('wang_x_followers');
+el(s, 'text', { x: 116, y: 742, class: 'fn', 'font-size': 72 }, fmt.kilo(fw.v));
+el(s, 'text', { x: 120, y: 792, class: 'nm', 'font-size': 32 }, 'followers on X');
+el(s, 'text', { x: 120, y: 836, class: 'nd', 'font-size': 32 }, fmt.day(fw.asOf) + ' ' + fw.asOf.slice(0, 4));
+
+// the slot for a real post (Scorsese's receipt window rides here): corner marks only, nothing drawn inside
+const PX = X0, PY = 620, PW = 4 * BW + 3 * GAP, PH = 290, k = 26;
+[[PX, PY, 1, 1], [PX + PW, PY, -1, 1], [PX, PY + PH, 1, -1], [PX + PW, PY + PH, -1, -1]].forEach(([cx, cy, dx, dy]) =>
+  el(s, 'path', { d: `M${cx + dx * k},${cy} H${cx} V${cy + dy * k}`, stroke: 'rgba(245,241,229,.28)', 'stroke-width': 2, fill: 'none' }));
+
+credit(['wang_muse_posts', 'wang_x_followers', 'muse_launch'], 'All posts, most of them about Muse.');
+</script>
+</body></html>

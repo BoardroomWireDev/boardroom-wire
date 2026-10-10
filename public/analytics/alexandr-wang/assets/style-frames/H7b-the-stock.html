@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>H7b The stock, style frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/brand.css">
+<link rel="stylesheet" href="sf.css">
+</head><body>
+<div class="stage">
+  <svg class="sf" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="sf-credit" id="credit"></div>
+</div>
+<script src="sf-figures.js"></script>
+<script src="sf.js"></script>
+<script>
+/* H7b, final step: META's move on Monday 21 Sep, on its own. Two closes on a true trading-day scale (the weekend shaded,
+   no line across it, because no trade happened): Friday 18 Sep, the day Muse went #1, and Monday 21 Sep at $741.25.
+   Both closes are ledger rows; the move is drawn as a dimension, +11.3%. The price axis starts at $600 and says so: a price, not a quantity, so no zero. */
+const s = document.getElementById('s'); defs(s);
+const T = (x, y, txt, cls = 'nd', size = 32, a = {}) => el(s, 'text', Object.assign({ x, y, class: cls, 'font-size': size }, a), txt);
+const st = F('meta_stock_0921'), pc = F('meta_stock_0921_pct');
+const prev = F('meta_close_0918').v;                        // Friday's close, its own row (throws if missing)
+const d1 = +st.asOf.slice(8, 10), d0 = +F('muse_top_ios_free').asOf.slice(8, 10);
+
+// ---- the hero ----
+T(112, 450, fmt.pct(pc.v, 1, true), 'fh', 176);
+T(124, 528, 'META', 'nm', 40);
+T(124, 580, 'close, ' + fmt.day(st.asOf) + ' 2026');
+
+// ---- two closes on a trading-day scale ----
+const x = lin(d0 - 1.5, d1 + 1.5, 1140, 1800), y = lin(600, 760, 860, 220), AX = 860;
+// the weekend: no trading, shaded, no line across it
+el(s, 'rect', { x: x(d0 + .5), y: 220, width: x(d1 - .5) - x(d0 + .5), height: AX - 220, fill: 'rgba(245,241,229,.04)' });
+for (let v = 600; v <= 750; v += 50) {
+  el(s, 'line', { x1: 1080, x2: 1820, y1: y(v), y2: y(v), stroke: v === 600 ? 'rgba(245,241,229,.4)' : 'rgba(245,241,229,.07)', 'stroke-width': 2 });
+  T(1060, y(v) + 11, '$' + v, 'ax', 32, { 'text-anchor': 'end' });
+}
+// the axis break at the foot: the scale does not start at zero
+el(s, 'path', { d: `M1072,${AX + 4} l12,-14 M1080,${AX + 14} l12,-14`, stroke: 'rgba(245,241,229,.6)', 'stroke-width': 2 });
+for (let d = d0 - 1; d <= d1 + 1; d++) {
+  el(s, 'line', { x1: x(d), x2: x(d), y1: AX, y2: AX + 10, stroke: 'rgba(245,241,229,.4)', 'stroke-width': 2 });
+}
+[d0, d1].forEach(d => T(x(d), AX + 50, d + ' Sep', 'nd', 32, { 'text-anchor': 'middle' }));
+
+// the closes
+el(s, 'circle', { cx: x(d0), cy: y(prev), r: 12, fill: 'var(--bg)', stroke: 'var(--cream)', 'stroke-width': 3 });
+T(x(d0) - 26, y(prev) + 12, fmt.usd(prev), 'fn', 36, { 'text-anchor': 'end' });
+el(s, 'circle', { cx: x(d1), cy: y(st.v), r: 14, fill: 'var(--gold)' });
+T(x(d1) - 30, y(st.v) + 15, fmt.usd(st.v), 'fn', 44, { 'text-anchor': 'end' });
+// the move, as a dimension: from Friday's level to Monday's close
+el(s, 'line', { x1: x(d1 - .5), x2: x(d1) + 40, y1: y(prev), y2: y(prev),          // resumes after the weekend
+   stroke: 'rgba(245,241,229,.45)', 'stroke-width': 2, 'stroke-dasharray': '5 6' });
+const dx = x(d1) + 40;                                    // the hero names it; the bar shows it
+el(s, 'line', { x1: dx, x2: dx, y1: y(prev), y2: y(st.v), stroke: 'var(--gold)', 'stroke-width': 3 });
+[y(prev), y(st.v)].forEach(py => el(s, 'line', { x1: dx - 12, x2: dx + 12, y1: py, y2: py, stroke: 'var(--gold)', 'stroke-width': 3 }));
+// Friday: the day Muse went #1 on the free iPhone chart
+const mk = T(x(d0), 196, F('muse_top_ios_free').v.split(' ')[0], 'fn', 36, { 'text-anchor': 'middle', style: 'fill:var(--gold)' });
+el(mk, 'tspan', { class: 'nd', dx: 12, style: 'font-family:var(--sans);font-weight:500;fill:rgba(245,241,229,.62)' }, 'free iPhone app');
+el(s, 'line', { x1: x(d0), x2: x(d0), y1: 212, y2: y(prev) - 18, stroke: 'rgba(212,175,55,.55)', 'stroke-width': 2, 'stroke-dasharray': '2 6' });
+
+credit(['meta_stock_0921', 'meta_close_0918', 'meta_stock_0921_pct', 'muse_top_ios_free']);
+</script>
+</body></html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>H11 The bill, style frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/brand.css">
+<link rel="stylesheet" href="sf.css">
+</head><body>
+<div class="stage">
+  <svg class="sf" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="sf-credit" id="credit"></div>
+</div>
+<script src="sf-figures.js"></script>
+<script src="sf.js"></script>
+<script>
+/* H11, final step, in two parts that share nothing, not even a scale.
+   1. 2026, the full year, on one full-year dollar scale: revenue as the analyst consensus (an estimate, dashed; Meta gives
+      no full-year revenue guide), beside Meta's own capex guide, a hatched range. Expenses are left off: beside capex they invite a double count.
+   2. Q2 2026, on its own scale: revenue, operating cash flow, capex taken out of it, and the $784M left. */
+const s = document.getElementById('s'); defs(s);
+const LN = 'rgba(245,241,229,.4)', GR = 'rgba(245,241,229,.07)';
+const T = (x, y, txt, cls = 'nd', size = 32, a = {}) => el(s, 'text', Object.assign({ x, y, class: cls, 'font-size': size }, a), txt);
+
+// ================= 1. 2026, full year =================
+const cons = F('meta_rev_consensus_fy2026');                        // an analyst estimate, never Meta's guidance
+const cLo = F('meta_capex_guide_2026_jul_low'), cHi = F('meta_capex_guide_2026_jul_high');
+const fyTop = Math.max(cHi.v, cons.vh || cons.v);
+const FMAX = Math.ceil(fyTop / 25e9) * 25e9;
+const X0 = 520, X1 = 1400, x = lin(0, FMAX, X0, X1);
+const h1 = T(100, 132, '2026', 'nm', 48); el(h1, 'tspan', { class: 'nd', 'font-size': 32, dx: 18 }, 'full year');
+const RY = [236, 376], RH = 56, AY = 446;
+for (let v = 0; v <= FMAX; v += 50e9) {
+  el(s, 'line', { x1: x(v), x2: x(v), y1: 170, y2: AY, stroke: v ? GR : LN, 'stroke-width': 2 });
+  T(x(v), AY + 40, v ? fmt.usdB(v, 0) : '$0', 'ax', 32, { 'text-anchor': 'middle' });
+}
+el(s, 'line', { x1: X0, x2: X1, y1: AY, y2: AY, stroke: LN, 'stroke-width': 2 });
+const label = (y, a, b) => { T(X0 - 28, y + 2, a, 'nm', 32, { 'text-anchor': 'end' }); if (b) T(X0 - 28, y + 40, b, 'nd', 32, { 'text-anchor': 'end' }); };
+
+// revenue: the analyst consensus, dashed (an estimate, not Meta's)
+const hi = cons.vh || cons.v;
+el(s, 'rect', { x: X0, y: RY[0] - RH / 2, width: x(hi) - X0, height: RH, fill: 'rgba(245,241,229,.06)', stroke: 'var(--cream)', 'stroke-width': 2, 'stroke-dasharray': '10 7' });
+T(x(hi) + 16, RY[0] + 13, fmt.usdB(cons.v, 1), 'fn', 36);
+label(RY[0] - 10, 'revenue', 'analyst estimate');
+T(x(hi) + 16, RY[0] + 52, cons.label + ', ' + fmt.day(cons.on), 'nd', 32);
+// Meta's guidance: hatched to the low end, gold hatch across the range, both ends printed
+const range = (y, lo, hi) => {
+  el(s, 'rect', { x: X0, y: y - RH / 2, width: x(lo) - X0, height: RH, fill: 'url(#hatch)' });
+  el(s, 'rect', { x: x(lo), y: y - RH / 2, width: x(hi) - x(lo), height: RH, fill: 'url(#hatchGold)' });
+  el(s, 'rect', { x: X0, y: y - RH / 2, width: x(hi) - X0, height: RH, fill: 'none', stroke: 'rgba(245,241,229,.5)', 'stroke-width': 2, 'stroke-dasharray': '8 6' });
+  [lo, hi].forEach(v => el(s, 'line', { x1: x(v), x2: x(v), y1: y - RH / 2 - 8, y2: y + RH / 2 + 8, stroke: 'var(--cream)', 'stroke-width': 2 }));
+  T(x(hi) + 16, y + 13, fmt.usdB(lo, 0) + '–' + fmt.usdB(hi, 0), 'fn', 36);
+};
+range(RY[1], cLo.v, cHi.v); label(RY[1] - 10, 'capex', 'Meta guidance, ' + fmt.day(cLo.on));
+
+// the rule between the two parts
+el(s, 'line', { x1: 100, x2: 1820, y1: 530, y2: 530, stroke: 'rgba(245,241,229,.18)', 'stroke-width': 2 });
+
+// ================= 2. Q2 2026 =================
+const rev = F('meta_revenue_q2_2026'), ocf = F('meta_ocf_q2_2026'), cpx = F('meta_capex_q2_2026'), fcf = F('meta_fcf_q2_2026');
+T(100, 628, 'Q2 2026', 'nm', 72);
+const BY = 904, y = lin(0, 70e9, BY, 628), CW = 140;
+const C = [
+  { x: 640, a: 0, b: rev.v, fill: 'rgba(245,241,229,.78)', l: ['revenue'], fig: fmt.usdB(rev.v, 2) },
+  { x: 860, a: 0, b: ocf.v, fill: '#6E6E80', l: ['operating', 'cash flow'], fig: fmt.usdB(ocf.v, 2) },
+  { x: 1080, a: ocf.v - cpx.v, b: ocf.v, fill: '#4A4A5A', l: ['capex'], fig: '−' + fmt.usdB(cpx.v, 2) },
+  { x: 1300, a: 0, b: fcf.v, fill: 'var(--gold)', l: ['free', 'cash flow'] }
+];
+for (let v = 0; v <= 60e9; v += 20e9) {
+  el(s, 'line', { x1: 540, x2: 1380, y1: y(v), y2: y(v), stroke: v ? GR : LN, 'stroke-width': 2 });
+  T(520, y(v) + 11, v ? fmt.usdB(v, 0) : '$0', 'ax', 32, { 'text-anchor': 'end' });
+}
+C.forEach((c, i) => {
+  el(s, 'rect', { x: c.x - CW / 2, y: y(c.b), width: CW, height: Math.max(y(c.a) - y(c.b), 3), fill: c.fill });
+  if (c.fig) T(c.x, y(c.b) - 16, c.fig, 'fn', 32, { 'text-anchor': 'middle' });
+  c.l.forEach((w, j) => T(c.x, BY + 40 + j * 36, w, i === 3 ? 'nm' : 'nd', 32, { 'text-anchor': 'middle' }));
+  if (i) {                                                  // the step from the last column, at the level carried over
+    const lvl = i === 3 ? C[2].a : ocf.v;
+    el(s, 'line', { x1: C[i - 1].x + CW / 2, x2: c.x - CW / 2, y1: y(lvl), y2: y(lvl), stroke: 'rgba(245,241,229,.45)', 'stroke-width': 2, 'stroke-dasharray': '4 5' });
+  }
+});
+// the hero: what was left
+el(s, 'text', { x: C[3].x + CW / 2 + 30, y: BY - 6, class: 'fh', 'font-size': 128 }, fmt.usdM(fcf.v));
+
+credit(['meta_capex_guide_2026_jul_low', 'meta_revenue_q2_2026', 'meta_ocf_q2_2026', 'meta_capex_q2_2026', 'meta_fcf_q2_2026']
+  .concat(['meta_rev_consensus_fy2026']));
+</script>
+</body></html>

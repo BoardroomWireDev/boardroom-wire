@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — Free, in front of billions p6 (alexandr-wang hero H6)</title>
+<!-- ALEXANDR WANG · HERO H6 · PASS 6 (10 Oct 2026; Ive). Beat b039, 38.70 s. BRIEF-pass6.md: the writer worried the synthetic 3D reads
+     as AI; financial views are hero dashboards. This is one: flat, level, full-frame, in motion, every figure from data.js, the real
+     marks (SpaceXAI, OpenAI, Muse) and Meta's four app icons in their own colours (Simple Icons, CC0, editorial) as the anchors.
+       paid   three terminal tiles across the frame. On "Grok" / "Dots" each rival lights; on "paid" a hatched paywall band drops
+              into both; on "give away" Muse's tile turns gold, free tier; on "its rivals charge for" the camera goes in, centred,
+              on the two rivals' paywalls. Each plan line reads its own key (grokbot_plans, dots_plans). No rival figure is on H6
+              (Goldman, 10 Oct: weekly users of one product beside 3.6B daily people invites a false size comparison; H9 has it).
+              p6b (10 Oct): the 418,000, its unit and the speck are gone.
+       scale  on "Because Meta has massive distribution" the tiles take the bottom-left and an empty 36-block ledger opens at right;
+              the 2D camera goes to its first dot ("= 1M people" beside it: the legend never says "dot", OpenAI's Dots is on
+              this board; the column's legend is a drawn dot glyph then "= 1M people"); the block of 100 fills on "In June"; on
+              "3.6 billion" all 3,600
+              fill as the camera pulls back level; 3.6B lands on "people". Scale is read straight off: true count, one dot per
+              million.
+       apps   Facebook, Instagram, WhatsApp, Messenger land one per name under the figure (the field is not split by app).
+       bet    on "betting" a dashed gold rule closes the field and runs from Muse's tile; on "first" the dots turn hollow gold
+              outward from Muse's side: the bet, not a count of users. The close frames free against paid, then out on "billions".
+     Level and centred: no rotation anywhere; the camera is a 2D pan/zoom; every landing is framed square.
+     Steps (?at= in this order, as v1): rivals "Grok" 2.54 · paid "paid" 5.76 · muse "give" 8.10 · dap "3" 15.80 · field "people"
+       16.76 · apps "Facebook," 19.82 · bet "first," 28.78                                                         (secs 38.7)
+     Overlay b040 (Meta's Q2 release card, board t 13.96-22.48, top band x 770-1640, y < 230): nothing of these steps sits there.
+     Capture contract: BW.run({play, rest}); ?capture ?final ?still ?beats ?t=<step|secs>. Everything is a function of the clock. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<style>
+.stage { background: var(--bg); overflow: hidden; }
+svg.p6 { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+.p6 text { font-kerning: normal; }
+.p6-w  { font-family: var(--sans); font-weight: 600; fill: var(--cream); }
+.p6-g  { font-family: var(--sans); font-weight: 600; fill: var(--gold); }
+.p6-ax { font-family: var(--sans); font-weight: 500; fill: rgba(var(--cream-rgb), .66); }
+.p6-c  { font-family: var(--sans); font-weight: 500; fill: var(--cream); }
+.p6-n  { font-family: var(--mono); font-weight: 600; fill: var(--cream); font-variant-numeric: tabular-nums; }
+.p6-h  { font-family: var(--mono); font-weight: 700; fill: var(--gold); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg class="p6" id="plot" viewBox="0 0 1920 1080">
+    <defs id="defs">
+      <pattern id="hatch" patternUnits="userSpaceOnUse" width="14" height="14" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="14" style="stroke:rgba(var(--cream-rgb), .45); stroke-width:4"/>
+      </pattern>
+    </defs>
+    <g id="cam"></g>
+  </svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script>
+const F = BW.fig, Q = new URLSearchParams(location.search), NS = 'http://www.w3.org/2000/svg';
+BW.provenance({ uses: ['meta_dap_jun2026', 'muse_free_tier', 'grokbot_plans', 'dots_plans'], footer: 'Daily active people, June 2026 average' });
+
+/* ---------- steps: v1's names and order, re-timed by ?at= / ?secs= ---------- */
+const STEPS = [['rivals', 2.54], ['paid', 5.76], ['muse', 8.1], ['dap', 15.8], ['field', 16.76], ['apps', 19.82], ['bet', 28.78]];
+const AT = (Q.get('at') || '').split(',').filter(s => s.trim() !== '').map(Number);
+const T = {}; STEPS.forEach(([n, t], i) => T[n] = i < AT.length ? AT[i] : t);
+const END = +(Q.get('secs') || 0) || 38.7;
+Object.assign(T, {                       /* the recorded words between the steps, as offsets from the step they follow */
+  dots: T.rivals + 1.60, plans: T.paid + .28, rivalsW: T.muse + 1.42, route: T.muse + 2.70, dot1: T.muse + 4.36, june: T.dap - 1.84,
+  app2: T.apps + .78, app3: T.apps + 1.62, app4: T.apps + 2.34, casual: T.apps + 3.16,
+  betting: T.bet - 1.96, close: T.bet + 6.00, free: T.bet + 7.14, billions: T.bet + 8.78
+});
+
+/* ---------- the figures ---------- */
+const dap = F('meta_dap_jun2026'), N = Math.round(dap.v / 1e6);              /* 3,600 dots, one per million people */
+/* each tile reads its own key (Goldman, 10 Oct): Grok Bot grokbot_plans, Dots dots_plans, Muse muse_free_tier */
+const FREE = F('muse_free_tier').label, PAID_G = F('grokbot_plans').label, PAID_D = F('dots_plans').label;
+/* a plan line wraps to two lines when its label is long (so it always fits the tile at >= 58 px, >= 32 px in the row) */
+const lines = (s) => { if (s.length <= 18) return [s]; const mid = s.length / 2; let best = -1;
+  for (let i = 0; i < s.length; i++) if (s[i] === ' ' && (best < 0 || Math.abs(i - mid) < Math.abs(best - mid))) best = i;
+  return best < 0 ? [s] : [s.slice(0, best), s.slice(best + 1)]; };
+const PL = { g: lines(PAID_G), d: lines(PAID_D) }, NL = Math.max(PL.g.length, PL.d.length);
+
+/* ---------- small maths ---------- */
+const clamp = (v) => v < 0 ? 0 : v > 1 ? 1 : v;
+const E = (n) => gsap.parseEase(n), eo3 = E('power3.out'), eio2 = E('power2.inOut'), esin = E('sine.inOut'), eo2 = E('power2.out');
+const prog = (t, t0, d, ease = eo3) => ease(clamp((t - t0) / d));
+const lerp = (a, b, k) => a + (b - a) * k;
+
+/* ---------- drawing helpers ---------- */
+const CAM = document.getElementById('cam'), DEFS = document.getElementById('defs');
+let clipN = 0;
+const mk = (tag, a = {}, parent = CAM, st = '') => { const n = document.createElementNS(NS, tag); for (const k in a) n.setAttribute(k, a[k]); if (st) n.setAttribute('style', st); parent.appendChild(n); return n; };
+/* a label that rises out of its own baseline through a mask (rule 13) */
+function label(parent, x, base, str, size, cls, anchor = 'start', desc = .31) {      /* desc: the mask's room below the baseline */
+  const id = 'c' + (clipN++), cp = mk('clipPath', { id }, DEFS);
+  mk('rect', { x: anchor === 'start' ? -60 : anchor === 'middle' ? -1500 : -3000, y: -1.05 * size, width: 3060, height: (1.05 + desc) * size }, cp);
+  const g = mk('g', { transform: `translate(${x},${base})`, 'clip-path': `url(#${id})` }, parent);
+  const t = mk('text', { x: 0, y: 0, 'font-size': size, class: cls, 'text-anchor': anchor }, g);
+  t.textContent = str; t.G = g; t.size = size;
+  return t;
+}
+const LABELS = [];
+const rise = (t, k, alpha = 1) => { t.setAttribute('transform', `translate(0,${((1 - k) * t.size * 1.25).toFixed(2)})`); if (t.glyph) t.glyph.setAttribute('transform', t.getAttribute('transform')); t.alpha = alpha * (k > 0 ? 1 : 0); if (!t.reg) { t.reg = 1; LABELS.push(t); } };
+/* the safe area: a label never crops at the frame edge nor meets the credit line; as the camera carries it out, it fades */
+const SAFE = { l: 24, r: 1896, t: 24, b: 988 };                                /* the credit line starts at ~1010 */
+function safeFade() {
+  LABELS.forEach(t => {
+    let a = t.alpha;
+    if (a > 0) {
+      const b = t.getBBox(), M = t.G.getCTM();
+      const xs = [t.glyph ? -36 : b.x, b.x + b.width].map(x => M.a * x + M.e), ys = [b.y, b.y + b.height].map(y => M.d * y + M.f);
+      const over = Math.max(0, SAFE.l - xs[0], xs[1] - SAFE.r, SAFE.t - ys[0], ys[1] - SAFE.b);
+      a *= clamp(1 - over / 14);
+    }
+    t.G.style.opacity = a.toFixed(3);
+  });
+}
+const img = (parent, href, x, y, w, h) => mk('image', { href, x, y, width: w, height: h, preserveAspectRatio: 'xMidYMid meet' }, parent);
+const LOGO = 'assets/logos/';
+
+/* ---------- the three tiles (drawn in tile coordinates; A = across the frame, B = the bottom-left row) ---------- */
+/* A: across the frame, level and centred; B: scaled into the bottom-left row (every label still >= 32 px there) */
+const MKY = 128, NMY = 312, PLY = 420, BANDY = PLY + 44 + (NL - 1) * 66, TW = 540, TH = BANDY + 46 + 58;   /* the rows: mark, name, plan line(s), paywall */
+const TA = [120, 690, 1260], TAY = Math.round((1080 - TH) / 2) - 10, SB = .556, TB = [72, 382, 692], TBY = 988 - Math.round(TH * SB);
+function tile(i, mark, mw, mh, name, gold) {
+  const g = mk('g'), frame = mk('rect', { x: 0, y: 0, width: TW, height: TH }, g, 'fill:none; stroke:var(--line-strong); stroke-width:2');
+  const m = img(g, LOGO + mark, (TW - mw) / 2, MKY - mh / 2, mw, mh);
+  const nm = label(g, TW / 2, NMY, name, 90, gold ? 'p6-g' : 'p6-w', 'middle');
+  return { g, frame, m, nm, i };
+}
+const grok = tile(0, 'logo-spacexai.png', 400, 49, 'Grok Bot');
+const dots = tile(1, 'logo-openai_white.png', 350, 95, 'Dots');
+const muse = tile(2, 'logo-muse.png', 150, 150, 'Muse', true);
+muse.gold = mk('rect', { x: 0, y: 0, width: TW, height: TH }, muse.g, 'fill:none; stroke:var(--gold); stroke-width:2; opacity:0');
+const tiles = [grok, dots, muse];
+/* the paywall: a hatched band in each rival's tile, under the writer's words */
+[[grok, PL.g], [dots, PL.d]].forEach(([o, ls]) => {
+  o.band = mk('rect', { x: 40, y: BANDY, width: TW - 80, height: 0 }, o.g, 'fill:url(#hatch); stroke:rgba(var(--cream-rgb), .6); stroke-width:2');
+  const y0 = PLY + (NL - ls.length) * 33;                                      /* a one-line label sits centred in a two-line slot */
+  o.plans = ls.map((s, k) => label(o.g, TW / 2, y0 + k * 66, s, 60, 'p6-ax', 'middle'));
+  o.plans.forEach(p => p.setAttribute('data-l', 'plan-' + o.i));             /* one label on two lines */
+});
+muse.plan = label(muse.g, TW / 2, PLY + (NL - 1) * 33, FREE, 60, 'p6-c', 'middle');
+const ULY = PLY + (NL - 1) * 33 + 20;
+muse.uline = mk('line', { x1: 0, y1: ULY, x2: 0, y2: ULY }, muse.g, 'stroke:var(--gold); stroke-width:5');
+const P = 11.2, R = 3.6, G = 13.4, BK = 10 * P, GX = 1096, GY = 244;
+
+/* ---------- the ledger: 36 blocks of 100, one dot per million people ---------- */
+const BX = 6, BLOCKS = Math.ceil(N / 100), FB = 4 * BX + 2, FC = 2, FR = 4;    /* FC, FR: the first dot inside its block */                    /* row 5, column 3: the zoom keeps clear ground under the credit */
+const ledger = mk('g'), outlines = mk('g', {}, ledger, 'fill:none; stroke:var(--line-strong); stroke-width:2');
+const blocks = [], OUTL = [];
+for (let b = 0; b < BLOCKS; b++) {
+  const bx = GX + (b % BX) * (BK + G), by = GY + Math.floor(b / BX) * (BK + G);
+  OUTL.push({ r: mk('rect', { x: bx - 4, y: by - 4, width: BK + 8, height: BK + 8 }, outlines), x: bx - 4 });
+  const g = mk('g', {}, ledger, 'fill:var(--cream); fill-opacity:.62; stroke:var(--gold); stroke-width:2; stroke-opacity:0');
+  const ds = [];
+  for (let j = 0; j < 100 && b * 100 + j < N; j++) {
+    const c = mk('circle', { cx: bx + (j % 10) * P + P / 2, cy: by + Math.floor(j / 10) * P + P / 2, r: R }, g);
+    if (b === FB) ds.push({ c, d: Math.hypot(j % 10 - FC, Math.floor(j / 10) - FR) });
+  }
+  blocks.push({ g, cx: bx + BK / 2, cy: by + BK / 2, col: b % BX, row: Math.floor(b / BX), ds });
+}
+/* the first dot and its block sit in the field, so it opens around them on every side; low enough that the zoom's bottom edge
+   falls just below the ledger, on the clear ground under the credit line */
+const B0 = blocks[FB], FD = { x: B0.cx - BK / 2 + FC * P + P / 2, y: B0.cy - BK / 2 + FR * P + P / 2 };
+/* the legend never says "dot" (OpenAI's Dots is on this board): at the zoom the first dot itself is the glyph, "= 1M people" beside it */
+const zoomLeg = label(CAM, FD.x + 8, FD.y + 3.8, '= 1M people', 11, 'p6-ax');
+const GW = BX * BK + (BX - 1) * G;                                             /* 759 */
+/* the bet: a dashed gold rule around the ledger, and from Muse's tile to it */
+const bracket = mk('rect', { x: GX - 14, y: GY - 14, width: GW + 28, height: GW + 28 }, CAM, 'fill:none; stroke:var(--gold); stroke-width:3; stroke-dasharray:14 10');
+const BRLEN = 4 * (GW + 28);
+const MB = { x: TB[2] + TW * SB, y: TBY + MKY * SB };                         /* Muse's tile, right edge, at its mark */
+const conn = mk('path', { d: `M${MB.x + 6},${MB.y} H${GX - 40} V${GY + GW / 2} H${GX - 14}` }, CAM, 'fill:none; stroke:var(--gold); stroke-width:3; stroke-dasharray:14 10');
+const CONNLEN = (GX - 40 - MB.x - 6) + Math.abs(GY + GW / 2 - MB.y) + 26;
+
+/* ---------- the figure, its legend, Meta's four apps (left column) ---------- */
+const big = label(CAM, 96, 420, dap.display, 200, 'p6-h', 'start', .06);      /* digits: no descenders, a tight mask */
+/* the column's legend: a drawn dot (the field's own ink) then "= 1M people"; the glyph rides inside the label's mask and rises with it */
+const leg = label(CAM, 106 + 36, 512, '= 1M people', 38, 'p6-ax');
+leg.glyph = mk('circle', { cx: -22, cy: -13, r: 11 }, leg.G, 'fill:var(--cream); fill-opacity:.62');
+const AY = 540;
+const apps = ['facebook', 'instagram', 'whatsapp', 'messenger'].map((a, i) => img(CAM, LOGO + `logo-${a}-colour.png`, 104 + i * 92, AY, 72, 72));
+
+/* ---------- the camera: 2D, level; keys of [t0, t1, cx, cy, s, ease] ---------- */
+const KEYS = [];
+const key = (t0, t1, cx, cy, s, ease = eio2) => KEYS.push({ t0, t1, cx, cy, ls: Math.log(s), ease });
+/* p6d (10 Oct, the visual review): every push ends with its subject whole and centred, nothing cut at a frame edge.
+   The opening: the three tiles whole and symmetric (cx 960 throughout, 15 px margins at most zoom). */
+key(0, T.rivals - .3, 960, 540, 1.11, esin);
+key(T.rivals - .3, T.rivals + 1.1, 960, 540, 1.125);                            /* Grok */
+key(T.dots - .2, T.dots + 1.1, 960, 540, 1.12);                                 /* Dots */
+key(T.paid - .1, T.paid + 1.2, 960, 544, 1.11);                                 /* paid: both rivals */
+key(T.muse - .2, T.muse + 1.1, 960, 540, 1.125);                                /* Muse */
+/* "its rivals charge for": the two rival tiles whole and centred; Muse's tile wholly out of frame (not cut) */
+key(T.rivalsW - .25, T.rivalsW + .75, (TA[0] + TA[1] + TW) / 2, TAY + TH / 2, 1.65);
+key(T.route - .2, T.route + .8, 960, 540, 1.0);                                 /* the tiles take the row; the ledger opens; the whole board */
+const LOW = (s) => GY + GW + 4 - 470 / s + 8;                                  /* the lowest centre that keeps the credit row clear */
+/* "In June": onto the block of 100, whole and exactly centred (2.4x is the zoom at which its centre clears the credit limit) */
+key(T.june - .05, T.june + 1.0, B0.cx, B0.cy, 2.4);
+key(T.dap - .1, T.dap + 1.1, 960, 540, 1.0);                                    /* all 3,600 */
+/* from "Many of those people" on, the release card is gone: the whole board, centred in the frame, holds through the bet */
+const WHOLE = { cx: 998, cy: 613, s: 1.014 };
+key(T.casual - .2, T.casual + 1.6, WHOLE.cx, WHOLE.cy, WHOLE.s, esin);
+/* "So Meta had a free agent": the three agents' tiles whole and centred, the ledger wholly out of frame */
+key(T.close - .1, T.close + 1.3, 532, 805, 2.0);
+key(T.billions - .6, T.billions + .8, WHOLE.cx, WHOLE.cy, WHOLE.s);             /* and billions: the whole board, centred */
+function camAt(t) {
+  let c = { cx: 960, cy: 540, ls: Math.log(1.11) };
+  for (const k of KEYS) {
+    if (t <= k.t0) break;
+    const e = k.ease(clamp((t - k.t0) / (k.t1 - k.t0)));
+    c = { cx: lerp(c.cx, k.cx, e), cy: lerp(c.cy, k.cy, e), ls: lerp(c.ls, k.ls, e) };
+    if (t < k.t1) break;
+  }
+  const s = Math.exp(c.ls);
+  /* once the ledger is up, the credit row stays on clear ground; the limit eases in (no jump) before the ledger's first frame */
+  c.cy = lerp(c.cy, Math.max(c.cy, LOW(s)), prog(t, T.route - .2, .6, eio2));
+  CAM.setAttribute('transform', `translate(960,540) scale(${s.toFixed(5)}) translate(${(-c.cx).toFixed(3)},${(-c.cy).toFixed(3)})`);
+}
+
+/* ---------- the scene at time t ---------- */
+const eRank = (o) => Math.max(Math.abs(o.row - B0.row), Math.abs(o.col - B0.col));   /* the field fills outward, ring by ring */
+const maxRank = 4;
+const maxD0 = Math.hypot(9, 9);
+function sceneAt(t) {
+  camAt(t);
+  /* tiles: lit on their words; the A→B move on "Because Meta has massive distribution" */
+  const m = prog(t, T.route - .2, 1.0, eio2);
+  tiles.forEach(o => {
+    const x = lerp(TA[o.i], TB[o.i], m), y = lerp(TAY, TBY, m), s = lerp(1, SB, m);
+    o.g.setAttribute('transform', `translate(${x.toFixed(2)},${y.toFixed(2)}) scale(${s.toFixed(4)})`);
+  });
+  const lit = (t0) => lerp(.58, 1, prog(t, t0 - .1, .5, eio2));
+  /* who holds the light: the rivals on their names; Muse on "give away"; the rivals again on "its rivals charge for"; all at rest */
+  const rv = prog(t, T.rivalsW - .25, .5, eio2) * (1 - m), mu = prog(t, T.muse - .3, .7, eio2);
+  const rivalDim = lerp(1, .62, mu * (1 - rv)), museDim = lerp(1, .62, rv);
+  grok.g.style.opacity = (lit(T.rivals) * rivalDim).toFixed(3);
+  dots.g.style.opacity = (lit(T.dots) * rivalDim).toFixed(3);
+  muse.g.style.opacity = (lit(T.muse) * museDim).toFixed(3);
+  [grok, dots, muse].forEach(o => rise(o.nm, 1));
+  muse.gold.style.opacity = prog(t, T.muse - .1, .5, eio2).toFixed(3);       /* the gold frame comes up over the grey one */
+  [grok, dots].forEach((o, i) => { o.band.setAttribute('height', (46 * prog(t, T.paid - .1 + i * .08, .45, eo3)).toFixed(2)); o.plans.forEach((p, k) => rise(p, prog(t, T.plans + i * .1 + k * .1, .75))); });
+  rise(muse.plan, prog(t, T.muse + .4, .75));
+  muse.uline.setAttribute('x1', TW / 2 - 118); muse.uline.setAttribute('x2', (TW / 2 - 118 + 236 * prog(t, T.free - .05, .6, eio2)).toFixed(2));
+  muse.uline.style.opacity = t >= T.free - .05 ? 1 : 0;
+
+  /* the ledger: its frame opens, one dot, its block of 100, then all 3,600 */
+  /* the ledger draws in right behind Muse's tile as it slides out of the way: each block's frame opens once the tile has passed it */
+  const museRight = lerp(TA[2], TB[2], m) + TW * lerp(1, SB, m);
+  OUTL.forEach(o => { o.r.style.opacity = clamp((o.x - museRight - 10) / 60).toFixed(3); });
+  blocks.forEach((o, b) => {
+    if (b === FB) {
+      o.g.style.opacity = 1;
+      o.ds.forEach(d => { const k = d.d === 0 ? prog(t, T.dot1 - .15, .35, eio2) : prog(t, T.june + .05 + .9 * d.d / maxD0, .3, eio2); d.c.style.opacity = k.toFixed(3); });
+    } else o.g.style.opacity = prog(t, T.dap + .05 + 1.0 * eRank(o) / maxRank, .35, eio2).toFixed(3);
+    /* the bet: hollow gold, outward from Muse's side (the ledger's left edge, mid-height) */
+    const w = prog(t, T.bet + 4.2 * (o.col + Math.abs(o.row - 2.5) * .6) / (BX - 1 + 1.5), .5, eio2);
+    o.g.style.fillOpacity = lerp(.62, .14, w).toFixed(3); o.g.style.strokeOpacity = w.toFixed(3);
+  });
+  rise(zoomLeg, 0, 0);                    /* p6d: no single-dot zoom; the column's legend lands with the first dot instead */
+  /* the figure lands on "people", the legend after it; the four apps on their names */
+  rise(big, prog(t, T.field, .8)); rise(leg, prog(t, T.dot1 + .15, .75));     /* "● = 1M people" lands with the first dot */
+  [T.apps, T.app2, T.app3, T.app4].forEach((t0, i) => { const k = prog(t, t0 - .05, .5, eo3); apps[i].style.opacity = k.toFixed(3); apps[i].setAttribute('y', (AY + 12 * (1 - k)).toFixed(2)); });
+  /* the bet's rules */
+  bracket.style.strokeDasharray = `14 10`; bracket.style.opacity = t >= T.betting ? 1 : 0;
+  const bk = prog(t, T.betting, 1.2, eio2), ck = prog(t, T.betting - .3, .7, eio2);
+  bracket.setAttribute('stroke-dashoffset', 0);
+  bracket.style.clipPath = `inset(0 ${((1 - bk) * 100).toFixed(2)}% 0 0)`;
+  conn.style.opacity = t >= T.betting - .3 ? 1 : 0; conn.style.clipPath = `inset(0 ${((1 - ck) * 100).toFixed(2)}% 0 0)`;
+  document.querySelector('.bw-source').style.opacity = '1';                     /* on from frame 0: the page opens on a drawn frame */
+  safeFade();
+}
+
+let TL = null;
+function play() {
+  const tl = gsap.timeline({ onUpdate: () => sceneAt(tl.time()) });
+  STEPS.forEach(([n]) => BW.mark(tl, n, T[n]));
+  tl.to({}, { duration: END }, 0);
+  sceneAt(0);
+  return (TL = tl);
+}
+function rest() { sceneAt(END); }
+BW.run({ play, rest });
+</script>
+</body>
+</html>

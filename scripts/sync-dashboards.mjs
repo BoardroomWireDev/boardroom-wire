@@ -38,6 +38,7 @@ const SOURCES = {
   'situational-awareness': path.join(BOARDROOM, 'videos/situational-awareness/dashboards'),
   'cursor': path.join(BOARDROOM, 'videos/cursor/dashboards'),
   'anthropic-ipo': path.join(BOARDROOM, 'videos/anthropic-ipo/dashboards'),
+  'alexandr-wang': path.join(BOARDROOM, 'videos/alexandr-wang/dashboards'),
 };
 
 // Optional per-collection board list. Since Anthropic IPO, a video folder holds
@@ -49,6 +50,15 @@ const BOARDS = {
     '20-ledger.html', '21-revenue.html', '22-valuation.html', '23-money-map.html',
     '50-gap.html', '51-runrate.html', '52-charge.html', '53-dollar.html',
     '54-bill.html', '56-terms.html', '57-record.html',
+  ]),
+  // The final-cut version of each board (the folder also keeps every earlier pass).
+  // 06-the-chart and 08-the-face-of-it are left out: they load captures from the
+  // video's stock-pack, which the site does not carry, and render empty on the web.
+  'alexandr-wang': new Set([
+    '01-nothing-to-show-p6c.html', '02-what-14-billion-bought.html', '42-the-offer.html',
+    '03-from-18-to-52-p6b.html', '04-how-muse-works-p6c.html', '05-free-in-front-of-billions-p6.html',
+    '07-the-stock-p6b.html',
+    '09-three-agents.html', '11-the-bill-p6c.html', '14-aa-rank-p6.html',
   ]),
 };
 

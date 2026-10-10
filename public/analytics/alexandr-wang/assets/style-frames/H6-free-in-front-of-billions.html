@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>H6 Free, in front of 3.6 billion, style frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/brand.css">
+<link rel="stylesheet" href="sf.css">
+</head><body>
+<div class="stage">
+  <svg class="sf" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="sf-credit" id="credit"></div>
+</div>
+<script src="sf-figures.js"></script>
+<script src="sf.js"></script>
+<script>
+/* H6, final step: Meta's daily people as a dot field at true count (3,600 dots, one per million), the family of apps
+   named in the writer's words, and Muse, the one agent with a free tier, set against the whole field with no number.
+   The bracket is dashed: reaching the field is Meta's bet, not a fact (Muse is in the US and Canada only). */
+const s = document.getElementById('s'); defs(s);
+const dap = F('meta_dap_jun2026'), N = Math.round(dap.v / 1e6);        // 3,600
+// blocks of 100 (10 x 10), 9 across: countable at a glance, 36 blocks
+const P = 12.2, BK = 10 * P, GAP = 14, BX = 9, FX = 618, FY = 302;
+const ROWS = Math.ceil(N / 100 / BX) * 10;
+
+el(s, 'text', { x: FX - 4, y: FY - 34, class: 'nd', 'font-size': 32 }, 'Facebook, Instagram, WhatsApp and Messenger');
+const g = el(s, 'g', { fill: 'rgba(245,241,229,.5)' });
+for (let i = 0; i < N; i++) {
+  const b = Math.floor(i / 100), j = i % 100;
+  const bx = FX + (b % BX) * (BK + GAP), by = FY + Math.floor(b / BX) * (BK + GAP);
+  el(g, 'circle', { cx: bx + (j % 10) * P + P / 2, cy: by + Math.floor(j / 10) * P + P / 2, r: 3.9 });
+}
+
+// the hero
+el(s, 'text', { x: 112, y: 404, class: 'fh', 'font-size': 176 }, fmt.fix(dap.v / 1e9, 1) + 'B');
+el(s, 'text', { x: 122, y: 462, class: 'nd', 'font-size': 32 }, '1 dot = 1M');
+
+// Muse, free, against the whole field; the rivals, paid
+const FH = (ROWS / 10) * (BK + GAP) - GAP, my = FY + FH / 2 + 60;
+el(s, 'path', { d: `M${FX - 8},${FY} H${FX - 22} V${FY + FH} H${FX - 8}`, fill: 'none', stroke: 'var(--gold)', 'stroke-width': 3, 'stroke-dasharray': '12 9' });
+el(s, 'line', { x1: 420, x2: FX - 22, y1: my - 11, y2: my - 11, stroke: 'var(--gold)', 'stroke-width': 3, 'stroke-dasharray': '12 9' });
+el(s, 'text', { x: 122, y: my, class: 'nm', 'font-size': 40, style: 'fill:var(--gold)' }, 'Muse');
+el(s, 'text', { x: 246, y: my, class: 'nm', 'font-size': 32 }, F('muse_free_tier').label);
+el(s, 'text', { x: 122, y: my + 74, class: 'nd', 'font-size': 32 }, 'Grok Bot, Dots');
+el(s, 'text', { x: 122, y: my + 120, class: 'nd', 'font-size': 32, style: 'fill:rgba(245,241,229,.45)' }, F('grokbot_plans').label);
+
+credit(['meta_dap_jun2026', 'muse_free_tier', 'grokbot_plans', 'dots_plans'], 'Daily active people, June 2026 average.');
+</script>
+</body></html>

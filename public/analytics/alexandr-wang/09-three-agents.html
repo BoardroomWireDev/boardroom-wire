@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — Three agents (alexandr-wang hero H9)</title>
+<!-- ALEXANDR WANG · HERO H9 · THREE AGENTS (9 Oct 2026; Ive). Picture map b051 (s6p4 w13, 214 words): "Two rivals got there
+     around the same time, and both of them charge for it … Meta's Muse is the most accessible, the people's personal agent."
+     Style frame: assets\style-frames\H9.png. Three launches on a true day scale (Aug to early Oct 2026), each under its maker's
+     mark, the gaps measured (28 and 21 days, our arithmetic on the launch dates), and under each what it costs: a filled cell is
+     stated by the company, an empty one does not exist. Muse alone has a free tier; prices stay off. Grok Bot's 418,000 weekly
+     users sit under it as SpaceXAI's own claim. Overlays b052-b056 ride over it (the Grok Bot film, receipts, the Dots stall).
+     Pass 1 (9 Oct): starts on "The first was Grok Bot" (8:01.10), 89.5 s; the defaults below are the new cue sheet's.
+     Steps (default times: the recorded VO, review\dashboard_cue_sheet.md, 9 Oct; listed below as first planned at v12, 150 wpm; ?at= in this order, ?secs=):
+       axis 0.2 · grok "Grok" w18 7.2 · august "August 11th" w34 13.6 · muse "four weeks" w36 14.4 · grokpaid "paid" w64 25.6 ·
+       users "418,000" w92 36.8 · dots "September 29th" w105 42.0 · gap2 "three weeks" w107 42.8 · dotspaid "isn't free" w168 67.2 ·
+       premium "Pro and Business Premium" w175 70.0 · musefree "accessible" w209 83.6                           (secs 85.6)
+     Capture contract: BW.run({play, rest}); ?capture ?final ?still ?beats ?t=<step>. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero-kit.css?v=1">
+</head>
+<body>
+<div class="stage">
+  <svg class="plot" id="plot" viewBox="0 0 1920 1080"></svg>
+  <div id="labs"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/hero-kit.js?v=1"></script>
+<script>
+const F = BW.fig, lin = (d0, d1, r0, r1) => (v) => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+const S = K.steps([['axis', .2], ['grok', 1.12], ['august', 7.44], ['muse', 8.36], ['grokpaid', 17.64], ['users', 29.86], ['dots', 36.9],
+  ['gap2', 38.16], ['dotspaid', 67.68], ['premium', 70.88], ['musefree', 83.82]], 89.5);
+BW.provenance({ uses: ['grokbot_launch', 'muse_launch', 'dots_launch', 'gap_grokbot_to_muse_days', 'gap_muse_to_dots_days',
+  'muse_free_tier', 'grokbot_plans', 'dots_plans', 'grokbot_weekly_users'] });
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const day = (iso) => +iso.slice(8, 10) + ' ' + MON[+iso.slice(5, 7) - 1];
+const doy = (m, d) => (m === 8 ? 0 : m === 9 ? 31 : 61) + d;                 /* days from 0 Aug */
+const at = (k) => { const v = F(k).v; return doy(+v.slice(5, 7), +v.slice(8, 10)); };
+const x = lin(doy(8, 1), doy(10, 6), 300, 1760), AY = 330, LN = 'rgba(var(--cream-rgb), .4)';
+const LOGO = 'assets/logos/';
+const A = {
+  grok: { n: 'Grok Bot', k: 'grokbot_launch', maker: 'SpaceXAI' },   /* pass 1: the mark reads "SPACEX"; the name the voice says instead */
+  muse: { n: 'Muse', k: 'muse_launch', logo: ['logo-muse.png', 40, 40], me: true },
+  dots: { n: 'Dots', k: 'dots_launch', logo: ['logo-openai_white.png', 130, 36] }
+};
+Object.values(A).forEach(a => { a.at = at(a.k); a.x = x(a.at); });
+
+/* the day axis: drawn from frame 0 (no dead head, gates.json#deadHead); the 'axis' step stays as a mark */
+K.svg('line', { x1: x(doy(8, 1)), y1: AY, x2: x(doy(10, 6)), y2: AY }, 'stroke:' + LN + '; stroke-width:2', { dur: 1.6 });
+for (let d = doy(8, 1); d <= doy(10, 6); d++) K.svg('line', { x1: x(d), y1: AY, x2: x(d), y2: AY + 8 }, 'stroke:rgba(var(--cream-rgb), .22); stroke-width:2', { as: 'fade', dur: .2 });
+/* month starts ticked long; the launch dates name the months (rule 16: fewer labels) */
+[doy(8, 1), doy(9, 1), doy(10, 1)].forEach((d) => {
+  K.svg('line', { x1: x(d), y1: AY, x2: x(d), y2: AY + 20 }, 'stroke:' + LN + '; stroke-width:2', { as: 'fade' });
+});
+
+/* a launch: its rule, its point, its maker's mark, its name, its date */
+const RY = [AY + 230, AY + 340], CS = 84;
+function launch(a, dateStep) {
+  K.svg('line', { x1: a.x, y1: AY - 40, x2: a.x, y2: AY + 340 + 42 }, 'stroke:' + (a.me ? 'rgba(var(--gold-rgb), .7)' : 'rgba(var(--cream-rgb), .25)') + '; stroke-width:2', { dur: 1 });
+  K.svg('circle', { cx: a.x, cy: AY, r: a.me ? 10 : 8 }, 'fill:' + (a.me ? 'var(--gold)' : 'var(--grey-bright)'));
+  if (a.maker) K.text(a.x, AY - 182, [[a.maker, 'wd']], 32, { a: 'm' });
+  else { const [f, w, h] = a.logo;
+    K.svg('image', { href: LOGO + f, x: a.x - w / 2, y: AY - 214, width: w, height: h, preserveAspectRatio: 'xMidYMid meet' }, 'opacity:.9'); }
+  K.text(a.x, AY - 118, [[a.n, a.me ? 'w g' : 'w']], 44, { a: 'm' });
+  if (dateStep) K.step(dateStep);
+  K.text(a.x, AY - 66, [[day(F(a.k).v), 'wd']], 32, { a: 'm' });
+}
+const gap = (a, b, k) => {
+  const yy = AY + 104;
+  K.svg('line', { x1: a.x + 6, y1: yy, x2: b.x - 6, y2: yy }, 'stroke:rgba(var(--cream-rgb), .6); stroke-width:2', { dur: 1.2 });
+  [a.x + 6, b.x - 6].forEach(px => K.svg('line', { x1: px, y1: yy - 10, x2: px, y2: yy + 10 }, 'stroke:rgba(var(--cream-rgb), .6); stroke-width:2', { as: 'fade' }));
+  K.svg('rect', { x: (a.x + b.x) / 2 - 78, y: yy - 22, width: 156, height: 44 }, 'fill:var(--bg)', { as: 'fade' });
+  K.text((a.x + b.x) / 2, yy + 11, [[String(F(k).v), 'n'], ['days', 'w', 10]], 32, { a: 'm' });
+};
+/* a cost cell: filled is stated by the company, empty does not exist */
+const cellAt = (a, r, filled) => {
+  const cx = a.x - CS / 2, cy = RY[r] - CS / 2;
+  if (filled) K.svg('rect', { x: cx, y: cy, width: CS, height: CS }, 'fill:' + (a.me ? 'var(--gold)' : 'var(--grey-bright)'), { as: 'h', dur: .9 });
+  else K.svg('rect', { x: cx + 1, y: cy + 1, width: CS - 2, height: CS - 2 }, 'fill:var(--bg); stroke:rgba(var(--cream-rgb), .18); stroke-width:2', { as: 'fade' });
+};
+
+K.step('grok'); launch(A.grok, 'august');
+K.step('muse'); launch(A.muse); K.at('muse', .8); gap(A.grok, A.muse, 'gap_grokbot_to_muse_days');
+K.step('grokpaid');
+K.text(120, RY[0] + 12, 'free tier', 36);
+K.text(120, RY[1] + 12, [['paid plans', 'wd']], 36);
+cellAt(A.grok, 0, false); K.at('grokpaid', 1.0); cellAt(A.grok, 1, true);
+K.step('users');
+const uy = RY[1] + 128;
+K.text(A.grok.x, uy, [[F('grokbot_weekly_users').v.toLocaleString('en-US'), 'n']], 56, { a: 'm', dur: 1 });
+K.text(A.grok.x, uy + 48, [['weekly users', 'wd']], 32, { a: 'm' });
+K.text(A.grok.x, uy + 94, [['SpaceXAI, ' + day(F('grokbot_weekly_users').asOf), 'wd']], 32, { a: 'm' });
+K.step('dots'); launch(A.dots);
+K.step('gap2'); gap(A.muse, A.dots, 'gap_muse_to_dots_days');
+K.step('dotspaid'); cellAt(A.dots, 0, false); K.at('dotspaid', 1.0); cellAt(A.dots, 1, true);
+K.step('premium'); K.text(A.dots.x, uy - 12, [[F('dots_plans').label, 'wd']], 32, { a: 'm' });
+K.step('musefree'); cellAt(A.muse, 0, true); K.at('musefree', .5); cellAt(A.muse, 1, true);
+
+BW.run({ play: K.play, rest: K.rest });
+</script>
+</body>
+</html>

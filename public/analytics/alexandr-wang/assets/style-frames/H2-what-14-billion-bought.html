@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>H2 What $14 billion bought, style frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/brand.css">
+<link rel="stylesheet" href="sf.css">
+</head><body>
+<div class="stage">
+  <svg class="sf" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="sf-credit" id="credit"></div>
+</div>
+<script src="sf-figures.js"></script>
+<script src="sf.js"></script>
+<script>
+/* H2, final step: Scale as one square valued at "over $29B", so its far edge is left open and fading (a floor, not a
+   size); Meta's 49% cut from it, dashed because the share is reported, with the reported price and the filed booking
+   one under the other; Wang crossing to Meta. The business: street scenes labelled for self-driving cars, its early
+   work (2016), and the generic labelled data that went to the AI labs by 2025. */
+const s = document.getElementById('s'); const D = defs(s);
+const LOGO = '../../../../anthropic-ipo/dashboards/assets/logos/';
+const OWN = '../logos/';                                                        // this video's own copies
+const LN = 'rgba(245,241,229,.62)', G = 'var(--gold)';
+const t = (x, y, txt, cls = 'nd', size = 32, a = {}) => el(s, 'text', Object.assign({ x, y, class: cls, 'font-size': size }, a), txt);
+const fadeR = (id, col, a0) => { const g = el(D, 'linearGradient', { id, x1: 0, y1: 0, x2: 1, y2: 0 });
+  el(g, 'stop', { offset: 0, 'stop-color': col, 'stop-opacity': a0 }); el(g, 'stop', { offset: .55, 'stop-color': col, 'stop-opacity': a0 });
+  el(g, 'stop', { offset: 1, 'stop-color': col, 'stop-opacity': 0 }); };
+fadeR('sqFill', '#F5F1E5', .05); fadeR('sqEdge', '#F5F1E5', .62);
+
+// ---- Scale, and Meta's slice ----
+const SX = 140, SY = 300, SS = 580, pct = F('scale_deal_stake_reported').v / 100, SW = SS * pct;
+// the square: left edge closed, top and bottom running out to an open far edge (the valuation is a floor)
+el(s, 'rect', { x: SX, y: SY, width: SS, height: SS, fill: 'url(#sqFill)' });
+el(s, 'path', { d: `M${SX + SS},${SY} H${SX} V${SY + SS} H${SX + SS}`, fill: 'none', stroke: 'url(#sqEdge)', 'stroke-width': 2 });
+el(s, 'rect', { x: SX + 1.5, y: SY + 1.5, width: SW - 3, height: SS - 3, fill: 'rgba(212,175,55,.16)', stroke: G, 'stroke-width': 3, 'stroke-dasharray': '14 9' });
+t(SX, SY - 26, 'Scale AI', 'nm');
+t(SX + SS, SY - 26, fmt.usdB(F('scale_valuation_floor').v, 0), 'fn', 40, { 'text-anchor': 'end' });
+t(SX + SS - 112, SY - 26, 'over', 'nd', 32, { 'text-anchor': 'end' });
+t(SX + 26, SY + 128, fmt.pct(F('scale_deal_stake_reported').v), 'fh', 112);
+t(SX + 28, SY + 228, fmt.usdB(F('scale_deal_total_reported').v), 'fn', 52);
+t(SX + 28, SY + 276, 'Reuters');
+t(SX + 28, SY + 370, fmt.usdB(F('meta_scale_booked_fy2025').v, 2), 'fn', 40);
+t(SX + 28, SY + 416, '10-K, FY2025');
+el(s, 'image', { href: LOGO + 'logo-meta.png', x: SX + 28, y: SY + SS - 78, width: 190, height: 42, preserveAspectRatio: 'xMinYMid meet' });
+
+// Wang, from Scale to Meta
+const ay = SY - 92;
+el(s, 'path', { d: `M${SX + SW + (SS - SW) / 2},${SY - 66} V${ay} H${SX + SW / 2} V${SY - 66}`, fill: 'none', stroke: G, 'stroke-width': 3 });
+el(s, 'path', { d: `M${SX + SW / 2 - 10},${SY - 80} L${SX + SW / 2},${SY - 64} L${SX + SW / 2 + 10},${SY - 80}`, fill: 'none', stroke: G, 'stroke-width': 3 });
+t(SX + SW / 2 + 22, ay - 18, 'Alexandr Wang', 'nm');
+
+// ---- the business ----
+const TX = 880, TY = 300, TW = 280, TH = 186, TG = 34, P3 = TX + 2 * (TW + TG);
+const corners = (bx, by, bw, bh, k = 12) =>
+  [[bx, by, 1, 1], [bx + bw, by, -1, 1], [bx, by + bh, 1, -1], [bx + bw, by + bh, -1, -1]].forEach(([px, py, dx, dy]) =>
+    el(s, 'path', { d: `M${px + dx * k},${py} H${px} V${py + dy * k}`, fill: 'none', stroke: G, 'stroke-width': 3 }));
+t(TX, TY - 26, 'labeling', 'nm');
+
+// early work: street scenes, objects boxed for self-driving cars
+for (let i = 0; i < 2; i++) {
+  const x0 = TX + i * (TW + TG), hz = TY + TH * .36, vx = x0 + TW * (.42 + i * .12);
+  el(s, 'rect', { x: x0, y: TY, width: TW, height: TH, fill: 'none', stroke: LN, 'stroke-width': 2 });
+  el(s, 'line', { x1: x0, x2: x0 + TW, y1: hz, y2: hz, stroke: 'rgba(245,241,229,.3)', 'stroke-width': 2 });
+  el(s, 'line', { x1: vx, y1: hz, x2: x0 + 18, y2: TY + TH, stroke: 'rgba(245,241,229,.45)', 'stroke-width': 2 });
+  el(s, 'line', { x1: vx, y1: hz, x2: x0 + TW - 18, y2: TY + TH, stroke: 'rgba(245,241,229,.45)', 'stroke-width': 2 });
+  el(s, 'line', { x1: vx, y1: hz + 8, x2: vx + (i - .5) * 12, y2: TY + TH, stroke: 'rgba(245,241,229,.3)', 'stroke-width': 2, 'stroke-dasharray': '10 12' });
+  [[x0 + 34 + i * 12, hz + 12, 76, 52], [x0 + TW - 102 - i * 16, hz + 22, 60, 42]].forEach(([bx, by, bw, bh]) => {
+    const cy = by + bh * .2, cw = bw * .78, cx = bx + (bw - cw) / 2, ch = bh * .62;      // the car, seen from behind
+    el(s, 'path', { d: `M${cx + cw * .18},${cy + ch * .38} L${cx + cw * .28},${cy} H${cx + cw * .72} L${cx + cw * .82},${cy + ch * .38}`, fill: 'var(--bg)', stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2 });
+    el(s, 'rect', { x: cx, y: cy + ch * .38, width: cw, height: ch * .5, fill: 'var(--bg)', stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2 });
+    el(s, 'line', { x1: cx + 4, x2: cx + cw * .22, y1: cy + ch * .62, y2: cy + ch * .62, stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2 });
+    el(s, 'line', { x1: cx + cw * .78, x2: cx + cw - 4, y1: cy + ch * .62, y2: cy + ch * .62, stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2 });
+    corners(bx, by, bw, bh);
+  });
+}
+t(TX, TY + TH + 54, String(F('wang_scale_founded_year').v), 'fn', 32);
+t(TX + 98, TY + TH + 54, 'self-driving cars');
+
+// later: generic data, spans of text, each tagged
+el(s, 'rect', { x: P3, y: TY, width: TW, height: TH, fill: 'none', stroke: LN, 'stroke-width': 2 });
+[[0, 210], [1, 236], [2, 150], [3, 224], [4, 120]].forEach(([r, w]) =>
+  el(s, 'line', { x1: P3 + 22, x2: P3 + 22 + w, y1: TY + 34 + r * 30, y2: TY + 34 + r * 30, stroke: 'rgba(245,241,229,.38)', 'stroke-width': 6, 'stroke-linecap': 'round' }));
+corners(P3 + 76, TY + 20, 104, 28, 9); corners(P3 + 128, TY + 110, 124, 28, 9); corners(P3 + 12, TY + 140, 140, 28, 9);
+
+// the labs, fed by the generic data
+const LY = 680, gC = TX + TW + TG + 85, oC = P3 + 85;
+el(s, 'path', { d: `M${P3 + TW / 2},${TY + TH + 22} V${LY - 104} H${gC} V${LY - 66}`, stroke: G, 'stroke-width': 3, fill: 'none' });
+el(s, 'path', { d: `M${oC},${LY - 104} V${LY - 66}`, stroke: G, 'stroke-width': 3, fill: 'none' });
+[gC, oC].forEach(cx => el(s, 'path', { d: `M${cx - 10},${LY - 80} L${cx},${LY - 64} L${cx + 10},${LY - 80}`, stroke: G, 'stroke-width': 3, fill: 'none' }));
+t(TX, LY + 12, 'AI labs', 'nm');
+el(s, 'image', { href: LOGO + 'logo-google.png', x: gC - 85, y: LY - 26, width: 170, height: 46, preserveAspectRatio: 'xMidYMid meet' });
+t(gC - 120, LY + 76, fmt.usdM(F('google_cuts_scale').v), 'fn', 32);
+t(gC + 6, LY + 76, 'planned, 2025');
+el(s, 'image', { href: OWN + 'logo-openai_white.png', x: oC - 85, y: LY - 26, width: 170, height: 46, preserveAspectRatio: 'xMidYMid meet' });
+
+credit(['scale_valuation_floor', 'meta_scale_booked_fy2025', 'scale_deal_total_reported', 'google_cuts_scale', 'wang_scale_founded_year']);
+</script>
+</body></html>

@@ -1,0 +1,5 @@
+{
+  "version": "5.1",
+  "date": "2026-10-03",
+  "notes": "v5 Ink surface (27 Sep 2026: nothing glows, nothing floats; Inter for words, IBM Plex Mono for numbers; true 4K at deviceScaleFactor 2) plus v5.1 (28 Sep: rule 16, words on screen; 3 Oct: flagship.css/flagship.js promoted from anthropic-ipo). bw new copies this file and writes project.json.layer; bw status warns when a video's layer is behind the template. Cursor and SA stay on v4 by decision."
+}

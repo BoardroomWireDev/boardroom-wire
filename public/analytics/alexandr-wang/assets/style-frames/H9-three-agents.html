@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>H9 Three agents, style frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/brand.css">
+<link rel="stylesheet" href="sf.css">
+</head><body>
+<div class="stage">
+  <svg class="sf" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="sf-credit" id="credit"></div>
+</div>
+<script src="sf-figures.js"></script>
+<script src="sf.js"></script>
+<script>
+/* H9, final step: three launches on a true day scale (Aug to early Oct 2026), the gaps between them measured, and under
+   each launch what it costs to use: a filled cell is stated by the company, an empty one does not exist. Muse alone has
+   a free tier; its paid plans are stated by Meta ("subscription plans for people who want to do more"); prices stay off. Grok Bot's weekly users sit under it as SpaceXAI's own claim. */
+const s = document.getElementById('s'); defs(s);
+const doy = (m, d) => (m === 8 ? 0 : m === 9 ? 31 : 61) + d;            // days from 0 Aug
+const at = (k) => { const v = F(k).v; return doy(+v.slice(5, 7), +v.slice(8, 10)); };
+const x = lin(doy(8, 1), doy(10, 6), 300, 1760);
+const AY = 330, LN = 'rgba(245,241,229,.4)';
+const A = [
+  { n: 'Grok Bot', d: fmt.day(F('grokbot_launch').v), at: at('grokbot_launch'), free: 0, paid: 'P' },
+  { n: 'Muse', d: fmt.day(F('muse_launch').v), at: at('muse_launch'), free: 'P', paid: 'P', me: true },
+  { n: 'Dots', d: fmt.day(F('dots_launch').v), at: at('dots_launch'), free: 0, paid: 'P' }
+];
+
+// the day axis
+el(s, 'line', { x1: x(doy(8, 1)), x2: x(doy(10, 6)), y1: AY, y2: AY, stroke: LN, 'stroke-width': 2 });
+for (let d = doy(8, 1); d <= doy(10, 6); d++) el(s, 'line', { x1: x(d), x2: x(d), y1: AY, y2: AY + 8, stroke: 'rgba(245,241,229,.22)', 'stroke-width': 2 });
+[['Aug', doy(8, 1)], ['Sep', doy(9, 1)], ['Oct', doy(10, 1)]].forEach(([m, d]) => {
+  el(s, 'line', { x1: x(d), x2: x(d), y1: AY, y2: AY + 20, stroke: LN, 'stroke-width': 2 });
+  el(s, 'text', { x: x(d) + 8, y: AY + 54, class: 'nd', 'font-size': 32 }, m);
+});
+
+// launches, and the gaps between them
+A.forEach(a => {
+  el(s, 'line', { x1: x(a.at), x2: x(a.at), y1: AY - 40, y2: AY + 340 + 42, stroke: a.me ? 'rgba(212,175,55,.7)' : 'rgba(245,241,229,.25)', 'stroke-width': 2 });
+  el(s, 'circle', { cx: x(a.at), cy: AY, r: a.me ? 10 : 8, fill: a.me ? 'var(--gold)' : '#9A9AAA' });
+  el(s, 'text', { x: x(a.at), y: AY - 118, 'text-anchor': 'middle', class: 'nm', 'font-size': 44, style: a.me ? 'fill:var(--gold)' : '' }, a.n);
+  el(s, 'text', { x: x(a.at), y: AY - 66, 'text-anchor': 'middle', class: 'nd', 'font-size': 32 }, a.d);
+});
+[[A[0], A[1], 'gap_grokbot_to_muse_days'], [A[1], A[2], 'gap_muse_to_dots_days']].forEach(([a, b, k]) => {
+  const yy = AY + 104;
+  el(s, 'line', { x1: x(a.at) + 6, x2: x(b.at) - 6, y1: yy, y2: yy, stroke: 'rgba(245,241,229,.6)', 'stroke-width': 2 });
+  [x(a.at) + 6, x(b.at) - 6].forEach(px => el(s, 'line', { x1: px, x2: px, y1: yy - 10, y2: yy + 10, stroke: 'rgba(245,241,229,.6)', 'stroke-width': 2 }));
+  el(s, 'rect', { x: (x(a.at) + x(b.at)) / 2 - 78, y: yy - 22, width: 156, height: 44, fill: 'var(--bg)' });
+  el(s, 'text', { x: (x(a.at) + x(b.at)) / 2, y: yy + 11, 'text-anchor': 'middle', class: 'fn', 'font-size': 32 }, fmt.int(F(k).v)).appendChild(Object.assign(document.createElementNS(NS, 'tspan'), { textContent: ' days' })).setAttribute('style', 'font-family:var(--sans);font-weight:500');
+});
+
+// what it costs: free tier, paid plans
+const RY = [AY + 230, AY + 340], CS = 84;
+el(s, 'text', { x: 120, y: RY[0] + 12, class: 'nm', 'font-size': 36 }, 'free tier');
+el(s, 'text', { x: 120, y: RY[1] + 12, class: 'nd', 'font-size': 36 }, 'paid plans');
+A.forEach(a => {
+  [a.free, a.paid].forEach((v, r) => {
+    const cx = x(a.at) - CS / 2, cy = RY[r] - CS / 2;
+    if (v === 'P') el(s, 'rect', { x: cx, y: cy, width: CS, height: CS, fill: a.me ? 'var(--gold)' : '#6E6E80' });
+    else if (v === 'R') el(s, 'rect', { x: cx + 1.5, y: cy + 1.5, width: CS - 3, height: CS - 3, fill: 'var(--bg)', stroke: a.me ? 'var(--gold)' : '#6E6E80', 'stroke-width': 3, 'stroke-dasharray': '9 6' });
+    else el(s, 'rect', { x: cx + 1, y: cy + 1, width: CS - 2, height: CS - 2, fill: 'var(--bg)', stroke: 'rgba(245,241,229,.18)', 'stroke-width': 2 });
+  });
+});
+// under Grok Bot: its own claim; under Dots: the plans it comes with
+const gx = x(A[0].at), dx = x(A[2].at), uy = RY[1] + 128;
+el(s, 'text', { x: gx, y: uy, 'text-anchor': 'middle', class: 'fn', 'font-size': 56 }, fmt.int(F('grokbot_weekly_users').v));
+el(s, 'text', { x: gx, y: uy + 48, 'text-anchor': 'middle', class: 'nd', 'font-size': 32 }, 'weekly users');
+el(s, 'text', { x: gx, y: uy + 94, 'text-anchor': 'middle', class: 'nd', 'font-size': 32 }, 'SpaceXAI, ' + fmt.day(F('grokbot_weekly_users').asOf));
+el(s, 'text', { x: dx, y: uy - 12, 'text-anchor': 'middle', class: 'nd', 'font-size': 32 }, F('dots_plans').label);
+
+credit(['muse_free_tier', 'grokbot_plans', 'dots_plans', 'grokbot_weekly_users', 'gap_grokbot_to_muse_days', 'gap_muse_to_dots_days']);
+</script>
+</body></html>

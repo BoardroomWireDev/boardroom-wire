@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>H1 Nothing to show for it, style frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/brand.css">
+<link rel="stylesheet" href="sf.css">
+</head><body>
+<div class="stage">
+  <svg class="sf" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="sf-credit" id="credit"></div>
+</div>
+<script src="sf-figures.js"></script>
+<script src="sf.js"></script>
+<script>
+/* H1, final step: the money (cash capex, 2025, with 2024 ticked on each bar) beside what it had bought by April 2025
+   (the April 2025 edition of the Artificial Analysis index, snapshot of 21 Apr 2025), Llama 4 Maverick measured against DeepSeek V3 and the frontier. */
+const s = document.getElementById('s'); defs(s);
+const LOGO = '../../../../anthropic-ipo/dashboards/assets/logos/';
+
+// ---- left: capex, 2025 ----
+const BY = 800, y = lin(0, 140e9, BY, 236);                     // USD
+const co = [
+  { k: 'capex_amzn_2025', p: 'capex_amzn_2024', logo: 'logo-amazon.png' },
+  { k: 'capex_googl_2025', p: 'capex_googl_2024', logo: 'logo-google.png' },
+  { k: 'capex_msft_cy2025_calc', p: 'capex_msft_cy2024_calc', logo: 'logo-microsoft.png' },
+  { k: 'capex_meta_cash_2025', p: 'capex_meta_cash_2024', logo: 'logo-meta.png', me: true }
+];
+el(s, 'text', { x: 172, y: 168, class: 'nm', 'font-size': 32 }, 'capex');
+el(s, 'text', { x: 276, y: 168, class: 'nd', 'font-size': 32 }, '2025');
+const BW = 100, BS = 150;
+co.forEach((c, i) => {
+  const cx = 220 + i * BS, f = F(c.k), p = F(c.p);
+  el(s, 'rect', { x: cx - BW / 2, y: y(f.v), width: BW, height: BY - y(f.v), fill: c.me ? 'var(--gold)' : '#4A4A5A' });
+  el(s, 'line', { x1: cx - BW / 2 - 12, x2: cx + BW / 2 + 12, y1: y(p.v), y2: y(p.v), stroke: c.me ? 'var(--ink)' : 'rgba(245,241,229,.75)', 'stroke-width': 3 });
+  el(s, 'text', { x: cx, y: y(f.v) - 18, 'text-anchor': 'middle', class: 'fn', 'font-size': 32, style: c.me ? 'fill:var(--gold)' : '' }, fmt.usdB(f.v));
+  el(s, 'image', { href: LOGO + c.logo, x: cx - 66, y: BY + 24, width: 132, height: 40, preserveAspectRatio: 'xMidYMid meet' });
+  if (i === 0) el(s, 'text', { x: cx - BW / 2 - 20, y: y(p.v) + 11, 'text-anchor': 'end', class: 'nd', 'font-size': 32 }, '2024');
+});
+el(s, 'line', { x1: 152, x2: 740, y1: BY, y2: BY, stroke: 'rgba(245,241,229,.4)', 'stroke-width': 2 });
+
+// ---- right: the index, April 2025 edition (snapshot of 21 Apr 2025) ----
+const NX = 1418, x = lin(0, 72, NX, 1846);
+const M = ['aa_apr2025_o4_mini_high', 'aa_apr2025_gemini25pro', 'aa_apr2025_deepseek_r1', 'aa_apr2025_claude37_sonnet_thinking',
+           'aa_apr2025_deepseek_v3_0324', 'aa_apr2025_gpt41', 'aa_apr2025_llama4_maverick', 'aa_apr2025_llama4_scout'];
+const R0 = 236, RS = 70, RH = 38;
+// the header: right-aligned to the scale's end, so the long model names keep their column
+const hd = el(s, 'text', { x: x(72), y: 168, 'text-anchor': 'end', class: 'nm', 'font-size': 32 }, 'Artificial Analysis');
+el(hd, 'tspan', { class: 'nd' }, ', April 2025');
+for (let v = 20; v <= 60; v += 20) el(s, 'line', { x1: x(v), x2: x(v), y1: R0 - 34, y2: R0 + RS * 7 + 26, stroke: 'rgba(245,241,229,.07)', 'stroke-width': 2 });
+M.forEach((k, i) => {
+  const f = F(k), cy = R0 + i * RS;
+  const me = k === 'aa_apr2025_llama4_maverick', rival = k === 'aa_apr2025_deepseek_v3_0324', scout = k === 'aa_apr2025_llama4_scout';
+  el(s, 'rect', { x: NX, y: cy - RH / 2, width: x(f.v) - NX, height: RH, fill: me ? 'var(--gold)' : rival ? 'rgba(245,241,229,.78)' : scout ? 'rgba(212,175,55,.38)' : '#4A4A5A' });
+  el(s, 'text', { x: NX - 22, y: cy + 11, 'text-anchor': 'end', class: me || rival ? 'nm' : 'nd', 'font-size': 32 }, f.label);
+  el(s, 'text', { x: x(f.v) - 12, y: cy + 12, 'text-anchor': 'end', class: 'fn', 'font-size': 32, style: me || rival ? 'fill:var(--ink)' : '' }, fmt.fix(f.v, 1));
+});
+el(s, 'line', { x1: NX, x2: NX, y1: R0 - 34, y2: R0 + RS * 7 + 26, stroke: 'rgba(245,241,229,.4)', 'stroke-width': 2 });
+
+// dimension lines: Maverick to DeepSeek V3 (2.7), Maverick to the top model (19.3)
+const mv = F('aa_apr2025_llama4_maverick').v, topv = F('aa_apr2025_o4_mini_high').v, ds = F('aa_apr2025_deepseek_v3_0324').v;
+const DY = R0 + RS * 7 + 70;
+[[mv, R0 + RS * 6 - RH / 2], [topv, R0 - RH / 2]].forEach(([v, y0]) =>
+  el(s, 'line', { x1: x(v), x2: x(v), y1: y0, y2: DY + 16, stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2, 'stroke-dasharray': '5 5' }));
+el(s, 'line', { x1: x(mv), x2: x(topv), y1: DY, y2: DY, stroke: 'var(--gold)', 'stroke-width': 3 });
+[x(mv), x(topv)].forEach(px => el(s, 'line', { x1: px, x2: px, y1: DY - 14, y2: DY + 14, stroke: 'var(--gold)', 'stroke-width': 3 }));
+el(s, 'text', { x: x(topv), y: DY + 112, 'text-anchor': 'end', class: 'fh', 'font-size': 104 }, fmt.fix(F('aa_gap_maverick_vs_frontier_apr2025').v, 1));
+// the like-for-like gap, on the Maverick and DeepSeek V3 rows
+const my = R0 + RS * 6;
+el(s, 'line', { x1: x(ds), x2: x(ds), y1: R0 + RS * 4 + RH / 2, y2: my + 14, stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2, 'stroke-dasharray': '4 4' });
+el(s, 'line', { x1: x(mv), x2: x(ds), y1: my, y2: my, stroke: 'var(--cream)', 'stroke-width': 3 });
+el(s, 'line', { x1: x(ds), x2: x(ds), y1: my - 14, y2: my + 14, stroke: 'var(--cream)', 'stroke-width': 3 });
+el(s, 'text', { x: x(ds) + 16, y: my + 12, class: 'fn', 'font-size': 32 }, fmt.fix(F('aa_gap_maverick_vs_deepseek_v3_0324').v, 1));
+
+credit(['capex_amzn_2025', 'capex_msft_cy2025_calc', 'aa_apr2025_llama4_maverick', 'aa_gap_maverick_vs_frontier_apr2025'],
+  'Cash capex, calendar years.');
+</script>
+</body></html>

@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — Spent big, fell behind p6c (alexandr-wang hero H1)</title>
+<!-- ALEXANDR WANG · HERO H1 · PASS 6c (10 Oct 2026; Ive): p6b with one change, the money section's camera: no push may crop a bar
+     or its labels; all four bars, their marks and their figures stay whole inside title-safe (x 96-1824, y 54-1026) on every frame
+     (Jarvis, from the pass-6 visual reviewer: Amazon flush left at ~6.5-9.5 s, Meta cut right at ~9.5 s in p6b). Below, p6b's notes.
+     PASS 6b (10 Oct 2026; Ive). review\BRIEF-pass6.md, plus the pass-6 reviewers through Jarvis:
+     (1) every figure appears only at its sourced value (no counter runs through unsourced values);
+     (2) a clear window for the Llama 4 announcement receipt (REQ-012, Davinci composites it) on "When Llama 4 came out in April of
+         2025" (board 14.0-16.5): the index's scale is up and the frame drifts; its bars land after the card;
+     (3) the index's version label (Goldman), set in INDEX_LABEL below when it arrives;
+     (4) the visual reviewer: the push onto Meta keeps Amazon's bar whole; while c011 is up the chart and the receipt are one centred
+         pair (the 19.3 above, the chart whole, the receipt square and at the type floor under it); nothing is clipped.
+     Flat, full frame, level, 2D camera only (pan, zoom); bars from a visible zero, values at labelled gridlines; every landing level
+     and centred. The money: four bars of cash capex ($0-$140B, $20B gridlines) over the companies' own marks. The index: the
+     Artificial Analysis index of 21 Apr 2025 as ranked bars from zero (10-point gridlines).
+     Steps (?at= in this order; page 0 = VO 58.32 = timeline 0:59.09; ends at 1:23.4, ?secs=24.3):
+       open .2 · y2024 .8 · y2025 3.58 · seventy 5.54 · fourth 7.58 · amazon 9.78 · google 10.52 · microsoft 11.18 · index 12.74 ·
+       april 15.52 · llama 16.5 (the bars land as the Llama 4 receipt leaves) · advanced 17.76 · openmodel 20.56 · chinese 22.08 ·
+       deepseek 23.5
+     Receipts over this board (Davinci's composites): REQ-012 (Llama 4 announcement) 14.0-16.5; c011 (Artificial Analysis on X)
+     settled 19.75-23.3 at ox 960, oy 830, zoom 1.23, rot 0 (its box is CARDS below).
+     Figures: shared/data.js. Words: cash capex, Artificial Analysis Index, the model names, the month.
+     Capture contract: BW.run({play, rest}); ?capture ?final ?still ?beats ?t=. Frame check: window.__p6v(). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<style>
+  svg.p6 { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+  .p6-lab { position: absolute; left: 0; top: 0; white-space: nowrap; line-height: 1; }
+  .p6-lab.m { transform: translateX(-50%); }
+  .p6-lab.e { transform: translateX(-100%); }
+  .p6-lab .mk { display: block; overflow: hidden; padding: .06em 0 .14em; }
+  .p6-lab .mk > span { display: inline-block; }
+  .p6-w  { font-family: var(--sans); font-weight: 500; color: var(--cream); }
+  .p6-wd { font-family: var(--sans); font-weight: 500; color: rgba(var(--cream-rgb), .66); }
+  .p6-n  { font-family: var(--mono); font-weight: 600; color: var(--cream); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .p6-ax { font-family: var(--mono); font-weight: 500; color: rgba(var(--cream-rgb), .55); font-variant-numeric: tabular-nums; }
+  .p6-h  { font-family: var(--mono); font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; letter-spacing: -.04em; }
+  .p6-g  { color: var(--gold); }
+  .p6-ink { color: var(--ink); }
+  #hud { position: absolute; inset: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg class="p6" viewBox="0 0 1920 1080"><g id="world"></g></svg>
+  <div class="world" id="wl"></div>
+  <div id="hud"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script>
+const F = BW.fig, NS = 'http://www.w3.org/2000/svg', Q = new URLSearchParams(location.search);
+const STEPS = [['open', .2], ['y2024', .8], ['y2025', 3.58], ['seventy', 5.54], ['fourth', 7.58], ['amazon', 9.78], ['google', 10.52],
+  ['microsoft', 11.18], ['index', 12.74], ['april', 15.52], ['llama', 16.5], ['advanced', 17.76], ['openmodel', 20.56],
+  ['chinese', 22.08], ['deepseek', 23.5]];
+const given = (Q.get('at') || '').split(',').filter(s => s.trim() !== '').map(Number);
+const T = {}; STEPS.forEach(([n, t], i) => { T[n] = i < given.length ? given[i] : t; });
+const END = +(Q.get('secs') || 0) || 24.3;
+/* the index's version (Goldman, 10 Oct): the title is the index's name plus the value of data.js aa_index_version_apr2025, never typed */
+const VKEY = 'aa_index_version_apr2025', VFIG = (typeof BW_DATA !== 'undefined' && BW_DATA.figures[VKEY]) || null;
+const INDEX_LABEL = VFIG ? String(VFIG.display ?? VFIG.v) : null;
+if (!VFIG) console.warn('H1 p6b: ' + VKEY + ' is not in data.js yet; the title goes without its version');
+
+/* ---------- the credit follows the picture: the money's sources while the bars are up, the index's from the pan on ---------- */
+const USES_CAPEX = ['capex_amzn_2024', 'capex_amzn_2025', 'capex_googl_2024', 'capex_googl_2025', 'capex_msft_cy2024_calc',
+  'capex_msft_cy2025_calc', 'capex_meta_cash_2024', 'capex_meta_cash_2025', 'meta_capex_growth_2025',
+  /* Microsoft's calendar years are our arithmetic from these five cash-flow figures (Goldman's ledger), so its filings are credited */
+  'capex_msft_6m_dec2023', 'capex_msft_6m_dec2024', 'capex_msft_6m_dec2025', 'capex_msft_fy2024', 'capex_msft_fy2025'];
+const USES_INDEX = ['aa_apr2025_o4_mini_high', 'aa_apr2025_gemini25pro', 'aa_apr2025_deepseek_r1', 'aa_apr2025_claude37_sonnet_thinking',
+  'aa_apr2025_deepseek_v3_0324', 'aa_apr2025_gpt41', 'aa_apr2025_llama4_maverick', 'aa_apr2025_llama4_scout',
+  'aa_gap_maverick_vs_frontier_apr2025', 'aa_gap_maverick_vs_deepseek_v3_0324'].concat(VFIG ? [VKEY] : []);
+const CREDIT_INDEX = BW.provenance({ uses: USES_INDEX }).querySelector('.bw-source').textContent;
+const CREDIT_CAPEX = BW.provenance({ uses: USES_CAPEX, footer: 'Cash capex, calendar years' }).querySelector('.bw-source').textContent;
+BW.provenance({ uses: USES_CAPEX.concat(USES_INDEX), footer: 'Cash capex, calendar years' });
+let CREDIT_AT = 1e9, CUR_TL = null;
+const credit = (t) => { const e = document.querySelector('.bw-source'), s = t >= CREDIT_AT ? CREDIT_INDEX : CREDIT_CAPEX; if (e && e.textContent !== s) e.textContent = s; };
+
+/* ---------- helpers: SVG marks in the world; HTML labels in the world (wl, moved by the camera) or on the screen (hud) ---------- */
+const W = document.getElementById('world'), WL = document.getElementById('wl'), HUD = document.getElementById('hud');
+const css = getComputedStyle(document.documentElement), tok = (v) => css.getPropertyValue(v).trim();
+const rgba = (v, a) => `rgba(${tok(v)}, ${a})`;
+const GOLD = tok('--gold'), GREY = tok('--grey'), CREAM = tok('--cream'), INK = tok('--ink');
+function S(tag, a = {}, st = '', parent = W) {
+  const n = document.createElementNS(NS, tag);
+  for (const k in a) n.setAttribute(k, a[k]);
+  if (st) n.setAttribute('style', st);
+  parent.appendChild(n); n.F = Object.assign({}, a); return n;
+}
+const LABS = [];
+function L(layer, x, base, runs, size, align = '', o = {}) {
+  const d = document.createElement('div'); d.className = 'p6-lab ' + align;
+  d.style.left = x + 'px'; d.style.top = (base - .92 * size) + 'px'; d.style.fontSize = size + 'px';
+  const m = document.createElement('div'); m.className = 'mk'; d.appendChild(m);
+  const s = document.createElement('span'); m.appendChild(s);
+  const parts = runs.map(([t, c, gap]) => { const r = document.createElement('span'); r.className = c; r.textContent = t; if (gap) r.style.marginLeft = gap + 'px'; s.appendChild(r); return r; });
+  layer.appendChild(d);
+  const lab = { box: d, in: s, parts, size, name: runs.map(r => r[0]).join(' ') };
+  LABS.push(lab); return lab;
+}
+const place = (lab, x, base) => { lab.box.style.left = x + 'px'; lab.box.style.top = (base - .92 * lab.size) + 'px'; };
+const rise = (tl, lab, t, d = .7) => tl.fromTo(lab.in, { yPercent: 130 }, { yPercent: 0, duration: d, ease: 'power3.out', immediateRender: false }, t);
+/* a hero figure lands whole: it fades up from a short drop, never wiped through a mask */
+const land = (tl, lab, t, d = .6) => { tl.set(lab.in, { yPercent: 0 }, t); tl.fromTo(lab.box, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: d, ease: 'power2.out', immediateRender: false }, t); };
+const hair = (w, c, a = 1) => `stroke:${c};stroke-opacity:${a};stroke-width:calc(${w}px / var(--s, 1))`;
+const usd = (v) => '$' + (v / 1e9).toFixed(2) + 'B';
+const year = (k) => F(k).asOf.slice(0, 4);
+const month = (k) => { const d = new Date(F(k).asOf + 'T00:00:00Z'); return d.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' }) + ' ' + d.getUTCFullYear(); };
+
+/* ================= the money: cash capex, $0-$140B, four bars ================= */
+const Y0 = 880, PB = 680 / 140e9, yv = (v) => Y0 - v * PB, SX = [470, 810, 1150, 1490], BWD = 230;
+const grid = S('g'), AXA = [];
+for (let v = 0; v <= 140e9; v += 20e9) {
+  S('line', { x1: 260, y1: yv(v), x2: 1720, y2: yv(v) }, hair(v ? 1.5 : 2.5, CREAM, v ? .1 : .5), grid);
+  AXA.push(L(WL, 240, yv(v) + 11, [[v ? '$' + v / 1e9 + 'B' : '$0', 'p6-ax']], 32, 'e'));
+}
+const co = [
+  { k24: 'capex_amzn_2024', k25: 'capex_amzn_2025', logo: 'logo-amazon.png', lw: 150, lh: 50, s0: 0, s1: 0 },
+  { k24: 'capex_msft_cy2024_calc', k25: 'capex_msft_cy2025_calc', logo: 'logo-microsoft.png', lw: 46, lh: 46, s0: 1, s1: 2 },
+  { k24: 'capex_googl_2024', k25: 'capex_googl_2025', logo: 'logo-google.png', lw: 46, lh: 46, s0: 2, s1: 1 },
+  { k24: 'capex_meta_cash_2024', k25: 'capex_meta_cash_2025', logo: 'logo-meta.png', lw: 200, lh: 40, s0: 3, s1: 3, me: true }
+];
+const meta = co[3], M24 = F(meta.k24).v, M25 = F(meta.k25).v;
+co.forEach(c => {
+  c.v24 = F(c.k24).v; c.v25 = F(c.k25).v; c.p = { v: 0, x: SX[c.s0] };
+  c.bar = S('rect', { x: 0, y: Y0, width: BWD, height: 0 }, 'fill:' + (c.me ? GOLD : GREY));
+  if (!c.me) c.over = S('rect', { x: 0, y: yv(c.v25), width: BWD, height: yv(M25) - yv(c.v25) }, 'fill:' + CREAM + ';opacity:0');
+  c.tick = S('line', { x1: 0, y1: yv(c.v24), x2: 0, y2: yv(c.v24) }, hair(3, c.me ? INK : CREAM, c.me ? 1 : .8) + ';opacity:0');
+  c.img = S('image', { href: 'assets/logos/' + c.logo, x: 0, y: Y0 + 24, width: c.lw, height: c.lh, preserveAspectRatio: 'xMidYMid meet' });
+  /* each figure only at its sourced value: the 2024 value as the bar lands on 2024, the 2025 value as it lands on 2025 */
+  c.l24 = L(WL, 0, yv(c.v24) - 18, [[F(c.k24).display, 'p6-n' + (c.me ? ' p6-g' : '')]], 40, 'm');
+  c.l25 = L(WL, 0, yv(c.v25) - 18, [[F(c.k25).display, 'p6-n' + (c.me ? ' p6-g' : '')]], 40, 'm');
+});
+const drawCo = (c) => {
+  const v = c.p.v, top = yv(v), x = c.p.x;
+  c.bar.setAttribute('x', x - BWD / 2); c.bar.setAttribute('y', top); c.bar.setAttribute('height', Y0 - top);
+  if (c.over) c.over.setAttribute('x', x - BWD / 2);
+  c.tick.setAttribute('x1', x - BWD / 2 - 14); c.tick.setAttribute('x2', x + BWD / 2 + 14);
+  c.img.setAttribute('x', x - c.lw / 2);
+  c.l24.box.style.left = x + 'px'; c.l25.box.style.left = x + 'px';
+};
+const datum = S('line', { x1: 1620, y1: yv(M25), x2: 1620, y2: yv(M25) }, hair(3, GOLD) + ';stroke-dasharray:12 9;opacity:0');
+const DX = SX[3] + BWD / 2 + 30;
+const dimG = S('g', {}, 'opacity:0');
+S('line', { x1: DX, y1: yv(M24), x2: DX, y2: yv(M25) }, hair(2, CREAM, .85), dimG);
+[M24, M25].forEach(v => S('line', { x1: DX - 12, y1: yv(v), x2: DX + 12, y2: yv(v) }, hair(2, CREAM, .85), dimG));
+const growth = L(WL, DX + 20, (yv(M24) + yv(M25)) / 2 + 14, [['+' + F('meta_capex_growth_2025').display, 'p6-n']], 40);
+const lab24 = L(WL, DX + 20, yv(M24) + 11, [[year(meta.k24), 'p6-ax']], 32);
+/* the unit and year, top right: open sky over the bars (the dollar scale runs up the left) */
+const hudA = L(HUD, 1700, 132, [['cash capex', 'p6-w']], 40, 'e');
+const yrA = L(HUD, 1716, 132, [[year(meta.k24), 'p6-n']], 40), yrB = L(HUD, 1716, 132, [[year(meta.k25), 'p6-n']], 40);
+yrA.parts[0].style.color = yrB.parts[0].style.color = rgba('--cream-rgb', .66);
+
+/* ================= the index: ranked bars from zero, 21 Apr 2025 ================= */
+const OX = 1920, ZB = OX + 160, PP = 22, xv = (v) => ZB + v * PP, RY0 = 262, RP = 92, RH = 66, TS = 51;
+const ax = S('g');
+for (let v = 0; v <= 70; v += 10) S('line', { x1: xv(v), y1: 222, x2: xv(v), y2: 948 }, hair(v ? 1.5 : 2.5, CREAM, v ? .1 : .5) + ';opacity:0', ax);
+const axLabs = [];
+for (let v = 0; v <= 70; v += 10) axLabs.push(L(WL, xv(v), 1000, [[String(v), 'p6-ax']], TS, 'm'));   /* the scale under the chart: the top is the heroes' */
+const ORDER = ['aa_apr2025_o4_mini_high', 'aa_apr2025_gemini25pro', 'aa_apr2025_deepseek_r1', 'aa_apr2025_claude37_sonnet_thinking',
+  'aa_apr2025_deepseek_v3_0324', 'aa_apr2025_gpt41', 'aa_apr2025_llama4_maverick', 'aa_apr2025_llama4_scout'];
+const md = {};
+ORDER.forEach((k, i) => {
+  const f = F(k), y = RY0 + i * RP, w = f.v * PP;
+  const m = md[k] = { k, v: f.v, y, w };
+  m.gold = /llama4_maverick/.test(k), m.dim = /llama4_scout/.test(k);
+  m.bar = S('rect', { x: ZB, y: y - RH / 2, width: w, height: RH }, 'fill:' + (m.gold ? GOLD : m.dim ? rgba('--gold-rgb', .5) : GREY));
+  m.name = L(WL, ZB + 20, y + 17, [[f.label, m.gold ? 'p6-w p6-ink' : 'p6-w']], TS);
+  m.val = L(WL, ZB + w - 18, y + 17, [[f.v.toFixed(2), 'p6-n' + (m.gold ? ' p6-ink' : '')]], TS, 'e');
+});
+const mav = md.aa_apr2025_llama4_maverick, sco = md.aa_apr2025_llama4_scout, top1 = md.aa_apr2025_o4_mini_high;
+const dsv3 = md.aa_apr2025_deepseek_v3_0324, dsr1 = md.aa_apr2025_deepseek_r1;
+const closed = ['aa_apr2025_o4_mini_high', 'aa_apr2025_gemini25pro', 'aa_apr2025_claude37_sonnet_thinking', 'aa_apr2025_gpt41'].map(k => md[k]);
+/* the gap to the top score, marked on Maverick's own row; and the drop from the top score's bar end to it */
+const GAPF = F('aa_gap_maverick_vs_frontier_apr2025'), DG = F('aa_gap_maverick_vs_deepseek_v3_0324');
+const band = S('rect', { x: xv(mav.v), y: mav.y - RH / 2, width: 0, height: RH }, 'fill:' + rgba('--gold-rgb', .16) + ';' + hair(2.5, GOLD));
+const drop = S('line', { x1: xv(top1.v), y1: top1.y + RH / 2, x2: xv(top1.v), y2: top1.y + RH / 2 }, hair(2, GOLD) + ';stroke-dasharray:8 7;opacity:0');
+/* the slice of DeepSeek V3's bar past Maverick's score; and the line up from Maverick's bar end to it */
+const slice = S('rect', { x: xv(mav.v), y: dsv3.y - RH / 2, width: xv(dsv3.v) - xv(mav.v), height: RH }, 'fill:' + CREAM + ';opacity:0');
+const rise2 = S('line', { x1: xv(mav.v), y1: mav.y - RH / 2, x2: xv(mav.v), y2: mav.y - RH / 2 }, hair(2, CREAM) + ';stroke-dasharray:6 6;opacity:0');
+/* the heroes land centred, above the chart */
+const hero19 = L(HUD, 960, 162, [[GAPF.display, 'p6-h']], 112, 'm');
+const hero27 = L(HUD, 960, 162, [[DG.display, 'p6-h']], 112, 'm'); hero27.parts[0].style.color = CREAM;
+const hudB = L(HUD, 96, 132, [['Artificial Analysis Index' + (INDEX_LABEL ? ',' : ''), 'p6-w']].concat(INDEX_LABEL ? [[INDEX_LABEL, 'p6-w', 11]] : []), 40);
+const hudDate = L(HUD, 96, 186, [[month('aa_apr2025_llama4_maverick'), 'p6-wd']], 40);
+
+/* ================= the camera: 2D only (pan, zoom), always level ================= */
+const K0 = { cx: 930, cy: 590, s: 1.14 };
+const cam = BW.camera(W, Object.assign({}, K0)); cam.parallax(WL, 1);
+function render() { credit(CUR_TL ? CUR_TL.time() : 0); }
+/* the index, whole, below the heroes and above the credit line */
+const FULL = { cx: OX + 960, cy: 568, s: 1.0 };
+/* while c011 is up: the chart whole and centred above the receipt (ox 960, oy 830, zoom 1.23, square), the 19.3 above both */
+const PAIR = { cx: OX + 938, cy: 785, s: .635 };
+
+function build() {
+  const tl = gsap.timeline({ onUpdate: render }); CUR_TL = tl;
+  STEPS.forEach(([n]) => BW.mark(tl, n, T[n]));
+  /* start states */
+  cam.set(K0);
+  co.forEach(c => { c.p.v = 0; c.p.x = SX[c.s0]; drawCo(c); gsap.set(c.tick, { opacity: 0 }); if (c.over) gsap.set(c.over, { opacity: 0 }); });
+  gsap.set(datum, { opacity: 0, attr: { x2: 1620 } }); gsap.set(dimG, { opacity: 0 });
+  LABS.forEach(l => { gsap.set(l.box, { opacity: 1, y: 0 }); gsap.set(l.in, { yPercent: 130 }); });
+  [hudA, yrA].concat(AXA).forEach(l => gsap.set(l.in, { yPercent: 0 }));                  /* the unit and the $ scale are up from frame 0 */
+  grid.querySelectorAll('line').forEach(n => gsap.set(n, { opacity: 1 }));
+  [grid, datum, dimG].concat(co.flatMap(c => [c.bar, c.over, c.tick, c.img].filter(Boolean))).forEach(n => gsap.set(n, { visibility: 'visible' }));
+  ax.querySelectorAll('line').forEach(n => gsap.set(n, { opacity: 0 }));
+  Object.values(md).forEach(m => { gsap.set(m.bar, { attr: { width: 0 }, opacity: 1 }); if (!m.gold && !m.dim) gsap.set(m.bar, { fill: GREY }); });
+  [dsr1, dsv3].forEach(m => gsap.set([m.name.parts[0], m.val.parts[0]], { color: '' }));
+  gsap.set(band, { attr: { width: 0 }, opacity: 1 }); gsap.set(drop, { opacity: 0, attr: { y2: top1.y + RH / 2 } });
+  gsap.set(slice, { opacity: 0 }); gsap.set(rise2, { opacity: 0, attr: { y2: mav.y - RH / 2 } });
+  gsap.set([hero19.box, hero27.box], { opacity: 0 });
+
+  let prev = Object.assign({}, K0);
+  const camTo = (t, dur, to, ease = 'power2.inOut') => {
+    const from = Object.assign({}, prev); prev = Object.assign({}, prev, to);
+    tl.fromTo(cam.v, from, Object.assign({}, prev, { duration: dur, ease, onUpdate: cam.apply, immediateRender: false }), t);
+    return t + dur;
+  };
+
+  /* a move that pivots on one world point (the chart's top-left corner): that point glides straight between its two screen
+     positions while the scale changes, so the chart never swings past the title or the heroes on the way */
+  const camAnch = (t, dur, to, wx, wy, ease = 'power2.inOut') => {
+    const a = Object.assign({}, prev); prev = Object.assign({}, prev, to); const b = prev;
+    const sx0 = 960 + (wx - a.cx) * a.s, sy0 = 540 + (wy - a.cy) * a.s, sx1 = 960 + (wx - b.cx) * b.s, sy1 = 540 + (wy - b.cy) * b.s;
+    const u = { u: 0 }, E = gsap.parseEase(ease);
+    tl.fromTo(u, { u: 0 }, { u: 1, duration: dur, ease: 'none', immediateRender: false, onUpdate: () => {
+      const e = E(u.u), sc = a.s + (b.s - a.s) * e, sx = sx0 + (sx1 - sx0) * e, sy = sy0 + (sy1 - sy0) * e;
+      cam.v.s = sc; cam.v.cx = wx - (sx - 960) / sc; cam.v.cy = wy - (sy - 540) / sc; cam.apply();
+    } }, t);
+    return t + dur;
+  };
+
+  /* --- open: a glide in over the four marks --- */
+  camTo(0, T.y2024, { cx: 932, cy: 586, s: 1.13 }, 'sine.in');
+  /* --- y2024 "investing billions": the race up to 2024; each 2024 figure lands with its bar --- */
+  const t1 = T.y2024;
+  co.forEach((c, i) => {
+    tl.fromTo(c.p, { v: 0 }, { v: c.v24, duration: 1.7, ease: 'power2.out', onUpdate: () => drawCo(c), immediateRender: false }, t1 + i * .08);
+    rise(tl, c.l24, t1 + i * .08 + 1.3, .5);
+  });
+  camTo(t1, 1.7, { cx: 945, cy: 562, s: 1.06 }, 'power2.out');
+  /* --- y2025 "In 2025": the year rolls; the 2024 figures step down; the race on to 2025, 2024 left as a tick; Google passes
+         Microsoft; each 2025 figure lands with its bar --- */
+  const t2 = T.y2025, landT = T.seventy, du = Math.max(.8, landT - t2 - .06);
+  tl.to(yrA.in, { yPercent: -130, duration: .5, ease: 'power2.in' }, t2);
+  tl.fromTo(yrB.in, { yPercent: 130 }, { yPercent: 0, duration: .6, ease: 'power3.out', immediateRender: false }, t2 + .5);
+  co.forEach(c => {
+    tl.to(c.l24.in, { yPercent: -130, duration: .35, ease: 'power2.in' }, t2);
+    tl.to(c.tick, { opacity: 1, duration: .3 }, t2 + .1);
+    tl.fromTo(c.p, { v: c.v24 }, { v: c.v25, duration: du, ease: 'power2.inOut', onUpdate: () => drawCo(c), immediateRender: false }, t2 + (c.me ? .06 : 0));
+    rise(tl, c.l25, t2 + (c.me ? .06 : 0) + du - .25, .5);
+  });
+  const tx = t2 + .37 * du;
+  [co[1], co[2]].forEach(c => tl.fromTo(c.p, { x: SX[c.s0] }, { x: SX[c.s1], duration: .75, ease: 'power2.inOut', onUpdate: () => drawCo(c), immediateRender: false }, tx));
+  camTo(t2, du, { cx: 960, cy: 540, s: 1.0 });
+  /* --- seventy "$70 billion": the frame closes on Meta with every bar whole; its +87.1% is dimensioned --- */
+  camTo(landT, 1.4, { cx: 1000, cy: 560, s: 1.05 });   /* gentle and centred on the four: every bar and its +87.1% whole in title-safe */
+  tl.to(AXA.map(l => l.box), { opacity: 0, duration: .3 }, landT + .1);          /* the $ scale steps off the left edge with the push */
+  tl.to(AXA.map(l => l.box), { opacity: 1, duration: .5 }, T.fourth + 1.0);
+  tl.to(AXA.map(l => l.box), { opacity: 0, duration: .25 }, T.index - .3);
+  tl.to(dimG, { opacity: 1, duration: .5 }, landT + .3);
+  rise(tl, growth, landT + .5); rise(tl, lab24, landT + .65);
+  /* --- fourth: Meta's level runs across the row; the frame opens back to the whole chart --- */
+  const t4 = T.fourth;
+  tl.set(datum, { opacity: 1 }, t4);
+  tl.fromTo(datum, { attr: { x2: 1620 } }, { attr: { x2: 260 }, duration: 1.3, ease: 'power2.inOut', immediateRender: false }, t4);
+  const e4 = camTo(t4, 1.5, { cx: 960, cy: 540, s: 1.0 });
+  tl.to([growth.box, lab24.box, dimG], { opacity: 0, duration: .4 }, t4 + 1.4);
+  camTo(e4, Math.max(.3, T.amazon - .35 - e4), { cx: 955, cy: 545, s: 1.02 }, 'sine.inOut');
+  /* the frame follows the names: a level pan and push onto each rival as the voice says it, so each outspend lands central */
+  /* a slow level drift across the group as the names are said; capped so all four stay whole in title-safe */
+  camTo(T.amazon - .35, .6, { cx: 935, cy: 548, s: 1.04 });
+  camTo(T.google, .55, { cx: 960, cy: 548, s: 1.045 });
+  const e11 = camTo(T.microsoft, .55, { cx: 985, cy: 548, s: 1.05 });
+  camTo(e11, Math.max(.3, T.index - e11), { cx: 990, cy: 550, s: 1.055 }, 'sine.inOut');
+  [['amazon', co[0]], ['google', co[2]], ['microsoft', co[1]]].forEach(([n, c]) => tl.to(c.over, { opacity: .88, duration: .45, ease: 'power1.out' }, T[n]));
+
+  /* --- index "didn't have much to show for it": the frame pans to the index and its scale draws; then the Llama 4 receipt's
+         window (REQ-012, 14.0-16.5) with only the scale and the title up and the frame drifting; the bars land as it leaves --- */
+  const t6 = T.index, DOL = 1.2;
+  const e6 = camTo(t6, DOL, FULL, 'power3.inOut');
+  CREDIT_AT = t6 + DOL * .5;
+  tl.to('.bw-source', { opacity: 0, duration: .25 }, CREDIT_AT - .25); tl.to('.bw-source', { opacity: 1, duration: .35 }, CREDIT_AT + .02);
+  tl.to(co.flatMap(c => [c.l24.box, c.l25.box]), { opacity: 0, duration: .25 }, t6);
+  /* once the pan has landed the money board is retired, so a pulled-back frame of the index never shows its edge */
+  const MONEY = [grid, datum, dimG].concat(co.flatMap(c => [c.bar, c.over, c.tick, c.img].filter(Boolean)));
+  tl.set(MONEY, { visibility: 'hidden' }, e6);
+  tl.to(hudA.in, { yPercent: -130, duration: .5, ease: 'power2.in' }, t6);
+  tl.to(yrB.in, { yPercent: -130, duration: .5, ease: 'power2.in' }, t6 + .05);
+  rise(tl, hudB, t6 + DOL * .6);
+  ax.querySelectorAll('line').forEach((n, i) => tl.to(n, { opacity: 1, duration: .4 }, t6 + DOL * .4 + i * .05));
+  axLabs.forEach((l, i) => rise(tl, l, t6 + DOL * .85 + i * .05, .5));
+  rise(tl, hudDate, T.april);
+  const e7a = camTo(e6, Math.max(.4, T.llama - e6), { cx: OX + 952, cy: 572, s: 1.018 }, 'sine.inOut');
+  /* --- llama: as the receipt leaves, the index lands: the other models, then Meta's two in gold --- */
+  const t7 = T.llama;
+  ORDER.filter(k => !/llama4/.test(k)).forEach((k, i) => {
+    const m = md[k], at = t7 + i * .06;
+    tl.fromTo(m.bar, { attr: { width: 0 } }, { attr: { width: m.w }, duration: .7, ease: 'power2.out', immediateRender: false }, at);
+    rise(tl, m.name, at + .25, .5); rise(tl, m.val, at + .4, .5);
+  });
+  [mav, sco].forEach((m, i) => {
+    tl.fromTo(m.bar, { attr: { width: 0 } }, { attr: { width: m.w }, duration: .7, ease: 'power2.out', immediateRender: false }, t7 + .3 + i * .12);
+    rise(tl, m.name, t7 + .55 + i * .12, .5); rise(tl, m.val, t7 + .7 + i * .12, .5);
+  });
+  camTo(e7a, Math.max(.4, T.advanced - e7a), FULL, 'sine.inOut');
+  /* --- advanced "the most advanced in the industry": the gap to the top score is marked on Maverick's row; 19.3 lands centred --- */
+  const t8 = T.advanced, RIDE = 1.1, gw = xv(top1.v) - xv(mav.v);
+  tl.set(drop, { opacity: 1 }, t8);
+  tl.fromTo(drop, { attr: { y2: top1.y + RH / 2 } }, { attr: { y2: mav.y - RH / 2 }, duration: .5, ease: 'power2.inOut', immediateRender: false }, t8);
+  tl.fromTo(band, { attr: { width: 0 } }, { attr: { width: gw }, duration: RIDE - .3, ease: 'power2.inOut', immediateRender: false }, t8 + .3);
+  land(tl, hero19, t8 + RIDE - .1);
+  /* as c011 rides in (19.18, settled 19.75), the frame settles the chart into the pair: whole, centred, above the receipt */
+  const e8 = camAnch(Math.max(t8 + RIDE, 18.95), Math.max(.5, 19.72 - Math.max(t8 + RIDE, 18.95)), PAIR, ZB, RY0 - RH / 2);
+  camTo(e8, Math.max(.4, 23.3 - e8), Object.assign({}, PAIR, { cx: PAIR.cx - 10 }), 'sine.inOut');   /* a slow level pan: the pair stays whole */
+  /* --- openmodel "the best open model": the closed models step back --- */
+  const t9 = T.openmodel;
+  closed.forEach(m => tl.to([m.bar, m.name.box, m.val.box], { opacity: .24, duration: .6 }, t9));
+  tl.to([band, drop], { opacity: .35, duration: .6 }, t9); tl.to(hero19.box, { opacity: .35, duration: .6 }, t9);
+  /* --- chinese "Chinese alternatives": both DeepSeek models light; the closed names leave --- */
+  const t10 = T.chinese;
+  [dsr1, dsv3].forEach(m => { tl.to(m.bar, { fill: CREAM, duration: .5 }, t10); tl.to([m.name.parts[0], m.val.parts[0]], { color: INK, duration: .5 }, t10); });
+  tl.to(hero19.box, { opacity: 0, duration: .4 }, t10);
+  closed.forEach(m => tl.to([m.name.box, m.val.box], { opacity: 0, duration: .4 }, t10));
+  /* --- deepseek "DeepSeek.": the slice of DeepSeek V3's bar past Maverick lights; 2.71 lands centred; the frame returns to the
+         whole chart as the receipt has gone --- */
+  const t11 = T.deepseek;
+  tl.to(dsv3.bar, { opacity: .55, duration: .3 }, t11);
+  tl.to(slice, { opacity: 1, duration: .3 }, t11);
+  tl.set(rise2, { opacity: 1 }, t11);
+  tl.fromTo(rise2, { attr: { y2: mav.y - RH / 2 } }, { attr: { y2: dsv3.y + RH / 2 }, duration: .4, ease: 'power2.out', immediateRender: false }, t11);
+  land(tl, hero27, t11 + .05);
+  camAnch(23.3, Math.max(.3, END - 23.3), Object.assign({}, FULL, { s: 1.0 }), ZB, RY0 - RH / 2);
+
+  tl.to('.bw-source', { opacity: 1, duration: .8 }, .6);
+  tl.to({}, { duration: .01 }, END - .01);
+  render();
+  return tl;
+}
+gsap.set('.bw-source', { opacity: 0 });
+
+/* ---------- the frame check (BRIEF-motion-pass; BRIEF-pass6): every visible label wholly in frame, clear of every other label,
+   of the credit line and of a receipt's box while it is up; and no chart mark under the credit or a receipt ---------- */
+const CARDS = [{ id: 'c011', x0: 395, y0: 690, x1: 1525, y1: 1004, t0: 19.75, t1: 23.3 }];
+const CLR = 8;
+const hit = (a, b, c = CLR) => a.left < b.right + c && b.left < a.right + c && a.top < b.bottom + c && b.top < a.bottom + c;
+window.__p6v = () => {
+  const t = CUR_TL ? CUR_TL.time() : -1, out = [];
+  const vis = (l) => +getComputedStyle(l.box).opacity > .02 && Math.abs(gsap.getProperty(l.in, 'yPercent')) < 125;
+  /* what shows of a label: its text clipped by its own mask (a label mid-rise is partly hidden below it) */
+  const shown = (l) => { const a = l.in.getBoundingClientRect(), m = l.box.firstChild.getBoundingClientRect();
+    const r = { left: Math.max(a.left, m.left), top: Math.max(a.top, m.top), right: Math.min(a.right, m.right), bottom: Math.min(a.bottom, m.bottom) };
+    r.width = r.right - r.left; r.height = r.bottom - r.top; return r; };
+  const rects = LABS.filter(vis).map(l => ({ l, r: shown(l) })).filter(o => o.r.width > 0 && o.r.height > 0 && o.r.right > 0 && o.r.left < 1920 && o.r.bottom > 0 && o.r.top < 1080);
+  const credEl = document.querySelector('.bw-source'), cred = credEl && +getComputedStyle(credEl).opacity > .02 ? credEl.getBoundingClientRect() : null;
+  const cards = CARDS.filter(c => t >= c.t0 && t <= c.t1).map(c => ({ left: c.x0, top: c.y0, right: c.x1, bottom: c.y1 }));
+  rects.forEach((o, i) => {
+    const r = o.r, n = o.l.name;
+    if (r.left < 0 || r.top < 0 || r.right > 1920 || r.bottom > 1080) out.push(n + ': cut by the frame');
+    if (cred && hit(r, cred)) out.push(n + ': on the credit');
+    if (cards.some(c => hit(r, c))) out.push(n + ': under a receipt');
+    rects.slice(i + 1).forEach(p => { if (hit(r, p.r, 2)) out.push(n + ' / ' + p.l.name + ': labels touch'); });
+    /* the type floor: 32 px on screen */
+    if (r.height > 4 && o.l.size * (o.l.box.parentNode === WL ? cam.v.s : 1) < 31.5) out.push(n + ': under the type floor');
+  });
+  const marks = [...W.querySelectorAll('rect, line, image')].filter(n => n.parentNode !== grid && n.parentNode !== ax && +getComputedStyle(n).opacity > .02 && n.getBoundingClientRect().width + n.getBoundingClientRect().height > 2);
+  marks.forEach(n => {
+    const r = n.getBoundingClientRect();
+    if (r.right < 0 || r.left > 1920 || r.bottom < 0 || r.top > 1080) return;
+    if (cred && hit(r, cred, 2)) out.push('credit sits on a mark (' + n.tagName + ')');
+    if (cards.some(c => hit(r, c, 2))) out.push('a receipt covers a mark (' + n.tagName + ')');
+  });
+  /* the money group: all four bars, their marks and their figures wholly inside title-safe while the money is on screen */
+  if (t < T.index) {
+    const SAFE = { left: 96, top: 54, right: 1824, bottom: 1026 };
+    const inside = (r) => r.left >= SAFE.left && r.top >= SAFE.top && r.right <= SAFE.right && r.bottom <= SAFE.bottom;
+    co.forEach(c => {
+      [c.bar, c.img].forEach(n => { const r = n.getBoundingClientRect(); if (r.width * r.height > 4 && !inside(r)) out.push('money: ' + n.tagName + ' of ' + c.logo + ' outside title-safe'); });
+      [c.l24, c.l25].filter(vis).forEach(l => { const r = shown(l); if (r.width > 0 && r.height > 0 && !inside(r)) out.push('money: ' + l.name + ' outside title-safe'); });
+    });
+    [growth, lab24].filter(vis).forEach(l => { const r = shown(l); if (r.width > 0 && r.height > 0 && !inside(r)) out.push('money: ' + l.name + ' outside title-safe'); });
+  }
+  return [...new Set(out)];
+};
+const play = () => build();
+const rest = () => { const tl = build(); tl.progress(1); tl.pause(); render(); };
+BW.run({ play, rest });
+</script>
+</body>
+</html>
