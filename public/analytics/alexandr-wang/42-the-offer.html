@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — The offer (alexandr-wang b021, c021 rebuilt; board 42)</title>
+<!-- ALEXANDR WANG · b021 · THE OFFER (10 Oct 2026; Ive). Replaces cp-card-c021 (2:47.01, 12.17 s). The writer on pass 2: "This is just
+     dull ... build an insight into the $1.5 billion annualized over six years as we explain it, while highlighting the article."
+     One camera across one desk. The receipt is Information Age (5 Aug 2025, citing the WSJ), cut into clippings that carry only what the
+     voice says, so no A$ figure is ever in frame (Goldman, ledger tulloch_package_reported): the WSJ line, the headline, "(US$1.5
+     billion) over at least six years", Meta's spokesperson and the denial. A light finds each line as it is said; the gold pen goes only
+     on "(US$1.5 billion) over at least six years" and on "inaccurate and ridiculous".
+       billion   about $1.5B rises out of the desk beside the clipping, as a gold block: six slabs of one year each.
+       over      the block tips over onto the time axis and the six years separate along it, 1 to 6, one per beat; on "least" the axis runs
+                 on, dashed: the term is at least six years, so a year is "up to ~$250M" and a day "up to ~$685K" (Goldman's wording, 10 Oct).
+       Meta      the light leaves the gold for Meta's spokesperson and the denial; "inaccurate" and "ridiculous" land with the pen and a
+                 hard push in.
+     Figures: tulloch_package_reported (shown as "~$1.5B", never "more than"), tulloch_term_years_min, tulloch_per_year_max,
+     tulloch_per_day_max (our arithmetic, tier C; in the ledger since 10 Oct). The WSJ's $1B headline is not used.
+     Steps (recorded VO, board seconds from 2:47.01; ?at= in this order, ?secs=):
+       wsj "Journal" 1.08 · turned "turned" 2.54 · billion "billion" 4.78 · over "over" 5.32 · years "years" 6.88 · meta "called" 8.16 ·
+       inaccurate "inaccurate" 9.86 · ridiculous "ridiculous" 11.00                                                 (secs 12.17)
+     Capture contract: BW.run({play, rest}); ?capture ?final ?still ?beats ?t=<secs>. Needs WebGL (three.js r128). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<style>
+.stage { background: var(--bg); overflow: hidden; }
+.s3-canvas { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 1; }
+.s3-labels { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
+.s3-label { position: absolute; left: 0; top: 0; white-space: nowrap; will-change: transform, opacity; }
+.s3-words { position: absolute; left: 60px; top: 60px; color: transparent; font-size: 12px; z-index: 0; pointer-events: none; }
+.of-total { font-family: var(--mono); font-weight: 700; color: var(--gold); font-size: 76px; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.of-tick  { font-family: var(--mono); font-weight: 600; color: rgba(var(--cream-rgb), .82); font-size: 34px; font-variant-numeric: tabular-nums; }
+.of-year  { font-family: var(--mono); font-weight: 700; color: var(--gold); font-size: 56px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.of-day   { font-family: var(--mono); font-weight: 600; color: var(--cream); font-size: 38px; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/stage3d/stage3d.js?v=1"></script>
+<script>
+(async () => {
+const F = BW.fig, Q = new URLSearchParams(location.search), T = S3.T, { go, ramp, ease, mix, clamp } = S3;
+
+/* ---------- steps (recorded VO, board seconds), re-timed by ?at= ---------- */
+const STEPS = [['wsj', 1.08], ['turned', 2.54], ['billion', 4.78], ['over', 5.32], ['years', 6.88], ['meta', 8.16], ['inaccurate', 9.86], ['ridiculous', 11.0]];
+const AT = (Q.get('at') || '').split(',').filter(s => s.trim() !== '').map(Number);
+const K = {}; STEPS.forEach(([n, t], i) => K[n] = i < AT.length ? AT[i] : t);
+const END = +(Q.get('secs') || 0) || 12.17;
+/* the words between the steps, as offsets from the step they follow */
+Object.assign(K, { one: K.wsj + .62, offer: K.turned + .80, about: K.billion - .88, usd: K.billion - .64, least: K.over + 1.10,
+  six: K.over + 1.32, desc: K.meta + .54, offer2: K.meta + 1.36, and: K.inaccurate + .50 });
+
+/* ---------- figures ---------- */
+const pkg = F('tulloch_package_reported'), YRS = F('tulloch_term_years_min').v, perYear = F('tulloch_per_year_max'), perDay = F('tulloch_per_day_max');
+BW.provenance({ uses: ['tulloch_receipt_ia', 'tulloch_per_year_max', 'tulloch_per_day_max'] });
+document.querySelector('.stage').dataset.figures = 'tulloch_package_reported tulloch_term_years_min tulloch_per_year_max tulloch_per_day_max tulloch_receipt_ia';
+
+/* ---------- the world ---------- */
+const W3 = S3.init({ fov: 30, exposure: 1.0 });
+const { scene, camera, renderer } = W3;
+const floorM = S3.floor(scene, { rough: .95, env: .2, base: 16, amp: 4, repeat: 34 }, renderer);
+/* pass 6: the clippings hang on a wall of the same stone, read square to the camera; the gold stands on the floor in front of it */
+const WZ = -2;
+/* the wall: the same stone, a shade lighter (graphite), so the light reads on it as a surface and never as black */
+const wall = S3.floor(scene, { rough: .9, env: .2, base: 44, amp: 6, repeat: 34 }, renderer); wall.rotation.x = 0; wall.position.set(0, 0, WZ);
+
+const hemi = new T.HemisphereLight(0xfff6e6, 0x080808, .3); scene.add(hemi);
+const key = new T.DirectionalLight(0xffeedd, 1.7);
+key.position.set(-6, 8, 7); key.castShadow = true;
+key.shadow.mapSize.set(4096, 4096); key.shadow.radius = 3; key.shadow.bias = -.0004; key.shadow.normalBias = .02;
+Object.assign(key.shadow.camera, { left: -26, right: 20, top: 14, bottom: -14, near: 1, far: 40 });
+scene.add(key); scene.add(key.target); key.target.position.set(0, 0, 0);
+const fill = new T.DirectionalLight(0xfff3e6, .55); fill.position.set(0, 3, 12); scene.add(fill);   /* a soft frontal fill: the wall reads as stone, never as black */
+const pool = new T.SpotLight(0xfff1dc, 170, 0, .42, .75, 2);
+pool.castShadow = true; pool.shadow.mapSize.set(2048, 2048); pool.shadow.radius = 4; pool.shadow.bias = -.0004;
+scene.add(pool); scene.add(pool.target);
+
+/* the clippings: Information Age, cut to the lines the voice reads (texture px / 400 = world units) */
+const A = 'assets/offer/';
+const [tW, tH, tX, tS, tD] = await Promise.all(['W', 'H', 'X', 'S', 'D'].map(k => S3.tex(renderer, A + 'ia-' + k + '.png')));
+const size = (t) => [t.image.width / 400, t.image.height / 400];
+/* each clipping hangs square on the wall (no tilt): x, y are its centre on the wall */
+const clip = (t, x, y, o) => { const [w, h] = size(t); const m = S3.sheet(t, w, h, o); m.rotation.set(0, 0, 0); m.position.set(x, y, WZ + .01); scene.add(m); return m; };
+const ROW = -9.5;                                                       /* the vertical axis of the money: the clipping above, the six years below */
+const sW = clip(tW, 12.5, 1.7, { curl: .004 });
+const sH = clip(tH, 1.5, 2.0, { curl: .003, cup: .004 });    /* beside the WSJ line, far enough that each settles whole on its own */
+const sX = clip(tX, ROW, 3.3, { curl: .006 });
+const sS = clip(tS, -20.5, 3.3, { curl: .004 });
+const sD = clip(tD, -20.5, 1.9, { curl: .005 });
+
+/* the pen: only on the US$ figure and its term, and on the denial (Goldman's ruling) */
+const penInk = new T.MeshStandardMaterial({ color: S3.tok('--gold', .62), roughness: .7, metalness: .15, envMapIntensity: .3 });
+const penUsd = S3.pen(sX, .045, .398, .70, { width: .042, seed: 2, material: penInk });
+const penTerm = S3.pen(sX, .410, .915, .70, { width: .042, seed: 5, material: penInk });
+const penDen = S3.pen(sD, .457, .815, .69, { width: .046, seed: 7, rise: -.004, material: penInk });
+
+/* the money: about $1.5B as one gold block of six one-year slabs. The drawing scale: one slab (one year, at most $250M) is SH tall. */
+const BWID = 1.15, BDEP = .78, SH = .44, X0 = ROW, Z0 = WZ + 1.3;
+const gold = S3.mat.gold({ env: 2.2, rough: .28 });
+const tower = new T.Group(); scene.add(tower);                       /* the block stands centred under the clipping */
+const ZB = Z0 - .95;                                                    /* the block stands a little behind the row it becomes */
+tower.position.set(X0, 0, ZB);
+const whole = S3.block(BWID, SH * YRS, BDEP, gold, .02); tower.add(whole);
+const slabs = [];
+for (let k = 0; k < YRS; k++) {
+  const s = S3.block(BWID, SH, BDEP, gold, .018); s.visible = false; scene.add(s); slabs.push(s);
+}
+/* where the slabs end: lying on their sides along the time axis, one year apart */
+const PITCH = 1.02, AX0 = ROW - YRS * PITCH / 2;                       /* year k runs from AX0 + k*PITCH, centred on ROW */
+const AZ = Z0 + BDEP / 2 + .34;                                        /* the axis line, in front of the slabs */
+const inkMat = S3.mat.ink({ color: S3.tok('--gold', .85) });
+inkMat.transparent = true;   /* the time axis leaves with its labels when the camera crops the slabs' tops for the denial */
+/* the axis is a thin gold rod on the floor (seen from the front it reads as a line); ticks stand up from it; the dashes run on */
+const rod = (len, h = .028) => { const g = new T.BoxGeometry(1, h, .03); g.translate(.5, h / 2, 0); const m = new T.Mesh(g, inkMat); m.scale.x = len; scene.add(m); return m; };
+const axis = rod(1); axis.position.set(AX0, 0, AZ);
+const dashes = [];
+for (let i = 0; i < 7; i++) { const d = rod(.16); d.position.set(AX0 + YRS * PITCH + .1 + i * .3, 0, AZ); dashes.push(d); }
+const ticks = [];
+for (let k = 0; k <= YRS; k++) { const g = new T.BoxGeometry(.028, .16, .03); g.translate(0, .08, 0); const tk = new T.Mesh(g, inkMat); tk.position.set(AX0 + k * PITCH, 0, AZ); scene.add(tk); ticks.push(tk); }
+
+/* labels */
+const L = W3.labels;
+const lTotal = S3.label(L, 'of-total', '~' + pkg.display);
+const lTicks = Array.from({ length: YRS }, (_, k) => S3.label(L, 'of-tick', String(k + 1)));
+/* Goldman's rule (10 Oct): the ceiling and the "about" sit in the figure itself; never the bare number */
+const lYear = S3.label(L, 'of-year', 'up to ~' + perYear.display + '/yr');
+const lDay = S3.label(L, 'of-day', 'up to ~' + perDay.display + '/day');
+[['W', sW], ['H', sH], ['X', sX], ['S', sS], ['D', sD], ['block', whole]].forEach(([n, o]) => S3.watch(n, o));
+slabs.forEach((sl, k) => S3.watch('slab ' + (k + 1), sl));
+S3.checker(camera);
+/* scale honesty: the on-screen height of each year's front face, base to top (all six are the same value) */
+window.__slabHeights = () => slabs.map(sl => { const b = new T.Box3().setFromObject(sl), cx = (b.min.x + b.max.x) / 2, z = b.max.z;
+  const p0 = S3.project(camera, cx, b.min.y, z), p1 = S3.project(camera, cx, b.max.y, z); return Math.round(p0.y - p1.y); });
+
+/* ---------- the camera: one move across the desk, keyed to the words ---------- */
+/* pass 6 (rule 3): every landing is level and centred, square to the camera (yaw 0, a few degrees of pitch); the camera only
+   travels between landings. [look x, y, z, distance, pitch, yaw] */
+/* (ROW is the centre of the six years) */
+/* the camera reads the wall right to left (the receipts on the right, the money in the middle, Meta's denial on the left), so
+   whatever it leaves exits on the right, away from the credit */
+/* pass 6c: each clipping first settles whole, level and centred (a held key: the camera is still), then pushes in inside its own
+   edges onto the marked line. Diagonals and drift only while travelling between landings. */
+const camK = S3.path([
+  { t: 0,                  v: [12.5, 1.7, WZ, 11.4, 0, 0] },
+  { t: .45,                v: [12.5, 1.7, WZ, 11.2, 0, 0], hold: true },
+  { t: K.wsj,              v: [11.87, 1.7, WZ, 5.4, 0, 0], hold: true },
+  { t: K.wsj + .5,         v: [11.87, 1.7, WZ, 5.3, 0, 0], hold: true },
+  { t: K.one + .3,         v: [1.5, 2.0, WZ, 10.8, 0, 0], hold: true },
+  { t: K.turned + .2,      v: [1.5, 2.0, WZ, 10.6, 0, 0], hold: true },
+  { t: K.offer,            v: [1.3, 2.3, WZ, 8.6, 0, 0], hold: true },
+  { t: K.usd,              v: [ROW, 1.75, Z0 - .4, 7.8, 6, 0], hold: true },
+  { t: K.over,             v: [ROW, 1.45, Z0 - .4, 9.0, 7, 0] },
+  { t: K.six,              v: [ROW, 1.3, Z0 - .4, 9.2, 8, 0], hold: true },
+  { t: K.meta - .21,       v: [ROW, 1.32, Z0 - .4, 8.95, 8, 0], hold: true },
+  { t: K.desc + .15,       v: [-20.5, 2.6, WZ, 7.8, 0, 0], hold: true },
+  { t: K.inaccurate - .1,  v: [-20.5, 2.6, WZ, 7.6, 0, 0], hold: true },
+  { t: K.inaccurate + .45, v: [-19.72, 1.9, WZ, 4.1, 0, 0], hold: true },
+  { t: END,                v: [-19.72, 1.9, WZ, 3.9, 0, 0] }
+]);
+const R = Math.PI / 180;
+const cam = (t) => { const [lx, ly, lz, d, p, y] = camK(t); return [lx + d * Math.sin(y * R) * Math.cos(p * R), ly + d * Math.sin(p * R), lz + d * Math.cos(y * R) * Math.cos(p * R), lx, ly, lz]; };
+/* the pool of light: it finds each line as it is said */
+const poolAt = S3.path([                                                /* [x, y, z] the pool lands on */
+  { t: 0,            v: [11.4, 1.8, WZ] },
+  { t: K.wsj,        v: [11.9, 1.7, WZ] },
+  { t: K.one + .4,   v: [1.5, 1.9, WZ] },
+  { t: K.about,      v: [1.3, 2.0, WZ] },
+  { t: K.usd + .2,   v: [ROW, 2.4, WZ + .5] },
+  { t: K.years + .6, v: [ROW, 1.6, WZ + .9] },
+  { t: K.desc,       v: [-20.5, 2.2, WZ] },
+  { t: END,          v: [-20.0, 2.0, WZ] }
+]);
+
+/* ---------- draw(t): the whole world at board time t ---------- */
+/* the split: from the top down, each one-year slab lays itself on its side in its own year, years 1 to 6 left to right */
+const land = (t, j) => go(t, K.over + .05 + j * .22, K.over + .6 + j * .22, ease.io);
+function draw(t) {
+  const c = cam(t); camera.position.set(c[0], c[1], c[2]); camera.lookAt(c[3], c[4], c[5]);
+  const pl = poolAt(t); pool.target.position.set(pl[0], pl[1], pl[2]); pool.position.set(pl[0] - 1.2, pl[1] + 4.5, pl[2] + 6.5);
+  /* light: the gold loses the pool when Meta speaks */
+  pool.intensity = 170 * (1 - .25 * go(t, K.meta - .4, K.desc));
+
+  /* pens */
+  penUsd.set(go(t, K.usd - .02, K.billion + .42, ease.s));
+  penTerm.set(go(t, K.over, K.years + .3, ease.s));
+  penDen.set(go(t, K.inaccurate - .04, K.ridiculous + .44, (u) => u < .42 ? ease.s(u / .42) * .41 : u < .62 ? .41 : .41 + .59 * ease.s((u - .62) / .38)));
+
+  /* the block rises out of the desk on "about $1.5", whole until "over" */
+  const rise = go(t, K.usd, K.billion + .25, ease.out);   /* it rises once the camera has arrived */
+  const sep = (j) => land(t, j);
+  const split = t >= K.over + .05;
+  whole.visible = !split && rise > 0.001; tower.position.y = -SH * YRS * (1 - rise);
+  slabs.forEach((s, k) => {
+    s.visible = split;
+    if (!split) return;
+    /* slab k (k = 0 at the bottom) goes to year j = 5 - k; it turns a quarter about its own centre on the way */
+    const j = YRS - 1 - k, u = sep(j), a = -Math.PI / 2 * ease.io(clamp((u - .3) / .7));   /* it clears the stack before it turns */
+    const c0x = X0, c0y = SH * k + SH / 2, c0z = ZB;                          /* its centre in the stack */
+    const c1x = AX0 + (j + .5) * PITCH, c1y = BWID / 2;                       /* its centre lying in its year */
+    const lift = Math.pow(Math.sin(Math.PI * Math.min(1, u * 1.08)), .7) * .95;               /* an arc, so it clears the stack and its neighbours */
+    const cx = mix(c0x, c1x, u), cy = mix(c0y, c1y, u) + lift;
+    /* the geometry's origin is its base centre: offset from the centre by (0, -SH/2), turned by a */
+    s.position.set(cx + (SH / 2) * Math.sin(a), cy - (SH / 2) * Math.cos(a), mix(c0z, Z0, ease.s(clamp((u - .45) / .55))));   /* across behind the row, then forward into its year */
+    s.rotation.z = a;
+  });
+
+  /* the axis: drawn with the tip, ticks as each year lands, dashed on past six on "least" */
+  inkMat.opacity = 1 - go(t, K.meta - .46, K.meta - .21);
+  axis.scale.x = Math.max(.0001, YRS * PITCH * go(t, K.over + .05, K.over + .7, ease.io));
+  axis.visible = t > K.over + .05;
+  ticks.forEach((tk, k) => { const u = k === 0 ? go(t, K.over + .3, K.over + .5) : sep(k - 1); tk.visible = u > .02; tk.scale.y = Math.max(.001, u); });
+  dashes.forEach((d, i) => { const u = go(t, K.least + i * .07, K.least + .25 + i * .07, ease.out); d.visible = u > .02; d.scale.x = .16 * u; });
+
+  renderer.render(scene, camera);
+
+  /* labels, pinned to the world: the total on the block; the year numbers under each year; the ceilings over year 1 */
+  S3.pin(camera, lTotal, [X0 + BWID / 2, tower.position.y + SH * YRS - .3, ZB], { ax: 0, ay: .5, dx: 28, op: go(t, K.billion + .05, K.billion + .35, ease.out) * (1 - go(t, K.over - .08, K.over + .12)) });
+  const dimL = 1 - go(t, K.meta - .46, K.meta - .21);   /* the labels leave before the camera does */
+  lTicks.forEach((e, k) => S3.pin(camera, e, [AX0 + (k + .5) * PITCH, 0, AZ + .1], { ax: .5, ay: 0, dy: 8, op: sep(k) * dimL }));
+  S3.pin(camera, lYear, [AX0 + YRS * PITCH / 2, BWID + .85, Z0], { ax: .5, ay: 1, op: go(t, K.years - .05, K.years + .3, ease.out) * dimL });
+  S3.pin(camera, lDay, [AX0 + YRS * PITCH / 2, BWID + .85, Z0], { ax: .5, ay: 0, dy: 10, op: go(t, K.years + .45, K.years + .8, ease.out) * dimL });
+}
+
+/* ---------- the capture contract ---------- */
+function play() {
+  BW.chromeShow();   /* the one credit line, on screen from the first frame */
+  const tl = gsap.timeline(), p = { t: 0 };
+  STEPS.forEach(([n]) => tl.addLabel(n, K[n]));
+  tl.to(p, { t: END, duration: END, ease: 'none', onUpdate: () => draw(p.t) }, 0);
+  draw(0);
+  return tl;
+}
+function rest() { BW.chromeShow(); draw(END); }
+BW.run({ play, rest });
+})().catch(e => { document.documentElement.dataset.error = e.message; console.error(e); if (BW.__capture) BW.__capture.error = e.message; });
+</script>
+</body>
+</html>

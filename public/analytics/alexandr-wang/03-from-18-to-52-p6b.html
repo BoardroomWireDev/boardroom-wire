@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — From 18 to 52, pass 6b (alexandr-wang hero H4)</title>
+<!-- p6b (10 Oct, pass-6 reviews): the gold ends exactly at 52 and the three flagships float on their own line above (no column,
+     no fill); act 2's wide frame is level (no pitch) and lens-shifted down so the line and its names sit under the receipts' band
+     (y 320-660); the Llamas rise as Meta's card leaves (no empty hold); "open-weight" is a bracket over the Llamas; the hand-off
+     lands the edition on "April 2026" and the bar names as the lens settles (no empty hold). The opening and frame 47 are p6's.
+     ALEXANDR WANG · HERO H4 · FROM 18 TO 52 · pass 6 (10 Oct 2026; Ive). BRIEF-pass6.md: financial views are hero dashboards, not
+     3D worlds; landings level and centred (rule 3); fewer, calmer metaphors. So:
+       act 1  0-16.2   3D, as v3, framed level: 8 Apr 2026 lands on the ruler (before the laid frame 47, so 27-avocado cuts into it);
+                       Muse Spark comes up through the floor and the camera arrives square and centred on it for "Muse"; "nine
+                       months" runs back along the floor to 30 Jun 2025 (Meta Superintelligence Labs), framed square between the two;
+                       under Meta's card the camera trucks and dollies (no yaw) out to the whole line
+       act 2  16.2-28  3D, one wide level frame: the Llamas rise as open glass stacks (one plate per model released), names on poles;
+                       on "couldn't download it" gold walls slam up round Spark; "open-weight" under the Llamas; the camera trucks
+                       to the vault, square and centred, as its lid drops on "closed". The plate copies (a swarm) are gone.
+       hand-off 28.2-31.6  the older Llamas sink; the camera dollies straight back and narrows to a long lens until the floor line
+                       sits exactly where the dashboard's zero line will be (y 900) and Llama 4 and Spark sit on its two bar slots
+                       (x 710, 1210); on "Artificial" the zero line draws over the floor line, the scale rises, and the room dissolves
+       act 3  30.7-48.3  a flat, level hero dashboard (the Artificial Analysis index, April 2026), moved by a 2D camera: Maverick grows
+                       from zero to 18; an 18-block slides to Spark's slot; Spark grows to 52 in three blocks; x2.89 as a dimension;
+                       the frame pulls back to the three flagships side by side at one level above an axis break and an open,
+                       fading column: no value, order or gap implied (their April 2026 scores are not sourced)
+     Every value reads straight off the scale: bars from the visible zero line, gridlines every 10 points, 10 px a point.
+     Steps (the cue sheet's ten, ?at= in this order, ?secs=): open 0.2 · spark 3.48 · llama 17.16 · open_ 19.98 · closed 27.1 ·
+       index 30.74 · eighteen 34.66 · fiftytwo 37.82 · times 39.18 · ahead 41.84 (secs 48.26).
+     Receipt windows (board time, +0.5 s each): b027 4.78-10.88, b028 10.88-15.88, b029 18.89-22.46.
+     Laid from board frame 47 (LAYOUT HEAD). Capture contract: BW.run({play, rest}); ?capture ?final ?still ?t=. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<style>
+  .stage { background: var(--bg); }
+  #gl { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 0; }
+  svg#ov, svg#dash { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; pointer-events: none; }
+  svg#dash { z-index: 1; } svg#ov { z-index: 2; }
+  .stage .chrome { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+  /* labels over the 3D scene keep clear ground: an ink keyline in the ground colour (map lettering, not a glow) */
+  svg#ov text { paint-order: stroke; stroke: var(--bg); stroke-width: 7px; stroke-linejoin: round; }
+  .w  { font-family: var(--sans); font-weight: 500; fill: var(--cream); }
+  .wd { font-family: var(--sans); font-weight: 500; fill: rgba(var(--cream-rgb), .62); }
+  .wg { font-family: var(--sans); font-weight: 600; fill: var(--gold); }
+  .m  { font-family: var(--mono); font-weight: 500; fill: rgba(var(--cream-rgb), .62); font-variant-numeric: tabular-nums; }
+  .mg { font-family: var(--mono); font-weight: 500; fill: rgba(var(--gold-rgb), .9); font-variant-numeric: tabular-nums; }
+  .n  { font-family: var(--mono); font-weight: 600; fill: var(--cream); font-variant-numeric: tabular-nums; letter-spacing: -.03em; }
+  .h  { font-family: var(--mono); font-weight: 700; fill: var(--gold); font-variant-numeric: tabular-nums; letter-spacing: -.045em; }
+  .hx { font-family: var(--mono); font-weight: 600; fill: var(--gold); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <canvas id="gl" width="1920" height="1080"></canvas>
+  <svg id="dash" viewBox="0 0 1920 1080">
+    <defs>
+      <linearGradient id="openUp" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" style="stop-color:var(--gold); stop-opacity:.20"/><stop offset="1" style="stop-color:var(--gold); stop-opacity:0"/></linearGradient>
+      <linearGradient id="edgeUp" x1="0" y1="1" x2="0" y2="0" gradientUnits="objectBoundingBox">
+        <stop offset="0" style="stop-color:var(--gold); stop-opacity:.8"/><stop offset="1" style="stop-color:var(--gold); stop-opacity:0"/></linearGradient>
+    </defs>
+    <g id="dw"></g>
+  </svg>
+  <svg id="ov" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script>
+/* ---------- steps (the cue sheet's ten; ?at= retimes them in order, ?secs= the length) ---------- */
+const Q = new URLSearchParams(location.search);
+const STEP_LIST = [['open', .2], ['spark', 3.48], ['llama', 17.16], ['open_', 19.98], ['closed', 27.1], ['index', 30.74],
+  ['eighteen', 34.66], ['fiftytwo', 37.82], ['times', 39.18], ['ahead', 41.84]];
+const S = {}, given = (Q.get('at') || '').split(',').filter(s => s.trim() !== '').map(Number);
+STEP_LIST.forEach(([n, t], i) => { S[n] = i < given.length ? given[i] : t; });
+const END = +(Q.get('secs') || 0) || 48.26;
+
+/* ---------- figures (data.js only) ---------- */
+const F = BW.fig;
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const iso = (k) => { const f = F(k); return f.unit === 'date' ? f.v : f.asOf; };
+const dstr = (s) => { const [y, m, d] = s.split('-').map(Number); return d + ' ' + MON[m - 1] + ' ' + y; };
+const MX = (s) => { const [y, m, d] = s.split('-').map(Number); return (y - 2023) * 12 + (m - 1) + (d - 1) / 30.5; };   /* months from Jan 2023 */
+const mv = F('aa_llama4_maverick_apr2026'), sp = F('aa_muse_spark_apr2026');
+const ratio = F('ratio_spark_vs_maverick_apr2026'), AHEAD = F('aa_meta_is_back').label;
+const count = (k) => String(F(k).v).split(',').length;           /* models released in a generation */
+/* the credit: p6's line until the index's version appears (so frames 0-47 stay pixel-identical to p6, which 27-avocado cuts into),
+   then the same line with the version's source added. Both are rendered from data.js; the second call declares every key. */
+const USES_A = ['muse_spark_launch', 'llama_1_release_fair', 'llama_1_sizes', 'llama2_open_weights', 'llama_2_sizes', 'llama_3_sizes',
+  'llama_31_sizes', 'llama4_release', 'msl_formed', 'aa_llama4_maverick_apr2026', 'aa_llama4_scout_apr2026', 'aa_muse_spark_apr2026',
+  'aa_meta_is_back', 'ratio_spark_vs_maverick_apr2026'];
+BW.provenance({ uses: USES_A }); const CRED_A = document.querySelector('.bw-source').textContent;
+BW.provenance({ uses: USES_A.concat(['aa_index_version_apr2026']) }); const CRED_B = document.querySelector('.bw-source').textContent;
+document.querySelector('.bw-source').textContent = CRED_A;
+let TLINE = null;                                                /* the running timeline, read by frame() for the credit */
+
+/* ---------- type sizes: gates.json#type at the 1920 stage (labels >= 32, hero figures >= 96) ---------- */
+const TL = 32, TH = 96;
+
+/* ============================== ACTS 1-2: the 3D room ============================== */
+/* x = months from Jan 2023, y = up, z = toward the camera */
+const ZR = 1.5, WZ = -4.5;
+const LL = [['Llama 1', iso('llama_1_release_fair'), count('llama_1_sizes')], ['Llama 2', iso('llama2_open_weights'), count('llama_2_sizes')],
+  ['Llama 3', iso('llama_3_sizes'), count('llama_3_sizes')], ['Llama 3.1', iso('llama_31_sizes'), count('llama_31_sizes')],
+  ['Llama 4', iso('llama4_release'), 2]].map(([name, d, n]) => ({ name, d, n, x: MX(d) }));   /* Llama 4: Scout and Maverick */
+const SPX = MX(iso('muse_spark_launch')), L4X = MX(iso('llama4_release')), MSX = MX(iso('msl_formed'));
+const SPW = 2.2, SPH0 = 5.2;
+
+/* the hand-off view: a level long lens that puts the floor line on the dashboard's zero line (y 900) and Llama 4 and Spark on its
+   two bar slots (x 710 and 1210): 500 px between them, so 41.3 px a unit at the bars' plane */
+const MVX = 660, SPXD = 1260;                                    /* the dashboard's two bar slots, symmetric about x 960 */
+const HX = (L4X + SPX) / 2, PXU = (SPXD - MVX) / (SPX - L4X), HFOV = 20;
+const HD = 540 / (PXU * Math.tan(HFOV / 2 * Math.PI / 180)), HY = 360 / PXU;
+const HAND = { px: HX, py: HY, pz: HD, tx: HX, ty: HY, tz: 0, fov: HFOV };
+
+const C = (v) => new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue(v).trim());
+const GOLD = C('--gold'), CREAM = C('--cream'), BG = C('--bg');
+
+const canvas = document.getElementById('gl');
+const R = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+R.setPixelRatio(window.devicePixelRatio || 1); R.setSize(1920, 1080, false);
+R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFSoftShadowMap;
+const scene = new THREE.Scene(); scene.background = BG.clone(); scene.fog = new THREE.Fog(BG.clone(), 34, 95);
+const cam = new THREE.PerspectiveCamera(30, 1920 / 1080, .1, 400);
+const CV = { px: 33.6, py: 7.6, pz: 12.6, tx: 38.3, ty: .1, tz: 0, fov: 30, sy: 0 };   /* sy: a vertical lens shift in px (no tilt) */
+
+/* light: one warm key from the front left, high; a cool fill; a low ambient. Nothing emits. */
+scene.add(new THREE.AmbientLight(0x9aa0b8, .13));
+scene.add(new THREE.HemisphereLight(0xfff4e0, BG.clone(), .14));
+const key = new THREE.SpotLight(0xfff1d6, 1.75, 0, .5, .9, 1);
+scene.add(key.target);
+key.castShadow = true; key.shadow.mapSize.set(4096, 4096); key.shadow.bias = -.0003; key.shadow.camera.near = 4; key.shadow.camera.far = 160;
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xb8c4ff, .2); fill.position.set(60, 12, 18); scene.add(fill);
+
+const M = {
+  /* floor and wall: a step from the ink token toward cream (no colour typed); the light tints above are light, not brand colour */
+  floor: new THREE.MeshStandardMaterial({ color: BG.clone().lerp(CREAM, .047), roughness: .82, metalness: 0 }),
+  wall: new THREE.MeshStandardMaterial({ color: BG.clone().lerp(CREAM, .0085), roughness: .95, metalness: 0 }),
+  inlay: (op) => new THREE.MeshBasicMaterial({ color: CREAM, transparent: true, opacity: op, fog: true }),
+  inlayG: (op) => new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: op, fog: true }),
+  glass: () => new THREE.MeshStandardMaterial({ color: CREAM, transparent: true, opacity: .13, roughness: .2, metalness: 0, depthWrite: false }),
+  edge: (c, op = .9) => new THREE.LineBasicMaterial({ color: c, transparent: true, opacity: op }),
+  gold: () => new THREE.MeshStandardMaterial({ color: GOLD, roughness: .5, metalness: .12 })
+};
+function box(w, h, d, mat, x, y, z, shadow = true) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z);
+  m.castShadow = shadow; m.receiveShadow = true; return m;
+}
+function edges(mesh, mat) { const e = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry), mat); mesh.add(e); return e; }
+function column(w, h, d, mat) { const g = new THREE.BoxGeometry(w, h, d); g.translate(0, h / 2, 0); const m = new THREE.Mesh(g, mat); m.castShadow = m.receiveShadow = true; return m; }
+function strip(len, w, mat, alongX = true) { const g = new THREE.BoxGeometry(alongX ? len : w, .012, alongX ? w : len); g.translate(alongX ? len / 2 : 0, 0, alongX ? 0 : len / 2); return new THREE.Mesh(g, mat); }
+
+/* the overlay over the 3D scene: labels pinned to 3D points, constant screen size */
+const NS = 'http://www.w3.org/2000/svg', OV = document.getElementById('ov');
+function el(tag, a = {}, parent = OV, style = '') {
+  const n = document.createElementNS(NS, tag); for (const k in a) n.setAttribute(k, a[k]);
+  if (style) n.setAttribute('style', style); parent.appendChild(n); return n;
+}
+const pins = [];
+function pin(x, y, z) { const g = el('g'); const p = { g, v: new THREE.Vector3(x, y, z) }; pins.push(p); return p; }
+let clipN = 0;
+/* a label that rises through its own mask; parent is a pin's group (3D) or a dashboard group (2D) */
+function label(g, txt, cls, size, o = {}) {
+  const id = 'c' + (++clipN), dx = o.dx || 0, dy = o.dy || 0;
+  const cp = el('clipPath', { id }, g); el('rect', { x: -4000, y: dy - size * 1.05, width: 8000, height: size * 1.42 }, cp);
+  const wrap = el('g', { 'clip-path': `url(#${id})` }, g);
+  const t = el('text', { x: dx, y: dy, 'text-anchor': o.a || 'start', class: cls }, wrap, `font-size:${size}px`);
+  t.textContent = txt; t.R = size * 1.3; return t;
+}
+function mark(g, f, x, y, w, h) { return el('image', { href: 'assets/logos/' + f, x, y, width: w, height: h, preserveAspectRatio: 'xMidYMid meet' }, g); }
+const _v = new THREE.Vector3();
+function proj(v) { _v.copy(v).project(cam); return { x: (_v.x + 1) * 960, y: (1 - _v.y) * 540, ok: _v.z < 1 }; }
+
+/* ============================== ACT 3: the flat dashboard ============================== */
+/* at the 2D camera's rest (s 1, centre 960/540) the dashboard is the 1920 stage: zero line y 900, 10 px a point */
+const DW = document.getElementById('dw');
+const BASE = 900, KP = 10, Y = (v) => BASE - v * KP;
+const AXX = 450, GX1 = 1800, MVW = 220, SPWD = 260, BRK = 342, ROWY = 226;   /* p6b: the row up 24 px, clear of the longer title */
+const D2 = { cx: 960, cy: 540, s: 1 };
+const applyD2 = () => DW.setAttribute('transform', `translate(960,540) scale(${D2.s}) translate(${-D2.cx},${-D2.cy})`);
+const dline = (x1, y1, x2, y2, st, parent = DW) => el('line', { x1, y1, x2, y2, pathLength: 1 }, parent, st);
+const dgroup = (x, y, parent = DW) => el('g', { transform: `translate(${x},${y})` }, parent);
+
+/* ---------- build once ---------- */
+const N = {};
+function build() {
+  if (N.built) return; N.built = true;
+  /* ---- 3D ---- */
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(260, 160), M.floor); floor.rotation.x = -Math.PI / 2; floor.position.set(20, 0, 10);
+  floor.receiveShadow = true; scene.add(floor);
+  const wall = new THREE.Mesh(new THREE.PlaneGeometry(260, 80), M.wall); wall.position.set(20, 40, WZ); wall.receiveShadow = true; scene.add(wall);
+  const ru = strip(48, .05, M.inlay(.6)); ru.position.set(-3, .006, ZR); scene.add(ru);
+  for (let m = 0; m <= 42; m++) {
+    const yr = m % 12 === 0, t = strip(yr ? .9 : .32, yr ? .06 : .035, M.inlay(yr ? .6 : .32), false); t.position.set(m, .006, ZR); scene.add(t);
+  }
+  N.years = [2023, 2024, 2025, 2026].map(y => { const p = pin((y - 2023) * 12 + .25, 0, ZR + 1.25); label(p.g, String(y), 'm', TL); return p; });
+
+  /* Meta Superintelligence Labs: an inlaid diamond, and the dimension back from Spark along the floor */
+  N.msNode = box(.34, .02, .34, M.inlay(.95), MSX, .01, ZR, false); N.msNode.rotation.y = Math.PI / 4; scene.add(N.msNode);
+  N.msDim = strip(SPX - MSX, .07, M.inlay(.85)); N.msDim.position.set(MSX, .008, ZR + 1.5); scene.add(N.msDim);
+  N.msEnds = [MSX, SPX].map(x => { const t = strip(.7, .07, M.inlay(.85), false); t.position.set(x, .008, ZR + 1.15); scene.add(t); return t; });
+  N.msPin = pin(MSX, 0, ZR + 2.2);
+  N.msName = label(N.msPin.g, 'Meta Superintelligence Labs', 'w', TL, { dy: 26, a: 'middle' });
+  N.msDate = label(N.msPin.g, dstr(iso('msl_formed')), 'm', TL, { dy: 66, a: 'middle' });
+
+  /* the Llamas: a stack of open glass plates per release, one per model released; names on poles at staggered heights */
+  const PH = 1.0, PG = .28, PW = 2.8;                            /* larger than v3: the act-2 frame is one wide, level shot */
+  N.ll = LL.map((l, i) => {
+    const g = new THREE.Group(); g.position.set(l.x, 0, 0); scene.add(g);
+    for (let k = 0; k < l.n; k++) { const p = box(PW, PH, PW, M.glass(), 0, PH / 2 + k * (PH + PG), 0); edges(p, M.edge(CREAM, .85)); g.add(p); }
+    l.h = l.n * (PH + PG) - PG; l.g = g;
+    const LH = l.h + [.6, .6, .6, 2.0, .6][i];                  /* low names, kept below the receipts' band; only 3.1 steps up past 3 */
+    g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-PW / 2, l.h + .05, PW / 2), new THREE.Vector3(-PW / 2, LH, PW / 2)]), M.edge(CREAM, .45)));
+    l.p = pin(l.x - PW / 2, LH, PW / 2); l.top = LH;
+    l.nm = label(l.p.g, l.name, 'w', 34, { dx: 8, dy: 10 });
+    return l;
+  });
+
+  /* Muse Spark: an open gold frame; the vault walls and the lid */
+  N.sp = new THREE.Group(); N.sp.position.set(SPX, 0, 0); scene.add(N.sp);
+  N.spGlass = box(SPW, SPH0, SPW, M.glass(), 0, SPH0 / 2, 0); N.spGlass.material.color = GOLD.clone(); N.spGlass.material.opacity = .14;
+  edges(N.spGlass, M.edge(GOLD, 1)); N.sp.add(N.spGlass);
+  const WT = .12, WS = SPW + .14;
+  N.walls = [[0, WS / 2], [0, -WS / 2], [WS / 2, 0], [-WS / 2, 0]].map(([x, z], i) => {
+    const w = column(i < 2 ? WS + WT : WT, SPH0, i < 2 ? WT : WS + WT, M.gold()); w.position.set(x, 0, z); N.sp.add(w); return w;
+  });
+  N.lid = box(WS + .3, .16, WS + .3, M.gold(), 0, SPH0 + .08, 0); N.sp.add(N.lid);
+  N.spTick = strip(2.6, .09, M.inlayG(.95), false); N.spTick.position.set(SPX, .009, 1.25); scene.add(N.spTick);
+  /* the name beside the frame's top-left corner: the object lands centred, its name reads into it, and stays in shot in the wide */
+  N.spPin = pin(SPX - SPW / 2 - .15, SPH0 - .5, SPW / 2);
+  N.spName = label(N.spPin.g, sp.label, 'w', 62, { dx: -18, dy: 22, a: 'end' });
+  N.spMark = mark(N.spPin.g, 'logo-muse.png', -18 - N.spName.getComputedTextLength() - 70, -28, 58, 58);
+  N.spDatePin = pin(SPX + .3, 0, 2.6);
+  N.spDate = label(N.spDatePin.g, dstr(iso('muse_spark_launch')), 'mg', TL, { dx: 14, dy: -10 });
+
+  /* open-weight under the Llamas (a bracket inlaid in the floor, the word centred under it); closed under Spark */
+  /* "open-weight": a bracket over the Llamas (it lands after the receipts have gone), the word centred above it */
+  N.owLine = (() => {
+    const g = new THREE.Group(), x0 = LL[0].x - 1.4, L = L4X + 1.4 - x0, y = 6.8, z = 1.4;
+    g.position.x = x0;                                           /* it grows from its left end */
+    const pts = [new THREE.Vector3(0, y - .5, z), new THREE.Vector3(0, y, z), new THREE.Vector3(0, y, z), new THREE.Vector3(L, y, z),
+      new THREE.Vector3(L, y, z), new THREE.Vector3(L, y - .5, z)];
+    g.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), M.edge(CREAM, .7))); scene.add(g); return g;
+  })();
+  N.owPin = pin((LL[0].x + L4X) / 2, 7.1, 1.4); N.ow = label(N.owPin.g, 'open-weight', 'wd', TL, { dy: -6, a: 'middle' });
+  N.clLine = strip(2.4, .06, M.inlayG(.9)); N.clLine.position.set(SPX - 1.2, .008, ZR + 2.0); scene.add(N.clLine);
+  N.clPin = pin(SPX, 0, ZR + 2.6); N.cl = label(N.clPin.g, 'closed', 'wg', TL, { dy: 30, a: 'middle' });
+
+  /* ---- 2D dashboard ---- */
+  const ST = (o) => `stroke:rgba(var(--cream-rgb), ${o}); stroke-width:2; fill:none`;
+  N.zero = dline(AXX, BASE, GX1, BASE, ST(.6) + '; stroke-dasharray:1 1');
+  N.axis = dline(AXX, BASE, AXX, BRK + 8, ST(.6) + '; stroke-dasharray:1 1');
+  N.grid = []; N.gl = [];
+  for (let v = 10; v <= 50; v += 10) {
+    N.grid.push(dline(AXX, Y(v), GX1, Y(v), `stroke:rgba(var(--cream-rgb), .14); stroke-width:2; stroke-dasharray:1 1`));
+  }
+  for (let v = 0; v <= 50; v += 10) { const g = dgroup(AXX - 18, Y(v)); label(g, String(v), 'm', TL, { dy: 11, a: 'end' }); N.gl.push(g); }
+  N.brk = [BRK + 2, BRK - 10].map(y => dline(AXX - 16, y + 7, AXX + 16, y - 7, ST(.7)));
+  /* the index's name, left of the chart above the axis break (clear of the flagships' row and inside every 2D view) */
+  /* Goldman, 10 Oct: the index's version from data.js (aa_index_version_apr2026), never typed; the edition below it. 36 px and set
+     lower than p6 so the longer line keeps clear of the flagships' row (baseline 250) and of the axis break (x 434-466, y 335+) */
+  N.tG = dgroup(96, 312);
+  const VER = F('aa_index_version_apr2026');
+  N.title = label(N.tG, 'Artificial Analysis Index, ' + (VER.display || String(VER.v)), 'w', 36, { dy: 0 });
+  const ed = F('aa_muse_spark_apr2026').asOf.split('-');
+  N.title2 = label(N.tG, FULL[+ed[1] - 1] + ' ' + ed[0], 'wd', 34, { dy: 44 });
+  /* names and dates under the zero line */
+  /* Goldman, 10 Oct: no date under the 18 bar (under an April 2026 title it reads as the score's date) */
+  N.mvLab = dgroup(MVX, BASE); N.mvName = label(N.mvLab, mv.label, 'w', TL, { dy: 46, a: 'middle' });
+  N.spLab = dgroup(SPXD, BASE); N.spBase = label(N.spLab, sp.label, 'w', TL, { dy: 46, a: 'middle' }); N.spBaseD = label(N.spLab, dstr(iso('muse_spark_launch')), 'mg', TL, { dy: 86, a: 'middle' });
+  /* Maverick's bar and figure */
+  N.mvBar = el('rect', { x: MVX - MVW / 2, y: Y(mv.v), width: MVW, height: BASE - Y(mv.v) }, DW, 'fill:var(--grey-bright)');
+  N.mvNumG = dgroup(MVX, Y(mv.v)); N.mvNum = label(N.mvNumG, mv.display || String(mv.v), 'n', TH, { dy: -22, a: 'middle' });
+  /* the 18-block that travels, the reference line, Spark's bar in three blocks */
+  N.ref = el('line', { x1: MVX + MVW / 2, y1: Y(mv.v), x2: SPXD - SPWD / 2, y2: Y(mv.v) }, DW, `stroke:rgba(var(--cream-rgb), .55); stroke-width:2; stroke-dasharray:8 8`);
+  N.blk = el('rect', { x: MVX - MVW / 2, y: Y(mv.v), width: MVW, height: BASE - Y(mv.v) }, DW, 'fill:var(--grey-bright)');
+  N.spBar = el('rect', { x: SPXD - SPWD / 2, y: Y(mv.v), width: SPWD, height: BASE - Y(mv.v) }, DW, 'fill:var(--gold)');
+  N.seams = [mv.v, 2 * mv.v].map(v => dline(SPXD - SPWD / 2 - 1, Y(v), SPXD + SPWD / 2 + 1, Y(v), 'stroke:var(--bg); stroke-width:6'));
+  N.spNumG = dgroup(SPXD + SPWD / 2 + 26, Y(sp.v)); N.spNum = label(N.spNumG, sp.display || String(sp.v), 'h', 150, { dy: 112 });
+  /* x2.89: a dimension from Maverick's height to Spark's, left of the bar */
+  const DX = SPXD - SPWD / 2 - 34;
+  N.dim = dline(DX, Y(mv.v), DX, Y(sp.v), 'stroke:var(--gold); stroke-width:3; stroke-dasharray:1 1');
+  N.dimEnds = [mv.v, sp.v].map(v => dline(DX - 14, Y(v), DX + 14, Y(v), 'stroke:var(--gold); stroke-width:3; stroke-dasharray:1 1'));
+  N.dimG = dgroup(DX - 22, (Y(mv.v) + Y(sp.v)) / 2); N.dimNum = label(N.dimG, ratio.display || ratio.v + '×', 'hx', 64, { dy: 22, a: 'end' });
+  /* above 52: nothing gold. The gold ends exactly at 52 (pass-6 facts review); the three flagships float on their own line above,
+     side by side at one level, with no fill, no column and no value */
+  const LOGO = [['logo-google.png', 36, 36], ['logo-openai_white.png', 132, 36], ['logo-anthropic.png', 42, 32]];
+  N.rowG = dgroup(SPXD, ROWY);
+  const GAP_MARK = 14, GAP_ITEM = 56;
+  const items = AHEAD.map((name, i) => ({ nm: label(N.rowG, name, 'w', 36, { dy: 0 }), f: LOGO[i] }));
+  const widths = items.map(it => it.nm.getComputedTextLength() + GAP_MARK + it.f[1]);
+  let x = -(widths.reduce((a, b) => a + b, 0) + GAP_ITEM * (items.length - 1)) / 2;
+  N.rows = items.map((it, i) => {
+    const [f, w, h] = it.f;
+    it.nm.setAttribute('x', x);
+    const lg = mark(N.rowG, f, x + it.nm.getComputedTextLength() + GAP_MARK, -13 - h / 2, w, h);
+    x += widths[i] + GAP_ITEM;
+    return { nm: it.nm, lg };
+  });
+}
+
+/* ---------- per frame ---------- */
+function frame() {
+  cam.position.set(CV.px, CV.py, CV.pz); cam.fov = CV.fov;
+  if (Math.abs(CV.sy) > .01) cam.setViewOffset(1920, 1080, 0, CV.sy, 1920, 1080); else cam.clearViewOffset();
+  cam.updateProjectionMatrix(); cam.lookAt(CV.tx, CV.ty, CV.tz);
+  cam.updateMatrixWorld();
+  key.target.position.set(CV.tx, 0, CV.tz); key.position.set(CV.tx - 14, 34, CV.tz + 24);
+  pins.forEach(p => { const s = proj(p.v); p.g.setAttribute('transform', `translate(${s.x.toFixed(1)},${s.y.toFixed(1)})`); p.g.style.display = s.ok ? '' : 'none'; });
+  applyD2();
+  const src = document.querySelector('.bw-source'), want = TLINE && TLINE.time() >= S.index - .1 ? CRED_B : CRED_A;
+  if (src && src.textContent !== want) src.textContent = want;
+  if (canvas.style.opacity === '' || +canvas.style.opacity > 0) R.render(scene, cam);   /* the room stops rendering once it has dissolved */
+}
+
+/* ---------- the timeline ---------- */
+function play() {
+  build();
+  const tl = gsap.timeline({ onUpdate: frame }); TLINE = tl;
+  Object.keys(S).forEach(k => BW.mark(tl, k, S[k]));
+  const rise = (t, at, d = .7) => tl.fromTo(t, { y: t.R }, { y: 0, duration: d, ease: 'power3.out', immediateRender: true }, at);
+  const fadeEl = (n, at, d = .5, to = 1) => tl.fromTo(n, { opacity: 0 }, { opacity: to, duration: d, ease: 'power1.out', immediateRender: true }, at);
+  const outEl = (n, at, d = .5, to = 0) => tl.to(n, { opacity: to, duration: d, ease: 'power1.inOut' }, at);
+  const camTo = (v, at, d, ease = 'power2.inOut') => tl.to(CV, Object.assign({}, v, { duration: d, ease }), at);
+  const d2To = (v, at, d, ease = 'power2.inOut') => tl.to(D2, Object.assign({}, v, { duration: d, ease }), at);
+  const fromY = (obj, y0, y1, at, d, ease = 'power2.out') => tl.fromTo(obj.position, { y: y0 }, { y: y1, duration: d, ease, immediateRender: true }, at);
+  const growX = (obj, at, d, ease = 'power2.inOut') => tl.fromTo(obj.scale, { x: .0001 }, { x: 1, duration: d, ease, immediateRender: true }, at);
+  const draw = (n, at, d, ease = 'power2.out') => tl.fromTo(n, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: d, ease, immediateRender: true }, at);
+  const show = (o, at) => tl.set(o, { visible: true }, at);
+
+  /* starting state */
+  tl.set(CV, { px: 33.6, py: 7.6, pz: 12.6, tx: 38.3, ty: .1, tz: 0, fov: 30 }, 0);   /* looking down at the floor; it tilts up with the model */
+  tl.set(canvas, { opacity: 1 }, 0);
+  tl.set(D2, { cx: 960, cy: 540, s: 1 }, 0);
+  [N.msNode, N.msDim, ...N.msEnds, N.owLine, N.clLine].forEach(o => tl.set(o, { visible: false }, 0));
+  N.ll.forEach(l => tl.set(l.g, { visible: false }, 0));
+  tl.set([N.spMark, ...N.rows.map(r => r.lg), N.dimG], { opacity: 0 }, 0);
+  /* the whole dashboard waits for the hand-off */
+  tl.set([N.zero, N.axis, ...N.grid, ...N.gl, ...N.brk, N.mvBar, N.blk, N.spBar, ...N.seams, N.ref, N.dim, ...N.dimEnds], { opacity: 0 }, 0);
+
+  /* ===== ACT 1 · the release ===== */
+  /* the camera tilts up from the floor and arrives square and centred on Spark for "Muse" (27-avocado follows this move: H4B) */
+  camTo({ px: SPX, py: 3.6, pz: 16.5, tx: SPX, ty: 2.3 }, .6, 3.5, 'power2.inOut');
+  const t8 = .3;                                               /* landed before the laid frame 47 (27-avocado's cut) */
+  tl.set(N.spTick, { visible: false }, 0); show(N.spTick, t8);
+  tl.fromTo(N.spTick.scale, { z: .0001 }, { z: 1, duration: .6, ease: 'power2.out', immediateRender: true }, t8);
+  rise(N.spDate, t8 + .25);
+  fromY(N.sp, -SPH0 - .3, 0, S.spark - 1.55, 2.0, 'power3.out');
+  N.walls.forEach(w => tl.set(w.position, { y: -SPH0 - .3 }, 0));
+  tl.set(N.lid, { visible: false }, 0);
+  rise(N.spName, S.spark - .1, .8); fadeEl(N.spMark, S.spark, .6);
+  /* the name steps aside while Meta's two cards sit over it (b028 10.88-15.88, b029 18.89-22.46) */
+  /* and through the wide act-2 frame, where it would run into "Llama 4"; it returns as the camera arrives on the vault */
+  outEl([N.spPin.g], 10.7, .2); tl.to(N.spPin.g, { opacity: 1, duration: .5 }, S.open_ + 6.0);
+  /* under the Axios card: dolly back, square between Meta Superintelligence Labs and Spark; "nine months" runs back along the floor */
+  camTo({ px: (MSX + SPX) / 2, py: 6.2, pz: 23, tx: (MSX + SPX) / 2, ty: 1.4 }, S.spark + 1.2, 5.6);
+  const tN = S.spark + 4.06;
+  show(N.msEnds[1], tN - .1); show(N.msDim, tN);
+  tl.fromTo(N.msDim.scale, { x: .0001 }, { x: 1, duration: 1.0, ease: 'power2.inOut', immediateRender: true }, tN);
+  tl.fromTo(N.msDim.position, { x: SPX }, { x: MSX, duration: 1.0, ease: 'power2.inOut', immediateRender: true }, tN);
+  show(N.msEnds[0], tN + .95); show(N.msNode, tN + .95);
+  rise(N.msName, S.spark + 5.96); rise(N.msDate, S.spark + 6.1);
+  /* under Meta's card ("a ground-up overhaul"): truck and dolly out (no yaw) to the whole line, back to 2023 */
+  /* the whole line, 2023 to the vault: a level camera (no pitch), the image shifted down so the line sits under the receipts' band
+     (y 320-660 while c029 is up) */
+  const WIDE = { px: 21.0, py: 4.2, pz: 39.5, tx: 21.0, ty: 4.2, tz: 0, fov: 36, sy: -90 };
+  /* while Meta's open-source card is up (18.89-22.46) the image slides down under it, then back: a level move, no tilt */
+  tl.to(CV, { sy: -213, duration: .5, ease: 'power2.inOut' }, 18.35);
+  tl.to(CV, { sy: -90, duration: .8, ease: 'power2.inOut' }, 22.5);
+  camTo(WIDE, S.spark + 6.9, 6.4);
+  outEl([N.msPin.g], S.spark + 7.6, .5);
+  outEl([N.spDatePin.g, ...N.years.map(p => p.g)], S.llama - 1.4, .6);
+  [N.msNode, N.msDim, ...N.msEnds].forEach(o => tl.set(o, { visible: false }, S.llama - .8));
+
+  /* ===== ACT 2 · open and closed, one wide level frame ===== */
+  N.ll.forEach((l, i) => {
+    const t = S.llama - 1.25 + i * .2;                           /* left to right, in date order, as Meta's card leaves */
+    show(l.g, t); fromY(l.g, -l.h - .1, 0, t, 1.0, 'power3.out');
+    rise(l.nm, t + .35);
+  });
+  camTo({ pz: 37.8 }, S.llama + .4, 7.0, 'power1.inOut');      /* a slow dolly in, square on (no yaw, no roll) */
+  /* "you couldn't download it": the gold walls slam up round Spark's frame (a hard stop, no bounce) */
+  N.walls.forEach((w, i) => tl.fromTo(w.position, { y: -SPH0 - .3 }, { y: 0, duration: .42, ease: 'power3.in', immediateRender: false }, S.llama + .6 + i * .05));
+  /* "open-weight": the bracket runs under the Llamas, the word lands centred under it */
+  show(N.owLine, S.open_ + 3.1); growX(N.owLine, S.open_ + 3.1, .9, 'power2.out');
+  rise(N.ow, S.open_ + 3.75);
+  /* truck to the vault, square and centred, for the lid on "closed" */
+  camTo({ px: SPX, py: 4.8, pz: 17.5, tx: SPX, ty: 2.9, fov: 34, sy: 0 }, S.open_ + 4.6, 2.3, 'power2.inOut');
+  tl.set(N.spTick, { visible: false }, S.closed - 1.2);          /* the date's inlay would run through "closed" */
+  show(N.lid, S.closed - .4);
+  tl.fromTo(N.lid.position, { y: SPH0 + 5 }, { y: SPH0 + .08, duration: .36, ease: 'power3.in', immediateRender: false }, S.closed - .4);
+  show(N.clLine, S.closed - .4); growX(N.clLine, S.closed - .4, .6, 'power2.out'); rise(N.cl, S.closed - .05);
+
+  /* ===== HAND-OFF · the room becomes the dashboard ===== */
+  const tE = S.index - 2.5;
+  N.ll.forEach((l, i) => { if (i < 4) { tl.to(l.g.position, { y: -l.top - .3, duration: 1.1, ease: 'power2.in' }, tE + i * .1); outEl([l.p.g], tE + i * .1, .5); } });
+  outEl([N.ll[4].p.g, N.spPin.g, N.owPin.g, N.clPin.g], tE, .5);
+  tl.set(N.spTick, { visible: false }, tE + .6);
+  [N.owLine, N.clLine].forEach(o => tl.set(o, { visible: false }, tE + .7));
+  /* dolly straight back and narrow to the long lens: the floor line comes to rest on the zero line, Llama 4 and Spark on the slots */
+  camTo(Object.assign({ sy: 0 }, HAND), tE + .1, 2.2, 'power2.inOut');
+  tl.to(scene.fog, { near: 80, far: 190, duration: 1.0, ease: 'power2.out' }, tE);   /* the two objects stay clear, not fogged, as the lens narrows */
+  /* "Artificial Analysis Index": the zero line draws over the floor line, the scale rises, the room dissolves */
+  tl.set(N.zero, { opacity: 1 }, S.index - .05); draw(N.zero, S.index - .05, .7);
+  tl.set(N.axis, { opacity: 1 }, S.index + .3); draw(N.axis, S.index + .3, .8);
+  N.grid.forEach((g, i) => { tl.set(g, { opacity: 1 }, S.index + .45 + i * .1); draw(g, S.index + .45 + i * .1, .8); });
+  N.gl.forEach((g, i) => fadeEl(g, S.index + .4 + i * .1, .4));
+  tl.to(canvas, { opacity: 0, duration: .9, ease: 'power1.inOut' }, S.index + .2);
+  /* the hand-off is not a hold: the edition lands on "April 2026", the two names as the lens settles, the index's name on "Artificial" */
+  rise(N.title2, S.index - 1.6, .8); rise(N.title, S.index + .05, .8);
+  /* the credit dips while its line gains the version's source (frame() swaps the text at S.index - .1) */
+  tl.to('.bw-source', { opacity: 0, duration: .25 }, S.index - .4); tl.to('.bw-source', { opacity: 1, duration: .4 }, S.index - .05);
+  rise(N.mvName, S.index - .5); rise(N.spBase, S.index - .3); rise(N.spBaseD, S.index - .2);
+
+  /* ===== ACT 3 · the dashboard ===== */
+  /* "Meta's last Llama model had scored an 18": the frame leans to Maverick; the bar grows from zero to 18 */
+  d2To({ cx: 860, cy: 630, s: 1.08 }, S.eighteen - 2.3, 2.2);
+  tl.set(N.mvBar, { opacity: 1 }, S.eighteen - 1.35);
+  tl.fromTo(N.mvBar, { attr: { y: BASE, height: 0 } }, { attr: { y: Y(mv.v), height: BASE - Y(mv.v) }, duration: 1.3, ease: 'power2.out', immediateRender: true }, S.eighteen - 1.35);
+  rise(N.mvNum, S.eighteen - .05, .8);
+  /* "But the new Muse Spark model": an 18-block slides to Spark's slot and turns gold; the frame follows it */
+  const tB = S.fiftytwo - 2.3;
+  d2To({ cx: 980, cy: 610, s: 1.06 }, tB, 1.9);
+  tl.set(N.blk, { opacity: 1 }, tB);
+  tl.fromTo(N.blk, { attr: { x: MVX - MVW / 2, width: MVW } }, { attr: { x: SPXD - SPWD / 2, width: SPWD }, duration: 1.5, ease: 'power2.inOut', immediateRender: true }, tB + .1);
+  tl.set(N.ref, { opacity: 1 }, tB + .1);
+  tl.fromTo(N.ref, { attr: { x2: MVX + MVW / 2 } }, { attr: { x2: SPXD - SPWD / 2 }, duration: 1.5, ease: 'power2.inOut', immediateRender: true }, tB + .1);
+  tl.set(N.spBar, { opacity: 1 }, tB + 1.55); tl.set(N.blk, { opacity: 0 }, tB + 1.6);
+  /* "52": Spark grows from 18 to 52; the seams at 18 and 36 make the three blocks; the figure lands on the word */
+  tl.fromTo(N.spBar, { attr: { y: Y(mv.v), height: BASE - Y(mv.v) } }, { attr: { y: Y(sp.v), height: BASE - Y(sp.v) }, duration: 1.3, ease: 'power2.inOut', immediateRender: true }, S.fiftytwo - .15);
+  tl.set(N.seams[0], { opacity: 1 }, S.fiftytwo - .1);
+  tl.set(N.seams[1], { opacity: 1 }, S.fiftytwo + .55);
+  rise(N.spNum, S.fiftytwo + .05, .8);
+  d2To({ cx: 980, cy: 590, s: 1.06 }, S.fiftytwo - .4, 1.8);
+  /* "3x": the dimension */
+  tl.set([N.dim, ...N.dimEnds], { opacity: 1 }, S.times);
+  draw(N.dimEnds[0], S.times, .3); draw(N.dim, S.times + .1, .8); draw(N.dimEnds[1], S.times + .8, .3);
+  fadeEl(N.dimG, S.times + .35, .1); rise(N.dimNum, S.times + .4, .8);
+  /* "It still left Spark behind": the frame pulls back; above an axis break, an open column fades upward, and the three land
+     side by side at one level */
+  const tA = S.ahead - 1.5;
+  d2To({ cx: 960, cy: 540, s: 1 }, tA, 1.6);
+  N.brk.forEach(b => fadeEl(b, tA + .5, .4));
+  const tw = [S.ahead, S.ahead + .7, S.ahead + 1.64];
+  N.rows.forEach((r, i) => { rise(r.nm, tw[i], .7); fadeEl(r.lg, tw[i] + .05, .5); });
+  /* "but it was progress": a slow settle on the whole picture */
+  d2To({ cx: 980, cy: 560, s: 1.02 }, S.ahead + 2.6, 3.6, 'power1.inOut');
+  tl.to({}, { duration: .01 }, END - .01);
+  frame();
+  return tl;
+}
+function rest() { const tl = play(); tl.progress(1).pause(); frame(); gsap.set('.bw-source', { opacity: 1 }); }
+const playAll = () => { const tl = play(); gsap.set('.bw-source', { opacity: 0 }); tl.to('.bw-source', { opacity: 1, duration: .8 }, S.open + .6); return tl; };
+BW.run({ play: playAll, rest });
+</script>
+</body>
+</html>

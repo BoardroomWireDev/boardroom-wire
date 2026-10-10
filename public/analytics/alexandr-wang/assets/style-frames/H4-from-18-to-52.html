@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>H4 From 18 to 52, style frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/brand.css">
+<link rel="stylesheet" href="sf.css">
+</head><body>
+<div class="stage">
+  <svg class="sf" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="sf-credit" id="credit"></div>
+</div>
+<script src="sf-figures.js"></script>
+<script src="sf.js"></script>
+<script>
+/* H4, final step: the April 2026 edition of the index. Llama 4 (open-weight) against Muse Spark (closed) on one scale,
+   the x2.9 drawn as a dimension, and the three flagships the article names ahead of Spark: solid to 52, then a break
+   and a fade to the top of the plot. The article gives their order only, no scores, so no height is implied. */
+const s = document.getElementById('s'); const D = defs(s);
+const fade = el(D, 'linearGradient', { id: 'fadeUp', x1: 0, y1: 1, x2: 0, y2: 0 });
+el(fade, 'stop', { offset: 0, 'stop-color': '#4A4A5A', 'stop-opacity': .85 });
+el(fade, 'stop', { offset: 1, 'stop-color': '#4A4A5A', 'stop-opacity': 0 });
+
+const BY = 760, y = lin(0, 60, BY, 200), BW = 124, TOP = 104;          // TOP: the top of the plot
+const sc = F('aa_llama4_scout_apr2026'), mv = F('aa_llama4_maverick_apr2026'), sp = F('aa_muse_spark_apr2026');
+const cS = 236, cM = 520, cP = 900, AH = [1200, 1480, 1710];
+
+// axis and grid; the grid stops short of the three ahead, so nothing reads their height
+for (let v = 0; v <= 60; v += 20) {
+  el(s, 'line', { x1: 150, x2: v > sp.v ? cP + BW / 2 + 40 : 1850, y1: y(v), y2: y(v), stroke: v ? 'rgba(245,241,229,.07)' : 'rgba(245,241,229,.4)', 'stroke-width': 2 });
+  el(s, 'text', { x: 126, y: y(v) + 11, 'text-anchor': 'end', class: 'ax', 'font-size': 32 }, String(v));
+}
+const hd = el(s, 'text', { x: 150, y: 116, class: 'nm', 'font-size': 32 }, 'Artificial Analysis');
+el(hd, 'tspan', { class: 'nd' }, ', April 2026');
+
+const bar = (cx, v, fill) => el(s, 'rect', { x: cx - BW / 2, y: y(v), width: BW, height: BY - y(v), fill });
+const name = (cx, t, cls = 'nd', yy = BY + 50) => el(s, 'text', { x: cx, y: yy, 'text-anchor': 'middle', class: cls, 'font-size': 32 }, t);
+const group = (x0, x1, t, k) => {           // a bracket line under the names, its word keyed to a ledger row
+  F(k);
+  el(s, 'line', { x1: x0, x2: x1, y1: BY + 76, y2: BY + 76, stroke: 'rgba(245,241,229,.3)', 'stroke-width': 2 });
+  name((x0 + x1) / 2, t, 'nd', BY + 118);
+};
+
+// Llama 4
+bar(cS, sc.v, '#3A3A48'); bar(cM, mv.v, '#6E6E80');
+el(s, 'text', { x: cS, y: y(sc.v) - 18, 'text-anchor': 'middle', class: 'fn', 'font-size': 48, style: 'fill:rgba(245,241,229,.6)' }, fmt.int(sc.v));
+el(s, 'text', { x: cM, y: y(mv.v) - 20, 'text-anchor': 'middle', class: 'fn', 'font-size': 104 }, fmt.int(mv.v));
+name(cS, sc.label); name(cM, mv.label, 'nm');
+group(cS - BW / 2, cM + BW / 2, 'open-weight', 'llama4_release');
+
+// Muse Spark
+bar(cP, sp.v, 'var(--gold)');
+el(s, 'text', { x: cP, y: y(sp.v) - 26, 'text-anchor': 'middle', class: 'fh', 'font-size': 200 }, fmt.int(sp.v));
+name(cP, sp.label, 'nm');
+group(cP - BW / 2, cP + BW / 2, 'closed', 'muse_spark_open_future');
+
+// x2.9 as a dimension between the two tops
+const dx = cP - BW / 2 - 56;
+el(s, 'line', { x1: cM + BW / 2 + 10, x2: dx + 16, y1: y(mv.v), y2: y(mv.v), stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2, 'stroke-dasharray': '5 5' });
+el(s, 'line', { x1: dx, x2: dx, y1: y(sp.v), y2: y(mv.v), stroke: 'var(--gold)', 'stroke-width': 3 });
+[y(sp.v), y(mv.v)].forEach(py => el(s, 'line', { x1: dx - 14, x2: dx + 14, y1: py, y2: py, stroke: 'var(--gold)', 'stroke-width': 3 }));
+el(s, 'text', { x: dx - 26, y: (y(sp.v) + y(mv.v)) / 2 + 22, 'text-anchor': 'end', class: 'fh', 'font-size': 64 }, '×' + fmt.fix(F('ratio_spark_vs_maverick_apr2026').v, 1));
+
+// the three ahead: solid to Spark's 52, a break, then a fade that runs to the top of the plot
+el(s, 'line', { x1: cP + BW / 2, x2: 1850, y1: y(sp.v), y2: y(sp.v), stroke: 'rgba(212,175,55,.7)', 'stroke-width': 2, 'stroke-dasharray': '8 7' });
+const bk = y(sp.v) - 8;                                   // the break, drawn at the 52 line
+F('aa_meta_is_back').label.forEach((t, i) => {
+  const cx = AH[i], x0 = cx - BW / 2;
+  el(s, 'rect', { x: x0, y: bk, width: BW, height: BY - bk, fill: '#4A4A5A' });
+  el(s, 'rect', { x: x0, y: TOP, width: BW, height: bk - 22 - TOP, fill: 'url(#fadeUp)' });
+  // the break: a slanted gap, edged in cream, the drafting sign for "not to scale beyond here"
+  el(s, 'path', { d: `M${x0 - 10},${bk + 6} L${x0 + BW + 10},${bk - 10} L${x0 + BW + 10},${bk - 32} L${x0 - 10},${bk - 16} Z`, fill: 'var(--bg)' });
+  [bk + 6, bk - 16].forEach(by => el(s, 'line', { x1: x0 - 10, y1: by, x2: x0 + BW + 10, y2: by - 16, stroke: 'rgba(245,241,229,.7)', 'stroke-width': 2 }));
+  name(cx, t);
+});
+
+// whose model each bar is: the maker's mark at the foot of its bar (ink on the gold bar)
+const LOGO = '../../../../anthropic-ipo/dashboards/assets/logos/';
+const OWN = '../logos/';                                                        // this video's own copies
+[[cS, LOGO + 'logo-meta.png'], [cM, LOGO + 'logo-meta.png'], [cP, LOGO + 'logo-meta.png', true],
+ [AH[0], LOGO + 'logo-google.png'], [AH[1], OWN + 'logo-openai_white.png'], [AH[2], LOGO + 'logo-anthropic.png']].forEach(([cx, href, ink]) =>
+  el(s, 'image', { href, x: cx - BW / 2 + 12, y: BY - 64, width: BW - 24, height: 40, preserveAspectRatio: 'xMidYMid meet',
+    style: ink ? 'filter:brightness(0);opacity:.82' : 'opacity:.9' }));
+
+credit(['aa_muse_spark_apr2026', 'aa_meta_is_back', 'ratio_spark_vs_maverick_apr2026', 'llama4_release', 'muse_spark_open_future']);
+</script>
+</body></html>

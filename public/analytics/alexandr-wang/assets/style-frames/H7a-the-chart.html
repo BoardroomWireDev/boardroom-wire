@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>H7a The chart, style frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/brand.css">
+<link rel="stylesheet" href="sf.css">
+</head><body>
+<div class="stage">
+  <svg class="sf" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="sf-credit" id="credit"></div>
+</div>
+<script src="sf-figures.js"></script>
+<script src="sf.js"></script>
+<script>
+/* H7a, final step: the App Store moment, as the charts themselves look. Two dated chart snapshots side by side, never
+   joined, because they are not the same list: 10 Sep, No. 2 on "the App Store's Top Charts" (TechCrunch's words, iPhone,
+   US) with 83,000+ US iPhone downloads; 18 Sep, #1 on the free iPhone chart, passing ChatGPT (Sensor Tower via CNBC).
+   The other rows are the chart's other places, a number and a rule only: who held them is not on our ledger. Footer, full width: 2.5M+
+   downloads across iPhone and Android, 21 Sep. */
+const s = document.getElementById('s'); defs(s);
+const T = (x, y, txt, cls = 'nd', size = 32, a = {}) => el(s, 'text', Object.assign({ x, y, class: cls, 'font-size': size }, a), txt);
+const GH = 'rgba(245,241,229,.16)', G = 'var(--gold)';
+const r2 = F('muse_rank_0910'), r1 = F('muse_top_ios_free'), ios = F('muse_ios_early'), dl = F('muse_downloads_0921');
+
+// one chart snapshot: rows 1..n, Muse in its place, the rest left blank
+function chart(x0, w, y0, rh, n, at, big) {
+  for (let i = 1; i <= n; i++) {
+    const y = y0 + (i - 1) * rh, me = i === at, cy = y + rh / 2;
+    el(s, 'line', { x1: x0, x2: x0 + w, y1: y + rh, y2: y + rh, stroke: 'rgba(245,241,229,.1)', 'stroke-width': 2 });
+    const num = el(s, 'text', { x: x0 + (big && me ? 0 : 8), y: cy + (big && me ? 46 : 13), class: me ? 'fh' : 'ax', 'font-size': big && me ? 132 : 40 }, me && big ? r1.v.split(' ')[0] : String(i));
+    const tx = x0 + (big ? 170 : 90), ts = big && me ? 92 : 64;
+    if (!me) continue;                                       // the other places: a number and a rule, nothing invented
+    // Muse's tile: the slot for the real Muse app icon at build (Ko, from Meta's material)
+    el(s, 'rect', { x: tx, y: cy - ts / 2, width: ts, height: ts, rx: ts * .23, fill: 'rgba(212,175,55,.2)', stroke: G, 'stroke-width': 3 });
+    T(tx + ts + 28, cy + (big ? 16 : 12), 'Muse', 'nm', big ? 48 : 36, { style: 'fill:var(--gold)' });
+  }
+}
+
+// ---- 10 Sep: No. 2, the App Store's Top Charts ----
+const LX = 140, LW = 600;
+T(LX, 196, fmt.day(r2.asOf), 'nm', 40);
+T(LX, 244, 'US App Store Top Charts, iPhone');
+chart(LX, LW, 290, 92, 4, r2.v, false);
+const io = T(LX, 744, fmt.int(ios.v) + '+', 'fn', 48);
+el(io, 'tspan', { class: 'nd', dx: 18, style: 'font-family:var(--sans);font-weight:500;font-size:32px;fill:rgba(245,241,229,.62)' }, 'iPhone downloads in the US');
+
+// ---- 18 Sep: #1, the free iPhone chart ----
+const RX = 960, RW = 820;
+T(RX, 196, fmt.day(r1.asOf), 'nm', 40);
+T(RX, 244, 'top free iPhone app');
+chart(RX, RW, 290, 110, 4, 1, true);
+// passing ChatGPT: named beside the #1 row, with no place of its own (its new rank is not on our ledger)
+const py = 290 + 60;
+const pa = T(RX + RW, py + 12, 'passing', 'nd', 32, { 'text-anchor': 'end' });
+el(pa, 'tspan', { class: 'nm', dx: 12 }, 'ChatGPT');
+
+// ---- the downloads, iPhone and Android ----
+// the footer, full width and apart from both lists (not a US-only count): the writer's words, its date
+el(s, 'line', { x1: LX, x2: RX + RW, y1: 812, y2: 812, stroke: 'rgba(245,241,229,.18)', 'stroke-width': 2 });
+const ft = T(LX, 900, fmt.mil(dl.v) + '+', 'fn', 64, { style: 'fill:var(--gold)' });
+el(ft, 'tspan', { class: 'nm', dx: 26, style: 'font-family:var(--sans);font-weight:500;font-size:36px;fill:var(--cream)' }, 'downloads across iPhone and Android');
+T(RX + RW, 900, fmt.day(dl.asOf), 'nd', 32, { 'text-anchor': 'end' });
+
+credit(['muse_rank_0910', 'muse_ios_early', 'muse_top_ios_free', 'muse_downloads_0921']);
+</script>
+</body></html>

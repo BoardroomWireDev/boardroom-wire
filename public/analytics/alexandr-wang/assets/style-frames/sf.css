@@ -1,0 +1,16 @@
+/* Style frames: the v5.1 Ink surface (shared\brand.css tokens), labels at gates.json#type minimums
+   (word labels 32px, the hero figure 96px or more, lines 2px). Class names avoid the brand layer's
+   [class*="lbl|cap|tag|date|…"] catches so numbers stay in Plex Mono. */
+html, body { background: var(--bg); }
+.stage { background: var(--bg); }
+svg.sf { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+svg.sf text { font-family: var(--sans); }
+svg.sf .fn { font-family: var(--mono); font-weight: 600; fill: var(--cream); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+svg.sf .fh { font-family: var(--mono); font-weight: 700; fill: var(--gold); font-variant-numeric: tabular-nums; letter-spacing: -.04em; }
+svg.sf .nm { font-family: var(--sans); font-weight: 500; fill: var(--cream); }
+svg.sf .nd { font-family: var(--sans); font-weight: 500; fill: rgba(245, 241, 229, .62); }
+svg.sf .ax { font-family: var(--mono); font-weight: 500; fill: rgba(245, 241, 229, .55); font-variant-numeric: tabular-nums; }
+svg.sf .gd { fill: var(--gold); }
+.sf-credit { position: absolute; left: 64px; bottom: 40px; max-width: 1560px;
+  font-family: var(--sans); font-weight: 400; font-size: 22px; line-height: 1.4; color: rgba(245, 241, 229, .55); }
+.sf-mark { position: absolute; display: block; }

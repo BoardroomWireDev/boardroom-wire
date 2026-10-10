@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>H5 How Muse works, style frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/brand.css">
+<link rel="stylesheet" href="sf.css">
+</head><body>
+<div class="stage">
+  <svg class="sf" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="sf-credit" id="credit"></div>
+</div>
+<script src="sf-figures.js"></script>
+<script src="sf.js"></script>
+<script>
+/* H5, final step: a line drawing of the mechanism Meta describes. The phone (true 71.5 x 147.6 mm proportion) sends one
+   message, by the Muse app or WhatsApp, across to Muse Secure VM, Meta's "dedicated secure computer with its own browser",
+   where the listing is filled in a browser beside its tools; the computer reaches out to email and apps. */
+const s = document.getElementById('s'); defs(s);
+const LN = 'rgba(245,241,229,.62)', LF = 'rgba(245,241,229,.22)', G = 'var(--gold)';
+const r = (x, y, w, h, a = {}) => el(s, 'rect', Object.assign({ x, y, width: w, height: h, fill: 'none', stroke: LN, 'stroke-width': 2 }, a));
+const t = (x, y, txt, cls = 'nd', a = {}) => el(s, 'text', Object.assign({ x, y, class: cls, 'font-size': 32 }, a), txt);
+const ln = (x1, y1, x2, y2, a = {}) => el(s, 'line', Object.assign({ x1, y1, x2, y2, stroke: LN, 'stroke-width': 2 }, a));
+
+// the boundary between the phone and the cloud
+ln(704, 150, 704, 880, { stroke: LF, 'stroke-dasharray': '6 8' });
+t(736, 200, 'cloud', 'nd');
+
+// ---- the phone, idle ----
+const PX = 190, PY = 262, PH = 560, PW = Math.round(PH * 71.5 / 147.6);
+r(PX, PY, PW, PH, { rx: 46, stroke: 'rgba(245,241,229,.8)' });
+r(PX + 12, PY + 12, PW - 24, PH - 24, { rx: 35, stroke: LF });
+r(PX + PW / 2 - 42, PY + 28, 84, 24, { rx: 12, fill: 'rgba(245,241,229,.18)', stroke: 'none' });
+ln(PX - 4, PY + 150, PX - 4, PY + 210, { 'stroke-width': 3 });                      // side buttons
+ln(PX - 4, PY + 230, PX - 4, PY + 290, { 'stroke-width': 3 });
+// the slot for Jolly, Muse's own creature, as Meta shows it (a real image from Meta's material, via Ko): corners only
+const JS = 172, jx = PX + PW / 2 - JS / 2, jy = PY + 92, jk = 22;
+[[jx, jy, 1, 1], [jx + JS, jy, -1, 1], [jx, jy + JS, 1, -1], [jx + JS, jy + JS, -1, -1]].forEach(([cx, cy, dx, dy]) =>
+  el(s, 'path', { d: `M${cx + dx * jk},${cy} H${cx} V${cy + dy * jk}`, stroke: 'rgba(212,175,55,.6)', 'stroke-width': 2, fill: 'none' }));
+// the thread: three photos and a request out, one reply back
+const bx = PX + 64, by = PY + 300;
+r(bx, by, PW - 92, 92, { rx: 18, fill: 'rgba(212,175,55,.14)', stroke: G });
+[0, 1, 2].forEach(i => r(bx + 14 + i * 50, by + 18, 40, 40, { rx: 4, stroke: G }));
+el(s, 'line', { x1: bx + 16, y1: by + 74, x2: bx + 120, y2: by + 74, stroke: G, 'stroke-width': 3, 'stroke-linecap': 'round' });
+r(PX + 28, by + 116, 140, 46, { rx: 16, fill: 'rgba(245,241,229,.08)', stroke: LN });
+el(s, 'line', { x1: PX + 46, y1: by + 139, x2: PX + 130, y2: by + 139, stroke: LN, 'stroke-width': 3, 'stroke-linecap': 'round' });
+
+// ---- two doors in: the Muse app and WhatsApp ----
+const VX = 780, VY = 250, VW = 800, VH = 600;
+const doors = [[PY + 230, 'Muse'], [PY + 330, 'WhatsApp']];
+doors.forEach(([yy, nmx], i) => {
+  el(s, 'path', { d: `M${PX + PW + 6},${yy} H${VX - 10}`, stroke: i ? LN : G, 'stroke-width': i ? 2 : 3, fill: 'none' });
+  el(s, 'path', { d: `M${VX - 24},${yy - 9} L${VX - 8},${yy} L${VX - 24},${yy + 9}`, stroke: i ? LN : G, 'stroke-width': i ? 2 : 3, fill: 'none' });
+  el(s, 'circle', { cx: PX + PW + 6, cy: yy, r: 5, fill: i ? LN : G });
+  t(PX + PW + 40, yy - 18, nmx, 'nm');
+});
+
+// ---- Muse Secure VM: an isolated computer with its own browser ----
+r(VX, VY, VW, VH, { stroke: 'rgba(245,241,229,.75)', 'stroke-dasharray': '12 8' });
+[[VX, VY, 1, 1], [VX + VW, VY, -1, 1], [VX, VY + VH, 1, -1], [VX + VW, VY + VH, -1, -1]].forEach(([cx, cy, dx, dy]) =>
+  el(s, 'path', { d: `M${cx + dx * 34},${cy} H${cx} V${cy + dy * 34}`, stroke: 'var(--cream)', 'stroke-width': 3, fill: 'none' }));
+t(VX + 34, VY + 58, F('muse_secure_vm').label, 'nm');
+
+// the browser, the listing being filled
+const BX = VX + 34, BY = VY + 96, BWd = 500, BH = 420;
+r(BX, BY, BWd, BH, { rx: 8 });
+ln(BX, BY + 50, BX + BWd, BY + 50);
+r(BX + 20, BY + 12, BWd - 40, 26, { rx: 13, stroke: LF });
+// photos
+[0, 1, 2].forEach(i => r(BX + 26 + i * 104, BY + 78, 90, 90, { rx: 4, stroke: G, fill: 'rgba(212,175,55,.08)' }));
+// fields, filled
+[[BY + 206, 380], [BY + 262, 170], [BY + 318, 448]].forEach(([fy, w]) => {
+  r(BX + 26, fy, BWd - 52, 40, { rx: 6, stroke: LF });
+  el(s, 'line', { x1: BX + 44, y1: fy + 20, x2: BX + 44 + w * .72, y2: fy + 20, stroke: G, 'stroke-width': 4, 'stroke-linecap': 'round' });
+});
+r(BX + BWd - 176, BY + 372, 150, 32, { rx: 6, fill: G, stroke: 'none' });
+t(BX, BY + BH + 50, F('muse_browser_forms').label, 'nd');
+
+// its tools
+const TX = BX + BWd + 34, TW = VX + VW - 34 - TX, TY = BY;
+r(TX, TY, TW, 250, { rx: 8 });
+[0, 1, 2, 3, 4, 5].forEach(i => {
+  el(s, 'text', { x: TX + 18, y: TY + 46 + i * 34, class: 'fn', 'font-size': 22, fill: 'rgba(245,241,229,.55)', style: 'fill:rgba(245,241,229,.5)' }, '>');
+  el(s, 'line', { x1: TX + 46, y1: TY + 38 + i * 34, x2: TX + 46 + [120, 80, 140, 60, 110, 90][i], y2: TY + 38 + i * 34, stroke: i === 5 ? G : LN, 'stroke-width': 3, 'stroke-linecap': 'round' });
+});
+t(TX, TY + 300, 'tools', 'nd');
+
+// ---- out to email and apps ----
+const OX = VX + VW + 60;
+[[VY + 190, 'email'], [VY + 410, 'apps']].forEach(([yy, nmx]) => {
+  el(s, 'path', { d: `M${VX + VW + 6},${yy} H${OX}`, stroke: G, 'stroke-width': 3, fill: 'none' });
+  el(s, 'path', { d: `M${OX - 16},${yy - 9} L${OX},${yy} L${OX - 16},${yy + 9}`, stroke: G, 'stroke-width': 3, fill: 'none' });
+  t(OX + 18, yy + 11, nmx, 'nm');
+});
+
+credit(['muse_secure_vm', 'muse_openclaw_reuters'], 'Drawing from Meta’s description.');
+</script>
+</body></html>

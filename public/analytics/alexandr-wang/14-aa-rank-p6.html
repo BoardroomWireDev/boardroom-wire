@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — 23rd of 224 p6 (alexandr-wang plate b065)</title>
+<!-- ALEXANDR WANG · PLATE b065 · 23RD OF 224 · pass 6, a hero dashboard (10 Oct 2026; Ive). BRIEF-pass6 rule 1: flat, full frame,
+     level, in motion. v3 (3D) and v1 stay as fallbacks. Voice 642.56 (board 0), laid from board frame 71 at 10:45.21 for 8.10 s:
+     "And as of early October, Muse Spark 1.3 ranks 23rd out of 224 models on the Artificial Analysis Index by its estimate."
+     The field: Artificial Analysis's 224 models (aa_muse_spark_13_rank, of 224, 4 Oct 2026) as 224 equal cells, 16 to a row, in rank
+     order from the top left, so the leaders sit above Muse Spark and the rest of the field below it. Only the order is drawn: the
+     other models' scores are not on our ledger, so every cell is the same size and carries no name and no number (as v1). The only
+     rank on screen is 23 (FINDINGS-pass4, 10:46): no count through places we have no source for.
+     Left, the type column; right, the field in a level window that the camera pans and zooms in 2D:
+       (pre-roll)  the window close on the tail of the field, the last rows.
+       Muse        the name lands; the window travels up the field.
+       ranks       the 22 cells above Muse Spark's fill, in order: the leaders.
+       23rd        its cell turns gold, centred in the window; "23rd" lands.
+       224         the window pulls back to the whole field; the 201 below it light in order; "224 models".
+       Artificial  the index's mark, its name and the date of the reading, 4 Oct 2026.
+       estimate    a slow push back to the top rows, to the cut.
+     Steps (recorded VO, board seconds from 642.56; ?at= in this order, ?secs=): name "Muse" 2.2 · field "ranks" 3.88 · rank "23rd"
+     4.23 · of "224" 5.3 · index "Artificial" 7.2                                                       (secs 10.467, as laid)
+     Capture contract: BW.run({play, rest}); ?capture ?final ?still ?beats ?t=<secs|step>; ?fcheck steps every frame through the frame
+     check (assets\plates-v2\fcheck.js, its 2D mode). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<style>
+.stage { background: var(--bg); overflow: hidden; }
+#field { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+#labs { position: absolute; inset: 0; pointer-events: none; }
+.lb { position: absolute; white-space: nowrap; line-height: 1; }
+.rk-name { font-family: var(--sans); font-weight: 600; color: var(--cream); font-size: 46px; letter-spacing: -.01em; }
+.rk-rank { font-family: var(--mono); font-weight: 700; color: var(--gold); font-size: 190px; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+.rk-rank .o { font-family: var(--sans); font-weight: 600; font-size: 84px; letter-spacing: 0; margin-left: 10px; vertical-align: 104px; }
+.rk-of { font-family: var(--sans); font-weight: 500; color: rgba(var(--cream-rgb), .78); font-size: 46px; }
+.rk-of .n { font-family: var(--mono); font-weight: 700; color: var(--cream); font-variant-numeric: tabular-nums; }
+.rk-aa { font-family: var(--sans); font-weight: 600; color: var(--cream); font-size: 38px; }
+.rk-date { font-family: var(--mono); font-weight: 600; color: rgba(var(--cream-rgb), .7); font-size: 34px; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg id="field" viewBox="0 0 1920 1080">
+    <defs>
+      <clipPath id="vp"><rect id="vpr" x="640" y="96" width="1200" height="864"/></clipPath>
+      <mask id="aam" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1080">
+        <image id="aai" href="assets/logos/logo-artificial-analysis.png" x="120" y="800" width="84" height="84"/>
+      </mask>
+    </defs>
+    <rect id="vpframe" x="640" y="96" width="1200" height="864" style="fill:none; stroke:rgba(var(--cream-rgb), .16); stroke-width:2"/>
+    <g clip-path="url(#vp)"><g id="world"></g></g>
+    <rect id="aa" x="120" y="800" width="84" height="84" mask="url(#aam)" style="fill:var(--cream)"/>
+  </svg>
+  <div id="labs"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=7"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/plates-v2/fcheck.js?v=2"></script>
+<script>
+(async () => {
+const F = BW.fig, Q = new URLSearchParams(location.search), NS = 'http://www.w3.org/2000/svg';
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), ramp = (t, a, b) => clamp((t - a) / (b - a));
+const io = (u) => u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2, out = (u) => 1 - Math.pow(1 - u, 3);
+const go = (t, a, b, e = io) => e(ramp(t, a, b)), mix = (a, b, u) => a + (b - a) * u;
+
+/* ---------- steps ---------- */
+const STEPS = [['name', 2.2], ['field', 3.88], ['rank', 4.23], ['of', 5.3], ['index', 7.2]];
+const AT = (Q.get('at') || '').split(',').filter(s => s.trim() !== '').map(Number);
+const K = {}; STEPS.forEach(([n, t], i) => K[n] = i < AT.length ? AT[i] : t);
+const END = +(Q.get('secs') || 0) || 10.467;
+Object.assign(K, { models: K.of + 1.0, idx: K.index + .8, by: K.index + 1.48 });
+
+/* ---------- the figure ---------- */
+const r = F('aa_muse_spark_13_rank'), N = r.of, RK = r.v;
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const day = (iso) => +iso.slice(8, 10) + ' ' + MON[+iso.slice(5, 7) - 1] + ' ' + iso.slice(0, 4);
+const ordSuf = (n) => (n % 100 >= 11 && n % 100 <= 13) ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' }[n % 10] || 'th');
+BW.provenance({ uses: ['aa_muse_spark_13_rank'] });
+
+/* ---------- the field: 16 to a row, rank order from the top left ---------- */
+const COLS = 16, ROWS = Math.ceil(N / COLS), VX = 640, VY = 96, VW = 1200, VH = 864;
+const PX = VW / COLS, PY = VH / ROWS, CW = PX - 10, CH = PY - 12;           /* world = the window at scale 1 */
+const cellXY = (k) => [VX + ((k - 1) % COLS) * PX + 5, VY + Math.floor((k - 1) / COLS) * PY + 6];
+const world = document.getElementById('world'), cells = [];
+for (let k = 1; k <= N; k++) {
+  const [x, y] = cellXY(k), c = document.createElementNS(NS, 'rect');
+  c.setAttribute('x', x); c.setAttribute('y', y); c.setAttribute('width', CW); c.setAttribute('height', CH); c.setAttribute('rx', 3);
+  world.appendChild(c); cells.push(c);
+}
+const ring = document.createElementNS(NS, 'rect');                    /* Muse Spark's cell, drawn round in gold */
+{ const [x, y] = cellXY(RK); ring.setAttribute('x', x - 6); ring.setAttribute('y', y - 6); ring.setAttribute('width', CW + 12); ring.setAttribute('height', CH + 12); ring.setAttribute('rx', 5);
+  ring.setAttribute('style', 'fill:none; stroke:var(--gold); stroke-width:3; vector-effect:non-scaling-stroke'); world.appendChild(ring); }
+const centre = (k) => { const [x, y] = cellXY(k); return [x + CW / 2, y + CH / 2]; };
+
+/* ---------- labels (screen space, the type column) ---------- */
+const LABS = document.getElementById('labs');
+const lab = (cls, html, x, y) => { const d = document.createElement('div'); d.className = 'lb ' + cls; d.innerHTML = html; d.style.left = x + 'px'; d.style.top = y + 'px'; LABS.appendChild(d); return d; };
+const lName = lab('rk-name', 'Muse Spark 1.3 (Max)', 120, 214);
+const lRank = lab('rk-rank', `${RK}${ordSuf(RK)}`, 108, 330);              /* one line, as the voice says it */
+const lOf = lab('rk-of', `<span class="n">${N}</span> models`, 120, 560);
+const lAA = lab('rk-aa', 'Artificial Analysis', 226, 808);
+const lDate = lab('rk-date', day(r.asOf), 226, 858);
+const aa = document.getElementById('aa');
+
+/* ---------- the window's camera: centre (world) and scale, level always ---------- */
+const [mx, my] = centre(RK), tail = centre(N - 24), mid = [VX + VW / 2, VY + VH / 2];
+const KEYS = [
+  [0, tail[0], tail[1], 2.1],
+  [1.2, tail[0], tail[1] - 10, 2.1],
+  [K.rank, mx, my, 2.0],                           /* the window travels up the field and lands on the 23rd, centred */
+  [K.of + .05, mx, my + 6, 1.9],
+  [K.of + .95, mid[0], mid[1], 1.0],               /* the whole field */
+  [K.index, mid[0], mid[1] - 4, 1.0],
+  [END, mid[0], VY + VH * .3, 1.12]                /* a slow push back to the top rows */
+];
+function camAt(t) {
+  let i = 0; while (i < KEYS.length - 2 && t > KEYS[i + 1][0]) i++;
+  const a = KEYS[i], b = KEYS[i + 1], u = io(ramp(t, a[0], b[0]));
+  return [mix(a[1], b[1], u), mix(a[2], b[2], u), Math.exp(mix(Math.log(a[3]), Math.log(b[3]), u))];
+}
+/* the window never shows beyond the field's edge */
+function setCam([cx, cy, s]) {
+  const hw = VW / 2 / s, hh = VH / 2 / s;
+  cx = clamp(cx, VX + hw, VX + VW - hw); cy = clamp(cy, VY + hh, VY + VH - hh);
+  world.setAttribute('transform', `translate(${mid[0] - s * cx} ${mid[1] - s * cy}) scale(${s})`);
+}
+
+/* ---------- draw(t) ---------- */
+const src = document.querySelector('.bw-source');
+const FIELD = 'rgba(var(--cream-rgb), .13)', LEAD = 'rgba(var(--cream-rgb), .66)', REST = 'rgba(var(--cream-rgb), .3)';
+let lastKey = '';
+function draw(t) {
+  setCam(camAt(t));
+  /* the leaders fill in order on "ranks"; the 23rd turns gold on "23rd"; the 201 below light in order on "224" */
+  const lead = ramp(t, K.field, K.field + .34), restU = ramp(t, K.of, K.of + .9);
+  const key = [lead, restU, t >= K.rank].map(v => +v === v ? v.toFixed(3) : v).join('|');
+  if (key !== lastKey) {
+    lastKey = key;
+    cells.forEach((c, i) => {
+      const k = i + 1;
+      let f = FIELD;
+      if (k < RK && lead >= k / (RK - 1)) f = LEAD;
+      else if (k === RK && t >= K.rank - .02) f = 'var(--gold)';
+      else if (k > RK && restU >= (k - RK) / (N - RK)) f = REST;
+      c.setAttribute('style', 'fill:' + f);
+    });
+  }
+  ring.style.opacity = go(t, K.rank - .02, K.rank + .2, out);
+  /* type */
+  const op = (e, a, b) => { e.style.opacity = go(t, a, b, out); e.style.transform = `translateY(${(1 - go(t, a, b, out)) * 18}px)`; };
+  op(lName, K.name, K.name + .35); op(lRank, K.rank - .02, K.rank + .3); op(lOf, K.of, K.of + .35);
+  op(lAA, K.index, K.index + .35); op(lDate, K.idx, K.idx + .35);
+  aa.style.opacity = go(t, K.index - .05, K.index + .3, out);
+  if (src) src.style.opacity = go(t, K.index, K.index + .4);
+}
+
+/* ---------- the capture contract ---------- */
+function play() {
+  const tl = gsap.timeline(), p = { t: 0 };
+  STEPS.forEach(([n]) => tl.addLabel(n, K[n]));
+  tl.to(p, { t: END, duration: END, ease: 'none', onUpdate: () => draw(p.t) }, 0);
+  draw(0);
+  return tl;
+}
+function rest() { draw(END); }
+await Promise.all(['700 190px "IBM Plex Mono"', '600 46px Inter', '500 46px Inter'].map(f => document.fonts.load(f)));
+if (/[?&]fcheck/.test(location.search)) {
+  const vr = document.getElementById('vpframe');
+  FCheck.run({ draw, END, labelSel: '.lb', obstacles: () => [vr.getBoundingClientRect()] });
+} else BW.run({ play, rest });
+})().catch(e => { document.documentElement.dataset.error = e.message; console.error(e); if (BW.__capture) BW.__capture.error = e.message; });
+</script>
+</body>
+</html>

@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — The bill p6c (alexandr-wang hero H11)</title>
+<!-- ALEXANDR WANG · HERO H11 · THE BILL · pass 6c (10 Oct 2026; Ive): p6b plus the visual reviewer's two fixes: the receipt (b063, its box
+     618–1308 × 684–906 until 4.74 s) gets clear ground (the chart sits above it until it leaves); and no bar is ever cropped (at
+     each landing every bar on screen is whole; travelling, a bar fades before it would touch an edge). The waterfall is p6b's.
+     p6b was: p6 plus the reviewers' two fixes: the costs step prints where it lands,
+     $31.86B operating cash flow, so the printed figures add up ($60.80B, to $31.86B, less $31.08B, leaves $784M); and the 2026 range
+     carries its date only. p6 itself stays as rendered. v1 (11-the-bill.html) and v2 (3D) stay beside it.
+     Pass 6 (review\BRIEF-pass6.md): financial views are hero dashboards: flat, full-frame, level, in motion; scale read straight off
+     the screen from a visible zero. v1 is the base for data, steps and timing.
+     One level 2D world on ONE dollar scale (K px per $1B); a camera that only pans and zooms (no rotation anywhere on the page):
+       Meta's capex, 2024 and 2025 (year only, Goldman 10 Oct), rise under the receipt (b063). "$130": the 2026 guidance, hatched (a
+       projection), climbs to its low end; "$145": the range opens to the high end; "billion": $130B–$145B lands, centred. "capex this
+       year alone": the bill stands over the two years before it, its two ends running across the whole chart. "second quarter": Q2 2026, a waterfall
+       under those lines: "$60.8" revenue rises; "cost": the costs step down (unlabelled; the step shows them); "$31": capex steps
+       down, −$31.08B; "capex": its name lands; "$784": what is left, free cash flow, under the outline of the revenue it was left from, and the camera zooms
+       into the floor of that column, the scale re-ticking to $1B lines, until $784M is a band you can read. Each landing is centred on screen.
+     Steps (board seconds, recorded VO; cue sheet §11; v1's ?at= order and names): open 0.4 · capex 4.38 · estimate 7.2 · q2 9.54 ·
+       revenue 11.08 · ocf 14.14 · capexq 16.1 · fcf 18.64 ; secs 21.88. Words inside steps: "invest" 1.40, "$145" 5.38, "billion"
+       6.14, "$31" 14.78.
+     Figures (shared/data.js): meta_capex_2024, meta_capex_2025 (heights only), meta_capex_guide_2026_jul_low/high,
+       meta_revenue_q2_2026, meta_ocf_q2_2026 (the level the costs step down to), meta_capex_q2_2026, meta_fcf_q2_2026.
+     Words: 2024, 2025, 2026, 29 Jul, Q2 2026 (dates); capex, revenue, operating cash flow, free cash flow (names and units on their
+     figures).
+     Ink surface; lines 2 px at any zoom; labels ≥ 32 px; hero 168 px; type rises through masks; marks never overshoot.
+     Frame check: ?fcheck steps every frame and reports collisions, crops, credit ground and centring in window.__fcheck.
+     Capture contract: BW.run({play, rest}); ?capture ?final ?still ?beats ?t=. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<style>
+  .stage { background: var(--bg); overflow: hidden; }
+  svg.layer { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+  #labs { position: absolute; inset: 0; }
+  .lb { position: absolute; white-space: nowrap; line-height: 1; }
+  .lb.e { transform: translateX(-100%); }
+  .lb.m { transform: translateX(-50%); text-align: center; }
+  .lb .bw-m { display: block; overflow: hidden; padding: .06em 0 .1em; }
+  .lb .bw-m > span { display: inline-block; will-change: transform; }
+  .w  { font-family: var(--sans); font-weight: 500; color: var(--cream); }
+  .wd { font-family: var(--sans); font-weight: 500; color: rgba(var(--cream-rgb), .64); }
+  .n  { font-family: var(--mono); font-weight: 600; color: var(--cream); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .ax { font-family: var(--mono); font-weight: 500; color: rgba(var(--cream-rgb), .5); font-variant-numeric: tabular-nums; }
+  .h  { font-family: var(--mono); font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; letter-spacing: -.04em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg class="layer" id="hud" viewBox="0 0 1920 1080"></svg>
+  <svg class="layer" id="plot" viewBox="0 0 1920 1080">
+    <defs>
+      <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="2.4" height="12" style="fill:rgba(var(--cream-rgb), .4)"/></pattern>
+      <pattern id="hatchDense" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="2.4" height="7" style="fill:rgba(var(--cream-rgb), .66)"/></pattern>
+    </defs>
+    <g id="world"></g>
+  </svg>
+  <div id="labs"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=1"></script>
+<script src="shared/motion.js?v=5"></script>
+<script>
+const Q = new URLSearchParams(location.search);
+const NS = 'http://www.w3.org/2000/svg';
+const mk = (parent, tag, a, st) => { const n = document.createElementNS(NS, tag); for (const k in a) n.setAttribute(k, a[k]); if (st) n.setAttribute('style', st); parent.appendChild(n); return n; };
+const v = (id) => BW.fig(id).v;
+const B = (id) => v(id) / 1e9;
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const day = (iso) => +iso.slice(8, 10) + ' ' + MON[+iso.slice(5, 7) - 1];
+const yr = (iso) => iso.slice(0, 4);
+
+/* ---- the steps (board seconds on the recorded VO; review\dashboard_cue_sheet.md §11) ---- */
+const DEF = [0.4, 4.38, 7.2, 9.54, 11.08, 14.14, 16.1, 18.64];
+const GIVEN = (Q.get('at') || '').split(',').filter(s => s.trim() !== '').map(Number);
+const AT = DEF.map((d, i) => i < GIVEN.length ? GIVEN[i] : d);
+const [A_OPEN, A_CAPEX, A_EST, A_Q2, A_REV, A_OCF, A_CPX, A_FCF] = AT;
+const END = +(Q.get('secs') || 0) || 21.88;
+const W_META = Math.max(0, A_OPEN - .35), W_INV = A_OPEN + 1.0;   /* "Meta's" 0.0, "invest" 1.40 */
+const W_145 = A_CAPEX + 1.0, W_BIL = A_CAPEX + 1.76;               /* "$145" 5.38, "billion" 6.14 */
+const W_31 = A_OCF + .64;                                         /* "$31" 14.78 */
+
+/* ---- figures ---- */
+const C24 = 'meta_capex_2024', C25 = 'meta_capex_2025', LO = 'meta_capex_guide_2026_jul_low', HI = 'meta_capex_guide_2026_jul_high';
+const REV = 'meta_revenue_q2_2026', OCF = 'meta_ocf_q2_2026', CPX = 'meta_capex_q2_2026', FCF = 'meta_fcf_q2_2026';
+BW.provenance({ uses: ['meta_capex_2024', 'meta_capex_2025', 'meta_capex_guide_2026_jul_low', 'meta_capex_guide_2026_jul_high',
+  'meta_revenue_q2_2026', 'meta_ocf_q2_2026', 'meta_capex_q2_2026', 'meta_fcf_q2_2026'] });   /* literal ids: bw audit reads them */
+
+/* =====================================================================================================================
+   the world: one dollar scale, level. K world px per $1B; the zero line is y = 0, money rises to negative y
+   ===================================================================================================================== */
+const K = 4;
+const Y = (b) => -b * K;
+const AW = 180, QW = 140;                                         /* bar widths: the years, the quarter's steps */
+const X = { y24: 0, y25: 230, y26: 460, rev: 760, cost: 940, cpx: 1120, fcf: 1300 };
+const world = document.getElementById('world');
+const cam = BW.camera(world, { cx: 200, cy: -200, s: 2 });
+const HAIR = (a) => `stroke:rgba(var(--cream-rgb), ${a}); stroke-width:calc(2px / var(--s))`;
+const DASH = (a, d = 10, g = 7) => HAIR(a) + `; stroke-dasharray:calc(${d}px / var(--s)) calc(${g}px / var(--s))`;
+const SNAP = new Map();
+const bar = (cx, w, top, bot, st) => { const r = mk(world, 'rect', { x: cx - w / 2, y: Y(top), width: w, height: Math.max(Y(bot) - Y(top), 0) }, st);
+  SNAP.set(r, { x: cx - w / 2, y: Y(top), width: w, height: Math.max(Y(bot) - Y(top), 0) }); return r; };
+
+/* the years before: actual capex, solid capex-grey, year only */
+const GREY = 'fill:var(--grey-bright)';
+const b24 = bar(X.y24, AW, B(C24), 0, GREY), b25 = bar(X.y25, AW, B(C25), 0, GREY);
+/* 2026, Meta's guidance: a projection, hatched to the low end, the range densely hatched, a dashed outline, both ends ruled */
+const tLow = bar(X.y26, AW, B(LO), 0, 'fill:url(#hatch)');
+const tRng = bar(X.y26, AW, B(HI), B(LO), 'fill:url(#hatchDense)');
+const tOut = mk(world, 'rect', { x: X.y26 - AW / 2, y: Y(B(HI)), width: AW, height: -Y(B(HI)), fill: 'none' }, DASH(.6));
+const ends = [LO, HI].map(id => mk(world, 'line', { x1: X.y26 - AW / 2 - 12, y1: Y(B(id)), x2: X.y26 + AW / 2 + 12, y2: Y(B(id)) }, HAIR(.95)));
+/* the bill's two ends, run across the whole chart */
+const RUN_X1 = X.fcf + QW / 2 + 260;
+const runs = [LO, HI].map(id => mk(world, 'line', { x1: X.y26 + AW / 2 + 12, y1: Y(B(id)), x2: RUN_X1, y2: Y(B(id)) }, DASH(.42, 6, 8)));
+
+/* Q2 2026, the waterfall: revenue; the costs step down to operating cash flow; capex steps down; what is left */
+const qRev = bar(X.rev, QW, B(REV), 0, 'fill:rgba(var(--cream-rgb), .84)');
+const qCost = bar(X.cost, QW, B(REV), B(OCF), 'fill:rgba(var(--cream-rgb), .07)');
+const qCostOut = mk(world, 'rect', { x: X.cost - QW / 2, y: Y(B(REV)), width: QW, height: Y(B(OCF)) - Y(B(REV)), fill: 'none' }, DASH(.55));
+SNAP.set(qCostOut, { x: X.cost - QW / 2, y: Y(B(REV)), width: QW, height: Y(B(OCF)) - Y(B(REV)) });
+const qCpx = bar(X.cpx, QW, B(OCF), B(FCF), GREY);
+/* over what is left, the outline of the revenue it was left from (same quarter, same height): the empty part is the costs and capex */
+const qOfRev = mk(world, 'rect', { x: X.fcf - QW / 2, y: Y(B(REV)), width: QW, height: -Y(B(REV)) }, 'fill:rgba(var(--cream-rgb), .035); ' + DASH(.42));
+const qFcf = bar(X.fcf, QW, B(FCF), 0, 'fill:var(--gold)');
+const conn = [[X.rev, X.cost, B(REV)], [X.cost, X.cpx, B(OCF)], [X.cpx, X.fcf, B(FCF)]]
+  .map(([a, b, y]) => mk(world, 'line', { x1: a + QW / 2, y1: Y(y), x2: b - QW / 2, y2: Y(y) }, DASH(.5, 5, 6)));
+
+/* =====================================================================================================================
+   labels: HTML in screen space, anchored to world points; constant size at any zoom; type rises through its own mask
+   ===================================================================================================================== */
+const LABS = document.getElementById('labs');
+const LBL = [];
+function lab(wx, wy, text, cls, size, anchor = 'm', dy = 0) {
+  const d = document.createElement('div');
+  d.className = 'lb ' + anchor; d.style.fontSize = size + 'px';
+  d.innerHTML = `<div class="bw-m"><span class="${cls}"></span></div>`;
+  const s = d.querySelector('span'); s.textContent = text;
+  LABS.appendChild(d);
+  LBL.push({ d, s, wx, wy, dy, size });
+  return s;
+}
+const U1 = 46, U2 = 88;                                           /* the two rows under the zero line */
+const l24 = lab(X.y24, 0, yr(BW.fig(C24).asOf), 'w', 34, 'm', U1);
+const l25 = lab(X.y25, 0, yr(BW.fig(C25).asOf), 'w', 34, 'm', U1);
+const lCapex = lab((X.y24 + X.y25) / 2, 0, 'capex', 'wd', 32, 'm', U2);
+const l26 = lab(X.y26, 0, yr(BW.fig(LO).asOf), 'w', 34, 'm', U1);
+const l26g = lab(X.y26, 0, day(BW.fig(LO).on), 'wd', 32, 'm', U2);
+const l26v = lab(X.y26, Y(B(HI)), BW.val(LO) + '–' + BW.val(HI), 'n', 42, 'm', -24);
+const lRevN = lab(X.rev, 0, 'revenue', 'w', 34, 'm', U1);
+const lRevV = lab(X.rev, Y(B(REV)), BW.val(REV), 'n', 40, 'm', -20);
+const lCpxN = lab(X.cpx, 0, 'capex', 'w', 34, 'm', U1);
+const lCpxV = lab(X.cpx, Y(B(OCF)), '−' + BW.val(CPX), 'n', 40, 'm', -20);
+const lFcfN = lab(X.fcf, 0, 'free cash flow', 'w', 34, 'm', U1);
+/* the level the costs step down to, printed at the bottom of that step (reviewers, 10 Oct): the printed figures then add up */
+const lOcfV = lab(X.cost, Y(B(OCF)), BW.val(OCF), 'n', 40, 'm', 52);
+const lOcfN = lab(X.cost, Y(B(OCF)), 'operating cash flow', 'wd', 32, 'm', 92);
+const lQ2 = lab((X.rev + X.fcf) / 2, 0, 'Q2 2026', 'wd', 32, 'm', U2);
+const hero = lab(X.fcf, Y(B(FCF)), BW.val(FCF), 'h', 168, 'm', -50);
+/* each label belongs to its bar: when a bar fades before an edge, its labels go with it */
+const own = (spans, els) => [].concat(spans).forEach(sp => { LBL.find(L => L.s === sp).owner = els; });
+
+/* =====================================================================================================================
+   the scale: screen-space gridlines on the right, re-ticked from the camera every frame. Nested steps
+   ($100B ⊃ $50B ⊃ $25B ⊃ $5B ⊃ $1B); a level shows once its spacing clears ~120 px, faded in as it opens.
+   ===================================================================================================================== */
+const HUD = document.getElementById('hud');
+const STEPS = [100, 50, 25, 5, 1];
+const level = (b) => STEPS.find(s => b % s === 0);
+const GX0 = 64, GX1 = 1856;
+const zero = mk(HUD, 'line', { x1: GX0, y1: 0, x2: GX1, y2: 0 }, 'stroke:rgba(var(--cream-rgb), .45); stroke-width:2');
+const grid = new Map();
+function tick(b) {
+  if (grid.has(b)) return grid.get(b);
+  const line = mk(HUD, 'line', { x1: GX0, x2: GX1, y1: 0, y2: 0 }, 'stroke:rgba(var(--cream-rgb), .085); stroke-width:2');
+  const d = document.createElement('div'); d.className = 'lb e ax'; d.style.fontSize = '32px'; d.textContent = '$' + b + 'B';
+  LABS.appendChild(d); const g = { line, d }; grid.set(b, g); return g;
+}
+const sm = (x) => x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x);
+const SOLIDS = () => [b24, b25, tLow, tRng, qRev, qCpx, qFcf, qCost];
+const rectOn = (r) => +getComputedStyle(r).opacity > .05 && +r.getAttribute('height') > .01 && +r.getAttribute('width') > .01;
+function drawScale() {
+  const s = cam.v.s, gy = cam.project(0, 0).y;
+  zero.setAttribute('y1', gy); zero.setAttribute('y2', gy);
+  const top = (gy - 40) / (K * s);
+  const boxes = SOLIDS().filter(rectOn).map(r => r.getBoundingClientRect());
+  const seen = new Set();
+  for (let b = 1; b <= Math.min(Math.floor(top), 200); b++) {
+    const L = level(b); if (!L) continue;
+    const op = sm((L * K * s - 116) / 60);
+    if (op <= .01) continue;
+    const g = tick(b), y = gy - b * K * s;
+    g.line.setAttribute('y1', y); g.line.setAttribute('y2', y); g.line.style.opacity = op;
+    const ty = y - 10 - .92 * 32;
+    const hit = boxes.some(R => R.right > GX1 - 120 && R.left < GX1 + 4 && ty < R.bottom + 4 && ty + 36 > R.top - 4);
+    g.d.style.left = GX1 + 'px'; g.d.style.top = ty + 'px'; g.d.style.opacity = hit ? 0 : op * sm((ty - 8) / 30); g.d.style.display = '';
+    seen.add(b);
+  }
+  grid.forEach((g, b) => { if (!seen.has(b)) { g.line.style.opacity = 0; g.d.style.display = 'none'; } });
+}
+
+/* =====================================================================================================================
+   the camera: level, pan and zoom only. Keys name a world point and where it sits on screen; every channel is a monotone
+   cubic (no overshoot, no stop between keys), the zoom in log space. Each landing is keyed centred (x = 960).
+   ===================================================================================================================== */
+const GY = 866, GY0 = 590;                                        /* GY0: the zero line while the receipt is up */                                                   /* the zero line's screen height while the chart is whole */
+const KEYS = [
+  /* t,               fx,       fy,  px,   py,  s    */
+  [0,                 (X.y24 + X.y25) / 2, 0, 960, GY0, 1.45],  /* the years before, centred, above the receipt */
+  [W_INV + 1.3,       (X.y24 + X.y25) / 2 + 20, 0, 960, GY0, 1.42],
+  [A_CAPEX - .3,      300,      0,   960,  GY0, 1.38],
+  [A_CAPEX + .17,     370,      0,   960,  GY0, 1.36],  /* the receipt leaves by 4.6 s (measured on the laid composite) */
+  [A_CAPEX + .7,      410,      0,   960,  780, 1.34],  /* then a level tilt down to the whole chart */
+  [W_145,             X.y26,    0,   960,  GY,  1.32],  /* the guidance climbs, whole in frame */
+  [W_BIL + .5,        X.y26,    0,   960,  GY,  1.3],   /* $130B–$145B lands, centred */
+  [A_EST + 1.4,       X.y25,    0,   960,  GY,  1.33],  /* "this year alone": the bill over the two years before it */
+  [A_Q2 + .2,         370,      0,   960,  GY,  1.36],
+  [A_Q2 + 1.3,        700,      0,   960,  GY,  1.42],  /* a level travel to Q2 2026 at the wide zoom: the guidance whole beside revenue as it climbs */
+  [A_REV + .7,        X.rev,    0,   960,  GY,  2.3],   /* revenue lands, centred; the guidance whole at left */
+  [A_OCF + .4,        X.cost,   0,   960,  GY,  2.6],   /* the costs step, centred; revenue whole, the guidance out */
+  [A_OCF + 1.4,       X.cost,   0,   960,  GY,  2.6],   /* held while $31.86B, operating cash flow, lands */
+  [A_CPX + .3,        X.cpx,    0,   960,  GY,  2.12],  /* capex, centred; revenue still whole */
+  [A_CPX + .8,        X.cpx,    0,   960,  GY,  2.14],
+  [A_FCF + .1,        X.fcf,    0,   960,  GY,  2.8],   /* into the floor of what is left */
+  [A_FCF + 1.4,       X.fcf,    0,   960,  GY,  3.22],  /* $784M, centred; capex and the revenue outline whole */
+  [END,               X.fcf,    0,   960,  GY,  3.3]
+];
+function mono(ts, ys) {
+  const n = ts.length, d = [], m = new Array(n);
+  for (let i = 0; i < n - 1; i++) d.push((ys[i + 1] - ys[i]) / (ts[i + 1] - ts[i]));
+  m[0] = d[0]; m[n - 1] = d[n - 2];
+  for (let i = 1; i < n - 1; i++) m[i] = (d[i - 1] * d[i] <= 0) ? 0 : (d[i - 1] + d[i]) / 2;
+  for (let i = 0; i < n - 1; i++) {
+    if (d[i] === 0) { m[i] = 0; m[i + 1] = 0; continue; }
+    const a = m[i] / d[i], b = m[i + 1] / d[i], h = a * a + b * b;
+    if (h > 9) { const t = 3 / Math.sqrt(h); m[i] = t * a * d[i]; m[i + 1] = t * b * d[i]; }
+  }
+  return (t) => {
+    if (t <= ts[0]) return ys[0];
+    if (t >= ts[n - 1]) return ys[n - 1];
+    let i = 0; while (t > ts[i + 1]) i++;
+    const h = ts[i + 1] - ts[i], u = (t - ts[i]) / h, u2 = u * u, u3 = u2 * u;
+    return (2 * u3 - 3 * u2 + 1) * ys[i] + (u3 - 2 * u2 + u) * h * m[i] + (-2 * u3 + 3 * u2) * ys[i + 1] + (u3 - u2) * h * m[i + 1];
+  };
+}
+const TS = KEYS.map(k => k[0]);
+const CH = [1, 2, 3, 4].map(c => mono(TS, KEYS.map(k => k[c])));
+const LS = mono(TS, KEYS.map(k => Math.log(k[5])));
+function camAt(t) {
+  const fx = CH[0](t), fy = CH[1](t), px = CH[2](t), py = CH[3](t), s = Math.exp(LS(t));
+  cam.set({ s, cx: fx - (px - 960) / s, cy: fy - (py - 540) / s });
+}
+
+/* labels give way: they fade before a frame edge, before the credit band, and where a bar would sit under them */
+let CRB = null;
+const credit = () => { if (!CRB) { const e = document.querySelector('.bw-source'); if (e && e.textContent) { const r = e.getBoundingClientRect(); CRB = { l: r.left - 12, r: r.right + 12, t: r.top - 8 }; } } return CRB; };
+const PATS = [...document.querySelectorAll('#plot pattern')];
+const GROUPS = () => [[b24], [b25], [tLow, tRng, tOut, ...ends], [qRev], [qCost, qCostOut], [qCpx], [qFcf, qOfRev]];
+const OWN = new Map();                                            /* label span → its group's live opacity */
+function setOwners() {
+  own(l24, [b24]); own(l25, [b25]); own(lCapex, [b24, b25]); own([l26, l26g, l26v], [tLow]);
+  own([lRevN, lRevV], [qRev]); own([lOcfV, lOcfN], [qCost]); own([lCpxV, lCpxN], [qCpx]); own([lFcfN, hero], [qFcf]);
+}
+function fadeBars() {
+  const out = new Map();
+  for (const G of GROUPS()) {
+    const bars = G.filter(e => e.tagName === 'rect');
+    let l = 1e9, r = -1e9, t = 1e9;
+    bars.forEach(e => { if (+e.getAttribute('height') > .01) { const R = e.getBoundingClientRect(); l = Math.min(l, R.left); r = Math.max(r, R.right); t = Math.min(t, R.top); } });
+    const op = l > r ? 1 : sm((l - 4) / 24) * sm((1916 - r) / 24) * sm((t - 4) / 24);
+    G.forEach(e => { e.style.fillOpacity = op; e.style.strokeOpacity = op; });   /* multiplies the reveal's own opacity */
+    G.forEach(e => out.set(e, op));
+  }
+  return out;
+}
+function layout() {
+  const EDGE = fadeBars();
+  PATS.forEach(p => p.setAttribute('patternTransform', `rotate(45) scale(${1 / cam.v.s})`));
+  const C = credit();
+  for (const L of LBL) {
+    const p = cam.project(L.wx, L.wy);
+    L.d.style.left = p.x + 'px'; L.d.style.top = (p.y + L.dy - .92 * L.size) + 'px';
+    L.d.style.opacity = 1;
+    const r = L.d.getBoundingClientRect();
+    let op = sm((r.left - 6) / 36) * sm((1914 - r.right) / 36) * sm((r.top - 4) / 24);
+    if (C && r.right > C.l && r.left < C.r) op *= sm((C.t - r.bottom) / 28);
+    if (L.owner) op *= Math.min(...L.owner.map(e => EDGE.get(e) ?? 1));
+    L.d.style.opacity = op;
+  }
+  drawScale();
+}
+function frame(t) { camAt(t); layout(); }
+
+/* =====================================================================================================================
+   the reveal
+   ===================================================================================================================== */
+const SPANS = () => LBL.map(L => L.s);
+const mIn = (tl, t, at, dur = .7) => [].concat(t).forEach((n, i) => tl.fromTo(n, { yPercent: 130 }, { yPercent: 0, duration: dur, ease: 'power3.out' }, at + i * .08));
+const rise = (tl, r, at, dur, ease = 'power2.out') => { const S = SNAP.get(r);
+  tl.fromTo(r, { attr: { y: S.y + S.height, height: 0 } }, { attr: { y: S.y, height: S.height }, duration: dur, ease }, at); };
+const show = (tl, n, at, dur = .4) => tl.fromTo(n, { opacity: 0 }, { opacity: 1, duration: dur, ease: 'power1.out' }, at);
+const runX = (tl, l, at, dur) => { const x2 = +l.getAttribute('x2'), x1 = +l.getAttribute('x1');
+  tl.fromTo(l, { attr: { x2: x1 } }, { attr: { x2 }, duration: dur, ease: 'power2.inOut' }, at); };
+/* a step of the waterfall: the piece leaves the column before it (a copy at its level) and slides into its own place */
+const step = (tl, r, fromX, at, dur = .9) => { const S = SNAP.get(r);
+  tl.fromTo(r, { attr: { x: fromX - QW / 2 }, opacity: 0 }, { opacity: 1, duration: .25, ease: 'power1.out' }, at);
+  tl.to(r, { attr: { x: S.x }, duration: dur, ease: 'power2.inOut' }, at + .15); };
+
+function hideAll() {
+  gsap.set(SPANS(), { yPercent: 130 });
+  [b24, b25, tLow, tRng, qRev, qFcf].forEach(r => { const S = SNAP.get(r); gsap.set(r, { attr: { y: S.y + S.height, height: 0 } }); });
+  [tOut, ...ends, ...runs, qCost, qCostOut, qCpx, qOfRev, ...conn].forEach(n => gsap.set(n, { opacity: 0 }));
+  gsap.set('.bw-source', { opacity: 0 });
+}
+function play() {
+  const tl = gsap.timeline({ onUpdate: () => frame(tl.time()) });
+  hideAll();
+
+  /* open: the years before rise on "Meta's" and "invest" (year only) */
+  BW.mark(tl, 'open', A_OPEN);
+  tl.to('.bw-source', { opacity: 1, duration: .8 }, A_OPEN);
+  rise(tl, b24, W_META, 1.3); mIn(tl, l24, W_META + .2);
+  rise(tl, b25, W_INV, 1.25); mIn(tl, l25, W_INV + .1);
+  mIn(tl, lCapex, A_CAPEX + .5);                                /* under the zero line: after the receipt */
+  mIn(tl, l26, A_CAPEX - 1.2);
+
+  /* "$130": the guidance climbs to its low end; "$145": the range opens; "billion": the figure lands */
+  BW.mark(tl, 'capex', A_CAPEX);
+  rise(tl, tLow, A_CAPEX, 1.15, 'power2.inOut');
+  mIn(tl, l26g, A_CAPEX + .65);
+  show(tl, ends[0], A_CAPEX + 1.1, .25);
+  show(tl, runs[0], A_CAPEX + 1.15, .15); runX(tl, runs[0], A_CAPEX + 1.15, 2.2);
+  rise(tl, tRng, W_145, .8, 'power2.inOut');
+  show(tl, tOut, W_145 + .1, .4);
+  show(tl, ends[1], W_145 + .75, .25);
+  show(tl, runs[1], W_145 + .8, .15); runX(tl, runs[1], W_145 + .8, 2.2);
+  mIn(tl, l26v, W_BIL, .8);
+
+  /* "capex this year alone": the camera centres the bill over the two years before it */
+  BW.mark(tl, 'estimate', A_EST);
+
+  /* Q2 2026 */
+  BW.mark(tl, 'q2', A_Q2);
+  mIn(tl, lQ2, A_Q2, .8);
+
+  /* "$60.8": revenue rises */
+  BW.mark(tl, 'revenue', A_REV);
+  rise(tl, qRev, A_Q2 + .6, 1.5, 'power2.inOut');               /* climbs from "revenue" (10.14) to its figure on "$60.8" */
+  mIn(tl, lRevN, A_Q2 + .6);
+  mIn(tl, lRevV, A_REV + .2, .8);
+
+  /* "cost": the costs step down to the right (unlabelled; the step shows them) */
+  BW.mark(tl, 'ocf', A_OCF);
+  show(tl, conn[0], A_OCF, .3);
+  step(tl, qCost, X.rev, A_OCF); step(tl, qCostOut, X.rev, A_OCF);
+  mIn(tl, lOcfV, A_OCF + .6, .8);
+  mIn(tl, lOcfN, A_OCF + .7, .7);
+
+  /* "$31": capex steps down */
+  BW.mark(tl, 'capex31', W_31);
+  show(tl, conn[1], W_31, .3);
+  { const S = SNAP.get(qCpx); tl.set(qCpx, { opacity: 1 }, W_31 + .05);
+    tl.fromTo(qCpx, { attr: { y: S.y, height: 0 } }, { attr: { y: S.y, height: S.height }, duration: 1.0, ease: 'power2.inOut' }, W_31 + .05); }
+
+  /* "capex": its name */
+  BW.mark(tl, 'capexq', A_CPX);
+  mIn(tl, lCpxV, A_CPX - .15, .8);
+  mIn(tl, lCpxN, A_CPX, .7);
+  show(tl, conn[2], A_CPX + .9, .3);
+
+  /* "$784": what is left; the camera goes into the floor of it */
+  BW.mark(tl, 'fcf', A_FCF);
+  show(tl, qOfRev, A_FCF - .7, .6);
+  rise(tl, qFcf, A_FCF - .2, .5);
+  mIn(tl, lFcfN, A_FCF + .1, .7);
+  mIn(tl, hero, A_FCF + .7, 1.0);
+  BW.mark(tl, 'hold', A_FCF + 1.8);
+
+  tl.to({}, { duration: .01 }, END - .01);
+  frame(0);
+  return tl;
+}
+function rest() {
+  gsap.set(SPANS(), { yPercent: 0 });
+  [b24, b25, tLow, tRng, qRev, qFcf, qCost, qCpx].forEach(r => gsap.set(r, { attr: SNAP.get(r), opacity: 1 }));
+  gsap.set(qCostOut, { attr: { x: X.cost - QW / 2 } });
+  [tOut, ...ends, ...runs, qCostOut, qOfRev, ...conn].forEach(n => gsap.set(n, { opacity: 1 }));
+  gsap.set('.bw-source', { opacity: 1 });
+  frame(END);
+}
+setOwners();
+BW.run({ play, rest });
+</script>
+</body>
+</html>

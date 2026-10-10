@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — The stock p6b (alexandr-wang hero H7b)</title>
+<!-- p6b (10 Oct 2026; Ive): identical to p6; rendered after Goldman's ledger change to meta_q3_2026_report_expected
+     ("expected in October 2026"), which the results hatch prints verbatim.
+     ALEXANDR WANG · HERO H7b p6 · THE STOCK (10 Oct 2026; Ive, pass 6: BRIEF-pass6.md rule 1, a financial view is a flat hero
+     dashboard, not a 3D world). Picture map b044: "And that day, Meta's stock closed up more than 11%, at about $741 a share. When
+     Meta reports its third quarter, expected later this month in October, I'll break down whatever it says about Muse the day it
+     lands. So subscribe if you don't want to miss it."
+     From v1 (the two closes, the weekend, the riser, the hero) and v3 (the real closes, the record, the results hatch from data).
+     Flat, level, full frame: two aligned panels on one time axis. Above, META's daily closes (Yahoo Finance) on a price scale whose
+     gridlines are labelled; below, each day's close-to-close move as a bar from a visible 0% line on one fixed % scale (-10% to +15%,
+     every gridline labelled), so every value is read straight off the screen. The frame reframes in 2D only: the time axis zooms.
+       21 Sep: the line runs 8 to 18 Sep to Friday's $665.75; the weekend is a dashed level; Monday is a gold riser to $741.25 and a
+         gold bar to +11.34% (hero +11.3%, meta_stock_0921_pct).
+       The record (the pause after "share"): the axis opens to 17 months; a gold level at +11.34% runs back from 21 Sep; 31 Jul 2025
+         (+11.25%) stays just under it; 9 Apr 2025 (+14.76%) is the only bar above it (meta_stock_biggest_rise; Goldman's check).
+       Ahead: the axis closes to Sep-Oct; the line runs on to 2 Oct ($728.08, the last close keyed); from there the results hatch runs
+         with no left edge to the axis end (31 Oct), labelled from data (meta_q3_2026_report_expected, verbatim). "The day it lands":
+         the frame closes in on it.
+     Laid as v2: in at frame 28 (layout.py HEAD), 15.13 s. Steps (the recorded VO, review\dashboard_cue_sheet.md §07; ?at= in order):
+       axis 0.2 · friday 0.66 "day," · move 2.56 "11" · price 3.92 "$741" · q3 6.86 "When" · lands 12.54 "the day"   (secs 16.4)
+     Capture contract: BW.run({play, rest}); ?capture ?final ?still ?beats ?t=<step>. Rest = the record view. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero-kit.css?v=1">
+</head>
+<body>
+<div class="stage">
+  <svg class="plot" id="plot" viewBox="0 0 1920 1080">
+    <defs><clipPath id="area"><rect x="120" y="60" width="1560" height="900"/></clipPath></defs>
+    <g id="grid"></g>
+    <g id="data" clip-path="url(#area)"></g>
+    <g id="axis"></g>
+  </svg>
+  <div id="labs"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=3"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/h7.js?v=3"></script>
+<script>
+const F = BW.fig, { el, label, rgb, clamp, lerp } = H;
+const S = H.steps([['axis', .2], ['friday', .66], ['move', 2.56], ['price', 3.92], ['q3', 6.86], ['lands', 12.54]], 16.4);
+BW.provenance({ uses: ['meta_closes_2025_2026', 'meta_close_0918', 'meta_stock_0921', 'meta_stock_0921_pct', 'meta_chg_20250409',
+  'meta_chg_20250731', 'meta_stock_1002', 'meta_q3_2026_report_expected'] });
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const DAY = (iso) => Math.round(Date.parse(iso.slice(0, 10) + 'T00:00:00Z') / 864e5);
+const ISO = (t) => new Date(t * 864e5).toISOString().slice(0, 10);
+const usd = (v) => '$' + v.toFixed(2);
+const sgn = (v, dp) => (v > 0 ? '+' : '') + v.toFixed(dp) + '%';
+const CREAM = rgb('--cream-rgb'), GOLD = rgb('--gold-rgb'), GREY = rgb('--grey-rgb');
+
+/* ---------- the figures ---------- */
+const st21 = F('meta_stock_0921'), pct = F('meta_stock_0921_pct'), fri = F('meta_close_0918'), last = F('meta_stock_1002');
+const a409 = F('meta_chg_20250409'), a731 = F('meta_chg_20250731'), q3 = F('meta_q3_2026_report_expected');
+const SER = F('meta_closes_2025_2026').v.map(([d, c]) => ({ t: DAY(d), c }));
+SER.forEach((r, i) => { r.chg = i ? (r.c / SER[i - 1].c - 1) * 100 : 0; });
+const T21 = DAY(st21.asOf), T18 = DAY(fri.asOf), T409 = DAY(a409.asOf), T731 = DAY(a731.asOf), TLAST = DAY(last.asOf);
+const AXEND = DAY('2026-10-31');                      /* the end of the axis: the month the results are expected */
+
+/* ---------- the frame: two panels, one time axis ---------- */
+const XL = 120, XR = 1680, PY0 = 96, PY1 = 560, CY0 = 616, CY1 = 936, AXY = 936;
+const C0 = -12, C1 = 20;                               /* the % scale, fixed: every bar on one scale, 0% always visible */
+const DOM = {
+  day: { t0: DAY('2026-09-07') + .5, t1: DAY('2026-09-25') + .5, p0: 600, p1: 780 },
+  rec: { t0: DAY('2025-03-24'), t1: DAY('2026-10-04'), p0: 440, p1: 820 },
+  ahead: { t0: DAY('2026-08-31'), t1: AXEND + .5, p0: 600, p1: 800 },
+  lands: { t0: DAY('2026-09-14'), t1: AXEND + .5, p0: 600, p1: 800 }
+};
+const st = Object.assign({}, DOM.day, {
+  head: T18 - 10, rest: T18 - 10, show: 0, fri: 0, carry: 0, riser: 0, b21: 0, hero: 0, lp: 0,
+  gone: 0, rec: 0, lev: 0, l21: 0, l731: 0, l409: 0, recOut: 0, l1002: 0, zone: 0, lq: 0, focus: 0
+});
+const X = (t) => XL + (t - st.t0) / (st.t1 - st.t0) * (XR - XL);
+const YP = (p) => PY1 - (p - st.p0) / (st.p1 - st.p0) * (PY1 - PY0);
+const YC = (v) => CY1 - (v - C0) / (C1 - C0) * (CY1 - CY0);
+
+const G = document.getElementById('grid'), D = document.getElementById('data'), A = document.getElementById('axis');
+const pool = (parent, tag) => { const a = []; let i = 0; return { reset() { i = 0; }, get() { const n = a[i] || (a[i] = el(parent, tag)); i++; n.style.display = ''; return n; }, done() { for (let k = i; k < a.length; k++) a[k].style.display = 'none'; } }; };
+const gridLines = pool(G, 'line'), ticks = pool(A, 'line');
+const zone = Array.from({ length: 90 }, () => el(D, 'line'));
+const bars = SER.slice(1).map(r => ({ r, n: el(D, 'rect') }));
+const line = el(D, 'polyline', {}, 'fill:none');
+const carry = el(D, 'line'), riser = el(D, 'line'), caps = [el(D, 'line'), el(D, 'line')], level = el(D, 'line');
+const dot = () => el(D, 'circle');
+const dFri = dot(), d21 = dot(), dLast = dot();
+const set = (n, a, style) => { for (const k in a) n.setAttribute(k, typeof a[k] === 'number' ? a[k].toFixed(1) : a[k]); if (style != null) n.setAttribute('style', style); };
+
+/* labels: figures from data.js; gridline values computed from the scale; dates */
+const L = {
+  hero: label([[sgn(pct.v, 1), 'h']], 176), fri: label([[usd(fri.v), 'n']], 40, { a: 'e' }), mon: label([[usd(st21.v), 'n']], 48, { a: 'e' }),
+  r21: label([[sgn(st21.chg, 2), 'h', 0, 52]], 52, { a: 'e' }), r409: label([[sgn(a409.v, 2), 'h', 0, 52], ['9 Apr 2025', 'w', 18, 34]], 52),
+  r731: label([[sgn(a731.v, 2), 'n']], 38),
+  last: label([[usd(last.v), 'n']], 42), q3: label([[q3.v.replace(/\s*\(.*$/, ''), 'w'], [(q3.v.match(/\(.*\)/) || [''])[0], 'wd', 14]], 44, { a: 'm' })
+};
+const pLab = Array.from({ length: 6 }, () => label([['', 'ax']], 32)), cLab = Array.from({ length: 6 }, () => label([['', 'ax']], 32));
+const dLab = Array.from({ length: 24 }, () => label([['', 'ax']], 32, { a: 'm' }));
+
+const dayOfM = (t) => +ISO(t).slice(8, 10), monOf = (t) => +ISO(t).slice(5, 7) - 1;
+const near = (v, w, x) => clamp(1 - Math.abs(x - v) / w);
+
+function draw() {
+  const span = st.t1 - st.t0, pxDay = (XR - XL) / span;
+  gridLines.reset(); ticks.reset();
+  /* price gridlines, labelled at the right; their labels show only while the scale is at rest */
+  const pr = st.p1 - st.p0, pStep = pr > 250 ? 100 : 50, pRest = Math.max(near(180, 30, pr), near(200, 30, pr), near(380, 40, pr));
+  let li = 0;
+  for (let v = Math.ceil(st.p0 / pStep) * pStep; v <= st.p1; v += pStep) {
+    const y = YP(v); if (y < PY0 - 1) continue;
+    set(gridLines.get(), { x1: XL, y1: y, x2: XR, y2: y }, `stroke:rgba(${CREAM}, .1); stroke-width:1.5`);
+    if (li < pLab.length) { pLab[li].span.firstChild.textContent = '$' + v; pLab[li].put(XR + 20, y + 11, 1, clamp(st.show * 2) * pRest, 1); li++; }
+  }
+  for (; li < pLab.length; li++) pLab[li].put(0, 0, 0, 0);
+  /* % gridlines: fixed, every 5%, 0% brighter */
+  let ci = 0;
+  for (let v = -10; v <= 15; v += 5) {
+    const y = YC(v);
+    set(gridLines.get(), { x1: XL, y1: y, x2: XR, y2: y }, `stroke:rgba(${CREAM}, ${v === 0 ? .45 : .1}); stroke-width:${v === 0 ? 2 : 1.5}`);
+    cLab[ci].span.firstChild.textContent = (v > 0 ? '+' : '') + v + '%'; cLab[ci].put(XR + 20, y + 11, 1, clamp(st.show * 2), 1); ci++;
+  }
+  /* the time axis: days, weeks or quarters, by how wide a day is */
+  set(gridLines.get(), { x1: XL, y1: AXY, x2: XR, y2: AXY }, `stroke:rgba(${CREAM}, .4); stroke-width:2`);
+  const mode = pxDay > 60 ? 'day' : pxDay > 15 ? 'week' : 'quarter';
+  const modeRest = mode === 'day' ? near(86.7, 25, pxDay) : mode === 'week' ? Math.max(near(25.4, 4, pxDay), near(32.9, 4, pxDay)) : near(2.85, .6, pxDay);
+  let di = 0;
+  for (let t = Math.ceil(st.t0); t <= st.t1; t++) {
+    const d = dayOfM(t), x = X(t);
+    let txt = '', tk = 0;
+    if (mode === 'day') { tk = 1; txt = d === 1 || d === 8 && monOf(t) === 8 ? d + ' ' + MON[monOf(t)] : String(d); }
+    else if (mode === 'week') { tk = 1; txt = d === 1 ? '1 ' + MON[monOf(t)] : d % 7 === 1 && d < 28 ? String(d) : ''; }
+    else if (d === 1) { tk = 1; txt = monOf(t) % 3 === 0 ? MON[monOf(t)] + (monOf(t) === 0 || t < SER[0].t + 20 ? ' ' + ISO(t).slice(0, 4) : '') : ''; }
+    if (!tk) continue;
+    set(ticks.get(), { x1: x, y1: AXY, x2: x, y2: AXY + (txt ? 12 : 7) }, `stroke:${t === T21 ? 'var(--gold)' : `rgba(${CREAM}, .45)`}; stroke-width:2`);
+    if (txt && di < dLab.length) {
+      dLab[di].span.firstChild.textContent = txt; dLab[di].span.firstChild.className = t === T21 && mode === 'day' ? 'n g' : 'ax';
+      dLab[di].put(x, AXY + 44, 1, modeRest * clamp(Math.min(x - XL + 30, XR + 30 - x) / 40), 1); di++;
+    }
+  }
+  for (; di < dLab.length; di++) dLab[di].put(0, 0, 0, 0);
+  gridLines.done(); ticks.done();
+
+  /* the results hatch: from the day after the last close, no left edge, to the axis end */
+  const zs = TLAST + 1, zw = AXEND + .5 - zs;
+  zone.forEach((n, i) => {
+    const u = i / (zone.length - 1), t = zs + zw * u, e = clamp((t - zs) / 9);
+    const a = .24 * e * clamp(st.zone * 1.6 - u * .6);
+    if (a <= .002 || mode === 'quarter') { n.style.display = 'none'; return; }
+    const x = X(t), dx = (CY1 - PY0) * .35;
+    set(n, { x1: x, y1: CY1, x2: Math.min(x + dx, X(AXEND + .5)), y2: CY1 - Math.min(dx, X(AXEND + .5) - x) / .35 }, `stroke:rgba(${CREAM}, ${a.toFixed(3)}); stroke-width:2`);
+    n.style.display = '';
+  });
+
+  /* the bars: one per trading day, from 0% */
+  const bw = Math.max(1.2, Math.min(pxDay * .62, 46)), y0 = YC(0);
+  bars.forEach(({ r, n }) => {
+    let show = r.t >= st.rest && r.t <= st.head;
+    if (r.t === T21 && st.b21 <= 0) show = false;
+    const x = X(r.t);
+    if (!show || x < XL - 50 || x > XR + 50) { n.style.display = 'none'; return; }
+    let v = r.chg, fill = `rgba(${GREY}, ${r.chg < 0 ? .75 : 1})`;
+    if (r.t === T21) { v *= st.b21; fill = 'var(--gold)'; }
+    else if (r.t === T409 && st.l409 > 0) fill = `rgba(${CREAM}, ${lerp(.4, .95, st.l409)})`;
+    else if (r.t === T731 && st.l731 > 0) fill = `rgba(${CREAM}, ${lerp(.4, .7, st.l731)})`;
+    if (r.t > T18 - 11 && r.t < T21 && st.rec < .01) v *= clamp((st.head - r.t) * 2);   /* the small days grow as the line passes */
+    const y = YC(v), w = (r.t === T21 || r.t === T409 || r.t === T731) ? Math.max(bw, 6) : bw;   /* the three days the voice and the record name, drawn wide enough to see */
+    set(n, { x: x - w / 2, width: w, y: Math.min(y, y0), height: Math.abs(y - y0) }, `fill:${fill}`);
+    n.style.display = '';
+  });
+
+  /* the line: closes from rest to head; the weekend before 21 Sep is the riser, not a slope */
+  const pts = [];
+  const vis = SER.filter(r => r.t >= st.rest && r.t <= st.head);
+  const stopAtFri = st.rec < .5 && st.head <= T21 + .5;
+  vis.forEach(r => { if (stopAtFri && r.t === T21) return; pts.push(X(r.t).toFixed(1) + ',' + YP(r.c).toFixed(1)); });
+  set(line, { points: pts.join(' ') }, `fill:none; stroke:rgba(${CREAM}, .9); stroke-width:${pxDay > 15 ? 3 : 2}; stroke-linejoin:round`);
+  const op = 1 - st.gone;
+  set(dFri, { cx: X(T18), cy: YP(fri.v), r: 9 }, `fill:var(--bg); stroke:var(--cream); stroke-width:3; opacity:${st.fri * op}`);
+  set(carry, { x1: X(T18), y1: YP(fri.v), x2: X(T18) + (X(T21) - X(T18)) * st.carry, y2: YP(fri.v) }, `stroke:rgba(${CREAM}, ${.55 * op}); stroke-width:2; stroke-dasharray:6 7`);
+  const ry1 = lerp(YP(fri.v), YP(st21.v), st.riser);
+  set(riser, { x1: X(T21), y1: YP(fri.v), x2: X(T21), y2: ry1 }, `stroke:var(--gold); stroke-width:4; opacity:${st.riser > 0 ? op : 0}`);
+  set(caps[0], { x1: X(T21) - 22, y1: YP(fri.v), x2: X(T21) + 22, y2: YP(fri.v) }, `stroke:var(--gold); stroke-width:3; opacity:${st.riser > 0 ? op : 0}`);
+  set(caps[1], { x1: X(T21) - 22, y1: ry1, x2: X(T21) + 22, y2: ry1 }, `stroke:var(--gold); stroke-width:3; opacity:${clamp(st.riser * 4 - 3) * op}`);
+  set(d21, { cx: X(T21), cy: YP(st21.v), r: 10 }, `fill:var(--gold); opacity:${(st.riser > .98 ? 1 : 0) * (st.rec > .5 ? 0 : 1)}`);
+  set(dLast, { cx: X(TLAST), cy: YP(last.v), r: 9 }, `fill:var(--bg); stroke:var(--cream); stroke-width:3; opacity:${st.l1002}`);
+
+  /* the level: +11.34%, from 21 Sep back to 9 Apr 2025 */
+  const yL = YC(st21.chg), xa = X(T21), xb = lerp(X(T21), X(T409) - 6, st.lev);
+  set(level, { x1: xa, y1: yL, x2: xb, y2: yL }, `stroke:var(--gold); stroke-width:2.5; stroke-dasharray:10 6; opacity:${st.lev > 0 ? 1 - st.recOut : 0}`);
+
+  /* labels */
+  L.hero.put(XL + 10, 300, st.hero, op, 1);
+  L.fri.put(X(T18) - 22, YP(fri.v) + 14, st.fri, op, 1);
+  L.mon.put(X(T21) - 34, YP(st21.v) + 17, st.lp, op, 1);
+  L.r21.put(X(T21) - 16, yL - 18, st.l21, 1 - st.recOut, 1);
+  L.r409.put(X(T409) - 4, YC(a409.v) - 12, st.l409, 1 - st.recOut, 1);
+  L.r731.put(X(T731) + 12, yL + 40, st.l731, 1 - st.recOut, 1);
+  L.last.put(X(TLAST) + 20, YP(last.v) + 14, st.l1002, 1, 1);
+  L.q3.put(Math.min((Math.max(X(zs), XL) + X(AXEND + .5)) / 2, XR - 370), PY0 + 40, st.lq, 1, 1);
+}
+
+H.run(st, draw, (tl, S) => {
+  const to = (v, a, d, e) => H.to(tl, st, v, a, d, e), rise = (v, a) => to(v, a, .75, 'power3.out');
+  /* 21 Sep: the scale is up before the board is laid (frame 28); the closes run to Friday, then Monday */
+  to({ show: 1 }, S.axis, .6);
+  to({ head: T18 }, S.friday - .3, 1.55, 'power1.inOut');
+  rise({ fri: 1 }, S.friday + 1.2); to({ fri: 1 }, S.friday + 1.2, .3);
+  to({ carry: 1 }, S.friday + 1.28, .5, 'power1.out');                         /* "up" */
+  to({ riser: 1, head: T21 }, S.move - .62, .95, 'power2.out');
+  to({ b21: 1 }, S.move - .5, 1.0, 'power2.out');
+  rise({ hero: 1 }, S.move);                                                   /* "11%" */
+  rise({ lp: 1 }, S.price);                                                    /* "$741" */
+  /* the record: the axis opens to 17 months; the level runs back to the only day above it */
+  to({ gone: 1 }, S.price + .62, .45, 'power1.in');
+  to({ ...DOM.rec, rest: SER[1].t, rec: 1 }, S.price + .7, 1.3, 'power2.inOut');
+  rise({ l21: 1 }, S.price + 1.5);
+  to({ lev: 1 }, S.price + 1.6, 1.3, 'power2.inOut');
+  to({ l731: 1 }, S.price + 2.15, .5, 'power3.out');
+  to({ l409: 1 }, S.price + 2.75, .6, 'power3.out');
+  /* "When Meta reports its third quarter": the axis closes to Sep-Oct; the line runs on to the last close */
+  to({ recOut: 1 }, S.q3, .45, 'power1.in');
+  to({ ...DOM.ahead, rec: 0 }, S.q3 + .1, 1.4, 'power2.inOut');
+  to({ rest: DOM.ahead.t0 - 2 }, S.q3 + 1.2, .3, 'none');
+  to({ head: TLAST }, S.q3 + 1.4, 1.1, 'power1.inOut');
+  to({ l1002: 1 }, S.q3 + 2.4, .6, 'power3.out');
+  /* "later this month in October": the hatch from data */
+  to({ zone: 1 }, S.q3 + 3.2, 1.1, 'power1.inOut'); rise({ lq: 1 }, S.q3 + 3.45);
+  /* "the day it lands": the frame closes in on it */
+  to(DOM.lands, S.lands - .2, H.END - S.lands + .2, 'power1.inOut');
+}, Object.assign({}, DOM.rec, { rest: SER[1].t, head: T21, show: 1, fri: 1, carry: 1, riser: 1, b21: 1, hero: 1, lp: 1, gone: 1, rec: 1,
+  lev: 1, l21: 1, l731: 1, l409: 1 }));
+</script>
+</body>
+</html>

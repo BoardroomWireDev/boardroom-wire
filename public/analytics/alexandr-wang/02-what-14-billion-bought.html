@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boardroom Wire — What $14 billion bought (alexandr-wang hero H2)</title>
+<!-- ALEXANDR WANG · HERO H2 · WHAT $14 BILLION BOUGHT (9 Oct 2026; Ive). Picture map b013 (s2p1 w0, 119 words): "On June 12th,
+     2025, a company called Scale AI announced … by 2025 he was supplying the same labs Meta was losing to."
+     Style frame: assets\style-frames\H2.png. Scale as one square valued at "over $29B", its far edge open because the value is a
+     floor; Meta's 49% cut from it, dashed because the share is reported, with the reported price over the filed booking; Wang
+     crossing to Meta. The business: the labelled data AI labs train on; the street scenes it began with (2016, self-driving cars);
+     the labs it supplied by 2025 (Google's $200M, planned, 2025). Overlays b014-b016 ride over it (Davinci's layer).
+     Steps (default times: the recorded VO, review\dashboard_cue_sheet.md, 9 Oct; listed below as first planned at v12, 150 wpm; ?at= in this order, ?secs=):
+       scale "announced" w9 3.6 · floor "$29" w21 8.4 · stake "$14" w27 10.8 · wang "Alexandr" w46 18.4 ·
+       labeling "labeling" w71 28.4 · street "street" w95 38.0 · labs "supplying" w112 44.8                       (secs 47.6)
+     Capture contract: BW.run({play, rest}); ?capture ?final ?still ?beats ?t=<step>. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero-kit.css?v=1">
+</head>
+<body>
+<div class="stage">
+  <svg class="plot" id="plot" viewBox="0 0 1920 1080">
+    <defs>
+      <linearGradient id="sqFill" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" style="stop-color:var(--cream); stop-opacity:.05"/><stop offset=".55" style="stop-color:var(--cream); stop-opacity:.05"/>
+        <stop offset="1" style="stop-color:var(--cream); stop-opacity:0"/></linearGradient>
+      <linearGradient id="sqEdge" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" style="stop-color:var(--cream); stop-opacity:.62"/><stop offset=".55" style="stop-color:var(--cream); stop-opacity:.62"/>
+        <stop offset="1" style="stop-color:var(--cream); stop-opacity:0"/></linearGradient>
+    </defs>
+  </svg>
+  <div id="labs"></div>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/hero-kit.js?v=1"></script>
+<script>
+const F = BW.fig;
+const S = K.steps([['scale', 2.94], ['floor', 7.1], ['stake', 10.54], ['wang', 17.26], ['labeling', 26.82], ['street', 35.82], ['labs', 42.72]], 45.46);
+const SD = BW_DATA.figures.scale_first_business_selfdriving ? ['scale_first_business_selfdriving'] : [];   /* keyed once data.js carries it */
+BW.provenance({ uses: SD.concat(['scale_valuation_floor', 'scale_deal_stake_reported', 'scale_deal_total_reported', 'meta_scale_booked_fy2025',
+  'wang_scale_founded_year', 'google_cuts_scale']) });
+const usdB = (v, dp) => '$' + (v / 1e9).toFixed(dp) + 'B';
+const LN = 'rgba(var(--cream-rgb), .62)', G = 'var(--gold)';
+const LOGO = 'assets/logos/';
+
+/* ---- Scale, and Meta's slice ---- */
+const SX = 140, SY = 300, SS = 580, pct = F('scale_deal_stake_reported').v / 100, SW = SS * pct;
+/* drawn from frame 0 (no dead head, gates.json#deadHead): the square's open outline and its name */
+K.svg('path', { d: `M${SX + SS},${SY} H${SX} V${SY + SS} H${SX + SS}` }, 'fill:none; stroke:url(#sqEdge); stroke-width:2');
+K.text(SX, SY - 26, 'Scale AI', 32);
+K.step('scale');
+K.svg('rect', { x: SX, y: SY, width: SS, height: SS }, 'fill:url(#sqFill)', { as: 'fade', dur: 1.2 });
+K.step('floor');
+K.text(SX + SS, SY - 26, [['over', 'wd', 0, 32], [usdB(F('scale_valuation_floor').v, 0), 'n', 18]], 40, { a: 'e' });
+K.step('stake');
+K.svg('rect', { x: SX + 1.5, y: SY + 1.5, width: SW - 3, height: SS - 3 }, 'fill:rgba(var(--gold-rgb), .16); stroke:var(--gold); stroke-width:3; stroke-dasharray:14 9', { dur: 1.4 });
+K.at('stake', 1.2);
+K.text(SX + 26, SY + 128, [[Math.round(F('scale_deal_stake_reported').v) + '%', 'h']], 112, { dur: 1 });
+K.at('stake', 2.4);
+K.text(SX + 28, SY + 228, [[usdB(F('scale_deal_total_reported').v, 1), 'n']], 52);
+K.text(SX + 28, SY + 276, 'Reuters', 32, { cls: 'wd' });
+K.at('stake', 3.6);
+K.text(SX + 28, SY + 370, [[usdB(F('meta_scale_booked_fy2025').v, 2), 'n']], 40);
+K.text(SX + 28, SY + 416, '10-K, FY2025', 32, { cls: 'wd' });
+K.svg('image', { href: LOGO + 'logo-meta.png', x: SX + 28, y: SY + SS - 78, width: 190, height: 42, preserveAspectRatio: 'xMinYMid meet' });
+
+/* Wang, from Scale to Meta */
+const ay = SY - 92;
+K.step('wang');
+K.svg('path', { d: `M${SX + SW + (SS - SW) / 2},${SY - 66} V${ay} H${SX + SW / 2} V${SY - 66}` }, 'fill:none; stroke:var(--gold); stroke-width:3', { dur: 1 });
+K.svg('path', { d: `M${SX + SW / 2 - 10},${SY - 80} L${SX + SW / 2},${SY - 64} L${SX + SW / 2 + 10},${SY - 80}` }, 'fill:none; stroke:var(--gold); stroke-width:3');
+K.text(SX + SW / 2 + 22, ay - 18, 'Alexandr Wang', 32);
+
+/* ---- the business ---- */
+const TX = 880, TY = 300, TW = 280, TH = 186, TG = 34, P3 = TX + 2 * (TW + TG);
+const corners = (bx, by, bw, bh, k = 12) =>
+  [[bx, by, 1, 1], [bx + bw, by, -1, 1], [bx, by + bh, 1, -1], [bx + bw, by + bh, -1, -1]].forEach(([px, py, dx, dy]) =>
+    K.svg('path', { d: `M${px + dx * k},${py} H${px} V${py + dy * k}` }, 'fill:none; stroke:var(--gold); stroke-width:3', { dur: .4 }));
+
+/* the data AI labs train on: spans of text, each tagged */
+K.step('labeling');
+K.text(TX, TY - 26, 'labeling', 32);
+K.svg('rect', { x: P3, y: TY, width: TW, height: TH }, 'fill:none; stroke:' + LN + '; stroke-width:2', { as: 'fade' });
+[[0, 210], [1, 236], [2, 150], [3, 224], [4, 120]].forEach(([r, w]) =>
+  K.svg('line', { x1: P3 + 22, y1: TY + 34 + r * 30, x2: P3 + 22 + w, y2: TY + 34 + r * 30 }, 'stroke:rgba(var(--cream-rgb), .38); stroke-width:6; stroke-linecap:round', { dur: .6 }));
+corners(P3 + 76, TY + 20, 104, 28, 9); corners(P3 + 128, TY + 110, 124, 28, 9); corners(P3 + 12, TY + 140, 140, 28, 9);
+
+/* where it began: street scenes, objects boxed for self-driving cars */
+K.step('street');
+for (let i = 0; i < 2; i++) {
+  const x0 = TX + i * (TW + TG), hz = TY + TH * .36, vx = x0 + TW * (.42 + i * .12);
+  const g = K.svg('g', {}, '', { dur: 1 });
+  const sv = (tag, a, st) => K.svg(tag, a, st, { parent: g });
+  sv('rect', { x: x0, y: TY, width: TW, height: TH }, 'fill:none; stroke:' + LN + '; stroke-width:2');
+  sv('line', { x1: x0, x2: x0 + TW, y1: hz, y2: hz }, 'stroke:rgba(var(--cream-rgb), .3); stroke-width:2');
+  sv('line', { x1: vx, y1: hz, x2: x0 + 18, y2: TY + TH }, 'stroke:rgba(var(--cream-rgb), .45); stroke-width:2');
+  sv('line', { x1: vx, y1: hz, x2: x0 + TW - 18, y2: TY + TH }, 'stroke:rgba(var(--cream-rgb), .45); stroke-width:2');
+  sv('line', { x1: vx, y1: hz + 8, x2: vx + (i - .5) * 12, y2: TY + TH }, 'stroke:rgba(var(--cream-rgb), .3); stroke-width:2; stroke-dasharray:10 12');
+  [[x0 + 34 + i * 12, hz + 12, 76, 52], [x0 + TW - 102 - i * 16, hz + 22, 60, 42]].forEach(([bx, by, bw, bh]) => {
+    const cy = by + bh * .2, cw = bw * .78, cx = bx + (bw - cw) / 2, ch = bh * .62, ST = 'fill:var(--bg); stroke:rgba(var(--cream-rgb), .55); stroke-width:2';
+    sv('path', { d: `M${cx + cw * .18},${cy + ch * .38} L${cx + cw * .28},${cy} H${cx + cw * .72} L${cx + cw * .82},${cy + ch * .38}` }, ST);
+    sv('rect', { x: cx, y: cy + ch * .38, width: cw, height: ch * .5 }, ST);
+    sv('line', { x1: cx + 4, x2: cx + cw * .22, y1: cy + ch * .62, y2: cy + ch * .62 }, 'stroke:rgba(var(--cream-rgb), .55); stroke-width:2');
+    sv('line', { x1: cx + cw * .78, x2: cx + cw - 4, y1: cy + ch * .62, y2: cy + ch * .62 }, 'stroke:rgba(var(--cream-rgb), .55); stroke-width:2');
+  });
+}
+K.at('street', 1.0);
+for (let i = 0; i < 2; i++) { const x0 = TX + i * (TW + TG), hz = TY + TH * .36;
+  [[x0 + 34 + i * 12, hz + 12, 76, 52], [x0 + TW - 102 - i * 16, hz + 22, 60, 42]].forEach(b => corners(...b)); }
+K.at('street', 1.6);
+/* two plain labels (Goldman, 9 Oct): 2016 is Scale's founding, not the date of the self-driving work */
+K.text(TX, TY + TH + 54, [['founded', 'wd'], [String(F('wang_scale_founded_year').v), 'n', 12]], 32);
+K.text(TX + 314, TY + TH + 54, [['self-driving cars', 'wd']], 32);
+
+/* the labs, fed by the data */
+const LY = 680, gC = TX + TW + TG + 85, oC = P3 + 85;
+K.step('labs');
+K.svg('path', { d: `M${P3 + TW / 2},${TY + TH + 22} V${LY - 104} H${gC} V${LY - 66}` }, 'fill:none; stroke:var(--gold); stroke-width:3', { dur: 1.2 });
+K.svg('path', { d: `M${oC},${LY - 104} V${LY - 66}` }, 'fill:none; stroke:var(--gold); stroke-width:3');
+[gC, oC].forEach(cx => K.svg('path', { d: `M${cx - 10},${LY - 80} L${cx},${LY - 64} L${cx + 10},${LY - 80}` }, 'fill:none; stroke:var(--gold); stroke-width:3'));
+K.text(TX, LY + 12, 'AI labs', 32);
+K.svg('image', { href: LOGO + 'logo-google.png', x: gC - 85, y: LY - 26, width: 170, height: 46, preserveAspectRatio: 'xMidYMid meet' });
+K.svg('image', { href: LOGO + 'logo-openai_white.png', x: oC - 85, y: LY - 26, width: 170, height: 46, preserveAspectRatio: 'xMidYMid meet' });
+K.at('labs', 1.4);
+K.text(gC - 120, LY + 76, [['$' + Math.round(F('google_cuts_scale').v / 1e6) + 'M', 'n'], ['planned, 2025', 'wd', 22]], 32);
+
+/* pass 1: the board fills the frame, its content centred and enlarged 6% (marks and labels move together; the credit stays put) */
+['plot', 'labs'].forEach(id => Object.assign(document.getElementById(id).style, { transformOrigin: '0 0', transform: 'translate(-62px, 47px) scale(1.06)' }));
+BW.run({ play: K.play, rest: K.rest });
+</script>
+</body>
+</html>

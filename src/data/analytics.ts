@@ -606,8 +606,157 @@ export const anthropicIpo: Collection = {
   ],
 };
 
+/* ==================================================================== */
+/*  Alexandr Wang — Meta's $14 billion bet                               */
+/* ==================================================================== */
+
+export const alexandrWang: Collection = {
+  slug: 'alexandr-wang',
+  title: "Zuckerberg Hired a 28-Year-Old for $14 Billion. It's Working.",
+  kicker: 'Ten dashboards',
+  summary:
+    "Meta paid about $14 billion for 49% of Scale AI and the 28-year-old who ran it. A model that jumped from 18 to 52 on the index, a free agent put in front of 3.6 billion daily users, the stock's best day in more than a year, and the bill for all of it, charted, with every figure sourced on the frame.",
+  published: '2026-10-10',
+  hero: 'the-stock',
+  headline: { lead: 'Alexandr Wang at Meta', dim: ': the $14 billion bet.' },
+  primaryLabel: 'Primary',
+  method: {
+    primary:
+      'Stated by the company or filed with the SEC: Meta’s earnings releases and Form 10-K, Scale AI’s announcement, and the launch posts from Meta, SpaceXAI and OpenAI.',
+    reported:
+      'Sourced to journalism: Reuters, AP, Fortune, The Wall Street Journal, Bloomberg and others. Attribution is printed on the dashboard itself, not just here.',
+    estimate:
+      'Artificial Analysis’s own index scores and rankings, or our own arithmetic on reported figures. Marked as an estimate every time it appears.',
+    caveat:
+      'Meta has not disclosed a single Muse user, subscriber or dollar of revenue, so none is charted. Index scores and ranks are Artificial Analysis’s estimates on the date shown, and the index version changes between April 2025 and April 2026.',
+  },
+  dashboards: [
+    {
+      n: 1,
+      slug: 'spent-big-fell-behind',
+      file: '01-nothing-to-show-p6c.html',
+      title: 'Spent Big, Fell Behind',
+      blurb:
+        'April 2025: Llama 4 Maverick scored 50.53 on the Artificial Analysis index, 2.71 points behind DeepSeek V3 and well short of DeepSeek R1 at 60.22.',
+      section: 'Nothing to Show for It',
+      source: 'estimate',
+      sourceNote:
+        'Artificial Analysis, Intelligence Index methodology. Estimate: Artificial Analysis, 21 Apr 2025. Boardroom Wire calculation.',
+    },
+    {
+      n: 2,
+      slug: 'what-14-billion-bought',
+      file: '02-what-14-billion-bought.html',
+      title: 'What $14 Billion Bought',
+      blurb:
+        'About $14.3 billion for 49% of Scale AI, valued at over $29 billion, and its founder. A labeling business founded in 2016 that supplied the AI labs Meta was chasing.',
+      section: 'What $14 Billion Bought',
+      source: 'primary',
+      sourceNote:
+        'Scale AI, 12 Jun 2025, Meta Form 10-K FY2025 and Meta executive bio. Reported by AP and Reuters.',
+      key: true,
+    },
+    {
+      n: 3,
+      slug: 'the-offer',
+      file: '42-the-offer.html',
+      title: 'The Offer',
+      blurb:
+        'One researcher reportedly turned down a package worth about $1.5 billion. Meta called that account of the offer “inaccurate and ridiculous.”',
+      section: 'What $14 Billion Bought',
+      source: 'reported',
+      sourceNote:
+        'Reported by Information Age, 5 Aug 2025, citing The Wall Street Journal. Boardroom Wire calculation.',
+    },
+    {
+      n: 4,
+      slug: 'from-18-to-52',
+      file: '03-from-18-to-52-p6b.html',
+      title: 'From 18 to 52',
+      blurb:
+        'Meta’s last Llama scored 18 on the April 2026 index. Muse Spark scored 52, a 2.89× jump that still left it behind Google, OpenAI and Anthropic.',
+      section: 'Avocado',
+      source: 'estimate',
+      sourceNote:
+        'Meta AI blog, Meta and Artificial Analysis, Intelligence Index methodology. Reported by Fortune. Estimate: Artificial Analysis, 8 Apr 2026. Boardroom Wire calculation.',
+      key: true,
+    },
+    {
+      n: 5,
+      slug: 'how-muse-works',
+      file: '04-how-muse-works-p6c.html',
+      title: 'How Muse Works',
+      blurb:
+        'Muse works on its own computer in the cloud, the Muse Secure VM, with a browser, a terminal and files of its own, so it can finish a task without you.',
+      section: 'Free, Inside WhatsApp',
+      source: 'illustration',
+      sourceNote: 'Meta newsroom. Reported by Reuters. Drawing from Meta’s description.',
+    },
+    {
+      n: 6,
+      slug: 'free-in-front-of-billions',
+      file: '05-free-in-front-of-billions-p6.html',
+      title: 'Free, in Front of Billions',
+      blurb:
+        'Grok Bot and Dots launched on paid plans only. Muse has a free tier, and Meta’s apps reach 3.6 billion people a day.',
+      section: 'Free, Inside WhatsApp',
+      source: 'primary',
+      sourceNote:
+        'Meta Q2 2026 earnings release, Meta newsroom, SpaceXAI and OpenAI. Daily active people, June 2026 average.',
+      key: true,
+    },
+    {
+      n: 8,
+      slug: 'the-stock',
+      file: '07-the-stock-p6b.html',
+      title: 'The Stock',
+      blurb:
+        'Every trading day since April 2025. Meta’s +11.34% day as Muse topped the charts was its biggest since +14.76% on 9 April 2025.',
+      section: 'Number One',
+      source: 'reported',
+      sourceNote: 'Yahoo Finance. Reported by The Next Web. Boardroom Wire calculation.',
+      key: true,
+    },
+    {
+      n: 10,
+      slug: 'three-agents',
+      file: '09-three-agents.html',
+      title: 'Three Agents',
+      blurb:
+        'Grok Bot on 11 August, Muse 28 days later, Dots 21 days after that. Only Muse came with a free tier.',
+      section: 'The Paid Rivals',
+      source: 'primary',
+      sourceNote:
+        'SpaceXAI, Meta newsroom and OpenAI. Reported by Bloomberg via AI Weekly. Boardroom Wire calculation.',
+    },
+    {
+      n: 11,
+      slug: 'the-bill',
+      file: '11-the-bill-p6c.html',
+      title: 'The Bill',
+      blurb:
+        'In the second quarter of 2026, Meta spent $31.08 billion on capex and was left with $784 million of free cash flow.',
+      section: 'The Bill',
+      source: 'primary',
+      sourceNote:
+        'Meta Q4 2024 earnings release, Meta Form 10-K FY2025 and Meta Q2 2026 earnings release.',
+      key: true,
+    },
+    {
+      n: 12,
+      slug: '23rd-of-224',
+      file: '14-aa-rank-p6.html',
+      title: '23rd of 224',
+      blurb: 'As of 4 October 2026, Muse Spark 1.3 (Max) ranks 23rd of 224 models on the Artificial Analysis index.',
+      section: 'The Bill',
+      source: 'estimate',
+      sourceNote: 'Estimate: Artificial Analysis, 4 Oct 2026.',
+    },
+  ],
+};
+
 /** Newest first. The hub and the poster renderer both iterate this. */
-export const collections: Collection[] = [anthropicIpo, cursor, situationalAwareness];
+export const collections: Collection[] = [alexandrWang, anthropicIpo, cursor, situationalAwareness];
 
 export const findCollection = (slug: string) => collections.find((c) => c.slug === slug);
 
