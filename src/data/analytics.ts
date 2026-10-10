@@ -615,7 +615,7 @@ export const alexandrWang: Collection = {
   title: "Zuckerberg Hired a 28-Year-Old for $14 Billion. It's Working.",
   kicker: 'Ten dashboards',
   summary:
-    "Meta paid about $14 billion for 49% of Scale AI and the 28-year-old who ran it. A model that jumped from 18 to 52 on the index, a free agent put in front of 3.6 billion daily users, the stock's best day in more than a year, and the bill for all of it, charted, with every figure sourced on the frame.",
+    "Meta paid about $14 billion for 49% of Scale AI and the 28-year-old who ran it. A model that jumped from 18 to 52 on the Artificial Analysis index, a free AI agent put in front of 3.6 billion people a day, the stock's best day in more than a year, and the bill for all of it, charted, with every figure sourced on the frame.",
   published: '2026-10-10',
   hero: 'the-stock',
   headline: { lead: 'Alexandr Wang at Meta', dim: ': the $14 billion bet.' },
@@ -637,11 +637,11 @@ export const alexandrWang: Collection = {
       file: '01-nothing-to-show-p6c.html',
       title: 'Spent Big, Fell Behind',
       blurb:
-        'April 2025: Llama 4 Maverick scored 50.53 on the Artificial Analysis index, 2.71 points behind DeepSeek V3 and well short of DeepSeek R1 at 60.22.',
+        'In April 2025, on the version of the Artificial Analysis index in use then, Llama 4 Maverick scored 50.53, 2.71 points behind DeepSeek V3 and well short of DeepSeek R1 at 60.22.',
       section: 'Nothing to Show for It',
       source: 'estimate',
       sourceNote:
-        'Artificial Analysis, Intelligence Index methodology. Estimate: Artificial Analysis, 21 Apr 2025. Boardroom Wire calculation.',
+        'Scores: Artificial Analysis Intelligence Index, 21 Apr 2025, an estimate. Capex: company filings. The point gaps, Microsoft’s calendar-year capex and Meta’s capex growth are our arithmetic.',
     },
     {
       n: 2,
@@ -649,7 +649,7 @@ export const alexandrWang: Collection = {
       file: '02-what-14-billion-bought.html',
       title: 'What $14 Billion Bought',
       blurb:
-        'About $14.3 billion for 49% of Scale AI, valued at over $29 billion, and its founder. A labeling business founded in 2016 that supplied the AI labs Meta was chasing.',
+        'Meta paid about $14.3 billion for 49% of Scale AI, valued at over $29 billion, and got its founder with it. Scale, founded in 2016, labels the data AI models are trained on, and it sold that work to the labs Meta was chasing.',
       section: 'What $14 Billion Bought',
       source: 'primary',
       sourceNote:
@@ -662,11 +662,11 @@ export const alexandrWang: Collection = {
       file: '42-the-offer.html',
       title: 'The Offer',
       blurb:
-        'One researcher reportedly turned down a package worth about $1.5 billion. Meta called that account of the offer “inaccurate and ridiculous.”',
+        'One AI researcher reportedly turned down a Meta pay package worth about $1.5 billion. Meta called that account of the offer “inaccurate and ridiculous.”',
       section: 'What $14 Billion Bought',
       source: 'reported',
       sourceNote:
-        'Reported by Information Age, 5 Aug 2025, citing The Wall Street Journal. Boardroom Wire calculation.',
+        'Reported by Information Age, 5 Aug 2025, citing The Wall Street Journal. The per-year and per-day figures are our arithmetic, at most.',
     },
     {
       n: 4,
@@ -678,7 +678,7 @@ export const alexandrWang: Collection = {
       section: 'Avocado',
       source: 'estimate',
       sourceNote:
-        'Meta AI blog, Meta and Artificial Analysis, Intelligence Index methodology. Reported by Fortune. Estimate: Artificial Analysis, 8 Apr 2026. Boardroom Wire calculation.',
+        'Meta AI blog. Reported by Fortune. Scores: Artificial Analysis Intelligence Index, 8 Apr 2026, an estimate. The 2.89× is our arithmetic.',
       key: true,
     },
     {
@@ -687,7 +687,7 @@ export const alexandrWang: Collection = {
       file: '04-how-muse-works-p6c.html',
       title: 'How Muse Works',
       blurb:
-        'Muse works on its own computer in the cloud, the Muse Secure VM, with a browser, a terminal and files of its own, so it can finish a task without you.',
+        'Muse, Meta’s AI agent, works on a computer of its own in Meta’s cloud, which Meta calls the Muse Secure VM, with a browser, a terminal and files of its own, so it can finish a task without you.',
       section: 'Free, Inside WhatsApp',
       source: 'illustration',
       sourceNote: 'Meta newsroom. Reported by Reuters. Drawing from Meta’s description.',
@@ -698,7 +698,7 @@ export const alexandrWang: Collection = {
       file: '05-free-in-front-of-billions-p6.html',
       title: 'Free, in Front of Billions',
       blurb:
-        'Grok Bot and Dots launched on paid plans only. Muse has a free tier, and Meta’s apps reach 3.6 billion people a day.',
+        'SpaceXAI’s Grok Bot and OpenAI’s Dots launched on paid plans only. Meta’s Muse has a free tier, and Meta’s apps reach 3.6 billion people a day.',
       section: 'Free, Inside WhatsApp',
       source: 'primary',
       sourceNote:
@@ -711,10 +711,10 @@ export const alexandrWang: Collection = {
       file: '07-the-stock-p6b.html',
       title: 'The Stock',
       blurb:
-        'Every trading day since April 2025. Meta’s +11.34% day as Muse topped the charts was its biggest since +14.76% on 9 April 2025.',
+        'Meta’s stock, every trading day since April 2025. It rose 11.34% on 21 September, as Muse topped the charts, its biggest one-day gain since it rose 14.76% on 9 April 2025.',
       section: 'Number One',
       source: 'reported',
-      sourceNote: 'Yahoo Finance. Reported by The Next Web. Boardroom Wire calculation.',
+      sourceNote: 'Closing prices: Yahoo Finance. Reported by The Next Web. The daily percentage moves are our arithmetic on closing prices.',
       key: true,
     },
     {
@@ -723,11 +723,11 @@ export const alexandrWang: Collection = {
       file: '09-three-agents.html',
       title: 'Three Agents',
       blurb:
-        'Grok Bot on 11 August, Muse 28 days later, Dots 21 days after that. Only Muse came with a free tier.',
+        'SpaceXAI’s Grok Bot on 11 August, Meta’s Muse 28 days later, OpenAI’s Dots 21 days after that. Only Muse came with a free tier.',
       section: 'The Paid Rivals',
       source: 'primary',
       sourceNote:
-        'SpaceXAI, Meta newsroom and OpenAI. Reported by Bloomberg via AI Weekly. Boardroom Wire calculation.',
+        'Launch dates: SpaceXAI, the Meta newsroom and OpenAI, with Bloomberg’s report via AI Weekly. The 28- and 21-day gaps are our arithmetic.',
     },
     {
       n: 11,
