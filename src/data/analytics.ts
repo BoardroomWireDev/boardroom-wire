@@ -770,7 +770,7 @@ export const nebius: Collection = {
   title: "Nebius: How the Spare Parts of Russia's Google Became a $60 Billion AI Cloud",
   kicker: 'Eleven dashboards',
   summary:
-    'A forced sale at half price left Nebius a data center in Finland, its engineers and some cash. What it kept, the platform it built on top of the chips, the Microsoft and Meta deals, the run in revenue, the cash it spends to build, and the stock Michael Burry bet against, charted, with every figure sourced on the frame.',
+    'A forced sale at half price left Nebius a data center in Finland, about a thousand engineers and some cash. By early October, about two years later, it was worth roughly $60 billion. These eleven dashboards chart how: what it kept, the platform it built on top of the chips, the Microsoft and Meta deals, the growth in revenue, the cash it spends to build, and the stock Michael Burry bet against. Every figure carries its source on the dashboard.',
   published: '2026-10-17',
   hero: 'the-split',
   headline: { lead: 'Nebius', dim: ': the spare parts of Russia’s Google.' },
@@ -781,9 +781,9 @@ export const nebius: Collection = {
     reported:
       'Sourced to journalism and market data: Bloomberg, CNBC, TheStreet, TrendForce, Yahoo Finance, StockAnalysis and Stocktwits. Attribution is printed on the dashboard itself, not just here.',
     estimate:
-      'Our own arithmetic on the company’s figures, such as two gigawatts at $20 million per megawatt. Every frame that carries it says so in its source line.',
+      'Our own arithmetic on the company’s figures, such as two gigawatts at $20 million per megawatt. Every dashboard that uses it says so in its source line.',
     caveat:
-      'Nebius does not name its customers, so no board names the ones behind its revenue. The $40 billion in commitments is a figure Nebius defines itself, not a reported backlog. Share prices and market values are as of the date printed on each board.',
+      'Nebius does not name its customers, so no dashboard names the ones behind its revenue. The $40 billion in commitments is a figure Nebius defines itself, not a reported backlog. Share prices and market values are as of the date printed on each dashboard.',
   },
   dashboards: [
     {
@@ -793,7 +793,7 @@ export const nebius: Collection = {
       query: 'noslot=b027,b133,b129-finland',
       title: 'The Split',
       blurb:
-        'On 4 February 2024 Yandex sold its Russian business for $5.2 billion, a discount of at least 50%. Nebius kept $2.6 billion, a data center in Finland and 1,300 people, and began trading as NBIS on 21 October 2024.',
+        'On 4 February 2024, Yandex agreed to sell its Russian business for about $5.2 billion, at the discount of at least 50% that Moscow required. Nebius kept $2.6 billion in cash, a data center in Finland and more than a thousand employees, and began trading as NBIS on 21 October 2024.',
       section: 'The Spare Parts',
       source: 'primary',
       sourceNote:
@@ -820,7 +820,7 @@ export const nebius: Collection = {
       query: 'noslot=b054,b056',
       title: '172 Ways to Fail',
       blurb:
-        'One training job spread across sixteen racks of chips. Nvidia’s documentation lists 172 ways one of its GPUs can fail, and one bad chip can stall the whole job until the software pulls it and the job runs again.',
+        'A single training job can run across thousands of chips for weeks. Nvidia’s own documentation lists 172 ways one of its GPUs can fail, and one bad chip can stall the whole job until the software pulls it out of service.',
       section: '172 Ways to Fail',
       source: 'primary',
       sourceNote: 'Nvidia Xid error catalog (docs.nvidia.com).',
@@ -832,7 +832,7 @@ export const nebius: Collection = {
       query: 'noslot=b072',
       title: 'Bigger Than the Company',
       blurb:
-        'Microsoft’s contract, $17.4 billion and up to $19.4 billion, against Nebius’s $15.3 billion market value the day before. About $7 billion came upfront, for more than 100,000 GB300 chips in Vineland, New Jersey.',
+        'Microsoft’s contract was worth $17.4 billion over five years, and up to $19.4 billion, against Nebius’s $15.3 billion market value the day before. Microsoft also agreed to about $7 billion upfront to help build the capacity: a new data center in Vineland, New Jersey, with more than 100,000 of Nvidia’s GB300 chips.',
       section: 'Microsoft Moves In',
       source: 'primary',
       sourceNote:
@@ -863,7 +863,7 @@ export const nebius: Collection = {
       section: 'The Run',
       source: 'primary',
       sourceNote:
-        'Nebius 20-F FY2024, Nebius Q4 2025 shareholder letter and the company’s own statements. Boardroom Wire calculation.',
+        'Nebius 20-F FY2024, Nebius Q4 2025 financial results, and Nebius Q4 2025, Q1 2026 and Q2 2026 shareholder letters. Boardroom Wire calculation.',
       key: true,
     },
     {
@@ -873,11 +873,11 @@ export const nebius: Collection = {
       query: 'noslot=b088',
       title: 'A Megawatt, Then a Gigawatt',
       blurb:
-        'New deals bring in more than $20 million a year for each megawatt. Nebius had 170 MW in December 2025, expects 800 to 1,000 MW connected by the end of 2026 and plans 1,000 MW more in 2027: at $20 million a megawatt, roughly $40 billion a year.',
+        'On its new deals, Nebius brings in more than $20 million a year for each megawatt. It ended 2025 with about 170 megawatts in use, expects up to a gigawatt connected by the end of 2026, and plans to add another gigawatt in 2027. At $20 million a megawatt, two gigawatts would pencil out to roughly $40 billion a year, if that pricing holds and the data centers are built in time.',
       section: 'The Run',
       source: 'estimate',
       sourceNote:
-        'Nebius Q4 2025 and Q2 2026 shareholder letters, Nebius, 5 Mar 2025, and the company’s own statements. Boardroom Wire calculation.',
+        'Nebius Q4 2025 and Q2 2026 shareholder letters, Nebius release, 5 Mar 2025, and the company’s own statements. Boardroom Wire calculation.',
     },
     {
       n: 8,
@@ -885,7 +885,7 @@ export const nebius: Collection = {
       file: '09-one-deal-three-ways.html',
       title: 'One Deal, Three Ways',
       blurb:
-        'Microsoft’s deal three ways: $17.4 billion in commitments, $7 billion of cash up front that Nebius still owes in computing power, and about $3.5 billion a year of revenue over five years.',
+        'The same Microsoft deal shows up three ways: as $17.4 billion in commitments, as about $7 billion of cash upfront that Nebius still owes in computing power, and as roughly $3.5 billion a year of revenue over five years once it’s fully running.',
       section: 'Paying for It',
       source: 'primary',
       sourceNote:
@@ -898,7 +898,7 @@ export const nebius: Collection = {
       query: 'noslot=b104',
       title: 'The Burn',
       blurb:
-        'Nebius lost $190.4 million in Q2 2026. Of its $4.5 billion of operating cash in the first half, $4.4 billion was deferred revenue and $109 million the business itself. After $8.1 billion of spending on GPUs and data centers, it burned $3.6 billion, $3.4 billion of it in Q2.',
+        'Nebius lost $190.4 million in Q2 2026. But it brought in $4.5 billion of operating cash in the first half, and $4.4 billion of that was customers paying in advance, which leaves $109 million from the business itself. After $8.1 billion spent on GPUs and data centers, Nebius burned $3.6 billion in six months, $3.4 billion of it in Q2.',
       section: 'Paying for It',
       source: 'primary',
       sourceNote: 'Nebius Q2 2026 6-K. Boardroom Wire calculation.',
@@ -911,7 +911,7 @@ export const nebius: Collection = {
       query: 'noslot=b111',
       title: 'The Stock and the Short',
       blurb:
-        'From $21.00 in December 2024 to $299.86 intraday, and $221.80 on 9 October 2026: a market value of $60.3 billion, 20 times a $3.0 billion run-rate. Michael Burry shorted the stock at $211.77.',
+        'Nebius shares cost $21.00 in December 2024 and peaked at $299.86 on 22 June 2026. On 9 October 2026 they stood at $221.80, a market value of $60.3 billion, or roughly 20 times a $3.0 billion run-rate. On 6 August, Michael Burry revealed he was shorting the stock at $211.77.',
       section: 'Fish in a Barrel',
       source: 'reported',
       sourceNote:
@@ -921,9 +921,9 @@ export const nebius: Collection = {
       n: 11,
       slug: 'the-bear-case-answered',
       file: '12-the-bear-case-answered.html',
-      title: 'The Bear Case, Answered',
+      title: 'The Bear Case, and What the Bulls Say Back',
       blurb:
-        'Three risks: Vera Rubin chips for Meta’s $12 billion from 2027; servers depreciated over five years, while older GPU prices rose more than 30%; and convertible notes near $180 a share, with the stock at $188.41 on 15 October 2026 and prepayments covering 50 to 60% of the build.',
+        'The bears raise three risks, and the bulls have a reply to each. Meta’s $12 billion depends on Vera Rubin chips arriving in early 2027, and Nebius already has its first systems. Nebius now depreciates its servers over five years, while prices for its older GPUs rose more than 30% in Q2. And its March convertible notes convert around $180 a share, with the stock at $186.01 on 14 October 2026, while prepayments cover about half the cost of the build on most new deals.',
       section: 'Fish in a Barrel',
       source: 'reported',
       sourceNote:
