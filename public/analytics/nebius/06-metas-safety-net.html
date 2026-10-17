@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Meta's safety net · Boardroom Wire</title>
+<!-- NEBIUS · H6 · META'S SAFETY NET (studio build under Ive, 13 Oct 2026). 14:35, about 87 s; s9p1 w0 to s10p1 w0 (H7 starts
+     on "The answer is yes, to both."). From the approved style frame (assets/style-frames/H6-metas-safety-net.html): one dollar
+     scale for every bar; the camera opens close on the first deal and pulls back on "much more", so $27B lands on the scale the
+     $2.9B bar was drawn on (the quiet hit). The net is played on fifteen $1B blocks: some leave to other customers, the rest
+     fall into the net; then hot (all sold) and cools (all caught), both held at rest.
+       nov        Meta's mark beside Nebius's; Nov 2025 under the first bar's place ("November 2025")
+       three      the first deal grows, nearly $3B ("nearly $3 billion"; the 6-K card b079 rides the clear right half)
+       bigger     a dashed outline of the bigger deal, its top faded (no figure) ("bigger deal"; Volozh's card b080)
+       capacity   a drawn ceiling caps it at the bar's top ("capacity they had on hand")
+       march      Mar 2026 under the second bar's place ("March 2026")
+       much       the ceiling lifts and the camera pulls back to the whole scale ("much more")
+       b27        the second bar rises to the ceiling, up to $27B ("$27 billion")
+       nine       nine of the first stack inside it, 9x (our arithmetic) ("nine times")
+       split      $12B turns gold, firm ("$12 billion"; the 6-K card b081)    firm  ("firm")
+       rubin      Vera Rubin ("Vera Rubin")      early   early 2027 ("early 2027")
+       net        the other $15B turns hatched ("$15 billion")
+       safety     safety net; the net draws under the market line ("safety net")
+       offer      fifteen $1B blocks of that capacity sit on the market ("Nebius has the option")
+       others     six leave over to other customers, gold ("other customers")
+       clause     the camera pushes in on the net; the clause card b082 rides the clear right ("Whatever Nebius doesn't sell")
+       meta       the other nine fall into the net, Meta's (cream) ("Meta agreed to buy up")
+       winwin     the camera is back; the nine climb back onto the market ("win-win")
+       hot        they sell too: all fifteen gold, over the line ("stays hot")
+       cools      the same fifteen fall into the net ("demand cools"); both outcomes hold
+       forty      ON ITS OWN SCREEN (master v3 note 12): on "Nebius reported" the deals step away; more than $40B of customer commitments
+                  is the whole frame, the figure large and a bar on a true $0 to $50B scale, its top open (a floor) ("$40 billion")
+       questions  the screen clears for the investors' two questions (note 13), a gold rule first ("two key questions")
+       deliver    "Will Nebius deliver?" rises ("Will Nebius deliver")
+       follow     "Will the revenue follow?" rises under it, and both hold into H7 ("and will the revenue follow")
+     Meta's own blue (sf.js BRAND_COL.meta; note 11, the writer: "use their colours more as accents, not all over... blue accents
+     when we highlight them, e.g. the safety net / Meta taking the excess capacity") only where the board is about Meta: the
+     $15B safety net's hatch, the net itself and the blocks Meta takes. Everything else keeps the house inks.
+     Words on screen (rule 16): up to, firm, safety net, other customers, hot, cools, customer commitments, Will Nebius deliver?,
+     Will the revenue follow? (the voice's own words);
+     Vera Rubin (a name); Nov 2025, Mar 2026, early 2027, Aug 2026 (dates). Figures: meta_nebius_contract_nov_2025,
+     meta_nebius_contract_mar_2026_max, meta_nebius_contract_mar_2026_firm, meta_nebius_contract_mar_2026_safety_net,
+     meta_deal_multiple_calc (C), nebius_backlog_august_2026.
+     Steps (board seconds at 150 wpm from s9p1 w0; ?at= in this order, ?secs=):
+       nov 2.6 · three 6.6 · bigger 10.6 · capacity 13.8 · march 16.6 · much 19.0 · b27 23.8 · nine 24.6 · split 30.2 ·
+       firm 31.8 · rubin 37.4 · early 39.4 · net 41.0 · safety 42.6 · offer 45.8 · others 49.4 · clause 52.6 · meta 54.2 ·
+       winwin 64.2 · hot 65.8 · cools 71.8 · forty 79.4 · questions 82.6 · deliver 84.0 · follow 85.9 (the last three appended
+       16 Oct with the full read's board times; the job's ?at= sets the first 22)                                  (secs 87.2)
+     Render: bw render page --file=06-metas-safety-net.html --query=slots=0&at=<22 times>&secs=<s> --name=06-metas-safety-net
+             --seconds=87.2 --out=<clips>
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?slots=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/style-frames/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); const D = defs(s);
+const K = H.steps([['nov', 2.6], ['three', 6.6], ['bigger', 10.6], ['capacity', 13.8], ['march', 16.6], ['much', 19.0], ['b27', 23.8],
+  ['nine', 24.6], ['split', 30.2], ['firm', 31.8], ['rubin', 37.4], ['early', 39.4], ['net', 41.0], ['safety', 42.6], ['offer', 45.8],
+  ['others', 49.4], ['clause', 52.6], ['meta', 54.2], ['winwin', 64.2], ['hot', 65.8], ['cools', 71.8], ['forty', 79.4],
+  ['questions', 82.6], ['deliver', 84.0], ['follow', 85.9]], 87.2);
+
+const GOLD = 'var(--gold)', CR = 'var(--cream)', DIMC = 'rgba(245,241,229,.45)';
+const d1 = U('meta_nebius_contract_nov_2025'), d2 = U('meta_nebius_contract_mar_2026_max');
+const firm = U('meta_nebius_contract_mar_2026_firm'), net = U('meta_nebius_contract_mar_2026_safety_net');
+const nine = U('meta_deal_multiple_calc'), back = U('nebius_backlog_august_2026');
+calc = true;                                     // 9x is our arithmetic
+
+/* the scale (the style frame's geometry) */
+const Y0 = 930, py = lin(0, 40e9, Y0, 170), AX = 210;
+const B1 = [250, 120], B2 = [440, 230], x2r = B2[0] + B2[1], LX = x2r + 26, B3 = [1690, 120];
+
+/* ---- the camera: close on the first deal, back to the whole scale on "much more", in on the net for the clause card ---- */
+const C1 = [560, 760, 2], CI = [960, 540, 1], C2 = [1653, 562, 1.3];
+const CAM = [[0, ...C1], [K.much, ...C1], [K.much + 4.6, ...CI], [K.clause - .4, ...CI], [K.clause + .8, ...C2],
+  [K.meta + 3.4, ...C2], [K.meta + 5.2, ...CI]];
+function camAt(t) {
+  let i = 0; while (i < CAM.length - 1 && t > CAM[i + 1][0]) i++;
+  const A = CAM[i], B = CAM[Math.min(i + 1, CAM.length - 1)], u = B === A || t <= A[0] ? 0 : H.go(t, A[0], B[0]);
+  // interpolate the transform itself (offset and scale), so every world point travels a straight line on screen
+  const sc = H.mix(A[3], B[3], u), ox = H.mix(960 - A[1] * A[3], 960 - B[1] * B[3], u), oy = H.mix(540 - A[2] * A[3], 540 - B[2] * B[3], u);
+  return [(960 - ox) / sc, (540 - oy) / sc, sc];
+}
+/* the grid and ticks stay screen-sized under the camera (ticks 30 px mono, lines 2 px); the world scales */
+const grid = el(s, 'g'), world = el(s, 'g'), chrome = el(s, 'g');
+const ticks = [];
+for (let v = 0; v <= 40e9; v += 10e9) {
+  const ln = el(grid, 'line', { stroke: v ? 'rgba(245,241,229,.07)' : DIMC, 'stroke-width': 2 });
+  const tx = el(grid, 'text', { class: 'ax', 'font-size': 30, 'text-anchor': 'end' }, v ? fmt.usdB(v, 0) : '$0');
+  ticks.push([v, ln, tx]);
+}
+H.on((t) => {
+  const [cx, cy, sc] = camAt(t), X = (x) => 960 + (x - cx) * sc, Y = (y) => 540 + (y - cy) * sc;
+  world.setAttribute('transform', `translate(960,540) scale(${sc.toFixed(4)}) translate(${(-cx).toFixed(2)},${(-cy).toFixed(2)})`);
+  ticks.forEach(([v, ln, tx]) => {
+    const y = Y(py(v)), x0 = X(AX);
+    ln.setAttribute('x1', x0.toFixed(1)); ln.setAttribute('x2', X(1790).toFixed(1)); ln.setAttribute('y1', y.toFixed(1)); ln.setAttribute('y2', y.toFixed(1));
+    tx.setAttribute('x', (x0 - 18).toFixed(1)); tx.setAttribute('y', (y + 11).toFixed(1));
+    tx.setAttribute('opacity', (x0 - 18 > 140 && y > 100 && y < 1000) ? 1 : 0);
+    ln.setAttribute('opacity', (y > 80 && y < 1000) ? 1 : 0);
+  });
+});
+
+/* the marks (screen layer, the frame's top left): Nebius from the first frame, Meta beside it on "November 2025" */
+nebius(chrome, 330, 46, 52);
+const OWN = K.forty - 1.7;                       // "Nebius reported": the deals step away for the $40B screen (note 12)
+H.rise(logo(chrome, 'meta', 96, 52, 40), K.nov, .55, 18, OWN, .6);
+
+/* receipt cards ride over the clear right of the frame (bw overlay); the board keeps it empty while they are up */
+H.card('b079', K.nov + 1.0, K.three + 1.2, { x: 1010, y: 120, w: 840, h: 760 }, 'Nebius 6-K, 12 Nov 2025: the first Meta deal, about $2.9B');
+H.card('b080', K.three + 1.4, K.capacity + 2.2, { x: 1010, y: 120, w: 840, h: 760 }, "Volozh to shareholders: a bigger deal, limited by capacity on hand");
+H.card('b081', K.split - .2, K.net, { x: 1000, y: 150, w: 840, h: 740 }, 'Nebius 6-K, 16 Mar 2026: $12B firm, up to $15B');
+H.card('b082', K.clause + .2, K.meta + 3.4, { x: 980, y: 150, w: 876, h: 780 }, 'Nebius 6-K, 16 Mar 2026: Meta buys the capacity Nebius does not sell');
+
+/* ---- Nov 2025: the first deal ---- */
+const bar1 = el(world, 'rect', { x: B1[0], y: py(d1), width: B1[1], height: Y0 - py(d1), fill: 'rgba(245,241,229,.82)' });
+H.grow(bar1, K.three - .1, .8, 0, Y0, 'y');
+H.rise(el(world, 'text', { x: B1[0] + B1[1] / 2, y: py(d1) - 16, class: 'fn', 'font-size': 36, 'text-anchor': 'middle' }, fmt.usdB(d1)), K.three + .5);
+H.rise(el(world, 'text', { x: B1[0] + B1[1] / 2, y: Y0 + 46, class: 'nd', 'font-size': 32, 'text-anchor': 'middle' }, fmt.mon(F('meta_nebius_contract_nov_2025').on)), K.nov, .55, 12);
+
+/* the bigger deal they could have done: a dashed outline rising off the bar, its top faded (nothing sourced) */
+const fadeUp = el(D, 'linearGradient', { id: 'fadeUp', gradientUnits: 'userSpaceOnUse', x1: 0, y1: py(d1), x2: 0, y2: py(d1) - 290 });
+el(fadeUp, 'stop', { offset: 0, 'stop-color': 'rgb(245,241,229)', 'stop-opacity': .75 });
+el(fadeUp, 'stop', { offset: 1, 'stop-color': 'rgb(245,241,229)', 'stop-opacity': 0 });
+const ghost = el(world, 'g', { stroke: 'url(#fadeUp)', 'stroke-width': 2, 'stroke-dasharray': '7 6', fill: 'none' });
+[B1[0] + 1, B1[0] + B1[1] - 1].forEach(x => el(ghost, 'line', { x1: x, x2: x, y1: py(d1), y2: py(d1) - 290 }));
+H.wipe(ghost, K.bigger - .2, 1.1, '-y');
+H.on((t) => { const o = 1 - .7 * H.go(t, K.capacity + .3, K.capacity + .8) - .3 * H.go(t, K.much - .2, K.much + .4);
+  ghost.setAttribute('opacity', Math.max(o, 0).toFixed(3)); });
+
+/* the ceiling: drawn on "capacity", lifted on "much more" across both columns to $27B, where the second bar meets it */
+const ceil = el(world, 'g'), cl = el(ceil, 'line', { stroke: CR, 'stroke-width': 3 }), cticks = [];
+for (let i = 0; i < 12; i++) cticks.push(el(ceil, 'line', { stroke: CR, 'stroke-width': 1.6 }));
+const CX0 = B1[0] - 14;
+H.on((t) => {
+  const dr = H.go(t, K.capacity - .2, K.capacity + .6), lift = H.go(t, K.much, K.much + 4.6), off = 1 - H.go(t, K.b27 + .9, K.b27 + 1.4);
+  const y = H.mix(py(d1), py(d2), lift), xr = H.mix(B1[0] + B1[1] + 14, x2r + 14, lift), xe = CX0 + (xr - CX0) * dr;
+  ceil.style.display = dr <= 0 || off <= 0 ? 'none' : ''; ceil.setAttribute('opacity', off.toFixed(3));
+  cl.setAttribute('x1', CX0); cl.setAttribute('x2', xe.toFixed(1)); cl.setAttribute('y1', y.toFixed(1)); cl.setAttribute('y2', y.toFixed(1));
+  cticks.forEach((l, i) => { const x = CX0 + 6 + i * 40, on = x + 7 <= xe;
+    l.setAttribute('x1', x); l.setAttribute('x2', x + 7); l.setAttribute('y1', (y - 2).toFixed(1)); l.setAttribute('y2', (y - 9).toFixed(1));
+    l.setAttribute('opacity', on ? 1 : 0); });
+});
+
+/* ---- Mar 2026: up to $27B, nine of the first inside; split at $12B, firm gold, the other $15B hatched ---- */
+H.rise(el(world, 'text', { x: B2[0] + B2[1] / 2, y: Y0 + 46, class: 'nd', 'font-size': 32, 'text-anchor': 'middle' }, fmt.mon(F('meta_nebius_contract_mar_2026_max').on)), K.march, .55, 12);
+const bar2 = el(world, 'g');
+const low = el(bar2, 'rect', { x: B2[0], y: py(firm), width: B2[1], height: Y0 - py(firm), fill: 'rgba(245,241,229,.82)' });
+{ const p = el(D, 'pattern', { id: 'hatchMeta', width: 12, height: 12, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' });
+  el(p, 'rect', { width: 2.4, height: 12, fill: BRAND_COL.meta }); }        // Meta's blue hatch: the $15B Meta covers (note 11)
+const upH = el(bar2, 'rect', { x: B2[0], y: py(d2), width: B2[1], height: py(firm) - py(d2), fill: 'url(#hatchMeta)', stroke: BRAND_COL.meta, 'stroke-width': 2 });
+const upS = el(bar2, 'rect', { x: B2[0], y: py(d2), width: B2[1], height: py(firm) - py(d2), fill: 'rgba(245,241,229,.82)' });
+H.grow(bar2, K.b27, 1.0, 0, Y0, 'y');
+H.on((t) => {
+  const g = H.go(t, K.split, K.split + .6), c = [245 + (212 - 245) * g, 241 + (175 - 241) * g, 229 + (55 - 229) * g].map(Math.round);
+  low.setAttribute('fill', `rgba(${c.join(',')},${(.82 + .18 * g).toFixed(3)})`);
+  upS.setAttribute('opacity', (1 - H.go(t, K.net - .1, K.net + .6)).toFixed(3));
+  upH.setAttribute('opacity', H.go(t, K.net - .1, K.net + .4).toFixed(3));
+});
+const hair = [];
+for (let i = 1; i <= nine; i++) {
+  const y = py(i * d1), l = el(world, 'line', { x1: B2[0], x2: x2r, y1: y, y2: y, 'stroke-width': 2 });
+  hair.push([l, y > py(firm)]);
+  H.draw(l, K.nine + (i - 1) * .13, .3);
+}
+H.on((t) => { const u = H.go(t, K.net - .1, K.net + .6);
+  hair.forEach(([l, below]) => l.setAttribute('stroke', below || u <= 0 ? 'rgba(10,10,15,.55)' : `rgba(${Math.round(10 + 235 * u)},${Math.round(10 + 231 * u)},${Math.round(15 + 214 * u)},.55)`)); });
+const dl = dim(world, B2[0] - 34, Y0, B2[0] - 34, py(nine * d1), DIMC, 8);
+H.wipe(dl, K.nine, 1.2, '-y');
+H.rise(el(world, 'text', { x: B2[0] - 50, y: py(nine * d1 / 2) + 12, class: 'fn', 'font-size': 36, 'text-anchor': 'end' }, fmt.int(nine) + '×'), K.nine + .5);
+H.rise(el(world, 'text', { x: B2[0], y: py(d2) - 24, class: 'nd', 'font-size': 32 }, 'up to'), K.b27 + .7);
+H.rise(el(world, 'text', { x: B2[0] + 100, y: py(d2) - 22, class: 'fn', 'font-size': 56 }, fmt.usdB(d2, 0)), K.b27 + .5);
+const sl = el(world, 'line', { x1: B2[0] - 8, x2: x2r + 8, y1: py(firm), y2: py(firm), stroke: CR, 'stroke-width': 3 });
+H.draw(sl, K.split - .2, .5);
+H.rise(el(world, 'text', { x: LX, y: py(firm) + 64, class: 'fn', 'font-size': 48, style: 'fill:var(--gold)' }, fmt.usdB(firm, 0)), K.split + .2);
+H.rise(el(world, 'text', { x: LX + 132, y: py(firm) + 62, class: 'nm', 'font-size': 34, style: 'fill:var(--gold)' }, 'firm'), K.firm);
+H.rise(el(world, 'text', { x: LX, y: py(firm) + 112, class: 'nd', 'font-size': 32 }, 'Vera Rubin'), K.rubin);
+H.rise(el(world, 'text', { x: LX, y: py(firm) + 154, class: 'nd', 'font-size': 32 }, F('meta_nebius_dedicated_start_2027').display), K.early);   // the key's display (16 Oct)
+U('meta_nebius_dedicated_start_2027');
+/* the key's own display, "up to $15B" (facts, 16 Oct), set as $27B's is: the qualifier small, the figure large */
+{ const dsp = F('meta_nebius_contract_mar_2026_safety_net').display, q = dsp.startsWith('up to ') ? 'up to' : '', fig = q ? dsp.slice(6) : dsp;
+  if (q) H.rise(el(world, 'text', { x: LX, y: py(firm + net / 2) - 40, class: 'nd', 'font-size': 30 }, q), K.net + .2);
+  H.rise(el(world, 'text', { x: LX, y: py(firm + net / 2) + 6, class: 'fn', 'font-size': 48 }, fig), K.net + .2); }
+H.rise(el(world, 'text', { x: LX, y: py(firm + net / 2) + 52, class: 'nm', 'font-size': 34 }, 'safety net'), K.safety);
+
+/* ---- the net, both ways, on fifteen $1B blocks (5-4-3-2-1) ---- */
+const NB = Math.round(net / 1e9), BS = 34, BG = 6, BP = BS + BG, PW = 5 * BS + 4 * BG, MY = 520, HX = 1010, CX = 1350, NY = MY, sag = 250;
+const rows = []; for (let n = 5, i = 0; i < NB; n--) { rows.push(n); i += n; }
+const slots = (x, y, dir) => { const o = []; rows.forEach((n, r) => { for (let j = 0; j < n; j++) o.push([x + (PW - (n * BP - BG)) / 2 + j * BP, y + dir * r * BP]); }); return o; };
+const HOT = slots(HX, MY - 10 - BS, -1), LINE = slots(CX, MY - 10 - BS, -1), NET = slots(CX, NY + 16, 1);
+
+// the net hangs under the market line (on "safety net")
+const netPath = `M${CX - 34},${NY} Q${CX + PW / 2},${NY + sag * 2} ${CX + PW + 34},${NY}`;
+const mline = el(world, 'g');
+el(mline, 'line', { x1: CX - 34, x2: CX + PW + 34, y1: NY, y2: NY, stroke: CR, 'stroke-width': 2 });
+[CX - 34, CX + PW + 34].forEach(x => el(mline, 'line', { x1: x, x2: x, y1: NY - 16, y2: NY + 16, stroke: CR, 'stroke-width': 3 }));
+H.draw(mline, K.safety, .6);
+const clip = el(D, 'clipPath', { id: 'netc' }); el(clip, 'path', { d: netPath + ' Z' });
+const meshW = el(world, 'g'), mesh = el(meshW, 'g', { 'clip-path': 'url(#netc)', stroke: `rgba(${BRAND_COL.metaRGB},.55)`, 'stroke-width': 1.4 });
+for (let k = -400; k < 600; k += 22) { el(mesh, 'line', { x1: CX + k, y1: NY, x2: CX + k + 300, y2: NY + 300 }); el(mesh, 'line', { x1: CX + k, y1: NY, x2: CX + k - 300, y2: NY + 300 }); }
+H.wipe(meshW, K.safety + .7, .8, 'y');
+H.draw(el(world, 'path', { d: netPath, fill: 'none', stroke: BRAND_COL.meta, 'stroke-width': 3 }), K.safety + .4, .9);
+H.rise(logo(world, 'meta', CX + PW / 2 - 70, NY + sag + 88, 28), K.meta + .9);
+
+// other customers: a line of their own, over which the sold blocks sit
+const hline = el(world, 'line', { x1: HX - 34, x2: HX + PW + 34, y1: MY, y2: MY, stroke: CR, 'stroke-width': 2 });
+H.draw(hline, K.others - .3, .6);
+H.rise(el(world, 'text', { x: HX + PW / 2, y: MY - 5 * BP - 34, class: 'nd', 'font-size': 32, 'text-anchor': 'middle' }, 'other customers'), K.others);
+H.rise(el(world, 'text', { x: HX + PW / 2, y: MY + 64, class: 'nm', 'font-size': 36, 'text-anchor': 'middle' }, 'hot'), K.hot + .4, .55, 18, K.forty - .4, .5);   /* Ive: the outcome words retire as $40B lands, so the rest frame keeps 8 word labels */
+H.rise(el(world, 'text', { x: CX + PW / 2, y: NY + sag + 64, class: 'nm', 'font-size': 36, 'text-anchor': 'middle' }, 'cools'), K.cools + .4, .55, 18, K.forty - .4, .5);
+
+/* a block: hatched (unsold) or a flat ink (gold: sold to others; cream: Meta's), moved along timed keys
+   keys [[t, [x, y], ink]] in time order; between keys it travels (eased) and its ink turns; before the first key it is not there */
+const INK = { h: [245, 241, 229, 0], g: [212, 175, 55, 1], c: [...BRAND_COL.metaRGB.split(',').map(Number), 1] };   // Meta's: its blue
+function block(keys, appear = .35) {
+  const g = el(world, 'g'), hb = el(g, 'rect', { x: 1, y: 1, width: BS - 2, height: BS - 2, fill: 'url(#hatch)', stroke: CR, 'stroke-width': 2 });
+  const sb = el(g, 'rect', { x: 0, y: 0, width: BS, height: BS });
+  H.on((t) => {
+    if (t < keys[0][0]) { g.style.display = 'none'; return; }
+    g.style.display = '';
+    let i = 0; while (i < keys.length - 1 && t > keys[i + 1][0]) i++;
+    const A = keys[i], B = keys[Math.min(i + 1, keys.length - 1)];
+    const u = B === A ? 1 : H.go(t, B[0] - B[3], B[0]);
+    const x = H.mix(A[1][0], B[1][0], u), y = H.mix(A[1][1], B[1][1], u), ia = INK[A[2]], ib = INK[B[2]];
+    const c = ia.map((v, k) => H.mix(v, ib[k], u)), a0 = H.go(t, keys[0][0], keys[0][0] + appear, H.ease.out);
+    g.setAttribute('transform', `translate(${x.toFixed(2)},${(y + 14 * (1 - a0)).toFixed(2)})`);
+    g.setAttribute('opacity', a0.toFixed(3));
+    sb.setAttribute('fill', `rgba(${c[0].toFixed(0)},${c[1].toFixed(0)},${c[2].toFixed(0)},${c[3].toFixed(3)})`);
+    hb.setAttribute('opacity', (1 - Math.min(1, c[3] * 1.4)).toFixed(3));
+  });
+}
+// key = [t (arrival), [x, y], ink, travel seconds]
+for (let k = 0; k < NB; k++) {
+  const t0 = K.offer + k * .06, keys = [[t0, LINE[k], 'h', 0]];
+  if (k >= 9) {                                  // the top six leave first, over to other customers
+    const i = k - 9, ta = K.others + .5 + i * .16;
+    keys.push([ta + .9, HOT[i], 'g', .9]);
+  } else {                                       // the other nine fall into the net, back onto the market, then sell too
+    const tm = K.meta + .1 + k * .08, tw = K.winwin + .2 + k * .06, th = K.hot + .3 + k * .13;
+    keys.push([tm + .7, NET[k], 'c', .7], [tw + .7, LINE[k], 'h', .7], [th + .9, HOT[k + 6], 'g', .9]);
+  }
+  block(keys);
+}
+// cools: the same fifteen, lifted off the sold pile, carried over to the market and caught by the net
+for (let k = 0; k < NB; k++) {
+  const tc = K.cools + .1 + k * .05, tf = K.cools + 1.3 + k * .07;
+  block([[tc, HOT[k], 'h', 0], [tc + 1.0, LINE[k], 'h', .8], [tf + .75, NET[k], 'c', .7]], .3);
+}
+
+/* ---- commitments ON THEIR OWN SCREEN (master v3 note 12, the writer: "the board does too much; give the $40B in commitments its
+   own screen at minimum (confusing next to the Meta contract)"): the deals step away on "By mid-2026"; the figure is the picture,
+   beside it the same figure as a bar on a true $0 to $50B scale, its top left open (it is a floor: "more than") ---- */
+H.on((t) => { const o = 1 - H.go(t, OWN, OWN + .6); [grid, world].forEach(g => { g.setAttribute('opacity', o.toFixed(3)); g.style.display = o < .002 ? 'none' : ''; }); });
+const own = el(s, 'g');
+{
+  const X = 1400, W = 200, OY0 = 900, OY1 = 160, qy = lin(0, 50e9, OY0, OY1), AXC = 'rgba(245,241,229,.4)';
+  const ax = el(own, 'g');
+  for (let v = 0; v <= 50e9; v += 10e9) { el(ax, 'line', { x1: X + W + 30, x2: X + W + 44, y1: qy(v), y2: qy(v), stroke: AXC, 'stroke-width': 2 });
+    el(ax, 'text', { x: X + W + 58, y: qy(v) + 11, class: 'ax', 'font-size': 30 }, v ? fmt.usdB(v, 0) : '$0'); }
+  el(ax, 'line', { x1: X + W + 30, x2: X + W + 30, y1: OY0, y2: OY1, stroke: AXC, 'stroke-width': 2 });
+  el(ax, 'line', { x1: X - 40, x2: X + W + 30, y1: OY0, y2: OY0, stroke: AXC, 'stroke-width': 2 });
+  H.fade(ax, OWN + .45, .45);
+  const openTop = el(own, 'path', { d: `M${X},${qy(back) - 60} V${OY0} H${X + W} V${qy(back) - 60}`, fill: 'url(#hatchGold)', stroke: GOLD, 'stroke-width': 2.4 });
+  const solid = el(own, 'rect', { x: X, y: qy(back), width: W, height: OY0 - qy(back), fill: GOLD });
+  H.grow(solid, K.forty - .45, 1.0, 0, OY0, 'y'); H.grow(openTop, K.forty - .45, 1.0, 0, OY0, 'y');
+  H.fade(el(own, 'line', { x1: X - 14, x2: X + W + 14, y1: qy(back), y2: qy(back), stroke: CR, 'stroke-width': 3, 'stroke-dasharray': '10 7' }), K.forty + .8, .35);
+  H.rise(el(own, 'text', { x: 120, y: 560, class: 'fh', 'font-size': 260 }, F('nebius_backlog_august_2026').display), K.forty - .1, .6, 26);
+  H.rise(el(own, 'text', { x: 132, y: 650, class: 'nm', 'font-size': 52 }, F('nebius_backlog_august_2026').label), K.forty + 1.3);
+  H.rise(el(own, 'text', { x: 132, y: 714, class: 'nd', 'font-size': 36 }, fmt.mon(F('nebius_backlog_august_2026').asOf)), K.forty + 1.6);
+}
+H.on((t) => { const o = 1 - H.go(t, K.questions - .2, K.questions + .3); own.setAttribute('opacity', o.toFixed(3)); own.style.display = o < .002 ? 'none' : ''; });
+
+/* ---- the investors' two questions (note 13), in the voice's words, on their words; both hold into H7 ---- */
+H.wipe(el(s, 'rect', { x: 160, y: 330, width: 120, height: 5, fill: GOLD }), K.questions + .1, .5, 'x');
+H.rise(el(s, 'text', { x: 152, y: 500, class: 'nm', 'font-size': 112, 'font-weight': 600, 'letter-spacing': '-0.02em' }, 'Will Nebius deliver?'), K.deliver - .1, .55, 22);
+H.rise(el(s, 'text', { x: 152, y: 680, class: 'nm', 'font-size': 112, 'font-weight': 600, 'letter-spacing': '-0.02em' }, 'Will the revenue follow?'), K.follow - .1, .55, 22);
+
+H.run();
+</script>
+</body>
+</html>

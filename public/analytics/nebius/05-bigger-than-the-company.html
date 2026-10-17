@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bigger than the company · Boardroom Wire</title>
+<!-- NEBIUS · H5 · BIGGER THAN THE COMPANY (Ive's builder, 13 Oct 2026). 13:08, about 57 s; s8p1 w21 ("agreed") to s8p4 end.
+     From the approved style frame (assets/style-frames/H5-bigger-than-the-company.html): one dollar scale for everything, so
+     the contract overtopping the company is seen, not said; the chips as a counted field; the $7 billion changing sides.
+       rent       Microsoft and Nebius in their rows, the date (both marks stand from frame 0: no bare head)
+       contract   the dollar axis draws; the contract grows to $17.4B on "$17.4 billion" (the 6-K card, b071, over the clear centre)
+       five       the bar parts into its five years
+       upto       hatched on to up to $19.4B
+       site       the Vineland footage window opens (b072, "That capacity")
+       vineland   "Vineland, New Jersey"
+       chips      the window closes on the site's outline; on "100,000" it fills, one dot per 100 chips, block by block
+       value      Nebius's whole value the day of the deal, a second bar on the same scale ("about $15 billion")
+       bigger     the contract's end drops onto the company's bar; the overtop measured in gold. Then a clean frame (the quiet hit)
+       run        the value grows by half, dashed (our arithmetic on two closes; the report card, b073, over the clear lower left)
+       seven      about $7B turns gold and lifts out of the contract's first years, leaving its outline ...
+       upfront    ... and lands on Nebius's side, "upfront" (H9 picks this slice up: solid gold, the same look)
+       buildout   its path back to the contract draws ("to finance the buildout")
+     Words on screen (rule 16, the style frame's): Microsoft, the date, up to, GB300, Vineland, New Jersey, upfront.
+     Figures: microsoft_nebius_contract_value, microsoft_nebius_contract_value_max, nebius_vineland_gb300_count,
+     nebius_market_cap_8_september_2025, nebius_share_price_change_after_microsoft_calc (C), microsoft_upfront_payments_nebius.
+     Steps (board seconds at 150 wpm, board 0 = s8p1 w21 "agreed"; ?at= in this order, ?secs=):
+       rent 0.0 · contract 4.6 · five 5.8 · upto 7.0 · site 10.6 · vineland 15.0 · chips 17.8 · value 24.8 · bigger 27.4 ·
+       run 32.6 · seven 43.4 · upfront 44.6 · buildout 45.8                                                      (secs 57.2)
+     Render: bw render page --file=05-bigger-than-the-company.html --name=05-bigger-than-the-company --seconds=57.2
+             --query=slots=0[&at=…&secs=…]
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?slots=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/style-frames/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); defs(s);
+const K = H.steps([['rent', 0.0], ['contract', 4.6], ['five', 5.8], ['upto', 7.0], ['site', 10.6], ['vineland', 15.0], ['chips', 17.8],
+  ['value', 24.8], ['bigger', 27.4], ['run', 32.6], ['seven', 43.4], ['upfront', 44.6], ['buildout', 45.8]], 57.2);
+
+const GOLD = 'var(--gold)', CR = 'var(--cream)', DIMC = 'rgba(245,241,229,.5)', AXC = 'rgba(245,241,229,.4)';
+const ctr = U('microsoft_nebius_contract_value'), ctrMax = U('microsoft_nebius_contract_value_max');
+const cap = U('nebius_market_cap_8_september_2025'), jump = U('nebius_share_price_change_after_microsoft_calc');
+const up = U('microsoft_upfront_payments_nebius'), chips = U('nebius_vineland_gb300_count');
+const when = F('microsoft_nebius_contract_value').asOf;
+const X0 = 560, X1 = 1800, px = lin(0, 25e9, X0, X1), AY = 150, BH = 96, R1 = 220, R2 = 420, R3 = 640;
+const grown = cap * (1 + jump / 100);
+
+/* receipt cards ride over areas the board keeps empty while they are up */
+H.card('b071', K.five + 1.0, K.site - .2, { x: 520, y: 372, w: 760, h: 560 }, "Nebius 6-K, 8 Sep 2025: the $17.4B contract");
+H.card('b073', K.run - 1.6, K.seven - 5.2, { x: 200, y: 568, w: 980, h: 420 }, "A named outlet's report of the stock's jump on the Microsoft news");
+
+/* ---- the two marks, the date (standing from frame 0) ---- */
+const ms = el(s, 'g');
+logo(ms, 'microsoft', 96, R1 + 10, 44); el(ms, 'text', { x: 156, y: R1 + 46, class: 'nm', 'font-size': 36 }, 'Microsoft');
+H.rise(ms, -1);
+H.rise(el(s, 'text', { x: 98, y: R1 + 94, class: 'nd', 'font-size': 32 }, fmt.day(when)), K.rent + .3);
+H.rise(nebius(s, 96, R2 + 8, 80), -1);
+
+/* ---- the one dollar scale ---- */
+const ax = el(s, 'g');
+el(ax, 'line', { x1: px(0), x2: px(25e9), y1: AY, y2: AY, stroke: AXC, 'stroke-width': 2 });
+for (let v = 0; v <= 25e9; v += 5e9) {
+  const g = el(ax, 'g');
+  el(g, 'line', { x1: px(v), x2: px(v), y1: AY - 12, y2: 760, stroke: v ? 'rgba(245,241,229,.06)' : AXC, 'stroke-width': 2 });
+  el(g, 'text', { x: px(v), y: AY - 26, class: 'ax', 'font-size': 30, 'text-anchor': 'middle' }, v ? fmt.usdB(v, 0) : '$0');
+  H.fade(g, K.contract - .6 + v / 5e9 * .1);
+}
+H.draw(ax.firstChild, K.contract - .7, .9);
+
+/* ---- Microsoft's contract: one bar, five years, hatched on to its maximum ---- */
+const bar = el(s, 'g');
+el(bar, 'rect', { x: px(up), y: R1, width: px(ctr) - px(up), height: BH, fill: 'rgba(245,241,229,.82)' });
+const seams = el(bar, 'g');
+for (let i = 2; i < 5; i++) el(seams, 'line', { x1: px(ctr * i / 5), x2: px(ctr * i / 5), y1: R1, y2: R1 + BH, stroke: 'var(--bg)', 'stroke-width': 3 });
+// the slice that will change sides: the contract's first years (about $7B), cream until "$7 billion", then the gold of H9
+const sl = el(bar, 'g');
+const slice = el(sl, 'rect', { x: px(0), y: R1, width: px(up) - px(0), height: BH, fill: 'rgba(245,241,229,.82)' });
+const seam1 = el(sl, 'line', { x1: px(ctr / 5), x2: px(ctr / 5), y1: R1, y2: R1 + BH, stroke: 'var(--bg)', 'stroke-width': 3 });
+H.grow(bar, K.contract, .9, px(0), 0, 'x');
+const allSeams = [seam1, ...seams.children];
+H.on((t) => allSeams.forEach((l, i) => l.setAttribute('opacity', (H.go(t, K.five + i * .18, K.five + .3 + i * .18) * (i ? 1 : 1 - H.go(t, K.seven - .2, K.seven + .1))).toFixed(3))));
+const ctrLab = H.rise(el(s, 'text', { x: px(ctr) - 14, y: R1 + BH / 2 + 15, class: 'fn', 'font-size': 44, 'text-anchor': 'end', style: 'fill:var(--bg)' }, fmt.usdB(ctr)), K.contract + .6);
+H.wipe(el(s, 'rect', { x: px(ctr), y: R1, width: px(ctrMax) - px(ctr), height: BH, fill: 'url(#hatch)', stroke: CR, 'stroke-width': 2 }), K.upto, .8, 'x');
+H.rise(el(s, 'text', { x: px(ctrMax) + 18, y: R1 + 40, class: 'nd', 'font-size': 32 }, 'up to'), K.upto + .3);
+H.rise(el(s, 'text', { x: px(ctrMax) + 18, y: R1 + 84, class: 'fn', 'font-size': 40 }, fmt.usdB(ctrMax)), K.upto + .9);
+
+/* ---- Vineland: the site's footage, then its outline filled with the chips, one dot per 100 ---- */
+const VX = 1292, VY = 600, VW = 528, VH = 297;            // 16:9, the footage window and the site's outline share it
+/* b072 has its picture (REVIEW-006: the USGS aerial); were it owed, H.owed('b072') would hide the window and bring the outline in early */
+const site = el(s, 'g');
+el(site, 'rect', { x: VX, y: VY, width: VW, height: VH, fill: 'var(--bg)' });
+slot(site, VX, VY, VW, VH);
+H.fade(site, H.isOwed('b072') ? K.vineland - .3 : K.chips - .6, .3);   // owed: the outline comes in with the place's name
+const dots = field(Math.round(chips / 100), { x: VX + 30, y: VY + 28, pitch: 8.4, gap: 12, across: 5 });
+const rows = [];                                           // one row of ten dots at a time, block after block
+dots.forEach(([cx, cy, i]) => { const r = Math.floor(i / 10); (rows[r] = rows[r] || el(s, 'g', { fill: CR })); el(rows[r], 'circle', { cx, cy, r: 3 }); });
+H.on((t) => rows.forEach((g, r) => { const a = K.chips + r * (1.5 / rows.length); g.setAttribute('opacity', H.go(t, a, a + .12, H.ease.lin).toFixed(3)); }));
+H.rise(el(s, 'text', { x: VX + 34, y: VY + VH - 30, class: 'fn', 'font-size': 40 }, fmt.int(chips) + '+'), K.chips + .2);
+H.rise(el(s, 'text', { x: VX + 260, y: VY + VH - 32, class: 'nm', 'font-size': 34 }, 'GB300'), K.chips + 1.3);
+H.rise(el(s, 'text', { x: VX, y: VY + VH + 50, class: 'nd', 'font-size': 32 }, 'Vineland, New Jersey'), K.vineland);
+H.slot(s, 'b072', VX, VY, VW, VH, K.site, K.chips - .2, 'Vineland, New Jersey: the Nebius site (Ko, REQ-006; a different shot from s7p10)');
+
+/* ---- Nebius's whole value the day of the deal, on the same scale ---- */
+const val = el(s, 'rect', { x: px(0), y: R2, width: px(cap) - px(0), height: BH, fill: 'none', stroke: GOLD, 'stroke-width': 3 });
+H.grow(val, K.value, .9, px(0), 0, 'x');
+H.rise(el(s, 'text', { x: px(0) + 22, y: R2 + BH / 2 + 15, class: 'fn', 'font-size': 44, style: 'fill:var(--gold)' }, fmt.usdB(cap)), K.value + .5);
+
+/* ---- the overtop: the contract's end dropped onto the company's bar, measured; then nothing moves ---- */
+// dashed lines wipe (H.draw sets pathLength=1, which turns a dash pattern solid)
+H.wipe(el(s, 'line', { x1: px(ctr), x2: px(ctr), y1: R1 + BH, y2: R2 + BH + 26, stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '4 6' }), K.bigger, .5, 'y');
+const over = dim(s, px(cap), R2 + BH + 26, px(ctr), R2 + BH + 26, GOLD, 10);
+H.wipe(over, K.bigger + .4, .5, 'x');
+
+/* ---- the run-up: the value grows by half, dashed (our arithmetic on two closes) ---- */
+H.wipe(el(s, 'rect', { x: px(cap), y: R2, width: px(grown) - px(cap), height: BH, fill: 'none', stroke: GOLD, 'stroke-width': 2, 'stroke-dasharray': '10 8' }), K.run, .9, 'x');
+H.rise(el(s, 'text', { x: px(grown) - 18, y: R2 + BH / 2 + 15, class: 'fn', 'font-size': 40, 'text-anchor': 'end', style: 'fill:var(--gold)' }, F('nebius_share_price_change_after_microsoft_calc').display), K.run + .6);   // data.js display (facts, 15 Oct)
+
+/* ---- about $7B lifts out of the contract and lands on Nebius's side, upfront ---- */
+// the outline it leaves sits under the contract's group, so the slice lifts off it
+const left = el(s, 'g'); s.insertBefore(left, bar.__hw);
+el(left, 'rect', { x: px(0), y: R1, width: px(up) - px(0), height: BH, fill: 'none', stroke: DIMC, 'stroke-width': 2, 'stroke-dasharray': '8 7' });
+el(left, 'line', { x1: px(ctr / 5), x2: px(ctr / 5), y1: R1, y2: R1 + BH, stroke: DIMC, 'stroke-width': 2 });
+H.fade(left, K.seven + .2, .4);
+s.appendChild(bar.__hw);   // and the moving slice passes over the company's bar, not under it; the $17.4B label comes back on top
+s.appendChild(ctrLab.__hw);
+H.on((t) => { const u = H.go(t, K.seven - .2, K.seven + .2);
+  slice.setAttribute('fill', u >= 1 ? GOLD : `rgba(${[245 + (212 - 245) * u, 241 + (175 - 241) * u, 229 + (55 - 229) * u].map(Math.round).join(',')},${(.82 + .18 * u).toFixed(3)})`); });
+H.path(sl, [[K.seven + .1, 0, 0], [K.seven + .45, 0, -26], [K.upfront + .3, 0, R3 - R1]]);
+const lead = px(0) + (px(up) - px(0)) / 2;
+H.wipe(el(s, 'path', { d: `M${lead},${R1 + BH + 8} V${R2 - 12} M${lead},${R2 + BH + 12} V${R3 - 10}`, stroke: GOLD, 'stroke-width': 2, 'stroke-dasharray': '6 7', fill: 'none' }), K.buildout, .7, 'y');
+H.rise(el(s, 'text', { x: px(up) + 22, y: R3 + 88, class: 'fh', 'font-size': 110 }, F('microsoft_upfront_payments_nebius').display), K.upfront + .2);   // data.js display, "$7B" (facts, 15 Oct)
+H.rise(el(s, 'text', { x: px(up) + 26, y: R3 + 140, class: 'nm', 'font-size': 34, style: 'fill:var(--gold)' }, 'upfront'), K.upfront + .5);
+
+H.run();
+</script>
+</body>
+</html>

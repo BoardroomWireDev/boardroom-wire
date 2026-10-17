@@ -37,6 +37,12 @@ export interface Dashboard {
   sourceNote: string;
   /** One of the charts that carry the video. */
   key?: boolean;
+  /** Extra URL parameters every load of the board carries, e.g. `noslot=b027,b133` to hide
+   *  footage windows the video fills and the web cannot. */
+  query?: string;
+  /** The frame the board rests on (posters, reduced motion) when its last frame is not the
+   *  chart: `t=75`, or `part=reprise&final`. Default `final`. */
+  rest?: string;
 }
 
 export interface Collection {
@@ -755,17 +761,188 @@ export const alexandrWang: Collection = {
   ],
 };
 
+/* ==================================================================== */
+/*  Nebius — the spare parts of Russia's Google                          */
+/* ==================================================================== */
+
+export const nebius: Collection = {
+  slug: 'nebius',
+  title: "Nebius: How the Spare Parts of Russia's Google Became a $60 Billion AI Cloud",
+  kicker: 'Eleven dashboards',
+  summary:
+    'A forced sale at half price left Nebius a data center in Finland, its engineers and some cash. What it kept, the platform it built on top of the chips, the Microsoft and Meta deals, the run in revenue, the cash it spends to build, and the stock Michael Burry bet against, charted, with every figure sourced on the frame.',
+  published: '2026-10-17',
+  hero: 'the-split',
+  headline: { lead: 'Nebius', dim: ': the spare parts of Russia’s Google.' },
+  primaryLabel: 'Primary',
+  method: {
+    primary:
+      'Stated by the company or filed with the SEC: Nebius’s 6-K reports, 20-F annual reports and shareholder letters, Yandex’s 6-K reports on the sale, and Nvidia’s own documentation.',
+    reported:
+      'Sourced to journalism and market data: Bloomberg, CNBC, TheStreet, TrendForce, Yahoo Finance, StockAnalysis and Stocktwits. Attribution is printed on the dashboard itself, not just here.',
+    estimate:
+      'Our own arithmetic on the company’s figures, such as two gigawatts at $20 million per megawatt. Every frame that carries it says so in its source line.',
+    caveat:
+      'Nebius does not name its customers, so no board names the ones behind its revenue. The $40 billion in commitments is a figure Nebius defines itself, not a reported backlog. Share prices and market values are as of the date printed on each board.',
+  },
+  dashboards: [
+    {
+      n: 1,
+      slug: 'the-split',
+      file: '01-the-split.html',
+      query: 'noslot=b027,b133,b129-finland',
+      title: 'The Split',
+      blurb:
+        'On 4 February 2024 Yandex sold its Russian business for $5.2 billion, a discount of at least 50%. Nebius kept $2.6 billion, a data center in Finland and 1,300 people, and began trading as NBIS on 21 October 2024.',
+      section: 'The Spare Parts',
+      source: 'primary',
+      sourceNote:
+        'Yandex 6-K, 5 and 8 Feb 2024, Nebius 6-K, 15 Jul 2024, and Nebius 20-F FY2025. Boardroom Wire calculation.',
+      key: true,
+    },
+    {
+      n: 2,
+      slug: 'the-neocloud-stack',
+      file: '03-the-neocloud-stack.html',
+      query: 'noslot=b045,b046,b048,b049,b044e',
+      rest: 'part=reprise&final',
+      title: 'The Neocloud Stack',
+      blurb:
+        'Bare metal is land, electricity, the grid and the chips. A platform adds the software and the team that run them, and that is what the top neoclouds sell.',
+      section: 'What Is a Neocloud?',
+      source: 'illustration',
+      sourceNote: 'A drawing, with no figures, of what a neocloud supplies.',
+    },
+    {
+      n: 3,
+      slug: '172-ways-to-fail',
+      file: '04-172-ways-to-fail.html',
+      query: 'noslot=b054,b056',
+      title: '172 Ways to Fail',
+      blurb:
+        'One training job spread across sixteen racks of chips. Nvidia’s documentation lists 172 ways one of its GPUs can fail, and one bad chip can stall the whole job until the software pulls it and the job runs again.',
+      section: '172 Ways to Fail',
+      source: 'primary',
+      sourceNote: 'Nvidia Xid error catalog (docs.nvidia.com).',
+    },
+    {
+      n: 4,
+      slug: 'bigger-than-the-company',
+      file: '05-bigger-than-the-company.html',
+      query: 'noslot=b072',
+      title: 'Bigger Than the Company',
+      blurb:
+        'Microsoft’s contract, $17.4 billion and up to $19.4 billion, against Nebius’s $15.3 billion market value the day before. About $7 billion came upfront, for more than 100,000 GB300 chips in Vineland, New Jersey.',
+      section: 'Microsoft Moves In',
+      source: 'primary',
+      sourceNote:
+        'Nebius 6-K, 8 Sep 2025, and Nebius 20-F FY2025. Reported by TheStreet and Bloomberg. Boardroom Wire calculation.',
+      key: true,
+    },
+    {
+      n: 5,
+      slug: 'metas-safety-net',
+      file: '06-metas-safety-net.html',
+      rest: 't=75',
+      title: 'Meta’s Safety Net',
+      blurb:
+        'Meta’s first deal was $2.9 billion. Its second is up to $27 billion: $12 billion firm, on Vera Rubin chips from early 2027, and up to $15 billion of capacity that Meta buys only if Nebius cannot sell it to other customers.',
+      section: 'Then Came Meta',
+      source: 'primary',
+      sourceNote:
+        'Nebius 6-K, 12 Nov 2025 and 16 Mar 2026, and Nebius Q2 2026 shareholder letter. Boardroom Wire calculation.',
+      key: true,
+    },
+    {
+      n: 6,
+      slug: 'the-run',
+      file: '07-the-run.html',
+      title: 'The Run',
+      blurb:
+        'Revenue went from $91.5 million in 2024 to $529.8 million in 2025 and $981.3 million in the first half of 2026. The annualized run-rate reached $3.0 billion, against a target of $7 billion to $9 billion by the end of 2026.',
+      section: 'The Run',
+      source: 'primary',
+      sourceNote:
+        'Nebius 20-F FY2024, Nebius Q4 2025 shareholder letter and the company’s own statements. Boardroom Wire calculation.',
+      key: true,
+    },
+    {
+      n: 7,
+      slug: 'a-megawatt-then-a-gigawatt',
+      file: '08-a-megawatt-then-a-gigawatt.html',
+      query: 'noslot=b088',
+      title: 'A Megawatt, Then a Gigawatt',
+      blurb:
+        'New deals bring in more than $20 million a year for each megawatt. Nebius had 170 MW in December 2025, expects 800 to 1,000 MW connected by the end of 2026 and plans 1,000 MW more in 2027: at $20 million a megawatt, roughly $40 billion a year.',
+      section: 'The Run',
+      source: 'estimate',
+      sourceNote:
+        'Nebius Q4 2025 and Q2 2026 shareholder letters, Nebius, 5 Mar 2025, and the company’s own statements. Boardroom Wire calculation.',
+    },
+    {
+      n: 8,
+      slug: 'one-deal-three-ways',
+      file: '09-one-deal-three-ways.html',
+      title: 'One Deal, Three Ways',
+      blurb:
+        'Microsoft’s deal three ways: $17.4 billion in commitments, $7 billion of cash up front that Nebius still owes in computing power, and about $3.5 billion a year of revenue over five years.',
+      section: 'Paying for It',
+      source: 'primary',
+      sourceNote:
+        'Nebius 6-K, 8 Sep 2025 and 16 Mar 2026, Nebius 20-F FY2025 and Nebius Q2 2026 shareholder letter. Boardroom Wire calculation.',
+    },
+    {
+      n: 9,
+      slug: 'the-burn',
+      file: '10-the-burn.html',
+      query: 'noslot=b104',
+      title: 'The Burn',
+      blurb:
+        'Nebius lost $190.4 million in Q2 2026. Of its $4.5 billion of operating cash in the first half, $4.4 billion was deferred revenue and $109 million the business itself. After $8.1 billion of spending on GPUs and data centers, it burned $3.6 billion, $3.4 billion of it in Q2.',
+      section: 'Paying for It',
+      source: 'primary',
+      sourceNote: 'Nebius Q2 2026 6-K. Boardroom Wire calculation.',
+      key: true,
+    },
+    {
+      n: 10,
+      slug: 'the-stock-and-the-short',
+      file: '11-the-stock-and-the-short.html',
+      query: 'noslot=b111',
+      title: 'The Stock and the Short',
+      blurb:
+        'From $21.00 in December 2024 to $299.86 intraday, and $221.80 on 9 October 2026: a market value of $60.3 billion, 20 times a $3.0 billion run-rate. Michael Burry shorted the stock at $211.77.',
+      section: 'Fish in a Barrel',
+      source: 'reported',
+      sourceNote:
+        'Nebius 6-K, 2 Dec 2024, Nebius Q2 2026 shareholder letter and the company’s own statements. Reported by Yahoo Finance, Stocktwits, StockAnalysis and CNBC. Boardroom Wire calculation.',
+    },
+    {
+      n: 11,
+      slug: 'the-bear-case-answered',
+      file: '12-the-bear-case-answered.html',
+      title: 'The Bear Case, Answered',
+      blurb:
+        'Three risks: Vera Rubin chips for Meta’s $12 billion from 2027; servers depreciated over five years, while older GPU prices rose more than 30%; and convertible notes near $180 a share, with the stock at $188.41 on 15 October 2026 and prepayments covering 50 to 60% of the build.',
+      section: 'Fish in a Barrel',
+      source: 'reported',
+      sourceNote:
+        'Nebius 6-K, 16 and 17 Mar 2026, Nebius 20-F FY2025 and Nebius Q2 2026 shareholder letter. Reported by TrendForce, StockAnalysis and Yahoo Finance.',
+    },
+  ],
+};
+
 /** Newest first. The hub and the poster renderer both iterate this. */
-export const collections: Collection[] = [alexandrWang, anthropicIpo, cursor, situationalAwareness];
+export const collections: Collection[] = [nebius, alexandrWang, anthropicIpo, cursor, situationalAwareness];
 
 export const findCollection = (slug: string) => collections.find((c) => c.slug === slug);
 
 /** Where the copied dashboard files live under public/. */
 export const assetBase = (c: Collection) => `/analytics/${c.slug}`;
 
-/** The live dashboard, embedded in an iframe on desktop. */
+/** The live dashboard, embedded in an iframe on desktop (with its own `query`, if any). */
 export const embedPath = (c: Collection, d: Dashboard) =>
-  `/analytics/${c.slug}/${d.file}`;
+  `/analytics/${c.slug}/${d.file}${d.query ? `?${d.query}` : ''}`;
 
 /** 1920x1080 still — mobile view and the full-size link behind a thumbnail. */
 export const posterPath = (c: Collection, d: Dashboard) =>

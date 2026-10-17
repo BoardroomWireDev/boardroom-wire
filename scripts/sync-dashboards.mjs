@@ -24,7 +24,7 @@
  * One transform is applied on the way in: the Boardroom Wire bust PNG is
  * 1.4MB for something rendered at 104x104. It gets resized to 256px.
  */
-import { cp, mkdir, readdir, rm, stat } from 'node:fs/promises';
+import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -39,6 +39,7 @@ const SOURCES = {
   'cursor': path.join(BOARDROOM, 'videos/cursor/dashboards'),
   'anthropic-ipo': path.join(BOARDROOM, 'videos/anthropic-ipo/dashboards'),
   'alexandr-wang': path.join(BOARDROOM, 'videos/alexandr-wang/dashboards'),
+  'nebius': path.join(BOARDROOM, 'videos/nebius/dashboards'),
 };
 
 // Optional per-collection board list. Since Anthropic IPO, a video folder holds
@@ -60,6 +61,29 @@ const BOARDS = {
     '07-the-stock-p6b.html',
     '09-three-agents.html', '11-the-bill-p6c.html', '14-aa-rank-p6.html',
   ]),
+  // The eleven hero boards (ship/site/BOARDS.json); 30 to 63 are the cut's motion pages.
+  'nebius': new Set([
+    '01-the-split.html', '03-the-neocloud-stack.html', '04-172-ways-to-fail.html',
+    '05-bigger-than-the-company.html', '06-metas-safety-net.html', '07-the-run.html',
+    '08-a-megawatt-then-a-gigawatt.html', '09-one-deal-three-ways.html', '10-the-burn.html',
+    '11-the-stock-and-the-short.html', '12-the-bear-case-answered.html',
+  ]),
+};
+
+// Working files inside assets/ that the boards never load and the public repo must not carry
+// (render job lists and style-frame sheets print local machine paths).
+const SKIP = {
+  'nebius': /^assets[\\/](render-jobs[^\\/]*\.json|renders-[^\\/]*\.json|slots-[^\\/]*\.json|style-frames[\\/][^\\/]*\.(html|json))$/,
+};
+
+// Files a board loads from outside its dashboards folder, copied to where its relative path
+// resolves on the site. Nebius's sf.js reaches the two wordmarks at <video>/logos/, which from
+// /analytics/nebius/<board>.html is /analytics/logos/.
+const EXTRAS = {
+  'nebius': [
+    ['../logos/yandex-wordmark-color.svg', '../logos/yandex-wordmark-color.svg'],
+    ['../logos/nebius-wordmark-white.svg', '../logos/nebius-wordmark-white.svg'],
+  ],
 };
 
 const BOARD = /^\d\d-[\w-]+\.html$/;
@@ -103,8 +127,30 @@ async function syncOne(slug, src) {
   let copied = 0;
   for (const entry of await readdir(src, { withFileTypes: true })) {
     if (!ships(entry, slug)) continue;
-    await cp(path.join(src, entry.name), path.join(dest, entry.name), { recursive: true });
+    const skip = SKIP[slug];
+    const filter = skip ? (from) => !skip.test(path.relative(src, from)) : undefined;
+    await cp(path.join(src, entry.name), path.join(dest, entry.name), { recursive: true, filter });
     copied += 1;
+  }
+
+  // Paths are relative to the source folder and to dest respectively.
+  for (const [from, to] of EXTRAS[slug] ?? []) {
+    const target = path.join(dest, to);
+    await mkdir(path.dirname(target), { recursive: true });
+    await cp(path.join(src, from), target);
+    console.log(`    extra ${path.relative(ROOT, target)}`);
+  }
+
+  // The board's <title> is the browser tab a reader sees on "Open full screen". Boards are
+  // titled for the edit ("Boardroom Wire — The split (nebius H1, b025 to b028)"); the site
+  // shows "The split · Boardroom Wire", like its own pages.
+  for (const f of await readdir(dest)) {
+    if (!BOARD.test(f)) continue;
+    const p = path.join(dest, f);
+    const html = await readFile(p, 'utf8');
+    const out = html.replace(/<title>\s*Boardroom Wire\s+[—–-]\s+(.*?)(?:\s*\([^)]*\))?\s*<\/title>/,
+      (_, t) => `<title>${t} · Boardroom Wire</title>`);
+    if (out !== html) await writeFile(p, out);
   }
 
   // Shrink the bust.

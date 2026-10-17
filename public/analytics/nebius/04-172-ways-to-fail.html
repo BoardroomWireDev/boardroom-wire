@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>172 ways to fail · Boardroom Wire</title>
+<!-- NEBIUS · H4 · 172 WAYS TO FAIL (studio build for Ive, 13 Oct 2026). 9:36, about 73 s; s7p3 to s7p5. From the approved style
+     frame (assets/style-frames/H4-172-ways-to-fail.html): sixteen racks to the NVL72 layout (1,152 GPUs drawn), a leaf over every
+     two racks, four spines all-to-all, storage feeding in; gold is the job. The drawing opens beside a window on a real Nebius
+     hall (b054), then the camera pushes in, so the drawing reads as that hall zoomed in. World strokes are non-scaling, so lines
+     stay 1 to 2.4 px on screen at every zoom.
+       hall        a Nebius hall in a window (b054); the row of racks, small, beside it
+       job         one job lit across the chips, left to right ("thousands of chips")
+       zoom        the window closes; the camera pushes in to the row
+       busy        scattered cells fall idle ("kept busy")
+       sched       the gaps fill one by one, all gold on "nothing sits idle"
+       network     leaves, rack drops, spines, then every leaf-to-spine link draws ("the network")
+       fed         storage and its feed; flat marks run storage > spine > leaf > rack ("fed in"), stop on "things break"
+       nvidia      the camera sets the row lower left; Nvidia's Xid catalog card rides over the clear right (b055)
+       count       the counter runs 0 to 172 and lands on "172"
+       bad         the camera goes to one GPU; it fails, ringed ("one bad chip")
+       stall       the job goes dark outward from the failed GPU ("stall an entire job")
+       meter       the camera pulls back; the utilization meter (reads the drawing: lit cells over all cells) falls with every dark cell
+       util        "utilization" (the writer's word) under the meter
+       nebius      the Nebius mark ("Nebius built its software")
+       watch       the camera sets the row right; Nebius's health view in a window (b056)
+       pull        the failed GPU is pulled out under its rack, crossed ("pulls broken hardware")
+       spare       a spare slots into the ringed slot ("out of service")
+       run         the job relights outward from the spare ("jobs keep running"); the camera returns to the style frame
+     Words on screen (rule 16): utilization (the writer's). Figure: nvidia_xid_error_count. The meter carries no figure.
+     Steps (board seconds at 150 wpm from s7p3 w0; ?at= in this order, ?secs=):
+       hall 0.0 · job 2.6 · zoom 5.6 · busy 9.0 · sched 10.6 · network 17.4 · fed 24.2 · nvidia 29.0 · count 30.0 ·
+       bad 37.8 · stall 39.0 · meter 40.6 · util 52.2 · nebius 58.2 · watch 65.0 · pull 67.8 · spare 69.0 · run 70.6   (secs 72.8)
+     Render: bw render page --file=04-172-ways-to-fail.html --query=slots=0 --name=04-172-ways-to-fail --seconds=72.8 --out=<clips>
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?slots=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+<style>#world * { vector-effect: non-scaling-stroke; }</style>
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/style-frames/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); defs(s);
+const K = H.steps([['hall', 0.0], ['job', 2.6], ['zoom', 5.6], ['busy', 9.0], ['sched', 10.6], ['network', 17.4], ['fed', 24.2],
+  ['nvidia', 29.0], ['count', 30.0], ['bad', 37.8], ['stall', 39.0], ['meter', 40.6], ['util', 52.2], ['nebius', 58.2],
+  ['watch', 65.0], ['pull', 67.8], ['spare', 69.0], ['run', 70.6]], 72.8);
+
+const GOLD = 'var(--gold)', CR = 'var(--cream)', LN = 'rgba(245,241,229,.55)';
+const xid = U('nvidia_xid_error_count');
+const go = H.go;
+
+/* ---- the world: the style frame's drawing at its own coordinates; the camera moves it ---- */
+const world = el(s, 'g', { id: 'world' });
+const gLinks = el(world, 'g'), gMarks = el(world, 'g'), gRacks = el(world, 'g'), gNet = el(world, 'g'), gTop = el(world, 'g');
+
+/* the racks (NVL72: power shelves, ten compute trays, nine NVLink switch trays, eight compute trays, power shelves) */
+const NR = 16, RW = 72, RG = 12, RX0 = 500, RY = 300, ROW = 18.5;
+const layout = ['p', 'p', ...Array(10).fill('c'), ...Array(9).fill('n'), ...Array(8).fill('c'), 'p', 'p'];
+const RH = layout.length * ROW + 10;
+const fail = { rack: 9, row: 6, gpu: 2 };
+const cells = [];
+let spare = null;
+for (let r = 0; r < NR; r++) {
+  const x = RX0 + r * (RW + RG);
+  el(gRacks, 'rect', { x, y: RY, width: RW, height: RH, fill: 'none', stroke: LN, 'stroke-width': 2 });
+  layout.forEach((k, i) => {
+    const y = RY + 5 + i * ROW;
+    if (k === 'p') el(gRacks, 'rect', { x: x + 5, y: y + 2, width: RW - 10, height: ROW - 4, fill: 'url(#hatchDim)', stroke: 'rgba(245,241,229,.25)', 'stroke-width': 1 });
+    else if (k === 'n') el(gRacks, 'rect', { x: x + 5, y: y + 3, width: RW - 10, height: ROW - 6, fill: 'none', stroke: 'rgba(245,241,229,.45)', 'stroke-width': 1.4 });
+    else for (let gpu = 0; gpu < 4; gpu++) {
+      const cx = x + 6 + gpu * 15.5, isFail = r === fail.rack && i === fail.row && gpu === fail.gpu;
+      const n = el(gRacks, 'rect', { x: cx, y: y + 2.5, width: 13, height: ROW - 5 });
+      if (isFail) { spare = [cx, y + 2.5]; n.style.display = 'none'; }
+      cells.push({ n, x: cx + 6.5, y: y + 9, isFail, last: '' });
+    }
+  });
+}
+
+/* each cell's life, deterministic (a fixed hash, so every render is identical) */
+const hash = (i) => { let h = (i + 1) * 2654435761 % 4294967296; h ^= h >>> 13; h = h * 1274126177 % 4294967296; return (h >>> 0) / 4294967296; };
+const [fx, fy] = [spare[0] + 6.5, spare[1] + 6.75];
+const maxD = Math.max(...cells.map(c => Math.hypot(c.x - fx, c.y - fy)));
+const idleSet = cells.map((c, i) => !c.isFail && hash(i) < .19);
+const idleRank = []; cells.forEach((c, i) => { if (idleSet[i]) idleRank.push(i); });
+idleRank.sort((a, b) => hash(a + 7777) - hash(b + 7777));
+cells.forEach((c, i) => {
+  const d = Math.hypot(c.x - fx, c.y - fy) / maxD;
+  c.tJob = K.job + (c.x - RX0) / (NR * (RW + RG)) * 1.2 + hash(i + 31) * .12;
+  c.tIdle = idleSet[i] ? K.busy + hash(i + 99) * .5 : Infinity;
+  c.tFill = idleSet[i] ? K.sched + idleRank.indexOf(i) / idleRank.length * 1.9 : Infinity;
+  c.tDark = K.stall + d * 6.0;
+  c.tRelit = K.run + d * 1.1;
+});
+/* a cell's gold: 1 lit (the job), 0 idle or dark */
+function gold(c, t) {
+  if (c.isFail) return 0;
+  const lit = go(t, c.tJob, c.tJob + .25) * (1 - go(t, c.tIdle, c.tIdle + .2) * (1 - go(t, c.tFill, c.tFill + .2)));
+  return Math.min(1, lit * (1 - go(t, c.tDark, c.tDark + .25)) + go(t, c.tRelit, c.tRelit + .25));
+}
+const ink = (u) => { // flat fill from dim cream (idle) to gold (busy)
+  const a = (.14 + .86 * u).toFixed(3), c = [245 + (212 - 245) * u, 241 + (175 - 241) * u, 229 + (55 - 229) * u].map(Math.round).join(',');
+  return `rgba(${c},${a})`;
+};
+let level = 0;   // the meter reads this: lit cells over all cells (the spare counts once it relights)
+const spareCell = { tRelit: K.run };
+H.on((t) => {
+  let sum = 0;
+  for (const c of cells) {
+    const u = gold(c, t); sum += u;
+    if (c.isFail) continue;
+    const f = ink(u); if (f !== c.last) { c.n.setAttribute('fill', f); c.last = f; }
+  }
+  sum += go(t, spareCell.tRelit, spareCell.tRelit + .25);
+  level = sum / cells.length;
+});
+
+/* the failed GPU: gold until it fails, then an empty crossed cell; pulled out under its rack */
+const px0 = spare[0] + 6.5, py1 = RY + RH + 58;
+const fg = el(gTop, 'g');
+const fRect = el(fg, 'rect', { x: spare[0], y: spare[1], width: 13, height: ROW - 5, fill: GOLD, stroke: CR, 'stroke-width': 0 });
+const fX = el(fg, 'path', { d: '', stroke: CR, 'stroke-width': 2, fill: 'none' });
+const pullPath = el(gTop, 'path', { d: `M${px0},${RY + RH + 6} V${py1 - 22}`, stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '6 6', fill: 'none' });
+H.wipe(pullPath, K.pull + .1, .6, 'y');
+H.on((t) => {
+  const f = go(t, K.bad + .3, K.bad + .6), m = go(t, K.pull, K.pull + 1.0);
+  const w = H.mix(13, 28, m), h = H.mix(ROW - 5, 32, m), x = H.mix(spare[0], px0 - 14, m), y = H.mix(spare[1], py1 - 16, m);
+  fRect.setAttribute('x', x); fRect.setAttribute('y', y); fRect.setAttribute('width', w); fRect.setAttribute('height', h);
+  fRect.setAttribute('fill', f < 1 ? ink(gold({ ...cells.find(c => c.isFail), isFail: false }, t) * (1 - f)) : 'var(--bg)');
+  fRect.setAttribute('stroke-width', f > 0 ? (2.4 * f).toFixed(2) : 0);
+  fX.setAttribute('d', `M${x},${y} L${x + w},${y + h} M${x + w},${y} L${x},${y + h}`);
+  fX.setAttribute('opacity', f.toFixed(3));
+});
+/* the ring: the failed GPU's slot, then the spare's */
+const ring = el(gTop, 'rect', { x: spare[0] - 6, y: spare[1] - 6, width: 25, height: ROW + 7, fill: 'none', stroke: CR, 'stroke-width': 2.4 });
+H.fade(ring, K.bad + .4, .3);
+/* the spare slots in from below, idle, and relights first */
+const sp = el(gTop, 'rect', { x: spare[0], y: spare[1], width: 13, height: ROW - 5 });
+H.path(sp, [[K.spare, 0, 30, 0], [K.spare + .7, 0, 0, 1]]);
+H.on((t) => sp.setAttribute('fill', ink(go(t, spareCell.tRelit, spareCell.tRelit + .25))));
+
+/* ---- the network: leaves over every two racks, four spines, all-to-all; storage feeds the spines ---- */
+const LY = 214, SY = 116, leaves = [], spines = [], drops = [];
+for (let j = 0; j < 4; j++) spines.push(RX0 + 160 + j * ((NR * (RW + RG) - RG - 320) / 3));
+for (let i = 0; i < NR / 2; i++) {
+  const x = RX0 + i * 2 * (RW + RG), w = 2 * RW + RG;
+  leaves.push(x + w / 2);
+  const box = el(gNet, 'rect', { x: x + 22, y: LY, width: w - 44, height: 26, fill: 'var(--bg)', stroke: LN, 'stroke-width': 2 });
+  H.rise(box, K.network - .2 + i * .05, .4, 10);
+  [x + RW / 2, x + RW + RG + RW / 2].forEach((cx, k) => {
+    const l = el(gLinks, 'line', { x1: cx, x2: cx, y1: LY + 26, y2: LY + 26, stroke: 'rgba(245,241,229,.4)', 'stroke-width': 1.6 });
+    drops.push(cx);
+    const a = K.network + .2 + i * .05;
+    H.on((t) => { const u = go(t, a, a + .45); l.setAttribute('y2', (LY + 26 + (RY - LY - 26) * u).toFixed(2)); l.style.display = u <= 0 ? 'none' : ''; });
+  });
+}
+const links = el(gLinks, 'g', { stroke: 'rgba(212,175,55,.75)', 'stroke-width': 1.4 });
+leaves.forEach((lx, i) => spines.forEach((sx, j) => {
+  const l = el(links, 'line', { x1: lx, y1: LY, x2: lx, y2: LY });
+  const a = K.network + .7 + (i * 4 + j) * .025;
+  H.on((t) => { const u = go(t, a, a + .5); l.setAttribute('x2', H.mix(lx, sx, u).toFixed(2)); l.setAttribute('y2', H.mix(LY, SY + 26, u).toFixed(2)); l.style.display = u <= 0 ? 'none' : ''; });
+}));
+spines.forEach((cx, j) => H.rise(el(gNet, 'rect', { x: cx - 64, y: SY, width: 128, height: 26, fill: 'var(--bg)', stroke: LN, 'stroke-width': 2 }), K.network + .35 + j * .06, .4, 10));
+const store = el(gNet, 'rect', { x: RX0 - 2, y: 66, width: 150, height: 30, fill: 'url(#hatchDim)', stroke: LN, 'stroke-width': 2 });
+H.wipe(store, K.fed - .2, .5, 'x');
+const feed = el(gNet, 'path', { d: `M${RX0 + 148},${81} H${spines[0] - 20} V${SY}`, stroke: GOLD, 'stroke-width': 2, 'stroke-dasharray': '10 6', fill: 'none' });
+H.wipe(feed, K.fed + .1, .6, 'x');
+
+/* data fed in: flat marks run storage > spine > leaf > rack (under the boxes, so they pass through them), then stop */
+const routes = drops.map((dx, k) => {
+  const lx = leaves[k >> 1];
+  return [[RX0 + 148, 81], [spines[0] - 20, 81], [spines[0] - 20, SY + 13], [spines[0], SY + 26], [lx, LY], [lx, LY + 13], [dx, LY + 26], [dx, RY]];
+});
+const segs = routes.map(r => { let L = 0; const out = r.slice(1).map((p, i) => { const q = r[i], l = Math.hypot(p[0] - q[0], p[1] - q[1]); L += l; return [q, p, l, L - l]; }); return { out, L }; });
+const marks = [];
+for (let k = 0; k < routes.length; k++) for (let m = 0; m < 3; m++) marks.push({ k, ph: hash(k * 3 + m + 500), n: el(gMarks, 'rect', { width: 6, height: 6, fill: GOLD }) });
+const FEED_A = K.fed + .5, FEED_B = K.nvidia - .6, SPEED = 520;
+H.on((t) => marks.forEach(mk => {
+  const { out, L } = segs[mk.k], start = FEED_A + mk.ph * 1.6;
+  const on = t >= start && t <= FEED_B + 3.5;
+  let d = on ? (t - start) * SPEED % L : -1;
+  const stop = t > FEED_B && Math.floor((t - start) * SPEED / L) > Math.floor((FEED_B - start) * SPEED / L);   // finish the run, no new one
+  if (!on || stop || t < start) { mk.n.style.display = 'none'; return; }
+  const sg = out.find(g => d <= g[3] + g[2]) || out[out.length - 1], u = (d - sg[3]) / sg[2];
+  mk.n.style.display = '';
+  mk.n.setAttribute('x', (H.mix(sg[0][0], sg[1][0], u) - 3).toFixed(2)); mk.n.setAttribute('y', (H.mix(sg[0][1], sg[1][1], u) - 3).toFixed(2));
+}));
+
+/* ---- the camera: opens on the row small beside the hall's window, pushes in, follows the count, the failure, the pull ---- */
+const REST = [960, 540, 1], OPEN = [733, 520, .6], LEFT = [1608.7, 370, .46], CHIP = [1299, 440, 2.4], RIGHT = [625, 520, .72];
+const ck = (t, p) => [t, ...p];
+H.camera(world, [ck(0, OPEN), ck(K.zoom, OPEN), ck(K.zoom + 2.4, REST), ck(K.nvidia - .2, REST), ck(K.nvidia + 1.2, LEFT),
+  ck(K.count + 4.4, LEFT), ck(K.bad + .4, CHIP), ck(K.meter - .2, CHIP), ck(K.meter + 1.6, REST), ck(K.watch - .4, REST),
+  ck(K.watch + 1.0, RIGHT), ck(K.run + .6, RIGHT), ck(H.END - .3, REST)]);
+
+/* ---- footage windows and the receipt card ---- */
+const win = el(s, 'g');
+/* each window closes before its cut runs out (15 Oct: b054 is 2.8 s, b056 6.0 s), so no window holds a frozen last frame */
+H.slot(win, 'b054', 96, 360, 640, 360, K.hall, Math.min(K.zoom + .3, K.hall + 2.8), "a Nebius hall, rack after rack (Nebius's tour film, REQ-006)");
+H.slot(win, 'b056', 200, 330, 608, 342, K.watch, Math.min(K.run + .6, K.watch + 5.9), "Nebius's health-check and monitoring view (its product film, REQ-007)");
+H.card('b055', K.nvidia, K.count + 4.6, { x: 1140, y: 200, w: 716, h: 520 }, "Nvidia's Xid error catalog (docs.nvidia.com, dark capture)");
+
+/* ---- the count ---- */
+const cnt = el(s, 'text', { x: 90, y: 300, class: 'fh', 'font-size': 176 }, '0');
+H.count(cnt, K.count, .8, 0, xid, fmt.int);
+H.on((t) => { const o = Math.max(go(t, K.count - .3, K.count + .1) * (1 - go(t, K.count + 4.2, K.count + 4.6)), go(t, K.meter + 1.0, K.meter + 1.4));
+  cnt.setAttribute('opacity', o.toFixed(3)); cnt.style.display = o < .002 ? 'none' : ''; });
+
+/* ---- the meter: it reads the drawing (lit cells over all cells), so it carries no figure ---- */
+const MX = 110, MY0 = RY + 40, MH = RH - 40;
+const meter = el(s, 'g');
+el(meter, 'rect', { x: MX, y: MY0, width: 34, height: MH, fill: 'none', stroke: LN, 'stroke-width': 2 });
+const bar = el(meter, 'rect', { x: MX + 6, width: 22, fill: GOLD });
+for (let k = 0; k <= 10; k++) el(meter, 'line', { x1: MX + 34, x2: MX + 34 + (k % 5 ? 8 : 16), y1: MY0 + MH * k / 10, y2: MY0 + MH * k / 10, stroke: LN, 'stroke-width': 2 });
+H.on(() => { const h = Math.max(0, MH * level - 12); bar.setAttribute('y', MY0 + MH - 6 - h); bar.setAttribute('height', h); });
+H.show(meter, K.meter + 1.0, .4);
+H.rise(el(s, 'text', { x: MX - 6, y: MY0 + MH + 56, class: 'nd', 'font-size': 34 }, 'utilization'), K.util);
+
+/* ---- while the camera is in close, a plate of ground keeps the credit line readable over the drawing ---- */
+const plate = el(s, 'rect', { x: 50, y: 1000, width: 360, height: 48, fill: 'var(--bg)' });
+H.show(plate, K.bad - 2.4, .3, K.meter + 1.2, .3);
+
+/* ---- Nebius ---- */
+H.rise(nebius(s, 92, 72, 48), K.nebius);
+
+/* ================= MASTER V3, NOTE 7 (Ive, 16 Oct; the writer approved N7a to N7c) ================= */
+/* 1. DETAIL A: on "one bad chip", a drawing-sheet inset of the failed compute tray, in plan, tied to the ring by a leader.
+   A GB300 NVL72 compute tray (Nvidia's reference architecture; Goldman 15 Oct): two Grace CPUs, four Blackwell Ultra GPUs (each
+   two dies and eight HBM stacks), four NICs and four E1.S drive bays at the front, NVLink connectors at the back, the cold-plate
+   loop between them. The failed GPU is crossed and ringed, as on the
+   row. Shown from "bad" to the meter, while the camera is close. No words, no figures. */
+const det = el(s, 'g');
+{
+  const PX = 96, PY = 236, PW = 700, PH = 470, G = GOLD, LN2 = 'rgba(245,241,229,.7)', TH2 = 'rgba(245,241,229,.32)';
+  el(det, 'rect', { x: PX, y: PY, width: PW, height: PH, fill: 'var(--bg)', stroke: 'rgba(245,241,229,.55)', 'stroke-width': 1.6 });
+  [[PX, PY, 1, 1], [PX + PW, PY, -1, 1], [PX, PY + PH, 1, -1], [PX + PW, PY + PH, -1, -1]].forEach(([a, b, sx, sy]) => el(det, 'path', { d: `M${a + sx * 22},${b + sy * 6} H${a + sx * 6} V${b + sy * 22}`, fill: 'none', stroke: 'var(--cream)', 'stroke-width': 2 }));
+  const TX = PX + 40, TY = PY + 46, TW = PW - 80, TH = PH - 92;
+  el(det, 'rect', { x: TX, y: TY, width: TW, height: TH, fill: 'none', stroke: LN2, 'stroke-width': 2, rx: 4 });
+  /* NVLink connectors along the back edge */
+  for (let i = 0; i < 4; i++) el(det, 'rect', { x: TX + 60 + i * 130, y: TY + 8, width: 90, height: 16, fill: 'url(#hatchDim)', stroke: LN2, 'stroke-width': 1.4 });
+  /* NICs and drive bays along the front edge */
+  for (let i = 0; i < 4; i++) el(det, 'rect', { x: TX + 22 + i * 64, y: TY + TH - 30, width: 52, height: 20, fill: 'none', stroke: LN2, 'stroke-width': 1.4 });
+  for (let i = 0; i < 4; i++) el(det, 'rect', { x: TX + TW - 236 + i * 46, y: TY + TH - 34, width: 36, height: 26, fill: 'none', stroke: TH2, 'stroke-width': 1.2 });
+  /* the two superchips: a Grace CPU with its memory, and two Blackwell GPUs each */
+  const gpu = (x, y, failed) => {
+    el(det, 'rect', { x, y, width: 112, height: 112, fill: 'none', stroke: failed ? 'var(--cream)' : LN2, 'stroke-width': 1.6 });
+    [0, 1].forEach(d => el(det, 'rect', { x: x + 22 + d * 36, y: y + 22, width: 32, height: 68, fill: failed ? 'var(--bg)' : G, stroke: failed ? LN2 : 'none', 'stroke-width': 1.2 }));
+    for (let k = 0; k < 4; k++) { el(det, 'rect', { x: x + 6, y: y + 14 + k * 22, width: 12, height: 18, fill: 'none', stroke: TH2, 'stroke-width': 1 }); el(det, 'rect', { x: x + 94, y: y + 14 + k * 22, width: 12, height: 18, fill: 'none', stroke: TH2, 'stroke-width': 1 }); }
+    if (failed) { el(det, 'path', { d: `M${x + 22},${y + 22} L${x + 90},${y + 90} M${x + 90},${y + 22} L${x + 22},${y + 90}`, stroke: 'var(--cream)', 'stroke-width': 2 });
+      el(det, 'circle', { cx: x + 56, cy: y + 56, r: 76, fill: 'none', stroke: 'var(--cream)', 'stroke-width': 2.4 }); }
+    return [x + 56, y + 56];
+  };
+  const cpu = (x, y) => { el(det, 'rect', { x, y, width: 70, height: 70, fill: 'none', stroke: LN2, 'stroke-width': 1.6 }); el(det, 'rect', { x: x + 16, y: y + 16, width: 38, height: 38, fill: 'rgba(245,241,229,.18)' });
+    for (let k = 0; k < 4; k++) el(det, 'rect', { x: x + 6 + k * 16, y: y + 78, width: 12, height: 22, fill: 'none', stroke: TH2, 'stroke-width': 1 }); return [x + 35, y + 35]; };
+  const row = (y, failedIdx) => { const c = cpu(TX + 30, y + 22), a = gpu(TX + 150, y, failedIdx === 0), b = gpu(TX + 300, y, failedIdx === 1);
+    el(det, 'path', { d: `M${c[0] + 35},${c[1]} H${a[0] - 56} M${a[0] + 56},${a[1]} H${b[0] - 56}`, stroke: TH2, 'stroke-width': 1.4, 'stroke-dasharray': '5 4', fill: 'none' }); return [a, b]; };
+  row(TY + 52, -1); const [, bad] = row(TY + 196, 1);
+  /* the cold-plate loop, in and out at the back right */
+  el(det, 'path', { d: `M${TX + TW - 40},${TY + 24} V${TY + TH - 60} M${TX + TW - 70},${TY + 24} V${TY + TH - 60}`, stroke: TH2, 'stroke-width': 1.6, 'stroke-dasharray': '10 5', fill: 'none' });
+  /* the leader from the ring on the row (the camera holds the failed GPU at the centre) to the inset's ring */
+  const lead = el(s, 'path', { d: `M${bad[0] + 76},${bad[1]} L${930},${528}`, stroke: 'var(--cream)', 'stroke-width': 2, fill: 'none' });
+  H.draw(lead, K.bad + .5, .35); H.show(lead, K.bad + .5, .01, K.meter - .3, .2);     // off before the camera leaves the chip
+}
+/* the inset opens as a sheet (a wipe from the left), from "chip" until the camera has left the failed GPU */
+H.wipe(det, K.bad + .4, .45, 'x'); H.show(det, K.bad + .4, .01, K.meter + .3, .35);
+
+/* 2. "172" leaves once the count is done and does not come back with the meter (the writer's note) */
+H.on((t) => { const u = H.go(t, K.count + 4.6, K.count + 5.0); if (u > 0) { cnt.setAttribute('opacity', (1 - u).toFixed(3)); if (u >= 1) cnt.style.display = 'none'; } });
+
+/* 3. NEBIUS'S SOFTWARE, in Nebius's colours (its navy, its lime), laid over the drawing on "Nebius built its software", and
+   naming only what the voice names: scheduling (the job's lanes over the racks), storage, networking (the fabric). Every
+   rack carries a health tick; the failed GPU's rack is flagged in lime. */
+const NAVY = BRAND_COL.navy, LIME = BRAND_COL.lime;
+const ov = el(world, 'g');
+{
+  const x0 = RX0 - 40, x1 = RX0 + NR * (RW + RG) + 28;
+  const navy = el(ov, 'rect', { x: x0, y: 40, width: x1 - x0, height: RY + RH + 130, fill: NAVY, opacity: .46 });
+  /* once the software has done its work ("pulls broken hardware out ... so jobs keep running"), its ground clears so the job's
+     gold relight reads; the health ticks, the outlines and the names stay */
+  H.on((t) => navy.setAttribute('opacity', (.46 * (1 - H.go(t, K.pull, K.pull + .8))).toFixed(3)));
+  el(ov, 'rect', { x: x0, y: 40, width: x1 - x0, height: RY + RH + 130, fill: 'none', stroke: LIME, 'stroke-width': 2 });
+  /* health: a tick over every rack, the failed rack's flagged */
+  for (let r = 0; r < NR; r++) { const x = RX0 + r * (RW + RG); const bad = r === fail.rack;
+    el(ov, 'rect', { x: x + 4, y: RY - 22, width: RW - 8, height: 10, fill: bad ? 'none' : LIME, stroke: LIME, 'stroke-width': 2 }); }
+  el(ov, 'rect', { x: spare[0] - 10, y: spare[1] - 10, width: 33, height: ROW + 15, fill: 'none', stroke: LIME, 'stroke-width': 3 });
+  /* scheduling: the job's lanes, one per rack, drawn over the compute trays */
+  const lanes = el(ov, 'g');
+  for (let r = 0; r < NR; r++) { const x = RX0 + r * (RW + RG); el(lanes, 'line', { x1: x + RW / 2, x2: x + RW / 2, y1: RY + 8, y2: RY + RH - 8, stroke: LIME, 'stroke-width': 1.6, opacity: .85 }); }
+  H.on((t) => lanes.setAttribute('opacity', (1 - H.go(t, K.pull, K.pull + .8)).toFixed(3)));
+  /* storage and networking: their outlines, in lime */
+  el(ov, 'rect', { x: RX0 - 10, y: 58, width: 166, height: 46, fill: 'none', stroke: LIME, 'stroke-width': 2.4 });
+  el(ov, 'rect', { x: RX0 + 10, y: SY - 12, width: NR * (RW + RG) - 30, height: LY - SY + 50, fill: 'none', stroke: LIME, 'stroke-width': 2 });
+  const wd = (x, y, w, at) => H.rise(el(ov, 'text', { x, y, class: 'nm', 'font-size': 42, style: `fill:${LIME}` }, w), at, .45, 14);
+  /* each named on its word: "the scheduling, the storage, and the networking" (watch is "watching", just after) */
+  wd(RX0, RY + RH + 72, 'scheduling', K.watch - 2.15); wd(RX0 + 176, 98, 'storage', K.watch - 1.4); wd(RX0 + NR * (RW + RG) - 300, SY - 26, 'networking', K.watch - .45);
+}
+H.show(ov, K.nebius + .3, .6);
+
+H.run();
+{ const c = document.querySelector('.bw-prov'); if (c) { const r = c.getBoundingClientRect(); if (r.width) plate.setAttribute('width', Math.ceil(r.right - 50 + 16)); } }
+</script>
+</body>
+</html>

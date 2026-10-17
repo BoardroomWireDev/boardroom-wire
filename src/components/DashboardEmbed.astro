@@ -56,6 +56,7 @@ const num = String(d.n).padStart(2, '0');
   class="dash"
   id={slug}
   data-embed={src}
+  data-rest={d.rest ?? 'final'}
   data-title={d.title}
   data-mode={mode}
 >
@@ -213,7 +214,9 @@ const num = String(d.n).padStart(2, '0');
     const live = fig.dataset.mode === 'live';
     // Readers who asked for less motion get the finished frame; the board's
     // idle breathing still runs, which its own reduced-motion rules tone down.
-    const src = REDUCED ? `${base}?final` : base;
+    // A board's URL may already carry parameters (its manifest `query`).
+    const add = (p: string) => `${base}${base.includes('?') ? '&' : '?'}${p}`;
+    const src = REDUCED ? add(fig.dataset.rest ?? 'final') : base;
 
     let frame: HTMLIFrameElement | null = null;
     const inst: Inst = { stage, fit, near: false, frame: null, unmount };
@@ -281,7 +284,7 @@ const num = String(d.n).padStart(2, '0');
       // who asked for less motion: ?replay tells the board so, past both the
       // embed's ?final and a board's own reduced-motion check. Once on that
       // URL, a plain reload replays it; no cache-busting wanted.
-      const again = `${base}?replay`;
+      const again = add('replay');
       if (f.src.endsWith(again)) f.contentWindow?.location.reload();
       else f.src = again;
     }

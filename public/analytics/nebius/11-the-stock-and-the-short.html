@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The stock and the short · Boardroom Wire</title>
+<!-- NEBIUS · H11 · THE STOCK AND THE SHORT (Ive's builder, 13 Oct 2026). About 77 s; s14p5 to s16p2. From the approved style
+     frame (step 6, "jumped more than 30%"): every NBIS close since the relisting on one true time scale, drawn along its own
+     dates as the voice tells them; the valuation in the sky over 2025; Burry's three months as a zoom panel on the right, so
+     the main line keeps its one time scale. Board 0 = s14p5 word 0 ("And despite the expensive buildout").
+       resume     "crushed it": the frozen line resumes as NBIS (21 Oct 2024) and draws to December
+       december   "December": the placement point at Dec 2024 (the b110 card rides over the clear right, 4.2 to 10.0)
+       placement  "$21": $21.00 and its month
+       june       "By June 2026": the line draws on through 2025 to 22 Jun 2026
+       high       "nearly $300": $299.86, intraday, a whisker above the line's own peak close
+       october    "early October": the line draws on to its last close (2 Oct)
+       today      "around $220": 9 Oct from the ledger, joined dashed (second source), $221.80
+       value      "market value": the word, in the sky over 2025
+       sixty      "$60 billion": the market-value bar grows, $60.3B
+       runrate    "run-rate": the word
+       three      "$3 billion": the run-rate bar, a sliver, $3.0B
+       times      "20 times": the key nebius_valuation_multiple_run_rate_9_october_2026_calc (20.1x, shown as its display, 20x)
+       forty      "$40 billion": commitments, dashed (the bet)
+       commit     "commitments": the word
+       window     "And one of the most famous investors": Burry's footage window (b111), right
+       august     "August 6th": the band on the main line marks Burry's three months
+       burry      "Michael Burry": his mark on the main line at 6 Aug, his name
+       post       "revealed": the b112 card (his Substack post) rides over the clear right, to "barrel."
+       short      "$211.77": the price on his mark
+       week       "A week later": the zoom panel opens off the band; his mark and level hand over to it; the line draws in
+       jumped     "jumped": 11 to 12 Aug, close to close, the line jumps over his level
+       thirty     "30%": the dimension and +34.1% (the clean frame: his mark under water)
+       under      "underwater": the line draws on to October; the stretch above his level fills, flat
+       early      "early before": 9 Oct joined dashed in the zoom, $221.80 (the rest frame = the style frame)
+     Words on screen (rule 16): intraday, market value, run-rate, commitments, Michael Burry; dates; figures.
+     Figures: nebius_share_price_daily_from_relisting (the series), nebius_placement_price_dec_2024, nebius_share_price_high_date,
+     nebius_share_price_9_october_2026, nebius_market_cap_9_october_2026_calc (C), nebius_annualized_run_rate_june_2026,
+     nebius_backlog_august_2026, burry_nebius_short_price_6_august_2026, nebius_share_price_change_12_august_2026 (C); 20x is
+     our arithmetic (calc).
+     Steps (board seconds at 150 wpm from s14p5 w0; ?at= in this order, ?secs=):
+       resume 3.3 · december 5.8 · placement 7.8 · june 8.3 · high 10.6 · october 11.9 · today 14.2 · value 16.2 ·
+       sixty 17.7 · runrate 21.4 · three 22.2 · times 24.6 · forty 30.6 · commit 31.8 · window 37.0 · august 44.0 ·
+       burry 45.4 · post 49.4 · short 53.3 · week 59.9 · jumped 64.2 · thirty 65.4 · under 66.6 · early 68.6   (secs 77.6)
+     Back-half additions (16 Oct), appended last: now 33.9 · market 36.44 · fall 38.18 · debt 40.4 · agree 55.8 (P03, the caveat:
+       the board dims, three NBIS / CoreWeave / IREN panels, the b110h card, clears on "not everyone agrees"). P10: his level is
+       red and the stretch above it fills red-20 on "underwater", from the exact crossing on the 11-12 Aug climb to the line's
+       end. Refined 16 Oct (Ive): panels y 330-800, marks y 262, the backing fades in over 0.6 s, lines 3.5 px, a 15 Oct tick
+       label, the last close / date / move stacked under each dot, the move's two dates as rings on the line. ?at= for the render:
+       0.2,4.13,6.57,7.77,10.47,12.57,14.17,16.07,17.4,22.33,23.13,25.83,29.93,30.93,58.5,64.13,65.93,68.83,71.93,79.27,82.9,83.6,85.27,87.37,33.9,36.44,38.18,40.4,55.8 &secs=93.4
+       Figures added: nebius/coreweave/iren_share_price_daily_sep_oct_2026, the three *_change_9_to_14/15_october_2026_calc.
+     Render: bw capture dashboards/11-the-stock-and-the-short.html?capture&slots=0&secs=77.6 (4K, 30 fps; ?at= from vo-words.json)
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?slots=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/style-frames/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); defs(s);
+const K = H.steps([['resume', 3.3], ['december', 5.8], ['placement', 7.8], ['june', 8.3], ['high', 10.6], ['october', 11.9],
+  ['today', 14.2], ['value', 16.2], ['sixty', 17.7], ['runrate', 21.4], ['three', 22.2], ['times', 24.6], ['forty', 30.6],
+  ['commit', 31.8], ['window', 37.0], ['august', 44.0], ['burry', 45.4], ['post', 49.4], ['short', 53.3], ['week', 59.9],
+  ['jumped', 64.2], ['thirty', 65.4], ['under', 66.6], ['early', 68.6],
+  ['now', 33.9], ['market', 36.44], ['fall', 38.18], ['debt', 40.4], ['agree', 55.8]], 77.6);
+
+const GOLD = 'var(--gold)', CR = 'var(--cream)', DIMC = 'rgba(245,241,229,.5)', AXC = 'rgba(245,241,229,.4)';
+U('nebius_share_price_daily_from_relisting');
+const plc = F('nebius_placement_price_dec_2024'); U('nebius_placement_price_dec_2024');
+const hi = F('nebius_share_price_high_date'); U('nebius_share_price_high_date');
+const bur = F('burry_nebius_short_price_6_august_2026'); U('burry_nebius_short_price_6_august_2026');
+const jump = U('nebius_share_price_change_12_august_2026');
+const oct = F('nebius_share_price_9_october_2026'); U('nebius_share_price_9_october_2026');
+const cap = U('nebius_market_cap_9_october_2026_calc'), rr = U('nebius_annualized_run_rate_june_2026'), back = U('nebius_backlog_august_2026');
+const SER = Array.isArray(NBIS) ? NBIS : [];
+const at = (d) => SER.reduce((a, r) => Math.abs(t(r[0]) - t(d)) < Math.abs(t(a[0]) - t(d)) ? r : a);
+const line = (g, tx, py, from, to) => el(g, 'polyline', { points: SER.filter(([d]) => t(d) >= from && t(d) <= to)
+  .map(([d, c]) => tx(t(d)).toFixed(1) + ',' + py(c).toFixed(1)).join(' '), fill: 'none', stroke: GOLD, 'stroke-width': 3, 'stroke-linejoin': 'round' });
+const lastS = SER[SER.length - 1];
+
+/* a clip that follows the date: keys [[board t, iso date], …]; the drawn part ends at the date the voice has reached */
+const dfs = s.querySelector('defs'); let _dc = 0;
+function dateClip(g, tx, top, bot, keys) {
+  const id = 'dc' + (++_dc), cp = el(dfs, 'clipPath', { id, clipPathUnits: 'userSpaceOnUse' });
+  const r = el(cp, 'rect', { x: tx(t(keys[0][1])) - 12, y: top, height: bot - top, width: 0 });
+  g.setAttribute('clip-path', `url(#${id})`);
+  H.on((tt) => {
+    let i = 0; while (i < keys.length - 1 && tt > keys[i + 1][0]) i++;
+    const A = keys[i], B = keys[Math.min(i + 1, keys.length - 1)];
+    const u = A === B ? 1 : H.go(tt, A[0], B[0], H.ease.io), d = t(A[1]) + (t(B[1]) - t(A[1])) * u;
+    const w = tt < keys[0][0] ? 0 : tx(d) - (tx(t(keys[0][1])) - 12);
+    r.setAttribute('width', Math.max(0, w).toFixed(2));
+    g.style.display = w <= 0 ? 'none' : '';
+  });
+}
+
+/* ---------- the whole line: axes from frame 0 (no bare-ink head), the line resumes on "crushed it" ---------- */
+const X0 = 230, X1 = 1170, Y0 = 880, T0 = t('2024-10-01'), T1 = t('2026-10-31');
+const tx = lin(T0, T1, X0, X1), py = lin(0, 320, Y0, 150);
+[0, 100, 200, 300].forEach(v => {
+  el(s, 'line', { x1: X0, x2: X1, y1: py(v), y2: py(v), stroke: v ? 'rgba(245,241,229,.07)' : AXC, 'stroke-width': 2 });
+  el(s, 'text', { x: X0 - 18, y: py(v) + 10, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, '$' + v);
+});
+for (let y = 2024; y <= 2026; y++) for (let m = 0; m < 12; m += 3) {
+  const tt = Date.UTC(y, m, 1); if (tt < T0 || tt > T1) continue;
+  el(s, 'line', { x1: tx(tt), x2: tx(tt), y1: Y0, y2: Y0 + (m ? 8 : 16), stroke: AXC, 'stroke-width': 2 });
+  if (!m) el(s, 'text', { x: tx(tt), y: Y0 + 50, class: 'ax', 'font-size': 30, 'text-anchor': 'middle' }, String(y));
+}
+const Z0 = t('2026-07-15'), Z1 = t('2026-10-15');
+const band = el(s, 'rect', { x: tx(Z0), y: py(320), width: tx(Z1) - tx(Z0), height: Y0 - py(320), fill: 'rgba(245,241,229,.05)' });
+H.fade(band, K.august - .2, .6);
+// where the frozen line left off: its first close, a point on the axis frame from frame 0
+const s0 = SER[0], start = el(s, 'circle', { cx: tx(t(s0[0])), cy: py(s0[1]), r: 5, fill: GOLD });
+H.show(start, -1, .1, K.resume + .6, .3);
+const main = el(s, 'g'); line(main, tx, py, T0, T1);
+dateClip(main, tx, 100, Y0 + 4, [[K.resume - .2, s0[0]], [K.december - .3, plc.asOf], [K.june, plc.asOf], [K.high - .1, hi.asOf],
+  [K.october, hi.asOf], [K.today - .3, lastS[0]]]);
+
+// the placement (the b110 card rides over the clear right while it lands)
+H.card('b110', K.december - 1.6, K.june + 1.7, { x: 1240, y: 170, w: 600, h: 640 }, 'Nebius 6-K, 2 Dec 2024: $21.00 a share (the gold pen on $21.00)');
+const p0 = [tx(t(plc.asOf)), py(plc.v)];
+const pdot = el(s, 'circle', { cx: p0[0], cy: p0[1], r: 7, fill: 'var(--bg)', stroke: CR, 'stroke-width': 3 });
+H.fade(pdot, K.december - .1, .3);
+H.draw(el(s, 'line', { x1: p0[0], x2: p0[0], y1: p0[1] - 12, y2: p0[1] - 96, stroke: DIMC, 'stroke-width': 2 }), K.december, .5);
+H.rise(el(s, 'text', { x: p0[0] - 6, y: p0[1] - 150, class: 'nd', 'font-size': 32 }, fmt.mon(plc.asOf)), K.december + .3);
+H.rise(el(s, 'text', { x: p0[0] - 6, y: p0[1] - 110, class: 'fn', 'font-size': 36 }, fmt.usd(plc.v)), K.placement);
+
+// the high: intraday, a whisker above the day's close
+const hd = at(hi.asOf), hx = tx(t(hi.asOf));
+const whisk = el(s, 'g');
+el(whisk, 'line', { x1: hx, x2: hx, y1: py(hd[1]), y2: py(hi.v), stroke: CR, 'stroke-width': 2 });
+el(whisk, 'line', { x1: hx - 8, x2: hx + 8, y1: py(hi.v), y2: py(hi.v), stroke: CR, 'stroke-width': 2 });
+H.wipe(whisk, K.high, .35, '-y');
+H.rise(el(s, 'text', { x: hx - 16, y: py(hi.v) - 4, class: 'fn', 'font-size': 36, 'text-anchor': 'end' }, fmt.usd(hi.v)), K.high + .3);
+H.rise(el(s, 'text', { x: hx - 16, y: py(hi.v) + 36, class: 'nd', 'font-size': 32, 'text-anchor': 'end' }, 'intraday'), K.high + .55);
+
+// today on the whole line: 9 Oct from the ledger, joined dashed (a second source); it hands over to the zoom on "a week later"
+const ox = tx(t(oct.asOf)), oy = py(oct.v), today = el(s, 'g');
+el(today, 'line', { x1: tx(t(lastS[0])), y1: py(lastS[1]), x2: ox, y2: oy, stroke: GOLD, 'stroke-width': 3, 'stroke-dasharray': '4 4' });
+el(today, 'circle', { cx: ox, cy: oy, r: 6, fill: GOLD });
+H.show(today, K.today - .1, .35, K.week, .4);
+const todayL = el(s, 'g');
+el(todayL, 'text', { x: ox + 18, y: oy + 12, class: 'fn', 'font-size': 36 }, fmt.usd(oct.v));
+el(todayL, 'text', { x: ox + 18, y: oy + 50, class: 'nd', 'font-size': 32 }, fmt.day(oct.asOf));
+// the label steps aside for Burry's window (the right is his from there on); the point stays until the zoom takes it
+H.rise(todayL, K.today + .3, .55, 18, K.window - .5, .4);
+
+/* ---------- the valuation, in the sky over 2025: one dollar scale ---------- */
+const VX = 470, vx = lin(0, 65e9, VX, VX + 300), VY = 300;
+U('nebius_valuation_multiple_run_rate_9_october_2026_calc');   /* Goldman's key (13 Oct): market value over run-rate at 9 Oct, read, never computed here */
+const mult = el(s, 'text', { x: 250, y: 236, class: 'fh', 'font-size': 104 }, BW.val('nebius_valuation_multiple_run_rate_9_october_2026_calc')); calc = true;
+H.rise(mult, K.times - .1, .6, 24);
+const rowT = [[K.runrate, K.three], [K.commit, K.forty], [K.value, K.sixty]];
+[['run-rate', rr, { fill: GOLD }, fmt.usdB(rr)], ['commitments', back, { fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '9 7' }, F('nebius_backlog_august_2026').display],   // "$40B+" (facts, 15 Oct)
+ ['market value', cap, { fill: 'rgba(245,241,229,.82)' }, fmt.usdB(cap)]].forEach(([w, v, st, lab], i) => {
+  const y = VY + i * 58, [tw, tb] = rowT[i];
+  H.rise(el(s, 'text', { x: 248, y: y + 31, class: 'nd', 'font-size': 32 }, w), tw - .1);
+  const b = el(s, 'rect', { x: VX, y, width: Math.max(4, vx(v) - VX), height: 40, ...st });
+  if (i === 1) H.wipe(b, tb - .1, .9, 'x'); else H.grow(b, tb - .1, .8, VX, 0, 'x');
+  H.rise(el(s, 'text', { x: vx(v) + 14, y: y + 31, class: 'fn', 'font-size': 32, style: i ? '' : 'fill:var(--gold)' }, lab), tb + .45);
+});
+
+/* ---------- Burry: his window, then his mark on the main line (the b112 card rides over the clear right) ---------- */
+H.slot(s, 'b111', 1270, 250, 576, 324, K.window, K.august - .2, 'Michael Burry, a wide silent cutaway (or his Substack masthead)');
+H.card('b112', K.post, K.week - .1, { x: 1240, y: 170, w: 600, h: 640 }, 'Burry\'s Substack, 6 Aug 2026 (the gold pen on "shooting fish in a barrel")');
+const mbx = tx(t(bur.asOf)), mby = py(bur.v), mk = el(s, 'g');
+el(mk, 'path', { d: `M${mbx - 11},${mby - 4} L${mbx + 11},${mby - 4} L${mbx},${mby + 15} Z`, fill: CR });
+el(mk, 'line', { x1: mbx, x2: mbx, y1: mby + 20, y2: mby + 352, stroke: DIMC, 'stroke-width': 2 });
+H.show(mk, K.burry - .1, .4, K.week, .4);
+const mkN = el(s, 'text', { x: mbx - 12, y: mby + 380, class: 'nm', 'font-size': 32, 'text-anchor': 'end' }, 'Michael Burry');
+H.rise(mkN, K.burry + .1, .55, 18, K.week, .4);
+const mkP = el(s, 'text', { x: mbx - 12, y: mby + 422, class: 'fn', 'font-size': 34, 'text-anchor': 'end' }, fmt.usd(bur.v));
+H.rise(mkP, K.short, .55, 18, K.week, .4);
+
+/* ---------- the zoom: Burry's three months, opened off the band on "a week later" ---------- */
+const ZX0 = 1290, ZX1 = 1750, ZY0 = 800, ztx = lin(Z0, Z1, ZX0, ZX1), zpy = lin(100, 300, ZY0, 170);
+const zax = el(s, 'g');
+[100, 150, 200, 250, 300].forEach(v => {
+  el(zax, 'line', { x1: ZX0, x2: ZX1, y1: zpy(v), y2: zpy(v), stroke: v > 100 ? 'rgba(245,241,229,.07)' : AXC, 'stroke-width': 2 });
+  el(zax, 'text', { x: ZX1 + 10, y: zpy(v) + 10, class: 'ax', 'font-size': 26 }, '$' + v);
+});
+['2026-08-01', '2026-09-01', '2026-10-01'].forEach(d => {
+  el(zax, 'line', { x1: ztx(t(d)), x2: ztx(t(d)), y1: ZY0, y2: ZY0 + 12, stroke: AXC, 'stroke-width': 2 });
+  el(zax, 'text', { x: ztx(t(d)), y: ZY0 + 46, class: 'ax', 'font-size': 28, 'text-anchor': 'middle' }, fmt.mon(d).slice(0, 3));
+});
+H.fade(zax, K.week + .2, .6);
+// the zoom's frame ties back to its band on the whole line
+const ties = el(s, 'g', { stroke: 'rgba(245,241,229,.18)', 'stroke-width': 1.6, fill: 'none' });
+el(ties, 'line', { x1: tx(Z1), y1: py(320), x2: ZX0, y2: zpy(300) });
+el(ties, 'line', { x1: tx(Z1), y1: Y0, x2: ZX0, y2: ZY0 });
+H.draw(ties, K.week, .7);
+// his level, carried right from the day he disclosed it
+const bx = ztx(t(bur.asOf)), by = zpy(bur.v);
+const lvl = el(s, 'line', { x1: bx, x2: ZX1, y1: by, y2: by, stroke: 'var(--red)', 'stroke-width': 3 });   // his level is his loss: red (back-half P10, 16 Oct)
+H.wipe(lvl, K.week + .9, .9, 'x');
+// under water: the stretch of the line above his level, a flat fill, drawn with the line from 12 Aug
+const j0 = at('2026-08-11'), j1 = at('2026-08-12'), jx = ztx(t(j1[0])) + 26;
+const uwg = el(s, 'g'), zl = el(s, 'g');
+// from 11 Aug, with the exact point where each segment crosses his level, so the fill meets the line on the 11-12 Aug climb
+// and at every later crossing (16 Oct refine: it used to start at 12 Aug and miss the climb)
+const uwP = SER.filter(([d]) => t(d) >= t(j0[0]) && t(d) <= Z1).map(([d, c]) => [ztx(t(d)), zpy(c)]), uwT = [];
+uwP.forEach((p, i) => { const q = uwP[i - 1];
+  if (q && (q[1] < by) !== (p[1] < by)) uwT.push([q[0] + (p[0] - q[0]) * (by - q[1]) / (p[1] - q[1]), by]);
+  uwT.push([p[0], Math.min(p[1], by)]); });
+el(uwg, 'polygon', { points: [...uwT, [uwT[uwT.length - 1][0], by], [uwT[0][0], by]].map(([x, y]) => x.toFixed(1) + ',' + y.toFixed(1)).join(' '),
+  fill: 'var(--red-20)' });   // flat red tint, no gradient: the stretch above his level fills on "underwater", ending where the line ends
+line(zl, ztx, zpy, Z0, Z1);
+dateClip(zl, ztx, 120, ZY0 + 4, [[K.week + .4, '2026-07-15'], [K.jumped - .5, j0[0]], [K.jumped - .1, j0[0]], [K.jumped + .4, j1[0]],
+  [K.under - .3, j1[0]], [K.under + 1.4, lastS[0]]]);
+dateClip(uwg, ztx, 120, ZY0 + 4, [[K.under + .1, j1[0]], [K.under + 1.5, lastS[0]]]);   // the clip opens 12 px left of 12 Aug: the crossing is inside it
+// his mark, handed over from the main line
+const zmk = el(s, 'g');
+el(zmk, 'path', { d: `M${bx - 13},${by - 4} L${bx + 13},${by - 4} L${bx},${by + 18} Z`, fill: CR });
+el(zmk, 'line', { x1: bx, x2: bx, y1: by + 24, y2: by + 256, stroke: DIMC, 'stroke-width': 2 });
+H.fade(zmk, K.week + .7, .4);
+H.rise(el(s, 'text', { x: bx + 14, y: by + 230, class: 'nm', 'font-size': 32 }, 'Michael Burry'), K.week + 1.0);
+H.rise(el(s, 'text', { x: bx + 14, y: by + 270, class: 'fn', 'font-size': 34 }, fmt.usd(bur.v)), K.week + 1.2);
+// the 12 Aug jump, close to close
+H.draw(dim(s, jx, zpy(j0[1]), jx, zpy(j1[1]), CR, 8), K.thirty - .4, .5);
+H.rise(el(s, 'text', { x: jx + 16, y: zpy(j1[1]) + 6, class: 'fn', 'font-size': 40, style: 'fill:var(--gold)' }, F('nebius_share_price_change_12_august_2026').display), K.thirty);   // data.js display, "+34%" (facts, 15 Oct)
+// 9 Oct from the ledger, joined dashed (a second source)
+const zt = el(s, 'g');
+el(zt, 'line', { x1: ztx(t(lastS[0])), y1: zpy(lastS[1]), x2: ztx(t(oct.asOf)), y2: zpy(oct.v), stroke: GOLD, 'stroke-width': 3, 'stroke-dasharray': '6 6' });
+el(zt, 'circle', { cx: ztx(t(oct.asOf)), cy: zpy(oct.v), r: 7, fill: GOLD });
+H.fade(zt, K.early - .1, .4);
+H.rise(el(s, 'text', { x: ztx(t(oct.asOf)), y: zpy(oct.v) + 124, class: 'fn', 'font-size': 34, 'text-anchor': 'end' }, fmt.usd(oct.v)), K.early + .2);
+H.rise(el(s, 'text', { x: ztx(t(oct.asOf)), y: zpy(oct.v) + 162, class: 'nd', 'font-size': 32, 'text-anchor': 'end' }, fmt.day(oct.asOf)), K.early + .4);
+
+/* ---------- P03 the caveat (the writer's ad-lib, board 33.9 to 56.8; back-half P03, 16 Oct) ----------
+   now      "Now"                     the whole board dims to a third (everything already drawn)
+   market   "Neocloud market"         three panels' frames and axes draw; marks land; the lines begin from 22 Sep
+   fall     "fallen off a cliff"      the last days of each line draw over fall to fall+1.1; the last close, its date and the move
+                                      land under the dot as the fall completes (all in by fall+1.45, board 39.6)
+   debt     "debt concerns with CoreWeave"  b110h receipt card (CNBC, 14 Oct) over the clear band at the top (nothing crosses it)
+   agree    "not everyone agrees"     the panels clear; the board is back at full ink
+   Each panel: its own true price axis (2-3 quiet gridlines), the same date axis. To change an owner's mark or colour, edit that
+   owner's row in OWN below (one line each). */
+const sNb = F('nebius_share_price_daily_sep_oct_2026').series, sCw = F('coreweave_share_price_daily_sep_oct_2026').series, sIr = F('iren_share_price_daily_sep_oct_2026').series;
+['nebius_share_price_daily_sep_oct_2026', 'coreweave_share_price_daily_sep_oct_2026', 'iren_share_price_daily_sep_oct_2026'].forEach(U);
+const OWN = [   // [series, move key, mark (g, x, y), line colour]  <- the one line to change for a mark or a colour
+  [sNb, 'nebius_share_price_change_9_to_14_october_2026_calc', (g, x, y) => nebius(g, x, y, 60), BRAND_COL.lime],
+  [sCw, 'coreweave_share_price_change_9_to_14_october_2026_calc', (g, x, y) => logo(g, 'coreweave', x, y + 6, 48), BRAND_COL.coreweave],
+  [sIr, 'iren_share_price_change_9_to_15_october_2026_calc', (g, x, y) => logo(g, 'iren', x, y + 6, 48), BRAND_COL.iren]];
+OWN.forEach(o => U(o[1]));
+const ov = el(s, 'rect', { x: 0, y: 0, width: 1920, height: 1080, fill: 'var(--bg)' });
+H.show(ov, K.now, .5, K.agree, .5, .67);
+const pnl = el(s, 'g'); H.show(pnl, -1, .1, K.agree, .5);
+const back3 = el(pnl, 'rect', { x: 0, y: 0, width: 1920, height: 1080, fill: 'var(--bg)' });
+H.fade(back3, K.market - .15, .6);   // the dimmed board hands off softly, never a cut
+const D0 = t(sNb[0][0]), D1 = t(sNb[sNb.length - 1][0]);
+const reveal = (g, x0, tx3, y0, y1, keys) => {   // piecewise-linear date clip (the line draws at a steady pace)
+  const id = 'cc' + (++_dc), cp = el(dfs, 'clipPath', { id, clipPathUnits: 'userSpaceOnUse' }), r = el(cp, 'rect', { x: x0 - 8, y: y0, height: y1 - y0, width: 0 });
+  g.setAttribute('clip-path', `url(#${id})`);
+  H.on((tt) => { let i = 0; while (i < keys.length - 2 && tt > keys[i + 1][0]) i++;
+    const u = H.go(tt, keys[i][0], keys[i + 1][0], H.ease.lin), d = t(keys[i][1]) + (t(keys[i + 1][1]) - t(keys[i][1])) * u;
+    const w = tt <= keys[0][0] ? 0 : tx3(d) - (x0 - 8); r.setAttribute('width', Math.max(0, w).toFixed(2)); g.style.display = w <= 0 ? 'none' : ''; });
+};
+const nice = [1, 2, 5, 10, 20, 25, 50, 100];
+/* refine (16 Oct): taller plots (y 330 to 800), marks at y 262 (the card band y 48 to 220 stays clear), one 3.5 px line weight,
+   the date axis dated at both ends (22 Sep, 1 Oct, 15 Oct), and the last close read at its dot: the close, its date, then the
+   move (ours, so a dashed underline), stacked tight under the dot and landing as the fall completes; the move's two dates are two
+   small rings on the line (9 Oct and the low) */
+const DL = sNb[sNb.length - 1][0];   // the panels' last date, from the series (15 Oct)
+OWN.forEach(([ser, mvk, markFn, col], i) => {
+  const cx = 60 + i * 600, px0 = cx + 100, px1 = cx + 536, PT = 330, PB = 800, g = el(pnl, 'g');
+  const vs = ser.map(r => r[1]), mn = Math.min(...vs), mx = Math.max(...vs), rg = mx - mn, hiD = mx + .08 * rg, loD = mn - .75 * rg;
+  const stp = nice.find(n => (hiD - loD) / n <= 3.3), py3 = lin(loD, hiD, PB, PT), tx3 = lin(D0, D1, px0, px1);
+  const last = ser[ser.length - 1], lx = tx3(t(last[0])), ly = py3(last[1]), mv = F(mvk);
+  const base = Math.max(...ser.slice(-2).map(r => py3(r[1])));   // the lower of the last two closes: the stack starts under it
+  const SY = base + 52, SX = lx + 8, SW = 330;   // SW: the stack's width with the move's span label beside the move                    // the stack's first baseline, its right edge, its width
+  const grid = el(g, 'g');
+  for (let v = Math.ceil(loD / stp) * stp; v <= hiD; v += stp) {
+    const y = py3(v), hitsStack = y > SY - 40 && y < SY + 104;     // a gridline stops short of the stack, never runs through it
+    if (y < PT + 6 || y > PB - 36) continue;                       // none hugging the axis or crowding the mark
+    el(grid, 'line', { x1: px0, x2: hitsStack ? SX - SW - 14 : px1, y1: y, y2: y, stroke: 'rgba(245,241,229,.14)', 'stroke-width': 2 });
+    H.rise(el(g, 'text', { x: px0 - 14, y: y + 10, class: 'ax', 'font-size': 30, 'text-anchor': 'end' }, '$' + v), K.market + .15, .5, 10);
+  }
+  el(grid, 'line', { x1: px0, x2: px1, y1: PB, y2: PB, stroke: AXC, 'stroke-width': 2 });
+  ['2026-09-22', '2026-10-01', DL].forEach(d => {
+    el(grid, 'line', { x1: tx3(t(d)), x2: tx3(t(d)), y1: PB, y2: PB + 14, stroke: AXC, 'stroke-width': 2 });
+    H.rise(el(g, 'text', { x: tx3(t(d)), y: PB + 50, class: 'ax', 'font-size': 30, 'text-anchor': 'middle' }, fmt.day(d).slice(0, -5)), K.market + .3, .5, 10);
+  });
+  H.draw(grid, K.market, .8);
+  H.rise(markFn(g, px0, 262), K.market + .05, .55, 14);
+  const ln = el(g, 'g');
+  el(ln, 'polyline', { points: ser.map(([d, c]) => tx3(t(d)).toFixed(1) + ',' + py3(c).toFixed(1)).join(' '), fill: 'none', stroke: col, 'stroke-width': 3.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' });
+  reveal(ln, px0, tx3, PT - 20, PB, [[K.market + .45, ser[0][0]], [K.fall, '2026-10-09'], [K.fall + 1.1, DL]]);
+  const dot = el(g, 'circle', { cx: lx, cy: ly, r: 8, fill: col }); H.fade(dot, K.fall + 1.0, .3);
+  // the move's two dates (9 Oct and the low), small rings on the line; the low that is the last close is the dot itself
+  const rings = el(g, 'g');
+  [oct.asOf, mv.asOf].forEach(d => { const r = ser.find(q => q[0] === d); if (!r || d === last[0]) return;
+    el(rings, 'circle', { cx: tx3(t(d)), cy: py3(r[1]), r: 6.5, fill: 'var(--bg)', stroke: CR, 'stroke-width': 3 }); });
+  H.fade(rings, K.fall + 1.1, .3);
+  H.rise(el(g, 'text', { x: SX, y: SY, class: 'fn', 'font-size': 34, 'text-anchor': 'end' }, fmt.usd(last[1])), K.fall + .95);
+  H.rise(el(g, 'text', { x: SX, y: SY + 40, class: 'nd', 'font-size': 32, 'text-anchor': 'end' }, fmt.day(last[0])), K.fall + 1.05);
+  H.rise(el(g, 'text', { x: SX, y: SY + 86, class: 'fn', 'font-size': 34, 'text-anchor': 'end', style: 'fill:var(--red)' }, mv.display), K.fall + 1.1);
+  H.fade(el(g, 'line', { x1: SX - 122, x2: SX, y1: SY + 98, y2: SY + 98, stroke: 'var(--red)', 'stroke-width': 2, 'stroke-dasharray': '6 6' }), K.fall + 1.35, .3);
+  /* the move's span, set beside it (facts, v6): "9 to 14 Oct" (NBIS, CoreWeave), "9 to 15 Oct" (IREN), from the two keys' own dates */
+  H.rise(el(g, 'text', { x: SX - 140, y: SY + 84, class: 'nd', 'font-size': 28, 'text-anchor': 'end' }, +oct.asOf.slice(8) + ' to ' + fmt.day(mv.asOf).slice(0, -5)), K.fall + 1.15);
+});
+/* the CNBC receipt (b110h): its headline is Goldman's key, declared so the credit carries it (bw audit, v6) */
+{ const hk = 'cnbc_coreweave_bond_yields_headline_14_october_2026', hf = F(hk); U(hk);
+  H.card('b110h', K.debt, K.debt + 5.2, { x: 240, y: 48, w: 1440, h: 172 }, (hf.label || 'CNBC, 14 Oct 2026') + ': ' + hf.display); }
+
+H.run();
+</script>
+</body>
+</html>

@@ -113,7 +113,8 @@ async function main() {
 
       // fit=0 is a no-op on boards without a fit wrapper and keeps newer
       // boards from scaling to the capture window.
-      const url = `${pathToFileURL(src).href}?final&still&fit=0`;
+      // A board may rest on a labelled frame (`rest`) and carry its own parameters (`query`).
+      const url = `${pathToFileURL(src).href}?${d.rest ?? 'final'}&still&fit=0${d.query ? `&${d.query}` : ''}`;
       const shot = path.join(posters, `${d.slug}.capture.png`);
       await shoot(chrome, url, shot);
 
