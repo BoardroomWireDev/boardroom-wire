@@ -37,6 +37,9 @@ with `wrangler dev --remote --test-scheduled`. Run `npm run cf:history` at least
 Apply a branch's migrations from that branch's checkout: "No migrations to apply" says nothing about the live database.
 **Traps.** Six files are CRLF (`Site.astro`, `index`, `about`, `videos`, `wire/[slug]`, `analytics/[collection]/index`): match `\r?\n`,
 and Git Bash `sed -i` strips the CR (edit with the Edit tool or Python on bytes). A capture a board needs must already be in the
-video's `dashboards\assets\captures\` (agents cannot copy out of `stock-pack\`). Astro scopes `<style>` (script-built DOM and MDX prose
+video's `dashboards\assets\captures\` (agents cannot copy out of `stock-pack\`). A video's `assets\` holds working files that
+print local machine paths (render job lists, style-frame sheets, `.py` scripts): the repo is public, so the sync skips them for
+every collection and stops if any synced file names a user folder (alexandr-wang's `engrave.py` shipped one, removed 17 Oct;
+it stays in git history). Astro scopes `<style>` (script-built DOM and MDX prose
 need `is:global`) and hoists a component script once per page. No `transform` on an ancestor of a fullscreen target. `astro preview`
 listens on `[::1]`; `git merge -F -` does not read stdin; headless Chrome cannot verify a live reveal: check embeds in a real browser.

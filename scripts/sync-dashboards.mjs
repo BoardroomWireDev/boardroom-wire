@@ -70,11 +70,14 @@ const BOARDS = {
   ]),
 };
 
-// Working files inside assets/ that the boards never load and the public repo must not carry
-// (render job lists and style-frame sheets print local machine paths).
-const SKIP = {
-  'nebius': /^assets[\\/](render-jobs[^\\/]*\.json|renders-[^\\/]*\.json|slots-[^\\/]*\.json|style-frames[\\/][^\\/]*\.(html|json))$/,
-};
+// Working files inside a video's assets/ that boards never load, skipped for every collection:
+// this repo is public, and render job lists, style-frame sheets and build scripts print local
+// machine paths (alexandr-wang's engrave.py did, 17 Oct 2026). docs/NOTES.md, Traps.
+const SKIP = /^assets[\\/](.*\.py|render-jobs[^\\/]*\.json|renders-[^\\/]*\.json|slots-[^\\/]*\.json|style-frames[\\/][^\\/]*\.(html|json))$/;
+
+// The check behind the skip list: a synced file that names a local user folder stops the sync.
+const LOCAL_PATH = /[A-Za-z]:[\\/]{1,2}Users[\\/]{1,2}[^\\/\s"'`]+|\/Users\/[^/\s"'`]+\/|\/home\/[^/\s"'`]+\//;
+const TEXT = /\.(html|js|mjs|json|css|svg|py|txt|md|csv)$/i;
 
 // Files a board loads from outside its dashboards folder, copied to where its relative path
 // resolves on the site. Nebius's sf.js reaches the two wordmarks at <video>/logos/, which from
@@ -127,10 +130,17 @@ async function syncOne(slug, src) {
   let copied = 0;
   for (const entry of await readdir(src, { withFileTypes: true })) {
     if (!ships(entry, slug)) continue;
-    const skip = SKIP[slug];
-    const filter = skip ? (from) => !skip.test(path.relative(src, from)) : undefined;
+    const filter = (from) => !SKIP.test(path.relative(src, from));
     await cp(path.join(src, entry.name), path.join(dest, entry.name), { recursive: true, filter });
     copied += 1;
+  }
+
+  const leaks = [];
+  for (const f of await readdir(dest, { recursive: true })) {
+    if (TEXT.test(f) && LOCAL_PATH.test(await readFile(path.join(dest, f), 'utf8'))) leaks.push(f);
+  }
+  if (leaks.length) {
+    throw new Error(`${slug}: these files print a local machine path; skip them or fix them in the video folder:\n    ${leaks.join('\n    ')}`);
   }
 
   // Paths are relative to the source folder and to dest respectively.
