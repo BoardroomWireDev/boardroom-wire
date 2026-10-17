@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>One deal, three ways · Boardroom Wire</title>
+<!-- NEBIUS · H9 · ONE DEAL, THREE WAYS (Ive, 13 Oct 2026). 19:11, about 74 s; s12p1 to s12p5. From the approved style frame as
+     revised to the writer's note ("per year should be appearing on a time series the way we did the annualized pay for engineer"):
+     the Alexandr Wang board 42 device. One deal, one dollar scale, three readings.
+       deals        Microsoft's and Meta's marks, both deals, small ("deca-billion-dollar deals")
+       contracted   the dollar axis draws
+       signed       Microsoft's $17.4B lands as 60 monthly cells (the 6-K card rides over the clear right half, b097)
+       five         the bar parts into its five years
+       forty        Nebius's more-than-$40B of commitments behind it, hatched (contracted, not booked), its floor dashed
+       seven        about $7B lifts out of the bar and drops to its own row: cash that came early (H5's slice, picked up)
+       deferred     "paid upfront", the data.js label (the balance-sheet card rides over the clear right half, b098; facts 15 Oct)
+       month        a time axis opens under the bars; year 1's twelve months fill one by one, carried down on projection lines
+       spread       years 2 to 5 drop from their own twelve months of the bar onto their years
+       year         about $3.5B a year: the dashed level (our arithmetic, straight-line once running) and the figure
+       three        the three readings, each lit as the voice names it; all three at rest
+     Master v3 note 19 (the writer: "on 'signing deca-billion-dollar deals with Meta and Microsoft': show the deal numbers and their
+     logos slamming onto the screen, as a more seamless transition into the contracted-revenue section"): on 'deals' both deals
+     land hard as true-scale bars on this board's own dollar scale, marks in their owners' colours, figures at full size (Microsoft
+     $17.4B; Meta up to $27B, firm part solid, the rest hatched); then Meta's row steps back and Microsoft's bar is the bar the
+     board goes on with. The board opens on the slam: the layout lays it from render frame 109 (3.63 s, the first frame of the slam), not frame 128.
+     Words on screen (rule 16): up to (Meta's, as on H6); commitments, paid upfront, a year. The five years are a solid gold tint under a dashed level (tier C projection; E4). Figures: microsoft_nebius_contract_value,
+     microsoft_upfront_payments_nebius, microsoft_revenue_per_year_calc (C), nebius_backlog_august_2026, meta_nebius_contract_mar_2026_max,
+     meta_nebius_contract_mar_2026_firm.
+     Back half P04 (16 Oct; refined 16 Oct), appended steps:
+       iou          "essentially an IOU": the row's own $7B leaves first, the gold bar opens out to the slip's outline (its
+                    gold draining), then the slip (Microsoft's mark in its colours, "IOU", the $7B) comes up inside it: one $7B
+                    on screen at every frame
+       cluster      "once each cluster is live": year 1's twelve months each sit under a drawn rack row (28 x 18 px, three
+                    slots) centred over its own month cell, in two staggered tiers (even months upper); cream at .35 until
+                    live, gold (slots filled) when live; each cell grows as its rack goes live (48.8 to 51.5). Year 1's two
+                    projection lines stop above the racks, so no line crosses one
+       tcom/tcash/tstream  "three different ways": the old board is gone (59.92 to 60.32) before the tiles rise (from 60.27);
+                    three equal tiles (figure, picture, label close under it), a third of their ink until each word:
+                    commitments = $17.4B over the 60-cell contract bar; cash up front = the IOU slip; a year = $3.5B over a
+                    meter of 60 thin month ticks rising one after another to one steady (dashed) level on a five-year axis,
+                    "five years" fading in on the voice's "five years" (70.27)
+     Words added on screen: IOU (the voice's, 40.85), five years (the voice's, 70.27).
+     Steps (board seconds from the recorded VO, board zero VO 1017.27; ?at= in this order, ?secs=):
+       deals 3.77 · contracted 8.67 · signed 15.2 · five 19.87 · forty 27.37 · seven 32.47 · deferred 39.0 · month 47.77 ·
+       spread 50.53 · year 54.67 · three 59.87 · commit 61.57 · cash 64.57 · stream 68.0 · iou 40.85 · cluster 48.8 ·
+       tcom 63.21 · tcash 65.95 · tstream 68.31                                                              (secs 76.8)
+     Job query: ?at=3.77,8.67,15.2,19.87,27.37,32.47,39.0,47.77,50.53,54.67,59.87,61.57,64.57,68.0&secs=76.8&slots=0
+     (the appended steps take their defaults).
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?slots=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/style-frames/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); defs(s);
+const K = H.steps([['deals', 3.77], ['contracted', 8.67], ['signed', 15.2], ['five', 19.87], ['forty', 27.37], ['seven', 32.47],
+  ['deferred', 39.0], ['month', 47.77], ['spread', 50.53], ['year', 54.67], ['three', 59.87], ['commit', 61.57], ['cash', 64.57], ['stream', 68.0],
+  ['iou', 40.85], ['cluster', 48.8], ['tcom', 63.21], ['tcash', 65.95], ['tstream', 68.31]], 76.8);
+
+const GOLD = 'var(--gold)', CR = 'var(--cream)', DIMC = 'rgba(245,241,229,.5)', AXC = 'rgba(245,241,229,.4)';
+const ctr = U('microsoft_nebius_contract_value'), up = U('microsoft_upfront_payments_nebius');
+const yr = U('microsoft_revenue_per_year_calc'), back = U('nebius_backlog_august_2026');
+const X0 = 560, X1 = 1800, px = lin(0, 41e9, X0, X1), BH = 100, AY = 150, R1 = 220, R2 = 400;
+const mw = (px(ctr) - px(0)) / 60;
+
+/* receipt cards ride over the clear right half (bw overlay); the board keeps it empty while they are up */
+H.card('b097', K.signed - .8, K.five + 3.2, { x: 1120, y: 360, w: 700, h: 520 }, "Nebius 6-K, 8 Sep 2025: Microsoft's $17.4B");
+H.card('b098', K.deferred, K.month - .4, { x: 1120, y: 360, w: 700, h: 520 }, 'Nebius 20-F, FY2025 balance sheet: deferred revenue');
+
+/* ---- the deals, small ---- */
+const marks = el(s, 'g');
+logo(marks, 'microsoft', 96, 92, 44); nebius(marks, 156, 92, 44);
+const meta = el(s, 'g'); logo(meta, 'meta', 224, 96, 36);
+H.rise(marks, K.deals - .2);
+H.show(meta, K.deals + .5, .45, K.signed - .6, .5);
+
+/* ---- the dollar axis ---- */
+const ax = el(s, 'g');
+el(ax, 'line', { x1: px(0), x2: px(40e9), y1: AY, y2: AY, stroke: AXC, 'stroke-width': 2 });
+for (let v = 0; v <= 40e9; v += 10e9) {
+  const g = el(ax, 'g');
+  el(g, 'line', { x1: px(v), x2: px(v), y1: AY - 12, y2: 520, stroke: v ? 'rgba(245,241,229,.06)' : AXC, 'stroke-width': 2 });
+  el(g, 'text', { x: px(v), y: AY - 26, class: 'ax', 'font-size': 30, 'text-anchor': 'middle' }, v ? fmt.usdB(v, 0) : '$0');
+  H.fade(g, K.contracted + .15 + v / 10e9 * .12);
+}
+H.draw(ax.firstChild, K.contracted, .9);
+
+/* ---- commitments: Nebius's floor behind, Microsoft's five years in front ---- */
+/* master v3 E4 (16 Oct): the approved projection treatment (N15 pick A, the writer: hatched figures "look rough") carried to
+   this board's projected marks: a solid tint with a dashed edge in place of the hatch; dashed is the house mark for not-yet */
+const back40 = el(s, 'path', { d: `M${px(back) + 60},${R1} H${px(0)} V${R1 + BH} H${px(back) + 60}`, fill: 'rgba(245,241,229,.13)', stroke: DIMC, 'stroke-width': 2, 'stroke-dasharray': '8 6' });
+H.wipe(back40, K.forty - .1, 1.2, 'x');
+const floor = el(s, 'line', { x1: px(back), x2: px(back), y1: R1 - 10, y2: R1 + BH + 10, stroke: CR, 'stroke-width': 3, 'stroke-dasharray': '8 6' });
+H.fade(floor, K.forty + 1.0);
+H.rise(el(s, 'text', { x: px(back) - 14, y: R1 + BH / 2 + 14, class: 'fn', 'font-size': 40, 'text-anchor': 'end' }, fmt.usdB(back, 0) + '+'), K.forty + 1.1);
+/* the remainder is every customer's, not Microsoft's (facts, 16 Oct): tagged with its key's own label */
+H.rise(el(s, 'text', { x: px(back) - 14, y: R1 + BH + 38, class: 'nd', 'font-size': 30, 'text-anchor': 'end' }, F('nebius_backlog_august_2026').label), K.forty + 1.3);   // the key's label, "customer commitments" (rule 16)
+
+const bar = el(s, 'g');
+const cells = [];
+for (let m = 0; m < 60; m++) cells.push(el(bar, 'rect', { x: px(0) + m * mw + 1, y: R1 + 10, width: mw - 2, height: BH - 20, fill: 'rgba(245,241,229,.82)' }));
+H.grow(bar, K.signed, .9, px(0), 0, 'x');
+const seams = el(s, 'g');
+for (let y = 1; y < 5; y++) el(seams, 'line', { x1: px(0) + y * 12 * mw, x2: px(0) + y * 12 * mw, y1: R1 + 4, y2: R1 + BH - 4, stroke: 'var(--bg)', 'stroke-width': 4 });
+H.on((t) => [...seams.children].forEach((l, i) => l.setAttribute('opacity', H.go(t, K.five + .1 + i * .18, K.five + .4 + i * .18).toFixed(3))));
+const l1 = el(s, 'g');
+el(l1, 'text', { x: 96, y: R1 + 52, class: 'fn', 'font-size': 56 }, fmt.usdB(ctr));
+el(l1, 'text', { x: 98, y: R1 + 96, class: 'nd', 'font-size': 32 }, 'commitments');
+H.rise(l1.children[0], K.signed + .2); H.rise(l1.children[1], K.forty + .3);
+
+/* ---- deferred revenue: about $7B lifts out of the bar and drops to its own row ---- */
+const cash = el(s, 'rect', { x: px(0), y: R2, width: px(up) - px(0), height: BH, fill: GOLD });
+H.path(cash, [[K.seven - .1, 0, R1 - R2, 0], [K.seven + .05, 0, R1 - R2 - 26, 1], [K.seven + 1.1, 0, 0, 1]]);
+const l2 = el(s, 'g');
+el(l2, 'text', { x: 96, y: R2 + 52, class: 'fh', 'font-size': 56 }, F('microsoft_upfront_payments_nebius').display);   // "$7B", as on 05 (approx; facts, 15 Oct)
+el(l2, 'text', { x: 98, y: R2 + 96, class: 'nd', 'font-size': 32 }, F('microsoft_upfront_payments_nebius').label);   // data.js label (facts, 15 Oct)
+H.rise(l2.children[0], K.seven + .9); l2.children[1].style.display = 'none';   // facts, v6: the row's "cash up front" led the voice by 20 s; the tile carries it on its word
+
+/* ---- revenue: five years on a time axis (its own dollar axis: a rate a year), twelve months each ---- */
+const tg = (m) => K.cluster + m * (2.7 / 11);          // month m's cluster goes live (48.8 to 51.5): revenue follows delivery
+const TY = 900, YW = 228, YG = 16, vy = lin(0, 4e9, TY, TY - 280), mo = (YW - YG) / 12, KY = 540, CY0 = vy(yr) - 56;   // CY0: the upper rack tier
+const tax = el(s, 'g');
+el(tax, 'line', { x1: X0 - 10, x2: X0 + 5 * YW, y1: TY, y2: TY, stroke: AXC, 'stroke-width': 2 });
+[0, 2e9, 4e9].forEach(v => {
+  if (v) el(tax, 'line', { x1: X0 - 10, x2: X0 + 5 * YW, y1: vy(v), y2: vy(v), stroke: 'rgba(245,241,229,.07)', 'stroke-width': 2 });
+  el(tax, 'text', { x: X0 - 22, y: vy(v) + 10, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, v ? fmt.usdB(v, 0) : '$0');
+});
+H.fade(tax, K.month - .3, .6);
+for (let y = 0; y < 5; y++) {
+  const x = X0 + y * YW, g = el(s, 'g');
+  const t0 = y === 0 ? K.month : K.spread + (y - 1) * .5;
+  // the year drops from its twelve months of the bar (Wang's slab, tipped onto its year), then its months fill
+  for (let m = 0; m < 12; m++) {
+    // our straight-line projection (tier C), not a reported figure: a solid tint under the dashed level
+    // line that marks it (E4, 16 Oct; it was hatched)
+    const c = el(g, 'rect', { x: x + m * mo + 1.5, y: vy(yr) + .5, width: mo - 3, height: TY - vy(yr) - .5, fill: 'rgba(212,175,55,.42)' });   // no per-month edge: twelve edges a year read as a hatch
+    const tm = y === 0 ? tg(m) + .08 : t0 + .35 + m * .03;
+    H.grow(c, tm, y === 0 ? .26 : .3, 0, TY, 'y');
+    if (y === 0) {   // P04: the month's cluster, a drawn rack row (28 x 18, three slots) centred over its own cell, in two
+      // staggered tiers so twelve fit a 212 px year (even months upper, odd lower); cream at .35 until live, gold when live.
+      // The tiers sit below where year 1's projection lines end (CY0 - 10), so no line crosses a rack.
+      const RW = 28, RH = 18, gx = x + m * mo + mo / 2 - RW / 2, gy = CY0 + (m % 2) * (RH + 8), gl = el(g, 'g');
+      const rk = el(gl, 'rect', { x: gx, y: gy, width: RW, height: RH, rx: 2.5, 'stroke-width': 1.8 });
+      const us = [3.5, 11, 18.5].map(d => el(gl, 'rect', { x: gx + d, y: gy + 4.5, width: 6, height: RH - 9, rx: 1, 'stroke-width': 1.3 }));
+      H.fade(gl, tg(0) - .5, .4);
+      H.on((t) => { const u = H.go(t, tg(m) - .03, tg(m) + .2), c2 = [245 + (212 - 245) * u, 241 + (175 - 241) * u, 229 + (55 - 229) * u].map(Math.round).join(',');
+        const a = (.35 + .65 * u).toFixed(3);
+        rk.setAttribute('stroke', `rgba(${c2},${a})`); rk.setAttribute('fill', `rgba(212,175,55,${(.16 * u).toFixed(3)})`);
+        us.forEach(l => { l.setAttribute('stroke', `rgba(${c2},${a})`); l.setAttribute('fill', `rgba(212,175,55,${(.9 * u).toFixed(3)})`); }); });
+    }
+  }
+  const yl = el(s, 'text', { x: x + (YW - YG) / 2, y: TY + 46, class: 'ax', 'font-size': 30, 'text-anchor': 'middle' }, String(y + 1));
+  H.fade(yl, t0 + .1);
+  // the year's own twelve months of the bar answer as it lands
+  H.on((t) => { for (let m = y * 12; m < y * 12 + 12; m++) {
+    // year 1: each month of the bar answers as its own cluster goes live (P04); the other years as the year lands
+    const u = y === 0 ? H.go(t, tg(m) - .03, tg(m) + .25) * (1 - H.go(t, tg(11) + .7, tg(11) + 1.3)) : H.go(t, t0, t0 + .5) * (1 - H.go(t, t0 + 1.2, t0 + 1.8));
+    const c = [245 + (212 - 245) * u, 241 + (175 - 241) * u, 229 + (55 - 229) * u].map(Math.round).join(',');
+    cells[m].setAttribute('fill', `rgba(${c},.82)`); } });
+}
+/* projection lines, one per year edge: down from the bar's year boundary, past the cash, out to the year's edge on the axis.
+   Edges 0 and 1 come with year 1 (on "month"); edge e >= 2 is year e's right edge and comes as that year drops. */
+for (let e = 0; e <= 5; e++) {
+  const xa = px(0) + e * 12 * mw, xb = X0 + e * YW - (e ? YG : 0), te = e <= 1 ? K.month : K.spread + (e - 2) * .5;
+  const ye = e <= 1 ? CY0 - 10 : vy(yr) - 14;          // year 1's edges stop above its cluster racks (refined 16 Oct)
+  H.fade(el(s, 'polyline', { points: `${xa},${R1 + BH + 6} ${xa},${Math.min(KY, ye)} ${xb},${ye}`, fill: 'none', stroke: DIMC, 'stroke-width': 1.6, 'stroke-dasharray': '3 7' }), te - .2, .4);
+}
+s.appendChild(cash.__hw || cash);   // the cash paints over the projection lines: they pass behind it
+const level = el(s, 'line', { x1: X0, x2: X0 + 5 * YW - YG, y1: vy(yr), y2: vy(yr), stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '8 7' });
+H.wipe(level, K.year - .2, .9, 'x');
+const l3 = el(s, 'g');
+el(l3, 'text', { x: 96, y: vy(yr / 2) + 4, class: 'fh', 'font-size': 56 }, fmt.usdB(yr));
+el(l3, 'text', { x: 98, y: vy(yr / 2) + 48, class: 'nd', 'font-size': 32 }, 'a year');
+H.rise(l3.children[0], K.year); H.rise(l3.children[1], K.year + .4);
+/* our calculation, so the house mark: a dashed underline (facts, v6) */
+H.rise(el(s, 'line', { x1: 98, x2: 98 + fmt.usdB(yr).length * 56 * .57, y1: vy(yr / 2) + 16, y2: vy(yr / 2) + 16, stroke: GOLD, 'stroke-width': 3, 'stroke-dasharray': '10 7' }), K.year + .1);
+calc = true;
+
+/* ---- the three readings, each lit as the voice names it (the others step back), all three at rest ---- */
+const rows = [l1, l2, l3], lit = [[K.commit, K.cash], [K.cash, K.stream], [K.stream, K.stream + 2.6]];
+H.on((t) => rows.forEach((r, i) => {
+  const dim = H.go(t, K.three + .4, K.three + .9) * (1 - H.go(t, K.stream + 2.6, K.stream + 3.2));
+  const on = H.go(t, lit[i][0] - .3, lit[i][0] + .1) * (1 - H.go(t, lit[i][1] - .3, lit[i][1] + .1));
+  r.setAttribute('opacity', (1 - dim * .62 * (1 - on)).toFixed(3));
+}));
+
+/* ================= MASTER V3, NOTE 19 (Ive, 16 Oct; the writer approved N19a/N19b) =================
+   "deca-billion-dollar deals with Meta and Microsoft": the two deals land hard on the words as bars on the board's own dollar
+   scale, each with its mark in its own colours and its figure at full size; then one move: Meta's row steps back, and
+   Microsoft's bar is the bar the board goes on with (its 60 monthly cells grow over it on "signed"; its figure hands over to
+   the row's label). Nothing is redrawn between the two boards' ideas. */
+H.on(() => { marks.style.display = 'none'; meta.style.display = 'none'; });
+const d2 = U('meta_nebius_contract_mar_2026_max'), mfirm = U('meta_nebius_contract_mar_2026_firm');
+const DL = K.deals;
+/* Microsoft: its row, the whole deal as one bar, landing in 0.35 s */
+const msBar = el(s, 'rect', { x: px(0), y: R1 + 10, width: px(ctr) - px(0), height: BH - 20, fill: 'rgba(245,241,229,.82)' });
+H.grow(msBar, DL - .15, .35, px(0), 0, 'x', H.ease.out);
+H.on((t) => msBar.setAttribute('opacity', (1 - H.go(t, K.signed + .5, K.signed + .9)).toFixed(3)));
+const msFig = el(s, 'text', { x: px(ctr) + 28, y: R1 + 78, class: 'fn', 'font-size': 88 }, fmt.usdB(ctr));
+H.rise(msFig, DL + .1, .4, 22, K.signed - .1, .4);
+const msMark = el(s, 'g'); logo(msMark, 'microsoft', 96, R1 + 14, 72);
+H.path(msMark, [[DL - .2, 0, 14, 0], [DL + .2, 0, 0, 1], [K.signed - .6, 0, 0, 1], [K.signed + .3, 0, 92 - R1 - 14, 1]]);
+/* Meta: its row, firm solid and the rest of the up-to hatched, landing a beat later on "Meta" */
+const mt = el(s, 'g');
+el(mt, 'rect', { x: px(0), y: R2 + 10, width: px(mfirm) - px(0), height: BH - 20, fill: 'rgba(245,241,229,.82)' });
+el(mt, 'rect', { x: px(mfirm), y: R2 + 10, width: px(d2) - px(mfirm), height: BH - 20, fill: 'url(#hatch)', stroke: 'rgba(245,241,229,.82)', 'stroke-width': 2 });
+H.grow(mt, DL + .25, .35, px(0), 0, 'x', H.ease.out);
+const mtFig = el(mt, 'g');
+el(mtFig, 'text', { x: px(d2) + 28, y: R2 + 22, class: 'nd', 'font-size': 32 }, 'up to');
+el(mtFig, 'text', { x: px(d2) + 28, y: R2 + 104, class: 'fn', 'font-size': 72 }, fmt.usdB(d2, 0));
+const mtMark = el(mt, 'g'); logo(mtMark, 'meta', 96, R2 + 26, 48);
+H.show(mt, DL + .25, .2, K.signed - .9, .6);
+
+/* ================= BACK HALF, P04 (Ive, 16 Oct; the writer approved it as written) =================
+   "essentially an IOU": the $7B row turns into a promissory slip (the bar parts for it); then, on "three different ways", the
+   three rows lift apart into three equal tiles across the frame, each lit (a third of its ink to full) on its word. */
+const UPD = F('microsoft_upfront_payments_nebius');
+/* a promissory slip drawn flat: a ruled border, a perforated stub edge with Microsoft's mark in its own colours, the word, the sum */
+function slip(p, w, h) {
+  const g = el(p, 'g'), st = Math.round(w * .28), r = 9, ms = Math.round(st * .52);
+  el(g, 'path', { d: `M6,0 H${st - r} A${r},${r} 0 0 0 ${st + r},0 H${w - 6} Q${w},0 ${w},6 V${h - 6} Q${w},${h} ${w - 6},${h} H${st + r} A${r},${r} 0 0 0 ${st - r},${h} H6 Q0,${h} 0,${h - 6} V6 Q0,0 6,0 Z`,
+    fill: 'var(--bg)', stroke: CR, 'stroke-width': 2.4 });
+  el(g, 'rect', { x: st + 18, y: 12, width: w - st - 30, height: h - 24, rx: 3, fill: 'none', stroke: 'rgba(245,241,229,.4)', 'stroke-width': 1.3 });
+  el(g, 'line', { x1: st, x2: st, y1: r + 6, y2: h - r - 6, stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '1 9', 'stroke-linecap': 'round' });
+  logo(g, 'microsoft', (st - ms) / 2, (h - ms) / 2, ms);
+  const x0 = st + 42, fz = Math.round(h * .34), gz = Math.round(h * .30);
+  el(g, 'text', { x: x0, y: h * .40, class: 'fn', 'font-size': fz }, 'IOU');
+  el(g, 'line', { x1: x0, x2: w - 42, y1: h * .5, y2: h * .5, stroke: 'rgba(245,241,229,.4)', 'stroke-width': 1.3 });
+  el(g, 'text', { x: x0, y: h * .5 + gz + 10, class: 'fh', 'font-size': gz }, UPD.display);
+  return g;
+}
+/* the hand-off, one $7B at a time (refined 16 Oct): the row's own $7B leaves first; the gold bar opens out to the slip's
+   outline, its gold draining to the slip's ground; then the slip (its mark, "IOU", its $7B) comes up inside that outline */
+const SW = 470, SH = 150, SY = R2 - 25, slO = el(s, 'g', { transform: `translate(${px(0)},${SY})` }), sl = slip(slO, SW, SH);
+H.fade(slO, K.iou + .26, .24);
+const cw0 = px(up) - px(0);
+H.on((t) => {
+  const m = H.go(t, K.iou - .12, K.iou + .32), gone = H.go(t, K.iou + .3, K.iou + .5), hw = cash.__hw || cash;
+  if (t >= K.iou - .12) {
+    cash.setAttribute('y', (R2 + (SY - R2) * m).toFixed(2)); cash.setAttribute('width', (cw0 + (SW - cw0) * m).toFixed(2));
+    cash.setAttribute('height', (BH + (SH - BH) * m).toFixed(2)); cash.setAttribute('rx', (6 * m).toFixed(2));
+    cash.setAttribute('fill', `rgba(212,175,55,${(1 - .9 * m).toFixed(3)})`);
+    cash.setAttribute('stroke', `rgba(245,241,229,${m.toFixed(3)})`); cash.setAttribute('stroke-width', 2.4);
+  } else {   // before the hand-off: the bar exactly as drawn (the frame stays pure in t)
+    cash.setAttribute('y', R2); cash.setAttribute('width', cw0); cash.setAttribute('height', BH); cash.setAttribute('rx', 0);
+    cash.setAttribute('fill', GOLD); cash.setAttribute('stroke', 'none');
+  }
+  hw.setAttribute('opacity', (+hw.getAttribute('opacity') * (1 - gone)).toFixed(3));
+  hw.style.display = gone >= 1 ? 'none' : '';
+  const f = l2.children[0].__hw || l2.children[0];
+  f.setAttribute('opacity', (+f.getAttribute('opacity') * (1 - H.go(t, K.iou - .2, K.iou + .1))).toFixed(3));
+});
+
+/* the old board is one group, so the tiles can take the frame */
+const old = el(s, 'g'); [...s.children].forEach(n => { if (n !== old && n.tagName !== 'defs') old.appendChild(n); });
+/* the old board is gone (0.4 s) before the first tile starts to rise: no double exposure (refined 16 Oct) */
+H.on((t) => { const o = 1 - H.go(t, K.three + .05, K.three + .45); old.setAttribute('opacity', o.toFixed(3)); old.style.display = o < .002 ? 'none' : ''; });
+
+/* three equal tiles, each its own picture of the same deal, its label close under it (refined 16 Oct): figure, picture, label */
+const TW = 549, TG = 40.5, TY0 = 270, TH = 540, TX = [96, 96 + TW + TG, 96 + 2 * (TW + TG)], PW = 480, PX = (TW - PW) / 2, LY = 470;
+const tiles = [
+  { at: K.tcom, build(g) {            // the contract: $17.4B as the whole bar, sixty months in five years
+      el(g, 'text', { x: 36, y: 150, class: 'fn', 'font-size': 104 }, fmt.usdB(ctr));
+      for (let m = 0; m < 60; m++) { const w = PW / 60; el(g, 'rect', { x: PX + m * w + 1, y: 200, width: w - 2, height: 200, fill: 'rgba(245,241,229,.82)' }); }
+      for (let y = 1; y < 5; y++) el(g, 'line', { x1: PX + y * PW / 5, x2: PX + y * PW / 5, y1: 194, y2: 406, stroke: 'var(--bg)', 'stroke-width': 4 });
+      el(g, 'text', { x: 36, y: LY, class: 'nd', 'font-size': 40 }, 'commitments'); } },
+  { at: K.tcash, build(g) {           // the cash: the slip
+      const q = slip(g, PW, 300); q.setAttribute('transform', `translate(${PX},${100})`);
+      el(g, 'text', { x: 36, y: LY, class: 'nd', 'font-size': 40 }, UPD.label); } },
+  { at: K.tstream, build(g) {  // the stream: a meter, sixty thin month ticks rising one after another to one steady level
+      el(g, 'text', { x: 36, y: 150, class: 'fh', 'font-size': 104 }, fmt.usdB(yr));
+      el(g, 'line', { x1: 40, x2: 40 + fmt.usdB(yr).length * 104 * .57, y1: 172, y2: 172, stroke: GOLD, 'stroke-width': 4, 'stroke-dasharray': '14 9' });   // ours: dashed underline (facts, v6)
+      const LV = 212, AX = 340, w = PW / 60, t0 = K.tstream, run = 1.3;
+      el(g, 'line', { x1: PX, x2: PX + PW, y1: AX, y2: AX, stroke: AXC, 'stroke-width': 2 });
+      for (let y = 0; y <= 5; y++) el(g, 'line', { x1: PX + y * PW / 5, x2: PX + y * PW / 5, y1: AX, y2: AX + 12, stroke: AXC, 'stroke-width': 2 });
+      const ticks = [];
+      for (let m = 0; m < 60; m++) ticks.push(el(g, 'rect', { x: PX + m * w + (w - 2.6) / 2, y: AX, width: 2.6, height: 0, fill: 'rgba(212,175,55,.85)' }));
+      H.on((t) => ticks.forEach((r, m) => {   // our straight-line projection (tier C): the same height every month
+        const u = H.go(t, t0 + m * run / 59, t0 + m * run / 59 + .3, H.ease.out), h = (AX - LV) * u;
+        r.setAttribute('y', (AX - h).toFixed(2)); r.setAttribute('height', h.toFixed(2)); r.style.display = u <= 0 ? 'none' : ''; }));
+      H.wipe(el(g, 'line', { x1: PX, x2: PX + PW, y1: LV, y2: LV, stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '8 7' }), t0 + .1, run + .2, 'x', H.ease.lin);
+      H.fade(el(g, 'text', { x: PX + PW / 2, y: 392, class: 'nd', 'font-size': 32, 'text-anchor': 'middle' }, 'five years'), t0 + 1.96, .35);   // the voice's "five years" (70.27)
+      el(g, 'text', { x: 36, y: LY, class: 'nd', 'font-size': 40 }, 'a year'); } }
+];
+tiles.forEach((tl, i) => {
+  const g = el(s, 'g');
+  el(g, 'rect', { x: 0, y: 0, width: TW, height: TH, rx: 8, fill: 'rgba(245,241,229,.04)', stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2 });
+  tl.build(g);
+  H.on((t) => {   // the tiles rise in once the old board has gone, at a third of their ink; each goes full on its word
+    const a = K.three + .4 + i * .1, u = H.go(t, a, a + .6, H.ease.out), lit = H.go(t, tl.at - .15, tl.at + .25);
+    g.setAttribute('transform', `translate(${TX[i].toFixed(2)},${(TY0 + 30 * (1 - u)).toFixed(2)})`);
+    const o = H.go(t, a, a + .5) * (.33 + .67 * lit);
+    g.setAttribute('opacity', o.toFixed(3)); g.style.display = o < .002 ? 'none' : '';
+  });
+});
+
+H.run();
+</script>
+</body>
+</html>

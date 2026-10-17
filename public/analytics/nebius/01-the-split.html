@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The split · Boardroom Wire</title>
+<!-- NEBIUS · H1 · THE SPLIT (studio build for Ive, 13 Oct 2026). From the approved style frame H1-the-split.html (step 6, "the
+     perfect setup"): the sale on a true dollar scale above, the spare parts locked edge to edge in gold below. Goldman's picks:
+     cash is the 2024 divestment proceeds on the SAME dollar scale as the price; people are dots at the split headcount; debt is
+     off the board ($6.1M of old notes, never a $0). The frozen line is not drawn: the frame shows NBIS and its date, not a line.
+
+     TWO MODES, one file.
+     MAIN (default): 3:17 to 4:46, board 0 = s3p1 word 0 ("On February 4th, 2024"), runs to s4p1 "pivot." + 1.2 s.
+       yandex    the Yandex mark is up at frame 0; the date rises on "February"
+       sell      "sell its entire Russian business": the block draws, on the dollar scale
+       price     "about $5.2 billion": the axis draws, $5.2B lands
+       rule      "Moscow had a rule": the 6-K card (b026) rides over the clear lower half
+       fifty     "at least 50%": the dashed outline of the theoretical value (ours) wipes out to twice the price
+       half      "roughly half": the gap measured, at least 50%
+       worth     "theoretically worth": the $10B tick
+       search · ads · taxis · maps · delivery   each service tile called out on its word
+       into      "The entire Russian super app": the five tiles slide into the sold block
+       gone      "was gone": the block leaves the frame (up)
+       remained  "what remained": a small gold square, the remainder
+       nebius    "renamed itself Nebius": it takes the Nebius mark and wordmark
+       volozh    "Volozh came back": the footage window b027 (6.6 s)
+       trading   "began trading again": 21 Oct 2024
+       nbis      "NBIS": the ticker
+       left      "what exactly was left": the remainder opens into the parts block
+       cash      "about two and a half billion dollars in cash": the cash grows on the deal's scale; $2.6B
+       finland   "a data center in Finland": its tile, the aerial window b133 (stays to the end), Finland
+       people    "a thousand employees": 1,300 dots, block by block, and 1,300
+       down      "a huge step down": the parts sit dim, the Finland window with them (its slot carries the `dim` curve for
+                 bw overlay); the sold block returns as the ghost of Yandex; the gold guides carry the cash up to the axis, small against it
+       setup     "the perfect setup": the parts light at once and lock edge to edge into one gold block
+     RE-LAID 13 Oct (FINDINGS-pass1 3:00 and 3:12): the deal used the top 45% only, labels read ~24 px, the windows sat at ~20%
+       of the width and 3:38 to 3:48 was nearly empty. Now: the deal band is taller (block 170 px) and the parts fill the lower
+       half (540 to 1000); every label is 40 px or more (the axis 40, names 44); the Volozh window is 880 x 495 (46% of the
+       width) and the Finland window 460 x 259; the $10.4B floor is an open bracket whose right end fades (a floor, not a
+       box); the deal holds the middle of the frame (200 px lower) until "gone", then rises to the top band as the block
+       leaves; and "But they didn't lose everything" has its subject: the remainder draws as a 220 px gold square as soon as the
+       block has left, and takes the Nebius mark on "Nebius". Steps unchanged.
+     Steps (board seconds at 150 wpm, words.py s3p1 s4p1, 0 = s3p1 word 0; ?at= in THIS order, ?secs=):
+       yandex 0.0 · sell 2.6 · price 7.6 · rule 11.4 · fifty 20.6 · half 25.4 · worth 28.6 · search 32.6 · ads 33.0 ·
+       taxis 33.4 · maps 33.8 · delivery 34.6 · into 35.2 · gone 39.6 · remained 42.8 · nebius 49.8 · volozh 50.3 ·
+       trading 58.2 · nbis 61.8 · left 62.6 · cash 68.2 · finland 73.4 · people 76.6 · down 82.2 · setup 87.4   (secs 90.8)
+     REPRISE (?part=reprise): 27:07, s18p3 (b129), board 0 = s18p3 word 0 ("In 2024"). Opens on the main board's rest with the
+       parts dim; they light on their words; then the dollar scale pulls back to fit today's value (every mark on it shrinks to its
+       true size), the parts block becomes one bar and it grows to the market value.
+       left 1.4 ("what was left over") · fin 5.4 ("a data center in Finland") · eng 7.4 ("a thousand engineers") ·
+       cash 9.0 ("some cash") · later 10.4 ("two years later": the scale pulls back, $11B to $66B) ·
+       leftover 11.2 ("that leftover company": the block closes to a bar) · worth 12.6 ("worth roughly $60 billion")  (secs 15.4)
+     Words on screen (rule 16): the five service names (only while called out), Finland, NBIS, Yandex and Nebius marks, dates.
+     Figures: yandex_russia_sale_price_usd, yandex_russia_sale_theoretical_value_calc (C, geometry only),
+       yandex_russia_sale_discount_min, yandex_sale_agreed_date, nebius_divestment_cash_proceeds_2024_calc (C),
+       nebius_headcount_at_split_2024, nebius_trading_resumed_date; reprise adds nebius_market_cap_9_october_2026_calc (C).
+     Render: bw capture videos/nebius/dashboards/01-the-split.html (and ?part=reprise), or headless:
+       01-the-split.html?capture[&part=reprise][&at=…&secs=…]&slots=0
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?slots=0 ?part=reprise. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/style-frames/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); defs(s);
+const REP = new URLSearchParams(location.search).get('part') === 'reprise';
+const K = REP
+  ? H.steps([['left', 1.4], ['fin', 5.4], ['eng', 7.4], ['cash', 9.0], ['later', 10.4], ['leftover', 11.2], ['worth', 12.6]], 15.4)
+  : H.steps([['yandex', 0], ['sell', 2.6], ['price', 7.6], ['rule', 11.4], ['fifty', 20.6], ['half', 25.4], ['worth', 28.6],
+      ['search', 32.6], ['ads', 33.0], ['taxis', 33.4], ['maps', 33.8], ['delivery', 34.6], ['into', 35.2], ['gone', 39.6],
+      ['remained', 42.8], ['nebius', 49.8], ['volozh', 50.3], ['trading', 58.2], ['nbis', 61.8], ['left', 62.6],
+      ['cash', 68.2], ['finland', 73.4], ['people', 76.6], ['down', 82.2], ['setup', 87.4]], 90.8);
+
+const GOLD = 'var(--gold)', CR = 'var(--cream)', AXC = 'rgba(245,241,229,.4)';
+const price = U('yandex_russia_sale_price_usd'), theo = U('yandex_russia_sale_theoretical_value_calc');
+const disc = U('yandex_russia_sale_discount_min'), when = F('yandex_sale_agreed_date').asOf; U('yandex_sale_agreed_date');
+const cash = U('nebius_divestment_cash_proceeds_2024_calc'), ppl = U('nebius_headcount_at_split_2024');
+const relist = F('nebius_trading_resumed_date').asOf; U('nebius_trading_resumed_date');
+const mc = REP ? U('nebius_market_cap_9_october_2026_calc') : 0;
+calc = true;
+
+/* one dollar scale. The main board holds $0 to $11B (the frame's); the reprise pulls it back to $66B so today's value fits,
+   and every mark on it shrinks with it */
+const X0 = 560, X1 = 1800, D0 = 11e9, D1 = 66e9;
+const zoom = (t) => REP ? H.go(t, K.later, K.later + 1.3) : 0;
+const D = (t) => H.mix(D0, D1, zoom(t));
+const PX = (v, t) => X0 + v / D(t) * (X1 - X0), px = (v) => PX(v, -1);
+const BY = 170, BH = 170, AY = BY + BH + 30, TY = 540, TH = 460;
+const NSS = 'non-scaling-stroke';
+const xscale = (g, t) => g.setAttribute('transform', `translate(${X0},0) scale(${(D0 / D(t)).toFixed(5)},1) translate(${-X0},0)`);
+
+/* ---------- the left column: Yandex, the date, the price; later Nebius ---------- */
+const yLogo = logo(s, 'yandex', 96, 150, 84);
+const yDate = el(s, 'text', { x: 96, y: 290, class: 'nd', 'font-size': 40 }, fmt.day(when));
+const yPrice = el(s, 'text', { x: 88, y: 428, class: 'fh', 'font-size': 140, style: 'fill:var(--cream)' }, fmt.usdB(price));
+
+/* ---------- the deal on its scale ---------- */
+const theoS = el(s, 'g');
+/* the theoretical value is a floor ("at least"): an open bracket, dashed (ours), its right end fading out past $10.4B */
+const fadeR = el(s.querySelector('defs'), 'linearGradient', { id: 'floorFade', gradientUnits: 'userSpaceOnUse', x1: px(theo) - 150, x2: px(theo) + 90, y1: 0, y2: 0 });
+el(fadeR, 'stop', { offset: 0, 'stop-color': 'rgb(245,241,229)', 'stop-opacity': .55 }); el(fadeR, 'stop', { offset: 1, 'stop-color': 'rgb(245,241,229)', 'stop-opacity': 0 });
+const theoR = el(theoS, 'path', { d: `M${px(theo) + 90},${BY} H${px(0)} V${BY + BH} H${px(theo) + 90}`, fill: 'none', stroke: 'url(#floorFade)', 'stroke-width': 2, 'stroke-dasharray': '12 9', 'vector-effect': NSS });
+const soldOut = el(s, 'g'), soldS = el(soldOut, 'g');
+const block = el(soldS, 'rect', { x: px(0), y: BY, width: px(price) - px(0), height: BH, fill: 'rgba(245,241,229,.10)', stroke: CR, 'stroke-width': 2, 'vector-effect': NSS });
+const TW = (px(price) - px(0) - 6 * 14) / 5, slotX = (i) => px(0) + 14 + i * (TW + 14);
+const ghosts = el(soldS, 'g');
+for (let i = 0; i < 5; i++) el(ghosts, 'rect', { x: slotX(i), y: BY + 14, width: TW, height: BH - 28, fill: 'none', stroke: 'rgba(245,241,229,.38)', 'stroke-width': 2, 'stroke-dasharray': '6 6', 'vector-effect': NSS });
+/* 17 Oct (the writer's note 14, "beefed up"): the sold block is the group's businesses, not an empty box. On "its entire
+   Russian business" Yandex's own service marks fill it (search, Go, Maps, Eats, Market, Music, Mail: all sold in the divestment);
+   they make room as the five called-out services slide into the block ("The entire Russian super app"). Each mark as Yandex sets it
+   on a dark ground: the wordmarks white, Music's yellow its own. */
+const SVC = [['search', 2400 / 479], ['go', 2400 / 558], ['maps', 2400 / 529], ['eats', 2400 / 572], ['market', 2400 / 471], ['music', 2400 / 337], ['mail', 2400 / 584]];
+const svcG = el(soldS, 'g'), SVH = 26, svcN = [];
+[[0, 4], [4, 7]].forEach(([a, b], row) => {
+  const items = SVC.slice(a, b), W = items.reduce((s2, [, r]) => s2 + SVH * r, 0) + 22 * (items.length - 1);
+  let x = px(0) + (px(price) - px(0) - W) / 2; const y = BY + 48 + row * 56;
+  items.forEach(([nm, r]) => { const href = 'assets/logos/logo-yandex-' + nm + '.png', g = el(svcG, 'g');
+    if (nm === 'music') el(g, 'image', { href, x, y, width: SVH * r, height: SVH }); else mark(g, href, x, y, SVH * r, SVH, 'rgb(255,255,255)');
+    svcN.push(g); x += SVH * r + 22; });
+});
+const dimG = el(soldOut, 'g');
+const dimL = dim(dimG, px(price), BY - 30, px(theo), BY - 30, 'rgba(245,241,229,.7)');
+const dimT = el(dimG, 'text', { x: (px(price) + px(theo)) / 2, y: BY - 50, class: 'fn', 'font-size': 48, 'text-anchor': 'middle' }, '≥' + fmt.pct(disc));
+
+/* the axis: its ticks ride the scale */
+const axG = el(s, 'g');
+const axL = el(axG, 'line', { x1: X0, x2: X1, y1: AY, y2: AY, stroke: AXC, 'stroke-width': 2 });
+const ticks = [];
+for (let v = 0; v <= 65e9; v += 1e9) ticks.push([v, el(axG, 'line', { y1: AY, y2: AY + (v % 5e9 ? 8 : 14), stroke: AXC, 'stroke-width': 2 })]);
+const lab = (v) => el(axG, 'text', { y: AY + 58, class: 'ax', 'font-size': 40, 'text-anchor': 'middle' }, v ? fmt.usdB(v, 0) : '$0');
+const labA = [[0, lab(0)], [5e9, lab(5e9)], [10e9, lab(10e9)]];
+const labB = REP ? [[20e9, lab(20e9)], [40e9, lab(40e9)], [60e9, lab(60e9)]] : [];
+H.on((t) => {
+  const z = zoom(t), inA = REP ? 1 : H.go(t, K.price + .1, K.price + .6);
+  ticks.forEach(([v, n]) => { const x = PX(v, t), o = (v % 5e9 ? 1 - z : 1) * inA * (x <= X1 + .5 ? 1 : 0);
+    n.setAttribute('x1', x); n.setAttribute('x2', x); n.setAttribute('opacity', o.toFixed(3)); });
+  labA.forEach(([v, n], i) => { const x = PX(v, t);
+    const on = REP ? 1 : i < 2 ? H.go(t, K.price + .3, K.price + .8) : H.go(t, K.worth, K.worth + .5);
+    const off = REP && v ? H.go(t, K.later, K.later + .5) : 0;
+    n.setAttribute('x', x); n.setAttribute('opacity', (on * (1 - off)).toFixed(3)); });
+  labB.forEach(([v, n]) => { n.setAttribute('x', PX(v, t)); n.setAttribute('opacity', H.go(t, K.later + .9, K.later + 1.4).toFixed(3)); });
+  if (REP) { xscale(soldS, t); xscale(theoS, t); }
+});
+
+/* ---------- the spare parts: cash on the deal's scale, Finland, the people ---------- */
+const wCash = px(cash) - px(0), wFin = 520;
+const xs = [X0, X0 + wCash, X0 + wCash + wFin, X1];
+const guides = el(s, 'g');
+[xs[0], xs[1]].forEach(x => el(guides, 'line', { x1: x, x2: x, y1: AY + 78, y2: TY, stroke: GOLD, 'stroke-width': 2, 'stroke-dasharray': '6 7' }));
+const parts = el(s, 'g'), cashG = el(parts, 'g'), finG = el(parts, 'g'), pplG = el(parts, 'g');
+const cashT = el(cashG, 'rect', { x: xs[0], y: TY, width: wCash, height: TH, fill: 'rgba(212,175,55,.16)', stroke: GOLD, 'stroke-width': 2 });
+const cashLit = el(cashG, 'rect', { x: xs[0], y: TY, width: wCash, height: TH, fill: GOLD });
+const cashTxt = el(cashG, 'text', { x: xs[0] + 26, y: TY + 92, class: 'fh', 'font-size': 76 }, fmt.usdB(cash, 1));
+const cashTxtLit = el(cashG, 'text', { x: xs[0] + 26, y: TY + 92, class: 'fh', 'font-size': 76, style: 'fill:var(--bg)' }, fmt.usdB(cash, 1));
+const finT = el(finG, 'rect', { x: xs[1], y: TY, width: wFin, height: TH, fill: 'none', stroke: GOLD, 'stroke-width': 2 });
+const finName = el(finG, 'text', { x: xs[1] + 30, y: TY + TH - 40, class: 'nm', 'font-size': 44 }, 'Finland');
+const pplT = el(pplG, 'rect', { x: xs[2], y: TY, width: xs[3] - xs[2], height: TH, fill: 'none', stroke: GOLD, 'stroke-width': 2 });
+const pf = field(ppl, { x: xs[2] + 30, y: TY + 124, pitch: 7.2, gap: 12, across: 4 });
+const dots = el(pplG, 'g'), hund = [];
+pf.forEach(([cx, cy, i]) => { const b = Math.floor(i / 100); (hund[b] = hund[b] || el(dots, 'g')); el(hund[b], 'circle', { cx, cy, r: 2.4 }); });
+const pplN = el(pplG, 'text', { x: xs[2] + 30, y: TY + 92, class: 'fn', 'font-size': 64, style: 'fill:var(--gold)' }, fmt.int(ppl));
+const divs = el(parts, 'g');
+[xs[1], xs[2]].forEach(x => el(divs, 'line', { x1: x, x2: x, y1: TY, y2: TY + TH, stroke: GOLD, 'stroke-width': 2 }));
+/* the remainder: a small gold square that opens into the parts block's frame */
+const rem = el(s, 'rect', { x: X0, y: TY, width: X1 - X0, height: TH, fill: 'none', stroke: GOLD, 'stroke-width': 4 });
+const setR = (n, x, y, w, h) => { n.setAttribute('x', x.toFixed(2)); n.setAttribute('y', y.toFixed(2)); n.setAttribute('width', Math.max(w, 0).toFixed(2)); n.setAttribute('height', Math.max(h, 0).toFixed(2)); };
+const RQ = 220;                                     // the remainder: a 220 px square in the left column, the Nebius mark's size
+const nebMark = nebius(s, 96, TY, RQ);
+const nebWord = logo(s, 'nebiusWord', 96, TY + RQ + 34, 52);
+const nbis = el(s, 'text', { x: 96, y: TY + RQ + 160, class: 'fn', 'font-size': 52 }, 'NBIS');
+const nbisDate = el(s, 'text', { x: 96, y: TY + RQ + 214, class: 'nd', 'font-size': 40 }, fmt.day(relist));
+/* the deal holds the middle of the frame while it is the subject (0 to "gone"), then rises to the top band as it goes, so the
+   parts below have the lower half (13 Oct re-lay: pass 1 found the first 40 s in the top 45% of the frame) */
+const deal = el(s, 'g'); [yLogo, yDate, yPrice, theoS, soldOut, axG].forEach(n => deal.appendChild(n));
+if (!REP) H.on((t) => deal.setAttribute('transform', `translate(0,${(200 * (1 - H.go(t, K.gone, K.gone + 1.0))).toFixed(2)})`));
+
+if (!REP) {
+  /* ================= MAIN ================= */
+  H.rise(yLogo, K.yandex - .6); H.rise(yDate, K.yandex + .2);
+  H.draw(block, K.sell, 1.1);
+  H.draw(axL, K.price - .2, .9);
+  H.rise(yPrice, K.price + .2, .6, 22);
+  /* 17 Oct (note 14): the 6-K card rides as a lower third (oy 830), under the axis, so the price and the deal stay in view */
+  H.card('b026', K.rule, K.fifty + 2.3, { x: 60, y: 720, w: 1800, h: 260 }, 'Yandex 6-K, Exhibit 99.1: the mandatory discount of at least 50% (lower third)');
+  svcN.forEach((g, i) => H.show(g, K.sell + .7 + i * .09, .4, K.into - .1, .4));   // they make room as the five tiles slide in   // 13 Oct: the card leaves before "roughly half" (it was up to "worth"); built, bg-card ?over=1
+  H.wipe(theoR, K.fifty, 1.1, 'x');
+  H.draw(dimL, K.half, .7); H.rise(dimT, K.half + .4);
+
+  /* the five services: called out on their words below the axis, then into the sold block */
+  const names = ['search', 'ads', 'taxis', 'maps', 'delivery'], callG = el(soldS, 'g');
+  names.forEach((nm, i) => {
+    const A = { x: X0 + i * 250, y: 486, w: 232, h: 140 }, B = { x: slotX(i), y: BY + 14, w: TW, h: BH - 28 };
+    const g = el(callG, 'g'), r = el(g, 'rect', { fill: 'rgba(245,241,229,.10)', stroke: 'rgba(245,241,229,.85)', 'stroke-width': 2 });
+    const tx = el(g, 'text', { x: A.x + A.w / 2, y: A.y + A.h / 2 + 15, class: 'nm', 'font-size': 44, 'text-anchor': 'middle' }, nm);
+    const a = K[nm] - .2, m0 = K.into + i * .1;
+    H.on((t) => {
+      const u = H.go(t, a, a + .4, H.ease.out), m = H.go(t, m0, m0 + .9), gone = t >= K.gone + 1.4 ? 1 : 0;
+      setR(r, H.mix(A.x, B.x, m), H.mix(A.y, B.y, m) + 14 * (1 - u), H.mix(A.w, B.w, m), H.mix(A.h, B.h, m));
+      tx.setAttribute('x', (H.mix(A.x, B.x, m) + H.mix(A.w, B.w, m) / 2).toFixed(2));
+      tx.setAttribute('y', (H.mix(A.y, B.y, m) + H.mix(A.h, B.h, m) / 2 + 15 + 14 * (1 - u)).toFixed(2));
+      tx.setAttribute('opacity', (1 - H.go(t, m0, m0 + .3)).toFixed(3));
+      const o = u * (1 - gone); g.setAttribute('opacity', o.toFixed(3)); g.style.display = o < .002 ? 'none' : '';
+    });
+  });
+  /* the ghost tiles take the services' places while the block is out of frame */
+  H.on((t) => { ghosts.style.display = t >= K.gone + 1.4 ? '' : 'none'; });
+  /* "gone": the block leaves the frame upward; "a huge step down": it returns as the ghost of Yandex */
+  H.path(soldOut, [[K.gone, 0, 0, 1], [K.gone + 1.0, 0, -420, 1], [K.down, 0, -420, 1], [K.down + 1.1, 0, 0, 1]]);
+
+  /* the remainder: a gold square, the Nebius mark, the ticker. It draws as soon as the block has left the frame ("But they didn't
+     lose everything"), so 3:38 to 3:48 holds the subject the voice is on: what remained */
+  H.on((t) => {
+    const ox = H.go(t, K.left, K.left + .8), o = H.go(t, K.left + .2, K.left + 1.3);
+    setR(rem, H.mix(96, X0, ox), TY, H.mix(RQ, X1 - X0, o), H.mix(RQ, TH, o));
+    const lit = H.go(t, K.setup, K.setup + .6);
+    rem.setAttribute('stroke-width', H.mix(3, 4, lit).toFixed(2));
+    rem.setAttribute('stroke-opacity', H.mix(o > 0 ? .6 : 1, 1, lit).toFixed(3));
+  });
+  H.draw(rem, K.gone + 1.0, .9);
+  H.fade(nebMark, K.nebius, .5); H.rise(nebWord, K.nebius + .4);
+  H.slot(s, 'b027', 880, 480, 880, 495, K.volozh, K.volozh + 6.6, "Volozh at Nebius's Inflection 2026, a wide from the room");
+  H.rise(nbisDate, K.trading); H.rise(nbis, K.nbis);
+
+  /* the parts, called out one by one; apart until "the perfect setup" */
+  const lock = (t) => H.go(t, K.setup, K.setup + .8);
+  /* apart: an inset from the frame and from each other (the cash keeps its true width); locked: edge to edge */
+  H.on((t) => { const g = 14 * (1 - lock(t));
+    setR(cashT, xs[0], TY + g, wCash, TH - 2 * g);
+    setR(finT, xs[1] + g, TY + g, wFin - 2 * g, TH - 2 * g);
+    setR(pplT, xs[2] + g, TY + g, xs[3] - xs[2] - g, TH - 2 * g); });
+  H.grow(cashT, K.cash, 1.1, X0, 0, 'x');
+  H.rise(cashTxt, K.cash + 1.8, .55, 18, K.setup + .3, .4);
+  H.fade(cashLit, K.setup + .1, .6); H.fade(cashTxtLit, K.setup + .3, .5);
+  H.draw(finT, K.finland - .2, .8);
+  H.slot(finG, 'b133', xs[1] + 30, TY + 96, 460, 259, K.finland, H.END + .5, "Nebius's drone aerial of the Finnish data centre (inside the Finland tile)");
+  H.rise(finName, K.finland + 1.2);
+  H.draw(pplT, K.people - .2, .8); H.rise(pplN, K.people + .2);
+  hund.forEach((g, b) => H.fade(g, K.people + .3 + b * .1, .3));
+  H.on((t) => { const u = H.go(t, K.setup + .1, K.setup + .7);
+    dots.setAttribute('fill', `rgba(${[245 + (212 - 245) * u, 241 + (175 - 241) * u, 229 + (55 - 229) * u].map(Math.round).join(',')},${(.62 + .38 * u).toFixed(3)})`); });
+  H.draw(divs, K.setup + .5, .5);
+  H.fade(guides, K.down + 1.1, .6);
+  H.on((t) => parts.setAttribute('opacity', (1 - .55 * H.go(t, K.down, K.down + .6) * (1 - H.go(t, K.setup, K.setup + .5))).toFixed(3)));
+  /* the Finland window dims with its tile on "a huge step down" and lights with it on "the perfect setup" (Ive, 13 Oct, Davinci's
+     question): the tile is one object; a full-strength picture inside a dimmed tile would pull the eye to the part the voice is
+     shrinking. The curve is the parts' own. */
+  H.dimSlot('b133', [[K.down, 1], [K.down + .6, .45], [K.setup, .45], [K.setup + .5, 1]]);
+} else {
+  /* ================= REPRISE ================= */
+  /* opens on the main board's rest, the parts dim; they light on their words */
+  const lightOn = (g, a) => H.on((t) => g.setAttribute('opacity', H.mix(.28, 1, H.go(t, a - .2, a + .3)).toFixed(3)));
+  lightOn(finG, K.fin); lightOn(pplG, K.eng); lightOn(cashG, K.cash);
+  H.on((t) => divs.setAttribute('opacity', H.mix(.28, 1, H.go(t, K.left - .2, K.left + .3)).toFixed(3)));
+  dots.setAttribute('fill', GOLD);
+  H.slot(finG, 'b129-finland', xs[1] + 30, TY + 96, 460, 259, K.fin, K.leftover + .6, "Nebius's drone aerial of the Finnish data centre (the same clip as b133)");
+  /* "two years later": the dim ≥50% and the cash guides step out while the scale pulls back */
+  H.show(dimG, -1, .01, K.later, .4); H.show(guides, -1, .01, K.later, .4); H.show(ghosts, -1, .01, K.later, .4);
+  /* "that leftover company": its contents go, the block closes to a bar; "worth": the bar grows to today's value */
+  H.on((t) => parts.setAttribute('opacity', (1 - H.go(t, K.leftover - .2, K.leftover + .5)).toFixed(3)));
+  const BAR = 180, wMC = (X1 - X0) * mc / D1;
+  H.on((t) => { const c = H.go(t, K.leftover, K.leftover + .9), w = H.go(t, K.worth - .4, K.worth + .2);
+    setR(rem, X0, TY, H.mix(X1 - X0, wMC, w), H.mix(TH, BAR, c));
+    rem.setAttribute('stroke-opacity', H.mix(.35, 1, H.go(t, K.left - .2, K.left + .3)).toFixed(3)); });
+  const bar = el(s, 'rect', { x: X0, y: TY, width: wMC, height: BAR, fill: GOLD });
+  H.grow(bar, K.worth - .2, 1.3, X0, 0, 'x');
+  const mcN = el(s, 'text', { x: X0 - 6, y: TY + BAR + 150, class: 'fh', 'font-size': 128 }, fmt.usdB(mc));
+  const mcD = el(s, 'text', { x: X0, y: TY + BAR + 210, class: 'nd', 'font-size': 34 }, fmt.day(F('nebius_market_cap_9_october_2026_calc').asOf));
+  H.rise(mcN, K.worth + .8, .6, 22); H.rise(mcD, K.worth + 1.2);
+}
+
+H.run();
+</script>
+</body>
+</html>

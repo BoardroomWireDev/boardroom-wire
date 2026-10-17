@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The run · Boardroom Wire</title>
+<!-- NEBIUS · H7 · THE RUN (Ive, 13 Oct 2026). 16:03, about 42 s; s10p1 to s10p3. A standard board now, from the approved style
+     frame as revised: revenue as booked on the left; on the right the run-rate on a true time scale, with "ARR takes the most recent
+     month of revenue and multiplies it by twelve" drawn as twelve stacked months (one real month solid gold, eleven copies hatched).
+       frame    left axis and its ticks                                         ("yes, to both")
+       y24      the 2024 bar grows from the baseline, its figure rises         ("$90 million")
+       y25      the 2025 bar                                                    ("$530 million")
+       h1       the H1 2026 bar, gold                                           ("nearly $1 billion")
+       axes     the run-rate panel's axes (the revenue panel is still up)       ("ARR")
+       month    one gold month cell at June 2026                                ("most recent month")
+       times    eleven hatched copies stack on it to the run-rate; "x 12" lands ("multiplies it by twelve")
+       rate     the run-rate line draws through every reported quarter; $3.0B   ("$3 billion")
+       back     the Sep 2025 point is marked, its figure rises                  ("$550 million")
+       target   the target band, hatched, reached by a dashed line              ("between $7 and $9 billion")
+     The Q2 letter card (b084, 16:32) rides over the left half from "As of June 2026" to just after "$550 million": the revenue
+     panel steps out for it and is back at rest.
+     Words on screen (rule 16): H1 and the years, as in the frame. Figures: nebius_gaap_revenue_year_ended_31_dec_2024,
+     nebius_gaap_revenue_fy_2025, nebius_gaap_revenue_h1_2026_calc (C), the six nebius_annualized_run_rate_* keys, and
+     nebius_annualized_run_rate_ye2026_target_maintained.
+     Steps (board seconds at 150 wpm from s10p1; ?at= in this order, ?secs=):
+       frame 0.8 · y24 4.6 · y25 8.2 · h1 12.8 · axes 23.6 · month 25.0 · times 27.4 · rate 31.7 · back 33.8 · target 39.6   (secs 42.4)
+     Render: bw render dashboards/07-the-run.html (see pipeline README), or  ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?slots=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/style-frames/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); defs(s);
+const K = H.steps([['frame', .8], ['y24', 4.6], ['y25', 8.2], ['h1', 12.8], ['axes', 23.6], ['month', 25.0], ['times', 27.4],
+  ['rate', 31.7], ['back', 33.8], ['target', 39.6]], 42.4);
+
+const GOLD = 'var(--gold)', CR = 'var(--cream)', AXC = 'rgba(245,241,229,.4)', GRID = 'rgba(245,241,229,.07)';
+const r24 = U('nebius_gaap_revenue_year_ended_31_dec_2024'), r25 = U('nebius_gaap_revenue_fy_2025'), h1 = U('nebius_gaap_revenue_h1_2026_calc');
+calc = true;
+const RR = ['march_2025', 'june_2025', 'september_2025', 'december_2025', 'march_2026', 'june_2026']
+  .map(k => { const key = 'nebius_annualized_run_rate_' + k; return [t(F(key).asOf), U(key)]; });
+const tgt = F('nebius_annualized_run_rate_ye2026_target_maintained'); U('nebius_annualized_run_rate_ye2026_target_maintained');
+
+/* the Q2 letter card (b084) lies over the left half; the revenue panel steps out for it and is back after */
+const CARD_A = K.times + 1.6, CARD_B = K.back + .8;
+H.card('b084', CARD_A, CARD_B, { x: 64, y: 240, w: 840, h: 540 }, 'Nebius Q2 2026 letter: the run-rate line, June 2026');
+
+/* ---- left: revenue as booked ---- */
+const L = el(s, 'g');
+H.on((t) => L.setAttribute('opacity', (1 - H.go(t, CARD_A - .35, CARD_A) * (1 - H.go(t, CARD_B, CARD_B + .45))).toFixed(3)));
+const Y0 = 900, ry = lin(0, 1e9, Y0, 330), bars = [['2024', r24, CR, K.y24], ['2025', r25, CR, K.y25], ['H1 2026', h1, GOLD, K.h1]];
+const lax = el(L, 'g');
+[0, .25e9, .5e9, .75e9, 1e9].forEach(v => {
+  el(lax, 'line', { x1: 210, x2: 740, y1: ry(v), y2: ry(v), stroke: v ? GRID : AXC, 'stroke-width': 2 });
+  el(lax, 'text', { x: 190, y: ry(v) + 10, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, v ? (v < 1e9 ? fmt.usdM(v) : fmt.usdB(v)) : '$0');
+});
+H.fade(lax, K.frame, .6);
+bars.forEach(([lab, v, c, ts], i) => {
+  const x = 250 + i * 170, g = el(L, 'g');
+  const b = el(g, 'rect', { x, y: ry(v), width: 130, height: Y0 - ry(v), fill: c });
+  H.grow(b, ts - .1, .8, 0, Y0, 'y');
+  const f = el(g, 'text', { x: x + 65, y: ry(v) - 16, class: 'fn', 'font-size': 34, 'text-anchor': 'middle', style: c === GOLD ? 'fill:var(--gold)' : '' }, fmt.usdM(v, 1));
+  H.rise(f, ts + .55);
+  H.rise(el(g, 'text', { x: x + 65, y: Y0 + 46, class: 'nd', 'font-size': 32, 'text-anchor': 'middle' }, lab), ts - .1);
+});
+
+/* ---- right: the run-rate on a true time scale ---- */
+const X0 = 960, X1 = 1800, tx = lin(t('2025-01-01'), t('2027-01-01'), X0, X1), vy = lin(0, 9e9, Y0, 200);
+const rax = el(s, 'g');
+[0, 3e9, 6e9, 9e9].forEach(v => {
+  el(rax, 'line', { x1: X0, x2: X1, y1: vy(v), y2: vy(v), stroke: v ? GRID : AXC, 'stroke-width': 2 });
+  el(rax, 'text', { x: X0 - 18, y: vy(v) + 10, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, v ? fmt.usdB(v, 0) : '$0');
+});
+for (let y = 2025; y <= 2027; y++) for (let m = 0; m < 12; m += 3) {
+  const tt = Date.UTC(y, m, 1); if (tt > t('2027-01-01')) break;
+  el(rax, 'line', { x1: tx(tt), x2: tx(tt), y1: Y0, y2: Y0 + (m ? 8 : 16), stroke: AXC, 'stroke-width': 2 });
+  if (!m) el(rax, 'text', { x: tx(tt), y: Y0 + 50, class: 'ax', 'font-size': 30, 'text-anchor': 'middle' }, String(y));
+}
+H.fade(rax, K.axes, .7);
+
+const last = RR[RR.length - 1], tT = t(tgt.asOf);
+
+/* the run-rate as twelve months: the most recent month solid, eleven copies hatched */
+{ const cw = 52, cx = tx(last[0]) - cw / 2, ch = (vy(0) - vy(last[1])) / 12;
+  for (let m = 0; m < 12; m++) {
+    const yb = vy(0) - m * ch;
+    const c = el(s, 'rect', { x: cx, y: yb - ch + 1.5, width: cw, height: ch - 3, fill: m ? 'url(#hatchGold)' : GOLD, stroke: GOLD, 'stroke-width': m ? 1.6 : 0 });
+    if (!m) H.grow(c, K.month - .1, .6, 0, yb - 1.5, 'y');
+    else H.grow(c, K.times + (m - 1) * .15, .3, 0, yb - 1.5, 'y');
+  }
+  H.rise(el(s, 'text', { x: cx + cw + 18, y: vy(0) - 10, class: 'fn', 'font-size': 36, style: 'fill:var(--gold)' }, '× 12'), K.times + 11 * .15 + .1); }
+
+/* the line through every reported quarter, drawn left to right; each point marks as the line reaches it */
+const pts = RR.map(([tt, v]) => [tx(tt), vy(v)]);
+const seg = pts.map((p, i) => i ? Math.hypot(p[0] - pts[i - 1][0], p[1] - pts[i - 1][1]) : 0);
+const tot = seg.reduce((a, b) => a + b, 0), LD = 1.5;
+H.draw(el(s, 'polyline', { points: pts.map(p => p.join(',')).join(' '), fill: 'none', stroke: GOLD, 'stroke-width': 4, 'stroke-linejoin': 'round' }), K.rate, LD, H.ease.lin);
+let cum = 0;
+RR.forEach(([tt, v], i) => {
+  cum += seg[i];
+  const ta = K.rate + LD * cum / tot - .05;
+  const d = el(s, 'circle', { cx: pts[i][0], cy: pts[i][1], r: 7, fill: 'var(--bg)', stroke: GOLD, 'stroke-width': 3 });
+  H.fade(d, ta, .15);
+  if (i === 2) { // the point nine months before June 2026: marked on its word
+    const m = el(s, 'circle', { cx: pts[i][0], cy: pts[i][1], r: 12, fill: GOLD, stroke: 'var(--bg)', 'stroke-width': 3 });
+    H.fade(m, K.back, .25);
+    H.rise(el(s, 'text', { x: pts[i][0] - 30, y: pts[i][1] - 34, class: 'fn', 'font-size': 36, 'text-anchor': 'end', style: 'fill:var(--gold)' }, fmt.usdM(v)), K.back + .1);
+  }
+});
+H.rise(el(s, 'text', { x: pts[0][0], y: pts[0][1] - 26, class: 'fn', 'font-size': 32, 'text-anchor': 'middle' }, fmt.usdM(RR[0][1])), K.rate);
+H.rise(el(s, 'text', { x: tx(last[0]) - 60, y: vy(last[1]) - 40, class: 'fh', 'font-size': 104, 'text-anchor': 'end' }, fmt.usdB(last[1])), K.rate + 1.25);
+
+/* the target: a hatched band at the end of 2026, reached by a dashed line (a target, not a result) */
+const band = el(s, 'rect', { x: tx(tT) - 26, y: vy(tgt.hi), width: 52, height: vy(tgt.lo) - vy(tgt.hi), fill: 'url(#hatchGold)', stroke: GOLD, 'stroke-width': 2 });
+H.wipe(band, K.target, 1.1, '-y');
+const dash = el(s, 'line', { x1: tx(last[0]), y1: vy(last[1]), x2: tx(tT) - 26, y2: vy((tgt.lo + tgt.hi) / 2), stroke: GOLD, 'stroke-width': 3, 'stroke-dasharray': '10 8' });
+H.wipe(dash, K.target + .5, 1.0, 'x');
+H.rise(el(s, 'text', { x: tx(tT) - 46, y: vy(tgt.hi) + 12, class: 'fn', 'font-size': 36, 'text-anchor': 'end', style: 'fill:var(--gold)' }, fmt.usdB(tgt.lo, 0) + '–' + fmt.usdB(tgt.hi, 0)), K.target + .7);
+
+H.run();
+</script>
+</body>
+</html>

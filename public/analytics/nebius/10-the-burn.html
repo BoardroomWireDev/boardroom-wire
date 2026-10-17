@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The burn · Boardroom Wire</title>
+<!-- NEBIUS · H10 · THE BURN (Ive's builder, 13 Oct 2026). 20:57, about 71 s; s13p1 to s13p5. From the approved style frame
+     (H10-the-burn.html, "5, holding on the gap"): two statements side by side on ONE dollar scale with a zero line, each panel
+     named by its period, so the Q2 loss is seen at its size beside the burn. Red (sf.js's hatchRed ink, 255,82,71) is the loss
+     and the burn only.
+       different   the panel rule draws; "income statement" and "cash flow statement" rise ("a very different company")
+       income      Q2 2026 under the income statement (the income-statement card rides over the clear right half, b102)
+       loss        the Q2 loss grows down from zero, red, and its figure rises ("$190 million")
+       cash        first half of 2026 under the cash flow statement
+       ocf         operating cash grows up from zero to $4.5B ("$4.5 billion"; the cash-flow card rides over the right, b103)
+       deferred    the prepayments drain out of the bar top-down, leaving their dashed outline: "deferred revenue"
+       four        $4.4B inside the outline ("$4.4 billion")
+       hundred     the sliver that is left ("around $100 million"); its axis figure, $109M, stands once Detail A clears (P06)
+       building    a level line carries the top of operating cash across
+       capex       capex drops from that level, $8.1B ("$8.1 billion"; the GPU footage window opens top right, b104)
+       take        a level line carries the bottom of capex across to the burn ("Take that out")
+       burn        the burn grows down from zero, red, -$3.6B at hero size ("$3.6 billion")
+       q2          the bracket draws on its Q2 share: Q2, -$3.4B ("$3.4 billion")
+       design      everything but the burn steps back ("that's all by design"): it holds on the gap
+       raising     the whole board returns for the hand-off to b105 ("keep raising money")
+     Words on screen (rule 16): income statement, cash flow statement, deferred revenue (the script's), Q2 2026, first half of 2026, Q2.
+     Figures: nebius_net_loss_q2_2026, nebius_operating_cash_flow_h1_2026, nebius_deferred_revenue_change_h1_2026,
+     nebius_operating_cash_ex_prepayments_h1_2026_calc (C), nebius_capex_h1_2026, nebius_burn_h1_2026_calc (C),
+     nebius_burn_q2_2026_calc (C).
+     Steps (board seconds at 150 wpm from s13p1 word 0; ?at= in this order, ?secs=):
+       different 3.8 · income 8.2 · loss 11.4 · cash 14.2 · ocf 17.4 · deferred 26.2 · four 27.8 · hundred 35.8 ·
+       building 39.8 · capex 41.0 · take 46.2 · burn 50.6 · q2 53.0 · design 57.4 · raising 67.0              (secs 71.2)
+     Back-half P06 (16 Oct, Ive's proposals; board zero = VO 1116.24), two steps APPENDED after the 15 (the render job's ?at= is unchanged):
+       depending 4.1  "depending" (c, the head): "income statement" and "cash flow statement" stand at a third of their ink from frame 0,
+                      each over a faint outline of its bar at true scale (no number); full ink here; the ghosts give way as the real bars land
+       loupe 34.9     "$100" (b), DETAIL A (refiner, 16 Oct): from "only" (K.loupe - .5) a thin rounded frame draws round the whole sliver,
+                      a leader runs up-right and a detail sheet (board 04's drawing-sheet corners) wipes open at x 1110-1670, y 322-528: the
+                      sliver as a readable bar (ten times its height, no axis) on its own short baseline, the dashed foot of the outline over
+                      it, and its figure beside it (nebius_operating_cash_ex_prepayments_h1_2026_calc, "$109M", 56 px), read by 34.9; the sheet
+                      clears on "building", and only then does the axis "$109M" (the hundred step's) come up: one $109M on screen at a time.
+                      Default times above; the job passes 15 times, so these two default.
+     Render: bw render dashboards/10-the-burn.html --at <15 times> --secs <s> --slots 0 --out <big-media path>
+       (or open 10-the-burn.html?capture&slots=0&at=…&secs=…; ?still / ?final rest on the style frame, ?t=<secs|label>)
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?slots=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/style-frames/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); defs(s);
+const K = H.steps([['different', 3.8], ['income', 8.2], ['loss', 11.4], ['cash', 14.2], ['ocf', 17.4], ['deferred', 26.2],
+  ['four', 27.8], ['hundred', 35.8], ['building', 39.8], ['capex', 41.0], ['take', 46.2], ['burn', 50.6], ['q2', 53.0],
+  ['design', 57.4], ['raising', 67.0],
+  ['depending', 4.1], ['loupe', 34.9]], 71.2);       // back-half P06 (16 Oct): appended after the 15 existing steps, never reordered
+
+const CR = 'var(--cream)', DIMC = 'rgba(245,241,229,.5)';
+const RED = 'rgba(255,82,71,1)', REDT = 'fill:rgba(255,82,71,1)';      // sf.js hatchRed's ink: the loss and the burn only
+const loss = U('nebius_net_loss_q2_2026'), ocf = U('nebius_operating_cash_flow_h1_2026'), dr = U('nebius_deferred_revenue_change_h1_2026');
+const ex = U('nebius_operating_cash_ex_prepayments_h1_2026_calc'), capex = U('nebius_capex_h1_2026');
+const burn = U('nebius_burn_h1_2026_calc'), burnQ2 = U('nebius_burn_q2_2026_calc');
+calc = true;
+
+/* receipt cards ride over the clear right half (bw overlay); the board keeps it empty while they are up */
+H.card('b102', K.income - .6, K.cash - .6,{ x: 1060, y: 190, w: 720, h: 520 }, 'Nebius Q2 2026 6-K, income statement: net loss (190.4)');
+H.card('b103', K.ocf - .6, K.four + 1.0,{ x: 1040, y: 180, w: 760, h: 560 }, 'Nebius Q2 2026 6-K, cash-flow statement: operating cash, then the change in deferred revenue');
+
+/* ---- one dollar scale, a zero line (on screen from frame 0: no bare-ink head) ---- */
+const py = lin(0, 1e9, 560, 488), Z = py(0);                               // 72 px per $1B, zero at y 560
+for (let v = -4e9; v <= 5e9; v += 1e9) {
+  el(s, 'line', { x1: 240, x2: 1820, y1: py(v), y2: py(v), stroke: v ? 'rgba(245,241,229,.06)' : 'rgba(245,241,229,.55)', 'stroke-width': 2 });
+  if (!(v % 2e9)) el(s, 'text', { x: 220, y: py(v) + 10, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, v ? (v < 0 ? '-' : '') + fmt.usdB(Math.abs(v), 0) : '$0');
+}
+
+/* ---- the two statements ---- */
+const rule = el(s, 'line', { x1: 590, x2: 590, y1: 70, y2: 940, stroke: 'rgba(245,241,229,.18)', 'stroke-width': 2 });
+H.draw(rule, K.different - .1, .9);
+/* P06 (c), the head: both statement names stand at a third of their ink from frame 0 and come to full on "depending" (K.depending),
+   each over a faint outline of its figure's bar at true scale (no number); the ghosts give way as the real bars land */
+const hd1 = el(s, 'text', { x: 250, y: 104, class: 'nm', 'font-size': 36 }, 'income statement');
+const hd2 = el(s, 'text', { x: 660, y: 104, class: 'nm', 'font-size': 36 }, 'cash flow statement');
+H.on((t) => { const o = (1 / 3 + 2 / 3 * H.go(t, K.depending, K.depending + .5)).toFixed(3); hd1.setAttribute('opacity', o); hd2.setAttribute('opacity', o); });
+const GH = 'rgba(245,241,229,.3)';
+H.show(el(s, 'rect', { x: 290, y: Z, width: 150, height: py(loss) - Z, fill: 'none', stroke: GH, 'stroke-width': 2 }), -1, .01, K.loss - .2, .5);
+H.show(el(s, 'rect', { x: 720, y: py(ocf), width: 220, height: Z - py(ocf), fill: 'none', stroke: GH, 'stroke-width': 2 }), -1, .01, K.ocf - .2, .5);
+H.rise(el(s, 'text', { x: 250, y: 148, class: 'nd', 'font-size': 32 }, 'Q2 2026'), K.income);
+H.rise(el(s, 'text', { x: 660, y: 148, class: 'nd', 'font-size': 32 }, 'first half of 2026'), K.cash);   // the voice's words (the writer, v6)
+
+/* ---- income statement, Q2 2026: the loss, red, at its true size ---- */
+const gL = el(s, 'g');
+H.grow(el(gL, 'rect', { x: 290, y: Z, width: 150, height: py(loss) - Z, fill: RED }), K.loss - .2, .6, 0, Z, 'y');
+H.rise(el(gL, 'text', { x: 365, y: py(loss) + 50, class: 'fn', 'font-size': 40, 'text-anchor': 'middle', style: REDT }, fmt.usdM(loss, 1)), K.loss + .2);
+
+/* ---- cash flow statement, H1 2026: a waterfall ---- */
+const A = 720, B = 1030, C = 1340, W = 220;
+const gO = el(s, 'g');
+// operating cash grows up from zero as one solid bar: the sliver below, the prepayments above
+const ocfBar = el(gO, 'g');
+el(ocfBar, 'rect', { x: A, y: py(ex), width: W, height: Z - py(ex), fill: CR });
+const pre = el(ocfBar, 'rect', { x: A, y: py(ocf), width: W, height: py(ex) - py(ocf), fill: CR });
+H.grow(ocfBar, K.ocf - .2, .9, 0, Z, 'y');
+H.rise(el(gO, 'text', { x: A + W / 2, y: py(ocf) - 18, class: 'fn', 'font-size': 40, 'text-anchor': 'middle' }, fmt.usdB(ocf)), K.ocf + .4);
+// the prepayments drain out top-down, leaving their dashed outline
+const outline = el(gO, 'rect', { x: A, y: py(ocf), width: W, height: py(ex) - py(ocf), fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '9 7' });
+H.fade(outline, K.deferred - .2, .3);
+const yTop = py(ocf), yEx = py(ex);
+H.on((t) => { const u = H.go(t, K.deferred, K.deferred + 1.3);
+  const y = yTop + (yEx - yTop) * u; pre.setAttribute('y', y.toFixed(2)); pre.setAttribute('height', Math.max(0, yEx - y).toFixed(2)); });
+const ym = py((ocf + ex) / 2);
+H.rise(el(gO, 'text', { x: A + W / 2, y: ym + 36, class: 'nd', 'font-size': 32, 'text-anchor': 'middle' }, 'deferred'), K.deferred + .7);
+H.rise(el(gO, 'text', { x: A + W / 2, y: ym + 74, class: 'nd', 'font-size': 32, 'text-anchor': 'middle' }, 'revenue'), K.deferred + .9);
+H.rise(el(gO, 'text', { x: A + W / 2, y: ym - 6, class: 'fn', 'font-size': 36, 'text-anchor': 'middle', style: 'fill:rgba(245,241,229,.75)' }, fmt.usdB(dr)), K.four + .1);
+// what is left: the sliver
+const gS = el(gO, 'g');
+el(gS, 'line', { x1: A - 16, x2: A - 4, y1: Z - 3, y2: Z - 3, stroke: CR, 'stroke-width': 2 });
+el(gS, 'text', { x: A - 22, y: Z + 8, class: 'fn', 'font-size': 32, 'text-anchor': 'end' }, fmt.usdM(ex));
+H.rise(gS, K.hundred + .1);
+/* one $109M on screen (refiner, 16 Oct): while Detail A carries the figure, the axis figure waits; it takes over as the detail clears */
+const gSw = el(gO, 'g'); gSw.appendChild(gS.__hw || gS);
+H.show(gSw, K.building + .3, .35);
+
+/* P06 (b), DETAIL A (refiner, 16 Oct; the house's technical-drawing callout, as board 04's): from "only" a thin rounded frame
+   draws round the whole sliver at the base of the $4.5B outline, a leader runs up-right, and a detail sheet opens left to right
+   in the clear room beside the outline, so its figure (the key's own display, "$109M") is read on "$100" (K.loupe ~ 34.98).
+   In the sheet the sliver stands as a readable bar on its own short baseline: the same bar at ten times its height, no axis
+   (so no scale is implied). The sheet clears on "building", before capex lands in that room. */
+{ const SH = Z - py(ex), MAG = 10, PX = 1110, PY = 322, PW = 560, PH = 206, IB = PY + PH - 46, BX = PX + 70;
+  const gLp = el(s, 'g');
+  H.draw(el(gLp, 'rect', { x: A - 14, y: Z - SH - 14, width: W + 28, height: SH + 28, rx: 12, fill: 'none', stroke: CR, 'stroke-width': 2 }), K.loupe - .5, .3);
+  H.draw(el(gLp, 'line', { x1: A + W + 14, y1: Z - SH / 2 - 12, x2: PX, y2: IB - SH * MAG / 2, stroke: CR, 'stroke-width': 2 }), K.loupe - .3, .2);
+  const sh = el(gLp, 'g');
+  el(sh, 'rect', { x: PX, y: PY, width: PW, height: PH, fill: 'var(--bg)', stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2 });
+  [[PX, PY, 1, 1], [PX + PW, PY, -1, 1], [PX, PY + PH, 1, -1], [PX + PW, PY + PH, -1, -1]].forEach(([a, b, sx, sy]) =>
+    el(sh, 'path', { d: `M${a + sx * 24},${b + sy * 7} H${a + sx * 7} V${b + sy * 24}`, fill: 'none', stroke: CR, 'stroke-width': 2 }));
+  el(sh, 'line', { x1: BX - 30, x2: BX + W + 30, y1: IB, y2: IB, stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2 });
+  el(sh, 'rect', { x: BX, y: IB - SH * MAG, width: W, height: SH * MAG, fill: CR });
+  // the foot of the drained outline, as it stands over the sliver, cut by the sheet's edge (context, not a scale)
+  el(sh, 'path', { d: `M${BX + 1},${IB - SH * MAG} V${PY + 30} M${BX + W - 1},${IB - SH * MAG} V${PY + 30}`, fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '9 7' });
+  el(sh, 'text', { x: BX + W + 34, y: IB - SH * MAG / 2 + 20, class: 'fn', 'font-size': 56 }, F('nebius_operating_cash_ex_prepayments_h1_2026_calc').display);
+  H.wipe(sh, K.loupe - .2, .3, 'x');
+  H.show(gLp, K.loupe - .5, .01, K.building, .35); }
+
+// capex drops from the top of operating cash
+const gX = el(s, 'g');
+H.wipe(el(gX, 'line', { x1: A + W, x2: B, y1: py(ocf), y2: py(ocf), stroke: DIMC, 'stroke-width': 2, 'stroke-dasharray': '4 6' }), K.building, .6, 'x');
+H.grow(el(gX, 'rect', { x: B, y: py(ocf), width: W, height: py(ocf - capex) - py(ocf), fill: 'rgba(245,241,229,.30)', stroke: CR, 'stroke-width': 2 }), K.capex, 1.1, 0, py(ocf), 'y');
+H.rise(el(gX, 'text', { x: B + W / 2, y: py(ocf - capex) + 50, class: 'fn', 'font-size': 40, 'text-anchor': 'middle' }, '-' + fmt.usdB(capex)), K.capex + .9);
+H.wipe(el(gX, 'line', { x1: B + W, x2: C, y1: py(burn), y2: py(burn), stroke: DIMC, 'stroke-width': 2, 'stroke-dasharray': '4 6' }), K.take, .6, 'x');
+
+/* the GPU footage window (b104): what the $8.1 billion bought; top right, clear of the waterfall */
+H.slot(s, 'b104', 1290, 196, 512, 288, K.capex + 1.0, Math.min(K.capex + 5.4, K.take - .2),'Nvidia GPU modules being seated (Nebius Inflection film, 10:10 to 10:14)');
+
+// the burn, red, with the $3.4B of it that fell in Q2 bracketed
+const gB = el(s, 'g');
+H.grow(el(gB, 'rect', { x: C, y: Z, width: W, height: py(burn) - Z, fill: RED }), K.burn - .2, .9, 0, Z, 'y');
+H.rise(el(gB, 'text', { x: C + W / 2, y: py(burn) + 112, class: 'fh', 'font-size': 104, 'text-anchor': 'middle', style: REDT }, fmt.usdB(burn)), K.burn + .3);
+H.draw(el(gB, 'path', { d: `M${C + W + 14},${py(burn - burnQ2)} H${C + W + 32} V${py(burn)} H${C + W + 14}`, fill: 'none', stroke: RED, 'stroke-width': 3 }), K.q2 - .1, .7);
+H.rise(el(gB, 'text', { x: C + W + 46, y: py(burn - burnQ2 / 2) - 4, class: 'nm', 'font-size': 32, style: REDT }, 'Q2'), K.q2 + .3);
+H.rise(el(gB, 'text', { x: C + W + 46, y: py(burn - burnQ2 / 2) + 38, class: 'fn', 'font-size': 36, style: REDT }, fmt.usdB(burnQ2)), K.q2 + .45);
+
+/* ---- hold on the gap: the rest steps back on "by design", returns on "keep raising money" ---- */
+H.on((t) => { const d = H.go(t, K.design, K.design + .8) * (1 - H.go(t, K.raising, K.raising + .8));
+  [gL, gO, gX].forEach(g => g.setAttribute('opacity', (1 - .6 * d).toFixed(3))); });
+
+H.run();
+</script>
+</body>
+</html>
