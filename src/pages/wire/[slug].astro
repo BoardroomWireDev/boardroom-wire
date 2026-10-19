@@ -155,7 +155,10 @@ const jsonLd = {
   }
   .prose > * + * { margin-top: 22px; }
   .prose p { margin: 0; }
-  .prose p:first-child::first-letter {
+  /* After .prose p, at its specificity: the reset above outranked the 22px rhythm, so every
+     article's paragraphs ran together (found 19 Oct 2026). */
+  .prose > * + p { margin-top: 22px; }
+  .prose > p:first-child::first-letter {
     float: left; font-size: 3.6em; line-height: 0.82; padding: 6px 10px 0 0;
     font-weight: 800; color: var(--gold-bright);
   }
