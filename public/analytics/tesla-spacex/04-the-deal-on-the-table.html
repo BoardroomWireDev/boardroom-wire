@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The deal on the table · Boardroom Wire</title>
+<!-- TESLA-SPACEX · HERO · THE DEAL ON THE TABLE (Ive, 18 Oct 2026). Chapter 3, from "Barclays thinks it would look like this" to
+     "voting control of the whole thing": about 36.5 s at the writer's 166 wpm.
+     The idea: the deal made physical, at true sizes. The two companies' values stand on one dollar scale (SpaceX the longer). The
+     exchange is drawn at the real ratio: one Tesla share at its 16 Oct close beside SpaceX shares at theirs, cut where each SpaceX
+     share ends, so 2.43 of them make one Tesla share; the premium Barclays expects runs on past it, dashed and fading, with no
+     number (Barclays gives none). On "Together" Tesla's value docks behind SpaceX's and the sum turns gold, 09's fold in small.
+     Then one bar of votes with its halfway line, filled to Barclays' estimate of Musk's share, dashed because it is an estimate.
+     Grammar (LOOK-tesla-spacex.md): cream for each company, gold only once they are one; dashed for what is not a fact yet (the
+     premium, an estimate); our arithmetic underlined.
+       note       Barclays and the note's date ("Barclays thinks it would look like this")
+       swap       one Tesla share at its close ("a stock-for-stock deal")
+       shares     the same length again, in outline, under it ("SpaceX shares instead of cash")
+       bigger     the two values grow on one dollar scale, SpaceX first ("SpaceX is now the more valuable")
+       close      the date ("At the close on October 16th")
+       values     $1.98T ("$1.98 trillion")                 tesla  $1.40T ("$1.4 trillion")
+       ratio      the outline fills as SpaceX shares at their close, cut share by share; 2.43, ours ("2.43 SpaceX shares")
+       premium    the dashed run past it, fading ("before the premium")
+       together   Tesla's value docks behind SpaceX's; the sum turns gold ("Together")
+       worth      $3.38T, ours ("$3.4 trillion")
+       control    the votes bar and its halfway line ("one man")
+       votes      Musk's share fills past halfway, dashed, Barclays' ~56% ("voting control")
+     Words on screen (rule 16): Barclays and Elon Musk (names), SpaceX shares, voting control (the script's); dates; figures.
+     Render: bw render dashboards/04-the-deal-on-the-table.html --at <times> --secs <s> --out <big-media path>
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?at= ?secs= -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); el(s, 'defs');
+const K = H.steps([['note', 2.5], ['swap', 8.7], ['shares', 11.6], ['bigger', 13.4], ['close', 17.3], ['values', 20.2], ['tesla', 22.0],
+  ['ratio', 25.3], ['premium', 27.1], ['together', 29.6], ['worth', 31.8], ['control', 33.3], ['votes', 34.3]], 37.5);
+const CR = 'var(--cream)', GOLD = 'var(--gold)', INK = 'var(--bg)', DIM = 'rgba(245,241,229,.55)';
+
+/* ---------------- the figures ---------------- */
+used.add('barclays_spacex_acquirer_all_stock');
+const noteDay = F('barclays_spacex_acquirer_all_stock').asOf;
+const sxV = usd('spacex_market_cap_2026_10_16'), tsV = usd('tesla_market_cap_cover_shares_2026_10_16'), sumV = usd('c_combined_mcap_2026_10_16');
+const sxP = U('spacex_share_price_2026_10_16'), tsP = U('tesla_share_price_close_2026_10_16'), ratio = U('c_exchange_ratio_market');
+const votes = fld('barclays_combined_musk_37_56', 'n');
+calc = true;
+
+/* ---------------- Barclays and its note (on screen from frame 0, so the page opens on a drawn frame) ---------------- */
+const gHead = el(s, 'g');
+el(gHead, 'text', { x: 64, y: 110, class: 'nm', 'font-size': 40 }, 'Barclays');
+el(gHead, 'text', { x: 64, y: 152, class: 'ax', 'font-size': 28 }, fmt.day(noteDay));
+H.on((t) => gHead.setAttribute('opacity', (.4 + .6 * H.go(t, K.note - .2, K.note + .4)).toFixed(3)));
+
+/* ---------------- the two values on one dollar scale ---------------- */
+const X0 = 420, KV = 1360 / 3.5e12, VY = { sx: 250, ts: 360 }, VH = 56;
+const gRows = el(s, 'g');
+logo(gRows, 'spacex', 64, VY.sx + 16, 24); logo(gRows, 'tesla', 64, VY.ts + 15, 26);
+/* the row marks leave on "Together"; the merged bar carries each company's mark under its own segment (as on 09) */
+H.on((t) => gRows.setAttribute('opacity', ((.4 + .6 * H.go(t, K.note, K.note + .5)) * (1 - H.go(t, K.together, K.together + .5))).toFixed(3)));
+const wS = sxV * KV, wT = tsV * KV;
+const bS = el(s, 'rect', { x: X0, y: VY.sx, width: wS, height: VH, fill: CR });
+H.grow(bS, K.bigger - .1, .9, X0, 0, 'x');
+const bT = el(s, 'rect', { y: VY.ts, height: VH, fill: CR }), bTg = el(s, 'rect', { y: VY.ts, height: VH, fill: GOLD });
+const bSg = el(s, 'rect', { x: X0, y: VY.sx, width: wS, height: VH, fill: GOLD });
+/* Tesla grows on its row, then on "Together" docks end to end behind SpaceX; both turn gold */
+const dock = (t) => H.go(t, K.together, K.together + 1.4);
+H.on((t) => { const g = H.go(t, K.bigger + .6, K.bigger + 1.5), m = dock(t), gold = H.go(t, K.together + 1.0, K.together + 1.8);
+  const x = H.mix(X0, X0 + wS + 3, m), y = H.mix(VY.ts, VY.sx, m);
+  [bT, bTg].forEach(n => { n.setAttribute('x', x.toFixed(2)); n.setAttribute('y', y.toFixed(2)); n.setAttribute('width', (wT * g).toFixed(2)); n.style.display = g <= 0 ? 'none' : ''; });
+  bTg.setAttribute('opacity', gold.toFixed(3)); bSg.setAttribute('opacity', gold.toFixed(3)); });
+H.rise(el(s, 'text', { x: X0, y: VY.sx - 22, class: 'ax', 'font-size': 28 }, fmt.day('2026-10-16')), K.close);
+{ const gm = el(s, 'g'); logo(gm, 'spacex', X0, VY.sx + VH + 12, 20); logo(gm, 'tesla', X0 + wS + 15, VY.sx + VH + 12, 20); H.rise(gm, K.together + 1.4, .5, 8); }
+const lS = el(s, 'text', { x: X0 + wS + 20, y: VY.sx + VH / 2 + 14, class: 'fn', 'font-size': 40 }, fmt.usdT(sxV));
+const lT = el(s, 'text', { x: X0 + wT + 20, y: VY.ts + VH / 2 + 14, class: 'fn', 'font-size': 40 }, fmt.usdT(tsV));
+H.rise(lS, K.values, .5, 18, K.together - .3); H.rise(lT, K.tesla, .5, 18, K.together - .3);
+{ const v = el(s, 'text', { x: X0 + wS + 3 + wT, y: VY.sx - 22, class: 'fh', 'font-size': 64, 'text-anchor': 'end' }, fmt.usdT(sumV));
+  const g = el(s, 'g'); g.appendChild(v); ours(v, GOLD, 10, 3); H.rise(g, K.worth); }
+
+/* ---------------- the exchange, at the real ratio: one Tesla share against SpaceX shares at their closes ---------------- */
+const KP = 1.9, EY = { ts: 600, sx: 690 }, EH = 48, wTs = tsP * KP, wSx = sxP * KP;
+{ const g = el(s, 'g');
+  const gt = el(g, 'g');
+  logo(gt, 'tesla', 64, EY.ts + 12, 22);
+  el(gt, 'rect', { x: X0, y: EY.ts, width: wTs, height: EH, fill: CR });
+  el(gt, 'text', { x: X0 + 18, y: EY.ts + 36, class: 'fn', 'font-size': 32, style: 'fill:var(--bg)' }, fmt.usd(tsP));
+  H.grow(gt.children[1], K.swap, .7, X0, 0, 'x'); H.rise(gt.children[2], K.swap + .5);
+  H.fade(gt.children[0], K.swap - .2, .4);
+  /* the same length in SpaceX shares: an outline on "SpaceX shares", filled and cut share by share on "2.43" */
+  const gs = el(g, 'g');
+  logo(gs, 'spacex', 64, EY.sx + 14, 20);
+  el(gs, 'text', { x: 64, y: EY.sx + EH + 42, class: 'nd', 'font-size': 32 }, 'SpaceX shares');
+  H.fade(gs, K.shares - .1, .4);
+  H.draw(el(g, 'rect', { x: X0, y: EY.sx, width: wTs, height: EH, fill: 'none', stroke: CR, 'stroke-width': 2 }), K.shares, .7);
+  const fill = el(g, 'g');
+  el(fill, 'rect', { x: X0, y: EY.sx, width: wTs, height: EH, fill: CR });
+  for (let i = 1; i * wSx < wTs; i++) el(fill, 'line', { x1: X0 + i * wSx, x2: X0 + i * wSx, y1: EY.sx, y2: EY.sx + EH, stroke: INK, 'stroke-width': 3 });
+  el(fill, 'text', { x: X0 + 18, y: EY.sx + 36, class: 'fn', 'font-size': 32, style: 'fill:var(--bg)' }, fmt.usd(sxP));
+  H.grow(fill, K.ratio - .5, 1.0, X0, 0, 'x', H.ease.lin);
+  const rv = el(g, 'text', { x: X0 + wTs - 4, y: EY.sx + EH + 66, class: 'fh', 'font-size': 56, 'text-anchor': 'end' }, ratio.toFixed(2));   // under the cut, where the 2.43 ends
+  const rg = el(g, 'g'); rg.appendChild(rv); ours(rv, GOLD, 8, 3); H.rise(rg, K.ratio + .3);
+  /* the premium: a dashed run on past the ratio, fading, no number (Barclays gives none) */
+  const gp = el(g, 'g'), pw = 300;
+  el(gp, 'path', { d: `M${X0 + wTs},${EY.sx} H${X0 + wTs + pw} M${X0 + wTs},${EY.sx + EH} H${X0 + wTs + pw}`, stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '10 8', fill: 'none' });
+  el(gp, 'rect', { x: X0 + wTs + pw * .55, y: EY.sx - 2, width: pw * .45 + 2, height: EH + 4, fill: fadeEnd(s, X0 + wTs + pw, X0 + wTs + pw * .55, 'rgb(10,10,15)') });
+  H.wipe(gp, K.premium - .2, 1.0, 'x'); }
+
+/* ---------------- voting control: one bar of votes, its halfway line, Musk's share past it ---------------- */
+{ const g = el(s, 'g'), y = VY.ts + 30, W = wS + 3 + wT, h = 28;
+  el(g, 'text', { x: 64, y: y + 24, class: 'nm', 'font-size': 32 }, 'voting control');
+  el(g, 'rect', { x: X0, y, width: W, height: h, fill: 'none', stroke: DIM, 'stroke-width': 2 });
+  el(g, 'line', { x1: X0 + W / 2, x2: X0 + W / 2, y1: y - 12, y2: y + h + 12, stroke: CR, 'stroke-width': 2 });
+  el(g, 'text', { x: X0 + W / 2, y: y + h + 42, class: 'ax', 'font-size': 28, 'text-anchor': 'middle' }, '50%');
+  H.fade(g, K.control, .5);
+  if (votes !== null) { const gv = el(s, 'g'), w = W * votes / 100;
+    el(gv, 'rect', { x: X0, y, width: w, height: h, fill: 'rgba(245,241,229,.85)' });
+    el(gv, 'rect', { x: X0, y: y - 6, width: w, height: h + 12, fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '8 6' });
+    el(gv, 'text', { x: X0 + w + 16, y: y + h + 46, class: 'fn', 'font-size': 36 }, D('barclays_combined_musk_37_56', '~' + votes + '%'));
+    el(gv, 'text', { x: X0, y: y + h + 42, class: 'nm', 'font-size': 32 }, 'Elon Musk');
+    H.grow(gv.children[0], K.votes, .9, X0, 0, 'x'); H.fade(gv.children[1], K.votes + .7, .3);
+    H.rise(gv.children[2], K.votes + .8); H.rise(gv.children[3], K.votes + .4); } }
+
+H.run();
+</script>
+</body>
+</html>

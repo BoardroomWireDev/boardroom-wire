@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Control · Boardroom Wire</title>
+<!-- TESLA-SPACEX · HERO · CONTROL (Ive, 18 Oct 2026, night). Chapter 6, from "But a deal this big comes with strings" to "at least
+     a strong influence": 34.7 s (Scorsese's 10:53.7 to 11:28.4, HERO-CANDIDATES 11).
+     The idea: how a fifth of Tesla becomes control of everything, as three gauges of a hundred cells (one cell is 1%), read top
+     to bottom like a drafting sheet. Tesla's shares: a fifth is his. SpaceX's votes: 83.6% are his, and a detail sheet shows why,
+     one Class B share drawn as its ten vote marks at true count. Then the swap: both gauges pour into one, and his fill resettles
+     from SpaceX's 83.6% to Barclays' estimate, past a halfway line. The two source gauges stay above at low ink, so the last frame
+     reads the whole chain.
+     Grammar (LOOK-tesla-spacex.md): cream for each company; gold once they are one (the combined gauge); our arithmetic would
+     carry a dashed underline (none is on screen: Scorsese, our 75.5% is not said, so it stays off; Barclays' ~56% is theirs, E,
+     credited in the line).
+       strings    the three gauges at low ink, both marks ("a deal this big comes with strings"); Musk's window (owed)
+       fifth      Tesla: 20.3% lights as his ("Musk owns about a fifth of Tesla")
+       classb     SpaceX: 83.6% lights as his ("more than 80% of the votes"); +3.2 s the Class B detail ("ten votes each")
+       swap       the gauges pour into one; his fill resettles ("if Tesla's stock were swapped into SpaceX's")
+       half       the halfway line; ~56%, Barclays ("Barclays puts it at more than half the votes")
+       army       hold; the Optimus window and the transcript card ride over it (owed, Davinci's layer)
+     Words on screen (rule 16, all the script's): shares, votes, Musk, Class B, Barclays. Everything else is a figure or a mark.
+     Figures: Musk's SpaceX votes are spacex_musk_voting_power_post_ipo (83.6%, SpaceX's own figure after the IPO; Jarvis's fact
+     fix, 19 Oct: the voice says "more than 80%"); the detail sheet reads spacex_class_b_ten_votes and is held if it is ever absent.
+     Render: bw render dashboards/11-control.html --at <times> --secs <s> --out <big-media path>
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?at= ?secs= ?noslot= -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); el(s, 'defs');
+const K = H.steps([['strings', 0], ['fifth', 5.06], ['classb', 7.59], ['swap', 14.46], ['half', 21.69], ['army', 24.94]], 34.7);
+
+const CR = 'var(--cream)', GOLD = 'var(--gold)', INK = 'var(--bg)', DIM = 'rgba(245,241,229,.55)', EMPTY = 'rgba(245,241,229,.30)';
+
+/* ---------------- the figures ---------------- */
+const tsla = U('tesla_musk_ownership_pct');                      // 20.3, Tesla's proxy
+const spx = U('spacex_musk_voting_power_post_ipo');              // 83.6, SpaceX's own figure after the IPO
+const comb = val('barclays_combined_musk_37_56');                // 56, Barclays (E): "more than half"
+const tenVotes = has('spacex_class_b_ten_votes') ? U('spacex_class_b_ten_votes') : null;
+for (const [k, v] of Object.entries({ tsla, spx, comb })) if (!isFinite(v)) throw new Error('figure ' + k + ' is not a number in data.js');
+
+/* ---------------- three gauges, one cell = 1% ---------------- */
+const X0 = 420, NX = 64, PITCH = 13.6, CW = 10.6;
+const TY = 150, SY = 320, CY = 600, BH = 80, CH = 100;
+const head = (t) => 1 / 3 + 2 / 3 * H.go(t, K.strings + .1, K.strings + .7);
+/* a gauge: 100 open cells; p(t) of them filled (the last one in part, to the figure's precision) */
+function gauge(y, h, col, p, ink = head) {
+  const g = el(s, 'g'), cells = el(g, 'g'), fills = el(g, 'g');
+  let d = ''; for (let i = 0; i < 100; i++) d += `M${(X0 + i * PITCH + .75).toFixed(2)},${y + .75}h${CW - 1.5}v${h - 1.5}h${-(CW - 1.5)}z`;
+  el(cells, 'path', { d, fill: 'none', stroke: EMPTY, 'stroke-width': 1.5 });
+  const R = []; for (let i = 0; i < 100; i++) R.push(el(fills, 'rect', { x: X0 + i * PITCH, y, height: h, fill: col }));
+  H.on((t) => { const v = p(t);
+    R.forEach((r, i) => { const w = Math.max(0, Math.min(1, v - i)) * CW; r.setAttribute('width', w.toFixed(2)); r.style.display = w <= 0 ? 'none' : ''; });
+    g.setAttribute('opacity', ink(t).toFixed(3)); });
+  return g;
+}
+const fillEndX = (v) => X0 + Math.floor(v) * PITCH + (v % 1) * CW;
+/* Musk's name on his fill, in ink */
+const onFill = (y, h, a, ink) => { const n = el(s, 'text', { x: X0, y: y - 16, class: 'nm', 'font-size': 30 }, 'Musk'); H.rise(n, a, .5, 10);
+  if (ink) { const g = el(s, 'g'); n.parentNode.parentNode.insertBefore(g, n.parentNode); g.appendChild(n.parentNode); H.on((t) => g.setAttribute('opacity', ink(t).toFixed(3))); } };
+
+/* the swap: the source gauges step back to low ink once they have poured */
+const back = (t) => 1 - .62 * H.go(t, K.swap + 1.2, K.swap + 2.2);
+
+/* Tesla: his shares */
+gauge(TY, BH, CR, (t) => tsla * H.go(t, K.fifth + .2, K.fifth + 1.1), (t) => head(t) * back(t));
+{ const g = el(s, 'g'); logo(g, 'tesla', NX, TY + 8, 24); el(g, 'text', { x: NX, y: TY + 72, class: 'nd', 'font-size': 30 }, 'shares');
+  H.on((t) => g.setAttribute('opacity', (head(t) * back(t)).toFixed(3))); }
+const tF = el(s, 'g'); el(tF, 'text', { x: fillEndX(tsla) + 18, y: TY + BH / 2 + 17, class: 'fn', 'font-size': 48 }, D('tesla_musk_ownership_pct', fmt.pct(tsla, 1)));
+H.rise(tF, K.fifth + .9); H.on((t) => tF.setAttribute('opacity', back(t).toFixed(3)));
+onFill(TY, BH, K.fifth + 1.0, back);
+
+/* SpaceX: his votes */
+gauge(SY, BH, CR, (t) => spx * H.go(t, K.classb + .2, K.classb + 1.5), (t) => head(t) * back(t));
+{ const g = el(s, 'g'); logo(g, 'spacex', NX, SY + 10, 22); el(g, 'text', { x: NX, y: SY + 72, class: 'nd', 'font-size': 30 }, 'votes');
+  H.on((t) => g.setAttribute('opacity', (head(t) * back(t)).toFixed(3))); }
+const sF = el(s, 'g'); el(sF, 'text', { x: fillEndX(spx) + 18, y: SY + BH / 2 + 17, class: 'fn', 'font-size': 48 }, D('spacex_musk_voting_power_post_ipo', fmt.pct(spx, 1)));
+H.rise(sF, K.classb + 1.3); H.on((t) => sF.setAttribute('opacity', back(t).toFixed(3)));
+onFill(SY, BH, K.classb + 1.4, back);
+
+/* the detail sheet: one Class B share drawn as its ten vote marks, at true count (held until the S-1 row lands) */
+if (tenVotes !== null) {
+  const PX = X0, PY = SY + BH + 40, PW = 620, PH = 230, g = el(s, 'g'), y = PY + 112;
+  el(g, 'rect', { x: PX, y: PY, width: PW, height: PH, fill: INK, stroke: 'rgba(245,241,229,.4)', 'stroke-width': 2 });
+  corners(g, PX, PY, PW, PH, 22);
+  el(g, 'text', { x: PX + 40, y: PY + 64, class: 'nm', 'font-size': 32 }, 'Class B');
+  const sq = 56;
+  el(g, 'rect', { x: PX + 40, y, width: sq, height: sq, fill: CR });
+  const ax = PX + 40 + sq + 24, bx = ax + 64;
+  el(g, 'path', { d: `M${ax},${y + sq / 2} H${bx - 12}`, stroke: DIM, 'stroke-width': 2, fill: 'none' });
+  el(g, 'path', { d: `M${bx - 14},${y + sq / 2 - 7} L${bx - 2},${y + sq / 2} L${bx - 14},${y + sq / 2 + 7}Z`, fill: DIM });
+  const marks = el(g, 'g');
+  for (let i = 0; i < tenVotes; i++) el(marks, 'rect', { x: bx + 14 + i * 22, y, width: 10, height: sq, fill: CR });
+  el(g, 'text', { x: bx + 14 + tenVotes * 22 + 20, y: y + sq / 2 + 17, class: 'fn', 'font-size': 48 }, D('spacex_class_b_ten_votes', fmt.int(tenVotes)));
+  H.wipe(g, K.classb + 3.2, .45, 'y');
+  H.show(g, K.classb + 3.2, .01, K.swap - .3, .35);
+  /* the marks count out in order after the sheet opens */
+  [...marks.children].forEach((m, i) => H.show(m, K.classb + 3.6 + .08 * i, .12));
+}
+
+/* ---------------- the combined gauge: the two pour in, his fill resettles, gold (one company) ---------------- */
+[[TY, tsla, 0], [SY, spx, .3]].forEach(([y, v, lag]) => {      // ghosts of the two gauges: a hairline frame and his share, falling in turn
+  const g = el(s, 'g'), a = K.swap + .2 + lag, dy = CY - y + (CH - BH) / 2;
+  el(g, 'rect', { x: X0 + .75, y: y + .75, width: 99 * PITCH + CW - 1.5, height: BH - 1.5, fill: 'none', stroke: 'rgba(245,241,229,.5)', 'stroke-width': 1.5 });
+  el(g, 'rect', { x: X0, y: y + BH / 2 - 6, width: fillEndX(v) - X0, height: 12, fill: 'rgba(245,241,229,.75)' });
+  H.path(g, [[a, 0, 0, 0], [a + .2, 0, 0, 1], [a + 1.2, 0, dy, 1], [a + 1.6, 0, dy, 0]]); });
+const pComb = (t) => { const a = H.go(t, K.swap + 1.5, K.swap + 1.9), b = H.go(t, K.swap + 2.3, K.swap + 4.0); return a * H.mix(spx, comb, b); };
+gauge(CY, CH, GOLD, pComb, (t) => H.go(t, K.swap + .1, K.swap + .8));
+{ const g = el(s, 'g'); logo(g, 'tesla', NX, CY + 8, 22); logo(g, 'spacex', NX, CY + 44, 19);
+  el(g, 'text', { x: NX, y: CY + 104, class: 'nd', 'font-size': 30 }, 'votes'); H.fade(g, K.swap + .3, .6); }
+onFill(CY, CH, K.swap + 4.0);
+/* the halfway line, with the scale it sits on */
+{ const xh = X0 + 50 * PITCH - (PITCH - CW) / 2, g = el(s, 'g');
+  el(g, 'line', { x1: xh, x2: xh, y1: CY - 26, y2: CY + CH + 14, stroke: CR, 'stroke-width': 3 });
+  H.draw(g, K.half - .1, .5);
+  const ax = el(s, 'g'), ay = CY + CH + 14;
+  [[0, '0'], [50, '50%'], [100, '100%']].forEach(([p, lb]) => {
+    const x = p === 100 ? X0 + 99 * PITCH + CW : p === 0 ? X0 : xh;
+    el(ax, 'text', { x, y: ay + 36, class: 'ax', 'font-size': 28, 'text-anchor': p === 0 ? 'start' : p === 100 ? 'end' : 'middle' }, lb); });
+  H.fade(ax, K.swap + .6, .5);
+  const fx = fillEndX(comb) + 22, fg = el(s, 'g');
+  el(fg, 'text', { x: fx, y: CY + CH / 2 + 22, class: 'fh', 'font-size': 64 }, D('barclays_combined_musk_37_56', '~' + fmt.pct(comb)));
+  el(fg, 'text', { x: fx + 4 * 38.4 + 26, y: CY + CH / 2 + 12, class: 'nm', 'font-size': 32 }, 'Barclays');
+  H.rise(fg, K.half + .3); }
+
+/* footage windows and receipt cards: Davinci's layer (cue sheet o68, o48, o49, o50); owed until delivered */
+const A = { x: 1300, y: 770, w: 480, h: 270 };          // lower right: clear of every gauge at every step
+H.owed('t11-musk', 't11-optimus');
+H.slot(s, 't11-musk', A.x, A.y, A.w, A.h, K.strings, K.strings + 4.5, 'Musk at the Roadster event (REQ-001 master)');
+H.card('o48', K.classb, K.classb + 5.0, A, "SpaceX's S-1, Class B voting (REQ-006 row 8)");
+H.card('o49', K.half, K.half + 3.3, A, "Barclays' note, Musk's combined votes (REQ-004 row 6)");
+H.slot(s, 't11-optimus', A.x, A.y, A.w, A.h, K.army, K.army + 3.5, 'Optimus, Tesla footage (REQ-007 row 9)');
+H.card('o50', K.army + 3.66, K.army + 9.16, A, 'Musk, Tesla Q3 2025 call: "robot army" (REQ-002 row 9)');
+
+H.run();
+</script>
+</body>
+</html>

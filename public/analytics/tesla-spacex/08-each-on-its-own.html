@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Each on its own · Boardroom Wire</title>
+<!-- TESLA-SPACEX · HERO · EACH ON ITS OWN (Ive, 18 Oct 2026). Chapter 5, from "So let's look at the numbers" to "Put them
+     together": board seconds 0 to 51.2. The first cue of one canvas drawn in assets/hero/balance-sheet.js; 09-one-balance-sheet.html
+     plays the rest and opens on this page's last frame (a matched cut).
+     Tesla's figures run left from a shared spine of row names, SpaceX's run right, on ONE dollar scale (7 px per $1B).
+       own        both marks and the spine at full ink ("each company on its own")
+       trev       Tesla, revenue 2025, $94.8B ("$95 billion")       tq2  revenue Q2 2026, $28.2B ("enormous")
+       top        Tesla, operating income Q2 2026, $398M, a sliver ("operating income")
+       loupe      a detail sheet magnifies it, no axis ("under $400 million"); paper: what it earned on paper, pre-tax ($1,329M,
+                  held until Goldman's pre-tax row is in data.js); sshares: the $1,005M pre-tax gain on its SpaceX shares drawn inside
+                  it, about three quarters, in gold (facts check v9 row 1: never inside after-tax net income)
+       tcapex     Tesla, capex Q2 2026, $5.8B (held until tesla_q2_2026_capex is in data.js); tguide: the 2026 plan, a dashed rule
+                  fading past $25B ("more than $25 billion")
+       tcash      Tesla, cash at 30 Jun 2026, $43.5B
+       srev       SpaceX, revenue 2025, $18.7B ("$19 billion")
+       sq2        SpaceX, revenue Q2 2026, $7.8B; grow92: the year-ago quarter, $4.1B Q2 2025, under it, and +91.9%, ours ("up 92%")
+       sop        SpaceX, operating loss Q2 2026, -$143M, red ("losing a little money")
+       scapex     SpaceX, capex Q2 2026, $18.4B; ai: of which AI, $15.8B ("most of it on AI")
+       scash      SpaceX, cash at 30 Jun 2026, $100.0B ("$100 billion of cash")
+     Words on screen (rule 16, the script's): revenue, operating income, capex, cash, AI, earned on paper, SpaceX shares.
+     Render: bw render dashboards/08-each-on-its-own.html --at <times, the shared order> --out <big-media path>
+     Capture contract: BW.run via HERO.run({to}); ?capture ?final ?still ?beats ?t=<label|secs> ?motion=0 ?at= -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>const BS_CUE = 'ledger';</script>
+<script src="assets/hero/balance-sheet.js"></script>
+</body>
+</html>

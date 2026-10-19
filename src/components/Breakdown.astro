@@ -1,0 +1,136 @@
+---
+/**
+ * <Breakdown collection="tesla-spacex" />
+ *
+ * The two companies side by side, and together, as the boards show them. Every cell is a figure
+ * from the video's data (src/data/figures/<collection>.json, written by `npm run sync:article`):
+ * its on-screen form, and its period from the figure's own label ("Tesla revenue, Q2 2026"), so
+ * a lock-day refresh relabels the rows. A key that is not in the data fails the build. The credit
+ * line is built the way the boards build theirs: Source, Reported by, Estimate, our calculation.
+ */
+import { figure, figureData, type Figure } from '../data/analytics';
+
+interface Props { collection: string }
+const { collection } = Astro.props;
+
+/* [row name, Tesla, SpaceX, together]; '' is a cell with no figure. The period is taken from the
+   first figure's label, after its last comma, unless the row name has a comma of its own; an
+   empty name is the first figure's whole label. */
+const ROWS: Record<string, [string, string, string, string][]> = {
+  'tesla-spacex': [
+    ['Revenue', 'tesla_fy2025_revenue_total', 'spacex_fy2025_revenue_total', 'c_combined_fy2025_revenue'],
+    ['Revenue', 'tesla_q2_2026_revenue_total', 'spacex_q2_2026_revenue_total', ''],
+    ['Revenue growth from a year earlier', '', 'spacex_q2_2026_revenue_growth_yoy', ''],
+    ['Biggest business, share of 2025 revenue', 'c_tesla_fy2025_automotive_revenue_share', 'spacex_fy2025_revenue_share_connectivity', ''],
+    ['', '', 'spacex_q2_2026_revenue_share_ai', ''],
+    ['Operating income', 'tesla_q2_2026_operating_income', 'spacex_q2_2026_op_income_total', ''],
+    ['Gain on its SpaceX shares', 'tesla_spacex_stake_gain_q2_2026', '', ''],
+    ['Spending on the build', 'tesla_q2_2026_capex', 'spacex_q2_2026_capex_total', ''],
+    ['Of that, on AI', '', 'spacex_q2_2026_capex_ai', ''],
+    ['Spending on the build', 'tesla_2026_capex_guidance_q2_10q', '', ''],
+    ['Cash', 'tesla_q2_2026_cash_and_investments', 'spacex_cash_and_securities_jun30_2026', 'c_combined_cash_2026_06_30'],
+    ['Market value', 'tesla_market_cap_cover_shares_2026_10_16', 'spacex_market_cap_2026_10_16', 'c_combined_mcap_2026_10_16'],
+    ['Value over 2025 revenue', '', 'c_spacex_mcap_to_fy2025_revenue', 'c_combined_mcap_to_fy2025_revenue'],
+    ['Rank in the world by market value', '', '', 'c_combined_mcap_rank_2026_10_16'],
+    ['Musk’s stake', 'tesla_musk_ownership_pct', '', ''],
+    ['Musk’s votes, today and after a deal', '', 'spacex_musk_voting_power_post_ipo', 'barclays_combined_musk_37_56'],
+  ],
+};
+
+const rows = ROWS[collection];
+if (!rows) throw new Error(`Breakdown: no rows for "${collection}"`);
+figureData(collection);
+
+const used: Figure[] = [];
+const cell = (k: string) => {
+  if (!k) return null;
+  const f = figure(collection, k);
+  used.push(f);
+  return f;
+};
+const period = (f: Figure | null) => {
+  if (!f) return '';
+  const i = f.label.lastIndexOf(', ');
+  return i < 0 ? '' : f.label.slice(i + 2);
+};
+const table = rows.map(([name, ...keys]) => {
+  const cells = keys.map(cell);
+  const first = cells.find(Boolean) ?? null;
+  if (!name) return { name: first ? first.label.charAt(0).toUpperCase() + first.label.slice(1) : '', cells };
+  const p = name.includes(',') ? '' : period(first);
+  return { name: p ? `${name}, ${p}` : name, cells };
+});
+
+/* The credit, as BW.provenance words it on the boards. */
+const byTier: Record<string, Set<string>> = {};
+const mandatory: string[] = [];
+for (const f of used) {
+  (byTier[f.tier] ??= new Set());
+  f.sources.forEach((s) => byTier[f.tier].add(s));
+  if (f.mandatory && !mandatory.includes(f.mandatory)) mandatory.push(f.mandatory);
+}
+const list = (a: string[]) => a.length < 3 ? a.join(' and ') : `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}`;
+const phrases: string[] = [];
+for (const [t, lead] of [['P', 'Source: '], ['R', 'Reported by '], ['E', 'Estimate: '], ['C', '']] as const) {
+  if (!byTier[t]) continue;
+  if (t === 'C') { phrases.push('Boardroom Wire calculation'); continue; }
+  const names = [...byTier[t]].filter((n) => !mandatory.some((m) => m.includes(n)));
+  if (names.length) phrases.push(lead + list(names));
+}
+mandatory.forEach((m) => phrases.push(m.replace(/[.\s]+$/, '')));
+const credit = `${phrases.join('. ')}.`;
+---
+
+<figure class="breakdown">
+  <div class="bd-scroll">
+    <table>
+      <thead>
+        <tr><th scope="col"><span class="vh">Figure</span></th><th scope="col">Tesla</th><th scope="col">SpaceX</th><th scope="col" class="both">Together</th></tr>
+      </thead>
+      <tbody>
+        {table.map((r) => (
+          <tr>
+            <th scope="row">{r.name}</th>
+            {r.cells.map((f, i) => (
+              <td class={[i === 2 && 'both', f?.tier === 'C' && 'calc', f?.tier === 'E' && 'est'].filter(Boolean).join(' ')}>
+                {f ? f.display : ''}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <figcaption>
+    <p class="bd-key"><span class="calc">Underlined</span>: Boardroom Wire calculation. <span class="est">Italic</span>: an analyst’s estimate.</p>
+    <p class="bd-src">{credit}</p>
+  </figcaption>
+</figure>
+
+<style is:global>
+  .prose .breakdown { margin: 34px 0 0; }
+  .breakdown .bd-scroll { overflow-x: auto; }
+  .breakdown table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.35; }
+  .breakdown th, .breakdown td { padding: 11px 10px; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+  .breakdown thead th {
+    font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--white-dim); text-align: right; border-bottom-color: #2A2A2A;
+  }
+  .breakdown thead th.both { color: var(--gold-bright); }
+  .breakdown tbody th { text-align: left; font-weight: 500; color: #C9C3B4; padding-left: 0; }
+  .breakdown td {
+    text-align: right; white-space: nowrap; font-family: var(--mono); font-weight: 600; color: var(--white);
+    font-variant-numeric: tabular-nums;
+  }
+  .breakdown td.both { color: var(--gold-bright); }
+  .breakdown .calc { text-decoration: underline dashed; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .breakdown .est { font-style: italic; }
+  .breakdown figcaption { margin-top: 14px; font-family: var(--mono); font-size: 12px; line-height: 1.55; color: var(--white-dim); }
+  .breakdown figcaption p + p { margin-top: 6px; }
+  .breakdown .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (max-width: 560px) {
+    .breakdown table { font-size: 13px; }
+    .breakdown th, .breakdown td { padding: 9px 5px; }
+    .breakdown td { font-size: 12.5px; }
+  }
+</style>

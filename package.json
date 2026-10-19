@@ -13,6 +13,7 @@
     "astro": "astro",
     "sync:dashboards": "node scripts/sync-dashboards.mjs",
     "render:posters": "node scripts/render-posters.mjs",
+    "sync:article": "node scripts/sync-article.mjs",
     "analytics:refresh": "node scripts/sync-dashboards.mjs && node scripts/render-posters.mjs",
     "edge": "astro build && wrangler pages dev dist --port 8788",
     "db:local": "wrangler d1 migrations apply bw-data --local",

@@ -40,6 +40,7 @@ const SOURCES = {
   'anthropic-ipo': path.join(BOARDROOM, 'videos/anthropic-ipo/dashboards'),
   'alexandr-wang': path.join(BOARDROOM, 'videos/alexandr-wang/dashboards'),
   'nebius': path.join(BOARDROOM, 'videos/nebius/dashboards'),
+  'tesla-spacex': path.join(BOARDROOM, 'videos/tesla-spacex/dashboards'),
 };
 
 // Optional per-collection board list. Since Anthropic IPO, a video folder holds
@@ -67,6 +68,12 @@ const BOARDS = {
     '05-bigger-than-the-company.html', '06-metas-safety-net.html', '07-the-run.html',
     '08-a-megawatt-then-a-gigawatt.html', '09-one-deal-three-ways.html', '10-the-burn.html',
     '11-the-stock-and-the-short.html', '12-the-bear-case-answered.html',
+  ]),
+  // The ten hero boards, built web-grade by Ive; 30 to 42 are the cut's motion pages and stay video-only.
+  'tesla-spacex': new Set([
+    '02-the-tune-changes.html', '03-the-last-big-piece.html', '04-the-deal-on-the-table.html',
+    '05-the-autonomy-bet.html', '06-the-five-layers.html', '07-the-loop.html', '08-each-on-its-own.html',
+    '09-one-balance-sheet.html', '10-a-hundred-trillion.html', '11-control.html',
   ]),
 };
 

@@ -18,6 +18,8 @@
  *   illustration — an idea drawn with no figures on it
  */
 
+import teslaSpacexFigures from './figures/tesla-spacex.json' with { type: 'json' };
+
 export type SourceKind = 'primary' | 'reported' | 'estimate' | 'illustration';
 
 export interface Dashboard {
@@ -932,8 +934,165 @@ export const nebius: Collection = {
   ],
 };
 
+/* ==================================================================== */
+/*  Figures read from a video's data.js                                  */
+/* ==================================================================== */
+
+/* Since tesla-spacex, a collection's numbers are not typed here: `npm run sync:article -- <slug>`
+   writes src/data/figures/<slug>.json from the video's data.js and from what each board renders
+   (its credit line and its footage windows), and the copy below carries {key} slots filled from it.
+   A missing key fails the build. */
+export interface Figure {
+  display: string; label: string; credit: string; tier: string; asOf?: string;
+  sources: string[]; mandatory?: string;
+}
+export interface FigureData {
+  source: string;
+  boards: Record<string, { file: string; credit: string; figures: string[]; noslot: string }>;
+  figures: Record<string, Figure>;
+}
+const FIGURES: Record<string, FigureData> = { 'tesla-spacex': teslaSpacexFigures as FigureData };
+
+export const figureData = (slug: string): FigureData => {
+  const d = FIGURES[slug];
+  if (!d) throw new Error(`No figures for "${slug}"; run npm run sync:article -- ${slug}`);
+  return d;
+};
+export const figure = (slug: string, key: string): Figure => {
+  const f = figureData(slug).figures[key];
+  if (!f) throw new Error(`No figure "${key}" in ${slug}'s data.js`);
+  return f;
+};
+const MONTHS = 'January February March April May June July August September October November December'.split(' ');
+/** "2026-10-16" as "16 October 2026". */
+export const longDate = (iso: string) => `${+iso.slice(8, 10)} ${MONTHS[+iso.slice(5, 7) - 1]} ${iso.slice(0, 4)}`;
+/** Copy with {key} slots: the figure's on-screen form; {key:date} is the date it is as of. */
+const fill = (slug: string, s: string) =>
+  s.replace(/\{([a-z0-9_]+)(:date)?\}/g, (_, k, d) => (d ? longDate(figure(slug, k).asOf ?? '') : figure(slug, k).display));
+/** A board as the video renders it: its file, its credit line (the embed prints its own "Source"
+ *  label) and its footage windows hidden, since the site has no footage to put in them. */
+const board = (slug: string, web: string) => {
+  const b = figureData(slug).boards[web];
+  if (!b) throw new Error(`No board "${web}" in ${slug}'s figures; add it to scripts/sync-article.mjs`);
+  return { file: b.file, sourceNote: b.credit.replace(/^Source:\s*/, ''), ...(b.noslot && { query: `noslot=${b.noslot}` }) };
+};
+
+/* ==================================================================== */
+/*  Tesla x SpaceX                                                       */
+/* ==================================================================== */
+
+const T = 'tesla-spacex';
+export const teslaSpacex: Collection = {
+  slug: T,
+  title: "Elon Musk's Car and Rocket Empires Are Converging",
+  kicker: 'Ten dashboards',
+  summary: fill(T,
+    'SpaceX was worth {spacex_market_cap_2026_10_16} and Tesla {tesla_market_cap_cover_shares_2026_10_16} at the close on {spacex_market_cap_2026_10_16:date}, and Barclays expects SpaceX to buy Tesla. These ten dashboards chart what each company does, where the two already work together, what they look like on one balance sheet, and who would control the result. Every figure carries its source on the dashboard.'),
+  published: '2026-10-24',
+  hero: 'one-balance-sheet',
+  headline: { lead: 'Tesla and SpaceX', dim: ': two companies, one balance sheet.' },
+  primaryLabel: 'Primary',
+  method: {
+    primary:
+      'Stated by the companies or filed with the SEC and other regulators: Tesla’s 10-K, 10-Q and quarterly updates, SpaceX’s S-1, 8-K reports, quarterly results and earnings call, and Musk’s own posts on X.',
+    reported:
+      'Sourced to journalism, analysts and market data: Bloomberg, CNBC, Barclays, JPMorgan, Kalshi, StockAnalysis and others. Attribution is printed on the dashboard itself, not just here.',
+    estimate:
+      'Our own arithmetic on the companies’ figures, such as the two combined or the share-swap ratio, and Barclays’ estimate of Musk’s votes after a deal. Every dashboard that uses one says so in its source line.',
+    caveat: fill(T,
+      'Market values and share prices are as of the close on {spacex_market_cap_2026_10_16:date}. A deal has not been announced; the combined figures show what the two would add up to, not a forecast.'),
+  },
+  dashboards: [
+    {
+      n: 1, slug: 'the-tune-changes', ...board(T, 'the-tune-changes'),
+      title: 'The Tune Changes',
+      blurb: fill(T,
+        'In 2016, Musk said there was no strong product rationale to combine SpaceX and Tesla. By last year he was posting that his companies were trending towards convergence. Around the Roadster event, the betting odds of a deal by March went from {kalshi_mar2027_2026_10_14_morning} to {rumour_cnbc_kalshi_56pct_before_march}, then cooled to {clue_kalshi_before_mar2027}.'),
+      section: 'Musk Changed His Tune',
+      source: 'reported',
+    },
+    {
+      n: 2, slug: 'the-last-big-piece', ...board(T, 'the-last-big-piece'),
+      title: 'The Last Big Piece',
+      blurb: fill(T,
+        'This year SpaceX merged with xAI at a value of {xai_merger_value_xai} for xAI, went public at {spacex_ipo_valuation} and paid {spacex_cursor_price} in stock for Cursor. At the close on {spacex_market_cap_2026_10_16:date} it was worth {spacex_market_cap_2026_10_16}, against Tesla’s {tesla_market_cap_cover_shares_2026_10_16}.'),
+      section: 'Musk Changed His Tune',
+      source: 'primary',
+    },
+    {
+      n: 3, slug: 'the-deal-on-the-table', ...board(T, 'the-deal-on-the-table'),
+      title: 'The Deal on the Table',
+      blurb: fill(T,
+        'Barclays expects SpaceX to buy Tesla in a stock-for-stock deal. At the close on {c_exchange_ratio_market:date}, each Tesla share was worth {c_exchange_ratio_market} SpaceX shares before any premium, and the two together were worth {c_combined_mcap_2026_10_16}.'),
+      section: 'The Deal on the Table',
+      source: 'reported',
+      key: true,
+    },
+    {
+      n: 4, slug: 'the-autonomy-bet', ...board(T, 'the-autonomy-bet'),
+      title: 'The Autonomy Bet',
+      blurb: fill(T,
+        'Tesla brought in {tesla_fy2025_revenue_total} last year, {c_tesla_fy2025_automotive_revenue_share} of it from cars, and is valued at {tesla_market_cap_cover_shares_2026_10_16}. That value is a bet on autonomy: {fwd_tsla_fsd_active_subs_q2} people paying for self-driving, a line built for {fwd_tsla_rt_cybercab_capacity_deck} Cybercabs a year, and plans for {fwd_tsla_opt_q4_deck_capacity_1m} Optimus robots a year.'),
+      section: 'Where It Clicks',
+      source: 'primary',
+      key: true,
+    },
+    {
+      n: 5, slug: 'the-five-layers', ...board(T, 'the-five-layers'),
+      title: 'The Five Layers',
+      blurb: fill(T,
+        'Sequoia’s Shaun Maguire thinks of SpaceX in five layers: launch, connectivity, compute, models and apps, and other bets. In 2025, Starlink was {spacex_fy2025_revenue_share_connectivity} of revenue and AI {spacex_fy2025_revenue_share_ai}. In the second quarter of 2026, AI was {spacex_q2_2026_revenue_share_ai} of {spacex_q2_2026_revenue_total}.'),
+      section: 'Where It Clicks',
+      source: 'primary',
+      key: true,
+    },
+    {
+      n: 6, slug: 'the-loop', ...board(T, 'the-loop'),
+      title: 'The Loop',
+      blurb: fill(T,
+        'SpaceX’s layers against what Tesla does best. Solid cells are already happening, such as the {spacex_tesla_megapacks_2025} of Megapacks SpaceX bought from Tesla in 2025, Starlink in the Cybercab and Grok in Tesla’s cars. Dashed cells are plans: computers in orbit, Terafab and humanoid robots.'),
+      section: 'Where It Clicks',
+      source: 'primary',
+    },
+    {
+      n: 7, slug: 'each-on-its-own', ...board(T, 'each-on-its-own'),
+      title: 'Each on Its Own',
+      blurb: fill(T,
+        'Tesla brought in {tesla_fy2025_revenue_total} last year, but its operating income in the second quarter of 2026 was {tesla_q2_2026_operating_income}. SpaceX brought in {spacex_fy2025_revenue_total}, grew {spacex_q2_2026_revenue_growth_yoy} in the second quarter and spent {spacex_q2_2026_capex_total} building in that quarter, {spacex_q2_2026_capex_ai} of it on AI.'),
+      section: 'One Balance Sheet',
+      source: 'primary',
+    },
+    {
+      n: 8, slug: 'one-balance-sheet', ...board(T, 'one-balance-sheet'),
+      title: 'One Balance Sheet',
+      blurb: fill(T,
+        'Put together, the two brought in {c_combined_fy2025_revenue} last year, held {c_combined_cash_2026_06_30} in cash and were worth {c_combined_mcap_2026_10_16}, {c_combined_mcap_rank_2026_10_16} in the world by market value and {c_combined_mcap_to_fy2025_revenue} their revenue. SpaceX alone is valued at {c_spacex_mcap_to_fy2025_revenue} its 2025 revenue.'),
+      section: 'One Balance Sheet',
+      source: 'primary',
+      key: true,
+    },
+    {
+      n: 9, slug: 'a-hundred-trillion', ...board(T, 'a-hundred-trillion'),
+      title: 'A Hundred Trillion',
+      blurb: fill(T,
+        'The night before the Roadster event, Musk wrote that SpaceX probably gets to more than $100 trillion in less than ten years. From {spacex_market_cap_2026_10_16} today, that takes growth of {musk_claim_c_100t_implied_growth}, every year, for a decade.'),
+      section: 'One Balance Sheet',
+      source: 'primary',
+      key: true,
+    },
+    {
+      n: 10, slug: 'control', ...board(T, 'control'),
+      title: 'Control',
+      blurb: fill(T,
+        'Musk owns {tesla_musk_ownership_pct} of Tesla and holds {spacex_musk_voting_power_post_ipo} of SpaceX’s votes, through Class B shares that carry {spacex_class_b_ten_votes} votes each. If Tesla’s stock were swapped into SpaceX’s, Barclays puts his votes in the combined company at {barclays_combined_musk_37_56}.'),
+      section: 'Where It Lands',
+      source: 'primary',
+    },
+  ],
+};
+
 /** Newest first. The hub and the poster renderer both iterate this. */
-export const collections: Collection[] = [nebius, alexandrWang, anthropicIpo, cursor, situationalAwareness];
+export const collections: Collection[] = [teslaSpacex, nebius, alexandrWang, anthropicIpo, cursor, situationalAwareness];
 
 export const findCollection = (slug: string) => collections.find((c) => c.slug === slug);
 

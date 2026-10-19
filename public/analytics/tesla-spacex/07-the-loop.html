@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The loop · Boardroom Wire</title>
+<!-- TESLA-SPACEX · HERO · THE LOOP (Ive, 18 Oct 2026). Chapter 4's payoff, from "And this is where it gets really interesting" to
+     "makes life a lot easier too": about 40 s at the writer's 166 wpm.
+     The idea: not eight tiles with wires (the node graph is AI-LOOK vocabulary, REJECTIONS.md) but a table a quant reads. SpaceX's
+     four are board 06's strata, numbered as there, launch at the foot; Tesla's four are columns cut down through them. Each cell is
+     one possible link between the two companies, and it says only what Goldman's synergy map lets it say:
+       filled cream     live: shipping or booked in a filing today (Megapacks at SpaceX's data centres; Grok in Tesla's cars)
+       solid outline    announced: built and shown, not yet in service (Starlink in the Cybercab)
+       dashed outline   planned or claimed: nothing is built (Grok running Optimus, Musk's claim; Terafab, announced)
+       empty            no link on the record
+     The bigger bets are a dashed stratum on top, as on 06 (computers in orbit, SpaceX's; humanoid robots, Tesla's, in their
+     column). On "one company" a single gold frame draws round the whole table: gold is the combined company in this video, so
+     the merger is a colour you watch arrive, never a word.
+       pull       the table stands at low ink from frame 0 (a drawn head) ("this is where it gets really interesting")
+       step       the strata and columns to full ink ("Step back")
+       spacex     SpaceX's mark; launch, satellites, data centers, AI light on their words ("SpaceX already has")
+       tesla      Tesla's mark; power, manufacturing at scale, robotics, autonomy light on their words ("Tesla has")
+       better     the sixteen cells rule in, faint ("all of these make each other better")
+       power      data centers x power fills: what SpaceX paid Tesla for Megapacks ("Tesla's batteries help power")
+       cybercab   satellites x autonomy, outlined: the Cybercab ("going into the Cybercab")
+       grok       AI x autonomy fills: Grok in Tesla's cars ("Grok is already in them")
+       optimus    AI x robotics, dashed: Musk's claim ("running Optimus")
+       bets       the dashed stratum to full ink; Terafab, dashed, at data centers x manufacturing ("Add in their bigger bets")
+       orbit, humanoid   each bet on its words, with its date or its plan
+       one        one gold frame round both halves ("if they consolidate into one company")
+     Words on screen (rule 16, all the script's): launch, satellites, data centers, AI; power, manufacturing at scale, robotics,
+     autonomy; Cybercab; Terafab; computers in orbit; humanoid robots. Everything else is a figure, a date or a company's own mark.
+     Owed, held until it lands (the board renders without it): the dates of the Cybercab post (syn_robotaxi_post_first_cybercab_
+     starlink_2026_08_10, P, 10 Aug 2026) and of Musk's Grok-for-Optimus answer (syn_optimus_grok_voice_q1_call_2026, R, 22 Apr
+     2026). The Megapack figure is SpaceX's own 2025 purchase ($506M, S-1); Tesla's H1 2026 $405M is in the ledger, not data.js.
+     Footage windows (owed, hidden until delivered; ?noslot= shows them): four tiles over the still-empty cells (o62, o63), then the
+     Megapack, Cybercab and orbit windows (o33 to o36) over the manufacturing column's empty cells, the Optimus and humanoid
+     windows over the robotics column's. SpaceX's thrusters on the Roadster (live, 15 Oct) take no cell: the car is none of
+     Tesla's four, and filing it under one would claim a link the synergy map does not.
+     Render: bw render dashboards/07-the-loop.html --at <times> --secs <s> --out <big-media path>
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?at= ?secs= ?noslot= -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); el(s, 'defs');
+const K = H.steps([['pull', 0.0], ['step', 3.1], ['spacex', 6.14], ['launch', 7.2], ['satellites', 7.6], ['centers', 8.0], ['ai', 8.7],
+  ['tesla', 9.4], ['power', 10.1], ['mfg', 10.5], ['robotics', 11.6], ['autonomy', 12.0], ['better', 12.65],
+  ['batteries', 17.35], ['cybercab', 21.2], ['grok', 22.05], ['optimus', 25.0], ['bets', 26.39], ['orbit', 28.2], ['humanoid', 29.6],
+  ['one', 33.61]], 40.1);
+
+const CR = 'var(--cream)', GOLD = 'var(--gold)', INK = 'var(--bg)', DIM = 'rgba(245,241,229,.55)', FAINT = 'rgba(245,241,229,.16)';
+const RULE = 'rgba(245,241,229,.30)';
+
+/* ---------------- the figures ---------------- */
+const mega = usd('spacex_tesla_megapacks_2025'), megaYr = F('spacex_tesla_megapacks_2025').asOf.slice(0, 4);
+const grokCar = F('syn_grok_in_tesla_vehicles').asOf; used.add('syn_grok_in_tesla_vehicles');
+const orbitYr = num('syn_spacex_ai_satellite_nvl72_launch_2027');
+const robots = F('fwd_tsla_opt_q4_deck_capacity_1m').display; used.add('fwd_tsla_opt_q4_deck_capacity_1m');
+const cabDay = has('syn_robotaxi_post_first_cybercab_starlink_2026_08_10') ? F('syn_robotaxi_post_first_cybercab_starlink_2026_08_10').asOf : null;
+if (cabDay) used.add('syn_robotaxi_post_first_cybercab_starlink_2026_08_10');
+const optDay = has('syn_optimus_grok_voice_q1_call_2026') ? F('syn_optimus_grok_voice_q1_call_2026').asOf : null;
+if (optDay) used.add('syn_optimus_grok_voice_q1_call_2026');
+if (!isFinite(mega) || !isFinite(orbitYr)) throw new Error('a figure on board 07 is not a number in data.js');
+
+/* ---------------- the table: SpaceX's strata (06's numbering) against Tesla's columns ---------------- */
+const X0 = 64, NX = 84, NM = 140, XR = 1856;
+const COLS = [{ x0: 470, x1: 720, name: 'power', at: 'power' }, { x0: 720, x1: 1140, name: 'manufacturing at scale', at: 'mfg' },
+  { x0: 1140, x1: 1490, name: 'robotics', at: 'robotics' }, { x0: 1490, x1: XR, name: 'autonomy', at: 'autonomy' }];
+const ROWS = { bets: { y: 222, h: 100 }, 4: { y: 336, h: 130, name: 'AI', at: 'ai' }, 3: { y: 480, h: 130, name: 'data centers', at: 'centers' },
+  2: { y: 624, h: 130, name: 'satellites', at: 'satellites' }, 1: { y: 768, h: 130, name: 'launch', at: 'launch' } };
+const TOP = 150, BOT = ROWS[1].y + ROWS[1].h;
+const ink = (t) => .32 + .68 * H.go(t, K.step - .2, K.step + .6);          // the drawn head: a third of its ink, full on "Step back"
+
+/* the strata, outlined as on 06 */
+const gT = el(s, 'g');
+[4, 3, 2, 1].forEach(i => { const r = ROWS[i];
+  el(gT, 'rect', { x: X0, y: r.y, width: XR - X0, height: r.h, fill: 'none', stroke: RULE, 'stroke-width': 2 });
+  el(gT, 'text', { x: NX, y: r.y + r.h / 2 + 14, class: 'fn', 'font-size': 40 }, String(i)); });
+/* Tesla's columns, cut down through them */
+COLS.forEach(c => el(gT, 'line', { x1: c.x0, x2: c.x0, y1: TOP, y2: BOT, stroke: RULE, 'stroke-width': 2 }));
+el(gT, 'line', { x1: XR, x2: XR, y1: TOP, y2: BOT, stroke: RULE, 'stroke-width': 2 });
+H.on((t) => gT.setAttribute('opacity', ink(t).toFixed(3)));
+
+/* the names stand at a third of their ink from frame 0 and come up on their words */
+const named = (txt, x, y, at, size = 32) => { const n = el(s, 'text', { x, y, class: 'nm', 'font-size': size }, txt);
+  H.on((t) => n.setAttribute('opacity', (.32 + .68 * H.go(t, at, at + .4)).toFixed(3))); return n; };
+[4, 3, 2, 1].forEach(i => named(ROWS[i].name, NM, ROWS[i].y + ROWS[i].h / 2 + 12, K[ROWS[i].at]));
+COLS.forEach(c => named(c.name, c.x0 + 16, TOP + 40, K[c.at]));
+/* whose half is whose: the marks over the two sides of the table */
+H.rise(logo(s, 'spacex', X0, 96, 26), K.spacex);
+H.rise(logo(s, 'tesla', COLS[0].x0 + 16, 96, 24), K.tesla);
+
+/* ---------------- the cells: sixteen possible links, ruled in faint ---------------- */
+const cell = (row, col, pad = 10) => { const r = ROWS[row], c = COLS[col]; return { x: c.x0 + pad, y: r.y + pad, w: c.x1 - c.x0 - 2 * pad, h: r.h - 2 * pad }; };
+{ const g = el(s, 'g');
+  [4, 3, 2, 1].forEach((row, ri) => COLS.forEach((_, ci) => { const b = cell(row, ci);
+    H.fade(el(g, 'rect', { x: b.x, y: b.y, width: b.w, height: b.h, fill: 'none', stroke: FAINT, 'stroke-width': 2 }), K.better + .15 * ri + .08 * ci, .4); })); }
+
+/* live: filled cream, the figure in ink */
+{ const b = cell(3, 0), g = el(s, 'g');
+  el(g, 'rect', { x: b.x, y: b.y, width: b.w, height: b.h, fill: CR });
+  H.grow(g, K.batteries + .5, .7, 0, b.y + b.h, 'y');
+  H.rise(el(s, 'text', { x: b.x + 14, y: b.y + 56, class: 'fn', 'font-size': 40, style: 'fill:var(--bg)' }, fmt.usdM(mega)), K.batteries + 1.0);
+  H.rise(el(s, 'text', { x: b.x + 14, y: b.y + 94, class: 'ax', 'font-size': 28, style: 'fill:rgba(10,10,12,.62)' }, megaYr), K.batteries + 1.2); }
+{ const b = cell(4, 3), g = el(s, 'g');
+  el(g, 'rect', { x: b.x, y: b.y, width: b.w, height: b.h, fill: CR });
+  H.grow(g, K.grok + .2, .7, 0, b.y + b.h, 'y');
+  H.rise(logo(s, 'grok', b.x + 14, b.y + 18, 30, 'rgb(10,10,12)'), K.grok + .6);
+  H.rise(el(s, 'text', { x: b.x + 14, y: b.y + 94, class: 'ax', 'font-size': 28, style: 'fill:rgba(10,10,12,.62)' }, fmt.day(grokCar)), K.grok + .8); }
+/* announced: a solid outline, drawn */
+{ const b = cell(2, 3);
+  H.draw(el(s, 'rect', { x: b.x, y: b.y, width: b.w, height: b.h, fill: 'none', stroke: CR, 'stroke-width': 2 }), K.cybercab - .3, .7);
+  H.rise(el(s, 'text', { x: b.x + 14, y: b.y + 52, class: 'nm', 'font-size': 32 }, 'Cybercab'), K.cybercab);
+  if (cabDay) H.rise(el(s, 'text', { x: b.x + 14, y: b.y + 94, class: 'ax', 'font-size': 28 }, fmt.day(cabDay)), K.cybercab + .3); }
+/* claimed: a dashed outline */
+{ const b = cell(4, 2), g = el(s, 'g');
+  el(g, 'rect', { x: b.x, y: b.y, width: b.w, height: b.h, fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '10 8' });
+  H.wipe(g, K.optimus - .1, .7, 'x');
+  H.rise(logo(s, 'grok', b.x + 14, b.y + 18, 30), K.optimus + .3);
+  if (optDay) H.rise(el(s, 'text', { x: b.x + 14, y: b.y + 94, class: 'ax', 'font-size': 28 }, fmt.day(optDay)), K.optimus + .5); }
+
+/* planned: Terafab, the chip factory the two say they will build together (Goldman: announced, nothing built; dashed, as on 06).
+   It sits where Tesla's manufacturing meets SpaceX's compute: Musk's split sends about three quarters of its output to AI
+   spacecraft. It lands with the bets ("Add in their bigger bets"): the voice does not name it here, so it carries only its name. */
+used.add('syn_terafab_framework');
+{ const b = cell(3, 1), g = el(s, 'g');
+  el(g, 'rect', { x: b.x, y: b.y, width: b.w, height: b.h, fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '10 8' });
+  H.wipe(g, K.bets + .2, .7, 'x');
+  H.rise(el(s, 'text', { x: b.x + 14, y: b.y + 52, class: 'nm', 'font-size': 32 }, 'Terafab'), K.bets + .5); }
+
+/* ---------------- the bigger bets: a dashed stratum on top, as on 06 ---------------- */
+{ const r = ROWS.bets, g = el(s, 'g');
+  el(g, 'rect', { x: X0, y: r.y, width: XR - X0, height: r.h, fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '12 9' });
+  H.on((t) => g.setAttribute('opacity', (.3 * ink(t) + .7 * H.go(t, K.bets - .2, K.bets + .5)).toFixed(3)));
+  /* SpaceX's: computers in orbit, its first launch year */
+  H.rise(el(s, 'text', { x: NM, y: r.y + 42, class: 'nm', 'font-size': 32 }, 'computers in orbit'), K.orbit);
+  H.rise(el(s, 'text', { x: NM, y: r.y + 82, class: 'fn', 'font-size': 32 }, String(orbitYr)), K.orbit + .3);
+  /* Tesla's: humanoid robots, a dashed cell in its own column, with the plan */
+  const c = COLS[2], b = { x: c.x0 + 10, y: r.y + 10, w: c.x1 - c.x0 - 20, h: r.h - 20 }, gc = el(s, 'g');
+  el(gc, 'rect', { x: b.x, y: b.y, width: b.w, height: b.h, fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '10 8' });
+  H.wipe(gc, K.humanoid - .1, .6, 'x');
+  H.rise(el(s, 'text', { x: b.x + 14, y: b.y + 34, class: 'nm', 'font-size': 28 }, 'humanoid robots'), K.humanoid + .1);
+  H.rise(el(s, 'text', { x: b.x + 14, y: b.y + 70, class: 'fn', 'font-size': 32 }, robots), K.humanoid + .3); }
+
+/* ---------------- one company: one gold frame round both halves ---------------- */
+{ const g = el(s, 'g'), x = X0 - 14, y = 72, w = XR - X0 + 28, h = BOT + 14 - y;
+  H.draw(el(g, 'rect', { x, y, width: w, height: h, fill: 'none', stroke: GOLD, 'stroke-width': 3 }), K.one + 1.1, 1.3); }
+
+/* ---------------- footage windows (owed until Ko's deliveries land) ---------------- */
+/* they open over cells that are empty at that moment: before "better" the cells are not drawn; after it, over cells that stay
+   empty (manufacturing's lower and upper rows, robotics' lower rows; Terafab's cell lands at 26.4 s, after the one window over
+   it has shut), so nothing the voice is proving is ever covered */
+const TW = 400, TH = 225, T = [[730, 360], [1150, 360], [730, 650], [1150, 650]], MU = [730, 360], ML = [730, 650], RL = [1150, 650, 330, 186];
+const ids = ['t07-s1', 't07-s2', 't07-s3', 't07-s4', 't07-t1', 't07-t2', 't07-t3', 't07-t4', 't07-megapack', 't07-cybercab', 't07-optimus', 't07-orbit', 't07-humanoid'];
+H.owed(...ids);
+['launch (REQ-008 row 3)', 'Starlink (REQ-008 row 4)', 'a SpaceX data hall (REQ-007 row 4)', 'Grok in the car (REQ-007 row 10)']
+  .forEach((sub, i) => H.slot(s, 't07-s' + (i + 1), T[i][0], T[i][1], TW, TH, K.spacex + .3 * i, K.tesla, sub));
+['Megapacks (REQ-007 row 3)', 'a Tesla line (REQ-007 row 1)', 'Optimus (REQ-007 row 8)', 'FSD (REQ-007 row 5)']
+  .forEach((sub, i) => H.slot(s, 't07-t' + (i + 1), T[i][0], T[i][1], TW, TH, K.tesla + .3 * i, K.tesla + 3.2, sub));
+H.slot(s, 't07-megapack', ...ML, TW, TH, K.batteries, K.batteries + 2.5, 'Megapacks at a SpaceX data centre (REQ-007 row 4)');
+H.slot(s, 't07-cybercab', ...MU, TW, TH, K.cybercab - 1.7, K.cybercab + .8, 'the Cybercab with its Starlink dish (REQ-007 row 12)');
+H.slot(s, 't07-optimus', ...RL, K.grok + 1.85, K.grok + 4.85, 'Optimus (REQ-007 row 9)');
+H.slot(s, 't07-orbit', ...ML, TW, TH, K.bets, K.bets + 4.0, 'an orbital compute render or satellite (REQ-008 row 7)');
+H.slot(s, 't07-humanoid', ...RL, K.bets + .7, K.bets + 4.0, 'Optimus at work (REQ-007 row 9)');
+
+H.run();
+</script>
+</body>
+</html>

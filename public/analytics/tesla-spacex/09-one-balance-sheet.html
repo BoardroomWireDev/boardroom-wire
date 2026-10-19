@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>One balance sheet · Boardroom Wire</title>
+<!-- TESLA-SPACEX · HERO · ONE BALANCE SHEET (Ive, 18 Oct 2026; cue split and the last steps added the same night). Chapter 5, from
+     "Put them together" to "humanoid robots": board seconds 50.6 to 98 (about 47 s). The canvas is drawn once in
+     assets/hero/balance-sheet.js and shared with 08-each-on-its-own.html, which plays the ledger before it (0 to 51.2 s); this
+     page opens on 08's last frame, so the join is a matched cut and neither cue holds past 90 s (gates.json#heroes).
+     The idea: the two companies as one ledger read back to back (08), folded into one, the value pulled back to the truth and set
+     among the world's most valuable companies, the premium counted, and then what the price is paying for.
+     Grammar (LOOK-tesla-spacex.md): cream for each company, gold only once they are one; red for SpaceX's operating loss only;
+     dashed for what is planned (Tesla's 2026 capex, the frontier markets); our arithmetic carries a dashed underline.
+     Steps (board seconds at 166 wpm from "So let's look at the numbers"; ?at= in this order for both pages; 08's are listed in its header):
+       fold       the ledger folds: the rows that cannot be added step back, Tesla's bars cross the spine and dock ("Put them together")
+       crev       $113.5B, gold, ours ("$114 billion")            ccash  $143.5B ("$144 billion")
+       value      the scale pulls back once, to $0-$5.5T; the value grows, Tesla then SpaceX ("worth")
+       worth      $3.38T beside the bar's end ("$3.4 trillion")
+       rank       the world's most valuable companies as ticks on the same axis, their marks under it; the pair's gold tick and its
+                  place, 5th ("one of the most valuable companies on the planet")
+       premium, thirty   the value ruled into lengths of the pair's 2025 revenue; 29.8× ("30 times")
+       spacex, hundred   SpaceX's own value in lengths of its own revenue; 106.1× ("a hundred times")
+       bets       today's business steps out: revenue, cash and the revenue lengths leave; the value remains ("today's business")
+       markets    three unsized tiles in outline ("already at the front"); each lights on its words: autonomy, space, aiM ("AI and computing")
+       frontier   two dashed tiles land on their words: orbit ("data centers in orbit"), robots ("humanoid robots")
+     The tiles are never sized and the value block is never divided among them: no source splits the value by market.
+     Words on screen (rule 16, the script's): revenue, cash, value, autonomous driving, space, AI and computing, data centers in
+     orbit, humanoid robots (6 at rest: revenue and cash have left). Marks: Tesla, SpaceX, Amazon, Microsoft, Alphabet (Google's G),
+     Apple, Nvidia, in their owners' colours.
+     Held until their rows reach data.js (the board renders without them, BW_HELD): the Nvidia, Apple and Alphabet values
+     (Goldman; their figures are in c_combined_mcap_rank_2026_10_16's quote), and whatever of tonight's new rows Davinci has not
+     yet carried over (the rank, the two multiples, Microsoft and Amazon).
+     Footage windows (owed, hidden until delivered; ?noslot= shows them): three market windows on "today's business", two frontier
+     windows on "frontier".
+     LOCK DAY (22 Oct): every Q2 row and both market values re-cut; the board reads its keys, so it is a data.js change.
+     Render: bw render dashboards/09-one-balance-sheet.html --at <times> --secs <s> --out <big-media path>
+     Capture contract: BW.run via HERO.run({from}); ?capture ?final ?still ?beats ?t=<label|cue secs> ?motion=0 ?at= ?secs= ?noslot= -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>const BS_CUE = 'fold';</script>
+<script src="assets/hero/balance-sheet.js"></script>
+</body>
+</html>

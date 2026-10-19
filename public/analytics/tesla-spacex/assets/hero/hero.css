@@ -1,0 +1,11 @@
+/* Nebius heroes: the style frames' type (../style-frames/sf.css) on the board contract. The stage is 1920x1080 CSS, rendered
+   at 2x. The credit is the house line (.bw-prov from brand.css, rendered by BW.provenance), never typed. */
+.stage { background: var(--bg); overflow: hidden; }
+svg.hero { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+svg.hero text { font-family: var(--sans); }
+svg.hero .fn { font-family: var(--mono); font-weight: 600; fill: var(--cream); font-variant-numeric: tabular-nums slashed-zero; letter-spacing: -.01em; }
+svg.hero .fh { font-family: var(--mono); font-weight: 700; fill: var(--gold); font-variant-numeric: tabular-nums slashed-zero; letter-spacing: -.04em; }
+svg.hero .ax { font-family: var(--mono); font-weight: 500; fill: rgba(245, 241, 229, .55); font-variant-numeric: tabular-nums slashed-zero; }
+svg.hero .nm { font-family: var(--sans); font-weight: 500; fill: var(--cream); }
+svg.hero .nd { font-family: var(--sans); font-weight: 500; fill: rgba(245, 241, 229, .62); }
+svg.hero .gd { fill: var(--gold); }

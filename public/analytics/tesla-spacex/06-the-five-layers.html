@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The five layers · Boardroom Wire</title>
+<!-- TESLA-SPACEX · HERO · THE FIVE LAYERS (Ive, 18 Oct 2026). Chapter 4, "Where It Clicks", from "SpaceX is a more layered
+     business" to "launch was down to about an eighth": about 118 s at the writer's 166 wpm.
+     The idea: Shaun Maguire's five layers drawn as a section through the company, the way an engineer draws strata. The five
+     strata stand from frame 0 (a drawn head); the camera rides up the stack layer by layer as the voice names each one, and every
+     layer carries its own real figures at true count or true scale. Then the camera pulls back and the revenue mix stands beside
+     the stack as two columns whose bands line up with the layers, so "the money is moving up the layers" is seen: the AI band
+     (layers 3 and 4) doubles while launch shrinks.
+     Grammar (LOOK-tesla-spacex.md): cream for the facts, gold for the layer in view and then for where the money is going; a
+     dashed line for what is planned or not yet real (orbit in 2027, Terafab, the Moon, so layer 5 is a dashed stratum; and the
+     frame round Starship's 100 t, a design figure); our arithmetic carries a dashed underline; "more than" fades with no edge.
+       five       the five strata come to full ink ("five layers")
+       launch     camera to layer 1 ("Layer one is launch")
+       m170       170 ticks, one per mission, in tens ("170 missions")
+       p80        SpaceX's share of the world's mass to orbit, >80%, its end faded ("more than 80%")
+       starship   Starship, solid: it has flown payloads since 28 Sep ("Starship")
+       tons       its designed payload, 100 t, in a dashed frame (a design figure) ("100 tons")
+       conn       camera to layer 2 ("Layer two is connectivity")
+       sats       9,600 satellites as 9,600 dots in blocks of 100 ("9,600 satellites")
+       subs       subscribers on a true time axis to 12M ("12 million subscribers")
+       double     the year-ago point, 6M ("double a year ago")
+       margin     margins, 60.5%, ours ("margins of around 60%")
+       compute    camera to layer 3 ("Layer three is compute")
+       gw         gigawatts of AI computing on the same time axis to 1.4 GW ("1.4 gigawatts")
+       google     Google's mark and its monthly rent, $920M ("Google rents capacity")
+       anthropic  Anthropic's mark ("Anthropic alone")
+       month      its $1.25B a month ("$1.25 billion a month")
+       orbit      a dashed span over 2027 on the time axis ("data centers in orbit")
+       models     camera to layer 4 ("Layer four is the models and the apps")
+       grok, xmark, cursor   the three marks on their names
+       bets       camera to layer 5, the dashed stratum ("layer five is all the other bets")
+       terafab    Terafab ("Terafab")
+       moon       the Moon, drawn dashed ("the Moon")
+       pull       the camera pulls back to the whole stack ("the money is moving up the layers")
+       mix25      2025's mix: Starlink 61%, launch 22%, AI 17%, each on its word ("Last year")
+       mixq2      Q2 2026's column opens ("By the second quarter"; v9 fact fix 8; lock day restores "By last quarter")
+       third      AI, 33%, in gold, with layers 3 and 4 ("a third")
+       total      $7.8B ("$7.8 billion")
+       eighth     launch, 12% ("an eighth")
+     Words on screen (rule 16, all the script's): launch, connectivity, compute, models and the apps, other bets, Starship, margins,
+     Terafab. Everything else is a figure, a date or a company's own mark.
+     Figures: see uses in the credit (HERO.run). The >80% is spacex_fy2025_mass_to_orbit's pct and the 100 t is
+     spacex_bl_starship_what_it_is's n (data.js reads both from the rows' words). Owed by Goldman, held until it lands (the board
+     renders without it): the margin, c_spacex_q2_2026_adj_ebitda_margin_connectivity (C, 60.5%, in the ledger since 18 Oct night).
+     Footage windows (owed, hidden until delivered; ?noslot= shows them): a launch during "one call to make", a data hall during
+     "the way Amazon and Microsoft do".
+     Render: bw render dashboards/06-the-five-layers.html --at <times> --secs <s> --out <big-media path>
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?at= ?secs= ?noslot= -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" id="s" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/sf.js"></script>
+<script src="assets/hero/hero.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); el(s, 'defs');
+const K = H.steps([['five', 8.7], ['launch', 9.4], ['m170', 12.3], ['p80', 16.3], ['starship', 24.9], ['tons', 27.8],
+  ['conn', 34.0], ['sats', 38.3], ['subs', 39.4], ['double', 40.5], ['margin', 44.8],
+  ['compute', 52.4], ['gw', 62.5], ['google', 64.3], ['anthropic', 66.5], ['month', 69.8], ['orbit', 74.1],
+  ['models', 79.9], ['grok', 84.2], ['xmark', 84.6], ['cursor', 85.7],
+  ['bets', 92.2], ['terafab', 95.1], ['moon', 100.1],
+  ['pull', 100.5], ['mix25', 103.7], ['mixq2', 110.2], ['third', 112.8], ['total', 113.9], ['eighth', 117.8]], 121.0);
+
+const CR = 'var(--cream)', GOLD = 'var(--gold)', DIM = 'rgba(245,241,229,.55)', FAINT = 'rgba(245,241,229,.16)';
+const RULE = 'rgba(245,241,229,.30)';
+
+/* ---------------- the figures ---------------- */
+const launches = U('spacex_fy2025_launches');
+const share80 = F('spacex_fy2025_mass_to_orbit').pct; used.add('spacex_fy2025_mass_to_orbit');   // SpaceX's own claim, read from the row's quote
+const starshipT = num('spacex_bl_starship_what_it_is');                    // V3's designed payload, 100 t (a design figure)
+const sats = U('spacex_starlink_satellites_mar2026');
+const SUBS = [['2023-12-31', 'spacex_fy2023_starlink_subscribers'], ['2024-12-31', 'spacex_fy2024_starlink_subscribers'],
+  ['2025-03-31', 'spacex_q1_2025_starlink_subscribers'], ['2025-06-30', 'spacex_q2_2025_starlink_subscribers'],
+  ['2025-12-31', 'spacex_fy2025_starlink_subscribers'], ['2026-03-31', 'spacex_q1_2026_starlink_subscribers'],
+  ['2026-06-30', 'spacex_starlink_subscribers_q2_2026']].map(([d, k]) => [d, num(k)]);
+const MK = 'c_spacex_q2_2026_adj_ebitda_margin_connectivity', margin = has(MK) ? pct(MK) : null;     // Goldman's row, 60.5%
+const GWS = [['2023-12-31', 'spacex_fy2023_nameplate_compute_gw'], ['2024-12-31', 'spacex_fy2024_nameplate_compute_gw'],
+  ['2025-06-30', 'spacex_q2_2025_nameplate_compute_gw'], ['2025-12-31', 'spacex_fy2025_nameplate_compute_gw'],
+  ['2026-06-30', 'spacex_nameplate_compute_gw_q2_2026']].map(([d, k]) => [d, U(k)]);
+const anthro = usd('spacex_anthropic_cloud_deal'), goog = usd('spacex_google_cloud_deal');
+used.add('syn_spacex_ai_satellite_nvl72_launch_2027');                   // "launching next year" (SpaceX's call, 4 Aug 2026)
+const MIX = {
+  y25: { tot: usd('spacex_fy2025_revenue_total'), space: usd('spacex_fy2025_revenue_space'), conn: usd('spacex_fy2025_revenue_connectivity'), ai: usd('spacex_fy2025_revenue_ai'),
+    p: { space: 'spacex_fy2025_revenue_share_space', conn: 'spacex_fy2025_revenue_share_connectivity', ai: 'spacex_fy2025_revenue_share_ai' } },
+  q2: { tot: usd('spacex_q2_2026_revenue_total'), space: usd('spacex_q2_2026_revenue_space'), conn: usd('spacex_q2_2026_revenue_connectivity'), ai: usd('spacex_q2_2026_revenue_ai'),
+    p: { space: 'spacex_q2_2026_revenue_share_space', conn: 'spacex_q2_2026_revenue_share_connectivity', ai: 'spacex_q2_2026_revenue_share_ai' } }
+};
+calc = true;
+
+/* ---------------- the sheet: one world under a camera ---------------- */
+/* the camera's world is clipped above the credit line, so a pushed-in band never runs under it (rule 9) */
+const vp = el(s.querySelector('defs'), 'clipPath', { id: 'vp', clipPathUnits: 'userSpaceOnUse' });
+el(vp, 'rect', { x: 0, y: 0, width: 1920, height: 1004 });
+const W = el(el(s, 'g', { 'clip-path': 'url(#vp)' }), 'g');
+const X0 = 64, X1 = 1460, NX = 84, NM = 150, C0 = 470;              // stack edges, numeral, name, the figures' column
+const BANDS = [null,
+  { y: 742, h: 200, name: 'launch', at: 'launch', end: 'conn' },
+  { y: 510, h: 220, name: 'connectivity', at: 'conn', end: 'compute' },
+  { y: 298, h: 200, name: 'compute', at: 'compute', end: 'models' },
+  { y: 176, h: 110, name: 'models and the apps', at: 'models', end: 'bets' },
+  { y: 64, h: 100, name: 'other bets', at: 'bets', end: 'pull', planned: true }];
+
+/* the strata: outlines and numerals at a third of their ink from frame 0 (a drawn head), full on "five layers" */
+const G = [], NUMG = [];
+const anyActive = (t) => H.go(t, K.launch - .3, K.launch + .4) * (1 - H.go(t, K.pull, K.pull + .9));
+const activeW = (i, t) => { const b = BANDS[i]; return H.go(t, K[b.at] - .3, K[b.at] + .4) * (1 - H.go(t, K[b.end] - .3, K[b.end] + .4)); };
+let aiLit = () => 0;
+for (let i = 1; i <= 5; i++) {
+  const b = BANDS[i];
+  const frame = el(W, 'rect', { x: X0, y: b.y, width: X1 - X0, height: b.h, fill: 'none', stroke: RULE, 'stroke-width': 2,
+    'stroke-dasharray': b.planned ? '12 9' : 'none' });
+  const nC = el(W, 'text', { x: NX, y: b.y + 50, class: 'fn', 'font-size': 40 }, String(i));
+  const nG = el(W, 'text', { x: NX, y: b.y + 50, class: 'fh', 'font-size': 40, 'letter-spacing': 0 }, String(i));
+  H.on((t) => { const u = .55 + .45 * H.go(t, K.five - .2, K.five + .6), dm = 1 - .7 * anyActive(t) * (1 - activeW(i, t));
+    frame.setAttribute('opacity', u.toFixed(3)); nC.setAttribute('opacity', (u * dm).toFixed(3));
+    const gl = Math.max(activeW(i, t), (i === 3 || i === 4) ? aiLit(t) : 0); nG.setAttribute('opacity', gl.toFixed(3)); });
+  const g = el(W, 'g'); G[i] = g;
+  /* the five names stand at a third of their ink from frame 0 (the head is the whole section, faint) and come up on their words */
+  const nm = el(g, 'text', { x: NM, y: b.y + 50, class: 'nm', 'font-size': 36 }, b.name);
+  H.on((t) => { nm.setAttribute('opacity', (.32 + .68 * H.go(t, K[b.at] + .1, K[b.at] + .6)).toFixed(3));
+    const o = 1 - .7 * anyActive(t) * (1 - activeW(i, t)); g.setAttribute('opacity', o.toFixed(3)); });
+}
+
+/* ---------------- layer 1 · launch ---------------- */
+{ const b = BANDS[1], g = G[1];
+  H.rise(el(g, 'text', { x: NM, y: b.y + 156, class: 'fn', 'font-size': 96, style: 'font-weight:700' }, fmt.int(launches)), K.m170 + .1);
+  // one tick per mission, in tens, swept left to right as the number lands
+  const PITCH = 3.2, GW = 10 * PITCH, GAP = 8, ty = b.y + 26, th = 58;
+  for (let i = 0; i < launches; i++) {
+    const x = C0 + Math.floor(i / 10) * (GW + GAP) + (i % 10) * PITCH;
+    const tk = el(g, 'rect', { x, y: ty, width: 2, height: th, fill: CR });
+    H.show(tk, K.m170 + .9 * i / launches, .12);
+  }
+  const fieldR = C0 + Math.floor((launches - 1) / 10) * (GW + GAP) + ((launches - 1) % 10) * PITCH + 2;
+  // the world's mass to orbit as one bar; SpaceX's share solid to 80%, then fading: "more than", no edge where none is sourced
+  const by = b.y + 112, bh = 30, bw = fieldR - C0;
+  H.draw(el(g, 'rect', { x: C0, y: by, width: bw, height: bh, fill: 'none', stroke: DIM, 'stroke-width': 2 }), K.p80 - .4, .6);
+  const x80 = C0 + bw * share80 / 100;
+  const fill = el(g, 'g');
+  el(fill, 'rect', { x: C0, y: by, width: x80 - C0, height: bh, fill: CR });
+  el(fill, 'rect', { x: x80, y: by, width: 64, height: bh, fill: fadeEnd(s, x80, x80 + 64, 'rgb(245,241,229)') });
+  H.grow(fill, K.p80, .9, C0, 0, 'x');
+  H.rise(el(g, 'text', { x: x80, y: by + bh + 44, class: 'fn', 'font-size': 40, 'text-anchor': 'end' }, '>' + fmt.pct(share80)), K.p80 + .6);
+  // Starship: flying payloads since 28 Sep (facts check v9 row 4), so drawn solid; only its 100 t, a design figure, is framed dashed
+  const sx = fieldR + 60;
+  H.draw(el(g, 'line', { x1: sx, x2: sx, y1: b.y + 22, y2: b.y + b.h - 22, stroke: CR, 'stroke-width': 2 }), K.starship - .2, .6);
+  H.rise(el(g, 'text', { x: sx + 30, y: b.y + 70, class: 'nm', 'font-size': 36 }, 'Starship'), K.starship + .1);
+  const gT = el(g, 'g');
+  el(gT, 'rect', { x: sx + 18, y: b.y + 92, width: 5 * 38.4 + 26, height: 76, fill: 'none', stroke: DIM, 'stroke-width': 2, 'stroke-dasharray': '8 6' });
+  el(gT, 'text', { x: sx + 30, y: b.y + 150, class: 'fn', 'font-size': 64 }, fmt.int(starshipT) + ' t');
+  H.rise(gT, K.tons + .1);
+}
+
+/* ---------------- layers 2 and 3 share one true time axis, 2023 to 2028 ---------------- */
+const TX0 = 1190, TX1 = 1440, tx = tlin('2023-01-01', '2028-01-01', TX0, TX1);
+function timeAxis(g0, y, labels, a) {
+  const g = el(g0, 'g'); H.fade(g, a, .5);
+  el(g, 'line', { x1: TX0, x2: TX1, y1: y, y2: y, stroke: DIM, 'stroke-width': 2 });
+  for (let yr = 2023; yr <= 2028; yr++) el(g, 'line', { x1: tx(yr + '-01-01'), x2: tx(yr + '-01-01'), y1: y, y2: y + 8, stroke: DIM, 'stroke-width': 2 });
+  if (labels) [2024, 2026].forEach(yr => el(g, 'text', { x: tx(yr + '-01-01'), y: y + 36, class: 'ax', 'font-size': 28, 'text-anchor': 'middle' }, String(yr)));
+}
+function series(g, pts, y0, ky, a, d = 1.2) {
+  const P = pts.map(([dt, v]) => [tx(dt), y0 - v * ky]);
+  const ln = el(g, 'polyline', { points: P.map(p => p.map(n => n.toFixed(1)).join(',')).join(' '), fill: 'none', stroke: CR, 'stroke-width': 3, 'stroke-linejoin': 'round' });
+  H.draw(ln, a, d, H.ease.out);
+  P.forEach(([x, y], i) => H.show(el(g, 'circle', { cx: x, cy: y, r: 5, fill: CR }), a + d * i / (P.length - 1) - .05, .15));
+  return P;
+}
+
+/* ---------------- layer 2 · connectivity ---------------- */
+{ const b = BANDS[2], g = G[2];
+  H.rise(el(g, 'text', { x: NM, y: b.y + 150, class: 'fn', 'font-size': 96, style: 'font-weight:700' }, fmt.int(sats)), K.sats + .1);
+  // 9,600 satellites as 9,600 dots in blocks of a hundred, 24 blocks across, swept in by block
+  const PD = 2.4, BK = 10 * PD, BG = 4.4, ACROSS = 24, fy = b.y + 56;
+  const nb = Math.ceil(sats / 100);
+  for (let k = 0; k < nb; k++) {
+    const bx = C0 + (k % ACROSS) * (BK + BG), by = fy + Math.floor(k / ACROSS) * (BK + BG), n = Math.min(100, sats - k * 100);
+    let d = '';
+    for (let j = 0; j < n; j++) { const x = bx + (j % 10) * PD, y = by + Math.floor(j / 10) * PD; d += `M${x.toFixed(1)},${y.toFixed(1)}h1.6v1.6h-1.6z`; }
+    H.show(el(g, 'path', { d, fill: CR }), K.sats + .05 + .85 * (k % ACROSS) / ACROSS + .08 * Math.floor(k / ACROSS), .18);
+  }
+  // margins, ours: the share of Starlink's Q2 revenue left before it spends on growth
+  if (margin != null) {
+    H.rise(el(g, 'text', { x: NM, y: b.y + 200, class: 'nd', 'font-size': 32 }, 'margins'), K.margin - .1);
+    const mt = el(g, 'text', { x: NM + 150, y: b.y + 200, class: 'fn', 'font-size': 40 }, fmt.pct(margin, 1));
+    const mg = el(g, 'g'); mg.appendChild(mt); ours(mt, CR, 10, 2); H.rise(mg, K.margin + .1); }
+  // subscribers on the true time axis, to 12M; the year-ago point marked
+  const ay = b.y + 180; timeAxis(g, ay, true, K.subs - .6);
+  const ky = 130 / 12e6;
+  const P = series(g, SUBS, ay, ky, K.subs - .1, 1.1);
+  const last = P[P.length - 1];
+  H.rise(el(g, 'text', { x: last[0] - 12, y: last[1] - 14, class: 'fn', 'font-size': 36, 'text-anchor': 'end' }, fmt.mil(SUBS[SUBS.length - 1][1])), K.subs + .9);
+  const ago = P[3];
+  const gA = el(g, 'g');
+  el(gA, 'circle', { cx: ago[0], cy: ago[1], r: 11, fill: 'none', stroke: GOLD, 'stroke-width': 2 });
+  el(gA, 'text', { x: ago[0] - 22, y: ago[1] + 8, class: 'fn', 'font-size': 28, 'text-anchor': 'end', style: 'fill:var(--gold)' }, fmt.mil(SUBS[3][1]));
+  H.rise(gA, K.double, .4, 8);
+}
+
+/* ---------------- layer 3 · compute ---------------- */
+{ const b = BANDS[3], g = G[3];
+  const gw = GWS[GWS.length - 1][1];
+  /* one figure line, "1.4 GW", the unit set smaller inside it (so it reads as the figure it is, not a word label) */
+  const hg = el(g, 'text', { x: NM, y: b.y + 150, class: 'fn', 'font-size': 96, style: 'font-weight:700' }, gw.toFixed(1));
+  el(hg, 'tspan', { dx: 14, 'font-size': 44, style: 'font-weight:600' }, 'GW');
+  H.rise(hg, K.gw + .1);
+  /* its own year labels, an end figure and the year-ago point (as layer 2's), so the chart reads on its own */
+  const ay = b.y + 150; timeAxis(g, ay, true, K.gw - .7);
+  const P = series(g, GWS, ay, 112 / 1.6, K.gw - .2, 1.0), last = P[P.length - 1], ago = P[2];
+  H.rise(el(g, 'text', { x: last[0] - 12, y: last[1] + 6, class: 'fn', 'font-size': 32, 'text-anchor': 'end' }, gw.toFixed(1)), K.gw + .8);
+  const gA = el(g, 'g');
+  el(gA, 'circle', { cx: ago[0], cy: ago[1], r: 11, fill: 'none', stroke: DIM, 'stroke-width': 2 });
+  el(gA, 'text', { x: ago[0] - 18, y: ago[1] - 10, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, GWS[2][1].toFixed(1));
+  H.rise(gA, K.gw + 1.0, .4, 8);
+  // orbit: the first AI satellites, planned for 2027: a dashed span over that year (no month is sourced, so the whole year)
+  const oy = b.y + 34, ox0 = tx('2027-01-01'), ox1 = tx('2028-01-01');
+  const gO = el(g, 'g');
+  el(gO, 'line', { x1: ox0, x2: ox1, y1: oy, y2: oy, stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '8 6' });
+  [ox0, ox1].forEach(x => el(gO, 'line', { x1: x, x2: x, y1: oy - 9, y2: ay, stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '4 7', opacity: .55 }));
+  H.wipe(gO, K.orbit, .9, '-y');
+  // the two named tenants, on one dollar-a-month scale
+  const sc = 380 / anthro, bx = C0 + 74, rows = [['anthropic', anthro, K.anthropic, K.month], ['google', goog, K.google, K.google + .5]];
+  rows.forEach(([name, v, a, a2], r) => {
+    const y = b.y + 30 + r * 82;
+    H.rise(logo(g, name, C0, y, 44), a);
+    H.grow(el(g, 'rect', { x: bx, y: y + 4, width: v * sc, height: 36, fill: CR }), a2, .8, bx, 0, 'x');
+    H.rise(el(g, 'text', { x: bx + v * sc + 16, y: y + 36, class: 'fn', 'font-size': 36 },
+      (v >= 1e9 ? fmt.usdB(v, 2) : fmt.usdM(v)) + '/mo'), a2 + .6);
+  });
+}
+
+/* ---------------- layer 4 · the models and the apps ---------------- */
+{ const b = BANDS[4], g = G[4], y = b.y + 58;
+  const mx = 640;
+  H.rise(logo(g, 'grok', mx, y, 40), K.grok);
+  H.rise(logo(g, 'x', mx + logoW('grok', 40) + 70, y, 40), K.xmark);
+  H.rise(logo(g, 'cursor', mx + logoW('grok', 40) + 70 + logoW('x', 40) + 70, y - 2, 44), K.cursor);
+}
+
+/* ---------------- layer 5 · all the other bets (a dashed stratum: none of it is built) ---------------- */
+{ const b = BANDS[5], g = G[5];
+  H.rise(el(g, 'text', { x: 640, y: b.y + 64, class: 'nm', 'font-size': 36 }, 'Terafab'), K.terafab);
+  const mx = 900, my = b.y + b.h / 2, r = 32;
+  const moon = el(g, 'g', { fill: 'none', stroke: CR, 'stroke-width': 2 });
+  el(moon, 'circle', { cx: mx, cy: my, r, 'stroke-dasharray': '7 6' });
+  el(moon, 'path', { d: `M${mx},${my - r} A${r * .45},${r} 0 0 1 ${mx},${my + r}`, 'stroke-dasharray': '5 6', opacity: .6 });
+  H.draw(moon, K.moon - .3, .8);
+}
+
+/* ---------------- the revenue mix: two columns that line up with the layers ---------------- */
+const MX = { a: 1530, b: 1736, w: 100, top: 196, bot: 942 };
+const MH = MX.bot - MX.top;
+const SEG = ['space', 'conn', 'ai'], TONE = { space: 'rgba(245,241,229,.30)', conn: 'rgba(245,241,229,.62)', ai: 'var(--gold)' };
+const RIB = { space: 'rgba(245,241,229,.10)', conn: 'rgba(245,241,229,.18)', ai: 'rgba(212,175,55,.30)' };
+function stack(m) { let y = MX.bot; const o = {}; SEG.forEach(k => { const h = MH * m[k] / m.tot; o[k] = [y - h, y]; y -= h; }); return o; }
+const S25 = stack(MIX.y25), S26 = stack(MIX.q2);
+const gM = el(W, 'g');
+const colHead = (x, label, tot, aL, aT) => {
+  H.rise(el(gM, 'text', { x: x + MX.w / 2, y: 122, class: 'fn', 'font-size': 32, 'text-anchor': 'middle' }, label), aL);
+  H.rise(el(gM, 'text', { x: x + MX.w / 2, y: 168, class: 'fn', 'font-size': 32, 'text-anchor': 'middle', style: 'fill:rgba(245,241,229,.7)' }, fmt.usdB(tot)), aT);
+};
+colHead(MX.a, '2025', MIX.y25.tot, K.mix25 - .2, K.mix25 + .1);
+colHead(MX.b, 'Q2 2026', MIX.q2.tot, K.mixq2 - .1, K.total);
+/* each band of a column grows from its own floor, on its word */
+const segAt = { y25: { conn: K.mix25 + .8, space: K.mix25 + 3.3, ai: K.mix25 + 5.1 }, q2: { conn: K.mixq2 + .4, ai: K.mixq2 + 1.1, space: K.eighth - 2.1 } };
+const pctAt = { y25: { conn: K.mix25 + 1.8, space: K.mix25 + 4.0, ai: K.mix25 + 5.8 }, q2: { conn: K.mixq2 + 1.2, ai: K.third, space: K.eighth } };
+[['y25', MX.a, S25], ['q2', MX.b, S26]].forEach(([id, x, S]) => SEG.forEach(k => {
+  const [y0, y1] = S[k];
+  H.grow(el(gM, 'rect', { x, y: y0, width: MX.w, height: y1 - y0 - 3, fill: TONE[k] }), segAt[id][k], .8, 0, y1, 'y');
+  const pk = MIX[id].p[k];
+  const ink = k === 'space' ? 'var(--cream)' : 'var(--bg)';            // the dim launch band takes cream type; the others ink
+  const tt = el(gM, 'text', { x: x + MX.w / 2, y: (y0 + y1) / 2 + 12, class: 'fn', 'font-size': 32, 'text-anchor': 'middle', style: 'fill:' + ink }, fmt.pct(pct(pk)));
+  const tg = el(gM, 'g'); tg.appendChild(tt); ours(tt, ink, 8, 2); H.rise(tg, pctAt[id][k]);
+}));
+/* the ribbons carry each band from 2025 to the quarter */
+SEG.forEach(k => {
+  const [a0, a1] = S25[k], [b0, b1] = S26[k], xa = MX.a + MX.w, xb = MX.b;
+  const rb = el(gM, 'path', { d: `M${xa},${a0} C${xa + 50},${a0} ${xb - 50},${b0} ${xb},${b0} L${xb},${b1 - 3} C${xb - 50},${b1 - 3} ${xa + 50},${a1 - 3} ${xa},${a1 - 3}Z`, fill: RIB[k] });
+  H.wipe(rb, segAt.q2[k] + .3, .8, 'x');
+});
+aiLit = (t) => H.go(t, K.mix25 + 5.1, K.mix25 + 5.8);
+
+/* the title block: whose company this section is through (bottom right, under the columns) */
+H.fade(logo(W, 'spacex', MX.a, 976, 30), -1, .01);
+
+/* ---------------- the camera: rides up the stack with the voice, then pulls back ---------------- */
+const SC = 1.32, CX = 762;
+const keys = [[0, 960, 540, 1], [K.launch - .5, 960, 540, 1], [K.launch + .9, CX, 664, SC],
+  [K.conn - .4, CX, 664, SC], [K.conn + .9, CX, 610, SC],
+  [K.compute - .4, CX, 610, SC], [K.compute + .9, CX, 430, SC],
+  [K.models - .4, CX, 430, SC], [K.models + .9, CX, 410, SC],
+  [K.pull - .1, CX, 410, SC], [K.pull + 1.6, 960, 540, 1]];
+H.camera(W, keys);
+
+/* footage windows (stage coordinates, outside the camera): owed until Ko's deliveries land */
+H.owed('t06-launch', 't06-hall');
+H.slot(s, 't06-launch', 1180, 96, 640, 360, K.p80 + 3.0, K.starship - .3, 'a Falcon 9 or Starship launch, SpaceX footage ("one call to make")');
+H.slot(s, 't06-hall', 1180, 660, 640, 360, K.compute + 3.0, K.gw - .4, 'a SpaceX AI data hall, real footage ("the way Amazon and Microsoft do")');
+
+H.run();
+</script>
+</body>
+</html>

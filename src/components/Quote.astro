@@ -1,0 +1,28 @@
+---
+/**
+ * <Quote collection="tesla-spacex" figure="<key>" />
+ *
+ * A line the video plays as a clip, shown in print. The words, who said it and the credit all
+ * come from the video's data (src/data/figures/<collection>.json, written by
+ * `npm run sync:article`), never typed here. A missing figure fails the build.
+ */
+import { figureData } from '../data/analytics';
+
+interface Props { collection: string; figure: string }
+const { collection, figure } = Astro.props;
+const f = figureData(collection).figures[figure];
+if (!f) throw new Error(`Quote: no figure "${figure}" in ${collection}`);
+const words = /^[a-z]/.test(f.display) ? `…${f.display}` : f.display;
+---
+
+<blockquote class="clip-quote">
+  <p>“{words}”</p>
+  <footer>{f.label}. {f.credit}</footer>
+</blockquote>
+
+<style is:global>
+  .prose .clip-quote footer {
+    margin-top: 10px; font-family: var(--mono); font-size: 12px; line-height: 1.5;
+    color: var(--white-dim);
+  }
+</style>
