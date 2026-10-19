@@ -10,8 +10,8 @@
  *   2. opens each board headless at ?final&still and reads what it rendered: its credit line,
  *      the figure keys it drew, and its footage windows (hidden on the web, which has no footage);
  *   3. writes src/data/figures/<slug>.json: those, plus every figure in the video's
- *      shared/data.js (display, label, credit, tier, date). The manifest and the article's
- *      breakdown table print from this file;
+ *      shared/data.js (display, spoken form, label, credit, tier, date). The manifest's copy
+ *      prints the spoken form ("about $1.98 trillion"), the breakdown table the display ("$1.98T");
  *   4. rebuilds the body of src/content/articles/<slug>.mdx from the words: the video's
  *      ship/site/ARTICLE.md when the head writer has written it, else the essay generated from
  *      the locked script. Each board lands after the paragraph holding its anchor; a missing
@@ -55,8 +55,56 @@ const ARTICLES = {
       ['Musk told the crowd exactly what they were about to see.', 'clue_roadster_musk_collaboration_remark_oct2026'],
     ],
     breakdown: 'is up on boardroomwire.com',
+    /* How the narration says a figure, word for word, where it does: the copy around the boards prints
+       these instead of the board's shorthand. Each phrase must appear in the words, or the run stops
+       (a lock-day re-cut that changes a number changes its phrase too). Every other figure gets the
+       general spoken form below. */
+    spoken: {
+      spacex_market_cap_2026_10_16: 'about $1.98 trillion',
+      tesla_market_cap_cover_shares_2026_10_16: 'about $1.4 trillion',
+      c_combined_mcap_2026_10_16: 'about $3.4 trillion',
+      c_combined_mcap_to_fy2025_revenue: 'about 30 times',
+      c_spacex_mcap_to_fy2025_revenue: 'about a hundred times',
+      musk_claim_c_100t_implied_growth: 'roughly 48% a year',
+      fwd_tsla_rt_cybercab_capacity_deck: 'more than 125,000',
+      fwd_tsla_opt_q4_deck_capacity_1m: 'a million',
+      fwd_tsla_fsd_active_subs_q2: 'about 1.5 million',
+      barclays_combined_musk_37_56: 'more than half',
+      tesla_fy2025_revenue_total: 'about $95 billion',
+      spacex_fy2025_revenue_total: 'about $19 billion',
+      c_combined_fy2025_revenue: 'about $114 billion',
+      c_combined_cash_2026_06_30: 'about $144 billion',
+      tesla_q2_2026_operating_income: 'under $400 million',
+      spacex_q2_2026_capex_total: 'about $18 billion',
+      spacex_ipo_valuation: 'about $1.8 trillion',
+      spacex_fy2025_revenue_share_connectivity: 'about 60%',
+      spacex_q2_2026_revenue_share_ai: 'a third',
+      c_tesla_fy2025_automotive_revenue_share: 'about three quarters',
+      tesla_musk_ownership_pct: 'about a fifth',
+      spacex_musk_voting_power_post_ipo: 'more than 80%',
+      spacex_class_b_ten_votes: 'ten',
+    },
   },
 };
+
+/* The general spoken form of a board's shorthand: "$1.98T" -> "$1.98 trillion", "125,000+" -> "more than
+   125,000", "~48%" -> "about 48%", "29.8×" -> "29.8 times", "5th" -> "fifth"; our arithmetic and analysts'
+   estimates (tiers C and E) are said with "about", as the writer does. */
+const ORDINALS = { '1st': 'first', '2nd': 'second', '3rd': 'third', '4th': 'fourth', '5th': 'fifth', '6th': 'sixth',
+  '7th': 'seventh', '8th': 'eighth', '9th': 'ninth', '10th': 'tenth' };
+function spokenForm(display, tier) {
+  let s = String(display).trim();
+  if (ORDINALS[s]) return ORDINALS[s];
+  let lead = '';
+  if (s.startsWith('~')) { lead = 'about '; s = s.slice(1); }
+  if (s.endsWith('+')) { lead = 'more than '; s = s.slice(0, -1); }
+  if (s.startsWith('+') && s.endsWith('%')) s = s.slice(1);
+  const units = { T: 'trillion', B: 'billion', M: 'million', K: 'thousand' };
+  s = s.replace(/^(-?\$?)(\d[\d,]*(?:\.\d+)?)([TBMK])\b/, (_, a, n, u) => `${a}${n.replace(/\.0+$/, '')} ${units[u]}`);
+  s = s.replace(/^(\d[\d,]*(?:\.\d+)?)×$/, '$1 times');
+  if (!lead && (tier === 'C' || tier === 'E') && /^\$?\d/.test(s)) lead = 'about ';
+  return lead + s;
+}
 
 const CHROME = [
   process.env.CHROME_PATH,
@@ -123,11 +171,18 @@ async function main() {
   }
 
   console.log('\n  3. figures');
+  const text = await words(video);
+  const said = text.replace(/\s+/g, ' ').toLowerCase();
+  for (const [k, phrase] of Object.entries(cfg.spoken ?? {})) {
+    if (!data.figures[k]) throw new Error(`No figure ${k} in data.js for its spoken form "${phrase}".`);
+    if (!said.includes(phrase.toLowerCase())) throw new Error(`The words no longer say "${phrase}" (${k}): update spoken in scripts/sync-article.mjs.`);
+  }
   const figures = {};
   for (const [k, f] of Object.entries(data.figures)) {
     const sources = (Array.isArray(f.src) ? f.src : [f.src]).filter(Boolean).map((s) => data.sources[s]?.name ?? s);
-    figures[k] = { display: f.display ?? String(f.v), label: f.label ?? '', credit: f.credit ?? '', tier: f.tier, asOf: f.asOf,
-      sources, ...(f.mandatory && { mandatory: f.mandatory }) };
+    const display = f.display ?? String(f.v);
+    figures[k] = { display, spoken: cfg.spoken?.[k] ?? spokenForm(display, f.tier), label: f.label ?? '', credit: f.credit ?? '',
+      tier: f.tier, asOf: f.asOf, sources, ...(f.mandatory && { mandatory: f.mandatory }) };
   }
   const json = path.join(ROOT, 'src/data/figures', `${slug}.json`);
   await mkdir(path.dirname(json), { recursive: true });
@@ -138,7 +193,7 @@ async function main() {
   const mdx = path.join(ROOT, 'src/content/articles', `${slug}.mdx`);
   if (!existsSync(mdx)) throw new Error(`Write the frontmatter of ${path.relative(ROOT, mdx)} first; this step keeps it and rebuilds the body.`);
   const front = (await readFile(mdx, 'utf8')).match(/^---\r?\n[\s\S]*?\r?\n---\r?\n/)[0];
-  const paras = (await words(video)).trim().split(/\r?\n\s*\r?\n/);
+  const paras = text.trim().split(/\r?\n\s*\r?\n/);
   const at = (needle) => {
     const i = paras.findIndex((p) => p.includes(needle));
     if (i < 0) throw new Error(`No paragraph holds "${needle}": the words changed; update ARTICLES in scripts/sync-article.mjs.`);

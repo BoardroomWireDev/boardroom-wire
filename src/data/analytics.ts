@@ -943,7 +943,7 @@ export const nebius: Collection = {
    (its credit line and its footage windows), and the copy below carries {key} slots filled from it.
    A missing key fails the build. */
 export interface Figure {
-  display: string; label: string; credit: string; tier: string; asOf?: string;
+  display: string; spoken: string; label: string; credit: string; tier: string; asOf?: string;
   sources: string[]; mandatory?: string;
 }
 export interface FigureData {
@@ -964,11 +964,13 @@ export const figure = (slug: string, key: string): Figure => {
   return f;
 };
 const MONTHS = 'January February March April May June July August September October November December'.split(' ');
-/** "2026-10-16" as "16 October 2026". */
-export const longDate = (iso: string) => `${+iso.slice(8, 10)} ${MONTHS[+iso.slice(5, 7) - 1]} ${iso.slice(0, 4)}`;
-/** Copy with {key} slots: the figure's on-screen form; {key:date} is the date it is as of. */
+const ordinal = (n: number) => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] ?? 'th');
+/** "2026-10-16" as "October 16th, 2026", the way the writer dates things. */
+export const longDate = (iso: string) => `${MONTHS[+iso.slice(5, 7) - 1]} ${ordinal(+iso.slice(8, 10))}, ${iso.slice(0, 4)}`;
+/** Copy with {key} slots: the figure as the narration says it ("about $1.98 trillion"; the sync's spoken
+ *  form, never the board's shorthand); {key:date} is the date it is as of. */
 const fill = (slug: string, s: string) =>
-  s.replace(/\{([a-z0-9_]+)(:date)?\}/g, (_, k, d) => (d ? longDate(figure(slug, k).asOf ?? '') : figure(slug, k).display));
+  s.replace(/\{([a-z0-9_]+)(:date)?\}/g, (_, k, d) => (d ? longDate(figure(slug, k).asOf ?? '') : figure(slug, k).spoken));
 /** A board as the video renders it: its file, its credit line (the embed prints its own "Source"
  *  label) and its footage windows hidden, since the site has no footage to put in them. */
 const board = (slug: string, web: string) => {
@@ -990,13 +992,13 @@ export const teslaSpacex: Collection = {
     'SpaceX was worth {spacex_market_cap_2026_10_16} and Tesla {tesla_market_cap_cover_shares_2026_10_16} at the close on {spacex_market_cap_2026_10_16:date}, and Barclays expects SpaceX to buy Tesla. These ten dashboards chart what each company does, where the two already work together, what they look like on one balance sheet, and who would control the result. Every figure carries its source on the dashboard.'),
   published: '2026-10-24',
   hero: 'one-balance-sheet',
-  headline: { lead: 'Tesla and SpaceX', dim: ': two companies, one balance sheet.' },
+  headline: { lead: 'Tesla and SpaceX', dim: ': what they would look like put together.' },
   primaryLabel: 'Primary',
   method: {
     primary:
-      'Stated by the companies or filed with the SEC and other regulators: Tesla’s 10-K, 10-Q and quarterly updates, SpaceX’s S-1, 8-K reports, quarterly results and earnings call, and Musk’s own posts on X.',
+      'Stated by the companies or filed with the SEC and other regulators: Tesla’s 10-K, 10-Q and quarterly updates, SpaceX’s S-1, 8-K reports, quarterly results and earnings call, and Musk’s own posts on X. The betting odds are Kalshi’s own market data.',
     reported:
-      'Sourced to journalism, analysts and market data: Bloomberg, CNBC, Barclays, JPMorgan, Kalshi, StockAnalysis and others. Attribution is printed on the dashboard itself, not just here.',
+      'Sourced to journalism, analysts and market data: Bloomberg, CNBC, Barclays, JPMorgan, StockAnalysis and others. Attribution is printed on the dashboard itself, not just here.',
     estimate:
       'Our own arithmetic on the companies’ figures, such as the two combined or the share-swap ratio, and Barclays’ estimate of Musk’s votes after a deal. Every dashboard that uses one says so in its source line.',
     caveat: fill(T,
@@ -1005,9 +1007,9 @@ export const teslaSpacex: Collection = {
   dashboards: [
     {
       n: 1, slug: 'the-tune-changes', ...board(T, 'the-tune-changes'),
-      title: 'The Tune Changes',
+      title: 'Trending Towards Convergence',
       blurb: fill(T,
-        'In 2016, Musk said there was no strong product rationale to combine SpaceX and Tesla. By last year he was posting that his companies were trending towards convergence. Around the Roadster event, the betting odds of a deal by March went from {kalshi_mar2027_2026_10_14_morning} to {rumour_cnbc_kalshi_56pct_before_march}, then cooled to {clue_kalshi_before_mar2027}.'),
+        'In 2016, Musk said there was no “strong product rationale to combine SpaceX and Tesla.” Last year he posted that his companies were “trending towards convergence.” By the morning after the Roadster event, the odds on Kalshi of a deal by March had jumped from {kalshi_mar2027_2026_10_14_morning} to {rumour_cnbc_kalshi_56pct_before_march}, then cooled to {clue_kalshi_before_mar2027} a day later.'),
       section: 'Musk Changed His Tune',
       source: 'reported',
     },
@@ -1015,7 +1017,7 @@ export const teslaSpacex: Collection = {
       n: 2, slug: 'the-last-big-piece', ...board(T, 'the-last-big-piece'),
       title: 'The Last Big Piece',
       blurb: fill(T,
-        'This year SpaceX merged with xAI at a value of {xai_merger_value_xai} for xAI, went public at {spacex_ipo_valuation} and paid {spacex_cursor_price} in stock for Cursor. At the close on {spacex_market_cap_2026_10_16:date} it was worth {spacex_market_cap_2026_10_16}, against Tesla’s {tesla_market_cap_cover_shares_2026_10_16}.'),
+        'This year SpaceX bought xAI, valuing it at {xai_merger_value_xai}, went public at {spacex_ipo_valuation} and paid {spacex_cursor_price} in stock for Cursor. At the close on {spacex_market_cap_2026_10_16:date}, it was worth {spacex_market_cap_2026_10_16}, against {tesla_market_cap_cover_shares_2026_10_16} for Tesla. And Tesla is the last big piece.'),
       section: 'Musk Changed His Tune',
       source: 'primary',
     },
@@ -1048,9 +1050,9 @@ export const teslaSpacex: Collection = {
     },
     {
       n: 6, slug: 'the-loop', ...board(T, 'the-loop'),
-      title: 'The Loop',
+      title: 'What Each One Has',
       blurb: fill(T,
-        'SpaceX’s layers against what Tesla does best. Solid cells are already happening, such as the {spacex_tesla_megapacks_2025} of Megapacks SpaceX bought from Tesla in 2025, Starlink in the Cybercab and Grok in Tesla’s cars. Dashed cells are plans: computers in orbit, Terafab and humanoid robots.'),
+        'SpaceX has launch, satellites, data centers and AI, and Tesla has power, manufacturing at scale, robotics and autonomy. Some of it already works together: the {spacex_tesla_megapacks_2025} of Megapacks SpaceX bought from Tesla in 2025, Starlink in the Cybercab and Grok in Tesla’s cars. The rest is still plans: computers in orbit, Terafab, the chip factory the two are planning, and humanoid robots.'),
       section: 'Where It Clicks',
       source: 'primary',
     },
@@ -1058,7 +1060,7 @@ export const teslaSpacex: Collection = {
       n: 7, slug: 'each-on-its-own', ...board(T, 'each-on-its-own'),
       title: 'Each on Its Own',
       blurb: fill(T,
-        'Tesla brought in {tesla_fy2025_revenue_total} last year, but its operating income in the second quarter of 2026 was {tesla_q2_2026_operating_income}. SpaceX brought in {spacex_fy2025_revenue_total}, grew {spacex_q2_2026_revenue_growth_yoy} in the second quarter and spent {spacex_q2_2026_capex_total} building in that quarter, {spacex_q2_2026_capex_ai} of it on AI.'),
+        'Tesla brought in {tesla_fy2025_revenue_total} last year, but its operating income in the second quarter of 2026 was {tesla_q2_2026_operating_income}. SpaceX is smaller but growing much faster: it brought in {spacex_fy2025_revenue_total} last year, and in the second quarter alone it spent {spacex_q2_2026_capex_total} of capex, {spacex_q2_2026_capex_ai} of it on AI.'),
       section: 'One Balance Sheet',
       source: 'primary',
     },
@@ -1066,7 +1068,7 @@ export const teslaSpacex: Collection = {
       n: 8, slug: 'one-balance-sheet', ...board(T, 'one-balance-sheet'),
       title: 'One Balance Sheet',
       blurb: fill(T,
-        'Put together, the two brought in {c_combined_fy2025_revenue} last year, held {c_combined_cash_2026_06_30} in cash and were worth {c_combined_mcap_2026_10_16}, {c_combined_mcap_rank_2026_10_16} in the world by market value and {c_combined_mcap_to_fy2025_revenue} their revenue. SpaceX alone is valued at {c_spacex_mcap_to_fy2025_revenue} its 2025 revenue.'),
+        'Put together, the two brought in {c_combined_fy2025_revenue} of revenue last year and held {c_combined_cash_2026_06_30} in cash. At the close on {c_combined_mcap_2026_10_16:date}, they were worth {c_combined_mcap_2026_10_16}, {c_combined_mcap_rank_2026_10_16} in the world by market value and {c_combined_mcap_to_fy2025_revenue} what they made last year, with SpaceX alone at {c_spacex_mcap_to_fy2025_revenue} its revenue.'),
       section: 'One Balance Sheet',
       source: 'primary',
       key: true,
@@ -1075,7 +1077,7 @@ export const teslaSpacex: Collection = {
       n: 9, slug: 'a-hundred-trillion', ...board(T, 'a-hundred-trillion'),
       title: 'A Hundred Trillion',
       blurb: fill(T,
-        'The night before the Roadster event, Musk wrote that SpaceX probably gets to more than $100 trillion in less than ten years. From {spacex_market_cap_2026_10_16} today, that takes growth of {musk_claim_c_100t_implied_growth}, every year, for a decade.'),
+        'The night before the Roadster event, Musk wrote that SpaceX “probably gets to” more than $100 trillion in less than ten years. From {spacex_market_cap_2026_10_16} at the close on {spacex_market_cap_2026_10_16:date}, that would take growth of {musk_claim_c_100t_implied_growth}, every year, for a decade.'),
       section: 'One Balance Sheet',
       source: 'primary',
       key: true,
