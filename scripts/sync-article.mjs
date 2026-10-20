@@ -43,6 +43,9 @@ const ARTICLES = {
       ['02-the-tune-changes.html', 'the-tune-changes', 'people are betting real money on it'],
       ['03-the-last-big-piece.html', 'the-last-big-piece', 'And Tesla is the last big piece.'],
       ['04-the-deal-on-the-table.html', 'the-deal-on-the-table', 'Together, that\'s a company worth'],
+      // Lock day (Jarvis, 19 Oct): Ive's re-cut of 05 drops the Cybercab row from its last frame, so after that
+      // resync the board rests at `?t=eighty-0.5`, not `?final`: set `rest: 't=eighty-0.5'` on the-autonomy-bet in
+      // src/data/analytics.ts (it drives the embed's rest frame and the poster), then re-render the posters.
       ['05-the-autonomy-bet.html', 'the-autonomy-bet', 'Tesla\'s value is a bet on autonomy'],
       ['06-the-five-layers.html', 'the-five-layers', 'the money is moving up the layers fast'],
       ['07-the-loop.html', 'the-loop', 'You can already see it.'],
