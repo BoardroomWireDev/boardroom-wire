@@ -3,7 +3,7 @@
  "boards": {
   "the-tune-changes": {
    "file": "02-the-tune-changes.html",
-   "credit": "Source: Elon Musk on X and Kalshi. Reported by Tesla Q2 2016 earnings call, The Motley Fool, Bloomberg, CNBC, via Electrek, JPMorgan, via The Motley Fool and CNBC.",
+   "credit": "Source: Elon Musk on X. Reported by Bullfincher, transcript of Tesla's Q2 2016 earnings call (3 Aug 2016), The Motley Fool, Bloomberg, CNBC and JPMorgan, via The Motley Fool.",
    "figures": [
     "hist_musk_2016_08_no_strong_rationale_combine",
     "clue_musk_convergence_post_nov2025",
@@ -11,15 +11,7 @@
     "hist_bloomberg_2026_01_29_spacex_weighs_tesla_or_xai",
     "hist_cnbc_2026_05_27_musk_discussed_folding_tesla_spacex",
     "hist_jpm_2026_07_strategically_coherent_on_paper",
-    "clue_shotwell_cnbc_merger_jun2026",
-    "kalshi_mar2027_2026_10_14_morning",
-    "kalshi_mar2027_2026_10_14_afternoon",
-    "kalshi_mar2027_2026_10_15_roadster_hour",
-    "kalshi_mar2027_2026_10_16_close",
-    "kalshi_mar2027_2026_10_17_close",
-    "rumour_cnbc_kalshi_56pct_before_march",
-    "clue_kalshi_before_mar2027",
-    "kalshi_mar2027_daily_series"
+    "clue_shotwell_cnbc_merger_jun2026"
    ],
    "noslot": ""
   },
@@ -29,32 +21,28 @@
    "figures": [
     "tesla_market_cap_cover_shares_2026_10_16",
     "spacex_market_cap_2026_10_16",
-    "c_mcap_gap_2026_10_16",
     "spacex_ipo_valuation",
     "spacex_cursor_price",
     "tesla_xai_investment_amount",
     "spacex_tesla_megapacks_2025",
     "xai_merger_value_xai",
     "syn_terafab_announced",
-    "syn_terafab_framework",
-    "syn_grok_in_tesla_vehicles",
     "xai_merger_date",
-    "spacex_cursor_deal_closed"
+    "spacex_cursor_deal_closed",
+    "spacex_first_day_close",
+    "syn_grok_in_tesla_vehicles"
    ],
-   "noslot": "t03-megapack,t03-grok,t03-ipo,t03-cursor"
+   "noslot": "o09"
   },
   "the-deal-on-the-table": {
    "file": "04-the-deal-on-the-table.html",
-   "credit": "Reported by Barclays, via Investing.com and StockAnalysis. Estimate: Barclays, via Investing.com. Boardroom Wire calculation.",
+   "credit": "Reported by Barclays, via Investing.com. Boardroom Wire calculation.",
    "figures": [
-    "barclays_spacex_acquirer_all_stock",
-    "spacex_market_cap_2026_10_16",
     "tesla_market_cap_cover_shares_2026_10_16",
-    "c_combined_mcap_2026_10_16",
-    "spacex_share_price_2026_10_16",
-    "tesla_share_price_close_2026_10_16",
+    "spacex_market_cap_2026_10_16",
     "c_exchange_ratio_market",
-    "barclays_combined_musk_37_56"
+    "barclays_spacex_acquirer_all_stock",
+    "c_combined_mcap_2026_10_16"
    ],
    "noslot": ""
   },
@@ -81,148 +69,97 @@
   },
   "the-five-layers": {
    "file": "06-the-five-layers.html",
-   "credit": "Source: SpaceX S-1, SpaceX Q2 2026 results, SpaceX filing (5 Jun 2026) and SpaceX Q2 2026 earnings call. Boardroom Wire calculation.",
+   "credit": "Source: SpaceX S-1 and SpaceX Q2 2026 results. Reported by Bloomberg. Boardroom Wire calculation.",
    "figures": [
+    "maguire_spacex_five_layers_bloomberg_2026_06_16",
     "spacex_fy2025_launches",
     "spacex_fy2025_mass_to_orbit",
     "spacex_bl_starship_what_it_is",
+    "fwd_spx_starship_first_orbital_payload_2026_09_28",
     "spacex_starlink_satellites_mar2026",
-    "spacex_fy2023_starlink_subscribers",
-    "spacex_fy2024_starlink_subscribers",
-    "spacex_q1_2025_starlink_subscribers",
-    "spacex_q2_2025_starlink_subscribers",
-    "spacex_fy2025_starlink_subscribers",
-    "spacex_q1_2026_starlink_subscribers",
     "spacex_starlink_subscribers_q2_2026",
+    "c_starlink_subscribers_q2_2026_yoy_multiple",
+    "spacex_q2_2025_starlink_subscribers",
     "c_spacex_q2_2026_adj_ebitda_margin_connectivity",
-    "spacex_fy2023_nameplate_compute_gw",
-    "spacex_fy2024_nameplate_compute_gw",
-    "spacex_q2_2025_nameplate_compute_gw",
-    "spacex_fy2025_nameplate_compute_gw",
-    "spacex_nameplate_compute_gw_q2_2026",
-    "spacex_anthropic_cloud_deal",
-    "spacex_google_cloud_deal",
-    "syn_spacex_ai_satellite_nvl72_launch_2027",
-    "spacex_fy2025_revenue_total",
-    "spacex_fy2025_revenue_space",
-    "spacex_fy2025_revenue_connectivity",
-    "spacex_fy2025_revenue_ai",
-    "spacex_q2_2026_revenue_total",
-    "spacex_q2_2026_revenue_space",
-    "spacex_q2_2026_revenue_connectivity",
-    "spacex_q2_2026_revenue_ai",
-    "spacex_fy2025_revenue_share_space",
-    "spacex_fy2025_revenue_share_connectivity",
-    "spacex_fy2025_revenue_share_ai",
-    "spacex_q2_2026_revenue_share_space",
-    "spacex_q2_2026_revenue_share_connectivity",
-    "spacex_q2_2026_revenue_share_ai"
+    "syn_terafab_announced"
    ],
-   "noslot": "t06-launch,t06-hall"
+   "noslot": "o58,o23,o25,o26,o29"
   },
   "the-loop": {
    "file": "07-the-loop.html",
-   "credit": "Source: SpaceX S-1, SpaceX Q2 2026 earnings call, Tesla Q4 2025 Update and Tesla Robotaxi on X. Reported by Not a Tesla App and Tesla Q1 2026 call, via Investing.com.",
+   "credit": "Source: SpaceX S-1 and Tesla Robotaxi on X. Reported by Not a Tesla App and Tesla Q1 2026 call, via Investing.com.",
    "figures": [
     "spacex_tesla_megapacks_2025",
-    "syn_grok_in_tesla_vehicles",
-    "syn_spacex_ai_satellite_nvl72_launch_2027",
-    "fwd_tsla_opt_q4_deck_capacity_1m",
     "syn_robotaxi_post_first_cybercab_starlink_2026_08_10",
-    "syn_optimus_grok_voice_q1_call_2026",
-    "syn_terafab_framework"
+    "syn_grok_in_tesla_vehicles",
+    "syn_optimus_grok_voice_q1_call_2026"
    ],
-   "noslot": "t07-s1,t07-s2,t07-s3,t07-s4,t07-t1,t07-t2,t07-t3,t07-t4,t07-megapack,t07-cybercab,t07-optimus,t07-orbit,t07-humanoid"
+   "noslot": "t07-power,t07-optimus"
   },
   "each-on-its-own": {
    "file": "08-each-on-its-own.html",
-   "credit": "Source: Tesla 10-K (FY2025), Tesla Q2 2026 10-Q, Tesla Q2 2026 Update, SpaceX S-1 and SpaceX Q2 2026 results. Boardroom Wire calculation.",
+   "credit": "Source: Tesla 10-K (FY2025), Tesla Q2 2026 10-Q, SpaceX S-1 and SpaceX Q2 2026 results. Boardroom Wire calculation.",
    "figures": [
     "tesla_fy2025_revenue_total",
+    "tesla_fy2025_operating_income",
     "tesla_q2_2026_revenue_total",
     "tesla_q2_2026_operating_income",
     "tesla_q2_2026_income_before_taxes",
     "tesla_spacex_stake_gain_q2_2026",
-    "tesla_q2_2026_capex",
-    "tesla_2026_capex_guidance_q2_10q",
-    "tesla_q2_2026_cash_and_investments",
-    "tesla_market_cap_cover_shares_2026_10_16",
     "spacex_fy2025_revenue_total",
     "spacex_q2_2026_revenue_total",
     "spacex_q2_2025_revenue_total",
     "spacex_q2_2026_revenue_growth_yoy",
     "spacex_q2_2026_op_income_total",
+    "spacex_fy2025_op_income_total",
     "spacex_q2_2026_capex_total",
     "spacex_q2_2026_capex_ai",
     "spacex_cash_and_securities_jun30_2026",
-    "spacex_market_cap_2026_10_16",
-    "c_combined_fy2025_revenue",
-    "c_combined_cash_2026_06_30",
-    "c_combined_mcap_2026_10_16",
-    "c_combined_mcap_to_fy2025_revenue",
-    "c_spacex_mcap_to_fy2025_revenue"
+    "spacex_ipo_net_proceeds",
+    "tesla_fy2025_revenue_automotive",
+    "tesla_fy2025_revenue_energy",
+    "tesla_fy2025_revenue_services_other",
+    "spacex_fy2025_revenue_connectivity",
+    "spacex_fy2025_revenue_space",
+    "spacex_fy2025_revenue_ai"
    ],
-   "noslot": ""
+   "noslot": "t08-tesla,t08-hall"
   },
   "one-balance-sheet": {
    "file": "09-one-balance-sheet.html",
-   "credit": "Source: Tesla 10-K (FY2025), Tesla Q2 2026 10-Q, Tesla Q2 2026 Update, SpaceX S-1 and SpaceX Q2 2026 results. Reported by StockAnalysis. Boardroom Wire calculation.",
+   "credit": "Source: Tesla 10-K (FY2025) and SpaceX S-1. Boardroom Wire calculation.",
    "figures": [
-    "tesla_fy2025_revenue_total",
-    "tesla_q2_2026_revenue_total",
-    "tesla_q2_2026_operating_income",
-    "tesla_q2_2026_income_before_taxes",
-    "tesla_spacex_stake_gain_q2_2026",
-    "tesla_q2_2026_capex",
-    "tesla_2026_capex_guidance_q2_10q",
-    "tesla_q2_2026_cash_and_investments",
-    "tesla_market_cap_cover_shares_2026_10_16",
-    "spacex_fy2025_revenue_total",
-    "spacex_q2_2026_revenue_total",
-    "spacex_q2_2025_revenue_total",
-    "spacex_q2_2026_revenue_growth_yoy",
-    "spacex_q2_2026_op_income_total",
-    "spacex_q2_2026_capex_total",
-    "spacex_q2_2026_capex_ai",
-    "spacex_cash_and_securities_jun30_2026",
-    "spacex_market_cap_2026_10_16",
     "c_combined_fy2025_revenue",
-    "c_combined_cash_2026_06_30",
-    "c_combined_mcap_2026_10_16",
-    "c_combined_mcap_to_fy2025_revenue",
-    "c_spacex_mcap_to_fy2025_revenue",
-    "amazon_market_cap_2026_10_16",
-    "microsoft_market_cap_2026_10_16",
-    "alphabet_market_cap_2026_10_16",
-    "apple_market_cap_2026_10_16",
-    "nvidia_market_cap_2026_10_16",
-    "c_combined_mcap_rank_2026_10_16"
-   ],
-   "noslot": "t09-markets-a,t09-markets-b,t09-markets-c,t09-frontier-a,t09-frontier-b"
-  },
-  "a-hundred-trillion": {
-   "file": "10-a-hundred-trillion.html",
-   "credit": "Source: SpaceX S-1, Elon Musk on X and SpaceX Q2 2026 earnings call. Boardroom Wire calculation.",
-   "figures": [
-    "spacex_market_cap_2026_10_16",
+    "tesla_fy2025_revenue_total",
     "spacex_fy2025_revenue_total",
-    "tesla_market_cap_cover_shares_2026_10_16",
-    "musk_claim_tesla_optimus_80pct_of_value_2025",
-    "musk_claim_spacex_1t_revenue_2030_q2_call",
-    "musk_claim_spacex_parent_fan_post_baron_2026",
-    "musk_claim_spacex_100t_10y_2026",
-    "musk_claim_c_100t_implied_growth"
+    "c_combined_cash_2026_06_30",
+    "c_combined_mcap_2026_10_16"
    ],
    "noslot": ""
   },
+  "a-hundred-trillion": {
+   "file": "10-a-hundred-trillion.html",
+   "credit": "Source: SpaceX S-1, SpaceX Q2 2026 earnings call and Elon Musk on X. Reported by Stocktwits. Boardroom Wire calculation.",
+   "figures": [
+    "spacex_market_cap_2026_10_16",
+    "spacex_fy2025_revenue_total",
+    "musk_claim_spacex_1t_revenue_2030_q2_call",
+    "musk_claim_spacex_100t_10y_2026",
+    "ron_baron_spacex_20t_50t_2026_10",
+    "musk_claim_c_100t_implied_growth"
+   ],
+   "noslot": "o66,o67"
+  },
   "control": {
    "file": "11-control.html",
-   "credit": "Source: Tesla 10-K/A (FY2025) and SpaceX EU prospectus (5 Jun 2026). Estimate: Barclays, via Investing.com.",
+   "credit": "Source: Tesla 10-K/A (FY2025) and SpaceX free writing prospectus (EU prospectus), filed 8 Jun 2026. Estimate: Barclays, via Investing.com. Boardroom Wire calculation.",
    "figures": [
     "tesla_musk_ownership_pct",
     "spacex_musk_voting_power_post_ipo",
+    "spacex_class_b_ten_votes",
+    "c_musk_combined_votes",
     "barclays_combined_musk_37_56",
-    "spacex_class_b_ten_votes"
+    "c_exchange_ratio_market"
    ],
    "noslot": "t11-musk,t11-optimus"
   }
@@ -672,7 +609,7 @@
    "display": "60.5%",
    "spoken": "about 60.5%",
    "label": "Starlink margin before growth spending, Q2 2026",
-   "credit": "Boardroom Wire calculation.",
+   "credit": "Boardroom Wire calculation from SpaceX's Connectivity adjusted EBITDA and revenue, Q2 2026.",
    "tier": "C",
    "asOf": "2026-06-30",
    "sources": [
@@ -760,11 +697,11 @@
    "display": "$920M a month",
    "spoken": "$920 million a month",
    "label": "Google, Oct 2026 to Jun 2029",
-   "credit": "Source: SpaceX filing (5 Jun 2026).",
+   "credit": "Source: SpaceX free writing prospectus (Google agreement), filed 5 Jun 2026.",
    "tier": "P",
    "asOf": "2026-06-05",
    "sources": [
-    "SpaceX filing (5 Jun 2026)"
+    "SpaceX free writing prospectus (Google agreement), filed 5 Jun 2026"
    ]
   },
   "spacex_anthropic_cloud_deal": {
@@ -1046,11 +983,11 @@
    "display": "$1.0B",
    "spoken": "$1 billion",
    "label": "gain on its SpaceX shares, Q2 2026",
-   "credit": "Source: Tesla Q2 2026 Update.",
+   "credit": "Source: Tesla Q2 2026 10-Q.",
    "tier": "P",
    "asOf": "2026-06-30",
    "sources": [
-    "Tesla Q2 2026 Update"
+    "Tesla Q2 2026 10-Q"
    ]
   },
   "tesla_2026_capex_guidance_q2_10q": {
@@ -1191,7 +1128,7 @@
    "label": "raised in the IPO",
    "credit": "Source: SpaceX Q2 2026 results.",
    "tier": "P",
-   "asOf": "2026-06-15",
+   "asOf": "2026-06-12",
    "sources": [
     "SpaceX Q2 2026 results"
    ]
@@ -1318,7 +1255,7 @@
    ]
   },
   "c_spacex_mcap_to_fy2025_revenue": {
-   "display": "106×",
+   "display": "106.1×",
    "spoken": "about a hundred times",
    "label": "SpaceX's value over its 2025 revenue",
    "credit": "Boardroom Wire calculation.",
@@ -1372,6 +1309,17 @@
     "@SPCX100T on X"
    ]
   },
+  "ron_baron_spacex_20t_50t_2026_10": {
+   "display": "$20T to $50T",
+   "spoken": "$20 trillion to $50T",
+   "label": "Ron Baron's forecast for SpaceX, about 10 years out",
+   "credit": "Ron Baron, via Stocktwits, 14 Oct 2026.",
+   "tier": "R",
+   "asOf": "2026-10-14",
+   "sources": [
+    "Stocktwits"
+   ]
+  },
   "musk_claim_c_100t_implied_growth": {
    "display": "~48% a year",
    "spoken": "roughly 48% a year",
@@ -1398,22 +1346,22 @@
    "display": "4,697 kg",
    "spoken": "4,697 kg",
    "label": "downforce in the upside-down hang, Tesla's readout",
-   "credit": "Source: Tesla.",
+   "credit": "Source: Tesla's on-screen readout.",
    "tier": "P",
    "asOf": "2026-10-15",
    "sources": [
-    "Tesla"
+    "Tesla's on-screen readout"
    ]
   },
   "roadster_footage_jump_peak_altitude": {
    "display": "25.7 ft",
    "spoken": "25.7 ft",
    "label": "peak altitude over the cars, Tesla's readout",
-   "credit": "Source: Tesla.",
+   "credit": "Source: Tesla's on-screen readout.",
    "tier": "P",
    "asOf": "2026-10-15",
    "sources": [
-    "Tesla"
+    "Tesla's on-screen readout"
    ]
   },
   "roadster_thruster_system_claim": {
@@ -1486,12 +1434,13 @@
    "display": "such a transaction could happen before the end of 2026",
    "spoken": "such a transaction could happen before the end of 2026",
    "label": "Barclays, as CNBC reported, 15 Oct 2026",
-   "credit": "Estimate: Barclays, via CNBC.",
+   "credit": "Estimate: Barclays note.",
    "tier": "E",
    "asOf": "2026-10-15",
    "sources": [
-    "Barclays, via CNBC"
-   ]
+    "Barclays note"
+   ],
+   "mandatory": "Bloomberg, 29 Jan 2026, via Bloomberg Law (updated 30 Jan); CNBC, 26 May 2026; Barclays note, 14 Oct 2026, via CNBC (15 Oct)"
   },
   "barclays_spacex_acquirer_all_stock": {
    "display": "Barclays expects SpaceX to acquire Tesla in a stock-for-stock transaction",
@@ -1504,15 +1453,26 @@
     "Barclays, via Investing.com"
    ]
   },
+  "hist_inverse_2016_08_03_not_strong_rationale": {
+   "display": "",
+   "spoken": "",
+   "label": "Inverse, 3 Aug 2016",
+   "credit": "Reported by Inverse.",
+   "tier": "R",
+   "asOf": "2016-08-03",
+   "sources": [
+    "Inverse"
+   ]
+  },
   "hist_musk_2016_08_no_strong_rationale_combine": {
    "display": "I don't think there's a strong product rationale to combine SpaceX and Tesla",
    "spoken": "I don't think there's a strong product rationale to combine SpaceX and Tesla",
    "label": "Musk, Tesla Q2 2016 call, 3 Aug 2016",
-   "credit": "Reported by Tesla Q2 2016 earnings call.",
+   "credit": "Reported by Bullfincher, transcript of Tesla's Q2 2016 earnings call (3 Aug 2016).",
    "tier": "R",
    "asOf": "2016-08-03",
    "sources": [
-    "Tesla Q2 2016 earnings call"
+    "Bullfincher, transcript of Tesla's Q2 2016 earnings call (3 Aug 2016)"
    ]
   },
   "clue_musk_convergence_post_nov2025": {
@@ -1549,14 +1509,14 @@
    ]
   },
   "hist_cnbc_2026_05_27_musk_discussed_folding_tesla_spacex": {
-   "display": "Musk has discussed with colleagues the possibility of folding Tesla and SpaceX together.",
-   "spoken": "Musk has discussed with colleagues the possibility of folding Tesla and SpaceX together.",
-   "label": "CNBC, 27 May 2026",
-   "credit": "Reported by CNBC, via Electrek.",
+   "display": "Musk has discussed with colleagues the possibility of folding the companies together",
+   "spoken": "Musk has discussed with colleagues the possibility of folding the companies together",
+   "label": "CNBC, 26 May 2026",
+   "credit": "Reported by CNBC.",
    "tier": "R",
-   "asOf": "2026-05-27",
+   "asOf": "2026-05-26",
    "sources": [
-    "CNBC, via Electrek"
+    "CNBC"
    ]
   },
   "hist_jpm_2026_07_strategically_coherent_on_paper": {
@@ -1634,6 +1594,281 @@
    "asOf": "2026-10-18",
    "sources": [
     "Kalshi"
+   ]
+  },
+  "kalshi_mar2027_hourly_series_oct2026": {
+   "display": "",
+   "spoken": "",
+   "label": "odds of a deal before 1 Mar 2027, hourly, 13-20 Oct 2026",
+   "credit": "Source: Kalshi.",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "Kalshi"
+   ]
+  },
+  "fwd_tsla_rt_unsup_cities_named": {
+   "display": "",
+   "spoken": "",
+   "label": "the six unsupervised robotaxi cities, named",
+   "credit": "Reported by The Charge Port.",
+   "tier": "R",
+   "asOf": "2026-09-24",
+   "sources": [
+    "The Charge Port"
+   ]
+  },
+  "tesla_fy2025_operating_income": {
+   "display": "$4.4B",
+   "spoken": "$4.4 billion",
+   "label": "Tesla operating income, 2025",
+   "credit": "Source: Tesla 10-K (FY2025).",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Tesla 10-K (FY2025)"
+   ]
+  },
+  "tesla_fy2025_net_income_gaap": {
+   "display": "$3.8B",
+   "spoken": "$3.8 billion",
+   "label": "Tesla net income, 2025",
+   "credit": "Source: Tesla 10-K (FY2025).",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Tesla 10-K (FY2025)"
+   ]
+  },
+  "tesla_fy2025_capex": {
+   "display": "$8.5B",
+   "spoken": "$8.5 billion",
+   "label": "Tesla capex, 2025",
+   "credit": "Source: Tesla 10-K (FY2025).",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Tesla 10-K (FY2025)"
+   ]
+  },
+  "tesla_fy2025_free_cash_flow": {
+   "display": "$6.2B",
+   "spoken": "about $6.2 billion",
+   "label": "Tesla free cash flow, 2025",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "tesla_fy2025_cash_and_investments": {
+   "display": "$44.1B",
+   "spoken": "$44.1 billion",
+   "label": "Tesla cash and investments, 31 Dec 2025",
+   "credit": "Source: Tesla 10-K (FY2025).",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Tesla 10-K (FY2025)"
+   ]
+  },
+  "spacex_fy2025_op_income_total": {
+   "display": "-$2.6B",
+   "spoken": "-$2.6 billion",
+   "label": "SpaceX operating income, 2025",
+   "credit": "Source: SpaceX S-1.",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "SpaceX S-1"
+   ]
+  },
+  "spacex_fy2025_net_loss": {
+   "display": "-$4.9B",
+   "spoken": "-$4.9 billion",
+   "label": "SpaceX net income, 2025",
+   "credit": "Source: SpaceX S-1.",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "SpaceX S-1"
+   ]
+  },
+  "spacex_fy2025_capex_total": {
+   "display": "$20.7B",
+   "spoken": "$20.7 billion",
+   "label": "SpaceX capex, 2025",
+   "credit": "Source: SpaceX S-1.",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "SpaceX S-1"
+   ]
+  },
+  "spacex_fy2025_capex_ai": {
+   "display": "$12.7B",
+   "spoken": "$12.7 billion",
+   "label": "SpaceX AI capex, 2025",
+   "credit": "Source: SpaceX S-1.",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "SpaceX S-1"
+   ]
+  },
+  "spacex_fy2025_free_cash_flow": {
+   "display": "-$14.0B",
+   "spoken": "-$14 billion",
+   "label": "SpaceX free cash flow, 2025",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_dec2025_cash": {
+   "display": "$24.7B",
+   "spoken": "$24.7 billion",
+   "label": "SpaceX cash, 31 Dec 2025",
+   "credit": "Source: SpaceX Q2 2026 results.",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "SpaceX Q2 2026 results"
+   ]
+  },
+  "c_combined_fy2025_op_income": {
+   "display": "$1.8B",
+   "spoken": "about $1.8 billion",
+   "label": "combined operating income, 2025",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_combined_fy2025_net_income": {
+   "display": "-$1.1B",
+   "spoken": "-$1.1 billion",
+   "label": "combined net income, 2025",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_combined_fy2025_capex": {
+   "display": "$29.3B",
+   "spoken": "about $29.3 billion",
+   "label": "combined capex, 2025",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_combined_fy2025_fcf": {
+   "display": "-$7.7B",
+   "spoken": "-$7.7 billion",
+   "label": "combined free cash flow, 2025",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_combined_cash_2025_12_31": {
+   "display": "$68.8B",
+   "spoken": "about $68.8 billion",
+   "label": "combined cash, 31 Dec 2025",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "tsmc_market_cap_2026_10_16": {
+   "display": "$1.93T",
+   "spoken": "$1.93 trillion",
+   "label": "TSMC, 16 Oct 2026",
+   "credit": "Reported by StockAnalysis.",
+   "tier": "R",
+   "asOf": "2026-10-16",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "meta_market_cap_2026_10_16": {
+   "display": "$1.81T",
+   "spoken": "$1.81 trillion",
+   "label": "Meta, 16 Oct 2026",
+   "credit": "Reported by StockAnalysis.",
+   "tier": "R",
+   "asOf": "2026-10-16",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "broadcom_market_cap_2026_10_16": {
+   "display": "$1.57T",
+   "spoken": "$1.57 trillion",
+   "label": "Broadcom, 16 Oct 2026",
+   "credit": "Reported by StockAnalysis.",
+   "tier": "R",
+   "asOf": "2026-10-16",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "spacex_market_cap_2026_10_16_stockanalysis": {
+   "display": "$1.98T",
+   "spoken": "$1.98 trillion",
+   "label": "SpaceX, 16 Oct 2026 (StockAnalysis)",
+   "credit": "Reported by StockAnalysis.",
+   "tier": "R",
+   "asOf": "2026-10-16",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "tesla_market_cap_2026_10_16_stockanalysis": {
+   "display": "$1.40T",
+   "spoken": "$1.40 trillion",
+   "label": "Tesla, 16 Oct 2026 (StockAnalysis)",
+   "credit": "Reported by StockAnalysis.",
+   "tier": "R",
+   "asOf": "2026-10-16",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "spacex_first_day_close": {
+   "display": "$160.95",
+   "spoken": "$160.95",
+   "label": "SpaceX's first-day close, 12 Jun 2026",
+   "credit": "Reported by CNBC.",
+   "tier": "R",
+   "asOf": "2026-06-12",
+   "sources": [
+    "CNBC"
+   ]
+  },
+  "fwd_spx_orbital_first_launch_q4_2027": {
+   "display": "2027",
+   "spoken": "2027",
+   "label": "orbital AI satellites, first launches planned",
+   "credit": "Reported by Not a Tesla App.",
+   "tier": "R",
+   "asOf": "2026-08-04",
+   "sources": [
+    "Not a Tesla App"
    ]
   },
   "kalshi_mar2027_2026_10_14_morning": {
@@ -1738,10 +1973,10 @@
   "spacex_ipo_valuation": {
    "display": "$1.77T",
    "spoken": "about $1.8 trillion",
-   "label": "SpaceX valuation at the IPO, 11 Jun 2026",
+   "label": "SpaceX valuation at the IPO, 12 Jun 2026",
    "credit": "Reported by NBC News.",
    "tier": "R",
-   "asOf": "2026-06-11",
+   "asOf": "2026-06-12",
    "sources": [
     "NBC News"
    ]
@@ -1794,22 +2029,22 @@
    "display": "83.6%",
    "spoken": "more than 80%",
    "label": "Musk's votes at SpaceX, after the IPO",
-   "credit": "Source: SpaceX EU prospectus (5 Jun 2026).",
+   "credit": "Source: SpaceX free writing prospectus (EU prospectus), filed 8 Jun 2026.",
    "tier": "P",
    "asOf": "2026-06-05",
    "sources": [
-    "SpaceX EU prospectus (5 Jun 2026)"
+    "SpaceX free writing prospectus (EU prospectus), filed 8 Jun 2026"
    ]
   },
   "spacex_class_b_ten_votes": {
    "display": "10",
    "spoken": "ten",
    "label": "votes per Class B share (Class A: 1)",
-   "credit": "Source: SpaceX EU prospectus (5 Jun 2026).",
+   "credit": "Source: SpaceX free writing prospectus (EU prospectus), filed 8 Jun 2026.",
    "tier": "P",
    "asOf": "2026-06-05",
    "sources": [
-    "SpaceX EU prospectus (5 Jun 2026)"
+    "SpaceX free writing prospectus (EU prospectus), filed 8 Jun 2026"
    ]
   },
   "spacex_musk_voting_power_now_calc": {

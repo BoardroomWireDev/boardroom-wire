@@ -2,28 +2,38 @@
    folded into one, then the value pulled back to the truth and set among the world's most valuable companies. Drawn once here;
    08-each-on-its-own.html plays the ledger (board seconds 0 to the fold) and 09-one-balance-sheet.html plays from the fold on
    (HERO.run({from, to})), so neither cue holds past 90 s and 09 opens on 08's last frame (a matched cut).
-   Step defaults are board seconds from "So let's look at the numbers" at 166 wpm; ?at= re-times them in this order for both pages.
-   The step-by-step note is in 09's header. Load after sf.js and hero.js; the page sets BS_CUE first. */
+   As read (19 Oct, master v10): each page's ?at= lists exactly its own cue's steps (dashboard_cue_sheet.md), from its own first
+   frame; 09's are shifted to board time by SPLIT (where 09 starts, 47.93 s into 08). Every other beat follows its step by the
+   offset of its word in the recording (cue-map/vo-words.json), so a re-time carries it along.
+   The step-by-step note is in each page's header. Load after sf.js and hero.js; the page sets BS_CUE first. */
 const H = HERO, s = document.getElementById('s'); el(s, 'defs');
-const K = H.steps([['own', 2.9], ['trev', 6.1], ['tq2', 9.0], ['top', 13.4], ['loupe', 14.1], ['paper', 17.3], ['sshares', 20.2],
-  ['tcapex', 22.8], ['tguide', 23.5], ['tcash', 25.3], ['srev', 30.0], ['sq2', 31.8], ['grow92', 34.7], ['sop', 37.2],
-  ['scapex', 41.6], ['ai', 45.5], ['scash', 48.1], ['fold', 51.0], ['crev', 55.3], ['ccash', 58.2], ['value', 60.4],
-  ['worth', 61.1], ['rank', 62.2], ['premium', 67.6], ['thirty', 69.0], ['spacex', 72.7], ['hundred', 74.5], ['bets', 75.2],
-  ['markets', 81.7], ['autonomy', 87.1], ['space', 87.8], ['aiM', 88.2], ['frontier', 89.3], ['orbit', 93.6],
-  ['robots', 95.4]], 98.0);
 const CUE = (typeof BS_CUE !== 'undefined') ? BS_CUE : 'all';           // 'ledger' (page 08), 'fold' (page 09)
+const SPLIT = 48.08;                                                    // 09's first frame in board time ("If you put them together")
+/* step times from the corrected word starts (vo-words.json s, 19 Oct) */
+const P08 = [['two', 0], ['tesla', 3.24], ['thin', 7.93], ['paper', 14.53], ['spacex', 20.02], ['growth', 26.38], ['burn', 31.59], ['cash', 41.74]];
+const P09 = [['merge', 0], ['sums', 1.23], ['rank', 11.87], ['premium', 15.51], ['bets', 27.76], ['markets', 34.22], ['frontier', 41.24]];
+const P09b = P09.map(([n, t]) => [n, SPLIT + t]);
+const K = CUE === 'fold' ? H.steps(P09b, SPLIT + 49.3, SPLIT) : H.steps(P08, 47.9);
+H.derive((CUE === 'fold' ? P08 : P09b).filter(([n]) => K[n] === undefined));
+H.derive([['own', K.two + 2.04], ['trev', K.tesla + 1.69], ['tq2', K.thin + .4], ['top', K.thin + 3.98], ['loupe', K.thin + 5.04],
+  ['earned', K.paper + .72], ['sshares', K.paper + 3.58], ['srev', K.spacex + 3.38], ['sq2', K.growth], ['grow92', K.growth + 2.0],
+  ['sop', K.burn + .79], ['scapex', K.burn + 4.29], ['ai', K.burn + 7.27], ['tcash', K.cash], ['scash', K.cash + 1.36],
+  ['fold', K.merge], ['crev', K.sums + 1.4], ['ccash', K.sums + 5.24], ['value', K.sums + 7.76], ['worth', K.sums + 8.58],
+  ['ticks', K.premium + 3.48], ['thirty', K.premium + 4.86], ['sx', K.premium + 8.22], ['hundred', K.premium + 10.26],
+  ['autonomy', K.markets + 3.98], ['space', K.markets + 5.34], ['aiM', K.markets + 5.76],
+  ['orbit', K.frontier + 4.36], ['robots', K.frontier + 5.82]]);
 
 const CR = 'var(--cream)', GOLD = 'var(--gold)', INK = 'var(--bg)', DIM = 'rgba(245,241,229,.55)', RED = 'var(--red)';
 const B = 1e9;
 
 /* ---------------- the figures ---------------- */
+const PREK = ['tesla_q2_2026_income_before_taxes', 'tesla_q2_2026_pretax_income'].find(k => FIG[k]);
 const T = { rev: usd('tesla_fy2025_revenue_total'), q2: usd('tesla_q2_2026_revenue_total'), op: usd('tesla_q2_2026_operating_income'),
   /* the stake gain is pre-tax, so it is drawn inside Tesla's Q2 pre-tax income, never inside after-tax net income (facts
      check v9, row 1). Goldman's row name is not final tonight: the first of these that data.js carries is used, else held. */
-  pre: (() => { const k = ['tesla_q2_2026_pretax_income', 'tesla_q2_2026_income_before_taxes', 'tesla_q2_2026_income_before_income_taxes']
-    .find(k => FIG[k]); return k ? usd(k) : (has('tesla_q2_2026_pretax_income'), null); })(),
-  gain: usd('tesla_spacex_stake_gain_q2_2026'), capex: has('tesla_q2_2026_capex') ? usd('tesla_q2_2026_capex') : null,
-  guide: usd('tesla_2026_capex_guidance_q2_10q'), cash: usd('tesla_q2_2026_cash_and_investments'), val: usd('tesla_market_cap_cover_shares_2026_10_16') };
+  pre: PREK ? usd(PREK) : (has('tesla_q2_2026_income_before_taxes'), null),
+  capex: has('tesla_q2_2026_capex') ? usd('tesla_q2_2026_capex') : null,
+  gain: usd('tesla_spacex_stake_gain_q2_2026'), cash: usd('tesla_q2_2026_cash_and_investments'), val: usd('tesla_market_cap_cover_shares_2026_10_16') };
 const S = { rev: usd('spacex_fy2025_revenue_total'), q2: usd('spacex_q2_2026_revenue_total'), q2ago: usd('spacex_q2_2025_revenue_total'),
   yoy: pct('spacex_q2_2026_revenue_growth_yoy'), op: usd('spacex_q2_2026_op_income_total'), capex: usd('spacex_q2_2026_capex_total'),
   capexAI: usd('spacex_q2_2026_capex_ai'), cash: usd('spacex_cash_and_securities_jun30_2026'), val: usd('spacex_market_cap_2026_10_16') };
@@ -42,7 +52,7 @@ const NAMES = { rev: ['revenue', '2025'], q2: ['revenue', 'Q2 2026'], op: ['oper
 const X0 = 420, K2 = 1360 / 5.5e12, CY = { rev: 210, cash: 350, val: 520, sx: 700 }, AX = 840;
 const kAt = (t) => H.mix(K0, K2, H.go(t, K.value - .1, K.value + 1.6));
 const fold = (t) => H.go(t, K.fold, K.fold + 1.5);
-const stepBack = (t) => 1 - H.go(t, K.fold - .3, K.fold + .4);
+const stepBack = (t) => 1 - H.go(t, K.fold, K.fold + .4);
 
 /* the spine: row names centred, at a third of their ink from frame 0, full on "each company on its own" */
 const gSpine = el(s, 'g');
@@ -53,7 +63,7 @@ Object.entries(NAMES).forEach(([r, [nm, per]]) => {
 const gMarks = el(s, 'g');
 logo(gMarks, 'tesla', SPL - logoW('tesla', 30), 92, 30);
 logo(gMarks, 'spacex', SPR, 92, 30);
-H.on((t) => { const out = 1 - H.go(t, K.fold - .2, K.fold + .5), u = (1 / 3 + 2 / 3 * H.go(t, K.own - .2, K.own + .5)) * out;
+H.on((t) => { const out = 1 - H.go(t, K.fold, K.fold + .5), u = (1 / 3 + 2 / 3 * H.go(t, K.own - .2, K.own + .5)) * out;
   gSpine.setAttribute('opacity', u.toFixed(3)); gMarks.setAttribute('opacity', out.toFixed(3)); });
 
 /* a bar on the ledger: side -1 grows left from the spine (Tesla), +1 right (SpaceX); it grows on `a` */
@@ -80,19 +90,14 @@ H.on((t) => { const u = stepBack(t); gBack.setAttribute('opacity', u.toFixed(3))
 
 /* ---- Tesla ---- */
 const tRev = bar(s, -1, 'rev', T.rev, K.trev - .2, CR, 1.0);
-const fTRev = figure(s, -1, 'rev', T.rev, fmt.usdB(T.rev), K.trev + .5);
-bar(gBack, -1, 'q2', T.q2, K.tq2 - .2); figure(gBack, -1, 'q2', T.q2, fmt.usdB(T.q2), K.tq2 + .4);
-bar(gBack, -1, 'op', T.op, K.top - .1, CR, .3); figure(gBack, -1, 'op', T.op, fmt.usdM(T.op), K.top + .3);
-/* capex: Q2 spent, solid; the 2026 plan dashed behind it, fading out past $25B ("more than"), so no edge is drawn */
-{ const w = T.guide * K0, y = ROWS.capex + BH + 16, g = el(gBack, 'g');
-  el(g, 'path', { d: `M${SPL},${y - 8} V${y} H${SPL - w}`, stroke: CR, 'stroke-width': 3, 'stroke-dasharray': '10 8', fill: 'none' });
-  el(g, 'rect', { x: SPL - w - 60, y: y - 1.5, width: 60, height: 3, fill: fadeEnd(s, SPL - w, SPL - w - 60, 'rgb(245,241,229)') });
-  H.wipe(g, K.tguide - .2, .9, '-x');
-  H.rise(el(gBack, 'text', { x: SPL - w - 76, y: y + 14, class: 'fn', 'font-size': 40, 'text-anchor': 'end' }, D('tesla_2026_capex_guidance_q2_10q', '>' + fmt.usdB(T.guide, 0))), K.tguide + .5);
-  H.rise(el(gBack, 'text', { x: SPL - w - 76, y: y + 50, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, '2026'), K.tguide + .7); }
-if (T.capex !== null) { bar(gBack, -1, 'capex', T.capex, K.tcapex - .2); figure(gBack, -1, 'capex', T.capex, fmt.usdB(T.capex), K.tcapex + .4); }
+const fTRev = figure(s, -1, 'rev', T.rev, D('tesla_fy2025_revenue_total', fmt.usdB(T.rev)), K.trev + .5);
+bar(gBack, -1, 'q2', T.q2, K.tq2 - .2); figure(gBack, -1, 'q2', T.q2, D('tesla_q2_2026_revenue_total', fmt.usdB(T.q2)), K.tq2 + .4);
+bar(gBack, -1, 'op', T.op, K.top - .1, CR, .3); figure(gBack, -1, 'op', T.op, D('tesla_q2_2026_operating_income', fmt.usdM(T.op)), K.top + .3);
+/* Tesla's Q2 capex on the same row and scale as SpaceX's (proxy 1 facts: an empty Tesla side read as zero). Its 2026 plan stays
+   off: that line was not read. It lands with SpaceX's capex. */
+if (T.capex !== null) { bar(gBack, -1, 'capex', T.capex, K.scapex - .2); figure(gBack, -1, 'capex', T.capex, D('tesla_q2_2026_capex', fmt.usdB(T.capex)), K.scapex + .4); }
 const tCash = bar(s, -1, 'cash', T.cash, K.tcash - .2, CR, .9);
-const fTCash = figure(s, -1, 'cash', T.cash, fmt.usdB(T.cash), K.tcash + .5);
+const fTCash = figure(s, -1, 'cash', T.cash, D('tesla_q2_2026_cash_and_investments', fmt.usdB(T.cash)), K.tcash + .5);
 
 /* the detail sheet: Tesla's thin profit, magnified with no axis (so no scale is implied), on the still-empty SpaceX side */
 { const PX = 1130, PY = 392, PW = 670, PH = 330, MAG = 330 / B, LX = PX + 40;
@@ -105,51 +110,51 @@ const fTCash = figure(s, -1, 'cash', T.cash, fmt.usdB(T.cash), K.tcash + .5);
   corners(sh, PX, PY, PW, PH);
   const r1 = PY + 56, r2 = PY + 196;
   H.grow(el(sh, 'rect', { x: LX, y: r1, width: T.op * MAG, height: 48, fill: CR }), K.loupe + .1, .6, LX, 0, 'x');
-  H.rise(el(sh, 'text', { x: LX + T.op * MAG + 16, y: r1 + 38, class: 'fn', 'font-size': 40 }, fmt.usdM(T.op)), K.loupe + .5);
+  H.rise(el(sh, 'text', { x: LX + T.op * MAG + 16, y: r1 + 38, class: 'fn', 'font-size': 40 }, D('tesla_q2_2026_operating_income', fmt.usdM(T.op))), K.loupe + .5);
   /* "earned on paper": pre-tax income with the pre-tax stake gain inside it (about three quarters); held until the row lands */
   if (T.pre !== null) {
     const gP = el(sh, 'g');
     el(gP, 'text', { x: LX, y: r2 - 18, class: 'nd', 'font-size': 32 }, 'earned on paper');
     el(gP, 'text', { x: LX + 268, y: r2 - 18, class: 'ax', 'font-size': 28 }, 'pre-tax');
-    H.rise(gP, K.paper - .7);
+    H.rise(gP, K.earned - .7);
     const gN = el(sh, 'g');
     el(gN, 'rect', { x: LX, y: r2, width: T.gain * MAG - 3, height: 48, fill: CR });
     el(gN, 'rect', { x: LX + T.gain * MAG, y: r2, width: (T.pre - T.gain) * MAG, height: 48, fill: CR });
-    H.grow(gN, K.paper - .5, .7, LX, 0, 'x');
-    H.rise(el(sh, 'text', { x: LX + T.pre * MAG + 16, y: r2 + 38, class: 'fn', 'font-size': 36 }, fmt.usdM(T.pre)), K.paper);
+    H.grow(gN, K.earned - .5, .7, LX, 0, 'x');
+    H.rise(el(sh, 'text', { x: LX + T.pre * MAG + 16, y: r2 + 38, class: 'fn', 'font-size': 36 }, D(PREK, fmt.usdM(T.pre))), K.earned);
     const gG = el(sh, 'g');
     el(gG, 'path', { d: `M${LX},${r2 + 60} v12 H${LX + T.gain * MAG - 3} v-12`, fill: 'none', stroke: GOLD, 'stroke-width': 2 });
     el(gG, 'text', { x: LX, y: r2 + 110, class: 'nm', 'font-size': 32, style: 'fill:var(--gold)' }, 'SpaceX shares');
-    el(gG, 'text', { x: LX + 240, y: r2 + 110, class: 'fn', 'font-size': 32, style: 'fill:var(--gold)' }, fmt.usdM(T.gain));
+    el(gG, 'text', { x: LX + 16, y: r2 + 36, class: 'fn', 'font-size': 32, style: 'fill:var(--bg)' }, D('tesla_spacex_stake_gain_q2_2026', fmt.usdM(T.gain)));
     H.rise(gG, K.sshares); }
   H.wipe(sh, K.loupe - .1, .35, 'y');
   H.show(gL, K.loupe - .5, .01, K.srev - 3.4, .4); }
 
 /* ---- SpaceX ---- */
 const sRev = bar(s, 1, 'rev', S.rev, K.srev - .2, CR, .7);
-const fSRev = figure(s, 1, 'rev', S.rev, fmt.usdB(S.rev), K.srev + .4);
+const fSRev = figure(s, 1, 'rev', S.rev, D('spacex_fy2025_revenue_total', fmt.usdB(S.rev)), K.srev + .4);
 { const y = ROWS.q2, w0 = S.q2ago * K0;      // a year earlier, in outline under the quarter
   H.grow(el(gBack, 'rect', { x: SPR, y: y + BH + 8, width: w0, height: 14, fill: 'rgba(245,241,229,.45)' }), K.grow92 - .6, .5, SPR, 0, 'x');
-  H.rise(el(gBack, 'text', { x: SPR + w0 + 14, y: y + BH + 27, class: 'ax', 'font-size': 28 }, fmt.usdB(S.q2ago) + '  Q2 2025'), K.grow92 - .2); }
-bar(gBack, 1, 'q2', S.q2, K.sq2 - .2); figure(gBack, 1, 'q2', S.q2, fmt.usdB(S.q2), K.sq2 + .4);
-{ const n = el(gBack, 'text', { x: SPR + S.q2 * K0 + 180, y: ROWS.q2 + BH / 2 + 14, class: 'fn', 'font-size': 40 }, '+' + fmt.pct(S.yoy, 1));
+  H.rise(el(gBack, 'text', { x: SPR + w0 + 14, y: y + BH + 27, class: 'ax', 'font-size': 28 }, D('spacex_q2_2025_revenue_total', fmt.usdB(S.q2ago)) + '  Q2 2025'), K.grow92 - .2); }
+bar(gBack, 1, 'q2', S.q2, K.sq2 - .2); figure(gBack, 1, 'q2', S.q2, D('spacex_q2_2026_revenue_total', fmt.usdB(S.q2)), K.sq2 + .4);
+{ const n = el(gBack, 'text', { x: SPR + S.q2 * K0 + 260, y: ROWS.q2 + BH / 2 + 14, class: 'fn', 'font-size': 40 }, D('spacex_q2_2026_revenue_growth_yoy', '+' + fmt.pct(S.yoy, 1)));
   const g = el(gBack, 'g'); g.appendChild(n); ours(n, CR, 10, 2); H.rise(g, K.grow92); }
 /* the operating loss: red, at its true size (a hairline at this scale), growing back toward the spine */
 { const w = Math.max(Math.abs(S.op) * K0, 2), r = el(gBack, 'rect', { x: SPR - w, y: ROWS.op, width: w, height: BH, fill: RED });
   H.fade(r, K.sop - .1, .3);
-  H.rise(el(gBack, 'text', { x: SPR + 16, y: ROWS.op + BH / 2 + 14, class: 'fn', 'font-size': 40, style: 'fill:var(--red)' }, fmt.usdM(S.op)), K.sop + .3); }
+  H.rise(el(gBack, 'text', { x: SPR + 16, y: ROWS.op + BH / 2 + 14, class: 'fn', 'font-size': 40, style: 'fill:var(--red)' }, D('spacex_q2_2026_op_income_total', fmt.usdM(S.op))), K.sop + .3); }
 { const y = ROWS.capex, g = el(gBack, 'g');
   el(g, 'rect', { x: SPR, y, width: S.capexAI * K0 - 2, height: BH, fill: CR });
   el(g, 'rect', { x: SPR + S.capexAI * K0, y, width: (S.capex - S.capexAI) * K0, height: BH, fill: 'rgba(245,241,229,.45)' });
   H.grow(g, K.scapex - .2, .8, SPR, 0, 'x');
-  H.rise(el(gBack, 'text', { x: SPR + S.capex * K0 + 16, y: y + BH / 2 + 14, class: 'fn', 'font-size': 40 }, fmt.usdB(S.capex)), K.scapex + .5);
+  H.rise(el(gBack, 'text', { x: SPR + S.capex * K0 + 16, y: y + BH / 2 + 14, class: 'fn', 'font-size': 40 }, D('spacex_q2_2026_capex_total', fmt.usdB(S.capex))), K.scapex + .5);
   const gA = el(gBack, 'g');
   el(gA, 'path', { d: `M${SPR},${y + BH + 8} v10 H${SPR + S.capexAI * K0 - 2} v-10`, fill: 'none', stroke: CR, 'stroke-width': 2 });
   el(gA, 'text', { x: SPR, y: y + BH + 50, class: 'nm', 'font-size': 32 }, 'AI');
-  el(gA, 'text', { x: SPR + 52, y: y + BH + 50, class: 'fn', 'font-size': 32 }, fmt.usdB(S.capexAI));
+  el(gA, 'text', { x: SPR + 52, y: y + BH + 50, class: 'fn', 'font-size': 32 }, D('spacex_q2_2026_capex_ai', fmt.usdB(S.capexAI)));
   H.rise(gA, K.ai); }
 const sCash = bar(s, 1, 'cash', S.cash, K.scash - .2, CR, 1.0);
-const fSCash = figure(s, 1, 'cash', S.cash, fmt.usdB(S.cash), K.scash + .5);
+const fSCash = figure(s, 1, 'cash', S.cash, D('spacex_cash_and_securities_jun30_2026', fmt.usdB(S.cash)), K.scash + .5);
 
 if (CUE !== 'ledger') {
 /* ---------------- the fold: Tesla crosses the spine and docks end to end with SpaceX; the sum turns gold ---------------- */
@@ -169,7 +174,7 @@ function docked(row, cyKey, from, v, ledgerRect, side) {
 }
 docked('rev', 'rev', 0, T.rev, tRev, -1); docked('rev', 'rev', T.rev, S.rev, sRev, 1);
 docked('cash', 'cash', 0, T.cash, tCash, -1); docked('cash', 'cash', T.cash, S.cash, sCash, 1);
-[fTRev, fSRev, fTCash, fSCash].forEach(g => H.show(g, -1, .01, K.fold - .3, .3));
+[fTRev, fSRev, fTCash, fSCash].forEach(g => H.show(g, -1, .01, K.fold, .3));
 
 /* the combined names, left */
 const gNames = el(s, 'g'), gNamesToday = el(gToday, 'g');
@@ -188,8 +193,8 @@ function total(cyKey, v, txt, a, size = 44) {
   H.rise(g, a);
   return g;
 }
-total('rev', C.rev, fmt.usdB(C.rev), K.crev);
-total('cash', C.cash, fmt.usdB(C.cash), K.ccash);
+total('rev', C.rev, D('c_combined_fy2025_revenue', fmt.usdB(C.rev)), K.crev);
+total('cash', C.cash, D('c_combined_cash_2026_06_30', fmt.usdB(C.cash)), K.ccash);
 
 /* ---------------- the value, at the pulled-back scale ---------------- */
 { const y = CY.val, VH = 72, wT = T.val * K2, wS = S.val * K2, g = el(s, 'g');
@@ -200,19 +205,22 @@ total('cash', C.cash, fmt.usdB(C.cash), K.ccash);
   // whose part is whose: the marks under the two segments
   H.rise(logo(g, 'tesla', X0, y + VH + 18, 22), K.value + 1.8);
   H.rise(logo(g, 'spacex', X0 + wT + 14, y + VH + 18, 22), K.value + 2.2);
-  const v = el(g, 'text', { x: X0 + wT + wS + 24, y: y + VH / 2 + 26, class: 'fh', 'font-size': 72 }, fmt.usdT(C.val));
-  const vg = el(g, 'g'); vg.appendChild(v); ours(v, GOLD, 12, 3); H.rise(vg, K.worth);
+  /* $3.38T rides the head of the growing bar (findings r1 row 18) and comes to rest at its end */
+  const v = el(g, 'text', { x: X0 + wT + wS + 24, y: y + VH / 2 + 26, class: 'fh', 'font-size': 72 }, D('c_combined_mcap_2026_10_16', fmt.usdT(C.val)));
+  const gx = el(g, 'g'), vg = el(gx, 'g'); vg.appendChild(v); ours(v, GOLD, 12, 3); H.rise(vg, K.worth);
+  H.on((t) => { const head = wT * H.go(t, K.value + 1.0, K.value + 1.9) + wS * H.go(t, K.value + 1.6, K.value + 2.5);
+    gx.setAttribute('transform', `translate(${(head - wT - wS).toFixed(2)},0)`); });
   // the premium, counted: the value ruled into lengths of the pair's 2025 revenue
   const unit = C.rev * K2, n = Math.floor(C.val / C.rev);
   const gT = el(g, 'g'); gTicks = gT;
   for (let i = 1; i <= n; i++) { const tk = el(gT, 'line', { x1: X0 + i * unit, x2: X0 + i * unit, y1: y, y2: y + VH, stroke: INK, 'stroke-width': 2 });
-    H.show(tk, K.premium + 1.2 * i / n, .1); }
-  if (C.x !== null) { const mx = el(g, 'text', { x: X0 + wT + wS, y: y + VH + 56, class: 'fn', 'font-size': 48, 'text-anchor': 'end', style: 'fill:var(--gold)' }, fmt.mult(C.x));
+    H.show(tk, K.ticks + 1.2 * i / n, .1); }
+  if (C.x !== null) { const mx = el(g, 'text', { x: X0 + wT + wS, y: y + VH + 56, class: 'fn', 'font-size': 48, 'text-anchor': 'end', style: 'fill:var(--gold)' }, D('c_combined_mcap_to_fy2025_revenue', fmt.mult(C.x)));
   const mg = el(g, 'g'); mg.appendChild(mx); ours(mx, GOLD, 10, 3); H.rise(mg, K.thirty); }
   /* one length = one year of the pair's revenue: extension lines carry the revenue bar's ends down onto the value bar */
   const ge = el(gToday, 'g', { stroke: DIM, 'stroke-width': 2, 'stroke-dasharray': '3 6' });
   [X0, X0 + unit].forEach(x => el(ge, 'line', { x1: x, x2: x, y1: CY.rev + BH + 6, y2: y - 4 }));
-  H.wipe(ge, K.premium - .3, .7, 'y');
+  H.wipe(ge, K.ticks - .3, .7, 'y');
   // the axis of the pulled-back scale, in trillions
   const ga = el(g, 'g'), ay = AX;
   el(ga, 'line', { x1: X0, x2: X0 + 5.5e12 * K2, y1: ay, y2: ay, stroke: DIM, 'stroke-width': 2 });
@@ -223,14 +231,14 @@ total('cash', C.cash, fmt.usdB(C.cash), K.ccash);
 
 /* ---------------- SpaceX alone: its value in lengths of its own 2025 revenue ---------------- */
 { const y = CY.sx, SH = 48, w = S.val * K2, g = el(s, 'g');
-  H.rise(logo(g, 'spacex', 64, y + 12, 24), K.spacex - .2);
+  H.rise(logo(g, 'spacex', 64, y + 12, 24), K.sx - .2);
   const r = el(g, 'rect', { x: X0, y, width: w, height: SH, fill: CR });
-  H.grow(r, K.spacex, .9, X0, 0, 'x');
+  H.grow(r, K.sx, .9, X0, 0, 'x');
   const unit = S.rev * K2, n = Math.floor(S.val / S.rev), gT = el(g, 'g');
   let d = ''; for (let i = 1; i <= n; i++) d += `M${(X0 + i * unit).toFixed(2)},${y}v${SH}`;
   const tk = el(gT, 'path', { d, stroke: INK, 'stroke-width': 2, fill: 'none' });
   H.wipe(tk, K.hundred - 1.4, 1.4, 'x', H.ease.lin);
-  if (C.xs !== null) { const m = el(g, 'text', { x: X0 + w + 20, y: y + SH / 2 + 16, class: 'fn', 'font-size': 44 }, fmt.mult(C.xs));
+  if (C.xs !== null) { const m = el(g, 'text', { x: X0 + w + 20, y: y + SH / 2 + 16, class: 'fn', 'font-size': 44 }, D('c_spacex_mcap_to_fy2025_revenue', fmt.mult(C.xs)));
   const mg = el(g, 'g'); mg.appendChild(m); ours(m, CR, 10, 2); H.rise(mg, K.hundred); } }
 
 
@@ -249,7 +257,7 @@ total('cash', C.cash, fmt.usdB(C.cash), K.ccash);
   el(gc, 'line', { x1: xc, x2: xc, y1: AX - 6, y2: AX + 56, stroke: GOLD, 'stroke-width': 3 });
   if (has('c_combined_mcap_rank_2026_10_16')) {
     const r = U('c_combined_mcap_rank_2026_10_16'), sfx = (r % 100 >= 11 && r % 100 <= 13) ? 'th' : (['th', 'st', 'nd', 'rd'][r % 10] || 'th');
-    const o = el(gc, 'text', { x: xc, y: AX + 98, class: 'fn', 'font-size': 40, 'text-anchor': 'middle', style: 'fill:var(--gold)' }, r + sfx);
+    const o = el(gc, 'text', { x: xc, y: AX + 98, class: 'fn', 'font-size': 40, 'text-anchor': 'middle', style: 'fill:var(--gold)' }, D('c_combined_mcap_rank_2026_10_16', r + sfx));
     ours(o, GOLD, 8, 2); }
   H.rise(gc, K.rank, .5, 10); }
 
@@ -257,34 +265,41 @@ total('cash', C.cash, fmt.usdB(C.cash), K.ccash);
 H.on((t) => { const u = 1 - H.go(t, K.bets, K.bets + .8);
   gToday.setAttribute('opacity', u.toFixed(3)); gToday.style.display = u < .002 ? 'none' : '';
   if (gTicks) gTicks.setAttribute('opacity', u.toFixed(3)); });
-{ const g = el(s, 'g'), TW = 442, TH = 70, GAP = 17;
-  /* unsized tiles: no source splits the value by market, so the value block is never divided among them. The markets "at the
-     front" stand in outline on "already at the front" and light (a flat fill) on their words; the frontier ones are dashed */
-  const tile = (i, row, txt, a, planned) => {
-    const x = X0 + (i % 3) * (TW + GAP), y = i >= 3 ? 312 : 212, gt = el(g, 'g');
-    const lit = el(gt, 'rect', { x, y, width: TW, height: TH, fill: 'rgba(245,241,229,.13)' });
-    const r = el(gt, 'rect', { x, y, width: TW, height: TH, fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': planned ? '10 8' : 'none' });
-    const tx = el(gt, 'text', { x: x + TW / 2, y: y + TH / 2 + 11, class: 'nm', 'font-size': 32, 'text-anchor': 'middle' }, txt);
-    if (planned) { lit.remove(); H.rise(gt, a, .5); return; }
-    H.fade(lit, a - .1, .3);
-    H.show(gt, K.markets + .2 * (i % 3) + .4 * Math.floor(i / 3), .4);
-    H.on((t) => { const u = H.go(t, a - .1, a + .2);
-      r.setAttribute('stroke-opacity', (.45 + .55 * u).toFixed(3)); tx.setAttribute('fill-opacity', (.45 + .55 * u).toFixed(3)); });
-  };
-  /* three equal tiles a row, in the script's words and order: "autonomous driving, space, AI and computing", then the two
-     frontier ones under them */
-  tile(0, 0, 'autonomous driving', K.autonomy); tile(1, 0, 'space', K.space); tile(2, 0, 'AI and computing', K.aiM);
-  tile(3, 1, 'data centers in orbit', K.orbit, true); tile(4, 1, 'humanoid robots', K.robots, true); }
-
-/* footage windows (owed until Ko's deliveries land): the markets, then the two frontier ones */
-H.owed('t09-markets-a', 't09-markets-b', 't09-markets-c', 't09-frontier-a', 't09-frontier-b');
+/* the markets and the frontier are footage, not words (proxy 1 visual, EF 16: the tiles restated the spoken line). The window
+   frames stand where the tiles were, at the cue sheet's overlay times: o42, three windows from 30.3 s for 11 s (a robotaxi, a launch,
+   an AI data hall); o43, two windows from 41.5 s for 5 s (orbital compute, Optimus). Davinci composites the footage into them. */
 ['a robotaxi on the road (Tesla footage)', 'a Starship or Falcon launch (SpaceX footage)', 'a SpaceX AI data hall'].forEach((sub, i) =>
-  H.slot(s, 't09-markets-' + 'abc'[i], 420 + i * 467, 196, 426, 240, K.bets + 2.0, K.markets - .2, sub));
+  H.slot(s, 't09-markets-' + 'abc'[i], 420 + i * 467, 196, 426, 240, K.bets + 2.54, K.bets + 13.54, sub));
 ['SpaceX orbital compute satellite (SpaceX imagery)', 'Optimus at work (Tesla footage)'].forEach((sub, i) =>
-  H.slot(s, 't09-frontier-' + 'ab'[i], 420 + (i + 1) * 459, 300, 356, 200, K.frontier, K.orbit - .3, sub));      // closes before the tiles land
+  H.slot(s, 't09-frontier-' + 'ab'[i], 653 + i * 467, 196, 426, 240, K.frontier + .26, K.frontier + 5.26, sub));
 }
 
-/* the cut falls on the complete ledger, just before the step-back starts (K.fold - .3) */
-if (CUE === 'ledger') H.run({ to: K.fold - .35 });
-else if (CUE === 'fold') H.run({ from: K.fold - .35 });
+/* the cut falls on the complete ledger: the step-back starts exactly on "If you put them together" */
+/* receipt cards and footage windows ride over the board (Davinci's layer, bw overlay): the board publishes each one's area and keeps
+   it clear while it is up (#bw-slots). Every time hangs off the step it proves (PICTURE-MAP overlays, 19 Oct), so a re-time carries
+   it, and each leaves as the next step lands. A window's id is its overlay's (spec/windows.json keys its slot by it). */
+if (CUE === 'ledger') {        /* page 08: Tesla's column grows leftward from x 810, SpaceX's rightward from 1110; rows at y 200-815 */
+  H.slot(s, 'o64', 146, 320, 640, 360, K.tesla, K.tesla + 3.5, "cars leaving the factory (REQ-007 row 2); Tesla's column, under its 2025 bar, before Q2 lands");
+  /* a receipt the voice reads line by line gets the board's width (proxy 3: o37 and o41 read at ~13 px in their column-sized areas):
+     while it is up the board steps back under a scrim, all but the row being spoken about, and the card rides over the dimmed rows.
+     Each area lets the card grow to 1.5x (o37 needs ~1.24x and o41 ~1.44x for ~26 px text). */
+  const scrim = (id, a, b, row) => {
+    const m = el(s.querySelector('defs'), 'mask', { id, maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: 1920, height: 1080 });
+    el(m, 'rect', { x: 0, y: 0, width: 1920, height: 1080, fill: 'white' });
+    el(m, 'rect', { x: 0, y: ROWS[row] - 14, width: 1920, height: BH + 36, fill: 'black' });      // the spoken row and its name stay lit
+    const r = el(s, 'rect', { x: 0, y: 0, width: 1920, height: 1004, mask: `url(#${id})`, style: 'fill:var(--bg)' });
+    H.on((t) => { const u = H.go(t, a - .3, a + .2) * (1 - H.go(t, b - .2, b + .3)); r.setAttribute('opacity', (.62 * u).toFixed(3)); r.style.display = u < .002 ? 'none' : ''; });
+  };
+  scrim('m-o37', K.thin + 2.93, K.paper, 'op');
+  H.card('o37', K.thin + 2.93, K.paper, { x: 64, y: 584, w: 1792, h: 410 }, "Tesla's Q2 10-Q, income from operations (REQ-006 row 14); full width under the operating-income row, the rest of the board dimmed");
+  H.card('o39', K.growth, K.growth + 4.0, { x: 1110, y: 440, w: 750, h: 500 }, "SpaceX's Q2 release, revenue and growth (REQ-006 row 10); SpaceX's column, under the revenue rows");
+  H.slot(s, 'o40', 1430, 430, 430, 242, K.burn + 1.43, K.burn + 5.43, "SpaceX AI's Memphis hall (REVIEW-015); right of the loss and the capex");
+  scrim('m-o41', K.cash, K.cash + 3.5, 'cash');
+  H.card('o41', K.cash, K.cash + 3.5, { x: 64, y: 300, w: 1792, h: 430 }, "SpaceX's Q2 balance sheet, cash (REVIEW-006 row 12); full width over the dimmed rows, right above the cash row");
+}
+/* page 09 at the rank step: the market-value ranking (REVIEW-010, the top five) in the empty top right, above the value bar and clear
+   of the axis it proves */
+if (CUE === 'fold') H.card('o65', K.rank, K.rank + 3.6, { x: 700, y: 36, w: 1160, h: 470 }, 'CompaniesMarketCap, ranks 1 to 5 (REVIEW-010)');
+if (CUE === 'ledger') H.run({ to: Math.min(H.END, K.fold) });
+else if (CUE === 'fold') H.run({ from: SPLIT });
 else H.run();

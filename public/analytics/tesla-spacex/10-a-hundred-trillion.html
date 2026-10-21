@@ -3,35 +3,24 @@
 <head>
 <meta charset="utf-8">
 <title>A hundred trillion · Boardroom Wire</title>
-<!-- TESLA-SPACEX · HERO · A HUNDRED TRILLION (Ive, 18 Oct 2026). Chapter 5, from "Musk, of course, thinks a lot bigger" to "in
-     charge of getting there": about 62 s at the writer's 166 wpm.
-     The idea: 09's pull-back in reverse. SpaceX's value today stands as a real bar on a $0-$4T axis; as Musk's claims arrive the
-     axis climbs (to $60T for Baron's band, to $110T for his $100T) and today's $1.98T becomes a hairline at the foot. Every claim
-     is drawn dashed (his, not ours); the ten-year path is our arithmetic of his number, a dashed staircase of ten yearly steps of
-     about 48%, from today's value to his. "I'm not underwriting that $100 trillion number": everything above today greys back.
-     Two small panels on the left carry the other two claims on their own scales: SpaceX's revenue against his $1 trillion target
-     (the target slides from 2031 to 2030), and Tesla's value with the 80% he says will be Optimus.
-     Grammar (LOOK-tesla-spacex.md): cream for facts; dashed for claims and for our hypothetical path; our arithmetic underlined;
-     no gold (nothing here is the combined company); "more than" fades with no edge.
-       bigger     the axis and today's value are drawn from frame 0; the value lands ("thinks a lot bigger")
-       trillion   left: SpaceX's 2025 revenue, a sliver, and the $1T target, dashed, at 2031 ("a trillion dollars in revenue")
-       moved      the target slides to 2030; 2031 stays as a ghost ("moved up from 2031 to 2030")
-       optimus    left: Tesla's value, and the 80% Musk says will be Optimus, dashed ("80% of Tesla's value will be Optimus")
-       baron      the axis climbs to $60T; Baron's $20T-$50T band, dashed, at ten years ("$20 to $50 trillion")
-       hundred    the axis climbs to $110T; >$100T, a dashed rule ("more than $100 trillion")
-       years      the ten years as a dimension line over the chart ("in less than 10 years")
-       notours    everything above today greys back ("I'm not underwriting")
-       curve      ten yearly steps from $1.98T, each about 48% on the last ("Getting from about $2 trillion today")
-       growth     ~48% a year, ours ("roughly 48% a year")
-       fathom     hold on the top of the path
-       bet        the left panels step back; the path holds ("So the price is a bet")
-       charge     the hand-off to board 11 ("in charge")
-     Words on screen (rule 16, the script's): revenue, Optimus, 10 years. Marks: SpaceX, Tesla.
-     Held until data.js carries the numbers it reads from these rows' words (fld, BW_HELD): musk_claim_spacex_1t_revenue_2030_q2_call
-     n 1e12, from 2031, to 2030; musk_claim_spacex_parent_fan_post_baron_2026 lo 2e13, hi 5e13 (tier X: no credit);
-     musk_claim_spacex_100t_10y_2026 n 1e14.
-     Render: bw render dashboards/10-a-hundred-trillion.html --at <times> --secs <s> --out <big-media path>
-     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?at= ?secs= -->
+<!-- TESLA-SPACEX · HERO 10 (V10) · A HUNDRED TRILLION (v2; Ive, 20 Oct 2026). Built from the approved style frame
+     sf2-10-hundred-trillion.html (LOOK-tesla-spacex-v2.md; PICTURE-MAP V10). Jarvis's build notes: ">$100T inside title-safe at
+     the top"; the revenue note "connected to its own small chart or dropped to its spoken moment": it now lives only on its words.
+     Proxy 6 (the last design round): the climb's stage (the ruled wall with its $10T/$50T/$100T scale, the ten-year ground axis
+     and today's block) stands from frame 0; the revenue note is its own small chart ($0 to $1T) under the posts, dimmed after "Last year".
+     The idea: the climb on one scale, in 09's tower language. Today's SpaceX ($1.98T) a solid block on the ground; Baron's $20T to
+     $50T a band on the back wall; Musk's >$100T a dashed plane over everything; our arithmetic a stair of ten dashed yearly towers,
+     each 1.48 times the last, so today is a step at the foot of the stair. Every claim dashed; gold only on our underline.
+     Timed to the recording: frame 0 = VO 575.56 ("Musk, however, thinks"); ends at VO 635.66 (11 control, "musk owns").
+     Steps (board s; ?at= in this order, ?secs=):
+       today 0.00 · revenue 7.66 ("reaching a trillion dollars in revenue"; out on "Last year" 12.97) · sweep 10.34 ("2031 to
+       2030") · baron 21.92 ("Ron Baron's forecast") · hundred 29.42 ("100 trillion") · stair 37.72 ("getting from $2 trillion")
+       · growth 45.38 ("48%")                                                                                     (secs 60.10)
+     Receipts and windows ride in the clear area at the right, x 1280 to 1840, y 100 to 720 (#bw-slots): o44 3.51 (5.0 s), o45
+     12.97 (4.0 s), o46 20.17 (5.0 s), o47 25.52 (7.0 s); windows o66 43.64 (4.5 s), o67 54.22 (4.0 s).
+     Words: Revenue, Ron Baron (said). Figures: $1.98T, $1T, 2030, $20T to $50T, >$100T, ~48% a year (C).
+     Render: bw render page --file=10-a-hundred-trillion.html --query="at=0,7.66,10.34,21.92,29.42,37.72,45.38&secs=60.10" --name=10-a-hundred-trillion
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?at= ?secs=. -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared/brand.css?v=5">
@@ -47,142 +36,117 @@
 <script src="shared/motion.js?v=5"></script>
 <script src="assets/hero/sf.js"></script>
 <script src="assets/hero/hero.js"></script>
+<script src="assets/hero/iso.js"></script>
+<script src="assets/hero/sf2.js"></script>
 <script>
-const H = HERO, s = document.getElementById('s'); el(s, 'defs');
-const K = H.steps([['bigger', 2.2], ['trillion', 7.6], ['moved', 9.4], ['optimus', 13.7], ['baron', 23.5], ['hundred', 30.4],
-  ['years', 32.2], ['notours', 33.6], ['curve', 39.0], ['growth', 44.5], ['fathom', 50.6], ['bet', 54.2], ['charge', 60.7]], 63.0);
-const CR = 'var(--cream)', DIM = 'rgba(245,241,229,.55)', FAINT = 'rgba(245,241,229,.18)';
-
-/* ---------------- the figures ---------------- */
-const sxVal = usd('spacex_market_cap_2026_10_16'), sxRev = usd('spacex_fy2025_revenue_total'), tsVal = usd('tesla_market_cap_cover_shares_2026_10_16');
-const opt = fld('musk_claim_tesla_optimus_80pct_of_value_2025', 'n');
-const tgt = fld('musk_claim_spacex_1t_revenue_2030_q2_call', 'n'), tFrom = fld('musk_claim_spacex_1t_revenue_2030_q2_call', 'from'),
-  tTo = fld('musk_claim_spacex_1t_revenue_2030_q2_call', 'to');
-const bLo = fld('musk_claim_spacex_parent_fan_post_baron_2026', 'lo'), bHi = fld('musk_claim_spacex_parent_fan_post_baron_2026', 'hi');
-const hund = fld('musk_claim_spacex_100t_10y_2026', 'n');
-const g48 = U('musk_claim_c_100t_implied_growth');
-const TR = 1e12;
-calc = true;
-
-/* ---------------- the value chart: one linear axis that climbs as the claims arrive ---------------- */
-const XL = 820, XR = 1780, YB = 920, YT = 140, NOW = '2026-10-16', END = '2036-10-16', tx = tlin(NOW, END, XL + 40, XR);
-const yMaxAt = (t) => { const a = H.go(t, K.baron - .3, K.baron + 1.1), b = H.go(t, K.hundred - .3, K.hundred + .9);
-  return H.mix(H.mix(4 * TR, 60 * TR, a), 110 * TR, b); };
-const yv = (v, t) => YB - v / yMaxAt(t) * (YB - YT);
-/* a left-to-right wipe over a fixed span (for marks whose geometry is set at paint time, so H.wipe cannot measure them) */
-let _wx = 0;
-function wipeX(n, a, d, x0, x1, e = H.ease.io) {
-  const id = 'wx' + (++_wx), cp = el(s.querySelector('defs'), 'clipPath', { id, clipPathUnits: 'userSpaceOnUse' });
-  const r = el(cp, 'rect', { x: x0, y: 0, width: 0, height: 1080 }); n.setAttribute('clip-path', `url(#${id})`);
-  H.on((t) => r.setAttribute('width', ((x1 - x0) * H.go(t, a, a + d, e)).toFixed(2))); return n;
+const H = HERO, s = document.getElementById('s'); defs2(s);
+const K = H.steps([['today', 0], ['revenue', 7.66], ['sweep', 10.34], ['baron', 21.92], ['hundred', 29.42], ['stair', 37.72], ['growth', 45.38]], 60.10);
+const REV_OUT = 12.97;                                                   // "Last year, he wrote": the revenue note leaves
+const NOW = usd('spacex_market_cap_2026_10_16'), REV = usd('spacex_fy2025_revenue_total');
+const T1 = fld('musk_claim_spacex_1t_revenue_2030_q2_call', 'n'), T1TO = fld('musk_claim_spacex_1t_revenue_2030_q2_call', 'to');
+const T100 = fld('musk_claim_spacex_100t_10y_2026', 'n');
+const BLO = fld('ron_baron_spacex_20t_50t_2026_10', 'lo'), BHI = fld('ron_baron_spacex_20t_50t_2026_10', 'hi');
+const G = U('musk_claim_c_100t_implied_growth'), GD = D('musk_claim_c_100t_implied_growth');
+const Y0 = +F('spacex_market_cap_2026_10_16').asOf.slice(0, 4);
+const FP = 64, PITCH = 118, ZU = 1e11;                                   // footprint; one unit of height = $100 billion
+const STEPS = 10, r = Math.pow(T100 / NOW, 1 / STEPS);                   // the stair's ratio: (100T / today)^(1/10), 1.48 to 2 dp
+const WALL = -24, XE = STEPS * PITCH + FP;                               // the back wall's y; the stage's far end
+/* proxy 6 (Jarvis, last round): the climb's stage stands from frame 0, the revenue note is its own small chart, the clear area at
+   the right is 560 x 620 for the posts */
+const V = fitView({ az: 24, elv: 16, world: [-4, WALL, XE + 4, FP, T100 / ZU + 6, 0], rect: [250, 190, 1240, 930] });
+const CL = { x: 1280, y: 100, w: 560, h: 620 };                          // the posts' clear area
+const root = el(s, 'g', { 'stroke-linejoin': 'round' }), over = el(s, 'g');
+const CLAIM = 'rgba(245,241,229,.78)';
+function render(t) {
+  root.replaceChildren();
+  const S = scene(), X1 = XE + 4, X0 = -4;
+  /* the stage, from frame 0 at low ink: the back wall ruled every $10 trillion (heavier at $50T and $100T) with its scale at the
+     left, and the ten-year axis on the ground, a tick a year; the claims fill it on their words */
+  const st = H.go(t, 0, .8), wu = st + (1 - st) * 0, lift = H.go(t, K.baron - .6, K.baron + .4);
+  for (let T = 10; T <= 100; T += 10) { const z = T * 1e12 / ZU, a = (T % 50 ? .07 : .16) + lift * .05;
+    line3(root, V, [[X0, WALL, z], [X1, WALL, z]], { stroke: `rgba(245,241,229,${(a * st).toFixed(3)})`, sw: T % 50 ? 1.1 : 1.5 }); }
+  line3(root, V, [[X0, WALL, 0], [X0, WALL, T100 / ZU]], { stroke: `rgba(245,241,229,${(.45 * st).toFixed(3)})`, sw: 1.6 });
+  line3(root, V, [[X0, WALL, 0], [X1, WALL, 0], [X1, FP + 6, 0]], { stroke: `rgba(245,241,229,${(.25 * st).toFixed(3)})`, sw: 1.2 });
+  line3(root, V, [[X0, FP + 6, 0], [X1, FP + 6, 0]], { stroke: `rgba(245,241,229,${(.5 * st).toFixed(3)})`, sw: 1.6 });
+  for (let i = 0; i <= STEPS; i++) { const x = i * PITCH + FP / 2; line3(root, V, [[x, FP + 6, 0], [x, FP + 10, 0]], { stroke: `rgba(245,241,229,${(.6 * st).toFixed(3)})`, sw: 1.6 }); }
+  /* Baron's forecast: a band on the back wall, its two edges dashed (his view, not ours) */
+  const bu = H.go(t, K.baron, K.baron + 1.0);
+  if (bu > 0) { const z0 = BLO / ZU, z1 = z0 + (BHI - BLO) / ZU * bu;
+    el(root, 'polygon', { points: pts(V, [[X0, WALL, z0], [X1, WALL, z0], [X1, WALL, z1], [X0, WALL, z1]]), fill: 'rgba(245,241,229,.06)', stroke: 'none' });
+    [z0, z1].forEach(z => line3(root, V, [[X0, WALL, z], [X1, WALL, z]], { stroke: CLAIM, sw: 1.6, dash: '10 8' })); }
+  /* Musk's more than $100T: a dashed plane over everything */
+  const hu = H.go(t, K.hundred, K.hundred + 1.0);
+  if (hu > 0) { const z = T100 / ZU; wire(root, V, X0, WALL, z, (X1 - X0) * hu, FP - WALL, 0, { stroke: CLAIM, sw: 2, dash: '14 8' }); }
+  /* today: SpaceX, a solid block on the ground (cream: a fact) */
+  const tu = H.go(t, K.today, K.today + .6);
+  box(S, V, 0, 0, 0, FP, FP, NOW / ZU * tu, { stroke: 'var(--bg)', fill: 'rgba(245,241,229,.9)', sx: 'rgba(245,241,229,.7)', sy: 'rgba(245,241,229,.8)', sw: 1.6, bias: 0 });
+  /* revenue, on the same footprint and scale: 2025's, solid; Musk's $1 trillion target, dashed */
+  /* our arithmetic of his number: ten yearly towers, each r times the last, dashed (hypothetical), drawn up the stair */
+  for (let i = 1; i <= STEPS; i++) { const u = H.go(t, K.stair + (i - 1) * .22, K.stair + (i - 1) * .22 + .5); if (u <= 0) continue;
+    const h = NOW * Math.pow(r, i) / ZU * u, x = i * PITCH;
+    S.add(V.depth(x + FP, FP, 0) + i, (g) => wire(g, V, x, 0, 0, FP, FP, h, { stroke: i === STEPS ? CLAIM : 'rgba(245,241,229,.55)', sw: 1.6, dash: '6 6' })); }
+  S.paint(root);
 }
-const gC = el(s, 'g');
-/* the axis and its ticks: each domain's ticks fade in as it becomes the scale; positions follow the moving scale */
-el(gC, 'line', { x1: XL, x2: XL, y1: YB, y2: YT - 10, stroke: DIM, 'stroke-width': 2 });
-el(gC, 'line', { x1: XL, x2: XR + 40, y1: YB, y2: YB, stroke: DIM, 'stroke-width': 2 });
-const TICKS = [[[1, 2, 3, 4], (t) => 1 - H.go(t, K.baron - .3, K.baron + .4)],
-  [[20, 40, 60], (t) => H.go(t, K.baron + .2, K.baron + .9) * (1 - H.go(t, K.hundred - .3, K.hundred + .2))],
-  [[20, 40, 60, 80, 100], (t) => H.go(t, K.hundred + .1, K.hundred + .8)]];
-TICKS.forEach(([vals, op]) => vals.forEach(v => { const g = el(gC, 'g');
-  const ln = el(g, 'line', { x1: XL - 10, x2: XR + 40, stroke: FAINT, 'stroke-width': 2 });
-  const tt = el(g, 'text', { x: XL - 18, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, '$' + v + 'T');
-  H.on((t) => { const y = yv(v * TR, t), o = op(t); ln.setAttribute('y1', y.toFixed(2)); ln.setAttribute('y2', y.toFixed(2));
-    tt.setAttribute('y', (y + 10).toFixed(2)); g.setAttribute('opacity', o.toFixed(3)); g.style.display = o < .002 || y < YT - 30 ? 'none' : ''; }); }));
-el(gC, 'text', { x: XL - 18, y: YB + 10, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, '$0');
-for (let yr = 2027; yr <= 2036; yr++) el(gC, 'line', { x1: tx(yr + '-10-16'), x2: tx(yr + '-10-16'), y1: YB, y2: YB + 10, stroke: DIM, 'stroke-width': 2 });
-[['2026', NOW], ['2031', '2031-10-16'], ['2036', END]].forEach(([lb, d]) => el(gC, 'text', { x: tx(d), y: YB + 44, class: 'ax', 'font-size': 28, 'text-anchor': 'middle' }, lb));
+H.on(render);
 
-/* today's value: a real bar on the first scale, a hairline by the end */
-{ const bw = 30, x = tx(NOW) - bw / 2, r = el(gC, 'rect', { x, width: bw, fill: CR });
-  /* its figure and whose it is (SpaceX's mark beside the figure) ride the top of the bar */
-  const lb = el(gC, 'g'), tx0 = x + bw + 14;
-  el(lb, 'text', { x: tx0, y: 0, class: 'fn', 'font-size': 40 }, fmt.usdT(sxVal));
-  logo(lb, 'spacex', tx0 + 6 * 24 + 16, -26, 24);
-  /* once the axis has climbed, the figure lifts clear of the path on a thin leader */
-  const ld = el(gC, 'line', { stroke: DIM, 'stroke-width': 2 });
-  H.on((t) => { const y = yv(sxVal, t), m = H.go(t, K.hundred, K.hundred + .9), ly = H.mix(Math.min(y + 30, YB - 14), YB - 110, m);
-    r.setAttribute('y', y.toFixed(2)); r.setAttribute('height', (YB - y).toFixed(2)); lb.setAttribute('transform', `translate(0,${ly.toFixed(2)})`);
-    ld.setAttribute('x1', (x + bw / 2).toFixed(2)); ld.setAttribute('y1', (y - 6).toFixed(2)); ld.setAttribute('x2', (tx0 - 4).toFixed(2)); ld.setAttribute('y2', (ly + 8).toFixed(2));
-    ld.setAttribute('opacity', m.toFixed(3)); });
-  const lw = el(gC, 'g'); lw.appendChild(lb); H.rise(lw, K.bigger, .5); }
-
-/* everything above today greys back on "I'm not underwriting" */
-const gClaims = el(s, 'g');
-H.on((t) => gClaims.setAttribute('opacity', (1 - .55 * H.go(t, K.notours, K.notours + .8)).toFixed(3)));
-
-/* Baron's band: a dashed range at ten years (context: tier X, so no credit) */
-if (bLo !== null && bHi !== null) { const r = el(gClaims, 'rect', { x: tx(END) - 18, width: 36, fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '8 6' });
-  const lb = el(gClaims, 'text', { x: tx(END) - 34, class: 'fn', 'font-size': 36, 'text-anchor': 'end' }, fmt.usdT(bLo, 0) + '–' + fmt.usdT(bHi, 0));
-  H.on((t) => { const y0 = yv(bHi, t), y1 = yv(bLo, t); r.setAttribute('y', y0.toFixed(2)); r.setAttribute('height', (y1 - y0).toFixed(2));
-    lb.setAttribute('y', ((y0 + y1) / 2 + 12).toFixed(2)); });
-  H.fade(r, K.baron + .6, .5); H.rise(lb, K.baron + 1.0, .5); }
-
-/* Musk's >$100T: a dashed rule at $100T ("more than" is the ">" in its figure; no fade, which read as a glow: Jarvis, 19 Oct),
-   and the ten years as a dimension line */
-if (hund !== null) { const g = el(gClaims, 'g');
-  const ln = el(g, 'line', { x1: tx(NOW), x2: tx(END) + 18, stroke: CR, 'stroke-width': 3, 'stroke-dasharray': '12 8' });
-  const lb = el(g, 'text', { x: tx(END) - 34, class: 'fn', 'font-size': 44, 'text-anchor': 'end' }, '>' + fmt.usdT(hund, 0));
-  H.on((t) => { const y = yv(hund, t); ln.setAttribute('y1', y.toFixed(2)); ln.setAttribute('y2', y.toFixed(2));
-    lb.setAttribute('y', (y - 18).toFixed(2)); });
-  wipeX(ln, K.hundred + .7, .9, tx(NOW), tx(END) + 18); H.rise(lb, K.hundred + 1.0, .5);
-  const dy = YT - 44, gd = el(gClaims, 'g');
-  dim(gd, tx(NOW), dy, tx(END), dy, DIM);
-  el(gd, 'text', { x: (tx(NOW) + tx(END)) / 2, y: dy - 16, class: 'fn', 'font-size': 32, 'text-anchor': 'middle', style: 'fill:rgba(245,241,229,.8)' }, '10 years');
-  H.wipe(gd, K.years - .2, .8, 'x'); }
-
-/* the path, ours: ten yearly steps from today's value, each about 48% on the last, drawn as a dashed staircase */
-{ let d = '', v = sxVal; const P = [];
-  for (let n = 0; n <= 10; n++) { P.push([tx((2026 + n) + '-10-16'), v]); v *= 1 + g48 / 100; }
-  const path = el(s, 'path', { fill: 'none', stroke: CR, 'stroke-width': 3, 'stroke-dasharray': '10 7', 'stroke-linejoin': 'miter' });
-  H.on((t) => { let dd = ''; P.forEach(([x, val], i) => { const y = yv(val, t);
-      dd += i ? ` H${x.toFixed(1)} V${y.toFixed(1)}` : `M${x.toFixed(1)},${y.toFixed(1)}`; }); path.setAttribute('d', dd); });
-  const gp = el(s, 'g'); gp.appendChild(path); wipeX(gp, K.curve, 4.2, tx(NOW) - 4, tx(END) + 4, H.ease.lin);
-  const yEnd = (v) => YB - v / (110 * TR) * (YB - YT);         // the label lands after the last climb, on the final scale
-  const lb = el(s, 'text', { x: tx('2027-10-16'), y: yEnd(P[4][1]) - 120, class: 'fn', 'font-size': 44 }, D('musk_claim_c_100t_implied_growth', '~' + g48 + '% a year'));
-  const lg = el(s, 'g'); lg.appendChild(lb); ours(lb, CR, 10, 2); H.rise(lg, K.growth); }
-
-/* ---------------- left: the two other claims, each on its own scale ---------------- */
-const gL = el(s, 'g');
-H.on((t) => gL.setAttribute('opacity', (1 - .6 * H.go(t, K.bet, K.bet + .8)).toFixed(3)));
-/* SpaceX's revenue against the $1T target, on a revenue axis (never the value axis) */
-{ const g = el(gL, 'g'), XA0 = 120, XA1 = 620, YA0 = 450, YA1 = 200, ty = tlin('2025-01-01', '2032-01-01', XA0 + 30, XA1);
-  const yr = (v) => YA0 - v / (tgt || TR) * (YA0 - YA1);
-  logo(g, 'spacex', 64, 116, 22);
-  el(g, 'text', { x: 64 + logoW('spacex', 22) + 18, y: 138, class: 'nm', 'font-size': 32 }, 'revenue');
-  el(g, 'line', { x1: XA0, x2: XA1, y1: YA0, y2: YA0, stroke: DIM, 'stroke-width': 2 });
-  for (let y = 2025; y <= 2032; y++) el(g, 'line', { x1: ty(y + '-01-01'), x2: ty(y + '-01-01'), y1: YA0, y2: YA0 + 10, stroke: DIM, 'stroke-width': 2 });
-  [2025].forEach(y => el(g, 'text', { x: ty(y + '-01-01'), y: YA0 + 42, class: 'ax', 'font-size': 28, 'text-anchor': 'middle' }, String(y)));
-  const bx = ty('2025-01-01');
-  el(g, 'rect', { x: bx - 12, y: yr(sxRev), width: 24, height: YA0 - yr(sxRev), fill: CR });
-  el(g, 'text', { x: bx + 22, y: YA0 - 14, class: 'fn', 'font-size': 32 }, fmt.usdB(sxRev));
-  H.fade(g, -1, .01);
-  if (tgt !== null && tFrom !== null && tTo !== null) {
-    const ya = yr(tgt), x31 = ty(tFrom + '-01-01'), x30 = ty(tTo + '-01-01');
-    const gt = el(gL, 'g');
-    el(gt, 'line', { x1: XA0, x2: x31 + 20, y1: ya, y2: ya, stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '8 6' });
-    const ghost = el(gt, 'g');
-    el(ghost, 'circle', { cx: x31, cy: ya, r: 12, fill: 'none', stroke: DIM, 'stroke-width': 2, 'stroke-dasharray': '4 4' });
-    el(ghost, 'text', { x: x31 + 4, y: ya - 22, class: 'ax', 'font-size': 28, opacity: .8 }, String(tFrom));
-    const mk = el(gt, 'circle', { cy: ya, r: 12, fill: 'none', stroke: CR, 'stroke-width': 3 });
-    const lb = el(gt, 'text', { y: ya - 26, class: 'fn', 'font-size': 40, 'text-anchor': 'middle' }, fmt.usdT(tgt, 0));
-    const yl = el(gt, 'text', { y: YA0 + 42, class: 'ax', 'font-size': 28, 'text-anchor': 'middle' }, String(tTo));    // its year rides under it
-    H.on((t) => { const u = H.go(t, K.moved, K.moved + 1.2), x = H.mix(x31, x30, u); mk.setAttribute('cx', x.toFixed(2)); lb.setAttribute('x', x.toFixed(2));
-      yl.setAttribute('x', x30.toFixed(2)); yl.setAttribute('opacity', u.toFixed(3)); });
-    H.show(ghost, K.moved, .3);
-    H.wipe(gt, K.trillion - .2, .9, 'x'); }
+/* the figures */
+const X0b = -4;
+function lab(p, tx, period, fig, a, cls = 'fn', size = 48, anchor = 'start', b = Infinity) {
+  const g = el(over, 'g'), col = 'rgba(245,241,229,.5)';
+  el(g, 'line', { x1: p[0], y1: p[1], x2: tx, y2: p[1], stroke: col, 'stroke-width': 2 }); el(g, 'circle', { cx: p[0], cy: p[1], r: 4.5, fill: col });
+  const dx = anchor === 'start' ? 18 : -18;
+  if (period) el(g, 'text', { x: tx + dx, y: p[1] - 12, class: 'ax', 'text-anchor': anchor }, period);
+  const f = el(g, 'text', { x: tx + dx, y: p[1] + size * .9, class: cls, 'font-size': size, 'text-anchor': anchor }, fig);
+  H.rise(g, a, .5); return [g, f];
 }
-/* Tesla's value, and the 80% Musk says will be Optimus (his claim: dashed) */
-{ const g = el(gL, 'g'), y = 640, X = 120, W = 440;
-  logo(g, 'tesla', 64, 560, 26);
-  el(g, 'rect', { x: X, y, width: W, height: 56, fill: CR });
-  el(g, 'text', { x: X + W + 18, y: y + 42, class: 'fn', 'font-size': 40 }, fmt.usdT(tsVal));
-  if (opt !== null) { const go = el(g, 'g'), w = W * opt / 100;
-    el(go, 'rect', { x: X, y: y - 8, width: w, height: 72, fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '8 6' });
-    el(go, 'text', { x: X, y: y + 112, class: 'nm', 'font-size': 32 }, 'Optimus');
-    el(go, 'text', { x: X + 140, y: y + 112, class: 'fn', 'font-size': 36 }, fmt.pct(opt));
-    H.rise(go, K.optimus); }
-  H.rise(g, K.optimus - .5); }
-
+/* today: below the ground line, clear of the wall's scale; an elbow leader down from the block */
+{ const [px, py] = V.P(0, FP, NOW / ZU), g = el(over, 'g'), col = 'rgba(245,241,229,.5)', ty = py + 96, tx = 330;
+  el(g, 'path', { d: `M${px},${py} V${ty} H${tx}`, fill: 'none', stroke: col, 'stroke-width': 2 }); el(g, 'circle', { cx: px, cy: py, r: 4.5, fill: col });
+  el(g, 'text', { x: tx - 18, y: ty - 12, class: 'ax', 'text-anchor': 'end' }, fmt.day(F('spacex_market_cap_2026_10_16').asOf));
+  /* proxy 6 facts: name whose value this is at the today step: SpaceX's mark over the date */
+  logo(g, 'spacex', tx - 18 - logoW('spacex', 26), ty - 84, 26);
+  const f = el(g, 'text', { x: tx - 18, y: ty + 46, class: 'fn', 'font-size': 52, 'text-anchor': 'end' }, D('spacex_market_cap_2026_10_16'));
+  ours(f, 'rgba(245,241,229,.7)'); H.rise(g, K.today + .8, .5); }
+/* revenue: its own small chart under the posts' clear area, on its own scale ($0 to $1 trillion): 2025's revenue a solid column (a
+   sliver at this scale), Musk's 2030 target a dashed column at full height, the year turning 2031 to 2030 on its words. It stays,
+   dimmed, after "Last year" */
+{ const g = el(over, 'g'), x0 = 1420, yb = 960, hT = 170, cw = 84, xa = x0 + 40, xb = x0 + 190, col = 'rgba(245,241,229,.8)', LBL = 'fill:rgba(245,241,229,.85)';   /* proxy 7: label contrast */
+  el(g, 'line', { x1: x0, y1: yb, x2: x0, y2: yb - hT, stroke: col, 'stroke-width': 2 });
+  el(g, 'line', { x1: x0, y1: yb, x2: xb + cw + 30, y2: yb, stroke: col, 'stroke-width': 2 });
+  [[0, '$0'], [1, fmt.usdT(T1, 0)]].forEach(([f, l]) => { const y = yb - hT * f; el(g, 'line', { x1: x0 - 10, y1: y, x2: x0, y2: y, stroke: col, 'stroke-width': 2 });
+    el(g, 'text', { x: x0 - 18, y: y + 11, class: 'ax', 'text-anchor': 'end', style: LBL }, l); });
+  const ha = Math.max(hT * REV / T1, 2.5);
+  el(g, 'rect', { x: xa, y: yb - ha, width: cw, height: ha, fill: 'rgba(245,241,229,.9)' });
+  el(g, 'rect', { x: xb, y: yb - hT, width: cw, height: hT, fill: 'none', stroke: CLAIM, 'stroke-width': 2, 'stroke-dasharray': '8 6' });
+  el(g, 'text', { x: xa + cw / 2, y: yb - ha - 16, class: 'fn', 'font-size': 36, 'text-anchor': 'middle' }, fmt.usdB(REV, 1));
+  el(g, 'text', { x: xa + cw / 2, y: yb + 42, class: 'ax', 'text-anchor': 'middle', style: LBL }, '2025');
+  const FROMY = (F('musk_claim_spacex_1t_revenue_2030_q2_call') || {}).from, yr = el(g, 'text', { x: xb + cw / 2, y: yb + 42, class: 'ax', 'text-anchor': 'middle', style: LBL }, String(FROMY || T1TO));
+  el(g, 'text', { x: xb + cw + 24, y: yb - hT + 30, class: 'nm', 'font-size': 36 }, 'Revenue');
+  H.on((t) => { if (FROMY) yr.textContent = String(t >= K.sweep + .4 ? T1TO : FROMY);
+    const u = H.go(t, K.revenue, K.revenue + .6) * (1 - .25 * H.go(t, REV_OUT, REV_OUT + .6));   /* steps back only slightly after "Last year": it must still read (proxy 7) */
+    g.setAttribute('opacity', u.toFixed(3)); g.style.display = u < .002 ? 'none' : ''; }); }
+/* the climb's scale at the left of the wall: $10T, $50T and $100T, from frame 0 */
+[10, 50, 100].forEach(T => { const [x, y] = V.P(X0b, WALL, T * 1e12 / ZU);
+  H.fade(el(over, 'text', { x: x - 16, y: y + 11, class: 'ax', 'text-anchor': 'end' }, '$' + T + 'T'), 0, .8); });
+/* the years along the ground: every other year labelled, the ends always */
+for (let i = 0; i <= STEPS; i += 2) { const [x, y] = V.P(i * PITCH + FP / 2, FP + 10, 0);
+  H.fade(el(over, 'text', { x, y: y + 40, class: 'ax', 'text-anchor': 'middle' }, String(Y0 + i)), 0, .8); }
+{ const [x, y] = V.P(X0b, WALL, (BLO + BHI) / 2 / ZU), g = el(over, 'g');
+  el(g, 'text', { x: x + 24, y: y + 2, class: 'fn', 'font-size': 44, 'text-anchor': 'start' }, D('ron_baron_spacex_20t_50t_2026_10'));
+  el(g, 'text', { x: x + 24, y: y + 50, class: 'nd', 'font-size': 36, 'text-anchor': 'start' }, 'Ron Baron'); H.rise(g, K.baron + .8, .5); }
+{ const [x, y] = V.P(X0b, WALL, T100 / ZU), g = el(over, 'g');
+  el(g, 'text', { x: x, y: Math.max(y - 26, 196), class: 'fh', 'font-size': 80, 'text-anchor': 'start', style: 'fill:var(--cream)' }, '>' + fmt.usdT(T100, 0)); H.rise(g, K.hundred + .6, .5); }
+/* the stair's ratio, ours: on the last tower's top, with the years at its ends */
+{ const i = 9, [x, y] = V.P(i * PITCH, FP / 2, NOW * Math.pow(r, i) / ZU), g = el(over, 'g');
+  el(g, 'line', { x1: x - 12, y1: y, x2: x - 70, y2: y, stroke: 'rgba(212,175,55,.8)', 'stroke-width': 2 });
+  const tx = el(g, 'text', { x: x - 84, y: y + 20, class: 'fh', 'font-size': 56, 'text-anchor': 'end' }, GD); ours(tx); H.rise(g, K.growth, .5); }
+/* the receipts and windows ride in the clear area at the right (bw overlay) */
+H.card('o44', 3.51, 3.51 + 5.0, CL, 'TechCrunch, 4 Aug 2026: $1T of revenue moved up to 2030');
+H.card('o45', 12.97, 12.97 + 4.0, CL, "Musk's post, 1 Sep 2025: ~80% of Tesla's value (REVIEW-014)");
+H.card('o46', 20.17, 20.17 + 5.0, CL, "The post relaying Baron's $20T to $50T");
+H.card('o47', 25.52, 25.52 + 7.0, CL, "Musk's reply: more than $100T (REVIEW-002)");
+H.slot(over, 'o66', 1280, 150, 560, 315, 43.64, 43.64 + 4.5, 'Super Heavy booster catch (REVIEW-008)');
+H.slot(over, 'o67', 1280, 150, 560, 315, 54.22, 54.22 + 4.0, 'Musk on the McGregor stage (REQ-001)');
 H.run();
 </script>
 </body>

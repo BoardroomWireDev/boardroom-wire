@@ -3,27 +3,40 @@
 <head>
 <meta charset="utf-8">
 <title>Each on its own · Boardroom Wire</title>
-<!-- TESLA-SPACEX · HERO · EACH ON ITS OWN (Ive, 18 Oct 2026). Chapter 5, from "So let's look at the numbers" to "Put them
-     together": board seconds 0 to 51.2. The first cue of one canvas drawn in assets/hero/balance-sheet.js; 09-one-balance-sheet.html
-     plays the rest and opens on this page's last frame (a matched cut).
-     Tesla's figures run left from a shared spine of row names, SpaceX's run right, on ONE dollar scale (7 px per $1B).
-       own        both marks and the spine at full ink ("each company on its own")
-       trev       Tesla, revenue 2025, $94.8B ("$95 billion")       tq2  revenue Q2 2026, $28.2B ("enormous")
-       top        Tesla, operating income Q2 2026, $398M, a sliver ("operating income")
-       loupe      a detail sheet magnifies it, no axis ("under $400 million"); paper: what it earned on paper, pre-tax ($1,329M,
-                  held until Goldman's pre-tax row is in data.js); sshares: the $1,005M pre-tax gain on its SpaceX shares drawn inside
-                  it, about three quarters, in gold (facts check v9 row 1: never inside after-tax net income)
-       tcapex     Tesla, capex Q2 2026, $5.8B (held until tesla_q2_2026_capex is in data.js); tguide: the 2026 plan, a dashed rule
-                  fading past $25B ("more than $25 billion")
-       tcash      Tesla, cash at 30 Jun 2026, $43.5B
-       srev       SpaceX, revenue 2025, $18.7B ("$19 billion")
-       sq2        SpaceX, revenue Q2 2026, $7.8B; grow92: the year-ago quarter, $4.1B Q2 2025, under it, and +91.9%, ours ("up 92%")
-       sop        SpaceX, operating loss Q2 2026, -$143M, red ("losing a little money")
-       scapex     SpaceX, capex Q2 2026, $18.4B; ai: of which AI, $15.8B ("most of it on AI")
-       scash      SpaceX, cash at 30 Jun 2026, $100.0B ("$100 billion of cash")
-     Words on screen (rule 16, the script's): revenue, operating income, capex, cash, AI, earned on paper, SpaceX shares.
-     Render: bw render dashboards/08-each-on-its-own.html --at <times, the shared order> --out <big-media path>
-     Capture contract: BW.run via HERO.run({to}); ?capture ?final ?still ?beats ?t=<label|secs> ?motion=0 ?at= -->
+<!-- TESLA-SPACEX · HERO · 08 EACH ON ITS OWN (v2 build, Ive B, 20 Oct 2026). LOOK-tesla-spacex-v2.md (money as volume on one
+     footprint; one period per group; sentence case); PICTURE-MAP "Overhaul, 20 Oct" V08 and V08b; 02-research/BOARD-PERIODS.md
+     scenes 1 to 3. The writer (pass 5, 8:09): "each company on its own, then combine; a complete picture, then pluck out Q2 and
+     zoom to make a point"; never annual and quarterly figures side by side.
+     8:09.2 "So let's look at the numbers, starting with each company on its own. Tesla brought in about $95 billion of revenue last
+     year. That's still enormous, but the profits have gotten thin. In the second quarter, its operating income was under $400
+     million, and most of what it earned on paper came from the rising value of its SpaceX shares. SpaceX is smaller but growing
+     much faster. It made about $19 billion last year and $7.8 billion in the second quarter alone, up 92% from a year earlier.
+     SpaceX is still losing money because it's pouring cash into the build-out, about $18 billion of capex in a single quarter,
+     most of it on AI. However, they're also still sitting on $100 billion in cash, mostly from the recent IPO."
+     The idea: every figure is a block on one footprint and one scale ($1 billion a unit of height; a narrow, shallow footprint, so the heights carry the money and a sliver reads as one), standing on one ground
+     line, in groups that each carry one period. The camera goes to each group as the voice reaches it:
+       Tesla, 2025:        revenue, and operating income beside it (thin)
+       Tesla, Q2 2026:     the zoom. Its own plate, entered by the camera moving in: revenue, operating income ($398M, a sliver at
+                           true scale), and what it earned on paper (pre-tax income) with the gain on its SpaceX shares inside it,
+                           gold (where the two companies are already one; like for like, pre-tax inside pre-tax)
+       SpaceX, 2025:       revenue, beside Tesla's 2025 on the same scale ("smaller")
+       SpaceX, Q2 2026:    revenue with Q2 2025 ruled on it (+91.9%, ours), the operating loss (red, below the ground), capex dug
+                           below the ground with its AI part gold, and cash at 30 Jun 2026 rising with the IPO's part ruled in it
+     At the end the camera pulls back to the whole ledger, four groups on one ground, and 09 fuses the two 2025 revenue blocks.
+     Words (all the script's): Revenue, Operating income, Earned on paper, SpaceX shares, Capex, AI, Cash, IPO; periods; marks.
+       two       the ground line; Tesla's mark and its 2025 plate on "each company on its own" (+2.04)
+       tesla     Tesla's 2025 revenue rises; $94.8B on "$95 billion" (+1.69)
+       thin      its 2025 operating income beside it ("the profits have gotten thin"); +2.93 the camera moves into Q2 2026 ("In the
+                 second quarter"): revenue, then operating income $398M on "under $400 million" (+5.04)
+       paper     earned on paper, $1.3B ("what it earned on paper"); +3.58 the SpaceX shares inside it light, $1.0B
+       spacex    the camera pulls back to 2025, SpaceX's plate beside Tesla's; its revenue, $18.7B, on "$19 billion" (+3.38)
+       growth    the camera into SpaceX's Q2 2026: revenue $7.8B; Q2 2025's $4.1B ruled on it (+1.0); +91.9% on "up 92%" (+1.96)
+       burn      the operating loss, -$143M, red (+0.79); capex $18.4B dug below (+4.29); its AI part gold, $15.8B (+7.27)
+       cash      cash at 30 Jun 2026 rises, $100.0B (+1.36), the camera pulling out with it; the IPO's $85.7B ruled in (+3.22);
+                 +4.0 the camera pulls back to the whole ledger
+     Steps from cue-map/vo-words.json `s` (board 0 = "So", 478.10); ?at= re-times them in this order (Davinci).
+     Overlays (published in #bw-slots): every card and window rides in the right-hand column (1230 to 1870), clear of the groups.
+     Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?at= ?secs= ?noslot= -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared/brand.css?v=5">
@@ -39,7 +52,238 @@
 <script src="shared/motion.js?v=5"></script>
 <script src="assets/hero/sf.js"></script>
 <script src="assets/hero/hero.js"></script>
-<script>const BS_CUE = 'ledger';</script>
-<script src="assets/hero/balance-sheet.js"></script>
+<script src="assets/hero/iso.js"></script>
+<script src="assets/hero/sf2.js"></script>
+<script>
+const H = HERO, s = document.getElementById('s'); defs2(s);
+const K = H.steps([['two', 0], ['tesla', 3.24], ['thin', 9.26], ['paper', 15.47], ['spacex', 20.02], ['growth', 26.38], ['burn', 32.18],
+  ['cash', 42.6]], 48.1);                                          // as read, vo-words `s` (board 0 = "So", 478.10)
+const RED = 'var(--red)', DIMT = 'rgba(245,241,229,.55)';
+
+/* ---------------- the figures (one period per group: BOARD-PERIODS.md) ---------------- */
+const F_ = {
+  tRev25: usd('tesla_fy2025_revenue_total'), tOp25: usd('tesla_fy2025_operating_income'),
+  tRevQ: usd('tesla_q2_2026_revenue_total'), tOpQ: usd('tesla_q2_2026_operating_income'), tPre: usd('tesla_q2_2026_income_before_taxes'),
+  tGain: usd('tesla_spacex_stake_gain_q2_2026'),
+  sRev25: usd('spacex_fy2025_revenue_total'), sRevQ: usd('spacex_q2_2026_revenue_total'), sRevQ25: usd('spacex_q2_2025_revenue_total'),
+  sYoy: pct('spacex_q2_2026_revenue_growth_yoy'), sOpQ: usd('spacex_q2_2026_op_income_total'), sOp25: usd('spacex_fy2025_op_income_total'), sCap: usd('spacex_q2_2026_capex_total'),
+  sCapAI: usd('spacex_q2_2026_capex_ai'), sCash: usd('spacex_cash_and_securities_jun30_2026'), sIPO: usd('spacex_ipo_net_proceeds') };
+for (const [k, v] of Object.entries(F_)) if (!isFinite(v)) throw new Error('figure ' + k + ' is not a number in data.js');
+calc = true;
+
+/* ---------------- the world: one ground, one footprint, one scale ---------------- */
+const ZU = 1e9, FP = 20, DP = 10, GP = 8, TR = 1.2, u = (v) => v / ZU;   // TR: the earth under the dig     // $1B a unit of height; a narrow, shallow footprint, so heights carry the money
+const AZ = 30, ELV = 18;
+/* the blocks: [id, x, value (negative: below the ground), group, step time, name, figure, figure key] */
+const X = (x0, i) => x0 + i * (FP + GP);
+const B = [
+  ['tRev25', X(0, 0), F_.tRev25, 't25', -.5,   // rises as the camera arrives; $94.8B near "about $95 billion"
+   'Revenue', fmt.usdB(F_.tRev25), 'tesla_fy2025_revenue_total'],
+  ['tOp25', X(0, 1), F_.tOp25, 't25', K.thin + .5, 'Operating income', fmt.usdB(F_.tOp25), 'tesla_fy2025_operating_income'],
+  ['sRev25', X(140, 0), F_.sRev25, 's25', -.5, 'Revenue', fmt.usdB(F_.sRev25), 'spacex_fy2025_revenue_total'],
+  ['sOp25', X(140, 1), F_.sOp25, 's25', K.spacex + 3.5, 'Operating income', fmt.usdB(F_.sOp25), 'spacex_fy2025_op_income_total'],   // the 2025 loss, so both 2025 groups match
+  ['tRevQ', X(270, 0), F_.tRevQ, 'tq2', K.thin + 1.3,   // rises as the camera pans to it: never bare ink in the move
+    'Revenue', fmt.usdB(F_.tRevQ), 'tesla_q2_2026_revenue_total'],
+  ['tOpQ', X(270, 1), F_.tOpQ, 'tq2', K.thin + 3.37, 'Operating income', fmt.usdM(F_.tOpQ), 'tesla_q2_2026_operating_income'],
+  ['tPre', X(270, 2), F_.tPre, 'tq2', K.paper + .2, 'Earned on paper', fmt.usdB(F_.tPre), 'tesla_q2_2026_income_before_taxes'],
+  ['sRevQ', X(370, 0), F_.sRevQ, 'sq2', K.growth + .1, 'Revenue', fmt.usdB(F_.sRevQ), 'spacex_q2_2026_revenue_total'],
+  ['sOpQ', X(370, 1), F_.sOpQ, 'sq2', K.burn + .6, 'Operating income', fmt.usdM(F_.sOpQ), 'spacex_q2_2026_op_income_total'],
+  ['sCap', X(370, 2), -F_.sCap, 'sq2', K.burn + 3.31, 'Capex', fmt.usdB(F_.sCap), 'spacex_q2_2026_capex_total'],
+  ['sCash', X(370, 3), F_.sCash, 'sq2', K.cash + .24, 'Cash and securities', fmt.usdB(F_.sCash), 'spacex_cash_and_securities_jun30_2026']];
+const BY = Object.fromEntries(B.map(b => [b[0], b]));
+/* the 2025 towers stand from frame 0 (the pair, each on its own); their figures still land on their words */
+const LABAT = { tRev25: K.tesla + 1.3, sRev25: K.spacex + 2.9 };
+/* the 2025 revenue towers in courses by segment, bottom up (the filings' own segment names): [name, value, share key] */
+const SEG = { tRev25: [['Automotive', usd('tesla_fy2025_revenue_automotive')], ['Energy', usd('tesla_fy2025_revenue_energy')],
+    ['Services and other', usd('tesla_fy2025_revenue_services_other')]],
+  sRev25: [['Connectivity', usd('spacex_fy2025_revenue_connectivity'), 'spacex_fy2025_revenue_share_connectivity'],
+    ['Space', usd('spacex_fy2025_revenue_space'), 'spacex_fy2025_revenue_share_space'], ['AI', usd('spacex_fy2025_revenue_ai'), 'spacex_fy2025_revenue_share_ai']] };
+const SEGAT = { tRev25: K.tesla + 2.4, sRev25: K.spacex + 3.7 };
+const GROUPS = { t25: { x0: 0, x1: X(0, 1) + FP, mark: 'tesla', per: '2025', at: -1 },
+  s25: { x0: 140, x1: X(140, 1) + FP, mark: 'spacex', per: '2025', at: K.spacex + .6 },
+  tq2: { x0: 270, x1: X(270, 2) + FP, mark: 'tesla', per: 'Q2 2026', at: K.thin + 1.2 },
+  sq2: { x0: 370, x1: X(370, 3) + FP, mark: 'spacex', per: 'Q2 2026', at: K.growth - .2 } };
+
+/* ---------------- the camera: one shot per group, moving between them on the voice ---------------- */
+const SUBJ = [90, 175, 1190, 945], FULL = [110, 175, 1810, 945];
+const shot = (x0, x1, z1, z0, rect = SUBJ) => fitView({ az: AZ, elv: ELV, world: [x0 - 4, -2, x1 + 4, DP + 2, z1, z0], rect });
+const PAIR = shot(0, GROUPS.s25.x1, 98, 0, [200, 70, 1240, 960]), PAIR0 = shot(0, GROUPS.s25.x1, 98, 0, [400, 70, 1440, 960]);   // centred while Tesla's list is the right-hand text; shifted left when SpaceX's lists need the right   // the pair spread across the frame; SpaceX's lists take the right
+const SH = [
+  [0, PAIR0],   // the 2025 pair, centred, from frame 0: each company on its own, one period
+  [K.thin + 1.27, null], [K.thin + 2.27, shot(GROUPS.tq2.x0, GROUPS.tq2.x1, 30, 0)],
+  [K.spacex - .3, null], [K.spacex + .9, PAIR],   // back to the pair for SpaceX's 2025
+  [K.growth - .5, null], [K.growth + .7, shot(GROUPS.sq2.x0, X(GROUPS.sq2.x0, 0) + FP, 12, -1, [170, 150, 1190, 960])],   // in close on the quarter's revenue (o39 holds the right column)
+  [K.burn - .3, null], [K.burn + .6, shot(GROUPS.sq2.x0, X(GROUPS.sq2.x0, 1) + FP, 9, -3, [300, 210, 1190, 920])],      // the loss beside it
+  [K.burn + 2.61, null], [K.burn + 3.81, shot(GROUPS.sq2.x0, X(GROUPS.sq2.x0, 2) + FP + 4, 10, -21, [110, 130, 1180, 935])],   // out with the dig
+  [K.cash + .04, null], [K.cash + 1.34, shot(GROUPS.sq2.x0, GROUPS.sq2.x1, 102, -21, [700, 210, 1190, 840])]];   // right of centre (left of o41's column): the schedule takes the left   // the board ends here, on SpaceX's quarter: no pull-back
+const KEYS = []; { let last = SH[0][1]; SH.forEach(([t, v]) => { if (v) last = v; KEYS.push([t, v || last]); }); }
+function viewAt(t) {
+  let i = 0; while (i < KEYS.length - 1 && t > KEYS[i + 1][0]) i++;
+  const A = KEYS[i], Bk = KEYS[Math.min(i + 1, KEYS.length - 1)], w = Bk === A ? 1 : H.go(t, A[0], Bk[0]);
+  const pa = A[1], pb = w >= 1 ? Bk[1] : (t <= A[0] ? A[1] : Bk[1]), ww = t <= A[0] ? 0 : w;
+  const a0 = A[1], b0 = Bk[1];
+  const ox = H.mix(a0.P(0, 0, 0)[0], b0.P(0, 0, 0)[0], ww), oy = H.mix(a0.P(0, 0, 0)[1], b0.P(0, 0, 0)[1], ww), k = H.mix(a0.k, b0.k, ww);
+  return view({ ox, oy, k, az: AZ, elv: ELV });
+}
+const root = el(s, 'g', { 'stroke-linejoin': 'round' }), over = el(s, 'g');
+const grow = (b, t) => H.go(t, b[4], b[4] + .9);
+/* the group in view: only it carries labels, the others step back (the camera follows the fact); all return for the pull-back */
+const ACT = { t25: [[-1, K.thin + .87], [K.spacex - .2, K.growth - .3]], tq2: [[K.thin + 1.57, K.spacex + .3]], s25: [[-1, K.thin + .87], [K.spacex - .2, K.growth - .3]],
+  sq2: [[K.growth - .5, 1e4]] };
+const act = (gid, t) => Math.max(...ACT[gid].map(([a, b]) => H.go(t, a, a + .4) * (1 - H.go(t, b, b + .4))));
+/* Tesla's quarter sits in the lower corner of SpaceX's 2025 shot, cut by the frame: it steps out while that shot holds */
+/* the opening: both 2025 plates and marks, the marks large, until the camera goes in on Tesla */
+const OPEN = (gid, t) => gid === 't25' || gid === 's25' ? 1 - H.go(t, K.tesla - .4, K.tesla + .2) : 0;
+const MS = (gid, t) => gid === 't25' || gid === 's25' ? 1 + .7 * (1 - H.go(t, K.tesla - .4, K.tesla + .6)) : 1;
+const hid = (gid, t) => Math.max(gid === 'tq2' ? H.go(t, K.spacex + .3, K.spacex + .9) * (1 - H.go(t, K.growth - .5, K.growth)) : 0,
+  gid !== 'sq2' ? H.go(t, K.growth + .2, K.growth + .8) : 0);   // the old groups leave as the quarter's revenue rises: a drawn object through the move   // once the camera is on SpaceX's quarter, the board is that quarter alone
+const focus = (gid, t) => Math.max(.28, act(gid, t)) * (1 - hid(gid, t));
+const blockLabelsOut = () => 1;
+/* once the camera pulls out for the cash, only the cash keeps its labels: the small blocks' figures were read in the close shot */
+const smallOut = (t) => 1 - H.go(t, K.cash - .16, K.cash + .44);
+
+function render(t) {
+  root.replaceChildren(); over.replaceChildren();
+  const V = viewAt(t);
+  /* the ground: one line under every group */
+  const gu = 1;   // the ground is down from frame 0
+  const g0 = H.mix(-6, GROUPS.sq2.x0 - 10, hid('t25', t));   // once the board is SpaceX's quarter alone, so is its ground
+  line3(root, V, [[g0, DP + 2, 0], [-6 + (GROUPS.sq2.x1 + 12) * gu, DP + 2, 0]], { stroke: 'rgba(245,241,229,.4)', sw: 1.6 });
+  /* each group's plate on the ground, drawn when the camera arrives */
+  Object.entries(GROUPS).forEach(([gid, G]) => { const pu = Math.max(H.go(t, G.at, G.at + .7), OPEN(gid, t)) * (1 - hid(gid, t)); if (pu <= 0) return;
+    const P = [[G.x0 - 3, -2], [G.x1 + 3, -2], [G.x1 + 3, DP + 2], [G.x0 - 3, DP + 2]];
+    el(el(root, 'g', { opacity: pu.toFixed(3) }), 'polygon', { points: pts(V, P.map(([x, y]) => [x, y, 0])), fill: 'none', stroke: 'rgba(245,241,229,.32)', 'stroke-width': 1.6 }); });
+  /* the blocks, each growing from the ground (up for money in, down for money out) */
+  const SG = {}; Object.keys(GROUPS).forEach(k => { SG[k] = scene(); });
+  B.forEach((b) => { const g = grow(b, t); if (g <= 0 || b[0] === 'sCap') return; const [id, x, v, gid] = b, h = u(v) * g, S = SG[gid];
+    const loss = id === 'sOpQ' || id === 'sOp25', neg = h < 0, col = loss ? RED : LINE, fill = INK;         // a loss: red edges and a red face, never a red footprint
+    box(S, V, x, 0, neg ? h : 0, FP, DP, Math.abs(h), { stroke: col, fill, sx: loss ? RED : INK, sy: loss ? RED : INK, sw: 2, bias: neg ? -50 : 0, detail: (gg, V) => {
+      if (SEG[id]) { let z = 0; SEG[id].forEach(([nm, sv], i) => { const z0 = z * g; z += u(sv); const z1 = z * g, cu = H.go(t, SEGAT[id] + i * .35, SEGAT[id] + i * .35 + .4);
+          if (cu <= 0) return; const gc = el(gg, 'g', { opacity: cu.toFixed(3) });
+          if (nm === 'AI') { el(gc, 'polygon', { points: pts(V, [[x, DP, z0], [x + FP, DP, z0], [x + FP, DP, z1], [x, DP, z1]]), fill: GOLDC });     // where the money goes: gold
+            el(gc, 'polygon', { points: pts(V, [[x + FP, 0, z0], [x + FP, DP, z0], [x + FP, DP, z1], [x + FP, 0, z1]]), fill: 'rgba(212,175,55,.7)' }); }
+          if (i > 0) line3(gc, V, [[x, DP, z0], [x + FP, DP, z0], [x + FP, 0, z0]], { stroke: LINE, sw: 2 }); }); }
+      if (id === 'tPre') { const gu2 = H.go(t, K.paper + 2.46, K.paper + 3.06), hg = u(F_.tGain) * g;          // the SpaceX shares, gold
+        if (gu2 > 0) el(el(gg, 'g', { opacity: gu2.toFixed(3) }), 'polygon', { points: pts(V, [[x, DP, 0], [x + FP, DP, 0], [x + FP, DP, hg], [x, DP, hg]]), fill: GOLDC });
+        if (gu2 > 0) el(el(gg, 'g', { opacity: gu2.toFixed(3) }), 'polygon', { points: pts(V, [[x + FP, 0, 0], [x + FP, DP, 0], [x + FP, DP, hg], [x + FP, 0, hg]]), fill: 'rgba(212,175,55,.7)' }); }
+      if (id === 'sRevQ') { const qu = H.go(t, K.growth + 1.0, K.growth + 1.5), hq = u(F_.sRevQ25);         // a year earlier, ruled on it
+        if (qu > 0 && hq <= h) line3(el(gg, 'g', { opacity: qu.toFixed(3) }), V, [[x, DP, hq], [x + FP, DP, hq], [x + FP, 0, hq]], { stroke: GOLDC, sw: 2.4, dash: '8 6' }); }
+      if (id === 'sCash') { const iu = H.go(t, K.cash + 2.14, K.cash + 2.64), hi = u(F_.sIPO);                 // the IPO's part, ruled in
+        if (iu > 0 && hi <= h) line3(el(gg, 'g', { opacity: iu.toFixed(3) }), V, [[x, DP, hi], [x + FP, DP, hi], [x + FP, 0, hi]], { stroke: LINE, sw: 2.2 }); }
+    } }); });
+  Object.keys(GROUPS).forEach(k => SG[k].paint(el(root, 'g', { opacity: focus(k, t).toFixed(3) })));
+  /* capex is a dig: the ground cut in section along the plate's front edge, hatched, with the pit open in it; the block stands in
+     the pit, its face set back to the block's own depth, its AI part gold */
+  { const cb = BY.sCap, cg = grow(cb, t); if (cg > 0) {
+    const x = cb[1], h = u(cb[2]) * cg, D = h - TR, xa = x - 4, xb = x + FP + 4, YF = DP + 2, gT = el(root, 'g', { opacity: focus('sq2', t).toFixed(3) });
+    el(gT, 'polygon', { points: pts(V, [[x, 0, 0], [x + FP, 0, 0], [x + FP, YF, 0], [x, YF, 0]]), fill: INK, stroke: LINE, 'stroke-width': 1.6 });   // the opening
+    el(gT, 'polygon', { points: pts(V, [[x, DP, 0], [x + FP, DP, 0], [x + FP, DP, h], [x, DP, h]]), fill: INK, stroke: LINE, 'stroke-width': 2 });
+    const au = H.go(t, K.burn + 6.41, K.burn + 7.01), ha = Math.max(h, -u(F_.sCapAI) * cg);
+    if (au > 0) el(gT, 'polygon', { points: pts(V, [[x, DP, 0], [x + FP, DP, 0], [x + FP, DP, ha], [x, DP, ha]]), fill: GOLDC, opacity: au.toFixed(3) });
+    const P = (q) => q.map(([a, b, c]) => V.P(a, b, c)).map(([a, b]) => a.toFixed(1) + ',' + b.toFixed(1)).join(' L');
+    const sec = [[xa, YF, 0], [xb, YF, 0], [xb, YF, D], [xa, YF, D]], pit = [[x, YF, 0], [x + FP, YF, 0], [x + FP, YF, h], [x, YF, h]];
+    const d = 'M' + P(sec) + 'Z M' + P(pit) + 'Z';
+    const cp = el(el(gT, 'defs'), 'clipPath', { id: 'bw-trench' }); el(cp, 'path', { d, 'clip-rule': 'evenodd' });
+    el(gT, 'path', { d, fill: INK, 'fill-rule': 'evenodd' });
+    const hg = el(gT, 'g', { 'clip-path': 'url(#bw-trench)' }), L = Math.abs(D) + 2, step = 11 / V.k;
+    for (let c = xa - L; c < xb; c += step) line3(hg, V, [[c, YF, 0], [c + L, YF, -L]], { stroke: 'rgba(245,241,229,.22)', sw: 1 });
+    line3(gT, V, [[xa, YF, 0], [xa, YF, D], [xb, YF, D], [xb, YF, 0]], { stroke: 'rgba(245,241,229,.5)', sw: 1.4 });
+    line3(gT, V, [[x, YF, 0], [x, YF, h], [x + FP, YF, h], [x + FP, YF, 0]], { stroke: LINE, sw: 1.6 }); } }
+
+  /* the labels, square to the frame: over a block its name and figure; under a block below the ground, the same below it */
+  const lo = blockLabelsOut(t);
+  const lab = (x, y, a, lines, anchor = 'middle') => { if (a <= 0) return; const g = el(over, 'g', { opacity: a.toFixed(3) });
+    lines.forEach(([str, cls, px, dy, col]) => el(g, 'text', { x, y: y + dy, class: cls, 'font-size': px, 'text-anchor': anchor, ...(col ? { style: 'fill:' + col } : {}) }, str)); };
+  B.forEach((b) => { const [id, x, v, gid, at, name, fig] = b, la = LABAT[id] ?? at + .5, a = H.go(t, la, la + .5) * lo * act(gid, t) * (gid === 'sq2' && id !== 'sCash' ? smallOut(t) : 1); if (a <= 0) return;
+    const neg = v < 0 || id === 'sOpQ', h = u(v), loss = id === 'sOpQ' || id === 'sOp25';
+    if (id === 'tOp25') { const rx = Math.max(V.P(x + FP, 0, h)[0], V.P(x + FP, DP, h)[0]), [, py] = V.P(x + FP, DP, h);   // a thin slab beside a tall column: its label to the right
+      lab(rx + 20, py - 4, a * (1 - H.go(t, K.spacex - .2, K.spacex + .3)), [[name, 'nm', 32, -52], [fig, 'fn', 44, 0]], 'start'); }   // read in Tesla's shot; in SpaceX's 2025 shot it would sit on SpaceX's revenue
+    else if (id === 'sOp25') { const rx = Math.max(V.P(x + FP, 0, h / 2)[0], V.P(x + FP, DP, h / 2)[0]), [, py] = V.P(x + FP, DP, h / 2);   // the 2025 loss: its label to the right, clear of the mark and the credit
+      const lx = V.P(x, DP + 2, 0)[0] + 4, ly0 = py + 80;   // directly under the red tile, below the ground's line, inside title-safe
+      lab(lx, ly0 + 10, a, [[name, 'nm', 32, -22], [fig, 'fn', 44, 26, 'var(--red)']], 'start'); }
+    else if (!neg) { const [px] = V.P(x + FP / 2, DP / 2, h); const top = Math.min(...[[x, 0], [x + FP, 0], [x, DP], [x + FP, DP]].map(([a, b]) => V.P(a, b, h)[1])) - 18;   // above the top's highest corner: no edge through a figure
+      lab(px, top, a, [[name, 'nm', 32, -52], [fig, 'fn', 44, 0]]); }
+    else { const [px, py] = V.P(x + FP / 2, DP, id === 'sOpQ' ? 0 : h); const col = loss ? 'var(--red)' : null;
+      lab(px, py + 56, a, [[name, 'nm', 32, 0], [fig, 'fn', 44, 48, col]]); } });
+  /* the segments: a schedule to the right of each 2025 tower, one line per course, a leader to its middle */
+  Object.keys(SEG).forEach((id) => { const b = BY[id], gid = b[3], x = b[1], fadeT = id === 'tRev25' ? 1 - H.go(t, K.spacex - .2, K.spacex + .3) : 1;
+    let z = 0; const rows = SEG[id].map(([nm, sv, sk], i) => { const z0 = z; z += u(sv); return [nm, sv, sk, i, V.P(x + FP, DP, (z0 + z) / 2)]; });
+    const XL = rows[0][4][0] + 110; let yl = 1e9;
+    rows.forEach(([nm, sv, sk, i, [ax, ay]]) => { const a = H.go(t, SEGAT[id] + i * .35 + .2, SEGAT[id] + i * .35 + .7) * act(gid, t) * fadeT; const y = Math.min(ay, yl - 58); yl = y;
+      if (a <= 0) return; const g = el(over, 'g', { opacity: a.toFixed(3) }), gold = nm === 'AI', col = gold ? 'var(--gold)' : null;
+      el(g, 'polyline', { points: [ax, ay, XL - 40, y, XL - 14, y].map(n => n.toFixed(1)).join(' '), fill: 'none', stroke: gold ? 'rgba(212,175,55,.7)' : 'rgba(245,241,229,.45)', 'stroke-width': 1.6 });
+      el(g, 'circle', { cx: ax.toFixed(1), cy: ay.toFixed(1), r: 3.5, fill: gold ? 'var(--gold)' : 'var(--cream)' });
+      const n = el(g, 'text', { x: XL, y: y + 11, class: 'nm', 'font-size': 32, ...(col ? { style: 'fill:' + col } : {}) }, nm);
+      let nw = 0; try { nw = n.getComputedTextLength(); } catch (e) { nw = nm.length * 16; }
+      const f = el(g, 'text', { x: XL + nw + 18, y: y + 13, class: 'fn', 'font-size': 40, ...(col ? { style: 'fill:' + col } : {}) }, fmt.usdB(sv));
+      if (sk) { let fw = 0; try { fw = f.getComputedTextLength(); } catch (e) { fw = 6 * 24; }
+        const sh = el(g, 'text', { x: XL + nw + 18 + fw + 20, y: y + 12, class: 'fn', 'font-size': 32, style: 'fill:' + (gold ? 'var(--gold)' : DIMT) }, fmt.pct(pct(sk), 0));
+        if (isCalc(sk)) ours(sh, gold ? 'var(--gold)' : DIMT, 8, 2); } }); });
+  /* the figures that ride inside blocks */
+  { const a = H.go(t, K.paper + 2.64, K.paper + 3.16) * lo * act('tq2', t), [, py] = V.P(X(270, 2) + FP, DP, u(F_.tGain) / 2),
+      px = Math.max(V.P(X(270, 2) + FP, 0, 0)[0], V.P(X(270, 2) + FP, DP, 0)[0]);   // clear of the block's right end
+    lab(px + 30, py + 10, a, [['SpaceX shares', 'nm', 32, -22, 'var(--gold)'], [fmt.usdB(F_.tGain), 'fn', 40, 22, 'var(--gold)']], 'start'); }
+  { const a = H.go(t, K.growth + 1.2, K.growth + 1.7) * lo * act('sq2', t) * smallOut(t), [px, py] = V.P(X(370, 0) + FP, 0, u(F_.sRevQ25));
+    lab(px + 22, py + 12, a, [['Q2 2025', 'ax', 32, -24], [fmt.usdB(F_.sRevQ25), 'fn', 40, 22]], 'start'); }
+  { const a = H.go(t, K.burn + 6.68, K.burn + 7.21) * lo * act('sq2', t) * smallOut(t), [px, py] = V.P(X(370, 2) + FP + 4, DP + 2, -u(F_.sCapAI) / 2);
+    lab(px + 22, py + 12, a, [['AI', 'nm', 32, -22, 'var(--gold)'], [fmt.usdB(F_.sCapAI), 'fn', 40, 22, 'var(--gold)']], 'start'); }
+  /* the cash shot: at true scale beside $100B the quarter's other blocks are small, so their figures move into a schedule on the
+     left, one line each, a hairline leader to its block, and stay readable to the last frame */
+  { const a = H.go(t, K.cash + 1.0, K.cash + 1.5) * act('sq2', t); if (a > 0) {   // once the camera has settled, so nothing slides
+    const g = el(over, 'g', { opacity: a.toFixed(3) }), xr = X(370, 0), xo = X(370, 1), xc = X(370, 2), hc = -u(F_.sCap), ha = -u(F_.sCapAI);
+    const rows = [['Revenue', fmt.usdB(F_.sRevQ), V.P(xr, DP, u(F_.sRevQ) * .85), null],
+      ['Q2 2025', fmt.usdB(F_.sRevQ25), V.P(xr, DP, u(F_.sRevQ25)), 'dim'],
+      ['Operating income', fmt.usdM(F_.sOpQ), V.P(xo, DP, 0), 'var(--red)'],
+      ['AI', fmt.usdB(F_.sCapAI), V.P(xc + 1.5, DP, ha / 2), 'var(--gold)'],
+      ['Capex', fmt.usdB(F_.sCap), V.P(xc, DP + 2, hc), null]];
+    const XR = Math.max(rows[0][2][0] - 84, 560); let yl = -1e9;   // never left of the safe area, even mid-move
+    rows.forEach(([nm, fig, [ax, ay], col]) => { const y = Math.max(ay, yl + 58); yl = y; const gold = col === 'var(--gold)';
+      const f = el(g, 'text', { x: XR, y: y + 13, class: 'fn', 'font-size': 40, 'text-anchor': 'end', ...(col && col !== 'dim' ? { style: 'fill:' + col } : {}) }, fig);
+      let fw = 0; try { fw = f.getComputedTextLength(); } catch (e) { fw = fig.length * 24; }
+      el(g, 'text', { x: XR - fw - 24, y: y + 11, class: col === 'dim' ? 'ax' : 'nm', 'font-size': 32, 'text-anchor': 'end', ...(gold ? { style: 'fill:var(--gold)' } : {}) }, nm);
+      const bx = Math.max(XR + 14, ax - 26);
+      el(g, 'polyline', { points: [XR + 14, y, bx, y, ax, ay].map(n => n.toFixed(1)).join(' '), fill: 'none', stroke: gold ? 'rgba(212,175,55,.7)' : 'rgba(245,241,229,.45)', 'stroke-width': 1.6 });
+      el(g, 'circle', { cx: ax.toFixed(1), cy: ay.toFixed(1), r: 3.5, fill: gold ? 'var(--gold)' : 'var(--cream)' }); }); } }
+  { const a = H.go(t, K.cash + 2.36, K.cash + 2.84) * lo * act('sq2', t), [px, py] = V.P(X(370, 3) + FP, 0, u(F_.sIPO));
+    lab(px + 22, py + 12, a, [['From the recent IPO', 'nm', 32, -22], [fmt.usdB(F_.sIPO), 'fn', 40, 22]], 'start'); }
+  /* growth, ours: over SpaceX's Q2 revenue, beside its figure */
+  { const a = H.go(t, K.growth + 1.96, K.growth + 2.5) * lo * act('sq2', t) * smallOut(t); if (a > 0) { const xr = X(370, 0), hq = u(F_.sRevQ), [px] = V.P(xr + FP / 2, DP / 2, hq), g = el(over, 'g', { opacity: a.toFixed(3) });
+      const top = Math.min(...[[xr, 0], [xr + FP, 0], [xr, DP], [xr + FP, DP]].map(([p, q]) => V.P(p, q, hq)[1])) - 18;   // on the figure's own line, right of $7.8B
+      const n = el(g, 'text', { x: px + 96, y: top, class: 'fn', 'font-size': 44 }, '+' + fmt.pct(F_.sYoy, 0)); ours(n, CR_, 10, 2); } }
+  /* each group's mark and period, under its plate's front-left corner */
+  Object.entries(GROUPS).forEach(([gid, G]) => { const a = Math.max(H.go(t, G.at + .2, G.at + .8) * act(gid, t), OPEN(gid, t)) * (1 - hid(gid, t)); if (a <= 0) return;   // a mark follows its group into and out of the shot
+    let [px, py] = V.P(G.x0 - 3, DP + 2, 0);
+    B.filter(b => b[3] === gid && b[2] < 0 && grow(b, t) > 0).forEach(b => { py = Math.max(py, V.P(b[1], DP + 2, u(b[2]) * grow(b, t) - (b[0] === 'sCap' ? TR : 0))[1] - 6); });   // below a block dug under the ground
+    /* in the closing pull-back the groups recede on a diagonal, so the marks go over each group's tallest block instead */
+    const up = gid === 'sq2' ? H.go(t, K.cash - .16, K.cash + .84) : 0, sw = up < .5 ? 1 - up * 2 : (up - .5) * 2;   // the quarter's mark lifts to the top left as the cash rises
+    if (up >= .5) { const top = Math.max(...B.filter(b => b[3] === gid).map(b => Math.max(0, u(b[2]))));
+      [px, py] = V.P(G.x0, 0, top); py -= 136; }
+    const ms = MS(gid, t), g = el(over, 'g', { opacity: (a * sw).toFixed(3) }), lh = (G.mark === 'tesla' ? 26 : 22) * ms;
+    if (up < .5) { py += 14;   // a little lower on the ground, clear of the slabs' front corners
+      { const nb = B.filter(b => b[3] === gid && b[1] > G.x0 && grow(b, t) > 0).map(b => V.P(b[1], DP + 2, 0)[0]);   // a neighbour block's front-left corner
+        const xe0 = px + logoW(G.mark, lh) * 1.15 + 20 + G.per.length * 19.5; if (nb.length) { const ob = Math.min(...nb); if (xe0 > ob - 14) px -= xe0 - ob + 14; } }
+      const A = V.P(0, DP + 2, 0), Bq = V.P(100, DP + 2, 0), ly = (x) => A[1] + (Bq[1] - A[1]) / (Bq[0] - A[0]) * (x - A[0]);   // the ground's front edge on screen
+      const xs = px + logoW(G.mark, lh) * 1.15 + 20, xe = xs + G.per.length * 19.5, bl = py + 30 + lh - 1;   // the period's box
+      const lo2 = Math.min(ly(xs), ly(xe)), hi2 = Math.max(ly(xs), ly(xe));
+      if (hi2 > bl - 30 && lo2 < bl + 8) py += Math.min(hi2 + 34 - bl, 975 - bl); }   // the line would cross it: drop below, never onto the credit
+    px = Math.max(px, 72);   // never past the safe area's left edge
+    logo(g, G.mark, px, py + 30, lh);
+    if (up >= .5) el(g, 'text', { x: px, y: py + 30 + lh + 40, class: 'ax', 'font-size': 32 }, G.per);      // stacked, so the receding groups never touch
+    else { let bb; try { bb = g.getBBox(); } catch (e) { bb = { x: px, width: logoW(G.mark, lh) }; }   // the mark as drawn, not as estimated
+      el(g, 'text', { x: bb.x + bb.width + 20 * ms, y: py + 30 + lh - 1, class: 'ax', 'font-size': 32 * ms }, G.per); } });
+}
+const CR_ = 'var(--cream)';
+H.on(render);
+
+/* overlays: Davinci's layer (cue sheet beats:08), all in the right-hand column, clear of the groups */
+const COL = { x: 1230, y: 150, w: 640, h: 740 };
+H.owed('t08-tesla', 't08-hall');
+H.slot(s, 't08-tesla', COL.x, COL.y, COL.w, 360, K.tesla, K.tesla + 3.5, 'a Tesla line (REQ-007 row 2)');
+H.card('o37', K.thin + 1.64, K.thin + 6.14, COL, "Tesla's Q2 2026 10-Q (REQ-006 row 14)");
+H.card('o39', K.growth, K.growth + 4.0, COL, "SpaceX's Q2 2026 results (REQ-006 row 10)");
+H.slot(s, 't08-hall', COL.x, COL.y, COL.w, 360, K.burn + .82, K.burn + 4.82, 'the Colossus hall (REVIEW-015)');
+H.card('o41', K.cash - .86, K.cash + 2.64, COL, "SpaceX's cash, Q2 2026 release (REVIEW-006 row 12)");
+H.run();
+</script>
 </body>
 </html>

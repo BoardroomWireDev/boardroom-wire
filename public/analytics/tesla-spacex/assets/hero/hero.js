@@ -36,13 +36,19 @@ const HERO = (() => {
   const SHOW_SLOTS = Q.get('slots') !== '0';
   const K = {}; let NAMES = [], END = 0;
 
-  function steps(list, secs) {
+  /* steps(list, secs, offset): `list` is the cue's own steps, in the cue sheet's order, so ?at= re-times exactly those. `offset`
+     (19 Oct, for a canvas played as two cues) is where this cue starts in board seconds: ?at= and ?secs= are read from the cue's
+     own first frame and shifted by it. Default 0: the old behaviour. */
+  function steps(list, secs, offset = 0) {
     const AT = (Q.get('at') || '').split(',').filter(s => s.trim() !== '').map(Number);
-    list.forEach(([n, t], i) => { K[n] = i < AT.length ? AT[i] : t; });
+    list.forEach(([n, t], i) => { K[n] = i < AT.length ? AT[i] + offset : t; });
     NAMES = list.map(x => x[0]);
-    END = +(Q.get('secs') || 0) || secs;
+    END = Q.get('secs') ? offset + +Q.get('secs') : secs;
     return K;
   }
+  /* derive([[name, board seconds], …]): beats that follow a step by a fixed offset (read from the voice's own words), labelled for
+     ?t= but never re-timed by ?at= themselves. Call after steps(). */
+  function derive(list) { list.forEach(([n, t]) => { K[n] = t; if (!NAMES.includes(n)) NAMES.push(n); }); return K; }
   const clamp = (u) => u < 0 ? 0 : u > 1 ? 1 : u;
   const ease = {
     io: (u) => u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2,
@@ -190,6 +196,9 @@ const HERO = (() => {
      behaviour, so every existing board is unchanged. */
   function run(opts = {}) {
     const FROM = Math.max(0, opts.from || 0), TO = opts.to != null ? Math.min(opts.to, END) : END, LEN = TO - FROM;
+    /* the type floor (19 Oct, findings r1 row 3): no hero text under gates.json labelPxMin, 32 px at the 1920x1080 stage */
+    document.querySelectorAll('svg.hero text, svg.hero tspan').forEach(n => { const f = parseFloat(n.getAttribute('font-size'));
+      if (f && f < 32) n.setAttribute('font-size', 32); });
     BW.provenance({ uses: [...used, ...(opts.uses || [])] });
     const s = document.createElement('script'); s.id = 'bw-slots'; s.type = 'application/json';
     s.textContent = JSON.stringify({ page: location.pathname.split('/').pop(), fps: 30, steps: K, secs: END,
@@ -206,6 +215,6 @@ const HERO = (() => {
     function rest() { BW.chromeShow(); paint(TO); }
     BW.run({ play, rest });
   }
-  return { K, steps, go, mix, clamp, ease, on, wrap, show, fade, rise, draw, wipe, grow, path, camera, count, slot, owed, isOwed: (id) => OWED.has(id), card, dimSlot, run, paint,
+  return { K, steps, derive, go, mix, clamp, ease, on, wrap, show, fade, rise, draw, wipe, grow, path, camera, count, slot, owed, isOwed: (id) => OWED.has(id), card, dimSlot, run, paint,
     get END() { return END; }, SLOTS, SHOW_SLOTS };
 })();

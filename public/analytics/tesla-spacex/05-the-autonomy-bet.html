@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Tesla's $1.4 trillion bet · Boardroom Wire</title>
 <!-- TESLA-SPACEX · HERO · TESLA'S $1.4 TRILLION BET (Ive, 18 Oct 2026, night). Chapter 4, from "Tesla is still primarily a car
-     company" to "about 80% of Tesla's value will be Optimus": 73 s (Scorsese's 4:18.7 to 5:31.7, HERO-CANDIDATES 05).
+     company" to "about 80% of Tesla's value will be Optimus": 71.9 s as read (timeline 4:17.8 to 5:29.8, cue sheet beats:05).
      The idea: a car company's revenue and its value on ONE dollar scale, then what the value is a bet on, counted. The revenue bar
      is drawn wide (2025, split cars, energy, other); on "investors aren't paying $1.4 trillion" the scale pulls back to the truth
      and the revenue becomes a short bar under a $1.40T one (the board's one big move, house best board 50-gap). Below, three
@@ -15,21 +15,22 @@
      Grammar (LOOK-tesla-spacex.md): cream is Tesla; gold only where the two companies are already one (the Megapacks SpaceX bought
      from Tesla in 2025, a gold sliver inside energy); dashed means planned or not yet real; our arithmetic carries a dashed
      underline (the value, the car share, the fares); Musk's 80% is a dashed bracket over the value (his claim, "will be").
-       mark       Tesla's mark; the revenue bar's outline draws ("Tesla is still primarily a car company")
-       revenue    it fills: $94.8B ("$95 billion"); +4.0 s it splits, cars $69.5B, 73.3% ours ("about three quarters")
+       mark       Tesla's mark; the revenue bar's outline draws ("Today Tesla is still primarily a car company")
+       revenue    it fills: $94.8B ("It brought in about"); +3.36 s it splits, cars $69.5B, 73.3% ours ("about three quarters")
        scale      the factory window (owed) ("What it's best at is building")
        cars       486 solid cells, one per 1,000 cars; 486,532, Q3 2026 ("delivered more than 486,000 cars")
-       energy     the energy slice to full; +6.2 s the gold sliver, $506M from SpaceX ("increasingly, AI data centers")
-       value      the scale pulls back; $1.40T rises under the revenue, ours ("investors aren't paying $1.4 trillion")
+       energy     the energy slice to full ("but it also has a fast"); +6.44 s the gold sliver, $506M from SpaceX ("AI data centers")
+       value      the scale pulls back; $1.40T rises under the revenue, ours ("but investors aren't paying")
        bet        the two lanes, self-driving and Optimus, the writer's words ("a bet on autonomy, in two parts")
-       fsd        1.48M ("About 1.5 million people already pay"); +5.4 s six cities light ("in six cities")
+       fsd        1.48M ("million people already pay"); +6.76 s six cities light ("six cities")
        fares      ~$5M, ours ("only a few million dollars of fares so far by our estimate")
        cybercab   125 dashed cells and five fading; 125,000+ a year ("more than 125,000 Cybercabs a year")
        optimus    one dashed cell, magnified on a detail sheet, empty ("hasn't even been shown")
        million    1,000 dashed cells ("a million robots a year")
-       eighty     a dashed bracket over 80% of the value, ~80% ("about 80% of Tesla's value will be Optimus")
-     Words on screen (rule 16, all the script's): revenue, cars, energy, other, value, self-driving, cities, fares, Cybercab,
-     Optimus, a year. Everything else is a figure, a date or a company's mark.
+       eighty     a dashed bracket over 80% of the value, ~80% ("Musk has said about")
+     Words on screen (rule 16, all the script's): revenue, cars, energy, value, self-driving, pay, cities, fares, to make,
+     Cybercabs a year, Optimus, planning for, robots a year (proxy 1: the voice's nouns, no bare "a year"; "other" dropped; the
+     bracket's ~80% carries no second "Optimus", so the board holds at 11 word labels). All small type is 32 px. Everything else is a figure, a date or a company's mark.
      Owed, held until its key lands (the board renders without it): c_tesla_fy2025_automotive_revenue_share (C, 69,526 / 94,827 =
      73.3%, in the ledger, not yet in data.js). Footage windows and receipt cards: Davinci's layer, rects in #bw-slots (owed).
      LOCK DAY (22 Oct): the value moves with the price and Tesla's Q3 deck restates the FSD count and the cities; the board reads
@@ -54,8 +55,8 @@
 <script src="assets/hero/fields.js"></script>
 <script>
 const H = HERO, s = document.getElementById('s'); el(s, 'defs');
-const K = H.steps([['mark', 0], ['revenue', 2.53], ['scale', 10.12], ['cars', 14.1], ['energy', 17.35], ['value', 25.66],
-  ['bet', 28.92], ['fsd', 33.98], ['fares', 42.29], ['cybercab', 48.07], ['optimus', 57.47], ['million', 65.42], ['eighty', 69.04]], 73.0);
+const K = H.steps([['mark', 0], ['revenue', 3.0], ['scale', 9.6], ['cars', 12.92], ['energy', 17.69], ['value', 25.52],
+  ['bet', 29.08], ['fsd', 36.18], ['fares', 44.82], ['cybercab', 48.67], ['optimus', 57.4], ['million', 64.28], ['eighty', 67.37]], 71.9);   // as read (v10), from vo-words.json `s`
 
 const CR = 'var(--cream)', GOLD = 'var(--gold)', INK = 'var(--bg)', DIM = 'rgba(245,241,229,.55)', LOW = .45;
 
@@ -88,7 +89,7 @@ H.rise(logo(s, 'tesla', NX, 62, 30), -1, .01);
 function rowName(y, nm, per, a, b = Infinity) {
   const g = el(s, 'g');
   el(g, 'text', { x: NX, y: y + 30, class: 'nm', 'font-size': 32 }, nm);
-  if (per) el(g, 'text', { x: NX, y: y + 66, class: 'ax', 'font-size': 28 }, per);
+  if (per) el(g, 'text', { x: NX, y: y + 66, class: 'ax', 'font-size': 32 }, per);
   H.rise(g, a, .55, 18, b);
   return g;
 }
@@ -100,7 +101,7 @@ const SEG = [['cars', R.cars], ['energy', R.energy], ['other', R.other]];
 const gRev = el(s, 'g');
 const segR = SEG.map(() => el(gRev, 'rect', { y: RY, height: BH, fill: CR }));
 const outl = el(gRev, 'rect', { x: X0, y: RY, height: BH, fill: 'none', stroke: CR, 'stroke-width': 2, pathLength: 1 });
-const splitAt = K.revenue + 4.0;
+const splitAt = K.revenue + 3.36;                                     // "three quarters", as read
 H.on((t) => {
   const k = kAt(t), W = R.tot * k, g = H.go(t, K.revenue + .1, K.revenue + 1.0), sp = H.go(t, splitAt, splitAt + .5);
   const d = H.go(t, K.mark + .1, K.mark + 1.6);
@@ -124,8 +125,9 @@ H.on((t) => {
 { const g = el(s, 'g'); let x = X0;
   SEG.forEach(([nm, v], i) => {
     const xi = x + (i ? 3 : 0);
-    el(g, 'text', { x: xi, y: RY + BH + 46, class: 'nm', 'font-size': 32 }, nm);
-    el(g, 'text', { x: xi, y: RY + BH + 92, class: 'fn', 'font-size': 36 }, fmt.usdB(v));
+    if (nm !== 'other') {             // only the voice's slices are named (proxy 1): the remainder stays an unlabelled slice
+      el(g, 'text', { x: xi, y: RY + BH + 46, class: 'nm', 'font-size': 32 }, nm);
+      el(g, 'text', { x: xi, y: RY + BH + 92, class: 'fn', 'font-size': 36 }, fmt.usdB(v)); }
     x += v * K0;
   });
   H.rise(g, splitAt + .3, .55, 18, K.value - .5);
@@ -139,7 +141,7 @@ H.on((t) => {
   const g = el(s, 'g'), ld = el(g, 'line', { y1: RY - 8, y2: RY - 40, stroke: GOLD, 'stroke-width': 2 });
   const mk = logo(g, 'spacex', 0, 72, 18), fg = el(g, 'text', { y: 92, class: 'fn', 'font-size': 32, style: 'fill:var(--gold)' }, fmt.usdM(mega));
   const MW = logoW('spacex', 18);
-  const a = K.energy + 6.2;
+  const a = K.energy + 6.44;                                          // "AI data centers", as read
   H.on((t) => { const k = kAt(t), x = X0 + R.cars * k + 3 * H.go(t, splitAt, splitAt + .5) * (.34 + .66 * (k - K2) / (K0 - K2)), w = Math.max(mega * k, 2);
     sl.setAttribute('x', x.toFixed(2)); sl.setAttribute('width', w.toFixed(2));
     const xc = x + w / 2;
@@ -165,15 +167,21 @@ const gCars = el(s, 'g');
 { const g = el(gCars, 'g');
   el(g, 'text', { x: NX, y: CY + 28, class: 'nm', 'font-size': 32 }, 'cars');
   el(g, 'text', { x: NX, y: CY + 80, class: 'fn', 'font-size': 48 }, D('tesla_q3_2026_vehicles_delivered', fmt.int(delivered)));
-  el(g, 'text', { x: NX, y: CY + 118, class: 'ax', 'font-size': 28 }, 'Q3 2026');
+  el(g, 'text', { x: NX, y: CY + 118, class: 'ax', 'font-size': 32 }, 'Q3 2026');
   H.rise(g, K.cars + .1);
+  /* "building ... at enormous scale" (findings r1 row 20: this step changed nothing while its footage window is owed): the field's
+     blocks of a hundred stand empty in outline, a floor waiting to be filled, and fill on "delivered" */
+  { const gb = el(gCars, 'g');
+    for (let b = 0; b * 100 < nCars; b++) el(gb, 'rect', { x: X0 + b * FIELD.BSTR - 4, y: CY - 4, width: FIELD.BLK + 8, height: FIELD.BLK + 8,
+      fill: 'none', stroke: 'rgba(245,241,229,.32)', 'stroke-width': 2 });
+    H.wipe(gb, K.scale + .2, 1.0, 'x'); }
   FIELD.grid(gCars, nCars, X0, CY, { solid: true, at: K.cars + .2, over: 1.3 });
   /* the unit, once: a bracket over the first cell */
   const u = el(gCars, 'g');
   el(u, 'path', { d: `M${X0},${CY - 8} v-8 h${FIELD.CELL} v8`, fill: 'none', stroke: DIM, 'stroke-width': 2 });
-  el(u, 'text', { x: X0 + FIELD.CELL + 10, y: CY - 10, class: 'ax', 'font-size': 28 }, fmt.int(UNIT));
+  el(u, 'text', { x: X0 + FIELD.CELL + 10, y: CY - 10, class: 'ax', 'font-size': 32 }, fmt.int(UNIT));
   H.rise(u, K.cars + .6, .5, 8);
-  H.on((t) => gCars.setAttribute('opacity', (1 - .45 * H.go(t, K.bet, K.bet + .6)).toFixed(3))); }
+  H.on((t) => gCars.setAttribute('opacity', (1 - .22 * H.go(t, K.bet, K.bet + .6)).toFixed(3))); }   // stepped back, still readable (proxy 1)
 
 /* the two parts of the bet: the writer's words, faint on "in two parts", full on their own names */
 const lane = (y, nm, a, full) => { const n = el(s, 'text', { x: NX, y: y + 28, class: 'nm', 'font-size': 32 }, nm);
@@ -186,27 +194,32 @@ H.draw(el(s, 'line', { x1: 380, x2: 380, y1: SY + 4, y2: OY + FIELD.BLK, stroke:
 /* self-driving: paying owners, the cities with no one at the wheel, the fares so far (ours), the Cybercab line's capacity */
 { const y = SY + 56;
   H.rise(el(s, 'text', { x: X0, y, class: 'fn', 'font-size': 56 }, D('fwd_tsla_fsd_active_subs_q2', fmt.mil(fsd * 1e6, 2))), K.fsd + .2);
-  H.rise(el(s, 'text', { x: X0, y: SY + 108, class: 'ax', 'font-size': 28 }, fmt.day(F('fwd_tsla_fsd_active_subs_q2').asOf)), K.fsd + .4);
-  const cx = 690, ca = K.fsd + 5.4;
+  H.rise(el(s, 'text', { x: X0, y: SY + 106, class: 'nd', 'font-size': 32 }, 'already pay'), K.fsd + .4);          // the voice's words
+  H.rise(el(s, 'text', { x: X0, y: SY + 144, class: 'ax', 'font-size': 32 }, fmt.day(F('fwd_tsla_fsd_active_subs_q2').asOf)), K.fsd + .5);
+  const cx = 690, ca = K.fsd + 6.76;                                  // "six cities", as read
   H.rise(el(s, 'text', { x: cx, y, class: 'fn', 'font-size': 56 }, fmt.int(cities)), ca);
   for (let i = 0; i < cities; i++) H.show(el(s, 'circle', { cx: cx + 62 + i * 26, cy: y - 20, r: 7, fill: CR }), ca + .15 + .12 * i, .2);
-  H.rise(el(s, 'text', { x: cx, y: SY + 108, class: 'nd', 'font-size': 32 }, 'cities'), ca + .3);
+  H.rise(el(s, 'text', { x: cx, y: SY + 106, class: 'nd', 'font-size': 32 }, 'cities'), ca + .3);
   const fx = 960, fn = el(s, 'text', { x: fx, y, class: 'fn', 'font-size': 56 }, D('fwd_tsla_rt_revenue_to_date_c', '~' + fmt.usdM(fares)));
   const fg = el(s, 'g'); fg.appendChild(fn); if (isCalc('fwd_tsla_rt_revenue_to_date_c')) ours(fn, CR, 8, 2);
   H.rise(fg, K.fares + .3);
-  H.rise(el(s, 'text', { x: fx, y: SY + 108, class: 'nd', 'font-size': 32 }, 'fares'), K.fares + .5);
+  H.rise(el(s, 'text', { x: fx, y: SY + 106, class: 'nd', 'font-size': 32 }, 'fares'), K.fares + .5);
+  H.rise(el(s, 'text', { x: fx, y: SY + 144, class: 'ax', 'font-size': 32 }, fmt.day(F('fwd_tsla_rt_revenue_to_date_c').asOf)), K.fares + .6);   // to 30 Jun, like 1.48M
   /* the Cybercab line: capacity, not output, so dashed; five more cells fade out past 125 ("more than") */
-  const bx = 1180, end = FIELD.grid(s, nCabs, bx, SY, { at: K.cybercab + .3, over: .7, more: 5 });
-  const tx = end + 44, g = el(s, 'g');
-  el(g, 'text', { x: tx, y: SY + 28, class: 'nm', 'font-size': 32 }, 'Cybercab');
+  const gCab = el(s, 'g'), bx = 1180, end = FIELD.grid(gCab, nCabs, bx, SY, { at: K.cybercab + .3, over: .7, more: 5 });
+  const tx = end + 44, g = el(gCab, 'g');
+  /* (Davinci, 19 Oct: o22, Musk's post, needs this corner.) The Cybercab row steps out as the post comes up on "Musk has said
+     about": it is not being spoken about then, and the card takes its place to the end of the board */
+  H.on((t) => { const u = 1 - H.go(t, K.eighty - .35, K.eighty + .05); gCab.setAttribute('opacity', u.toFixed(3)); gCab.style.display = u < .002 ? 'none' : ''; });
   el(g, 'text', { x: tx, y: SY + 80, class: 'fn', 'font-size': 48 }, D('fwd_tsla_rt_cybercab_capacity_deck', fmt.int(cabs) + '+'));
-  el(g, 'text', { x: tx, y: SY + 118, class: 'ax', 'font-size': 28 }, 'a year');
+  el(g, 'text', { x: tx, y: SY + 118, class: 'nm', 'font-size': 32 }, 'Cybercabs a year');
   H.rise(g, K.cybercab + .1); }
 
 /* Optimus: one empty dashed cell, magnified on a detail sheet (it hasn't been shown); then a thousand of them, a plan */
 { const g = el(s, 'g');
-  el(g, 'text', { x: NX, y: OY + 80, class: 'fn', 'font-size': 48 }, D('fwd_tsla_opt_q4_deck_capacity_1m', fmt.mil(bots)));
-  el(g, 'text', { x: NX, y: OY + 118, class: 'ax', 'font-size': 28 }, 'a year');
+  el(g, 'text', { x: NX, y: OY + 66, class: 'nd', 'font-size': 32 }, 'planning for');                            // the voice's words
+  const bn = el(g, 'text', { x: NX, y: OY + 116, class: 'fn', 'font-size': 48 }, D('fwd_tsla_opt_q4_deck_capacity_1m', fmt.mil(bots)));
+  el(g, 'text', { x: NX + 72, y: OY + 116, class: 'nm', 'font-size': 32 }, 'robots a year');
   H.rise(g, K.million + .2);
   FIELD.grid(s, 1, X0, OY, { at: K.optimus + .4, over: .1 });
   const sheet = el(s, 'g'), PX = 600, PW = 220, PH = FIELD.BLK;
@@ -224,7 +237,6 @@ H.draw(el(s, 'line', { x1: 380, x2: 380, y1: SY + 4, y2: OY + FIELD.BLK, stroke:
   el(g, 'path', { d: `M${X0},${y + 8} V${y} H${x80} V${y + 8}`, fill: 'none', stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '10 7' });
   H.wipe(g, K.eighty + .5, 1.0, 'x');
   const lg = el(s, 'g'), pn = el(lg, 'text', { x: x80, y: y - 16, class: 'fn', 'font-size': 40, 'text-anchor': 'end' }, '~' + fmt.pct(optimusShare));
-  el(lg, 'text', { x: x80 - 20 - 4 * 24, y: y - 16, class: 'nm', 'font-size': 32, 'text-anchor': 'end' }, 'Optimus');
   H.rise(lg, K.eighty + 1.3); }
 
 /* footage windows and receipt cards: Davinci's layer (cue sheet o15 to o22); all owed until Ko's deliveries land */
@@ -232,12 +244,12 @@ const A = [1140, 470, 640, 360], B = [1140, 40, 640, 360];
 H.owed('t05-factory', 't05-megapack', 't05-fsd', 't05-robotaxi', 't05-cybercab', 't05-optimus');
 H.card('o15', K.revenue, K.revenue + 4.0, { x: A[0], y: A[1], w: A[2], h: A[3] }, "Tesla's 10-K, revenue 2025 (REQ-006 row 13)");
 H.slot(s, 't05-factory', ...A, K.scale, K.scale + 4.0, 'a Tesla factory line, real footage (REQ-007 row 1)');
-H.slot(s, 't05-megapack', ...A, K.energy + 4.0, K.energy + 8.0, 'Megapacks, Tesla footage (REQ-007 row 3)');
-H.slot(s, 't05-fsd', ...A, K.fsd, K.fsd + 4.0, 'FSD in use, Tesla footage (REQ-007 row 5)');
-H.slot(s, 't05-robotaxi', ...A, K.fsd + 5.4, K.fsd + 8.9, 'a robotaxi with no one at the wheel (REQ-007 row 6)');
-H.slot(s, 't05-cybercab', ...B, K.cybercab + 1.4, K.cybercab + 5.4, 'the Cybercab line, Giga Texas (REQ-007 row 7; REQ-006 row 15)');
+H.slot(s, 't05-megapack', ...A, K.energy + 4.1, K.energy + 8.1, 'Megapacks, Tesla footage (REQ-007 row 3)');
+H.slot(s, 't05-fsd', ...A, K.fsd, K.fsd + 5.0, 'FSD in use, Tesla footage (REQ-007 row 5)');
+H.slot(s, 't05-robotaxi', ...A, K.fsd + 5.0, K.fsd + 8.5, 'a robotaxi with no one at the wheel (REQ-007 row 6)');
+H.slot(s, 't05-cybercab', ...B, K.cybercab + 1.1, K.cybercab + 5.1, 'the Cybercab line, Giga Texas (REQ-007 row 7; REQ-006 row 15)');
 H.slot(s, 't05-optimus', ...A, K.optimus, K.optimus + 3.5, 'Optimus, Tesla footage (REQ-007 row 8)');
-H.card('o22', K.eighty, K.eighty + 4.0, { x: A[0], y: A[1], w: A[2], h: A[3] }, "Musk's post, 1 Sep 2025 (REQ-002 row 5)");
+H.card('o22', K.eighty, K.eighty + 4.0, { x: 1180, y: 440, w: 680, h: 380 }, "Musk's post, 1 Sep 2025 (REQ-002 row 5)");   // the Cybercab row's corner, cleared for it
 
 H.run();
 </script>

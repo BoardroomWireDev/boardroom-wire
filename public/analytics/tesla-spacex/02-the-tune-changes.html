@@ -2,47 +2,23 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>The tune changes · Boardroom Wire</title>
-<!-- TESLA-SPACEX · HERO · THE TUNE CHANGES (Ive, 18 Oct 2026). Chapter 2, "Musk Changed His Tune", from "Back in 2016" to "a day
-     later": about 51 s at the writer's 166 wpm.
-     The idea: one true time axis, read the way a terminal reads a chart (overview and detail). It opens on the whole decade, 2016
-     at the left, where Musk's 2016 call sits at its date. On "last year" the axis zooms to the last seventeen months: the scale
-     itself moves (09's pull-back in reverse) and the decade folds up into an overview strip whose bracket shows the window in view,
-     so the jump in scale is drawn, never hidden. Every receipt is a pin at its true date, marked by its venue (Tesla's calls, X,
-     Bloomberg, CNBC, JPMorgan). The words are the receipt cards' (o01 to o07 ride over the board's empty lower half, Scorsese's
-     call, 19 Oct): the board never sets a quoted line as type (EF 16). While a card is up its pin is in view, dot and stem gold.
-     Under the dates, Kalshi's "before March" odds run on the same axis, 200 days; the jump from 29% to 56% and back to 45%
-     happens in four days (a near-vertical stroke at true scale), so it is magnified on a detail sheet (09's grammar) at true hours.
-     Grammar (LOOK-tesla-spacex.md): cream for the facts; gold for what is in view and for the odds of the two becoming one; the
-     contract's window from today to its deadline is dashed (not yet real). No legend: every mark is labelled where it stands.
-       axis       the decade axis, drawn from frame 0 (a drawn head) ("Back in 2016")
-       y2016      2016 set in gold; Tesla's 2016 call pins at 3 Aug 2016 ("2016")
-       q2016      the 2016 pin in view while its card is up ("no strong product rationale")
-       2025       the axis zooms to Oct 2025 to Mar 2027; the overview strip folds up ("But last year")
-       post       X's mark at 10 Nov 2025 ("he posted")
-       q2025      "trending towards convergence" ("my companies are")
-       2026       the axis opens 2026 month by month, to today ("He's even begun shutting down the question")
-       call       Tesla's Q2 call pins at 22 Jul 2026 ("on analyst calls")
-       qcall      "the appropriate process" ("we can't talk about")
-       press      Musk's pins step back ("The press has been circling")
-       bloomberg  Bloomberg at 29 Jan 2026 ("Bloomberg")
-       cnbc       CNBC at 27 May 2026 ("CNBC")
-       banks      JPMorgan at Jul 2026 ("JPMorgan called it")
-       qjpm       "strategically coherent on paper"
-       shotwell   CNBC at 12 Jun 2026, SpaceX's president ("Even SpaceX's president")
-       qshot      "might make Elon's life a little easier"
-       odds       the odds lane draws under the dates, 0 to 100% ("people are betting real money")
-       spike      the detail sheet opens on 14 to 17 Oct; the Roadster's day lit ("By the morning after the Roadster")
-       march      the contract's window, today to 1 Mar 2027, dashed on the axis ("by March")
-       p29, p56, p45   29%; the climb through 41% and 55% to 56% (the quiet hit); 45%, each on its word
-     Words on screen (rule 16): "Kalshi" only. Venues are marks, everything else a date or a figure; the quoted lines are the cards'.
-     The odds (Goldman, 19 Oct): the lane is Kalshi's daily bid/ask midpoint for the "before 1 Mar 2027" contract, 200 days from
-     its open (kalshi_mar2027_daily_series). The sheet is the jump at true hours, from Goldman's dated rows: 29% at 9 am on 14 Oct
-     (before Barclays' note), 41% by 5 pm, 55% in the Roadster's hour on 15 Oct, CNBC's 56% "by Friday morning" (16 Oct, no hour
-     given: placed at the same morning hour), then the closes of 16 and 17 Oct, 45% each. The script: "By the morning after the
-     Roadster, the odds ... had jumped from 29% to 56%, then cooled to 45% a day later." Nothing on this board is owed.
-     Receipt cards that ride over it (o01 to o07, dashboard_cue_sheet.md) are published as clear areas in #bw-slots.
-     Render: bw render dashboards/02-the-tune-changes.html --at <times> --secs <s> --out <big-media path>
+<title>The convergence timeline · Boardroom Wire</title>
+<!-- TESLA-SPACEX · HERO 02 · THE CONVERGENCE TIMELINE (v2; Ive, 20 Oct 2026). Built from the approved style frame
+     sf2-02-timeline.html (LOOK-tesla-spacex-v2.md; PICTURE-MAP V02, 1:45.0 to 2:23.0; NOTES-pass5 row 1:46: "plot the new context on
+     the timeline itself: zoom into late 2025/2026, shrink the long timeline to the bottom"). No floating inset.
+     The idea: one true time axis, 2016 to 2026, with Musk's 2016 call on it. On "But last year" the long axis folds to a strip along
+     the bottom, keeping a window over the months in view, and the main axis re-scales (eased in log space) to Nov 2025 to Oct 2026.
+     Every moment is a point at its true date with its mark and its date; the later ones step down and right, so the points crowd
+     toward October. Gold: Musk's own words (2016, the post, the call); cream: the outsiders. On "The press has been circling" Musk's
+     points step back so the outsiders arrive on a quiet line.
+     Words: none beyond dates, marks and month names. Every date is a data.js row's own asOf.
+     Steps, on the recorded words (cue-map/vo-words.json `s`, minus the frame-0 time, VO 93.30), in order for ?at=:
+       axis 0.60 "Back in 2016" · y2016 0.84 "2016" · zoom 6.40 "But last year" · post 7.22 "posted" · call 12.94 "shutting down
+       the question" · press 23.55 "The press has been circling" · bloomberg 26.34 · cnbc 26.74 · banks 30.73 "Morgan called it" ·
+       shotwell 34.01 "SpaceX's president"; secs 38.62 (board 02b opens on "And people are betting")
+     Receipt cards (o02 to o06) ride beside the axis, never over it: their clear areas are published in #bw-slots, each tied to its
+     step so a re-time carries it.
+     Render: bw render dashboards/02-the-tune-changes.html --at <times> --secs 38.62 --out <big-media path>
      Capture contract: BW.run via HERO.run; ?capture ?final ?still ?beats ?t=<secs|label> ?motion=0 ?at= ?secs= -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
@@ -61,210 +37,128 @@
 <script src="assets/hero/hero.js"></script>
 <script>
 const H = HERO, s = document.getElementById('s'); el(s, 'defs');
-const K = H.steps([['axis', 0.0], ['y2016', 0.7], ['q2016', 2.0], ['2025', 5.78], ['post', 7.2], ['q2025', 7.6],
-  ['2026', 11.57], ['call', 14.1], ['qcall', 15.3], ['press', 24.58], ['bloomberg', 27.8], ['cnbc', 28.9],
-  ['banks', 32.17], ['qjpm', 33.2], ['shotwell', 34.7], ['qshot', 36.6], ['odds', 39.4], ['spike', 42.29],
-  ['march', 46.2], ['p29', 47.3], ['p56', 48.1], ['p45', 49.5]], 50.9);
+const K = H.steps([['axis', 0.60], ['y2016', 0.84], ['zoom', 6.40], ['post', 7.22], ['call', 12.94], ['press', 23.55],
+  ['bloomberg', 26.34], ['cnbc', 26.74], ['banks', 30.73], ['shotwell', 34.01]], 38.62);
 
-const CR = 'var(--cream)', GOLD = 'var(--gold)', INK = 'var(--bg)', DIM = 'rgba(245,241,229,.55)', FAINT = 'rgba(245,241,229,.16)';
+const CR = 'var(--cream)', GOLD = 'var(--gold)', DIM = 'rgba(245,241,229,.55)', FAINT = 'rgba(245,241,229,.16)';
 LOGO.bloomberg = ['assets/logos/logo-bloomberg.png', 1600 / 295];
 LOGO.cnbc = ['assets/logos/logo-cnbc.png', 1600 / 1279];
 LOGO.jpmorgan = ['assets/logos/logo-jpmorgan_white.png', 1600 / 227];
 
-/* ---------------- the figures and the dates ---------------- */
+/* ---------------- the moments and their dates (data.js asOf) ---------------- */
 const RX = { y16: 'hist_musk_2016_08_no_strong_rationale_combine', post: 'clue_musk_convergence_post_nov2025',
   call: 'clue_musk_tesla_q2_2026_call_combining', bbg: 'hist_bloomberg_2026_01_29_spacex_weighs_tesla_or_xai',
   cnbc: 'hist_cnbc_2026_05_27_musk_discussed_folding_tesla_spacex', jpm: 'hist_jpm_2026_07_strategically_coherent_on_paper',
   shot: 'clue_shotwell_cnbc_merger_jun2026' };
 Object.values(RX).forEach(k => used.add(k));
-/* the jump, as Goldman dated it (19 Oct): Kalshi's own trades on 14 to 17 Oct, and CNBC's 56% "by Friday morning" */
-const KA = { m14: 'kalshi_mar2027_2026_10_14_morning', a14: 'kalshi_mar2027_2026_10_14_afternoon', r15: 'kalshi_mar2027_2026_10_15_roadster_hour',
-  c16: 'kalshi_mar2027_2026_10_16_close', c17: 'kalshi_mar2027_2026_10_17_close' };
-const prob = (k) => { const v = U(k); return v <= 1 ? v * 100 : v; };
-/* the hour each read was taken, from the row's own words ("9 am ET", "(about 9 pm ET)"); a day's "close" is its last trade */
-const hourOf = (k) => { const f = BW_DATA.figures[k], m = /(\d{1,2}) (am|pm)/.exec(f.label) || /(\d{1,2}) (am|pm)/.exec(f.note || '');
-  if (m) return (+m[1] % 12) + (m[2] === 'pm' ? 12 : 0); if (/close/.test(f.label)) return 24; throw new Error('no hour in ' + k); };
-const JUMP = Object.values(KA).map(k => ({ k, d: F(k).asOf, h: hourOf(k), v: prob(k) }));
-const p56 = U('rumour_cnbc_kalshi_56pct_before_march'), d56 = F('rumour_cnbc_kalshi_56pct_before_march').asOf;
-/* CNBC gives no hour, only "by Friday morning": it sits at the same morning hour the 14 Oct row names */
-JUMP.splice(3, 0, { k: 'rumour_cnbc_kalshi_56pct_before_march', d: d56, h: hourOf(KA.m14), v: p56 });
-const p29 = JUMP[0].v, p45 = JUMP[5].v, d29 = JUMP[0].d, dRoad = F(KA.r15).asOf;
-const d45 = F('clue_kalshi_before_mar2027').asOf; used.add('clue_kalshi_before_mar2027');
-if (!JUMP.every(j => j.v > 0)) throw new Error('an odds read on board 02 is not a number in data.js');
-/* the contract's deadline, from its own label ("odds of a deal before 1 Mar 2027, ...") */
-const dl = /before (\d{1,2}) ([A-Z][a-z]{2}) (\d{4})/.exec(F('clue_kalshi_before_mar2027').label);
-if (!dl) throw new Error('no deadline in clue_kalshi_before_mar2027 label');
-const pad = (n) => String(n).padStart(2, '0');
-const DEADLINE = `${dl[3]}-${pad(MON.indexOf(dl[2]) + 1)}-${pad(dl[1])}`, TODAY = d45;
-const iso = (ms) => new Date(ms).toISOString().slice(0, 10);
-const DAY = 864e5;
-/* the decade opens on the year of the 2016 receipt; the detail on the month before the 2025 post */
-const D0 = F(RX.y16).asOf.slice(0, 4) + '-01-01';
-const pm = F(RX.post).asOf; const DZ = iso(Date.UTC(+pm.slice(0, 4), +pm.slice(5, 7) - 2, 1));
+const TODAYK = 'clue_kalshi_before_mar2027';   /* only the axis's end (the month of the latest read); no Kalshi figure is on this board, so not credited */
 calc = false;
-
-
+const pad = (n) => String(n).padStart(2, '0');
+const DAY = 864e5, iso = (ms) => new Date(ms).toISOString().slice(0, 10);
 /* a day label as the row has it: "12 Jun 2026", or "Jul 2026" when the row names only the month */
 const when = (k) => { const f = F(k); return /\b\d{1,2} [A-Z][a-z]{2} \d{4}\b/.test(f.label || '') ? fmt.day(f.asOf) : MON[+f.asOf.slice(5, 7) - 1] + ' ' + f.asOf.slice(0, 4); };
-const shortDay = (d) => +d.slice(8, 10) + ' ' + MON[+d.slice(5, 7) - 1];
+const mAdd = (d, n) => { const y = +d.slice(0, 4), m = +d.slice(5, 7) - 1 + n; return `${y + Math.floor(m / 12)}-${pad(((m % 12) + 12) % 12 + 1)}-01`; };
 
-/* ---------------- the scale: one axis whose window moves ---------------- */
-const X0 = 120, X1 = 1856, AY = 430, END = utc(DEADLINE);
-const SPAN0 = END - utc(D0), SPAN1 = END - utc(DZ);
-const zoom = (t) => H.go(t, K['2025'] + .1, K['2025'] + 2.0);
-const span = (t) => Math.exp(H.mix(Math.log(SPAN0), Math.log(SPAN1), zoom(t)));     // eased in log space: a camera, not a slide
-const xm = (d, t) => X1 - (X1 - X0) * (END - utc(d)) / span(t);
-const xz = (d) => X1 - (X1 - X0) * (END - utc(d)) / SPAN1;                            // the detail scale at rest
-const xd = (d) => X1 - (X1 - X0) * (END - utc(d)) / SPAN0;                            // the decade scale (the overview strip)
-/* how far the solid axis has drawn: to the end of 2025, then 2026 month by month to today */
-const lineEnd = (t) => utc('2025-12-31') + (utc(TODAY) - utc('2025-12-31')) * H.go(t, K['2026'], K['2026'] + 2.6, H.ease.lin);
+/* the long axis opens in the year of the 2016 call; the detail opens on the month of the post and closes at the end of the month
+   of the latest row on the board (17 Oct), so it reads Nov 2025 to Oct 2026 */
+const D0 = F(RX.y16).asOf.slice(0, 4) + '-01-01', DZ = F(RX.post).asOf.slice(0, 7) + '-01', END = mAdd(F(TODAYK).asOf.slice(0, 7) + '-01', 1);
+const SPAN0 = utc(END) - utc(D0), SPAN1 = utc(END) - utc(DZ);
+
+/* ---------------- the scales ---------------- */
+const X0 = 120, X1 = 1800, AY1 = 500, AY2 = 640, SY = 915;
+const zoom = (t) => H.go(t, K.zoom, K.zoom + 2.2);
+const fold = (t) => H.go(t, K.zoom, K.zoom + 1.8);
+const span = (t) => Math.exp(H.mix(Math.log(SPAN0), Math.log(SPAN1), zoom(t)));       // eased in log space: a camera, not a slide
+const xm = (d, t) => X1 - (X1 - X0) * (utc(END) - utc(d)) / span(t);                  // the main axis, moving then at rest
+const xd = (d) => X1 - (X1 - X0) * (utc(END) - utc(d)) / SPAN0;                       // the long axis (the strip), fixed
+const aym = (t) => H.mix(AY1, AY2, zoom(t));                                          // the main axis rises of its own accord: the long one sinks
+const ays = (t) => H.mix(AY1, SY, fold(t));
 
 const vp = el(s.querySelector('defs'), 'clipPath', { id: 'ax', clipPathUnits: 'userSpaceOnUse' });
-el(vp, 'rect', { x: 40, y: 0, width: X1 - 40 + 40, height: 1004 });
-const W = el(s, 'g', { 'clip-path': 'url(#ax)' });
+el(vp, 'rect', { x: 60, y: 0, width: X1 - 60 + 60, height: 1080 });
 
-/* ---------------- the overview strip: the decade, and the window in view ---------------- */
-{ const OY = 84, g = el(s, 'g');
-  el(g, 'line', { x1: X0, x2: xd(TODAY), y1: OY, y2: OY, stroke: DIM, 'stroke-width': 2 });
-  el(g, 'line', { x1: xd(TODAY), x2: X1, y1: OY, y2: OY, stroke: DIM, 'stroke-width': 2, 'stroke-dasharray': '6 6' });
-  for (let y = +D0.slice(0, 4); y <= +DEADLINE.slice(0, 4); y++) { const x = xd(y + '-01-01');
-    el(g, 'line', { x1: x, x2: x, y1: OY, y2: OY + 8, stroke: DIM, 'stroke-width': 2 });
-    if (y % 2 === 0) el(g, 'text', { x, y: OY + 38, class: 'ax', 'font-size': 28, 'text-anchor': 'middle' }, String(y)); }
-  el(g, 'circle', { cx: xd(F(RX.y16).asOf), cy: OY, r: 5, fill: CR });
-  const win = el(g, 'rect', { y: OY - 13, height: 26, fill: 'rgba(245,241,229,.10)', stroke: CR, 'stroke-width': 2 });
-  H.on((t) => { const x0 = xd(iso(END - span(t))); win.setAttribute('x', x0.toFixed(2)); win.setAttribute('width', (X1 - x0).toFixed(2)); });
-  H.fade(g, K['2025'] + .15, .5); }
+/* ---------------- the long axis, which becomes the strip ---------------- */
+const gS = el(s, 'g');
+const sLine = el(gS, 'line', { x1: X0, x2: xd(END), y1: 0, y2: 0, stroke: CR, 'stroke-width': 2 });
+H.draw(sLine, K.axis, 2.0, H.ease.lin);
+const sY = [];
+for (let y = +D0.slice(0, 4); y <= +END.slice(0, 4); y++) { const d = y + '-01-01', x = xd(d); if (x > X1 + 1) break;
+  const tk = el(gS, 'line', { x1: x, x2: x, y1: 0, y2: 10, stroke: CR, 'stroke-width': 2 });
+  const tx = el(gS, 'text', { x, y: 44, class: 'ax', 'text-anchor': 'middle' }, String(y));
+  const a = K.axis + 2.0 * (x - X0) / (X1 - X0);
+  H.fade(tk, a, .3); H.fade(tx, a, .3); }
+/* the window kept over the months in view: a map's inset area, on the strip */
+const wx0 = xd(DZ);
+const win = el(gS, 'rect', { x: wx0, y: -14, width: X1 - wx0, height: 28, fill: 'rgba(245,241,229,.10)', stroke: CR, 'stroke-width': 2 });
+H.on((t) => { const u = H.go(t, K.zoom + .6, K.zoom + 1.8); win.setAttribute('opacity', u.toFixed(3)); });
+/* the 2016 point rides the long axis, up and down with it, and stays on the strip */
+const g16 = el(gS, 'g', { transform: `translate(${xd(F(RX.y16).asOf)},0)` });
+const st16 = el(g16, 'line', { x1: 0, x2: 0, stroke: GOLD, 'stroke-width': 2 });
+el(g16, 'circle', { cx: 0, cy: 0, r: 8, fill: GOLD });
+const b16 = el(g16, 'g');
+logo(b16, 'tesla', 14, 0, 30); const t16 = el(b16, 'text', { x: 14, y: 0, class: 'fn', 'font-size': 32 }, when(RX.y16));
+H.on((t) => { const h = H.mix(130, 76, fold(t)); st16.setAttribute('y1', -10); st16.setAttribute('y2', -h + 12);
+  b16.setAttribute('transform', `translate(0,${-h})`); });
+{ const lg = b16.firstChild; lg.setAttribute('transform', 'translate(0,-72)'); t16.setAttribute('transform', 'translate(0,-8)'); }
+H.rise(g16, K.y2016, .5, 16);
+H.on((t) => { gS.setAttribute('transform', `translate(0,${ays(t).toFixed(2)})`); });
+/* the other points show on the strip too, at their true dates, as the window fills */
+const POINTS = [RX.post, RX.bbg, RX.cnbc, RX.shot, RX.jpm, RX.call];
 
 /* ---------------- the main axis ---------------- */
-const gAx = el(W, 'g');
-const axLine = el(gAx, 'line', { y1: AY, y2: AY, stroke: CR, 'stroke-width': 2 });
-const TICKS = [];
-for (let y = +D0.slice(0, 4); y <= +TODAY.slice(0, 4); y++) for (let m = 0; m < 12; m++) {
-  const d = `${y}-${pad(m + 1)}-01`; if (utc(d) > utc(TODAY)) break;
-  const yr = m === 0, tk = el(gAx, 'line', { y1: AY, y2: AY + (yr ? 12 : 8), stroke: yr ? CR : DIM, 'stroke-width': 2 });
-  const lb = yr ? String(y) : (m % 3 === 0 ? MON[m] : null);
-  const tx = lb ? el(gAx, 'text', { y: AY + 40, class: 'ax', 'font-size': 28, 'text-anchor': 'middle' }, lb) : null;
-  TICKS.push({ d, yr, tk, tx, y });
+const W = el(s, 'g', { 'clip-path': 'url(#ax)' });
+const gM = el(W, 'g');
+const mLine = el(gM, 'line', { x1: X0, x2: X1, stroke: CR, 'stroke-width': 2 });
+const MTK = [];
+for (let d = D0, i = 0; utc(d) <= utc(END); d = mAdd(D0, ++i)) {
+  const mo = +d.slice(5, 7) - 1, jan = mo === 0;
+  const tk = el(gM, 'line', { stroke: jan ? CR : DIM, 'stroke-width': 2 });
+  const inWin = utc(d) >= utc(DZ) && utc(d) < utc(END);
+  const tx = inWin ? el(gM, 'text', { class: 'ax', 'text-anchor': 'middle' }, MON[mo]) : null;
+  const yr = inWin && (jan || d === DZ) ? el(gM, 'text', { class: 'ax', 'text-anchor': 'middle' }, d.slice(0, 4)) : null;
+  MTK.push({ d, jan, tk, tx, yr });
 }
 H.on((t) => {
-  const sp = span(t), z = zoom(t), e = lineEnd(t), ppy = (X1 - X0) * 365 * DAY / sp;
-  const a = Math.max(X0, xm(D0, t)), b = X1 - (X1 - X0) * (END - e) / sp;
-  axLine.setAttribute('x1', a.toFixed(2)); axLine.setAttribute('x2', b.toFixed(2));
-  TICKS.forEach(({ d, yr, tk, tx, y }) => {
-    const x = xm(d, t), on = utc(d) <= e + DAY && x >= X0 - 1;
-    const o = !on ? 0 : yr ? 1 : z;                                   // months come in with the zoom; years stand throughout
-    tk.setAttribute('x1', x.toFixed(2)); tk.setAttribute('x2', x.toFixed(2)); tk.setAttribute('opacity', o.toFixed(3));
-    if (tx) { tx.setAttribute('x', x.toFixed(2));
-      const lo = !on ? 0 : yr ? (ppy > 150 || z > .9 ? 1 : 0) : H.go(z, .8, 1);
-      tx.setAttribute('opacity', lo.toFixed(3));
-      tx.style.fill = (y === 2016 && yr && t >= K.y2016 && t < K['2025'] + .3) ? 'var(--gold)' : ''; }
-  });
+  const z = zoom(t), y = aym(t), seen = H.go(z, 0, .12), mo = H.go(z, .55, 1);
+  mLine.setAttribute('y1', y); mLine.setAttribute('y2', y); mLine.setAttribute('opacity', seen.toFixed(3));
+  MTK.forEach(({ d, jan, tk, tx, yr }) => { const x = xm(d, t), vis = x >= X0 - 40 && x <= X1 + 1;
+    tk.setAttribute('x1', x.toFixed(2)); tk.setAttribute('x2', x.toFixed(2)); tk.setAttribute('y1', y); tk.setAttribute('y2', y + (jan ? 12 : 8));
+    tk.setAttribute('opacity', (vis ? mo : 0).toFixed(3));
+    if (tx) { tx.setAttribute('x', x.toFixed(2)); tx.setAttribute('y', y + 44); tx.setAttribute('opacity', (vis ? mo : 0).toFixed(3)); }
+    if (yr) { yr.setAttribute('x', x.toFixed(2)); yr.setAttribute('y', y + 88); yr.setAttribute('opacity', (vis ? mo : 0).toFixed(3)); } });
 });
 
-/* ---------------- the pins: each receipt at its date, marked by its venue ---------------- */
-/* The words are the receipt cards' (o01 to o07, Davinci's layer, Scorsese's call 19 Oct): the board never sets the quoted line
-   as type (EF 16). While a card is up, its pin is in view: the dot and stem turn gold and the other pins step back. */
-const ROWY = { 1: 392, 2: 306, 3: 220 };
+/* ---------------- the points: each at its true date, with its mark and a short dated label ---------------- */
+/* later points step down and to the right, so a stem never runs through an earlier label; the three of Musk's own words in gold */
 const PINS = [
-  { k: RX.y16, mark: 'tesla', h: 24, row: 1, a: K.y2016, qa: K.q2016, qb: K['2025'] - .1, gone: K['2025'] + .9 },
-  { k: RX.post, mark: 'x', h: 34, row: 1, a: K.post, qa: K.q2025, qb: K['2026'] },
-  { k: RX.call, mark: 'tesla', h: 24, row: 1, a: K.call, qa: K.qcall, qb: K.press },
-  { k: RX.bbg, mark: 'bloomberg', h: 28, row: 1, a: K.bloomberg, qa: K.bloomberg, qb: K.banks },
-  { k: RX.cnbc, mark: 'cnbc', h: 42, row: 2, a: K.cnbc, qa: K.cnbc, qb: K.banks, end: true },
-  { k: RX.jpm, mark: 'jpmorgan', h: 24, row: 2, a: K.banks, qa: K.qjpm, qb: K.shotwell },
-  { k: RX.shot, mark: 'cnbc', h: 42, row: 3, a: K.shotwell, qa: K.qshot, qb: K.odds }
+  { k: RX.post, mark: 'x', h: 40, off: 255, gold: 1, a: K.post },
+  { k: RX.bbg, mark: 'bloomberg', h: 34, off: 255, a: K.bloomberg },
+  { k: RX.cnbc, mark: 'cnbc', h: 46, off: 465, a: K.cnbc },
+  { k: RX.shot, mark: 'spacex', h: 30, off: 360, a: K.shotwell - 0.1 },
+  { k: RX.jpm, mark: 'jpmorgan', h: 30, off: 255, a: K.banks },
+  { k: RX.call, mark: 'tesla', h: 30, off: 150, gold: 1, a: K.call }
 ];
-const lit = (p, t) => H.go(t, p.qa - .35, p.qa + .05) * (1 - H.go(t, p.qb - .3, p.qb));
-const anyLit = (t) => Math.max(...PINS.map(p => lit(p, t)));
-const gPins = el(W, 'g');
+const gP = el(W, 'g');
 PINS.forEach((p) => {
-  const d = F(p.k).asOf, g = el(gPins, 'g'), base = ROWY[p.row], top = base - 36 - p.h, side = p.end ? -1 : 1;
-  const mw = logoW(p.mark, p.h), mx = p.end ? -12 - mw : 12;
-  const body = el(g, 'g');
-  logo(body, p.mark, mx, top, p.h);
-  el(body, 'text', { x: side * 12, y: base, class: 'ax', 'font-size': 28, 'text-anchor': p.end ? 'end' : 'start' }, when(p.k));
-  const stem = el(g, 'line', { x1: 0, x2: 0, y1: base + 10, y2: AY, stroke: DIM, 'stroke-width': 2 });
-  const dot = el(g, 'circle', { cx: 0, cy: AY, r: 6, fill: CR });
-  const fade = p.gone != null ? (t) => 1 - H.go(t, p.gone - .6, p.gone) : () => 1;
-  H.on((t) => { const x = xm(d, t), u = lit(p, t), back = 1 - .5 * anyLit(t) * (1 - u);
-    g.setAttribute('transform', `translate(${x.toFixed(2)},0)`);
-    dot.setAttribute('fill', u > .5 ? 'var(--gold)' : 'var(--cream)'); stem.setAttribute('stroke', u > .5 ? 'var(--gold)' : DIM);
-    body.setAttribute('opacity', (back * fade(t)).toFixed(3)); stem.setAttribute('opacity', (back * fade(t)).toFixed(3));
-    dot.setAttribute('opacity', fade(t).toFixed(3)); });
+  const d = F(p.k).asOf, g = el(gP, 'g'), col = p.gold ? GOLD : CR;
+  const stem = el(g, 'line', { x1: 0, x2: 0, y1: -p.off + 12, y2: -10, stroke: p.gold ? GOLD : DIM, 'stroke-width': 2 });
+  const dot = el(g, 'circle', { cx: 0, cy: 0, r: 8, fill: col });
+  const body = el(g, 'g', { transform: `translate(14,${-p.off})` });
+  logo(body, p.mark, 0, -(36 + p.h), p.h);
+  el(body, 'text', { x: 0, y: 0, class: 'fn', 'font-size': 32 }, when(p.k));
+  const back = p.gold ? (t) => 1 - .45 * H.go(t, K.press, K.press + .6) * (1 - H.go(t, K.shotwell + 1.6, K.shotwell + 2.4)) : () => 1;   // Musk's points step back for the press, then return: his tune is the board
+  H.on((t) => { g.setAttribute('transform', `translate(${xm(d, t).toFixed(2)},${aym(t).toFixed(2)})`); body.setAttribute('opacity', back(t).toFixed(3)); stem.setAttribute('opacity', back(t).toFixed(3)); });
   H.rise(g, p.a, .5, 16);
+  /* the same moment as a dot on the strip */
+  const sd = el(gS, 'circle', { cx: xd(d), cy: 0, r: 4, fill: col }); H.fade(sd, p.a + .2, .3);
 });
 
-/* ---------------- the odds lane: Kalshi's "before March" contract on the same axis ---------------- */
-const L0 = 920, L1 = 548, ly = (p) => L0 - (L0 - L1) * p / 100;
-const gL = el(s, 'g');
-[0, 50, 100].forEach(v => { el(gL, 'line', { x1: X0, x2: X1, y1: ly(v), y2: ly(v), stroke: FAINT, 'stroke-width': 2 });
-  el(gL, 'text', { x: X0 - 12, y: ly(v) + 10, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, v + '%'); });
-el(gL, 'text', { x: X0 + 12, y: ly(100) + 40, class: 'nd', 'font-size': 32 }, F('clue_kalshi_before_mar2027').cr);
-H.fade(gL, K.odds, .6);
-/* the history: Kalshi's daily bid/ask midpoint, 200 days (the market opened 25 Mar). It draws to the day before the jump on
-   "betting real money"; the jump's own days draw on the words that say it. */
-const SER = BW_DATA.figures.kalshi_mar2027_daily_series; used.add('kalshi_mar2027_daily_series');
-const ci = (c) => { const i = SER.seriesCols.indexOf(c); if (i < 0) throw new Error('no column ' + c + ' in kalshi_mar2027_daily_series'); return i; };
-const SD = SER.series.map(r => [r[ci('date_et')], r[ci('mid')] * 100]).filter(([, v]) => isFinite(v));
-const line = (pts) => el(s, 'polyline', { points: pts.map(([d, v]) => xz(d).toFixed(1) + ',' + ly(v).toFixed(1)).join(' '), fill: 'none', stroke: GOLD, 'stroke-width': 3, 'stroke-linejoin': 'round' });
-const cutAt = SD.findIndex(([d]) => utc(d) >= utc(d29));
-const gH = el(s, 'g'); gH.appendChild(line(SD.slice(0, cutAt)));
-H.wipe(gH, K.odds + .4, 2.0, 'x', H.ease.lin);
-const gH2 = el(s, 'g'); gH2.appendChild(line(SD.slice(cutAt - 1)));
-H.wipe(gH2, K.p56 - .5, 1.9, 'x', H.ease.lin);
-
-/* the loupe round the jump's four days in the lane, and the detail sheet: the same percentage scale, four days at true hours */
-const SX0 = 1460, SX1 = 1840, ST = ly(100) - 18, SB = L0 + 12, IN = 30, CW = (SX1 - SX0 - 2 * IN) / 4;
-const sx = (d, h) => SX0 + IN + ((utc(d) - utc(d29)) / DAY + h / 24) * CW;
-{ const lx0 = xz(d29) - 12, lx1 = xz(d45) + 14, g = el(s, 'g');
-  H.draw(el(g, 'rect', { x: lx0, y: ly(64), width: lx1 - lx0, height: ly(20) - ly(64), rx: 8, fill: 'none', stroke: CR, 'stroke-width': 2 }), K.spike - .3, .35);
-  H.draw(el(g, 'line', { x1: lx1, x2: SX0, y1: ly(42), y2: ly(42), stroke: CR, 'stroke-width': 2 }), K.spike, .3);
-  const sh = el(s, 'g');
-  el(sh, 'rect', { x: SX0, y: ST, width: SX1 - SX0, height: SB - ST, fill: INK, stroke: DIM, 'stroke-width': 2 });
-  corners(sh, SX0, ST, SX1 - SX0, SB - ST);
-  [0, 50, 100].forEach(v => el(sh, 'line', { x1: SX0 + 24, x2: SX1 - 24, y1: ly(v), y2: ly(v), stroke: FAINT, 'stroke-width': 2 }));
-  /* midnight ticks; each day's number centred in its own band, the month once at the left */
-  for (let i = 0; i <= 4; i++) el(sh, 'line', { x1: SX0 + IN + i * CW, x2: SX0 + IN + i * CW, y1: SB - 12, y2: SB, stroke: DIM, 'stroke-width': 2 });
-  H.wipe(sh, K.spike + .05, .4, 'y');
-  const gD = el(s, 'g');
-  el(gD, 'text', { x: SX0 + IN - 14, y: SB + 40, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, MON[+d29.slice(5, 7) - 1]);
-  for (let i = 0; i < 4; i++) { const d = iso(utc(d29) + i * DAY);
-    const lab = el(gD, 'text', { x: SX0 + IN + (i + .5) * CW, y: SB + 40, class: 'ax', 'font-size': 28, 'text-anchor': 'middle' }, String(+d.slice(8, 10)));
-    if (d === dRoad) H.on((t) => { lab.style.fill = t >= K.spike + .3 && t < K.p56 + .6 ? 'var(--cream)' : ''; }); }
-  H.fade(gD, K.spike + .3, .4);
-  /* the reads: 29% on its word; the climb through 41% and the Roadster hour's 55% to 56%; then 45%, and a day later 45% */
-  const P = JUMP.map(j => [sx(j.d, j.h), ly(j.v)]);
-  const dot = (i, a) => H.fade(el(s, 'circle', { cx: P[i][0], cy: P[i][1], r: 7, fill: GOLD }), a, .2);
-  const seg = (i, a, d) => H.draw(el(s, 'line', { x1: P[i][0], y1: P[i][1], x2: P[i + 1][0], y2: P[i + 1][1], stroke: GOLD, 'stroke-width': 3 }), a, d, H.ease.out);
-  const small = (i, dy, a) => H.rise(el(s, 'text', { x: P[i][0], y: P[i][1] + dy, class: 'fn', 'font-size': 28, 'text-anchor': 'middle', style: 'fill:var(--gold)', opacity: .8 }, fmt.pct(JUMP[i].v)), a);
-  dot(0, K.p29);
-  H.rise(el(s, 'text', { x: P[0][0], y: P[0][1] + 52, class: 'fn', 'font-size': 40, 'text-anchor': 'middle', style: 'fill:var(--gold)' }, fmt.pct(p29)), K.p29);
-  seg(0, K.p56 - .5, .25); dot(1, K.p56 - .3); small(1, -20, K.p56 - .3);
-  seg(1, K.p56 - .25, .25); dot(2, K.p56 - .05); small(2, 44, K.p56 + .1);
-  seg(2, K.p56, .2); dot(3, K.p56 + .2);
-  H.rise(el(s, 'text', { x: P[3][0], y: P[3][1] - 30, class: 'fh', 'font-size': 64, 'text-anchor': 'middle' }, fmt.pct(p56)), K.p56 + .1);
-  seg(3, K.p45 - .5, .3); dot(4, K.p45 - .2);
-  seg(4, K.p45 - .1, .3); dot(5, K.p45 + .2);
-  H.rise(el(s, 'text', { x: SX1 - 16, y: P[5][1] + 52, class: 'fn', 'font-size': 40, 'text-anchor': 'end', style: 'fill:var(--gold)' }, fmt.pct(p45)), K.p45 + .1);
-}
-
-/* the contract's window: from today to its deadline, dashed (it has not happened) */
-{ const g = el(s, 'g'), x0 = xz(TODAY);
-  el(g, 'line', { x1: x0, x2: X1, y1: AY, y2: AY, stroke: CR, 'stroke-width': 2, 'stroke-dasharray': '8 7' });
-  el(g, 'line', { x1: X1, x2: X1, y1: AY - 10, y2: AY + 12, stroke: CR, 'stroke-width': 2 });
-  el(g, 'text', { x: X1, y: AY + 40, class: 'ax', 'font-size': 28, 'text-anchor': 'end' }, fmt.day(DEADLINE));
-  H.wipe(g, K.march, .8, 'x'); }
-
-/* receipt cards ride over the board (Davinci's layer); the board keeps these areas clear while each is up */
-const LEFT = { x: 120, y: 500, w: 840, h: 440 }, RIGHT = { x: 1000, y: 500, w: 840, h: 440 };
-H.card('o01', 2.9, 7.4, RIGHT, 'Musk, Tesla Q2 2016 call transcript (REQ-002 row 1)');
-H.card('o02', 5.8, 10.8, RIGHT, 'Musk on X, 10 Nov 2025 (REQ-002 row 2)');
-H.card('o03', 15.9, 22.9, LEFT, 'Musk, Tesla Q2 2026 call transcript (REQ-002 row 3)');
-H.card('o04', 27.8, 32.1, LEFT, 'Bloomberg 29 Jan and CNBC 27 May (REQ-004 rows 2 and 3)');
-H.card('o05', 32.2, 34.7, LEFT, 'JPMorgan via The Motley Fool (REQ-004 row 4)');
-H.card('o06', 34.7, 39.3, LEFT, 'Shotwell on CNBC, 12 Jun 2026 (REQ-004 row 5)');
-H.card('o07', 39.4, 42.3, LEFT, 'Kalshi market page (REQ-005 row 1)');
-
+/* receipt cards ride beside the axis, never over it: each clear area is empty of points while its card is up */
+H.card('o02', K.post - .2, K.post + 4.8, { x: 520, y: 80, w: 1300, h: 300 }, 'Musk on X, 10 Nov 2025 (REVIEW-014)');
+H.card('o03', K.call + 2.9, K.call + 9.9, { x: 500, y: 80, w: 840, h: 340 }, 'Musk, Tesla Q2 2026 call transcript (REQ-002 row 3)');
+H.card('o04', K.bloomberg, K.bloomberg + 4.3, { x: 1380, y: 80, w: 480, h: 340 }, 'Bloomberg 29 Jan and CNBC 26 May (REVIEW-004)');
+H.card('o05', K.banks, K.banks + 2.5, { x: 120, y: 80, w: 970, h: 230 }, 'JPMorgan via The Motley Fool (REQ-004 row 4)');
+H.card('o06', K.shotwell, K.shotwell + 4.6, { x: 120, y: 80, w: 970, h: 230 }, 'Shotwell on CNBC, 12 Jun 2026 (REQ-004 row 5)');
 H.run();
 </script>
 </body>

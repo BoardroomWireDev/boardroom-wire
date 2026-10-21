@@ -5,7 +5,9 @@ svg.hero { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; o
 svg.hero text { font-family: var(--sans); }
 svg.hero .fn { font-family: var(--mono); font-weight: 600; fill: var(--cream); font-variant-numeric: tabular-nums slashed-zero; letter-spacing: -.01em; }
 svg.hero .fh { font-family: var(--mono); font-weight: 700; fill: var(--gold); font-variant-numeric: tabular-nums slashed-zero; letter-spacing: -.04em; }
-svg.hero .ax { font-family: var(--mono); font-weight: 500; fill: rgba(245, 241, 229, .55); font-variant-numeric: tabular-nums slashed-zero; }
+svg.hero .ax { font-family: var(--mono); font-weight: 500; fill: rgba(245, 241, 229, .55); font-variant-numeric: tabular-nums slashed-zero; font-size: 32px; }
+/* 19 Oct 2026 (board findings r1 row 3): axis and date labels at gates.json labelPxMin, 32 px at the 1920x1080 stage; the CSS wins
+   over each board's font-size attribute, and HERO.run() lifts any other hero text set under 32 px */
 svg.hero .nm { font-family: var(--sans); font-weight: 500; fill: var(--cream); }
 svg.hero .nd { font-family: var(--sans); font-weight: 500; fill: rgba(245, 241, 229, .62); }
 svg.hero .gd { fill: var(--gold); }

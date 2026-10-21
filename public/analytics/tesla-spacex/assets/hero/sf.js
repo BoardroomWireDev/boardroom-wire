@@ -95,7 +95,9 @@ const LOGO = {
   cursor: ['assets/logos/logo-cursor.png', 1],
   anthropic: ['assets/logos/logo-anthropic.png', 1],
   amazon: ['assets/logos/logo-amazon_white.png', 6110 / 2047],              // the library's white file (09's rank step)
-  nvidia: ['assets/logos/logo-nvidia.png', 1, false, '#76B900']               // the eye, laid in Nvidia's own green (as on Nebius)
+  nvidia: ['assets/logos/logo-nvidia.png', 1, false, '#76B900'],              // the eye, laid in Nvidia's own green (as on Nebius)
+  meta: ['assets/logos/logo-meta.png', 1600 / 322],                           // Nebius's copy, laid white (Ive, 20 Oct, v2 09b)
+  broadcom: ['assets/logos/logo-broadcom.png', 1944 / 264]                     // Anthropic IPO's copy, white on dark (v2 09b)
 };
 /* drawn from the owner's own geometry: Microsoft's four panes (23-unit grid); Apple's mark (simple-icons, 24-unit box) */
 const MS4 = ['#F25022', '#7FBA00', '#00A4EF', '#FFB900'];
