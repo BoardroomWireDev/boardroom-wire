@@ -1,0 +1,10 @@
+app-store-top-free-iphone-2026-09-19_wayback.jpg
+  From DELIVERY-001b (REQ-001): stock-pack\00-hook-open\images\app-store-top-free-iphone-muse-number-one_wayback-20260919232943_editorial.png
+  Apple's US iPhone Top Free chart as archived by the Internet Archive's Wayback Machine, 19 Sep 2026 23:29 UTC
+  (https://apps.apple.com/us/iphone/charts). #1 "Muse from Meta". Licence class: editorial. Cropped to the archive banner (the date)
+  and the first row, scaled to 1600 px. Nothing else changed. Ive, 25 Oct 2026.
+
+app-store-wayback-banner-url.png, app-store-wayback-banner-date.png, app-store-rank1-muse-tile.png (pass 2, the house card)
+  The same capture, cropped at full resolution with nothing changed: the Wayback banner with the archived URL (x 0-720, y 0-110),
+  its date block, 19 Sep 2026 (x 3380-3630, y 0-128), and the rank-1 tile, "Muse from Meta" (x 590-1210, y 300-930).
+  Credit rendered from data.js sources.app_store_us_top_free_wayback_20260919.

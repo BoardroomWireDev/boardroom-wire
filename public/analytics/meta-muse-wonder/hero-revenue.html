@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meta’s Revenue Lines</title>
+<!-- META Q3 2026 · HERO · REVENUE BY LINE (Ive, 25 Oct 2026). Style frame for the writer; builds once for video and web.
+     Reference: Anthropic IPO 20-ledger (one number read as a proportional slab) and 50-gap (one linear scale, the small thing
+     shown at its true size, then lifted out to be read).
+     The idea: where $64.6B came from, at true scale. One slab, every line on one linear scale: advertising is nearly all of it,
+     so other revenue and Reality Labs are slivers; a lens at x16 lifts the last 50 px out so they can be read (WhatsApp paid
+     messaging and subscriptions, in Susan Li's words). Below it, advertising as an area: ad impressions (+10%) times average
+     price per ad (+14%), the year-ago rectangle inside this year's.
+     The apps arrive one at a time with their names (the lesson), then the names step back and the marks stay.
+     Every figure is a data.js key. Shoot: ?final ?still ?t=<secs|label> ?capture. Re-time: ?at=<intro,slab,apps,lens,area,grow_w,grow_h,lands>
+     ?brand=dim|end|0. ?strict shows the key of every line that has no data.js row yet. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css?v=1">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" viewBox="0 0 1920 1080">
+    <defs>
+      <clipPath id="lensclip"><rect id="lensrect" x="1000" y="659" width="800" height="0"></rect></clipPath>
+    </defs>
+    <g id="world"></g>
+  </svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=1"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/hero.js?v=1"></script>
+<script>
+HERO.words({
+  meta_other_revenue_drivers: { text: 'WhatsApp paid messaging and subscriptions', at: 'Q3 call p5 (Susan Li): "driven primarily by WhatsApp paid messaging and subscriptions revenue" (in data.js only as a note on meta_other_revenue_q3_2026)' }
+});
+const S = HERO.steps({ intro: 0, slab: 1.2, apps: 3.2, lens: 6.8, area: 9.6, grow_w: 10.6, grow_h: 11.6, lands: 12.5 });
+const { mk, mark, fig, say } = HERO;
+const W = document.getElementById('world');
+const tok = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+function build() {
+  W.innerHTML = '';
+  const tl = gsap.timeline();
+  const total = fig('meta_revenue_q3_2026'), growth = fig('meta_revenue_growth_q3_2026');
+  const ads = fig('meta_ad_revenue_q3_2026'), adsG = fig('c_meta_ad_revenue_growth_q3_2026'), adsShare = fig('c_meta_ad_share_of_revenue_q3_2026');
+  const oth = fig('meta_other_revenue_q3_2026'), othG = fig('c_meta_other_revenue_growth_q3_2026');
+  const rl = fig('meta_rl_revenue_q3_2026'), rlG = fig('c_meta_rl_revenue_growth_q3_2026');
+  const foa = fig('meta_foa_revenue_q3_2026');
+  const ads25 = fig('meta_ad_revenue_q3_2025');
+  const imp = fig('meta_ad_impressions_growth_q3_2026'), price = fig('meta_ad_price_growth_q3_2026');
+
+  /* ---------- the header: the total ---------- */
+  const logo = mark(W, 'meta-wordmark', 120, 54, 40, 'cream');
+  const hero = mk('text', { x: 114, y: 236, class: 'nh', 'font-size': 150 }, W, total.display);
+  const heroG = mk('tspan', { dx: 30, class: 'n', 'font-size': 52, style: 'letter-spacing:-.01em' }, hero, growth.display);
+  const heroL = mk('text', { x: 120, y: 292, class: 'wd', 'font-size': 32 }, W, total.label);
+
+  /* ---------- the slab: every line on one linear scale ---------- */
+  const SX = 120, SW = 1680, SY = 412, SH = 140;
+  const k = SW / total.v;
+  const xAds = SX + ads.v * k, xOth = xAds + oth.v * k, xEnd = xOth + rl.v * k;   /* 1760.0, 1788.5, 1800 */
+  const slab = mk('g', {}, W);
+  const rAds = mk('rect', { x: SX, y: SY, width: xAds - SX, height: SH, fill: 'var(--gold)' }, slab);
+  const rOth = mk('rect', { x: xAds, y: SY, width: xOth - xAds, height: SH, fill: 'var(--cream)' }, slab);
+  const rRl  = mk('rect', { x: xOth, y: SY, width: xEnd - xOth, height: SH, fill: 'var(--grey-bright)' }, slab);
+  [xAds, xOth].forEach(x => mk('line', { x1: x, x2: x, y1: SY, y2: SY + SH, stroke: 'var(--ink)', 'stroke-width': 1.2 }, slab));
+  const inAds = mk('g', {}, W);
+  mk('text', { x: SX + 30, y: SY + 50, class: 'w ink', 'font-size': 34, 'font-weight': 600 }, inAds, 'advertising');
+  const adsN = mk('text', { x: SX + 26, y: SY + 116, class: 'n ink', 'font-size': 60, 'font-weight': 700 }, inAds, ads.display);
+  const adsGN = mk('tspan', { dx: 18, 'font-size': 36, 'font-weight': 600 }, adsN, adsG.display);
+  const shareN = mk('text', { x: xAds - 26, y: SY + 116, 'text-anchor': 'end', class: 'n ink', 'font-size': 36 }, inAds, adsShare.display);
+
+  /* ---------- the family: brace, marks, names ---------- */
+  const BY = 392;
+  const brace = mk('path', { d: `M ${SX} ${BY + 10} V ${BY} H ${xOth} V ${BY + 10}`, class: 'hair', style: '--w:1.5px' }, W);
+  const apps = [['facebook', 'Facebook'], ['instagram', 'Instagram'], ['messenger', 'Messenger'], ['whatsapp', 'WhatsApp'], ['threads', 'Threads']];
+  const appG = []; let ax = SX;
+  apps.forEach(([m, name]) => {
+    const g = mk('g', {}, W);
+    const mm = mark(g, m, ax, 326, 42, 'cream');
+    const nm = mk('text', { x: ax + 56, y: 359, class: 'w', 'font-size': 32 }, g, name);
+    appG.push({ g, nm, mk: mm, x: ax });
+    ax += 400;
+  });
+  const foaL = mk('text', { x: xOth, y: 359, 'text-anchor': 'end', class: 'w', 'font-size': 32 }, W);
+  mk('tspan', {}, foaL, 'Family of Apps  ');
+  mk('tspan', { class: 'n', 'font-size': 32 }, foaL, foa.display);
+
+  /* ---------- the lens: the last 50 px, x16 ---------- */
+  const L0 = xEnd - 50, LZ = 800 / 50, IX = 1000, IY = 664, IH = 104;
+  const win = mk('rect', { x: L0, y: SY - 8, width: 50, height: SH + 16, fill: 'none', stroke: 'var(--cream)', 'stroke-opacity': .7, 'stroke-width': 1.5, 'stroke-dasharray': '4 5' }, W);
+  const c1 = mk('line', { x1: L0, y1: SY + SH + 8, x2: IX, y2: IY - 22, class: 'rule', style: '--w:1.5px' }, W);
+  const c2 = mk('line', { x1: xEnd, y1: SY + SH + 8, x2: IX + 800, y2: IY - 22, class: 'rule', style: '--w:1.5px' }, W);
+  const lens = mk('g', { 'clip-path': 'url(#lensclip)' }, W);
+  const lx = (x) => IX + (x - L0) * LZ;
+  mk('rect', { x: IX, y: IY, width: lx(xAds) - IX, height: IH, fill: 'var(--gold)' }, lens);
+  const iOth = mk('rect', { x: lx(xAds), y: IY, width: lx(xOth) - lx(xAds), height: IH, fill: 'var(--cream)' }, lens);
+  const iRl = mk('rect', { x: lx(xOth), y: IY, width: lx(xEnd) - lx(xOth), height: IH, fill: 'var(--grey-bright)' }, lens);
+  [lx(xAds), lx(xOth)].forEach(x => mk('line', { x1: x, x2: x, y1: IY, y2: IY + IH, stroke: 'var(--ink)', 'stroke-width': 2 }, lens));
+  /* the cut edge: a break mark where the slab continues to the left */
+  [0, 14].forEach(o => mk('line', { x1: IX + 40 + o, y1: IY + IH + 4, x2: IX + 64 + o, y2: IY - 4, stroke: 'var(--bg)', 'stroke-width': 5 }, lens));
+  mk('text', { x: lx(xAds) + 22, y: IY + 70, class: 'n ink', 'font-size': 46, 'font-weight': 700 }, lens, oth.display);
+  mk('text', { x: lx(xOth) + 18, y: IY + 70, class: 'n ink', 'font-size': 40, 'font-weight': 700 }, lens, rl.display);
+  const zx = mk('text', { x: IX + 800, y: IY - 34, 'text-anchor': 'end', class: 'ax', 'font-size': 26 }, W, '×' + LZ);
+  const othL = mk('g', {}, W);
+  mark(othL, 'whatsapp', lx(xAds), IY + IH + 26, 38, 'cream');
+  const ol = mk('text', { x: lx(xAds) + 52, y: IY + IH + 56, class: 'w', 'font-size': 32 }, othL);
+  mk('tspan', {}, ol, 'other revenue  ');
+  mk('tspan', { class: 'n gold' }, ol, othG.display);
+  const liw = say('meta_other_revenue_drivers');
+  HERO.wrap(othL, '“' + liw + '”', lx(xAds), IY + IH + 102, 32, 430, HERO.isPending('meta_other_revenue_drivers') && HERO.STRICT ? 'pend' : 'wq');
+  const rlL = mk('g', {}, W);
+  mk('text', { x: lx(xOth), y: IY + IH + 56, class: 'w', 'font-size': 32 }, rlL, 'Reality Labs');
+  mk('text', { x: lx(xOth), y: IY + IH + 102, class: 'n', 'font-size': 32 }, rlL, rlG.display);   /* shares the quote's first baseline */
+
+  /* ---------- advertising as an area: impressions x price ---------- */
+  const AX = 150, AB = 906, W0 = 500, H0 = 240;
+  const W1 = W0 * (1 + imp.v / 100), H1 = H0 * (1 + price.v / 100);
+  const area = mk('g', {}, W);
+  const full = mk('rect', { x: AX, y: AB - H0, width: W0, height: H0, fill: 'var(--gold)' }, area);
+  const base = mk('rect', { x: AX, y: AB - H0, width: W0, height: H0, fill: 'var(--bg)', 'fill-opacity': .86, stroke: 'var(--gold)', 'stroke-width': 2 }, area);
+  const baseL = mk('g', {}, area);
+  mk('text', { x: AX + 26, y: AB - H0 + 52, class: 'wd', 'font-size': 32 }, baseL, ads25.label);   /* 26 Oct (Davinci): the data.js label, "advertising, Q3 2025"; "Q3 2025" alone read as total revenue ($51.2B) */
+  mk('text', { x: AX + 24, y: AB - 28, class: 'n', 'font-size': 52 }, baseL, ads25.display);
+  /* dimension lines, technical-drawing style */
+  const dimW = mk('g', {}, W);
+  const dwy = AB + 26;
+  const dW = mk('path', { d: `M ${AX} ${dwy - 8} v 16 M ${AX} ${dwy} H ${AX + W1} M ${AX + W0} ${dwy - 8} v 16 M ${AX + W1} ${dwy - 8} v 16`, class: 'hair', style: '--w:1.5px' }, dimW);
+  mk('text', { x: AX, y: dwy + 42, class: 'wd', 'font-size': 32 }, dimW, 'ad impressions');
+  mk('text', { x: AX + W0 + (W1 - W0) / 2, y: dwy + 42, 'text-anchor': 'middle', class: 'n gold', 'font-size': 32 }, dimW, imp.display);
+  const dimH = mk('g', {}, W);
+  const dhx = AX + W1 + 28;
+  mk('path', { d: `M ${dhx - 8} ${AB} h 16 M ${dhx} ${AB} V ${AB - H1} M ${dhx - 8} ${AB - H0} h 16 M ${dhx - 8} ${AB - H1} h 16`, class: 'hair', style: '--w:1.5px' }, dimH);
+  mk('text', { x: dhx + 22, y: AB - H0 - (H1 - H0) / 2 + 12, class: 'n gold', 'font-size': 32 }, dimH, price.display);
+  mk('text', { x: AX, y: AB - H1 - 24, class: 'wd', 'font-size': 32 }, dimH, 'average price per ad');
+  const landG = mk('g', {}, W);
+  /* pass 3: the key's label, "advertising, Q3 2026", on two lines (it breaks at its comma) so it clears the other-revenue panel */
+  ads.label.split(', ').forEach((s, i, a) => mk('text', { x: dhx + 22, y: AB - 100 - (a.length - 1 - i) * 40, class: 'wd', 'font-size': 32 }, landG, s + (i < a.length - 1 ? ',' : '')));
+  mk('text', { x: dhx + 16, y: AB - 28, class: 'nh', 'font-size': 64 }, landG, ads.display);   /* on the Q3 2025 figure's baseline */
+
+  /* positions that depend on measured type */
+  /* the app row, spaced by measured names */
+  let ax2 = SX; appG.forEach(a => { const dx = ax2 - a.x; a.g.setAttribute('transform', `translate(${dx},0)`); a.x = ax2; ax2 += 56 + a.nm.getComputedTextLength() + 44; });
+
+  /* ---------- the timeline ---------- */
+  BW.mark(tl, 'intro', S.intro);
+  HERO.rise(tl, [logo], S.intro + .1, { dy: 16 });
+  HERO.rise(tl, [hero, heroL], S.intro + .3);
+
+  BW.mark(tl, 'slab', S.slab);
+  tl.fromTo(rAds, { attr: { width: 0 } }, { attr: { width: xAds - SX }, duration: 1.4, ease: 'power2.inOut', immediateRender: true }, S.slab);
+  tl.fromTo(rOth, { attr: { width: 0 } }, { attr: { width: xOth - xAds }, duration: .3, ease: 'power1.out', immediateRender: true }, S.slab + 1.4);
+  tl.fromTo(rRl, { attr: { width: 0 } }, { attr: { width: xEnd - xOth }, duration: .25, ease: 'power1.out', immediateRender: true }, S.slab + 1.7);
+  tl.fromTo(slab.querySelectorAll('line'), { opacity: 0 }, { opacity: 1, duration: .2, immediateRender: true }, S.slab + 1.9);
+  HERO.rise(tl, Array.from(inAds.children), S.slab + 1.0, { dy: 20 });
+
+  BW.mark(tl, 'apps', S.apps);
+  HERO.draw(tl, brace, S.apps, .9);
+  appG.forEach((a, i) => HERO.rise(tl, [a.g], S.apps + .3 + i * .55, { dy: 18 }));
+  HERO.rise(tl, [foaL], S.apps + 3.0, { dy: 18 });
+  /* the lesson done, the names step back and the marks stay */
+  appG.forEach((a, i) => tl.to(a.nm, { opacity: 0, duration: .5 }, S.lens - .2 + i * .04));
+  appG.forEach((a, i) => { tl.to(a.nm, { x: 0, duration: .01 }, S.lens); tl.to(a.mk, { x: (SX + i * 64) - a.x, duration: .8, ease: 'power3.inOut' }, S.lens + .1); });
+
+  BW.mark(tl, 'lens', S.lens);
+  HERO.fade(tl, [win], S.lens, .4);
+  HERO.draw(tl, c1, S.lens + .3, .6); HERO.draw(tl, c2, S.lens + .3, .6);
+  tl.fromTo('#lensrect', { attr: { height: 0 } }, { attr: { height: IH + 10 }, duration: .7, ease: 'power3.inOut', immediateRender: true }, S.lens + .7);
+  HERO.fade(tl, [zx], S.lens + 1.0, .4);
+  HERO.rise(tl, [othL], S.lens + 1.2, { dy: 18 });
+  HERO.rise(tl, [rlL], S.lens + 1.6, { dy: 18 });
+
+  BW.mark(tl, 'area', S.area);
+  HERO.fade(tl, [area], S.area, .5);
+  HERO.rise(tl, [baseL], S.area + .3, { dy: 16 });
+  const gw = { w: W0, h: H0 };
+  const setFull = () => { full.setAttribute('width', gw.w); full.setAttribute('height', gw.h); full.setAttribute('y', AB - gw.h); };
+  BW.mark(tl, 'grow_w', S.grow_w);
+  tl.fromTo(gw, { w: W0 }, { w: W1, duration: .9, ease: 'power2.inOut', onUpdate: setFull, immediateRender: true }, S.grow_w);
+  HERO.fade(tl, [dimW], S.grow_w + .3, .5);
+  BW.mark(tl, 'grow_h', S.grow_h);
+  tl.fromTo(gw, { h: H0 }, { h: H1, duration: .9, ease: 'power2.inOut', onUpdate: setFull, immediateRender: false }, S.grow_h);
+  HERO.fade(tl, [dimH], S.grow_h + .3, .5);
+  BW.mark(tl, 'lands', S.lands);
+  HERO.rise(tl, [landG], S.lands, { dy: 18 });
+
+  const END = S.lands + 1.0;
+  HERO.credit(tl, .4);
+  HERO.brand(tl, END);
+  tl.to({}, { duration: .1 }, END + .8);
+  return tl;
+}
+function play() { return build(); }
+function rest() { const tl = build(); tl.progress(1); tl.pause(); }
+BW.run({ play, rest });
+</script>
+</body>
+</html>

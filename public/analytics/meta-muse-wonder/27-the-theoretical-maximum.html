@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Theoretical Maximum</title>
+<!-- META Q3 2026, 27, TWO TEXT CARDS: THE PRE 14C AND "A THEORETICAL MAXIMUM" (Ive, 25 Oct 2026), on the Print kit's clock
+     (PRINT.custom, layer 5.5). GAPS-locked gap 7, 7:59.25, 29.1 s. The voice: "And a filing on the new shares says management
+     forecasts showed the company needs to raise hundreds of billions of dollars ... Now, Meta called that a theoretical maximum
+     that it needs to raise, not its actual plan, but it still spooked many investors who were already concerned seeing them ramp
+     up capex to $145 billion for year 2026."
+     Left, the filing's own words (data.js meta_class_c_hundreds_of_billions, PRE 14C), "hundreds of billions of dollars" in gold,
+     revealed as the voice reads them. Right, Meta's answer on the follow-up call: "a theoretical maximum" (the data.js display)
+     and the next sentence of the same answer, verbatim from the ledger note ("It is not actually a description of our present
+     equity financing needs or plans."). Each card is headed by its source's name; the credit line names both. Then the close:
+     2026 capex on one true scale from $0: solid to the $85.8B spent in nine months (meta_capex_9m_2026), hatched to $135B, the
+     $135B to $145B guidance range hatched in gold (pass 1, 25 Oct, as 07 and hero-cash).
+     Re-time: ?at=<filing,l1,l2,l3,max,plan,capex>&secs=<length>. Shoot: ?final ?still ?t=<secs|step> ?capture ?beats.
+       bw render page --file=27-the-theoretical-maximum.html --name=27-the-theoretical-maximum --seconds=31.1 -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/print/print.css?v=1">
+</head>
+<body>
+<div class="stage">
+  <svg class="print" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=1"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/print/print.js?v=2"></script>
+<script>
+PRINT.custom((S, H) => {
+  const s = H.svg(), k = H.steps(S.steps, S.secs), C = H.C, D = BW_DATA;
+  /* wrap words into lines no wider than w; {gold} spans keep their colour */
+  function para(p, x, y0, w, FS, text, gold, cls = 'qt') {
+    const gi = gold ? text.indexOf(gold) : -1, out = [];
+    let line = H.el(p, 'text', { x, y: y0, class: cls, 'font-size': FS }); out.push(line);
+    let pos = 0;
+    text.split(' ').forEach((wd) => {
+      const isG = gi >= 0 && pos >= gi && pos < gi + gold.length; pos += wd.length + 1;
+      const ts = H.el(line, 'tspan', isG ? { class: 'qg' } : {}, (line.childNodes.length ? ' ' : '') + wd);
+      if (H.tw(line) > w && line.childNodes.length > 1) { line.removeChild(ts);
+        line = H.el(p, 'text', { x, y: y0 + out.length * FS * 1.3, class: cls, 'font-size': FS }); out.push(line); H.el(line, 'tspan', isG ? { class: 'qg' } : {}, wd); }
+    });
+    /* one run per colour on each line, so a line reads as a line (bw words reads text runs) */
+    out.forEach(tx => [...tx.childNodes].forEach(ts => { const q = ts.previousSibling;
+      if (q && q.getAttribute('class') === ts.getAttribute('class')) { q.textContent += ts.textContent; ts.remove(); } }));
+    return out;
+  }
+  const card = (x, src) => { const g = H.el(s, 'g');
+    H.el(g, 'text', { x, y: 236, class: 'nd', 'font-size': 28 }, D.sources[src].name);
+    H.el(g, 'line', { x1: x, x2: x + 740, y1: 262, y2: 262, stroke: 'rgba(245,241,229,.18)', 'stroke-width': 2 });
+    return g; };
+  /* left: the filing */
+  const L = card(160, H.F(S.filing).src), Lb = H.el(L, 'g');
+  const fl = para(Lb, 160, 340, 740, 46, '“' + H.F(S.filing).display + '.”', S.filingGold);
+  fl.forEach((ln, i) => H.rise(ln, [k.filing, k.l1, k.l2, k.l3][Math.min(i, 3)] + Math.max(0, i - 3) * .6, .55, 20));
+  H.tip(L, H.tipText(S.filing)); H.half(L, k.filing - .3, .4, .35);
+  /* right: Meta's answer */
+  const R = card(1020, H.F(S.answer).src);
+  const big = H.el(R, 'text', { x: 1020, y: 352, class: 'qt', 'font-size': 72, style: 'fill:var(--gold);font-weight:600;letter-spacing:-.02em' }, '“' + H.F(S.answer).display + '”');
+  H.tip(big, H.tipText(S.answer)); H.rise(big, k.max, .6, 24);
+  const pl = para(R, 1020, 440, 740, 40, '“' + S.answerMore + '”', '');
+  pl.forEach((ln, i) => H.rise(ln, k.plan + i * .35, .55, 18));
+  H.half(R, k.max - .6, .4, .0001);
+  /* the left card steps back a little once the answer is up; both step back for the close. A card's gold eases to cream as it
+     steps back (gold is the subject, and dimmed gold reads olive) */
+  const tok = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const rgbOf = (c) => { const d = document.createElement('div'); d.style.color = c; document.body.appendChild(d); const m = getComputedStyle(d).color.match(/\d+/g).map(Number); d.remove(); return m; };
+  const G = rgbOf(tok('--gold')), Cr = rgbOf(tok('--cream'));
+  const toCream = (nodes, a) => H.on((t) => { const u = H.go(t, a, a + .6); nodes.forEach(n => n.style.fill = `rgb(${G.map((g, i) => Math.round(H.mix(g, Cr[i], u))).join(',')})`); });
+  toCream([...L.querySelectorAll('.qg')], k.max); toCream([big], k.capex);
+  H.on((t) => { L.setAttribute('opacity', (1 - .3 * H.go(t, k.max, k.max + .6) - .25 * H.go(t, k.capex, k.capex + .6)).toFixed(3));
+    R.setAttribute('opacity', (1 - .45 * H.go(t, k.capex, k.capex + .6)).toFixed(3)); });
+  /* the close: 2026 capex guidance on one true scale from $0 */
+  const f = H.F(S.capex), lo = +f.lo * 1e6, hiV = +f.hi * 1e6, T = H.ticks(0, hiV, 3), x = H.lin(0, T.out[T.out.length - 1], 160, 1760), YB = 820;
+  const cx = H.el(s, 'g');
+  H.el(cx, 'text', { x: 160, y: YB - 40, class: 'nm', 'font-size': 34, style: 'font-weight:600' }, H.name(S.capex));
+  /* pass 1 (25 Oct), as 07 and hero-cash: solid to what is spent (first nine months), hatched to the guidance */
+  const sp = H.V(S.spent), solid = H.el(cx, 'rect', { x: 160, y: YB - 18, width: x(sp) - 160, height: 36, fill: 'rgba(245,241,229,.62)' });
+  H.tip(solid, H.tipText(S.spent));
+  const rest = H.el(cx, 'rect', { x: x(sp), y: YB - 18, width: x(lo) - x(sp), height: 36, fill: 'url(#pk-hatchDim)', stroke: 'rgba(245,241,229,.4)', 'stroke-width': 2 });
+  const spT = H.el(cx, 'text', { x: x(sp) - 10, y: YB - 36, class: 'fn', 'font-size': 34, 'text-anchor': 'end' }, H.disp(S.spent));
+  const spL = H.el(cx, 'text', { x: x(sp) - 10, y: YB + 112, class: 'nd', 'font-size': 26, 'text-anchor': 'end' }, H.cap(H.F(S.spent).label));
+  const band = H.el(cx, 'rect', { x: x(lo), y: YB - 18, width: x(hiV) - x(lo), height: 36, fill: 'url(#pk-hatchGold)', stroke: C.gold, 'stroke-width': 2 });
+  H.tip(band, H.tipText(S.capex));
+  T.out.forEach(v => { H.el(cx, 'line', { x1: x(v), x2: x(v), y1: YB + 22, y2: YB + 34, stroke: C.hair, 'stroke-width': 2 });
+    H.el(cx, 'text', { x: x(v), y: YB + 70, class: 'ax', 'font-size': 26, 'text-anchor': v ? 'middle' : 'start' }, v ? '$' + (v / 1e9) + 'B' : '$0'); });
+  const disp = H.el(cx, 'text', { x: x(hiV), y: YB - 40, class: 'fh', 'font-size': 48, 'text-anchor': 'end' }, H.disp(S.capex));
+  H.show(cx, k.capex - .3, .4); H.grow(solid, k.capex, 1.0, 160, YB, 'x'); H.rise(spT, k.capex + .8, .5, 12); H.show(spL, k.capex + .8, .5);
+  H.grow(rest, k.capex + 1.1, .6, x(sp), YB, 'x'); H.grow(band, k.capex + 1.6, .5, x(lo), YB, 'x');
+  H.rise(disp, k.capex + 2.0, .5, 14);
+})({ filing: 'meta_class_c_hundreds_of_billions', filingGold: 'hundreds of billions of dollars',
+     answer: 'meta_class_c_theoretical_max', answerMore: 'It is not actually a description of our present equity financing needs or plans.',
+     capex: 'meta_capex_guide_fy2026', spent: 'meta_capex_9m_2026',
+     steps: [['filing', 0.8], ['l1', 4.3], ['l2', 6.8], ['l3', 8.4], ['max', 13.8], ['plan', 16.7], ['capex', 24.2]], secs: 31.1 });
+</script>
+</body>
+</html>

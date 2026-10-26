@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meta’s AI Strategy</title>
+<!-- META Q3 2026 · HERO · THE STRATEGY MAP (NEW-1; Ive, 25 Oct 2026). ~1:45 on screen (10:22 to 12:20, NEW-10 cut in between).
+     The idea: one diagram, built once and walked lane by lane. The goal in Zuckerberg's words at the top; the models (MSL,
+     Wang) as the one source; four ways out, left to right in the order the voice takes them: ads, subscriptions, businesses,
+     commerce. Each lane fills only when the voice reaches it; the lit lane is gold and the camera leans in, the others step
+     back; the end state is the whole map at rest.
+     Reference: Anthropic IPO 20-ledger (a ruled ledger read column by column) and our hero-revenue (the type, the grammar).
+     Lane status words (now, building, later) were cut in proxy pass 1 (25 Oct, EF 16: our verdict, not anyone's line).
+     Every figure is a data.js key; Meta's words without a row yet sit in the WORDS table with their call timestamp (?strict
+     shows the keys instead). Shoot: ?final ?still ?t=<secs|label> ?capture. Re-time: ?at=<intro,msl,lanes,ads,subs,biz,bizfig,commerce,lands>
+     ?brand=dim|end|0. ?nocam keeps the camera still.
+     Refine (25 Oct 2026): the walk is four equal 256 px pans (lane 1 at the left margin, lane 4 at the right, bus at y 150
+     on screen); hero figures 96 px; one shared grid (head, R1, R2 with three slots, a row rule, R3); 64 px gutters so the
+     trunk lands at x 960 clear of lane 3's tap; the lit lane's tap turns gold; a dimmed lane turns its gold to cream (grey,
+     never olive), head .42, body .22; partner marks matched by eye on one baseline. Step names, order and times unchanged. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css?v=1">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" viewBox="0 0 1920 1080">
+    <g id="world"></g>
+  </svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=1"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/hero.js?v=1"></script>
+<script src="assets/hero/marks/firms/firms.js"></script>
+<script>
+HERO.words({
+  meta_goal_personal_superintelligence: { text: 'our goal of delivering personal superintelligence to everyone',
+    at: 'Q3 call 02:03.6 (Zuckerberg): "towards our goal of delivering personal super intelligence to everyone" (Meta writes it as one word)' },
+  meta_ai_incremental_ad_revenue: { text: 'Our AI investments are already delivering substantial incremental advertising revenue',
+    at: 'Q3 call 27:50.6 (Susan Li); clip C07' },
+  meta_enterprise_platform: { text: 'Meta Enterprise Platform', at: 'Q3 call 07:38.2-07:53.8 (Zuckerberg): "That is why we are building the Meta Enterprise Platform led by CJ Desai."; clip C17' },
+  meta_pap_partners: { text: 'Walmart, Stripe, Shopify', at: 'Q3 call 40:25-40:49 (Li): "an open standard ... with industry partners like Sierra, Walmart, Stripe, Shopify"' }
+});
+const S = HERO.steps({ intro: 0, msl: 3, lanes: 6, ads: 10, subs: 16, biz: 21, bizfig: 25, commerce: 30, lands: 36, wang: 19.2 });
+/* pass 2 (the 9:58-10:15 hold): Wang gets his own beat on "Zuck tapped Alexander Wang" (board 19.2 on the laid VO, the 10th
+   ?at value); with no ?at (the article), he arrives with the lab as before */
+if (!HERO.qp.get('at')) S.wang = S.msl + .9;
+const { mk, mark, fig, say } = HERO;
+const W = document.getElementById('world');
+const NOCAM = HERO.qp.has('nocam');
+
+
+/* a real firm mark from assets/hero/marks/firms (firms.js); a name with no file is typeset, never drawn */
+function firm(parent, name, x, yMid, capH, tone) {
+  const m = (window.FIRM_MARKS || {})[name];
+  if (!m) { const t = mk('text', { x, y: yMid + capH / 2, class: 'w', 'font-size': capH / .727, 'font-weight': 600 }, parent, name); return { node: t, w: () => t.getComputedTextLength() }; }
+  const h = capH * (m.h || 1.32);
+  const img = mk('image', { href: `assets/hero/marks/firms/${m.file}-${tone}.svg`, x, y: yMid - h / 2, height: h, width: h * m.ratio, preserveAspectRatio: 'xMinYMid meet' }, parent);
+  return { node: img, w: () => h * m.ratio };
+}
+
+/* Meta's words, wrapped to the lane, the speaker's name after the closing quote (on the last line if it fits) */
+function quote(parent, str, x, y, maxW, who) {
+  const t = HERO.wrap(parent, '“' + str + '”', x, y, 32, maxW, 'wq');
+  const lines = t.querySelectorAll('tspan');
+  const last = lines[lines.length - 1];
+  const a = mk('tspan', { class: 'wd', dx: 14 }, t, who);
+  if (last.getComputedTextLength() + 14 + a.getComputedTextLength() > maxW) { a.setAttribute('x', x); a.setAttribute('dx', 0); a.setAttribute('dy', 32 * 1.22); }
+  return t;
+}
+
+function build() {
+  W.innerHTML = '';
+  const tl = gsap.timeline();
+  const cam = HERO.camera(W);
+
+  /* ---------- the goal ---------- */
+  const logo = mark(W, 'meta-wordmark', 120, 54, 40, 'cream');
+  const goalKey = 'meta_goal_personal_superintelligence';
+  const goal = mk('text', { x: 104, y: 176, class: HERO.isPending(goalKey) && HERO.STRICT ? 'pend' : 'wq', 'font-size': 52, style: 'letter-spacing:-.02em' }, W);
+  const gq = say(goalKey);
+  mk('tspan', { class: 'dim' }, goal, '“');
+  const parts = gq.split('personal superintelligence');
+  if (parts.length === 2) { mk('tspan', {}, goal, parts[0]); mk('tspan', { class: 'gold' }, goal, 'personal superintelligence'); mk('tspan', {}, goal, parts[1]); }
+  else mk('tspan', {}, goal, gq);
+  mk('tspan', { class: 'dim' }, goal, '”');
+  const goalBy = mk('text', { x: 120, y: 226, class: 'wd', 'font-size': 32 }, W, BW_DATA.names.mark_zuckerberg);
+
+  /* ---------- the source: the models ---------- */
+  const msl = fig('msl_formed'), wang = fig('wang_cao_title');
+  const BY = 290;
+  const band = mk('g', {}, W);
+  const bandTop = mk('line', { x1: 120, x2: 1800, y1: BY - 30, y2: BY - 30, class: 'rule' }, W);
+  mark(band, 'muse', 120, BY - 4, 50, 'gold');
+  const mslName = mk('text', { x: 120 + HERO.markW('muse', 50) + 22, y: BY + 34, class: 'w', 'font-size': 40, 'font-weight': 600 }, band, msl ? msl.label.replace(/ formed$/, '') : 'msl_formed');
+  const mslDate = mk('text', { y: BY + 34, class: 'wd', 'font-size': 32 }, band, msl ? msl.display : '');
+  const wangG = mk('g', {}, W);
+  const wangN = mk('text', { x: 1800, y: BY + 34, 'text-anchor': 'end', class: 'w', 'font-size': 36 }, wangG);
+  mk('tspan', {}, wangN, wang ? wang.label : '');
+  mk('tspan', { class: 'wd', dx: 16 }, wangN, wang ? wang.display : 'wang_cao_title');
+
+  /* ---------- the four ways out ----------
+     A ruled drawing: one 1.5 px hairline weight for trunk, bus and drops; a square tap where each drop leaves the bus
+     (a zero-length square-capped stroke, so the tap keeps its size under the camera like the lines do). Gutters are
+     64 px so the trunk lands in the gap between lanes 2 and 3 (x 960) with 32 px of air to lane 3's tap. */
+  const LW = 372, LX = [0, 1, 2, 3].map(i => 120 + i * (1680 - LW) / 3);   /* 120 556 992 1428 */
+  const BUS = 384, Y0 = 432;
+  const trunk = mk('path', { d: `M 960 ${BY + 62} V ${BUS}`, class: 'hair', style: '--w:1.5px' }, W);
+  const bus = mk('path', { d: `M ${LX[0]} ${BUS} H ${LX[3]}`, class: 'hair', style: '--w:1.5px' }, W);
+  const drops = LX.map(x => mk('path', { d: `M ${x} ${BUS} V ${Y0 - 34}`, class: 'hair', style: '--w:1.5px' }, W));
+  const nodes = LX.map(x => mk('path', { d: `M ${x} ${BUS} h 0`, fill: 'none', style: 'stroke:var(--cream);stroke-opacity:.72;stroke-linecap:square;stroke-width:calc(7px / var(--s, 1))' }, W));
+
+  const LANES = [
+    { name: 'ads', status: 'now' },
+    { name: 'subscriptions', status: 'now' },
+    { name: 'businesses', status: 'building' },
+    { name: 'commerce', status: 'later' }
+  ];
+  /* the grid every lane shares: the head (index and status, then the name) and its rule; R1 the anchor, set on one
+     baseline whether it is a figure or a two-line name; R2 its label, three line slots (lane 4 sets its partners' marks
+     in the third); a row rule; R3 Meta's words. The lowest line (the speaker in lanes 1 and 4) sits at y 946. */
+  const HR = Y0 + 64, R1 = 592, R2 = 636, RR = 750, R3 = 790, LH = 39;
+  const lanes = LANES.map((L, i) => {
+    const x = LX[i];
+    const head = mk('g', {}, W);
+    /* pass 2 (voice NOTE): the 01-04 lane numbers read as a ranking, cut */
+    const st = mk('text', { x: x + LW, y: Y0, 'text-anchor': 'end', class: 'wd', 'font-size': 32 }, head, '');   /* pass 1 (25 Oct): the status words were our verdict (EF 16), cut */
+    const nm = mk('text', { x, y: Y0 + 42, class: 'w', 'font-size': 42, 'font-weight': 600, style: 'letter-spacing:-.02em' }, head, L.name);
+    const rule = mk('line', { x1: x, x2: x + LW, y1: HR, y2: HR, class: 'rule' }, head);
+    const lit = mk('line', { x1: x, x2: x + LW, y1: HR, y2: HR, class: 'goldline', style: '--w:3px', opacity: 0 }, head);
+    const body = mk('g', {}, W);
+    const row = mk('line', { x1: x, x2: x + LW, y1: RR, y2: RR, class: 'rule' }, body);
+    return { x, head, st, nm, rule, lit, body, row, parts: [] };
+  });
+
+  /* lane 1, ads: the ad business today, its growth, and Li's line */
+  const ads = fig('meta_ad_revenue_q3_2026'), adsG = fig('c_meta_ad_revenue_growth_q3_2026');
+  {
+    const L = lanes[0], b = L.body;
+    const f = mk('text', { x: L.x - 5, y: R1, class: 'nh', 'font-size': 96 }, b, ads.display);
+    const l = mk('text', { x: L.x, y: R2, class: 'wd', 'font-size': 32 }, b, ads.label);
+    const g = mk('text', { x: L.x, y: R2 + LH, class: 'n', 'font-size': 32 }, b, adsG.display);
+    mk('tspan', { class: 'wd', dx: 12 }, g, adsG.label.replace(/^advertising,\s*/, ''));
+    const q = quote(b, say('meta_ai_incremental_ad_revenue'), L.x, R3, LW, BW_DATA.names.susan_li);
+    L.parts = [[f, l, g], [q]];
+  }
+  /* lane 2, subscriptions: the only Muse money, in Meta's words */
+  const plan = fig('muse_app_plan_power'), subs = fig('meta_muse_monetization_subs_only');
+  {
+    const L = lanes[1], b = L.body;
+    const m = plan.display.match(/^(\S+)\s+(.*)$/);
+    const f = mk('text', { x: L.x - 5, y: R1, class: 'nh', 'font-size': 96 }, b, m ? m[1] : plan.display);
+    if (m) mk('tspan', { dx: 16, class: 'w gold', 'font-size': 36, style: 'letter-spacing:-.01em' }, f, m[2]);
+    const l = mk('text', { x: L.x, y: R2, class: 'wd', 'font-size': 32 }, b, plan.label);
+    const q = quote(b, subs.display, L.x, R3, LW, BW_DATA.names.susan_li);
+    L.parts = [[f, l], [q]];
+  }
+  /* lane 3, businesses: the platform (his clip), then what it sells and to whom */
+  const code5 = fig('muse_code_everyday'), code200 = fig('muse_code_max'), smb = fig('meta_smb_500m');
+  {
+    const L = lanes[2], b = L.body;
+    const f = mk('text', { x: L.x - 5, y: R1, class: 'nh', 'font-size': 96 }, b, smb.display);
+    const l = HERO.wrap(b, smb.label, L.x, R2, 32, LW, 'wd');
+    const plat = mk('text', { x: L.x, y: R3, class: 'w', 'font-size': 32, 'font-weight': 600 }, b, say('meta_enterprise_platform'));
+    const codeG = mk('g', {}, b);
+    mk('text', { x: L.x, y: R3 + 50, class: 'wd', 'font-size': 32 }, codeG, code5.label.split(',')[0]);
+    const cr = mk('text', { x: L.x, y: R3 + 102, class: 'n', 'font-size': 40 }, codeG);
+    const sp = (d) => { const mm = d.match(/^(\S+)\s+(.*)$/); return mm || [d, d, '']; };
+    const a = sp(code5.display), z = sp(code200.display);
+    mk('tspan', {}, cr, a[1]);
+    mk('tspan', { class: 'wd', 'font-size': 32, dx: 12 }, cr, 'to');
+    mk('tspan', { dx: 12 }, cr, z[1]);
+    mk('tspan', { class: 'wd', 'font-size': 32, dx: 12 }, cr, z[2]);
+    L.parts = [[plat], [f, l, codeG]];
+  }
+  /* lane 4, commerce: the agent standard (two lines, set to end on R1), its partners' real marks, how Meta would earn */
+  const pap = fig('meta_personal_agent_protocol'), pct = fig('meta_muse_percent_of_value');
+  {
+    const L = lanes[3], b = L.body;
+    const f = HERO.wrap(b, pap.display, L.x, R1 - 44, 40, LW, 'w gold', { 'font-weight': 600, style: 'letter-spacing:-.02em' }, 1.1);
+    const l = HERO.wrap(b, pap.label, L.x, R2, 32, LW, 'wd');
+    /* partner marks on one optical baseline, matched by eye: Walmart's heavy caps set smaller, Stripe's light lowercase
+       larger; h = box height as a multiple of the shared x-height, bl = where the letters sit in the box */
+    const OPT = { Walmart: { h: 1.55, bl: .99 }, Stripe: { h: 2.2, bl: .74 }, Shopify: { h: 2.2, bl: .76 } };
+    const XH = 14, base = R2 + 2 * LH + 8;
+    const marks = mk('g', {}, b);
+    const names = say('meta_pap_partners').split(', ');
+    const set = names.map(n => {
+      const m = (window.FIRM_MARKS || {})[n], o = OPT[n];
+      if (!m || !o) return firm(marks, n, 0, base - XH, XH * 1.4, 'cream');
+      const h = XH * o.h, w = h * m.ratio;
+      const img = mk('image', { href: `assets/hero/marks/firms/${m.file}-cream.svg`, y: base - h * o.bl, height: h, width: w, preserveAspectRatio: 'xMinYMid meet' }, marks);
+      return { node: img, w: () => w };
+    });
+    const total = set.reduce((s, r) => s + r.w(), 0), gap = Math.min(40, (LW - total) / Math.max(1, set.length - 1));
+    let mx = L.x;
+    set.forEach(r => { r.node.setAttribute('x', mx); mx += r.w() + gap; });
+    const q = quote(b, pct.display, L.x, R3, LW, BW_DATA.names.mark_zuckerberg);
+    L.parts = [[f, l, marks], [q]];
+  }
+
+  /* positions that depend on measured type */
+  mslDate.setAttribute('x', +mslName.getAttribute('x') + mslName.getComputedTextLength() + 24);
+
+  /* ---------- the timeline ---------- */
+  BW.mark(tl, 'intro', S.intro);
+  HERO.rise(tl, [logo], S.intro + .1, { dy: 16 });
+  HERO.rise(tl, [goal], S.intro + .4, { dy: 24 });
+  HERO.rise(tl, [goalBy], S.intro + .9, { dy: 16 });
+
+  BW.mark(tl, 'msl', S.msl);
+  HERO.draw(tl, bandTop, S.msl, .9);
+  HERO.rise(tl, Array.from(band.children), S.msl + .3, { dy: 18, stagger: .12 });
+  BW.mark(tl, 'wang', S.wang);
+  HERO.rise(tl, [wangG], S.wang, { dy: 18 });
+
+  BW.mark(tl, 'lanes', S.lanes);
+  HERO.draw(tl, trunk, S.lanes, .45, 'power1.in');
+  HERO.draw(tl, bus, S.lanes + .45, .8);
+  drops.forEach((d, i) => { HERO.fade(tl, [nodes[i]], S.lanes + .9 + i * .18, .2); HERO.draw(tl, d, S.lanes + .95 + i * .18, .35, 'power1.out'); });
+  lanes.forEach((L, i) => HERO.rise(tl, Array.from(L.head.children).filter(n => n !== L.lit), S.lanes + 1.2 + i * .22, { dy: 18, stagger: .05 }));
+
+  /* each lane in turn: it lights (gold rule, gold status, gold tap), the camera leans in, the others step back.
+     The camera walks the map in four equal lateral steps (cx evenly spaced between the two clamped ends), so lane 1
+     sits at the frame's left margin, lane 4 at its right margin, and every move between neighbours is the same calm
+     256 px pan; the bus sits at y 150 on screen, clear of the channel mark, and the lowest line clears the source. */
+  const Z = 1.4, CX0 = 960 / Z, CX3 = 1920 - 960 / Z;
+  const lean = (i, at) => {
+    if (NOCAM) return;
+    cam.to(tl, { tx: CX0 + i * (CX3 - CX0) / 3, ty: BUS, sx: 960, sy: 150, s: Z }, { at, duration: 1.4, ease: 'power2.inOut' });
+  };
+  /* a lane that is not the subject steps back: its head to .42, its body to .24, and its gold turns cream first, so a
+     dimmed figure reads grey, never olive */
+  const CS = getComputedStyle(document.documentElement);
+  const GOLD = CS.getPropertyValue('--gold').trim(), CREAM = CS.getPropertyValue('--cream').trim();
+  const STDIM = 'rgba(245, 241, 229, .62)';
+  lanes.forEach(M => { M.golds = Array.from(M.body.querySelectorAll('.nh, .gold')); });
+  const HDIM = .42, BDIM = .22;
+  /* while the lanes are walked, the goal, the models and the trunk leave the frame (the camera lifts past them) and fade */
+  const top = [logo, goal, goalBy, bandTop, band, wangG, trunk];
+  const order = [['ads', 0], ['subs', 1], ['biz', 2], ['commerce', 3]];
+  order.forEach(([step, i], k) => {
+    const t = S[step], L = lanes[i];
+    BW.mark(tl, step, t);
+    lanes.forEach((M, j) => {
+      if (j === i) return;
+      tl.to(M.head, { opacity: HDIM, duration: .6, ease: 'power2.out' }, t);
+      tl.to(M.body, { opacity: BDIM, duration: .6, ease: 'power2.out' }, t);
+      if (M.golds.length) tl.to(M.golds, { fill: CREAM, duration: .5 }, t);
+      tl.to(M.lit, { opacity: 0, duration: .4 }, t);
+      tl.to(M.st, { fill: STDIM, duration: .4 }, t);
+      tl.to([drops[j], nodes[j]], { opacity: .5, duration: .5 }, t);
+      tl.to(nodes[j], { stroke: CREAM, duration: .4 }, t);
+    });
+    if (k === 0) { tl.to(bus, { opacity: .6, duration: .6 }, t); if (!NOCAM) tl.to(top, { opacity: 0, duration: .7 }, t + .2); }
+    tl.to([L.head, L.body, drops[i], nodes[i]], { opacity: 1, duration: .5, ease: 'power2.out' }, t);
+    if (L.golds.length) tl.to(L.golds, { fill: GOLD, duration: .5 }, t);
+    tl.fromTo(L.lit, { opacity: 0 }, { opacity: 1, duration: .5, immediateRender: false }, t + .1);
+    HERO.draw(tl, L.lit, t + .1, .7);
+    tl.to(L.st, { fill: GOLD, duration: .4 }, t + .2);
+    tl.to(nodes[i], { stroke: GOLD, duration: .4 }, t + .1);
+    lean(i, t);
+    HERO.draw(tl, L.row, t + .5, .6);
+    HERO.rise(tl, L.parts[0], t + .7, { dy: 20, stagger: .12 });
+    if (step !== 'biz') HERO.rise(tl, L.parts[1], t + 1.6, { dy: 20, stagger: .14 });
+  });
+  BW.mark(tl, 'bizfig', S.bizfig);
+  HERO.rise(tl, lanes[2].parts[1], S.bizfig, { dy: 20, stagger: .16 });
+
+  /* the map at rest */
+  BW.mark(tl, 'lands', S.lands);
+  lanes.forEach(M => {
+    tl.to([M.head, M.body], { opacity: 1, duration: .8, ease: 'power2.inOut' }, S.lands);
+    if (M.golds.length) tl.to(M.golds, { fill: GOLD, duration: .6 }, S.lands);
+    tl.to(M.lit, { opacity: 0, duration: .6 }, S.lands);
+  });
+  tl.to(lanes.slice(0, 2).map(M => M.st), { fill: GOLD, duration: .6 }, S.lands);
+  tl.to(lanes.slice(2).map(M => M.st), { fill: STDIM, duration: .6 }, S.lands);
+  tl.to([bus].concat(drops, nodes), { opacity: 1, duration: .8 }, S.lands);
+  tl.to(nodes, { stroke: CREAM, duration: .6 }, S.lands);
+  tl.to(top, { opacity: 1, duration: .9, ease: 'power2.out' }, S.lands + .5);
+  if (!NOCAM) cam.to(tl, { tx: 960, ty: 540, s: 1 }, { at: S.lands, duration: 1.6, ease: 'power2.inOut' });
+
+  const END = S.lands + 1.4;
+  HERO.credit(tl, .4);
+  HERO.brand(tl, END);
+  tl.to({}, { duration: .1 }, END + .8);
+  return tl;
+}
+function play() { return build(); }
+function rest() { const tl = build(); tl.progress(1); tl.pause(); }
+document.fonts.load('600 40px Inter').then(() => document.fonts.ready).then(() => BW.run({ play, rest }));
+</script>
+</body>
+</html>

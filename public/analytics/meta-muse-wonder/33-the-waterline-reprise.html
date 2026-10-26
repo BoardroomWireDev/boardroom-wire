@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Not Yet</title>
+<!-- META Q3 2026, 33, THE WATERLINE, REPRISE (Ive, 26 Oct 2026, pass 2 findings 12:51), on the Print kit's clock (PRINT.custom).
+     09's world exactly, opening where 09 ended (under the water at x3 on Q3 2026's -$2.1B). Board 0 = timeline 771.07 s (12:51.02),
+     7.3 s, in place of the revenue recall's second lay. The voice: "So is Meta sinking (772.75) the ship? Not yet (773.83). It's still
+     a growth company with revenue (777.0) up 26% (777.9)."
+       hold    under the water, as W1 left it
+       pull    on "Not yet": the camera pulls back to x0.92, the nine quarters filling the frame (pass 3; was x0.28, a small cluster)
+       rev     Q3 2026 revenue rises from the surface, gold, at the same quarter's place and out of the top (one true scale)
+       revlab  its figure on "revenue"; growth  +26% on "26%"
+     Every figure is a data.js key; nothing glows. Re-time: ?at=<hold,pull,rev,revlab,growth>&secs=<length>.
+       bw render page --file=33-the-waterline-reprise.html --name=33-the-waterline-reprise --seconds=7.3 -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/print/print.css?v=1">
+</head>
+<body>
+<div class="stage">
+  <svg class="print" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=1"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/print/print.js?v=3"></script>
+<script>
+PRINT.custom((S, H) => {
+  const s = H.svg(), k0 = H.steps(S.steps, S.secs), C = H.C;
+  /* W1's own steps, all in the past: the board opens on W1's last frame */
+  const k = Object.assign({ line: -20, number: -19, drift: -12, bars: -18, sink: -1.25, depth: -8 }, k0);   /* sink: 09 ends 1.25 s after its sink, so the surface's last ripple matches */
+  const NS = 'http://www.w3.org/2000/svg';
+  const keys = H.list(S.list), n = keys.length;
+  const Y = 700, PX = 520 / Math.max(...keys.map(H.V)), BWD = 116, STEP = 178, X0 = 170;
+  const NSS = { 'vector-effect': 'non-scaling-stroke' };
+
+  /* the water's drawing convention: short dashes, staggered, fading with depth */
+  const defs = s.querySelector('defs');
+  const pat = H.el(defs, 'pattern', { id: 'w1-water', width: 96, height: 30, patternUnits: 'userSpaceOnUse' });
+  H.el(pat, 'line', { x1: 6, y1: 10, x2: 46, y2: 10, stroke: 'rgba(245,241,229,.20)', 'stroke-width': 1.5 });
+  H.el(pat, 'line', { x1: 54, y1: 25, x2: 80, y2: 25, stroke: 'rgba(245,241,229,.13)', 'stroke-width': 1.5 });
+  const gr = H.el(defs, 'linearGradient', { id: 'w1-fade', x1: 0, x2: 0, y1: Y, y2: Y + 300, gradientUnits: 'userSpaceOnUse' });
+  H.el(gr, 'stop', { offset: 0, 'stop-color': 'white' }); H.el(gr, 'stop', { offset: 1, 'stop-color': 'white', 'stop-opacity': 0 });
+  const mask = H.el(defs, 'mask', { id: 'w1-deep', maskUnits: 'userSpaceOnUse', x: -9000, y: 0, width: 20000, height: 7000 });
+  H.el(mask, 'rect', { x: -9000, y: Y, width: 20000, height: 300, fill: 'url(#w1-fade)' });
+
+  /* the world, under one camera */
+  const W = H.el(s, 'g');
+  const water = H.el(W, 'g');
+  H.el(water, 'rect', { x: -9000, y: Y, width: 20000, height: 6000, fill: 'rgba(245,241,229,.025)' });
+  H.el(water, 'rect', { x: -9000, y: Y + 6, width: 20000, height: 6000, fill: 'url(#w1-water)', mask: 'url(#w1-deep)' });
+  H.show(water, -1, .01);                              /* pass 3: W1's last frame has its water, so frame 0 does too */
+
+  /* the eight quarters above the water, and Q3 2026 */
+  const last = keys[n - 1], xq = X0 + (n - 1) * STEP, hq = Math.abs(H.V(last)) * PX;
+  const S0 = 2.4;                                      /* the close-up: frame 02's line at y 470 and its 300 px figure */
+  const clip = H.el(defs, 'clipPath', { id: 'w1-under' });
+  H.el(clip, 'rect', { x: -2000, y: Y, width: 6000, height: 4000 });
+  const numG = H.el(W, 'g');
+  const numIn = H.el(H.el(numG, 'g', { 'clip-path': 'url(#w1-under)' }), 'g');
+  H.el(numIn, 'text', { x: xq + BWD / 2, y: Y + 232 / S0, class: 'fh', 'font-size': 300 / S0, 'text-anchor': 'middle', style: `fill:${C.red}` }, H.disp(last));
+  const numL = H.el(numG, 'text', { x: xq + BWD / 2, y: Y + 336 / S0, 'font-size': 40 / S0, 'text-anchor': 'middle', style: 'fill:rgba(245,241,229,.62);font-family:var(--sans)' }, H.F(last).label);
+  H.on((t) => { const u = H.go(t, k.number, k.number + .5, H.ease.out); numIn.setAttribute('transform', `translate(0,${(-(1 - u) * 130).toFixed(2)})`); });
+  H.show(numL, k.number + .35, .4);
+  const small = [];
+  const bars = keys.slice(0, -1).map((key, i) => {
+    const x = X0 + i * STEP, h = H.V(key) * PX, g = H.el(W, 'g');
+    const r = H.el(g, 'rect', { x, y: Y - h, width: BWD, height: h, fill: 'rgba(245,241,229,.10)', stroke: 'rgba(245,241,229,.55)', 'stroke-width': 1.5, ...NSS });
+    H.tip(r, H.tipText(key));
+    const v = H.el(g, 'text', { x: x + BWD / 2, y: Y - h - 18, class: 'fn', 'font-size': 32, 'text-anchor': 'middle', opacity: .78 }, H.disp(key));
+    const q = H.el(g, 'text', { x: x + BWD / 2, y: Y - h - 62, class: 'ax', 'font-size': 32, 'text-anchor': 'middle' }, H.F(key).label);
+    const at = k.bars + i * .25;               /* across "a company known for printing cash" */
+    H.grow(r, at, .7, x, Y, 'y', H.ease.out);
+    small.push(v, q);
+    return r;
+  });
+
+  /* Q3 2026: the sink. Gravity in (t^2 to 107% of its depth in 0.45 s), then a damped spring back to the true depth */
+  const sinkR = H.el(W, 'rect', { x: xq, y: Y, width: BWD, height: 0, fill: C.red });
+  H.tip(sinkR, H.tipText(last));
+  const depth = (t) => {
+    const u = t - k.sink; if (u <= 0) return 0;
+    if (u < .45) return 1.07 * (u / .45) * (u / .45);
+    const v = u - .45; return 1 + .07 * Math.exp(-5 * v) * Math.cos(2 * Math.PI * v / .42);
+  };
+  H.on((t) => { const d = depth(t); sinkR.setAttribute('height', (hq * d).toFixed(2)); sinkR.style.display = d <= 0 ? 'none' : ''; });
+
+  /* the surface: one line, with a small dip where the bar goes in, ringing out */
+  const surf = H.el(W, 'path', { fill: 'none', stroke: 'var(--cream)', 'stroke-width': 2.4, ...NSS });
+  const xc = xq + BWD / 2;
+  H.on((t) => {
+    const u = t - k.sink - .3, A = u <= 0 ? 0 : -4 * Math.exp(-3.2 * u) * Math.sin(2 * Math.PI * u / .55);
+    /* pass 2 review: the line is whole from frame 0, so the dissolve in lands on picture, not on bare ink */
+    let d = `M -9000 ${Y} L ${xc - 420} ${Y}`;
+    for (let x = xc - 420; x <= xc + 420; x += 6) { const g = Math.exp(-Math.pow((x - xc) / 140, 2)); d += ` L ${x} ${(Y + A * g).toFixed(2)}`; }
+    surf.setAttribute('d', d + ` L 11000 ${Y}`);
+  });
+  /* the water level mark and the zero */
+  const lvl = H.el(W, 'g');
+  const tx = 1839;
+  H.el(lvl, 'path', { d: `M${tx - 16},${Y - 28} L${tx + 16},${Y - 28} L${tx},${Y} Z`, fill: 'none', stroke: 'var(--cream)', 'stroke-width': 2, ...NSS });
+  H.el(lvl, 'line', { x1: tx - 22, x2: tx + 22, y1: Y + 12, y2: Y + 12, stroke: 'var(--cream)', 'stroke-width': 2, ...NSS });
+  H.el(lvl, 'line', { x1: tx - 12, x2: tx + 12, y1: Y + 22, y2: Y + 22, stroke: 'var(--cream)', 'stroke-width': 2, ...NSS });
+  H.show(lvl, -1, .01);
+  small.push(H.el(W, 'text', { x: 96, y: Y - 14, class: 'ax', 'font-size': 32 }, '$0'));
+
+  /* the depth, measured on "ship": a dimension line from the surface to the bar's foot, and the figure under it */
+  const dx = xq + BWD + 12, dimG = H.el(W, 'g');
+  const L = (a) => H.el(dimG, 'line', Object.assign({ stroke: C.red, 'stroke-width': 2, ...NSS }, a));
+  L({ x1: dx, x2: dx, y1: Y, y2: Y + hq });
+  L({ x1: dx - 3, x2: dx + 3, y1: Y + hq, y2: Y + hq });
+  L({ x1: xq + BWD + 1.5, x2: dx + 3, y1: Y + hq, y2: Y + hq, 'stroke-dasharray': '4 4' });
+  H.el(dimG, 'path', { d: `M${dx},${Y + hq} l-2,-4.7 l4,0 Z`, fill: C.red });
+  H.el(dimG, 'path', { d: `M${dx},${Y} l-2,4.7 l4,0 Z`, fill: C.red });
+  const fig = H.el(W, 'text', { x: xq, y: Y + hq + 50, class: 'fh', 'font-size': 50, style: `fill:${C.red}` }, H.disp(last));
+  const lab = H.el(W, 'text', { x: xq + 1.3, y: Y + hq + 66.7, class: 'ax', 'font-size': 11, style: 'fill:rgba(245,241,229,.62);font-family:var(--sans)' }, H.F(last).label);
+  small.push(fig, lab, dimG);
+
+  /* the revenue: Q3 2026's, at the same quarter's place, on the same scale, standing on the water */
+  const hr = H.V(S.rev) * PX;                              /* one scale: PX is per USD, as for the quarters */
+  /* pass 3 (visual: the quarters sat as a small cluster): the pull-back stops where the nine quarters fill the frame; on the
+     same true scale $64.6B is four times the tallest of them, so the gold bar rises out of the top of the frame, and its figure
+     lands beside it, over the quarters */
+  const SR = 0.92;
+  const revR = H.el(W, 'rect', { x: xq, y: Y, width: BWD, height: 0, fill: C.gold });
+  H.tip(revR, H.tipText(S.rev));
+  H.on((t) => { const u = H.go(t, k.rev, k.rev + 1.5, H.ease.out); revR.setAttribute('y', (Y - hr * u).toFixed(1)); revR.setAttribute('height', (hr * u).toFixed(1)); revR.style.display = u <= 0 ? 'none' : ''; });
+  const RX = xq - 28, RY = Y - 712, END = { 'text-anchor': 'end' };     /* right-aligned to the gold bar's left, above the quarters */
+  const revT = H.el(W, 'text', { x: RX, y: RY, class: 'fh', 'font-size': 96 / SR, style: `fill:${C.gold}`, ...END }, H.disp(S.rev));
+  const revL = H.el(W, 'text', { x: RX, y: RY + 46 / SR, 'font-size': 32 / SR, style: 'fill:rgba(245,241,229,.62);font-family:var(--sans)', ...END }, H.F(S.rev).label);
+  const grT = H.el(W, 'text', { x: RX - 4, y: RY + 116 / SR, class: 'fn', 'font-size': 56 / SR, style: 'fill:var(--cream)', ...END }, H.disp(S.growth));
+  const grL = H.el(W, 'text', { x: RX, y: RY + 156 / SR, 'font-size': 32 / SR, style: 'fill:rgba(245,241,229,.62);font-family:var(--sans)', ...END }, H.F(S.growth).label);
+  H.rise(revT, k.revlab, .5, 20 / SR); H.rise(revL, k.revlab + .2, .5, 12 / SR);
+  H.rise(grT, k.growth, .5, 20 / SR); H.rise(grL, k.growth + .2, .5, 12 / SR);
+
+  /* the camera: W1's last frame held, then on "Not yet" one pull-back (log scale) to the whole quarter on one scale */
+  const A2 = { cx: xc - 60, cy: Y + 110, s: 3 }, P3 = { cx: 990, cy: Y - 236, s: SR };
+  const cam = (a, b, u) => ({ cx: H.mix(a.cx, b.cx, u), cy: H.mix(a.cy, b.cy, u), s: a.s * Math.pow(b.s / a.s, u) });
+  H.on((t) => {
+    const c = cam(A2, P3, H.go(t, k.pull, k.pull + 1.9, H.ease.io));
+    W.setAttribute('transform', `translate(960,540) scale(${c.s.toFixed(4)}) translate(${(-c.cx).toFixed(2)},${(-c.cy).toFixed(2)})`);
+    lvl.setAttribute('transform', `translate(${tx},${Y}) scale(${(1 / c.s).toFixed(4)}) translate(${-tx},${-Y})`);   /* a symbol keeps its drawn size */
+    /* pass 3: the pull stops at x0.92, so every label stays readable at its own opacity (W1's), and nothing fades. Only the
+       depth figure's label (11 world px under the bar) grows with the pull, to 32 px on screen, keeping its place under the figure */
+    const fl = Math.max(11, 32 / c.s); lab.setAttribute('font-size', fl.toFixed(3)); lab.setAttribute('y', (Y + hq + 50 + fl * 1.52).toFixed(2));
+    numG.setAttribute('opacity', 0);                                                          /* W1's opening number is not part of the reprise */
+  });
+})({ list: 'fcf_quarters',
+     rev: 'meta_revenue_q3_2026', growth: 'meta_revenue_growth_q3_2026',
+     steps: [['hold', 0], ['pull', 2.7], ['rev', 4.3], ['revlab', 5.95], ['growth', 6.8]], secs: 7.3 });
+</script>
+</body>
+</html>

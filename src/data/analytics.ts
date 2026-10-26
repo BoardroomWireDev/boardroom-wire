@@ -19,6 +19,7 @@
  */
 
 import teslaSpacexFigures from './figures/tesla-spacex.json' with { type: 'json' };
+import metaMuseWonderFigures from './figures/meta-muse-wonder.json' with { type: 'json' };
 
 export type SourceKind = 'primary' | 'reported' | 'estimate' | 'illustration';
 
@@ -951,7 +952,10 @@ export interface FigureData {
   boards: Record<string, { file: string; credit: string; figures: string[]; noslot: string }>;
   figures: Record<string, Figure>;
 }
-const FIGURES: Record<string, FigureData> = { 'tesla-spacex': teslaSpacexFigures as FigureData };
+const FIGURES: Record<string, FigureData> = {
+  'tesla-spacex': teslaSpacexFigures as FigureData,
+  'meta-muse-wonder': metaMuseWonderFigures as FigureData,
+};
 
 export const figureData = (slug: string): FigureData => {
   const d = FIGURES[slug];
@@ -1093,8 +1097,145 @@ export const teslaSpacex: Collection = {
   ],
 };
 
+/* ==================================================================== */
+/*  Meta Q3 2026                                                         */
+/* ==================================================================== */
+
+const M = 'meta-muse-wonder';
+export const metaMuseWonder: Collection = {
+  slug: M,
+  title: "Meta Made $64.6 Billion in Three Months. It Wasn't Enough.",
+  kicker: 'Thirteen dashboards',
+  summary: fill(M,
+    'Meta made {meta_revenue_q3_2026} in the third quarter of 2026, up {meta_revenue_growth_q3_2026} from a year earlier, and spent so heavily on AI that free cash flow went below zero. These thirteen dashboards chart Muse’s first weeks and its model, where the revenue comes from, where the cash went, the stock, the raise, Meta’s AI strategy and what Muse could make. Every figure carries its source on the dashboard.'),
+  published: '2026-10-26',
+  hero: 'cash-in-cash-out',
+  headline: { lead: "Meta Made $64.6 Billion in Three Months", dim: ". It Wasn't Enough." },
+  primaryLabel: 'Primary',
+  method: {
+    primary:
+      'Stated by Meta or filed with the SEC: the Q3 2026 earnings release, presentation and calls, the 10-K and 10-Q, the information statement on the new shares and the prospectus for the stock sale.',
+    reported:
+      'Sourced to journalism and market data: CNBC and heygotrade. Attribution is printed on the dashboard itself, not just here.',
+    estimate:
+      'Our own arithmetic on Meta’s figures, and our rough math on what Muse could make in 2027. Every dashboard that uses one says so in its source line.',
+  },
+  dashboards: [
+    /* 09 is timed for the cut, where the camera sinks from it into 33: the web stops it on its own chart (the sink never
+       comes), so the board ends, rests and posters on that frame. */
+    {
+      n: 1, slug: 'the-waterline', ...board(M, 'the-waterline'), query: 'at=-1,-1,0.23,1.05,5.23,99,99&secs=8',
+      title: 'Meta’s Free Cash Flow',
+      blurb: fill(M,
+        'For two years, Meta’s free cash flow stood above zero every quarter, from {meta_fcf_q3_2024} in the third quarter of 2024. In the third quarter of 2026 it sank below the line, to {meta_fcf_q3_2026}.'),
+      section: 'Sinking the Ship?',
+      source: 'primary',
+      key: true,
+    },
+    {
+      n: 2, slug: 'the-scorecard', ...board(M, 'the-scorecard'),
+      title: 'Zuckerberg’s Scorecard',
+      blurb: fill(M,
+        '{meta_dap_sep_2026} people use Meta’s apps every day. In its first six weeks, {meta_muse_setup_people_q3_2026} people in the US and Canada set up Muse, and {meta_muse_daily_use_rate_q3_2026} of them use it on a given day, {c_meta_muse_daily_people_q3_2026} people.'),
+      section: 'Zuckerberg’s Scorecard',
+      source: 'primary',
+    },
+    {
+      n: 3, slug: 'muse-wonder', ...board(M, 'muse-wonder'),
+      title: 'Muse Wonder',
+      blurb: fill(M,
+        'Meta launched Muse Wonder, its first frontier model, on {wonder_launch:date}. Artificial Analysis scores its strongest version at {aa_wonder_full_index}, just behind Anthropic’s Claude Opus 5.5 at {aa_opus55_index}. Wonder powers Muse for people who pay, and the free version runs on Muse Spark.'),
+      section: 'Muse Wonder',
+      source: 'primary',
+    },
+    {
+      n: 4, slug: 'the-revenue', ...board(M, 'the-revenue'),
+      title: 'Meta’s Revenue Lines',
+      blurb: fill(M,
+        'Of {meta_revenue_q3_2026} in revenue, {meta_ad_revenue_q3_2026} came from advertising. Meta showed {meta_ad_impressions_growth_q3_2026} more ads than a year earlier and charged {meta_ad_price_growth_q3_2026} more for each one.'),
+      section: 'The Bill',
+      source: 'primary',
+      key: true,
+    },
+    {
+      n: 5, slug: 'profit-and-cash', ...board(M, 'profit-and-cash'),
+      title: 'Profit and Cash',
+      blurb: fill(M,
+        'A {meta_legal_charge_q3_2026} charge to settle the teen mental health lawsuits cut operating income to {meta_operating_income_q3_2026}. Cash from operations still grew {c_meta_ocf_growth_q3_2026}, to {meta_ocf_q3_2026}, but capex of {meta_capex_q3_2026} went past it.'),
+      section: 'The Bill',
+      source: 'primary',
+    },
+    {
+      n: 6, slug: 'cash-in-cash-out', ...board(M, 'cash-in-cash-out'),
+      title: 'Meta’s Cash and Capex',
+      blurb: fill(M,
+        'For two years, the cash coming in from Meta’s business covered its capex. In the third quarter of 2026, capex passed it, and free cash flow went to {meta_fcf_q3_2026}. Meta now holds {meta_debt_q3_2026_call} of debt against {meta_cash_q3_2026} of cash and investments, and its plan for the year leaves {c_meta_capex_q4_2026_implied} of capex for the fourth quarter.'),
+      section: 'The Bill',
+      source: 'primary',
+      key: true,
+    },
+    {
+      n: 7, slug: 'the-capex-column', ...board(M, 'the-capex-column'),
+      title: 'Meta’s Capex',
+      blurb: fill(M,
+        'Meta spent {meta_capex_2025} on capex in 2025 and {meta_capex_9m_2026} in the first nine months of 2026, and expects to spend {meta_capex_guide_fy2026} this year.'),
+      section: 'The Bill',
+      source: 'primary',
+    },
+    {
+      n: 8, slug: 'the-stock', ...board(M, 'the-stock'),
+      title: 'The Stock',
+      blurb: fill(M,
+        'Meta’s shares rose after hours on {meta_after_hours_21_oct_2026_cnbc:date}, then turned, and by the next day’s close they were down {meta_share_price_change_22_oct_2026}.'),
+      section: 'The Bill',
+      source: 'reported',
+    },
+    {
+      n: 9, slug: 'a-theoretical-maximum', ...board(M, 'a-theoretical-maximum'),
+      title: 'The Theoretical Maximum',
+      blurb: fill(M,
+        'A filing on Meta’s new shares with no vote said it could need to raise hundreds of billions of dollars over several years. Meta later called that {meta_class_c_theoretical_max}, not its plan.'),
+      section: 'A Theoretical Maximum',
+      source: 'primary',
+    },
+    {
+      n: 10, slug: 'the-raise', ...board(M, 'the-raise'),
+      title: 'The Raise',
+      blurb: fill(M,
+        'On {meta_equity_raise_oct2026_total:date}, Meta offered {meta_equity_raise_oct2026_total} of new stock, and it plans to sell {meta_atm_program_2027_max} of its Class C stock from 2027.'),
+      section: 'A Theoretical Maximum',
+      source: 'primary',
+    },
+    {
+      n: 11, slug: 'the-strategy', ...board(M, 'the-strategy'),
+      title: 'Meta’s AI Strategy',
+      blurb:
+        'The goal in Zuckerberg’s words, personal superintelligence, the models from Meta Superintelligence Labs behind it, and the four ways Meta plans to make money from them: ads, subscriptions, businesses and commerce.',
+      section: 'Meta’s AI Strategy',
+      source: 'primary',
+    },
+    {
+      n: 12, slug: 'the-muse-cases', ...board(M, 'the-muse-cases'),
+      title: 'Muse Scenario Analysis, 2027',
+      blurb: fill(M,
+        'Our rough math on what Muse could make in 2027. The base case comes to {fwd_meta_muse_revenue_2027_base}. In our most generous case it is {fwd_meta_muse_revenue_2027_bull}, {fwd_meta_muse_revenue_share_of_capex_2027_bull} of Meta’s capex this year.'),
+      section: 'Meta’s AI Strategy',
+      source: 'estimate',
+      key: true,
+    },
+    {
+      n: 13, slug: 'not-yet', ...board(M, 'not-yet'),
+      title: 'Not Yet',
+      blurb: fill(M,
+        'Free cash flow went below zero, but Meta is still a growth company: revenue was {meta_revenue_q3_2026}, up {meta_revenue_growth_q3_2026}.'),
+      section: 'Sinking the Ship?',
+      source: 'primary',
+    },
+  ],
+};
+
 /** Newest first. The hub and the poster renderer both iterate this. */
-export const collections: Collection[] = [teslaSpacex, nebius, alexandrWang, anthropicIpo, cursor, situationalAwareness];
+export const collections: Collection[] = [metaMuseWonder, teslaSpacex, nebius, alexandrWang, anthropicIpo, cursor, situationalAwareness];
 
 export const findCollection = (slug: string) => collections.find((c) => c.slug === slug);
 

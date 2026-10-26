@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zuckerberg’s Scorecard</title>
+<!-- META Q3 2026 · HERO · THE SCORECARD, INTO MUSE (Ive, 25 Oct 2026). Style frame for the writer; builds once for video and web.
+     Reference: Anthropic IPO 20-ledger (a ruled ledger beside one number read at true scale) and Cursor's dot density.
+     The idea: Meta's family at true scale, then the one thing it is pointing at. 3.64B daily people drawn as dots of
+     10 million (the Muse sign-up figure is the unit, so the count is meta_dap_sep_2026 / meta_muse_setup_people_q3_2026 = 364);
+     Zuckerberg's lines in a ruled ledger with each app's real mark; the camera walks the ledger line by line, stops on Threads,
+     then dives into the one gold dot, which opens into the Muse board (10 million, the window, the App Store, use, shopping).
+     Words: names, figures, dates, and Meta's own words in quotes (Story v1 clip transcripts, call timestamps in WORDS below).
+     Every figure is a data.js key; Meta's words read data.js first and fall back to WORDS until Davinci adds the rows.
+     Pass 2 (25 Oct, the writer's notes 1 and 5): re-stepped so nothing dims. The dot field is drawn empty and fills on "3.64
+     billion"; each ledger row grows in only when the voice names it (WhatsApp and the glasses line are gone: the voice names
+     neither); the Muse board's cards are pictures (a waffle fills for each share); the funnel follows the voice (25% shop,
+     almost 30% connected, over 20% worth $1,000+); on "well under 1%" the camera pulls back out of the dot to the field, where
+     Muse's daily users are a quarter of one dot by area (0.07%), then holds on a slow push. $200 is C04's, not this board's.
+     Shoot: ?final ?still ?t=<secs|label> ?capture.
+     Re-time: ?at=<intro,dap,fbig,threads,launches,dive,m_hero,m_window,m_store,m_daily,m_people,m_shop,m_conn,m_arpu,back>
+     (defaults are board seconds on the v1b VO: board 0 = timeline 0:26.09)
+     ?brand=dim|end|0 (the channel's marks). ?strict shows the key of every line that has no data.js row yet. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css?v=1">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" viewBox="0 0 1920 1080"><g id="world"></g></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=1"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/hero.js?v=1"></script>
+<script>
+/* Meta's own words, verbatim, until each has a data.js row (Davinci adds them; Goldman checks each against the call audio). */
+HERO.words({
+  meta_fb_ig_engagement_ath:   { text: 'all-time highs in engagement', at: 'Q3 call 01:30.5 (Zuckerberg): "we are seeing all-time highs in engagement on both Facebook and Instagram"' },
+  meta_threads_overtook_x:     { text: 'overtaken X in monthly actives', at: 'Q3 call 01:46.7 (Zuckerberg): "Threads has now overtaken X in monthly actives"' },
+  meta_wonder_first_frontier:  { text: 'our first frontier model', at: 'Q3 call 02:07.2 (Zuckerberg): "We shipped Muse Wonder as our first frontier model"' },
+  meta_muse_setup_window:      { text: 'In just a month and a half', at: 'Q3 call 02:59.4 (Zuckerberg)' },
+  meta_muse_app_store:         { text: 'number one in the App Store almost every day', at: 'Q3 call 02:59.4 (Zuckerberg): "we have been number one in the App Store almost every day"' }
+});
+
+/* board seconds from the VO words (cue-map\vo-words.json): "3.64" 8.5, "engagement" 12.6, "Threads" 18.0, "eyes" 28.5,
+   "exactly" 32.6; C03 (plan: "10 million" at 1:22); "2.5 million" 72.4, "quarter" 84.0, "30%" 87.0, "20%" 91.4, "well under" 100.2 */
+const S = HERO.steps({ intro: 0, dap: 8.5, fbig: 12.5, threads: 18.0, launches: 28.5, dive: 32.6,
+                        m_hero: 55.9, m_window: 57.4, m_store: 60.5, m_daily: 67.0, m_people: 72.4,
+                        m_shop: 83.8, m_conn: 87.0, m_arpu: 91.4, back: 100.2 });
+const { mk, mark, fig, say } = HERO;
+const W = document.getElementById('world');
+const GOLD = getComputedStyle(document.documentElement).getPropertyValue('--gold').trim();
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const ZK = 140;                                     /* the dive's scale: the Muse board sits inside one dot at 1/ZK */
+
+function build() {
+  W.innerHTML = '';
+  const tl = gsap.timeline();
+  const cam = HERO.camera(W);
+
+  /* ---------- the left: 3.64 billion, as dots of 10 million ---------- */
+  const dap = fig('meta_dap_sep_2026'), setup = fig('meta_muse_setup_people_q3_2026');
+  const logo = mark(W, 'meta-wordmark', 120, 54, 40, 'cream');
+  /* the chapter's name rides the board's first drawn frame (pass 2: no black title card): ?title=Zuckerberg's%20Scorecard */
+  const chTitle = HERO.qp.get('title') ? mk('text', { x: 120 + HERO.markW('meta-wordmark', 40) + 34, y: 88, class: 'w', 'font-size': 34, style: 'font-weight:600' }, W, HERO.qp.get('title')) : null;
+  const hero = mk('text', { x: 114, y: 236, class: 'nh', 'font-size': 150 }, W, dap.display);
+  const heroL = mk('text', { x: 120, y: 292, class: 'wd', 'font-size': 32 }, W, dap.label);
+
+  const unit = setup.v;                                     /* 10,000,000 */
+  const N = Math.round(dap.v / unit);                       /* 364 */
+  const COLS = 26, P = 31, R = 8.6, X0 = 129, Y0 = 372;
+  const fieldOuter = mk('g', {}, W);
+  const field = mk('g', {}, fieldOuter);
+  const slots = mk('g', {}, field);                         /* the scale first: 364 empty places, filled on "3.64 billion" */
+  const dots = [];
+  for (let i = 0; i < N - 1; i++) {
+    const c = i % COLS, r = Math.floor(i / COLS);
+    mk('circle', { cx: X0 + c * P, cy: Y0 + r * P, r: R - .6, class: 'rule', style: '--w:1.2px' }, slots);
+    dots.push(mk('circle', { cx: X0 + c * P, cy: Y0 + r * P, r: R, fill: 'rgba(245,241,229,.30)' }, field));
+  }
+  const mi = N - 1, mx = X0 + (mi % COLS) * P, my = Y0 + Math.floor(mi / COLS) * P;     /* the Muse dot: the last of 364 */
+  const museClear = mk('g', {}, W);                     /* cleared with the left while the camera is on the ledger */
+  const museWrap = mk('g', {}, museClear);
+  const museDot = mk('circle', { cx: mx, cy: my, r: R, class: 'goldline', style: 'fill:var(--gold);--w:2.5px' }, museWrap);
+  /* the pull-back: the dot is 10 million sign-ups; the daily users are a quarter of it, by area (radius x0.5) */
+  const dailyShare = fig('c_meta_muse_daily_share_of_dap_q3_2026'), dailyPeople = fig('c_meta_muse_daily_people_q3_2026');
+  const qWrap = mk('g', { opacity: 0 }, W);
+  mk('circle', { cx: mx, cy: my, r: R, class: 'goldline', style: 'fill:none;--w:1.6px' }, qWrap);
+  const qArea = dailyPeople && setup.v ? Math.sqrt(dailyPeople.v / setup.v) : .5;
+  mk('circle', { cx: mx, cy: my, r: R * qArea, fill: 'var(--gold)' }, qWrap);
+  const qLbl = mk('g', { opacity: 0 }, W);
+  mk('path', { d: `M ${mx} ${my + R + 6} V ${my + 52} H ${mx - 18}`, class: 'goldline', style: '--w:1.6px' }, qLbl);
+  mk('text', { x: mx - 30, y: my + 64, 'text-anchor': 'end', class: 'nh', 'font-size': 44 }, qLbl, dailyShare ? dailyShare.display : 'c_meta_muse_daily_share_of_dap_q3_2026');
+  if (dailyShare) {                                /* right-aligned under its figure; a long label breaks at the word nearest its middle */
+    const L = dailyShare.label, ws = L.split(' '); let a = '', b = L;
+    if (L.length > 32) { let acc = 0, i = 0; for (; i < ws.length; i++) { acc += ws[i].length + 1; if (acc >= L.length / 2) break; }
+      a = ws.slice(0, i + 1).join(' '); b = ws.slice(i + 1).join(' '); }
+    if (a) mk('text', { x: mx - 30, y: my + 104, 'text-anchor': 'end', class: 'wd', 'font-size': 32 }, qLbl, a);
+    mk('text', { x: mx - 30, y: my + (a ? 142 : 104), 'text-anchor': 'end', class: 'wd', 'font-size': 32 }, qLbl, b);
+  }
+  const legOuter = mk('g', {}, W);
+  const leg = mk('g', {}, legOuter);
+  const LGX = 600, LGY = 236;                              /* the key sits on the hero's baseline: 3.64B, and one dot is 10 million */
+  mk('circle', { cx: LGX + 14, cy: LGY - 13, r: 14, fill: 'rgba(245,241,229,.30)' }, leg);
+  mk('text', { x: LGX + 42, y: LGY, class: 'w', 'font-size': 40 }, leg, '= ' + (unit / 1e6) + ' million people');
+  const museTag = mark(legOuter, 'muse', mx + R + 10, my - 13, 26, 'gold');
+
+  /* ---------- the right: the ledger of what he led with ---------- */
+  const TX = 1030, TR = 1800, MH = 46;
+  const zuckW = mk('g', {}, W);
+  const zuck = mk('text', { x: TR, y: 142, 'text-anchor': 'end', class: 'wd', 'font-size': 32 }, zuckW, BW_DATA.names.mark_zuckerberg);
+  const rows = {};
+  function row(id, y, markName, name, opts = {}) {
+    const wrap = mk('g', {}, W);
+    const g = mk('g', { id: 'row-' + id }, wrap);
+    const rule = mk('line', { x1: TX, x2: TR, y1: y + 42, y2: y + 42, class: 'rule' }, g);
+    let nx = TX;
+    if (markName) { mark(g, markName, TX, y - MH / 2, MH, opts.tone || 'cream'); nx = TX + HERO.markW(markName, MH) + 20; }
+    const nm = mk('text', { x: nx, y: y + 12, class: opts.nameCls || 'w', 'font-size': opts.nameSize || 36, style: opts.nameCls ? null : 'font-weight:600' }, g, name);
+    rows[id] = { g, wrap, rule, nm, y };
+    return rows[id];
+  }
+  function claim(r, key, y) {
+    const words = say(key);
+    const t = mk('text', { x: TR, y: (y === undefined ? r.y : y) + 12,'text-anchor': 'end', class: HERO.isPending(key) && HERO.STRICT ? 'pend' : 'wq', 'font-size': 32 }, r.g);
+    const parts = String(words).split(' X ');
+    if (parts.length === 2 && !HERO.STRICT) {            /* X, set as X's own mark inside his sentence */
+      mk('tspan', {}, t, '“' + parts[0] + ' ');
+      const gap = mk('tspan', { 'xml:space': 'preserve' }, t, '  ');
+      mk('tspan', {}, t, ' ' + parts[1] + '”');
+      r.xslot = gap;
+    } else t.textContent = HERO.STRICT && HERO.isPending(key) ? key : '“' + words + '”';
+    r.claim = t;
+    return t;
+  }
+  /* only what the voice names: Facebook and Instagram, Threads; then Muse and its model (WhatsApp and the glasses are not said) */
+  const yA = [234, 318, 402];
+  row('fb', yA[0], 'facebook', 'Facebook');
+  row('ig', yA[1], 'instagram', 'Instagram');
+  row('th', yA[2], 'threads', 'Threads');
+  claim(rows.ig, 'meta_fb_ig_engagement_ath', (yA[0] + yA[1]) / 2);
+  const brk = mk('path', { d: `M1330 ${yA[0] - 26} h-12 V ${yA[1] + 26} h12`, class: 'hair', style: '--w:1.5px' }, rows.ig.g);
+  claim(rows.th, 'meta_threads_overtook_x');
+  rows.th.rule.remove();
+  const sepW = mk('g', {}, W);
+  const sep = mk('line', { x1: TX, x2: TR, y1: 474, y2: 474, class: 'hair', style: '--w:2px' }, sepW);
+  const yB = [560, 644];
+  row('mu', yB[0], 'muse', 'Muse', { tone: 'cream' });
+  const muDate = mk('text', { x: TR, y: yB[0] + 12, 'text-anchor': 'end', class: 'n', 'font-size': 32 }, rows.mu.g, fig('muse_launch').display);
+  row('wo', yB[1], null, 'Muse Wonder');
+  claim(rows.wo, 'meta_wonder_first_frontier');
+  rows.wo.rule.remove();
+  /* the gold Muse mark sits over the cream one, so the row can turn gold on its step */
+  const muGold = mark(rows.mu.g, 'muse', TX, yB[0] - MH / 2, MH, 'gold', { opacity: 0 });
+
+  /* X's mark, inside the Threads line */
+  let xMark = null;
+  if (rows.th.xslot) {
+    const t = rows.th.claim, sp = t.querySelectorAll('tspan');
+    const a0 = t.getEndPositionOfChar(sp[0].textContent.length - 2).x;                 /* end of "overtaken" */
+    const b0 = t.getStartPositionOfChar(sp[0].textContent.length + sp[1].textContent.length + 1).x;  /* start of "in" */
+    const xw = HERO.markW('x', 27);
+    xMark = mark(rows.th.g, 'x', (a0 + b0) / 2 - xw / 2 - 11, yA[2] - 14, 27, 'cream');   /* optical centre: the glyph run ends early */
+  }
+
+  /* the leader from the Muse row to the Muse dot */
+  const leadOuter = mk('g', {}, W);
+  const lead = mk('path', { d: `M ${TX - 16} ${yB[0]} H 970 V ${my} H ${mx + R + 6}`, class: 'goldline', style: '--w:2px' }, leadOuter);
+
+  /* ---------- the Muse board, inside the dot ---------- */
+  const PB = mk('g', { transform: `translate(${mx - 960 / ZK},${my - 540 / ZK}) scale(${1 / ZK})`, opacity: 0, style: '--s:1' }, W);
+  const M = {};
+  M.mark = mark(PB, 'muse', 120, 60, 62, 'gold');
+  M.name = mk('text', { x: 120 + HERO.markW('muse', 62) + 22, y: 108, class: 'w', 'font-size': 44 }, PB, 'Muse');
+  const sd = setup.display;                               /* "more than 10 million": the qualifier travels with the number */
+  const pre = sd.startsWith('more than ') ? 'more than' : '';
+  M.pre = mk('text', { x: 124, y: 268, class: 'wd', 'font-size': 36 }, PB, pre);
+  M.big = mk('text', { x: 112, y: 414, class: 'nh', 'font-size': 150 }, PB, pre ? sd.slice(10) : sd);
+  M.lbl = HERO.wrap(PB, setup.label, 124, 484, 32, 820, 'wd');
+
+  /* the window: a true time axis, 1 Sep to 1 Nov 2026, the launch to the call */
+  const launch = fig('muse_launch');
+  const d0 = Date.UTC(2026, 8, 1), d1 = Date.UTC(2026, 10, 1), AX0 = 1160, AX1 = 1800, AY = 360;
+  const xt = (iso) => AX0 + (Date.parse(iso + 'T00:00:00Z') - d0) / (d1 - d0) * (AX1 - AX0);
+  const win = mk('g', {}, PB);
+  M.winQ = mk('text', { x: AX0, y: 250, class: 'wq', 'font-size': 36 }, win, '“' + say('meta_muse_setup_window') + '”');
+  const axis = mk('line', { x1: AX0, x2: AX1, y1: AY, y2: AY, class: 'hair', style: '--w:2px' }, win);
+  const ticks = mk('g', {}, win);
+  for (let d = d0; d <= d1; d += 864e5) {
+    const x = AX0 + (d - d0) / (d1 - d0) * (AX1 - AX0);
+    const first = new Date(d).getUTCDate() === 1;
+    mk('line', { x1: x, x2: x, y1: AY, y2: AY + (first ? 22 : 8), class: first ? 'hair' : 'rule', style: '--w:1.5px' }, ticks);
+    if (first && d < d1) mk('text', { x: x + 8, y: AY + 50, class: 'ax', 'font-size': 32 }, ticks, MON[new Date(d).getUTCMonth()]);
+  }
+  const xa = xt(launch.asOf), xb = xt(setup.asOf);
+  M.span = mk('rect', { x: xa, y: AY - 30, width: xb - xa, height: 16, fill: 'var(--gold)' }, win);
+  M.ta = mk('text', { x: xa, y: AY - 48, class: 'n', 'font-size': 32 }, win, launch.display);
+  const fmtD = (iso) => { const d = new Date(iso + 'T00:00:00Z'); return d.getUTCDate() + ' ' + MON[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); };
+  M.tb = mk('text', { x: xb, y: AY - 48, 'text-anchor': 'end', class: 'n', 'font-size': 32 }, win, fmtD(setup.asOf));
+
+  /* five cards on one rule, in the order the voice gives them: the App Store, daily use, then the funnel (shop, connected, $1,000+).
+     Each share is a picture: a 10 x 10 waffle that fills in reading order on its word. Nothing dims; a card arrives, it stays. */
+  const BY = 530, CW = 336, CX = [120, 456, 792, 1128, 1464];
+  mk('line', { x1: 120, x2: 1800, y1: BY, y2: BY, class: 'hair', style: '--w:2px' }, PB);
+  CX.slice(1).forEach(x => mk('line', { x1: x - 18, x2: x - 18, y1: BY + 32, y2: 990, class: 'rule' }, PB));
+  const col = () => mk('g', {}, PB);
+  function waffle(g, x, y, n, size = 8, gap = 2) {
+    const w = mk('g', {}, g), cells = [];
+    for (let i = 0; i < 100; i++) {
+      const c = i % 10, r = Math.floor(i / 10);
+      cells.push(mk('rect', { x: x + c * (size + gap), y: y + r * (size + gap), width: size, height: size, fill: 'rgba(245,241,229,.16)' }, w));
+    }
+    return { w, cells, n };
+  }
+  const fillW = (wf, at) => tl.fromTo(wf.cells.slice(0, wf.n), { fill: 'rgba(245,241,229,.16)' }, { fill: GOLD, duration: .18, stagger: .022, ease: 'none', immediateRender: false }, at);
+  /* a share card: the qualifier small, the share big, its waffle under it, then Meta's label */
+  function shareCard(f, x, lw = 300) {
+    const g = col(), d = f.display, m = d.match(/^(over|almost|about|more than) (.*)$/);
+    /* the qualifier is the display's own, or "about" where data.js marks the figure approximate (his "About 25%") */
+    mk('text', { x, y: 574, class: 'wd', 'font-size': 32 }, g, m ? m[1] : (f.approx ? 'about' : ''));
+    mk('text', { x: x - 5, y: 652, class: 'nh', 'font-size': 84 }, g, m ? m[2] : d);
+    const wf = waffle(g, x, 674, Math.round(f.v));
+    const lb = HERO.wrap(g, f.label, x, 812, 32, lw, 'wd', {}, 1.18);
+    return { g, wf, lb };
+  }
+  /* 1: the App Store, in his words */
+  M.c1 = col();
+  const store = say('meta_muse_app_store');
+  const sp = store.indexOf(' in the ');
+  const big1 = mk('text', { x: CX[0] - 4, y: 652, class: 'w gold', 'font-size': 80, 'font-weight': 700, style: 'letter-spacing:-.03em' }, M.c1, '“' + (sp > 0 ? store.slice(0, sp) : store));
+  const w1 = big1.getComputedTextLength(); if (w1 > 290) big1.setAttribute('font-size', (80 * 290 / w1).toFixed(1));
+  if (sp > 0) HERO.wrap(M.c1, store.slice(sp + 1) + '”', CX[0], 708, 32, 270, 'wd', {}, 1.18);
+  /* 2: daily use; then, on the voice's "2.5 million", the people that 25% is */
+  const daily = fig('meta_muse_daily_use_rate_q3_2026');
+  const c2 = shareCard(daily, CX[1]); M.c2 = c2.g;
+  M.people = mk('g', {}, PB);
+  /* the people that 25% is, under the launch window (the board's open space), on the voice's "2.5 million" */
+  const pT = mk('text', { x: AX0, y: 482, class: 'nh', 'font-size': 64 }, M.people);   /* "roughly", as he says it, where data.js marks it approximate */
+  if (dailyPeople.approx) mk('tspan', { class: 'wd', 'font-size': 32, style: 'letter-spacing:-.005em' }, pT, 'roughly ');
+  mk('tspan', {}, pT, dailyPeople.display);
+  mk('text', { x: AX0 + 4, y: 518, class: 'wd', 'font-size': 32 }, M.people, dailyPeople.label);
+  /* 3, 4, 5: the funnel */
+  const shop = fig('meta_muse_shopping_share_weekly_actives'), conn = fig('meta_muse_connected_share'), arpu = fig('meta_muse_users_1000_arpu_share');
+  /* pass 3: the last card's words wrap at 422 px (HERO.wrap counts ~0.5em a character; the ink ends by x 1860, the masthead's edge), so its label takes two lines and
+     Li's caveat three, and her name clears the footer by ~40 px */
+  const LW5 = 422;
+  const c3 = shareCard(shop, CX[2]), c4 = shareCard(conn, CX[3]), c5 = shareCard(arpu, CX[4], LW5);
+  M.c3 = c3.g; M.c4 = c4.g; M.c5 = c5.g;
+  /* Li's caveat on the over-20% figure, small under its card (data.js meta_muse_users_not_representative; nothing until the row exists) */
+  const liF = BW_DATA.figures.meta_muse_users_not_representative;
+  if (liF) {
+    fig('meta_muse_users_not_representative');
+    const ly = 812 + 38 * c5.lb.querySelectorAll('tspan').length + 8;
+    const li = HERO.wrap(M.c5, '“' + liF.display + '”, ' + BW_DATA.names.susan_li, CX[4], ly, 32, LW5 + 10, 'wq', { style: 'fill:rgba(245,241,229,.62)' }, 1.18);
+  }
+
+  /* ---------- the camera's dependants: the field thins and the dot opens as the scale passes through ---------- */
+  const lg = Math.log, clamp = (v) => Math.max(0, Math.min(1, v));
+  const edge = [[zuckW, 136, 26]].concat(['fb','ig','th','mu','wo'].map(k => k === 'ig' ? [rows[k].wrap, 276, 48] : [rows[k].wrap, rows[k].y, 30]), [[sepW, 474, 4]]);
+  cam.onUpdate(v => {
+    const s = v.s;
+    edge.forEach(([n, wy, h]) => {             /* a row fades as it nears the brand line or the credit line, never sits on them */
+      const sy = 540 + (wy - v.cy) * s, top = sy - h * s, bot = sy + h * s;
+      n.setAttribute('opacity', (clamp((995 - bot) / 34) * clamp((top - 100) / 24)).toFixed(3));
+    });
+    /* the Muse dot: kept off the footer while the camera walks; as it opens into a ring, the ring thins out before it can cross the credit */
+    const dy = 540 + (my - v.cy) * s, de = clamp((995 - (dy + R * s)) / 34);
+    museWrap.setAttribute('opacity', ((s < 3 ? de : 1) * (s < 36 ? 1 : clamp(1 - (s - 36) / 10))).toFixed(3));
+    fieldOuter.setAttribute('opacity', s < 2.5 ? 1 : clamp(1 - (lg(s) - lg(2.5)) / (lg(10) - lg(2.5))));
+    leadOuter.setAttribute('opacity', s < 1.6 ? 1 : clamp(1 - (lg(s) - lg(1.6)) / (lg(3.5) - lg(1.6))));
+    legOuter.setAttribute('opacity', s < 2.5 ? 1 : clamp(1 - (lg(s) - lg(2.5)) / (lg(6) - lg(2.5))));
+    museDot.setAttribute('fill-opacity', s < 5 ? 1 : clamp(1 - (lg(s) - lg(5)) / (lg(22) - lg(5))));
+    PB.setAttribute('opacity', s < 5 ? 0 : clamp((lg(s) - lg(5)) / (lg(16) - lg(5))));
+  });
+
+  /* ---------- the timeline: nothing dims; a thing arrives when the voice names it, and stays ---------- */
+  BW.mark(tl, 'intro', S.intro);
+  if (chTitle) { tl.set(logo, { opacity: 1 }, 0); tl.to(chTitle, { opacity: 0, duration: .5 }, S.fbig); }   /* both on frame 0 */
+  else HERO.rise(tl, [logo], S.intro + .1, { dy: 16 });
+  HERO.rise(tl, [zuck], S.intro + .5, { dy: 12 });
+  tl.set(slots, { opacity: 1 }, 0);                        /* the scale: 364 empty places, there on frame 0 */
+  HERO.rise(tl, [leg], S.intro + .4, { dy: 14 });           /* the key first, so the count reads as people */
+
+  /* "3.64 billion": the places fill in reading order (row by row, as a count), the number lands on "billion" */
+  BW.mark(tl, 'dap', S.dap);
+  /* pass 2 review (0:26-0:35 near empty): the count runs from the first frame, row by row, and the last place fills on
+     "billion" (dap + .9), where 3.64B lands */
+  const CT0 = S.intro + .5, CT1 = S.dap + .85;
+  dots.forEach((d, i) => tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .25, ease: 'none', immediateRender: true }, CT0 + (CT1 - CT0) * i / (dots.length - 1)));
+  tl.fromTo(museDot, { opacity: 0, scale: 0, transformOrigin: '50% 50%' }, { opacity: 1, scale: 1, duration: .5, ease: 'power3.out', immediateRender: true }, CT1 + .1);
+  HERO.rise(tl, [hero, heroL], S.dap + .9);
+  HERO.fade(tl, [museTag], CT1 + .4, .5);
+
+  /* a ledger row grows in: its mark from 60% to full, its words rising beside it */
+  const grow = (k, at) => {
+    const g = rows[k].g, m = g.querySelector('image');
+    if (rows[k].claim) tl.set(rows[k].claim, { opacity: 0 }, 0);   /* the quote waits for its own words */
+    HERO.rise(tl, [g], at, { dy: 18 });
+    if (m) tl.fromTo(m, { scale: .6, transformOrigin: '0% 50%' }, { scale: 1, duration: .7, ease: 'power3.out', immediateRender: true }, at);
+  };
+  /* the left clears as the camera leaves it (it is out of frame, not dimmed), and comes back for the dive */
+  const clearLeft = (at, on) => tl.to([leg, field, museTag, museClear], { opacity: on ? 1 : 0, duration: .5 }, at);
+
+  BW.mark(tl, 'fbig', S.fbig);
+  clearLeft(S.fbig, false);
+  cam.to(tl, { tx: 1440, ty: 320, s: 1.5 }, { at: S.fbig, duration: 1.4 });
+  grow('fb', S.fbig + .1); grow('ig', S.fbig + .3);
+  tl.set(brk, { opacity: 0 }, 0);
+  HERO.rise(tl, [rows.ig.claim, brk], S.fbig + 1.0, { dy: 14 });     /* on "all-time high" */
+
+  BW.mark(tl, 'threads', S.threads);
+  cam.to(tl, { tx: 1475, ty: 350, s: 1.78 }, { at: S.threads, duration: 1.3 });
+  grow('th', S.threads + .1);
+  HERO.rise(tl, [rows.th.claim], S.threads + 1.0, { dy: 14 });       /* on "passed" */
+  if (xMark) { tl.set(xMark, { opacity: 0 }, 0); HERO.fade(tl, [xMark], S.threads + 1.1, .4); }
+
+  BW.mark(tl, 'launches', S.launches);
+  cam.to(tl, { tx: 1430, ty: 560, s: 1.6 }, { at: S.launches, duration: 1.3 });
+  HERO.fade(tl, [sep], S.launches + .1, .5);
+  grow('mu', S.launches + .4);
+  tl.to(muGold, { opacity: 1, duration: .5 }, S.launches + 1.1);
+  tl.to(rows.mu.nm, { fill: GOLD, duration: .5 }, S.launches + 1.1);
+  grow('wo', S.launches + 1.6);   /* the name only: "our first frontier model" is not said here (it is at 3:50), so it stays off */
+
+  /* the dive */
+  BW.mark(tl, 'dive', S.dive);
+  clearLeft(S.dive, true);
+  cam.to(tl, { tx: 960, ty: 540, s: 1 }, { at: S.dive, duration: 1.3 });
+  tl.set(lead, { opacity: 0 }, 0); tl.set(lead, { opacity: 1 }, S.dive + .5);
+  HERO.draw(tl, lead, S.dive + .5, 1.0);
+  cam.to(tl, { tx: mx, ty: my, s: ZK }, { at: S.dive + 1.7, duration: 2.6, ease: 'power2.inOut' });
+
+  /* the Muse board's own steps (it is already drawn, tiny, inside the dot; these bring each part in on its word) */
+  const mIn = (nodes, at) => HERO.rise(tl, nodes, at, { dy: 22 });
+  const hid = (nodes) => nodes.forEach(n => tl.set(n, { opacity: 0 }, 0));
+  hid([M.pre, M.big, M.lbl, win, M.c1, M.c2, M.people, M.c3, M.c4, M.c5]);
+  BW.mark(tl, 'm_hero', S.m_hero);    mIn([M.pre, M.big, M.lbl], S.m_hero);
+  BW.mark(tl, 'm_window', S.m_window);
+  HERO.fade(tl, [win], S.m_window, .3);
+  HERO.draw(tl, axis, S.m_window, .8);
+  tl.fromTo(M.span, { attr: { width: 0 } }, { attr: { width: xb - xa }, duration: 1.1, ease: 'power2.inOut', immediateRender: true }, S.m_window + .5);
+  BW.mark(tl, 'm_store', S.m_store);  mIn([M.c1], S.m_store);
+  BW.mark(tl, 'm_daily', S.m_daily);  mIn([M.c2], S.m_daily);  fillW(c2.wf, S.m_daily + .4);
+  BW.mark(tl, 'm_people', S.m_people); mIn([M.people], S.m_people);
+  BW.mark(tl, 'm_shop', S.m_shop);    mIn([M.c3], S.m_shop);   fillW(c3.wf, S.m_shop + .4);
+  BW.mark(tl, 'm_conn', S.m_conn);    mIn([M.c4], S.m_conn);   fillW(c4.wf, S.m_conn + .4);
+  BW.mark(tl, 'm_arpu', S.m_arpu);    mIn([M.c5], S.m_arpu);   fillW(c5.wf, S.m_arpu + .4);
+
+  /* "well under 1% of the 3.6 billion": out of the dot, back to the field; the dot is now its daily users, a quarter of it */
+  BW.mark(tl, 'back', S.back);
+  /* anchored on the dot (Davinci's empty second at 2:05.6): the dot travels on screen from the centre to its place in the field
+     while the scale falls, so the Muse board shrinks back into its own dot and the field gathers round it, never an empty frame.
+     (Anchored on the frame centre, the dot left the screen in the first tenth of the move.) */
+  cam.to(tl, { tx: mx, ty: my, sx: mx, sy: my, s: 1 }, { at: S.back, duration: 2.4, ease: 'power3.inOut' });
+  tl.to(museDot, { opacity: 0, duration: .4 }, S.back + 1.8);
+  tl.to(qWrap, { opacity: 1, duration: .4 }, S.back + 1.8);
+  HERO.rise(tl, [qLbl], S.back + 2.3, { dy: 14 });
+  /* the hold: a slow push, nothing else moves */
+  cam.to(tl, { tx: 960, ty: 540, s: 1.06 }, { at: S.back + 2.6, duration: 12, ease: 'sine.inOut' });
+
+  const END = S.back + 2.6;
+  HERO.credit(tl, .4);
+  HERO.brand(tl, END);
+  tl.to({}, { duration: .1 }, END + 12);
+  return tl;
+}
+
+function play() { return build(); }
+function rest() { const tl = build(); tl.progress(1); tl.pause(); }
+BW.run({ play, rest });
+</script>
+</body>
+</html>

@@ -88,6 +88,42 @@ const ARTICLES = {
       spacex_class_b_ten_votes: 'ten',
     },
   },
+  /* Meta Q3: the boards in the order Shakespeare placed them in ship/site/ARTICLE.md, each after the paragraph holding its
+     anchor. No clip is printed from data.js (the article prints the call's quotes in its words). The narration's pointer to
+     this page is dropped in print; there is no breakdown table for this video (`drop`, not `breakdown`). */
+  'meta-muse-wonder': {
+    boards: [
+      ['09-the-waterline.html', 'the-waterline', 'a company known for printing cash'],
+      ['hero-scorecard.html', 'the-scorecard', 'broke my brain'],
+      ['hero-wonder.html', 'muse-wonder', "just behind Anthropic's Claude Opus 5.5 at 58"],
+      ['hero-revenue.html', 'the-revenue', 'keeping the trains running on time'],
+      ['hero-profit-vs-cash.html', 'profit-and-cash', 'still grew 9%'],
+      ['hero-cash.html', 'cash-in-cash-out', 'a little more debt than cash'],
+      ['32-the-capex-column.html', 'the-capex-column', 'for the fourth quarter alone'],
+      ['26-the-stock.html', 'the-stock', 'down almost 7%'],
+      ['27-the-theoretical-maximum.html', 'a-theoretical-maximum', 'not its actual plan'],
+      ['37-the-raise.html', 'the-raise', 'As I was finishing this piece'],
+      ['hero-ai-strategy.html', 'the-strategy', "a store's agent"],
+      ['07-the-muse-cases.html', 'the-muse-cases', 'That comes to about $16 billion'],
+      ['33-the-waterline-reprise.html', 'not-yet', 'Meta spent more than its business brought in'],
+    ],
+    drop: 'is up on boardroomwire.com',
+    quotes: [],
+    spoken: {
+      meta_fcf_q3_2026: 'minus $2.1 billion',
+      c_meta_muse_daily_people_q3_2026: 'roughly 2.5 million',
+      meta_legal_charge_q3_2026: '$9.9 billion',
+      c_meta_capex_q4_2026_implied: 'about $50 to $60 billion',
+      meta_capex_2025: '$72 billion',
+      meta_capex_9m_2026: 'about $86 billion',
+      meta_atm_program_2027_max: 'up to another $60 billion',
+      meta_capex_guide_fy2026: 'up to $145 billion',
+      meta_share_price_change_22_oct_2026: 'almost 7%',
+      fwd_meta_muse_revenue_share_of_capex_2027_bull: 'around a tenth',
+      aa_wonder_full_index: '56',
+      aa_opus55_index: '58',
+    },
+  },
 };
 
 /* The general spoken form of a board's shorthand: "$1.98T" -> "$1.98 trillion", "125,000+" -> "more than
@@ -102,8 +138,10 @@ function spokenForm(display, tier) {
   if (s.startsWith('~')) { lead = 'about '; s = s.slice(1); }
   if (s.endsWith('+')) { lead = 'more than '; s = s.slice(0, -1); }
   if (s.startsWith('+') && s.endsWith('%')) s = s.slice(1);
+  if (/^[−-]\$/.test(s)) s = `minus ${s.slice(1)}`;
   const units = { T: 'trillion', B: 'billion', M: 'million', K: 'thousand' };
-  s = s.replace(/^(-?\$?)(\d[\d,]*(?:\.\d+)?)([TBMK])\b/, (_, a, n, u) => `${a}${n.replace(/\.0+$/, '')} ${units[u]}`);
+  // Every amount in the display, so a range ("$135B to $145B") or a lead ("about $35B", "up to $60B") reads whole.
+  s = s.replace(/(^|[\s$-])(\d[\d,]*(?:\.\d+)?)([TBMK])\b/g, (_, a, n, u) => `${a}${n.replace(/\.0+$/, '')} ${units[u]}`);
   s = s.replace(/^(\d[\d,]*(?:\.\d+)?)×$/, '$1 times');
   if (!lead && (tier === 'C' || tier === 'E') && /^\$?\d/.test(s)) lead = 'about ';
   return lead + s;
@@ -142,6 +180,11 @@ async function readBoard(file) {
 
 /* The words: ARTICLE.md (frontmatter dropped) or the essay (its title and generator note dropped). */
 async function words(video) {
+  /* WORDS=<file> stands in for the words while the head writer is still writing them (a preview only). */
+  if (process.env.WORDS) {
+    console.log(`    words from ${process.env.WORDS} (WORDS override, preview only)`);
+    return (await readFile(process.env.WORDS, 'utf8')).replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, '');
+  }
   const article = path.join(video, 'ship/site/ARTICLE.md');
   if (existsSync(article)) {
     console.log('    words from ship/site/ARTICLE.md');
@@ -204,23 +247,36 @@ async function main() {
   };
   const after = new Map();
   const add = (i, s) => after.set(i, [...(after.get(i) ?? []), s]);
-  for (const [needle, key] of cfg.quotes) {
+  for (const [needle, key] of cfg.quotes ?? []) {
     if (!figures[key]) throw new Error(`No figure ${key} in data.js for the quote after "${needle}".`);
     add(at(needle), `<Quote collection="${slug}" figure="${key}" />`);
   }
   for (const [, web, needle] of cfg.boards) add(at(needle), `<DashboardEmbed collection="${slug}" slug="${web}" />`);
-  const drop = at(cfg.breakdown);
+  const drop = cfg.breakdown ? at(cfg.breakdown) : cfg.drop ? at(cfg.drop) : -1;
   const body = [
     ...paras.flatMap((p, i) => i === drop ? [] : [p, ...(after.get(i) ?? [])]),
-    '## The Full Breakdown',
-    `<Breakdown collection="${slug}" />`,
+    ...(cfg.breakdown ? ['## The Full Breakdown', `<Breakdown collection="${slug}" />`] : []),
   ];
   const imports = [
-    "import Breakdown from '../../components/Breakdown.astro';",
-    "import Quote from '../../components/Quote.astro';",
+    ...(cfg.breakdown ? ["import Breakdown from '../../components/Breakdown.astro';"] : []),
+    ...(cfg.quotes?.length ? ["import Quote from '../../components/Quote.astro';"] : []),
   ];
   await writeFile(mdx, `${front}\n${imports.join('\n')}\n\n${body.join('\n\n')}\n`);
   console.log(`    ${paras.length} paragraphs, ${cfg.boards.length} boards -> ${path.relative(ROOT, mdx)}`);
+
+  /* The browser tab and search result of "Open full screen" read the board's own <title>, which is written for the edit
+     ("Boardroom Wire — The capex column (meta-muse-wonder 32, W3)", "Scenario board"). Each shipped board takes its public
+     title from the manifest instead, alone: no dash, no slug, no codes. */
+  console.log('\n  4b. board titles');
+  const { findCollection } = await import(pathToFileURL(path.join(ROOT, 'src/data/analytics.ts')).href);
+  const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  for (const d of findCollection(slug)?.dashboards ?? []) {
+    const p = path.join(pub, d.file);
+    const html = await readFile(p, 'utf8');
+    const out = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(d.title)}</title>`);
+    if (out !== html) await writeFile(p, out);
+    console.log(`    ${d.file.padEnd(32)} ${d.title}`);
+  }
 
   step('5. posters', ['scripts/render-posters.mjs', '--only', slug]);
   console.log('\n  Done. Next: npm run build, then check /wire/' + slug + '/ in a browser.\n');

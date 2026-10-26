@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Meta’s Capex</title>
+<!-- META Q3 2026, 32, THE $145B COLUMN (W3; Ive, 25 Oct 2026, pass 2 wow 3), on the Print kit's clock (PRINT.custom, layer 5.6).
+     Style frames 08 and 09 (review\style-frames-pass2). Laid at the end of 27's span: board 0 = timeline 8:22.50 (502.50 s), to
+     28's cut at 508.93 s. The voice (cue-map\vo-words.json, timeline = file + 95.62 s here): "... seeing them (502.85) ramp up
+     (503.70) CapEx to $145 (505.17) billion (506.14) for year 2026."
+       0      the true $0 scale and 2025's $72.2B, standing at about half the frame, are up from the first frame
+       ramp   2026 grows: solid gold to $85.8B (spent, first nine months), then hatched past $135B and on, out of the top of the
+              frame; the camera does not fit it
+       145    the camera pulls back (x0.66, about the base) until the column fits; the $135B to $145B band, its bracket and its
+              figure land at the end of the move, a motivated hit on "145"
+     Everything stands on one linear scale from $0. Every figure is a data.js key; the type rides a screen layer so it keeps its
+     size under the camera. Re-time: ?at=<ramp,pull>&secs=<length>. Shoot: ?final ?still ?t=<secs|step> ?capture ?beats.
+       bw render page --file=32-the-capex-column.html --name=32-the-capex-column --seconds=6.43 -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/print/print.css?v=1">
+</head>
+<body>
+<div class="stage">
+  <svg class="print" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=1"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/print/print.js?v=3"></script>
+<script>
+PRINT.custom((S, H) => {
+  const s = H.svg(), k = H.steps(S.steps, S.secs), C = H.C;
+  const NSS = { 'vector-effect': 'non-scaling-stroke' };
+  const a25 = S.y2025, n9 = S.spent, gd = S.guide;
+  const V25 = H.V(a25), V9 = H.V(n9), F = H.F(gd);
+  const lo = F.lo * 1e6, hi = F.hi * 1e6;            /* the guide is a range key: lo and hi in USD millions; V() is in USD */
+  const BASE = 930, PX = 560 / V25, CW = 300, X25 = 560, X26 = 1010, SEND = .66;
+  const defs = s.querySelector('defs');
+  /* the hatches as in style frame 08: the rest of the low end dim, the guidance range in full gold */
+  const hatch = (id, op, w) => { const p = H.el(defs, 'pattern', { id, width: 14, height: 14, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' });
+    H.el(p, 'rect', { width: 14, height: 14, fill: 'var(--bg)' }); H.el(p, 'line', { x1: 0, y1: 0, x2: 0, y2: 14, stroke: C.gold, 'stroke-opacity': op, 'stroke-width': w }); };
+  hatch('w3-dim', .42, 3); hatch('w3-gold', 1, 4.5);
+
+  const W = H.el(s, 'g'), T = H.el(s, 'g');           /* the world under the camera; the type on the screen layer */
+  const y = (v) => BASE - v * PX;
+  /* the camera: about the base's centre, so $0 stays put while the scale falls */
+  let cs = 1;
+  const sx = (x) => 960 + (x - 960) * cs, sy = (yy) => BASE + (yy - BASE) * cs;
+  const label = [];                                  /* [node, worldX, worldY, dxScreen, dyScreen] */
+  const place = (node, wx, wy, dx = 0, dy = 0) => { label.push([node, wx, wy, dx, dy]); return node; };
+
+  /* the scale: a tick every $25B to $150B */
+  for (let v = 0; v <= 150e9; v += 25e9) {
+    H.el(W, 'line', { x1: 380, x2: 1500, y1: y(v), y2: y(v), stroke: v ? 'rgba(245,241,229,.07)' : 'rgba(245,241,229,.55)', 'stroke-width': 1.5, ...NSS });
+    place(H.el(T, 'text', { class: 'ax', 'font-size': 32, 'text-anchor': 'end' }, v ? '$' + v / 1e9 + 'B' : '$0'), 370, y(v), -6, 11);
+  }
+  /* 2025, actual, up from the first frame */
+  const c25 = H.el(W, 'rect', { x: X25, y: y(V25), width: CW, height: V25 * PX, fill: 'rgba(245,241,229,.16)', stroke: 'rgba(245,241,229,.7)', 'stroke-width': 1.5, ...NSS });
+  H.tip(c25, H.tipText(a25));
+  place(H.el(T, 'text', { class: 'fn', 'font-size': 44, 'text-anchor': 'middle' }, H.disp(a25)), X25 + CW / 2, y(V25), 0, -24);
+  place(H.el(T, 'text', { class: 'nd', 'font-size': 32, 'text-anchor': 'middle', style: 'fill:rgba(245,241,229,.62)' }, String(H.F(a25).asOf).slice(0, 4)), X25 + CW / 2, BASE, 0, 48);   /* pass 2: the plain year, from the key's date */
+
+  /* 2026: one column, grown from $0 on "ramp" (solid to what was spent, then hatched on up), out of the top of the frame */
+  const solid = H.el(W, 'rect', { x: X26, width: CW, fill: C.gold });
+  const rest = H.el(W, 'rect', { x: X26, width: CW, fill: 'url(#w3-dim)', stroke: 'rgba(212,175,55,.5)', 'stroke-width': 1.5, ...NSS });
+  const band = H.el(W, 'rect', { x: X26, width: CW, fill: 'url(#w3-gold)', stroke: C.gold, 'stroke-width': 2, ...NSS });
+  H.tip(solid, H.tipText(n9)); H.tip(band, H.tipText(gd));
+  const spentT = place(H.el(T, 'text', { class: 'fn', 'font-size': 40, 'text-anchor': 'middle', style: 'fill:var(--ink)' }, H.disp(n9)), X26 + CW / 2, y(V9 / 2), 0, 14);
+  /* what the solid part is: the label's own period ("first nine months 2026"), on two lines to sit inside the column */
+  const per = H.label(n9) || H.F(n9).label, cut = per.lastIndexOf(' ');
+  /* beside the solid part (32 px does not fit inside the column at the final scale) */
+  const spentL = place(H.el(T, 'text', { class: 'nd', 'font-size': 32, style: 'fill:rgba(245,241,229,.62)' }, per.slice(0, cut)), X26 + CW, y(V9 / 2), 28, -4);
+  const spentL2 = place(H.el(T, 'text', { class: 'nd', 'font-size': 32, style: 'fill:rgba(245,241,229,.62)' }, per.slice(cut + 1)), X26 + CW, y(V9 / 2), 28, 36);
+  place(H.el(T, 'text', { class: 'nd', 'font-size': 32, 'text-anchor': 'middle', style: 'fill:rgba(245,241,229,.62)' }, String(F.asOf).slice(0, 4)), X26 + CW / 2, BASE, 0, 48);
+  /* the growth: an accelerating ramp, to the top of the range, which is well out of frame at x1 */
+  const grow = (t) => { const u = H.go(t, k.ramp, k.ramp + 1.6, (q) => q < .5 ? 2 * q * q : 1 - Math.pow(-2 * q + 2, 2) / 2); return u * hi; };
+  H.on((t) => {
+    const top = grow(t);
+    const hs = Math.min(top, V9), hr = Math.max(0, Math.min(top, lo) - V9), hb = Math.max(0, Math.min(top, hi) - lo);
+    solid.setAttribute('y', y(hs)); solid.setAttribute('height', hs * PX);
+    rest.setAttribute('y', y(V9 + hr)); rest.setAttribute('height', hr * PX); rest.style.display = hr > 0 ? '' : 'none';
+    band.setAttribute('y', y(lo + hb)); band.setAttribute('height', hb * PX); band.style.display = hb > 0 ? '' : 'none';
+    spentT.setAttribute('opacity', H.go(t, k.ramp + .7, k.ramp + 1.1).toFixed(3)); { const o = H.go(t, k.ramp + .9, k.ramp + 1.3).toFixed(3); spentL.setAttribute('opacity', o); spentL2.setAttribute('opacity', o); }
+  });
+  /* the range: a bracket off the column and its figure, landing as the camera arrives */
+  const br = H.el(T, 'path', { fill: 'none', stroke: C.gold, 'stroke-width': 2 });
+  const rangeT = H.el(T, 'text', { class: 'fh', 'font-size': 64, style: `fill:${C.gold}` }, H.disp(gd));
+  H.show(br, k.pull + .9, .3); H.rise(rangeT, k.pull + .95, .5, 16);
+
+  /* the camera and the screen layer */
+  H.on((t) => {
+    const u = H.go(t, k.pull, k.pull + 1.1, H.ease.io), hold = H.go(t, k.pull + 1.2, k.pull + 6, (q) => q);
+    cs = Math.pow(SEND, u) * (1 + .02 * hold);           /* then a slow push on the hold */
+    W.setAttribute('transform', `translate(960,${BASE}) scale(${cs.toFixed(4)}) translate(-960,${-BASE})`);
+    label.forEach(([n, wx, wy, dx, dy]) => { n.setAttribute('x', (sx(wx) + dx).toFixed(1)); n.setAttribute('y', (sy(wy) + dy).toFixed(1)); });
+    const bx = sx(X26 + CW) + 24, yt = sy(y(hi)), yb = sy(y(lo));
+    br.setAttribute('d', `M${bx},${yt} h12 V${yb} h-12`);
+    rangeT.setAttribute('x', bx + 34); rangeT.setAttribute('y', (yt + yb) / 2 + 22);
+  });
+})({ y2025: 'meta_capex_2025', spent: 'meta_capex_9m_2026', guide: 'meta_capex_guide_fy2026',
+     steps: [['ramp', 1.2], ['pull', 2.62]], secs: 6.43 });
+</script>
+</body>
+</html>

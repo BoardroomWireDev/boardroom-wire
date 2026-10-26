@@ -1,0 +1,22 @@
+window.FIRM_MARKS = {
+  "Morgan Stanley": { file: "morgan-stanley", ratio: 6.965, kind: "wordmark" },
+  "Goldman Sachs": { file: "goldman-sachs", ratio: 2.331, kind: "wordmark" },
+  "JPMorgan": { file: "jpmorgan", ratio: 7.052, kind: "wordmark" },
+  "Bank of America": { file: "bank-of-america", ratio: 10, kind: "wordmark" },
+  "Bernstein": null,
+  "Barclays": { file: "barclays", ratio: 6.025, kind: "wordmark" },
+  "Evercore ISI": { file: "evercore-isi", ratio: 6.361, kind: "wordmark" },
+  "Truist": { file: "truist", ratio: 4.324, kind: "wordmark" },
+  "Citi": { file: "citi", ratio: 1.743, kind: "wordmark" },
+  "Wells Fargo": { file: "wells-fargo", ratio: 1, kind: "symbol" },
+  "Wolfe Research": null,
+  "Deutsche Bank": { file: "deutsche-bank", ratio: 5.085, kind: "wordmark" },
+  "Cantor": { file: "cantor", ratio: 3.009, kind: "wordmark" },
+  "Loop Capital": null,
+  "Rosenblatt": null,
+  "MoffettNathanson": null,
+  "Walmart": { file: "walmart", ratio: 5.26, kind: "wordmark" },
+  "Stripe": { file: "stripe", ratio: 2.403, kind: "wordmark" },
+  "Shopify": { file: "shopify", ratio: 3.509, kind: "wordmark" },
+  "Plaid": { file: "plaid", ratio: 2.654, kind: "wordmark" }
+};

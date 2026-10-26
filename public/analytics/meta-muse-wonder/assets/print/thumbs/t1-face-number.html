@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>T1 Face + Number</title>
+<!--
+T1 "FACE + NUMBER": the Print's thumbnail. One real face, one figure (three words at most, Title Case), the company mark small.
+White plate, faint grid, Anton set as "Anton Italics" (upright Anton, skewX(-10.76deg), rotate(-3.51deg)). 1280x720 CSS px.
+
+PARAMS (URL query; all optional except a text or a key)
+  text=   the words, e.g. text=%E2%88%92$2.1%20Billion (use a real minus U+2212). Three words at most, else a red error banner.
+  key=    a data.js figure id; reads BW_DATA.figures[key].display from ../../../shared/data.js. text wins if both are given.
+  tone=   loss (red #E10203, default) | win (green #00BF63) | ink (#0A0A0A)
+  plate=  white (default #FFFFFF) | cream (#F0EEE9)
+  grid=   1 (default) | 0   faint grid like PRD_TS_01
+  photo=  URL of a REAL photograph or webcast frame (file:/// or relative). Never a generated face.
+  mode=   panel (default): photo full-bleed on the right, hard edge | cut: transparent PNG cutout, bottom-right
+  fx,fy=  panel focal point 0..1 (default 0.5, 0.35)      zoom=  panel zoom, 1 = just covers (default 1)
+  split=  panel width as a fraction of the frame (default 0.48)
+  h=      cut height: 0..2 = fraction of 720, above 2 = px (default 0.95)
+  mark=   path/URL of the company mark PNG (drawn small, lighter than the number)
+  markh=  mark height px (default 54; keep 44-64)
+  bars=   comma list of data.js figure ids: faint flat grey texture bars behind the text, last bar in the tone colour, true zero
+          baseline (negatives below it). No numbers, no labels. If data.js is missing it is skipped silently.
+
+RENDER (never into the repo; 1.5 for the 1920x1080 master, 1 for the 1280x720 upload)
+  node shoot.mjs jobs.json   with jobs [{"url":"file:///.../t1-face-number.html?text=...&photo=...","out":"x.png","w":1280,"h":720,"scale":1.5}]
+  chrome --headless=new --hide-scrollbars --window-size=1280,720 --force-device-scale-factor=1 --screenshot=out.png "file:///...?params"
+  (add --allow-file-access-from-files so ../../../shared/data.js loads from file://)
+
+RULES HELD: no shadow, outline, glow, blur or arrows; no "??"; three elements (text, face, mark); figure cap height >= 180 px;
+face >= a third of frame height, nothing over eyes or mouth; Title Case; red loss / green win / ink neutral.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@800;900&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#fff}
+  #f{position:relative;width:1280px;height:720px;overflow:hidden;background:var(--plate)}
+  #f.grid{background-image:linear-gradient(rgba(10,10,10,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(10,10,10,.055) 1px,transparent 1px);background-size:40px 40px;background-color:var(--plate)}
+  #ph{position:absolute;top:0;right:0;height:720px;overflow:hidden}
+  #ph img{position:absolute;display:block;max-width:none}
+  #cut{position:absolute;right:0;bottom:0;display:block}
+  #mark{position:absolute;right:48px;top:40px;display:block;z-index:3}
+  #mark.bl{right:auto;top:auto;left:64px;bottom:40px}
+  #mark.tl{right:auto;left:64px;top:40px}
+  .mn{display:inline-block;width:.42em;height:.125em;background:var(--tone);vertical-align:.31em;margin-right:.05em}
+  #bars{position:absolute;left:0;top:0}
+  #tx{position:absolute;left:56px;top:0;width:610px;height:720px;display:flex;flex-direction:column;justify-content:center}
+  .ln{font-family:'Anton',Impact,sans-serif;font-weight:400;line-height:1;white-space:nowrap;color:var(--tone);
+      transform-origin:0 50%;transform:rotate(-3.51deg) skewX(-10.76deg);display:block;align-self:flex-start}
+  #err{position:absolute;left:0;top:300px;width:1280px;height:120px;background:#E10203;color:#fff;font:900 44px/120px Inter,sans-serif;text-align:center;display:none;z-index:9}
+</style></head><body>
+<div id="f"><svg id="bars" width="1280" height="720"></svg><div id="ph"></div><img id="mark" alt=""><div id="tx"></div><div id="err"></div></div>
+<script src="finish.js"></script>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search), $=function(i){return document.getElementById(i)};
+  var P=function(k,d){return q.has(k)?q.get(k):d}, N=function(k,d){var v=parseFloat(P(k,''));return isNaN(v)?d:v};
+  var tones={loss:'#E10203',win:'#00BF63',ink:'#0A0A0A',white:'#FFFFFF'}, tone=tones[P('tone','loss')]||tones.loss;
+  var f=$('f'), root=document.documentElement;
+  root.style.setProperty('--tone',tone);
+  root.style.setProperty('--plate',P('plate','white')==='cream'?'#F0EEE9':'#FFFFFF');
+  if(P('grid','1')!=='0')f.classList.add('grid');
+  if(window.FINISH)FINISH(f,P,N);
+  if(q.has('tx'))$('tx').style.left=N('tx',56)+'px';
+  if(q.has('ty'))$('tx').style.top=N('ty',0)+'px';
+  function fail(m){root.dataset.error=m;var e=$('err');e.textContent=m;e.style.display='block';$('tx').style.display='none'}
+  function data(cb){ // data.js is optional: a missing file is skipped silently
+    if(!(q.has('key')||q.has('bars')||q.has('litkeys')))return cb();
+    var s=document.createElement('script');s.src='../../../shared/data.js';
+    s.onload=function(){cb()};s.onerror=function(){cb()};document.head.appendChild(s);
+  }
+  function fig(id){try{return BW_DATA.figures[id]}catch(e){return null}}
+  data(function(){
+    var text=P('text','');
+    if(!text&&q.has('key')){var g=fig(P('key',''));text=g&&g.display||''}
+    var words=text.trim().split(/\s+/).filter(Boolean);
+    if(!words.length){return fail('NO TEXT: give text= or a data.js key=')}
+    if(words.length>3){return fail('TOO MANY WORDS ('+words.length+'): THREE AT MOST')}
+    var mode=P('mode','panel'), ph=P('photo',''), split=N('split',.48), pw=Math.round(1280*split);
+    if(ph){
+      var im=new Image();
+      im.onload=function(){
+        if(mode==='cut'){
+          var h=N('h',.95);h=h<=2?h*720:h;var c=document.createElement('img');c.id='cut';c.src=ph;c.style.height=h+'px';c.style.right=N('cr',0)+'px';c.style.bottom=(-N('cb',0))+'px';f.insertBefore(c,$('tx'));
+        }else{
+          var box=$('ph'),w=im.naturalWidth,hh=im.naturalHeight,z=N('zoom',1);box.style.width=pw+'px';
+          var sc=Math.max(pw/w,720/hh)*z,iw=w*sc,ih=hh*sc;
+          var x=pw/2-N('fx',.5)*iw,y=360-N('fy',.35)*ih;
+          x=Math.min(0,Math.max(pw-iw,x));y=Math.min(0,Math.max(720-ih,y));
+          var i2=document.createElement('img');i2.src=ph;i2.style.width=iw+'px';i2.style.height=ih+'px';i2.style.left=x+'px';i2.style.top=y+'px';box.appendChild(i2);
+        }
+      };im.src=ph;
+    }
+    var mk=$('mark');if(P('mark','')){mk.src=P('mark','');mk.style.height=N('markh',54)+'px';mk.style.opacity='.8';if(/^(bl|tl)$/.test(P('markpos','tr')))mk.classList.add(P('markpos','tr'))}else mk.style.display='none';
+    // text: one word per line; the figure line (has a digit, $ or %) sets the big size, other words 0.62x of it
+    var tx=$('tx'),maxW=N('tw',mode==='cut'?560:(1280-pw-56-30));
+    function build(){
+      /* a leading minus (U+2212 or a hyphen) is drawn as a bar at the figure's own weight: Anton's minus sets short, like a hyphen */
+      tx.innerHTML='';var els=words.map(function(w){var d=document.createElement('span');d.className='ln';
+        var m=/^[−-]/.test(w);if(m){var b=document.createElement('i');b.className='mn';d.appendChild(b);w=w.slice(1)}
+        d.appendChild(document.createTextNode(w));tx.appendChild(d);return d});
+      var big=words.findIndex(function(w){return /[0-9$%]/.test(w)});if(big<0)big=0;
+      var fs=N('fs',300);els[big].style.fontSize=fs+'px';
+      var ow=els[big].offsetWidth;if(ow>maxW)fs=Math.floor(fs*maxW/ow);
+      els.forEach(function(el,i){var s=i===big?fs:Math.round(fs*.62);el.style.fontSize=s+'px';
+        if(el.offsetWidth>maxW){s=Math.floor(s*maxW/el.offsetWidth);el.style.fontSize=s+'px'}
+        el.style.marginTop=(i?'10px':'0')});
+    }
+    (document.fonts&&document.fonts.load?document.fonts.load('300px Anton','0123456789$−-Bb'):Promise.resolve()).then(function(){return document.fonts.ready}).then(build,build);
+    /* one tall bar behind the figure, its top share lit in the tone and unlabelled: lit= a fraction (0..1), or litkeys=part,whole
+       (two data.js ids, the part's v over the whole's v). Texture, never the hero: the figure sets over it in ink. */
+    var lit=N('lit',NaN);
+    if(q.has('litkeys')){var lk=P('litkeys','').split(','),a=fig((lk[0]||'').trim()),b=fig((lk[1]||'').trim());if(a&&b&&b.v)lit=a.v/b.v}
+    if(!isNaN(lit)&&lit>0&&lit<=1){
+      /* a gauge at the left edge, the figure set beside it: lit in litc (default the loss red), the rest a faint ink */
+      var bx=N('barx',56),bw2=N('barw',64),bt=90,bb=630,lh=(bb-bt)*lit,lc=P('litc','#E10203');
+      $('bars').innerHTML='<rect x="'+bx+'" y="'+bt+'" width="'+bw2+'" height="'+(bb-bt)+'" fill="'+(tone==='#FFFFFF'?'#FFFFFF':'#0A0A0A')+'" fill-opacity="'+(tone==='#FFFFFF'?.17:.09)+'"/>'+
+        '<rect x="'+bx+'" y="'+bt+'" width="'+bw2+'" height="'+lh+'" fill="'+lc+'"/>';
+      $('tx').style.left=(bx+bw2+36)+'px';maxW-=(bx+bw2+36-56);
+    }
+    if(P('bars','')){
+      var ids=P('bars','').split(','),vals=ids.map(function(id){var g=fig(id.trim());return g&&typeof g.v==='number'?g.v:null});
+      if(vals.length&&vals.every(function(v){return v!==null})){
+        var mx=Math.max.apply(null,vals.concat([0])),mn=Math.min.apply(null,vals.concat([0])),rng=(mx-mn)||1;
+        var top=90,bot=640,zy=top+(mx/rng)*(bot-top),n=vals.length,x0=56,wd=Math.min(80,(620-x0)/(n*1.4)),gap=wd*.4,s='';
+        s+='<line x1="'+x0+'" x2="'+(x0+n*(wd+gap))+'" y1="'+zy+'" y2="'+zy+'" stroke="#0A0A0A" stroke-opacity=".18" stroke-width="2"/>';
+        vals.forEach(function(v,i){var hh=Math.abs(v)/rng*(bot-top),y=v>=0?zy-hh:zy;
+          s+='<rect x="'+(x0+i*(wd+gap))+'" y="'+y+'" width="'+wd+'" height="'+Math.max(hh,1)+'" fill="'+(i===n-1?tone:'#0A0A0A')+'" fill-opacity="'+(i===n-1?.22:.09)+'"/>'});
+        $('bars').innerHTML=s;
+      }
+    }
+  });
+})();
+</script></body></html>
