@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meta's Profit and Cash</title>
+<!-- META Q3 2026 · HERO · PROFIT VS CASH (Ive, 25 Oct 2026). NEW-4, the governing fact of "The Bill" (6:02-6:33, ~31 s).
+     Sits directly before hero-cash in the cut and speaks its grammar: operating cash a cream column, capex gold, the overrun red.
+     The idea: the legal charge hit profit; capex hit cash. One linear $ scale for the whole board (0 to $40B), so the halves
+     compare honestly. Left: operating income without the charge ($22.9B, a dashed cream outline: the counterfactual), the $9.89B
+     charge in red on top of the reported $13.0B in gold at true scale, a 6 px cut between them (no offset). Right: cash from operations ($32.8B, +9%) and capex ($34.9B) rising past it; the part
+     above the operating-cash line is free cash flow, -$2.1B, in red.
+     Every figure is a data.js key. Shoot: ?final ?still ?t=<secs|label> ?capture.
+     Re-time: ?at=<intro,profit,charge,footnote,cash,capex,lands>   (defaults 0,1,3,6.5,12,17,20)   ?brand=dim|end|0
+     Render: bw render page --file=hero-profit-vs-cash.html --name=hero-profit-vs-cash --seconds=31 --query=at=... -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css?v=1">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" viewBox="0 0 1920 1080">
+    <defs>
+      <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="12" height="12" fill="var(--bg)"></rect><line x1="0" y1="0" x2="0" y2="12" stroke="var(--gold)" stroke-width="4"></line>
+      </pattern>
+      <pattern id="hatch2" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="12" height="12" fill="var(--bg)"></rect><line x1="0" y1="0" x2="0" y2="12" stroke="var(--gold)" stroke-opacity=".45" stroke-width="3"></line>
+      </pattern>
+    </defs>
+    <g id="world"></g>
+  </svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=1"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/hero.js?v=1"></script>
+<script>
+const S = HERO.steps({ intro: 0, profit: 1.0, charge: 3.0, footnote: 6.5, cash: 12.0, capex: 17.0, lands: 20.0 });
+const { mk, mark, fig } = HERO;
+const W = document.getElementById('world');
+
+function build() {
+  W.innerHTML = '';
+  const tl = gsap.timeline();
+
+  const ex = fig('meta_operating_income_ex_charge_q3_2026'), chg = fig('meta_legal_charge_q3_2026'), oi = fig('meta_operating_income_q3_2026');
+  const setl = fig('meta_ag_settlement_max'), ags = fig('meta_ag_count');
+  const ocf = fig('meta_ocf_q3_2026'), ocfG = fig('c_meta_ocf_growth_q3_2026'), cap = fig('meta_capex_q3_2026'), fcf = fig('meta_fcf_q3_2026');
+
+  /* one linear $ scale for the whole board: 0 to $40B */
+  const BASE = 860, TOP = 300, DMAX = 40000;
+  const ky = (TOP - BASE) / DMAX, y = (v) => BASE + v * ky;
+  const GX0 = 184, GX1 = 1550, DIV = 1000;   /* GX1: flush with the capex column (CX + CW) */
+
+  const logo = mark(W, 'meta-wordmark', 120, 54, 40, 'cream');
+
+  /* grid: faint rules every $10B, mono labels at the left. The rules run behind the columns only (left column, right pair),
+     so no label ever sits on a rule; the zero baseline runs the full width, one scale for both halves */
+  const grid = mk('g', {}, W);
+  for (let v = 0; v <= DMAX; v += 10000) {
+    if (!v) mk('line', { x1: GX0, x2: GX1, y1: y(v), y2: y(v), class: 'hair', style: '--w:2px' }, grid);
+    else [[GX0, 500], [1020, GX1]].forEach(([a, b]) => mk('line', { x1: a, x2: b, y1: y(v), y2: y(v), class: 'rule' }, grid));
+    if (v) mk('text', { x: 176, y: y(v) + 10, 'text-anchor': 'end', class: 'ax', 'font-size': 28 }, grid, '$' + v / 1000 + 'B');
+  }
+  const divider = mk('line', { x1: DIV, x2: DIV, y1: 196, y2: BASE + 110, class: 'hair', style: '--w:1.5px' }, W);
+
+  /* type sits on one 40 px baseline system: the right heads (figure, then noun) above the $40B rule, the left's
+     $22.9B line (figure and noun) seven steps down, above its outline; every other label hangs from the top edge it names */
+  const FY = 220, HY = 260;
+  const CW = 150, OX = 1040, CX = 1400;   /* CX clears the measured 'cash from operations' (asserted below) */
+  const hR = mk('text', { x: OX, y: HY, class: 'w', 'font-size': 32 }, W, ocf.label.split(',')[0]);
+  const hC = mk('text', { x: CX, y: HY, class: 'w gold', 'font-size': 32 }, W, cap.label.split(',')[0]);
+
+  /* ---------- LEFT: profit ---------- */
+  const left = mk('g', {}, W);
+  const PX = 240, PW = 240, CUT = 3;     /* the cut: a 6 px gap in the background colour, centred on the true $13.0B line */
+  const yEx = y(ex.v), yOi = y(oi.v);
+  const gold = mk('rect', { x: PX, y: yOi + CUT, width: PW, height: BASE - yOi - CUT, fill: 'var(--gold)' }, W);
+  const bite = mk('rect', { x: PX, y: yEx, width: PW, height: yOi - CUT - yEx, fill: 'var(--red)' }, left);
+  /* the counterfactual: operating income without the charge, a dashed cream outline, open at the baseline */
+  const clip = mk('clipPath', { id: 'exclip' }, W);
+  const clipR = mk('rect', { x: PX - 10, y: yEx - 6, width: PW + 20, height: BASE - yEx + 6 }, clip);
+  const outline = mk('path', { d: `M ${PX} ${BASE} V ${yEx} H ${PX + PW} V ${BASE}`, fill: 'none', stroke: 'var(--cream)', 'stroke-width': 2.5,
+                               'stroke-dasharray': '10 8', 'clip-path': 'url(#exclip)' }, left);
+  const cut = mk('line', { x1: PX - 12, x2: PX + PW + 12, y1: yOi, y2: yOi, stroke: 'var(--bg)', 'stroke-width': CUT * 2 }, left);
+
+  const exG = mk('g', {}, left);
+  const exN = mk('text', { x: PX, y: FY + 280, class: 'n', 'font-size': 40 }, exG);
+  mk('tspan', {}, exN, ex.display);
+  const exL = mk('tspan', { class: 'wd', 'font-size': 32, dx: 18 }, exN, ex.label);
+  /* pass 2 (Davinci: a longer label ran into the cash-from-operations box): the label never crosses the halves' divider (x 1000);
+     if it would, it drops to its own line under the figure */
+  if (PX + exN.getComputedTextLength() > 960) { exL.setAttribute('x', PX); exL.setAttribute('dy', 40); exL.removeAttribute('dx'); }
+
+  const LX = PX + PW + 48;
+  const chgG = mk('g', {}, left);
+  const chgN = mk('text', { x: LX, y: yEx + 34, class: 'n red', 'font-size': 48 }, chgG, chg.display);
+  const chgL = mk('text', { x: LX, y: yEx + 76, class: 'wd', 'font-size': 32 }, chgG, chg.label);
+
+  const oiG = mk('g', {}, W);
+  const oiN = mk('text', { x: LX - 8, y: yOi + CUT + 80, class: 'nh', 'font-size': 112 }, oiG, oi.display);
+  const oiL = mk('text', { x: LX, y: yOi + CUT + 128, class: 'wd', 'font-size': 32 }, oiG, oi.label);
+
+  /* footnote: the agreement behind the charge ("up to" is Meta's words, set in Inter; the figure in mono) */
+  const foot = mk('g', {}, left);
+  const sm = setl.display.match(/^(\D*?)\s*([−+-]?\$.*)$/) || ['', '', setl.display];
+  const f1 = mk('text', { x: 120, y: BASE + 52, class: 'wd', 'font-size': 32 }, foot);
+  if (sm[1]) mk('tspan', { class: 'w' }, f1, sm[1] + ' ');
+  mk('tspan', { class: 'n' }, f1, sm[2]); mk('tspan', { dx: 14 }, f1, setl.label);
+  const f2 = mk('text', { x: 120, y: BASE + 92, class: 'wd', 'font-size': 32 }, foot);
+  mk('tspan', { class: 'n' }, f2, ags.display); mk('tspan', { dx: 14 }, f2, ags.label);
+
+  /* ---------- RIGHT: cash ---------- */
+  const ocfR = mk('rect', { x: OX, y: y(ocf.v), width: CW, height: BASE - y(ocf.v), fill: 'none', stroke: 'var(--cream)', 'stroke-width': 2.5 }, W);
+  const capR = mk('rect', { x: CX, y: y(cap.v), width: CW, height: BASE - y(cap.v), fill: 'var(--gold)' }, W);
+  const over = mk('rect', { x: CX, y: y(cap.v), width: CW, height: y(ocf.v) - y(cap.v), fill: 'var(--red)' }, W);
+  const ocfLine = mk('line', { x1: OX, x2: CX + CW, y1: y(ocf.v), y2: y(ocf.v), class: 'hair', style: '--w:1.5px' }, W);
+
+  const ocfN = mk('text', { x: OX, y: FY, class: 'n', 'font-size': 40 }, W, ocf.display);
+  const ocfGN = mk('text', { x: OX, y: FY, class: 'n gold', 'font-size': 40 }, W, ocfG.display);
+  const capN = mk('text', { x: CX, y: FY, class: 'n gold', 'font-size': 40 }, W, cap.display);
+
+  const fG = mk('g', {}, W);
+  const RX = CX + CW + 26, yC = y(cap.v);           /* the label sits on the overrun itself: no leader (a leader beside a minus reads as a second minus) */
+  mk('text', { x: RX, y: yC + 34, class: 'n red', 'font-size': 48 }, fG, fcf.display);
+  const lw = fcf.label.split(', ');
+  mk('text', { x: RX, y: yC + 76, class: 'wd', 'font-size': 32 }, fG, lw[0] + (lw[1] ? ',' : ''));
+  if (lw[1]) mk('text', { x: RX, y: yC + 116, class: 'wd', 'font-size': 32 }, fG, lw[1]);
+
+  /* positions that depend on measured type */
+  if (OX + hR.getComputedTextLength() + 32 > CX) console.warn('HERO: right heads collide');
+  ocfGN.setAttribute('x', OX + ocfN.getComputedTextLength() + 16);
+
+  /* ---------- the timeline ---------- */
+  const grow = (r, at, dur = 1.2, ease = 'power2.inOut') => { const h = +r.getAttribute('height'), yy = +r.getAttribute('y'), b = yy + h;
+    tl.fromTo(r, { attr: { y: b, height: 0 } }, { attr: { y: yy, height: h }, duration: dur, ease, immediateRender: true }, at); };
+
+  BW.mark(tl, 'intro', S.intro);
+  /* pass 3 (rule 17): the logo, the scale and the divider are drawn on frame 0, so the cut lands on picture */
+
+  BW.mark(tl, 'profit', S.profit);
+  /* the counterfactual rises from the baseline behind a clip, so its dashes never crawl */
+  tl.fromTo(clipR, { attr: { y: BASE, height: 0 } }, { attr: { y: yEx - 6, height: BASE - yEx + 6 }, duration: 1.3, ease: 'power2.inOut', immediateRender: true }, S.profit);
+  HERO.rise(tl, [exN], S.profit + 1.0, { dy: 16 });
+
+  BW.mark(tl, 'charge', S.charge);
+  /* the charge takes the top of the outline in red, the cut opens on the true $13.0B line, what is left lands gold */
+  tl.fromTo(bite, { attr: { height: 0 } }, { attr: { height: +bite.getAttribute('height') }, duration: .8, ease: 'power2.inOut', immediateRender: true }, S.charge);
+  HERO.rise(tl, [chgN, chgL], S.charge + .5, { dy: 18 });
+  grow(gold, S.charge + 1.0, 1.0, 'power2.inOut');
+  HERO.draw(tl, cut, S.charge + 1.8, .4);
+  HERO.rise(tl, [oiN, oiL], S.charge + 1.8, { dy: 22 });
+
+  BW.mark(tl, 'footnote', S.footnote);
+  HERO.rise(tl, [f1, f2], S.footnote, { dy: 14, stagger: .5 });
+
+  BW.mark(tl, 'cash', S.cash);
+  /* the profit half steps back; the reported $13.0B stays in full */
+  tl.to(left, { opacity: .45, duration: .6, ease: 'power2.inOut' }, S.cash);
+  tl.to(oiL, { opacity: .45, duration: .6, ease: 'power2.inOut' }, S.cash);
+  HERO.rise(tl, [hR], S.cash, { dy: 16 });
+  grow(ocfR, S.cash + .3, 1.3);
+  HERO.rise(tl, [ocfN], S.cash + 1.5, { dy: 16 });
+  HERO.rise(tl, [ocfGN], S.cash + 2.2, { dy: 16 });
+
+  BW.mark(tl, 'capex', S.capex);
+  HERO.rise(tl, [hC], S.capex, { dy: 16 });
+  HERO.draw(tl, ocfLine, S.capex, .6);
+  grow(capR, S.capex + .3, 1.4);
+  HERO.rise(tl, [capN], S.capex + 1.3, { dy: 16 });
+  HERO.fade(tl, [over], S.capex + 1.8, .4);
+  HERO.rise(tl, [fG], S.capex + 2.0, { dy: 16 });
+
+  BW.mark(tl, 'lands', S.lands);
+  tl.to([left, oiL], { opacity: 1, duration: .8, ease: 'power2.inOut' }, S.lands);
+
+  const END = S.lands + 1.0;
+  HERO.credit(tl, .4);
+  HERO.brand(tl, END);
+  tl.to({}, { duration: .1 }, END + .8);
+  return tl;
+}
+function play() { return build(); }
+function rest() { const tl = build(); tl.progress(1); tl.pause(); }
+/* the layout measures type: load the faces it measures before the first build (web fonts load lazily in SVG text,
+   so fonts.ready alone resolves before they exist); capped, so a font that never arrives cannot hold the page */
+const FACES = ['500 34px Inter', '400 32px Inter', '600 40px "IBM Plex Mono"', '700 124px "IBM Plex Mono"'];
+Promise.race([Promise.all(FACES.map(f => document.fonts.load(f))), new Promise(r => setTimeout(r, 2500))]).catch(() => {}).then(() => BW.run({ play, rest }));
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+/* THE HERO LAYER (Ive, 25 Oct 2026): type and chrome for the Meta Q3 hero boards (hero-*.html).
+   On top of shared/brand.css (tokens) and the v5 ink surface: nothing glows, nothing floats. Words in Inter, numbers in
+   IBM Plex Mono with tabular, slashed-zero figures. Every colour is a brand.css token. */
+.stage { background: var(--bg); overflow: hidden; }
+svg.hero { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+svg.hero text { font-family: var(--sans); }
+
+/* numbers */
+svg.hero .n  { font-family: var(--mono); font-weight: 600; fill: var(--cream); font-variant-numeric: tabular-nums slashed-zero; letter-spacing: -.01em; }
+svg.hero .nh { font-family: var(--mono); font-weight: 700; fill: var(--gold); font-variant-numeric: tabular-nums slashed-zero; letter-spacing: -.045em; }
+svg.hero .ax { font-family: var(--mono); font-weight: 500; fill: rgba(245, 241, 229, .46); font-variant-numeric: tabular-nums slashed-zero; }
+/* words */
+svg.hero .w  { font-family: var(--sans); font-weight: 500; fill: var(--cream); letter-spacing: -.01em; }
+svg.hero .wd { font-family: var(--sans); font-weight: 400; fill: rgba(245, 241, 229, .62); letter-spacing: -.005em; }
+svg.hero .wq { font-family: var(--sans); font-weight: 500; fill: var(--cream); letter-spacing: -.012em; }
+/* colours */
+svg.hero .gold { fill: var(--gold); }
+svg.hero .ink  { fill: var(--ink); }
+svg.hero .red  { fill: var(--red); }
+svg.hero .dim  { fill: rgba(245, 241, 229, .46); }
+/* a figure or a word that has no data.js row yet: its key, set as a key (never a typed number) */
+svg.hero .pend { font-family: var(--mono); font-weight: 500; fill: var(--grey-bright); letter-spacing: 0; }
+svg.hero .pend-box { fill: none; stroke: var(--grey-bright); stroke-dasharray: 5 6; stroke-width: calc(1.5px / var(--s, 1)); }
+
+/* strokes keep their weight under the camera (BW v5 .bw-hair) */
+svg.hero .hair  { fill: none; stroke: var(--line-strong); stroke-width: calc(var(--w, 1.5px) / var(--s, 1)); }
+svg.hero .rule  { fill: none; stroke: var(--line); stroke-width: calc(var(--w, 1.5px) / var(--s, 1)); }
+svg.hero .goldline { fill: none; stroke: var(--gold); stroke-width: calc(var(--w, 2px) / var(--s, 1)); }
+
+/* the credit: the house line, bottom left, in plain small sans (rendered by BW.provenance from data.js) */
+.bw-prov { left: 64px; bottom: 38px; }
+.bw-source { font-family: var(--sans); font-size: 18px; letter-spacing: 0; line-height: 1.4; color: rgba(245, 241, 229, .55); max-width: 1300px; }
+
+/* the channel's marks (writer's direction, 25 Oct 2026, via Jarvis): bust and wordmark top right, handle bottom right.
+   ?brand=dim (default): low contrast while the board moves, full on the end state. ?brand=end: out until the end state.
+   ?brand=0: none. Real marks only: the bust from the house logo file, the wordmark set the way the end card sets it. */
+.hero-brand { position: absolute; top: 46px; right: 64px; display: flex; align-items: center; gap: 14px; opacity: 0; z-index: 55; }
+.hero-brand img { height: 50px; width: auto; display: block; }
+.hero-brand span { font-family: var(--sans); font-weight: 800; font-size: 22px; letter-spacing: -.01em; color: var(--cream); }
+.hero-brand span b { font-weight: 800; color: var(--gold-bright); }
+.hero-handle { position: absolute; right: 64px; bottom: 38px; font-family: var(--sans); font-weight: 500; font-size: 18px;
+  color: rgba(245, 241, 229, .62); opacity: 0; z-index: 55; }

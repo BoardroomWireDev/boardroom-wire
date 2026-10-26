@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meta's Cash and Capex</title>
+<!-- META Q3 2026 · HERO · CASH IN, CASH OUT (Ive, 25 Oct 2026). Style frame for the writer; builds once for video and web.
+     Reference: Anthropic IPO 21-revenue (quarter bars with a dashed projection on one time axis) and Cursor 08 (cash in against
+     cash out, a complete argument in pairs of bars).
+     The idea: for nine quarters, cash from operations (outline) stood above capex (gold); in Q3 2026 capex passed it, and the
+     overrun is exactly free cash flow, -$2.1B, the only negative bar of the nine. Then the plan on the same scale: a tenth,
+     hatched column, the Q4 that Meta's $135B to $145B guidance implies after $85.8B in the first nine months.
+     One linear scale for every bar on the board (the FCF strip shares it), so heights compare honestly.
+     Every figure is a data.js key; a quarter with no row yet shows its key at the foot of its column, never a typed number.
+     Shoot: ?final ?still ?t=<secs|label> ?capture. Re-time: ?at=<intro,ocf,capex,gap,fcf,plan,implied,debt,dbar,cbar,debtout,spent>  ?brand=dim|end|0
+     Pass 2 (findings 6:46): debt against cash, two figures on one scale. On "a little more debt than cash" the camera pans right
+     to the other side of the ledger (an empty $ scale); debt grows to $83.7B on its word, cash to $82.4B on its word, and a drop
+     line from cash's end shows the overhang; the camera pans back before the plan. Defaults are the timeline's board seconds
+     (board 0 = 6:35.02); the four new steps sit at the end of the ?at= order, so the laid list still maps. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/hero/hero.css?v=1">
+</head>
+<body>
+<div class="stage">
+  <svg class="hero" viewBox="0 0 1920 1080">
+    <defs>
+      <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="12" height="12" fill="var(--bg)"></rect><line x1="0" y1="0" x2="0" y2="12" stroke="var(--gold)" stroke-width="4"></line>
+      </pattern>
+      <pattern id="hatch2" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="12" height="12" fill="var(--bg)"></rect><line x1="0" y1="0" x2="0" y2="12" stroke="var(--gold)" stroke-opacity=".45" stroke-width="3"></line>
+      </pattern>
+    </defs>
+    <g id="world"></g>
+  </svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=1"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/hero/hero.js?v=1"></script>
+<script>
+const S = HERO.steps({ intro: 0, ocf: .5, capex: 1.0, gap: 2.52, fcf: 7.5, plan: 35.23, implied: 49.99,
+                        debt: 11.9, dbar: 16.5, cbar: 18.6, debtout: 33.4, spent: 45.8 });   /* spent: "about $86 billion spent so far" (440.87 s) */
+const { mk, mark, fig } = HERO;
+const W = document.getElementById('world');
+const RED = getComputedStyle(document.documentElement).getPropertyValue('--red').trim();
+
+/* the nine quarters, oldest first. FCF rows exist (fcf_quarters); operating cash and capex per quarter are read by key and
+   wait on Davinci where missing (Meta's reconciliation, slides p15, prints all three lines for every quarter). */
+const Q = ['q3_2024', 'q4_2024', 'q1_2025', 'q2_2025', 'q3_2025', 'q4_2025', 'q1_2026', 'q2_2026', 'q3_2026'];
+const QL = (q) => 'Q' + q[1] + '’' + q.slice(-2);
+const OCF = Q.map(q => 'meta_ocf_' + q);
+const CAPEX = Q.map(q => q === 'q4_2025' ? 'c_meta_capex_q4_2025' : 'meta_capex_' + q);
+const FCF = BW_DATA.fcf_quarters;
+
+function build() {
+  W.innerHTML = '';
+  const tl = gsap.timeline();
+  const cam = HERO.camera(W);
+
+  /* scale: one linear $ scale for every bar on the board */
+  const X0 = 200, GW = 144, TOP = 340, BASE = 720, DMAX = 60000;
+  const ky = (TOP - BASE) / DMAX;                       /* px per $M (negative: up) */
+  const y = (v) => BASE + v * ky;
+  const gx = (i) => X0 + i * GW;                        /* group left */
+  const CW = 38, CG = 8;
+
+  const logo = mark(W, 'meta-wordmark', 120, 54, 40, 'cream');
+  const fcfNow = fig('meta_fcf_q3_2026');
+  const hero = mk('text', { x: 114, y: 236, class: 'nh red', 'font-size': 150 }, W, fcfNow.display);
+  const heroL = mk('text', { x: 120, y: 292, class: 'wd', 'font-size': 32 }, W, fcfNow.label);
+
+  /* grid */
+  const grid = mk('g', {}, W);
+  for (let v = 0; v <= DMAX; v += 10000) {
+    mk('line', { x1: X0 - 16, x2: gx(10), y1: y(v), y2: y(v), class: v ? 'rule' : 'hair', style: v ? '' : '--w:2px' }, grid);
+    if (v) mk('text', { x: X0 - 24, y: y(v) + 9, 'text-anchor': 'end', class: 'ax', 'font-size': 26 }, grid, '$' + v / 1000 + 'B');
+  }
+  const qlab = mk('g', {}, W);
+  Q.forEach((q, i) => mk('text', { x: gx(i) + GW / 2, y: BASE + 40, 'text-anchor': 'middle', class: 'ax', 'font-size': 28 }, qlab, QL(q)));
+  const q4lab = mk('text', { x: gx(9) + GW / 2, y: BASE + 40, 'text-anchor': 'middle', class: 'ax', 'font-size': 28 }, W, 'Q4’26');
+
+  /* the pairs */
+  const ocfR = [], capR = [], pend = mk('g', {}, W);
+  Q.forEach((q, i) => {
+    const cx = gx(i) + GW / 2, xo = cx - CG / 2 - CW, xc = cx + CG / 2;
+    const fo = fig(OCF[i]), fc = fig(CAPEX[i]);
+    if (fo) ocfR[i] = mk('rect', { x: xo, y: y(fo.v), width: CW, height: BASE - y(fo.v), fill: 'none', stroke: 'var(--cream)', 'stroke-width': 2.5 }, W);
+    else mk('text', { transform: `translate(${xo + CW / 2 + 5},${BASE - 10}) rotate(-90)`, class: 'pend', 'font-size': 14, opacity: .75 }, pend, OCF[i]);
+    if (fc) capR[i] = mk('rect', { x: xc, y: y(fc.v), width: CW, height: BASE - y(fc.v), fill: 'var(--gold)' }, W);
+    else mk('text', { transform: `translate(${xc + CW / 2 + 5},${BASE - 10}) rotate(-90)`, class: 'pend', 'font-size': 14, opacity: .75 }, pend, CAPEX[i]);
+  });
+
+  /* Q3 2026: capex passes operating cash; the overrun is free cash flow */
+  const i9 = 8, cx9 = gx(i9) + GW / 2;
+  const ocf9 = fig(OCF[i9]), cap9 = fig(CAPEX[i9]);
+  const over = mk('rect', { x: cx9 + CG / 2, y: y(cap9.v), width: CW, height: y(ocf9.v) - y(cap9.v), fill: 'var(--red)' }, W);
+  const lab9 = mk('g', {}, W);
+  const LX = cx9 - 54;
+  const lc = mk('text', { x: LX, y: 432, 'text-anchor': 'end', class: 'w gold', 'font-size': 32 }, lab9);
+  mk('tspan', {}, lc, 'capex  '); mk('tspan', { class: 'n gold' }, lc, cap9.display);
+  const lo = mk('text', { x: LX, y: 476, 'text-anchor': 'end', class: 'w', 'font-size': 32 }, lab9);
+  mk('tspan', {}, lo, 'cash from operations  '); mk('tspan', { class: 'n' }, lo, ocf9.display);
+  mk('path', { d: `M ${LX + 6} ${422} L ${cx9 + CG / 2 + CW / 2} ${y(cap9.v) - 6}`, class: 'hair', style: '--w:1.5px' }, lab9);
+  mk('path', { d: `M ${LX + 6} ${466} L ${cx9 - CG / 2 - CW / 2} ${y(ocf9.v) - 6}`, class: 'hair', style: '--w:1.5px' }, lab9);
+
+  /* free cash flow, nine quarters, on the same scale */
+  const FZ = 948, fy = (v) => FZ + v * ky;
+  const fcfG = mk('g', {}, W);
+  mk('line', { x1: X0 - 16, x2: gx(10), y1: FZ, y2: FZ, class: 'hair', style: '--w:2px' }, fcfG);
+  const fl = mk('text', { x: gx(9) + 24, y: FZ - 16, class: 'wd', 'font-size': 32 }, fcfG, 'free cash flow');
+  const fBars = [], fVals = [];
+  FCF.forEach((k, i) => {
+    const f = fig(k), cx = gx(i) + GW / 2, neg = f.v < 0;
+    fBars.push(mk('rect', { x: cx - 26, y: neg ? FZ : fy(f.v), width: 52, height: Math.abs(fy(f.v) - FZ), fill: neg ? 'var(--red)' : 'var(--grey-bright)' }, fcfG));
+    fVals.push(mk('text', neg ? { x: cx + 40, y: FZ + 32, class: 'n red', 'font-size': 32 } : { x: cx, y: fy(f.v) - 14, 'text-anchor': 'middle', class: 'n', 'font-size': 32, opacity: .6 }, fcfG, f.display));
+  });
+
+  /* the plan: guidance less nine months = the implied Q4, hatched, on the same scale */
+  const g26 = fig('meta_capex_guide_fy2026'), nine = fig('meta_capex_9m_2026'), imp = fig('c_meta_capex_q4_2026_implied');
+  const plan = mk('g', {}, W);
+  const gl1 = mk('text', { x: 1800, y: 250, 'text-anchor': 'end', class: 'wd', 'font-size': 32 }, plan, '2026 capex guidance');
+  const gl2 = mk('text', { x: 1800, y: 296, 'text-anchor': 'end', class: 'n gold', 'font-size': 36 }, plan, g26.display);
+  const bx0 = gx(6) + 18, bx1 = gx(8) + GW - 18, by = 386;
+  const brk = mk('path', { d: `M ${bx0} ${by + 12} V ${by} H ${bx1} V ${by + 12}`, class: 'hair', style: '--w:1.5px' }, plan);
+  const nl = mk('text', { x: (bx0 + bx1) / 2, y: by - 14, 'text-anchor': 'middle', class: 'wd', 'font-size': 32 }, plan);
+  mk('tspan', { class: 'n', 'font-size': 32 }, nl, nine.display); mk('tspan', {}, nl, '  first nine months');
+  const qx = gx(9) + GW / 2 - 40;
+  const impLo = mk('rect', { x: qx, y: y(imp.lo), width: 80, height: BASE - y(imp.lo), fill: 'url(#hatch)', stroke: 'var(--gold)', 'stroke-width': 2 }, W);
+  const impHi = mk('rect', { x: qx, y: y(imp.hi), width: 80, height: y(imp.lo) - y(imp.hi), fill: 'url(#hatch2)', stroke: 'var(--gold)', 'stroke-width': 1.5, 'stroke-dasharray': '5 5' }, W);
+  const il = mk('g', {}, W);
+  const parts = imp.display.split(' to ');
+  mk('text', { x: qx + 98, y: y(imp.hi) + 28, class: 'n gold', 'font-size': 32 }, il, parts[0] + ' to');
+  mk('text', { x: qx + 98, y: y(imp.hi) + 68, class: 'n gold', 'font-size': 32 }, il, parts[1]);
+  const lw = imp.label.split(', ');
+  mk('text', { x: qx + 98, y: y(imp.hi) + 116, class: 'wd', 'font-size': 32 }, il, lw[0] + ',');
+  mk('text', { x: qx + 98, y: y(imp.hi) + 154, class: 'wd', 'font-size': 32 }, il, lw[1] || '');
+
+  /* debt against cash: the other side of the ledger, one $ scale, world x 2120-3720 (off the board until the camera pans) */
+  const debt = fig('meta_debt_q3_2026_call'), cash = fig('meta_cash_q3_2026');
+  const DC = mk('g', {}, W);
+  const PX0 = 2060, PXW = 1300, PMAX = 90000, px = (v) => PX0 + v / PMAX * PXW;
+  const dAxis = mk('g', {}, DC);
+  for (let v = 0; v <= 80000; v += 20000) {
+    mk('line', { x1: px(v), x2: px(v), y1: 330, y2: 720, class: v ? 'rule' : 'hair', style: v ? '' : '--w:2px' }, dAxis);
+    mk('text', { x: px(v), y: 760, 'text-anchor': 'middle', class: 'ax', 'font-size': 26 }, dAxis, '$' + v / 1000 + 'B');
+  }
+  const dRow = mk('g', {}, DC), cRow = mk('g', {}, DC);
+  const dBar = mk('rect', { x: PX0, y: 410, width: px(debt.v) - PX0, height: 96, fill: 'var(--red)' }, dRow);
+  mk('text', { x: PX0, y: 390, class: 'wd', 'font-size': 32 }, dRow, debt.label);
+  mk('text', { x: px(debt.v) + 24, y: 476, class: 'n red', 'font-size': 56, 'font-weight': 700 }, dRow, debt.display);
+  const cBar = mk('rect', { x: PX0, y: 586, width: px(cash.v) - PX0, height: 96, fill: 'rgba(245,241,229,.14)', stroke: 'var(--cream)', 'stroke-width': 2.5 }, cRow);
+  mk('text', { x: PX0, y: 566, class: 'wd', 'font-size': 32 }, cRow, cash.label);
+  mk('text', { x: px(cash.v) + 24, y: 652, class: 'n', 'font-size': 56, 'font-weight': 700 }, cRow, cash.display);
+  /* the overhang: a drop line from cash's end up through the debt bar */
+  const drop = mk('line', { x1: px(cash.v), x2: px(cash.v), y1: 586, y2: 404, stroke: 'var(--cream)', 'stroke-width': 2, 'stroke-dasharray': '6 5' }, DC);
+
+  /* ---------- the timeline ---------- */
+  const grow = (r, at, dur = .7) => { const h = +r.getAttribute('height'), yy = +r.getAttribute('y'), b = yy + h;
+    tl.fromTo(r, { attr: { y: b, height: 0 } }, { attr: { y: yy, height: h }, duration: dur, ease: 'power2.out', immediateRender: true }, at); };
+  const growDown = (r, at, dur = .7) => { const h = +r.getAttribute('height');
+    tl.fromTo(r, { attr: { height: 0 } }, { attr: { height: h }, duration: dur, ease: 'power2.out', immediateRender: true }, at); };
+
+  BW.mark(tl, 'intro', S.intro);
+  /* pass 3 (rule 17): the logo, the scale and the quarter labels are drawn on frame 0, so the cut lands on picture */
+  HERO.fade(tl, [pend], S.intro + .6, .6);
+
+  BW.mark(tl, 'ocf', S.ocf);
+  /* pass 3: the first quarter (Q3 2024) stands at its true height from frame 0; the rest grow in from "ocf" */
+  ocfR.forEach((r, i) => r && i > 0 && grow(r, S.ocf + (i - 1) * .12));
+  BW.mark(tl, 'capex', S.capex);
+  capR.forEach((r, i) => r && grow(r, S.capex + i * .12));
+
+  BW.mark(tl, 'gap', S.gap);
+  cam.to(tl, { tx: cx9 - 150, ty: 548, s: 1.8 }, { at: S.gap, duration: 1.4 });
+  tl.fromTo(over, { opacity: 0 }, { opacity: 1, duration: .4, immediateRender: true }, S.gap + 1.2);
+  HERO.fade(tl, [lab9], S.gap + .9, .6);
+
+  BW.mark(tl, 'fcf', S.fcf);
+  cam.to(tl, { tx: 960, ty: 540, s: 1 }, { at: S.fcf, duration: 1.3 });
+  /* the strip draws once the camera has settled, so nothing crosses the credit line on the way back */
+  HERO.fade(tl, [fcfG], S.fcf + 1.3, .01);
+  HERO.rise(tl, [fl], S.fcf + 1.4, { dy: 12 });
+  fBars.forEach((r, i) => (BW_DATA.figures[FCF[i]].v < 0 ? growDown : grow)(r, S.fcf + 1.4 + i * .1, .5));
+  fVals.forEach((t, i) => HERO.fade(tl, [t], S.fcf + 1.7 + i * .1, .4, i === 8 ? 1 : .6));
+  HERO.rise(tl, [hero, heroL], S.fcf + 2.5);
+
+  /* debt against cash */
+  BW.mark(tl, 'debt', S.debt);
+  [dRow, cRow, drop].forEach(n => tl.set(n, { opacity: 0 }, 0));
+  /* pass 2 (6:50, an empty frame mid-pan): the panel sits closer, the pan is shorter, and the scale and both rows' names come
+     with it, so the frame always holds something; the bars still grow on their own words */
+  cam.to(tl, { tx: 2780, ty: 540, s: 1 }, { at: S.debt, duration: 1.1, ease: 'power3.inOut' });
+  HERO.fade(tl, [dAxis], S.debt, .5);
+  [dRow, cRow].forEach(row => { const lab = row.querySelector('text'); if (lab) { tl.set(row, { opacity: 1 }, S.debt + .3);
+    Array.from(row.children).forEach(n => { if (n !== lab) tl.set(n, { opacity: 0 }, 0); }); HERO.fade(tl, [lab], S.debt + .3, .5); } });
+  BW.mark(tl, 'dbar', S.dbar);
+  Array.from(dRow.children).forEach(n => { if (n.tagName !== 'text' || n !== dRow.querySelector('text')) HERO.fade(tl, [n], S.dbar, .3); });
+  tl.fromTo(dBar, { attr: { width: 0 } }, { attr: { width: px(debt.v) - PX0 }, duration: 1.0, ease: 'power2.out', immediateRender: true }, S.dbar);
+  BW.mark(tl, 'cbar', S.cbar);
+  Array.from(cRow.children).forEach(n => { if (n !== cRow.querySelector('text')) HERO.fade(tl, [n], S.cbar, .3); });
+  tl.fromTo(cBar, { attr: { width: 0 } }, { attr: { width: px(cash.v) - PX0 }, duration: 1.0, ease: 'power2.out', immediateRender: true }, S.cbar);
+  HERO.fade(tl, [drop], S.cbar + 1.1, .4);
+  BW.mark(tl, 'debtout', S.debtout);
+  cam.to(tl, { tx: 960, ty: 540, s: 1 }, { at: S.debtout, duration: 1.2, ease: 'power3.inOut' });
+
+  BW.mark(tl, 'plan', S.plan);
+  HERO.rise(tl, [gl1, gl2], S.plan, { dy: 14 });
+  /* pass 2 (7:09-7:29 held still): the nine months spent get their own beat on "about $86 billion spent so far" (no camera:
+     a push sends the free-cash-flow strip into the credit line) */
+  BW.mark(tl, 'spent', S.spent);
+  HERO.draw(tl, brk, S.spent, .7);
+  HERO.rise(tl, [nl], S.spent + .3, { dy: 12 });
+
+  BW.mark(tl, 'implied', S.implied);
+  grow(impLo, S.implied, .9);
+  grow(impHi, S.implied + .9, .4);
+  HERO.rise(tl, [il], S.implied + 1.1, { dy: 12 });
+
+  const END = S.implied + 2.0;
+  HERO.credit(tl, .4);
+  HERO.brand(tl, END);
+  tl.to({}, { duration: .1 }, END + .8);
+  return tl;
+}
+function play() { return build(); }
+function rest() { const tl = build(); tl.progress(1); tl.pause(); }
+BW.run({ play, rest });
+</script>
+</body>
+</html>

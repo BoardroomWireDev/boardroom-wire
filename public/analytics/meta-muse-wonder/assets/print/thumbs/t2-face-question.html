@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>T2 Face + Question</title>
+<!--
+T2 "FACE + QUESTION": the Print's thumbnail. One real face, a two-word question (three words at most, Title Case), the company mark small.
+White plate, faint grid, the question in upright Anton (or Inter 900 via font=inter), no tilt, one word per line. 1280x720 CSS px.
+
+PARAMS (URL query; text is required)
+  text=   the question, e.g. text=No%20Vote? One question mark, Title Case. Three words at most, else a red error banner.
+  tone=   ink (#0A0A0A, default) | loss (red #E10203) | win (green #00BF63)
+  plate=  white (default #FFFFFF) | cream (#F0EEE9)
+  grid=   1 (default) | 0   faint grid like PRD_TS_01
+  photo=  URL of a REAL photograph or webcast frame (file:/// or relative). Never a generated face.
+  mode=   panel (default): photo full-bleed on the right, hard edge | cut: transparent PNG cutout, bottom-right
+  fx,fy=  panel focal point 0..1 (default 0.5, 0.35)      zoom=  panel zoom, 1 = just covers (default 1)
+  split=  panel width as a fraction of the frame (default 0.48)
+  h=      cut height: 0..2 = fraction of 720, above 2 = px (default 0.95)
+  mark=   path/URL of the company mark PNG (drawn small, lighter than the number)
+  markh=  mark height px (default 54; keep 44-64)
+  font=   anton (default: upright Anton, taller and narrower, reads better at 168x94, cap height >= 180 px) | inter (Inter 900, cap height about 165 px)
+
+RENDER (never into the repo; 1.5 for the 1920x1080 master, 1 for the 1280x720 upload)
+  node shoot.mjs jobs.json   with jobs [{"url":"file:///.../t2-face-question.html?text=...&photo=...","out":"x.png","w":1280,"h":720,"scale":1.5}]
+  chrome --headless=new --hide-scrollbars --window-size=1280,720 --force-device-scale-factor=1 --screenshot=out.png "file:///...?params"
+  (no data.js is read)
+
+RULES HELD: no shadow, outline, glow, blur or arrows; no "??"; three elements (text, face, mark); question cap height >= 180 px;
+face >= a third of frame height, nothing over eyes or mouth; Title Case; red loss / green win / ink neutral.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@800;900&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#fff}
+  #f{position:relative;width:1280px;height:720px;overflow:hidden;background:var(--plate)}
+  #f.grid{background-image:linear-gradient(rgba(10,10,10,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(10,10,10,.055) 1px,transparent 1px);background-size:40px 40px;background-color:var(--plate)}
+  #ph{position:absolute;top:0;right:0;height:720px;overflow:hidden}
+  #ph img{position:absolute;display:block;max-width:none}
+  #cut{position:absolute;right:0;bottom:0;display:block}
+  #mark{position:absolute;right:48px;top:40px;display:block;z-index:3}
+  #mark.bl{right:auto;top:auto;left:64px;bottom:40px}
+  #mark.tl{right:auto;left:64px;top:40px}
+  #tx{position:absolute;left:56px;top:0;width:610px;height:720px;display:flex;flex-direction:column;justify-content:center}
+  .ln{font-family:'Inter',Arial,sans-serif;font-weight:900;letter-spacing:-.03em;line-height:.98;white-space:nowrap;color:var(--tone);display:block;align-self:flex-start}
+  .ln.anton{font-family:'Anton',Impact,sans-serif;font-weight:400;letter-spacing:0}
+  #err{position:absolute;left:0;top:300px;width:1280px;height:120px;background:#E10203;color:#fff;font:900 44px/120px Inter,sans-serif;text-align:center;display:none;z-index:9}
+</style></head><body>
+<div id="f"><div id="ph"></div><img id="mark" alt=""><div id="tx"></div><div id="err"></div></div>
+<script src="finish.js"></script>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search), $=function(i){return document.getElementById(i)};
+  var P=function(k,d){return q.has(k)?q.get(k):d}, N=function(k,d){var v=parseFloat(P(k,''));return isNaN(v)?d:v};
+  var tones={loss:'#E10203',win:'#00BF63',ink:'#0A0A0A',white:'#FFFFFF'}, tone=tones[P('tone','ink')]||tones.ink;
+  var f=$('f'), root=document.documentElement;
+  root.style.setProperty('--tone',tone);
+  root.style.setProperty('--plate',P('plate','white')==='cream'?'#F0EEE9':'#FFFFFF');
+  if(P('grid','1')!=='0')f.classList.add('grid');
+  if(window.FINISH)FINISH(f,P,N);
+  if(q.has('tx'))$('tx').style.left=N('tx',56)+'px';
+  function fail(m){root.dataset.error=m;var e=$('err');e.textContent=m;e.style.display='block';$('tx').style.display='none'}
+  (function(){
+    /* "|" sets a line break ("Spent It|All?"); without it, one word per line. The three-word limit counts words, not lines. */
+    var text=P('text','');
+    var words=text.replace(/\|/g,' ').trim().split(/\s+/).filter(Boolean);
+    var lines=text.indexOf('|')>=0?text.split('|').map(function(s){return s.trim()}).filter(Boolean):words;
+    if(!words.length){return fail('NO TEXT: give text=')}
+    if(words.length>3){return fail('TOO MANY WORDS ('+words.length+'): THREE AT MOST')}
+    var mode=P('mode','panel'), ph=P('photo',''), split=N('split',.48), pw=Math.round(1280*split);
+    if(ph){
+      var im=new Image();
+      im.onload=function(){
+        if(mode==='cut'){
+          var h=N('h',.95);h=h<=2?h*720:h;var c=document.createElement('img');c.id='cut';c.src=ph;c.style.height=h+'px';c.style.right=N('cr',0)+'px';c.style.bottom=(-N('cb',0))+'px';f.insertBefore(c,$('tx'));
+        }else{
+          var box=$('ph'),w=im.naturalWidth,hh=im.naturalHeight,z=N('zoom',1);box.style.width=pw+'px';
+          var sc=Math.max(pw/w,720/hh)*z,iw=w*sc,ih=hh*sc;
+          var x=pw/2-N('fx',.5)*iw,y=360-N('fy',.35)*ih;
+          x=Math.min(0,Math.max(pw-iw,x));y=Math.min(0,Math.max(720-ih,y));
+          var i2=document.createElement('img');i2.src=ph;i2.style.width=iw+'px';i2.style.height=ih+'px';i2.style.left=x+'px';i2.style.top=y+'px';box.appendChild(i2);
+        }
+      };im.src=ph;
+    }
+    var mk=$('mark');if(P('mark','')){mk.src=P('mark','');mk.style.height=N('markh',54)+'px';mk.style.opacity='.8';if(/^(bl|tl)$/.test(P('markpos','tr')))mk.classList.add(P('markpos','tr'))}else mk.style.display='none';
+    // text: one word per line, all the same size, fitted to the left column
+    var tx=$('tx'),maxW=N('tw',mode==='cut'?560:(1280-pw-56-30)),anton=P('font','anton')!=='inter';
+    function build(){
+      tx.innerHTML='';var els=lines.map(function(w){var d=document.createElement('span');d.className='ln'+(anton?' anton':'');d.textContent=w;tx.appendChild(d);return d});
+      var fs=anton?340:300;els.forEach(function(e){e.style.fontSize=fs+'px';var o=e.offsetWidth;if(o>maxW)fs=Math.min(fs,Math.floor(fs*maxW/o))});
+      els.forEach(function(e){e.style.fontSize=fs+'px'});
+    }
+    (document.fonts&&document.fonts.load?document.fonts.load('300px Anton','NoVote?')&&document.fonts.load('900 300px Inter','NoVote?'):Promise.resolve()).then(function(){return document.fonts.ready}).then(build,build);
+  })();
+})();
+</script></body></html>

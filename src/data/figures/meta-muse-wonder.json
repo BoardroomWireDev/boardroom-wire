@@ -1,0 +1,2567 @@
+{
+ "source": "videos/meta-muse-wonder/dashboards/shared/data.js",
+ "boards": {
+  "the-waterline": {
+   "file": "09-the-waterline.html",
+   "credit": "Source: Meta Q3 2026 earnings presentation and Meta Q3 2026 earnings release.",
+   "figures": [
+    "meta_fcf_q3_2024",
+    "meta_fcf_q4_2024",
+    "meta_fcf_q1_2025",
+    "meta_fcf_q2_2025",
+    "meta_fcf_q3_2025",
+    "meta_fcf_q4_2025",
+    "meta_fcf_q1_2026",
+    "meta_fcf_q2_2026",
+    "meta_fcf_q3_2026"
+   ],
+   "noslot": ""
+  },
+  "the-scorecard": {
+   "file": "hero-scorecard.html",
+   "credit": "Source: Meta Q3 2026 earnings release, Meta Q3 2026 earnings call, Meta newsroom and Meta Q3 2026 follow-up call. Boardroom Wire calculation.",
+   "figures": [
+    "meta_dap_sep_2026",
+    "meta_muse_setup_people_q3_2026",
+    "c_meta_muse_daily_share_of_dap_q3_2026",
+    "c_meta_muse_daily_people_q3_2026",
+    "meta_fb_ig_engagement_ath",
+    "meta_threads_overtook_x",
+    "muse_launch",
+    "meta_wonder_first_frontier",
+    "meta_muse_setup_window",
+    "meta_muse_app_store",
+    "meta_muse_daily_use_rate_q3_2026",
+    "meta_muse_shopping_share_weekly_actives",
+    "meta_muse_connected_share",
+    "meta_muse_users_1000_arpu_share",
+    "meta_muse_users_not_representative"
+   ],
+   "noslot": ""
+  },
+  "muse-wonder": {
+   "file": "hero-wonder.html",
+   "credit": "Source: Meta Q3 2026 earnings call, Meta newsroom and Meta AI research blog. Estimate: Artificial Analysis.",
+   "figures": [
+    "meta_wonder_first_frontier",
+    "wonder_launch",
+    "wonder_trained_prometheus",
+    "aa_wonder_full_index",
+    "aa_opus55_index",
+    "aa_muse_spark_13_index"
+   ],
+   "noslot": ""
+  },
+  "the-revenue": {
+   "file": "hero-revenue.html",
+   "credit": "Source: Meta Q3 2026 earnings release and Meta Q3 2026 earnings call. Boardroom Wire calculation.",
+   "figures": [
+    "meta_revenue_q3_2026",
+    "meta_revenue_growth_q3_2026",
+    "meta_ad_revenue_q3_2026",
+    "c_meta_ad_revenue_growth_q3_2026",
+    "c_meta_ad_share_of_revenue_q3_2026",
+    "meta_other_revenue_q3_2026",
+    "c_meta_other_revenue_growth_q3_2026",
+    "meta_rl_revenue_q3_2026",
+    "c_meta_rl_revenue_growth_q3_2026",
+    "meta_foa_revenue_q3_2026",
+    "meta_ad_revenue_q3_2025",
+    "meta_ad_impressions_growth_q3_2026",
+    "meta_ad_price_growth_q3_2026",
+    "meta_other_revenue_drivers"
+   ],
+   "noslot": ""
+  },
+  "profit-and-cash": {
+   "file": "hero-profit-vs-cash.html",
+   "credit": "Source: Meta Q3 2026 earnings release. Boardroom Wire calculation.",
+   "figures": [
+    "meta_operating_income_ex_charge_q3_2026",
+    "meta_legal_charge_q3_2026",
+    "meta_operating_income_q3_2026",
+    "meta_ag_settlement_max",
+    "meta_ag_count",
+    "meta_ocf_q3_2026",
+    "c_meta_ocf_growth_q3_2026",
+    "meta_capex_q3_2026",
+    "meta_fcf_q3_2026"
+   ],
+   "noslot": ""
+  },
+  "cash-in-cash-out": {
+   "file": "hero-cash.html",
+   "credit": "Source: Meta Q3 2026 earnings release, Meta Q3 2026 earnings presentation, Meta 10-Q (Q2 2026) and Meta Q3 2026 earnings call. Boardroom Wire calculation.",
+   "figures": [
+    "meta_fcf_q3_2026",
+    "meta_ocf_q3_2024",
+    "meta_capex_q3_2024",
+    "meta_ocf_q4_2024",
+    "meta_capex_q4_2024",
+    "meta_ocf_q1_2025",
+    "meta_capex_q1_2025",
+    "meta_ocf_q2_2025",
+    "meta_capex_q2_2025",
+    "meta_ocf_q3_2025",
+    "meta_capex_q3_2025",
+    "meta_ocf_q4_2025",
+    "c_meta_capex_q4_2025",
+    "meta_ocf_q1_2026",
+    "meta_capex_q1_2026",
+    "meta_ocf_q2_2026",
+    "meta_capex_q2_2026",
+    "meta_ocf_q3_2026",
+    "meta_capex_q3_2026",
+    "meta_fcf_q3_2024",
+    "meta_fcf_q4_2024",
+    "meta_fcf_q1_2025",
+    "meta_fcf_q2_2025",
+    "meta_fcf_q3_2025",
+    "meta_fcf_q4_2025",
+    "meta_fcf_q1_2026",
+    "meta_fcf_q2_2026",
+    "meta_capex_guide_fy2026",
+    "meta_capex_9m_2026",
+    "c_meta_capex_q4_2026_implied",
+    "meta_debt_q3_2026_call",
+    "meta_cash_q3_2026"
+   ],
+   "noslot": ""
+  },
+  "the-capex-column": {
+   "file": "32-the-capex-column.html",
+   "credit": "Source: Meta 10-K (FY2025), Meta Q3 2026 earnings presentation and Meta Q3 2026 earnings release.",
+   "figures": [
+    "meta_capex_2025",
+    "meta_capex_9m_2026",
+    "meta_capex_guide_fy2026"
+   ],
+   "noslot": ""
+  },
+  "the-stock": {
+   "file": "26-the-stock.html",
+   "credit": "Reported by heygotrade and CNBC.",
+   "figures": [
+    "meta_share_price_change_22_oct_2026",
+    "meta_after_hours_21_oct_2026_cnbc",
+    "meta_selloff_capex_attribution_r"
+   ],
+   "noslot": ""
+  },
+  "a-theoretical-maximum": {
+   "file": "27-the-theoretical-maximum.html",
+   "credit": "Source: Meta Preliminary Information Statement, 21 Oct 2026, Meta Q3 2026 follow-up call, Meta Q3 2026 earnings release and Meta Q3 2026 earnings presentation.",
+   "figures": [
+    "meta_class_c_hundreds_of_billions",
+    "meta_class_c_theoretical_max",
+    "meta_capex_guide_fy2026",
+    "meta_capex_9m_2026"
+   ],
+   "noslot": ""
+  },
+  "the-raise": {
+   "file": "37-the-raise.html",
+   "credit": "Source: Meta, free writing prospectus, 26 Oct 2026.",
+   "figures": [
+    "meta_equity_raise_oct2026_total",
+    "meta_equity_raise_oct2026_common",
+    "meta_equity_raise_oct2026_mcps",
+    "meta_atm_program_2027_max"
+   ],
+   "noslot": ""
+  },
+  "the-strategy": {
+   "file": "hero-ai-strategy.html",
+   "credit": "Source: Meta Q3 2026 earnings call, Meta executive bio, Meta Q3 2026 earnings release, Meta Q3 2026 follow-up call and Meta, Muse Code product page. Reported by Fortune and CNBC. Boardroom Wire calculation.",
+   "figures": [
+    "meta_goal_personal_superintelligence",
+    "msl_formed",
+    "wang_cao_title",
+    "meta_ad_revenue_q3_2026",
+    "c_meta_ad_revenue_growth_q3_2026",
+    "meta_ai_incremental_ad_revenue",
+    "muse_app_plan_power",
+    "meta_muse_monetization_subs_only",
+    "muse_code_everyday",
+    "muse_code_max",
+    "meta_smb_500m",
+    "meta_enterprise_platform",
+    "meta_personal_agent_protocol",
+    "meta_muse_percent_of_value",
+    "meta_pap_partners"
+   ],
+   "noslot": ""
+  },
+  "the-muse-cases": {
+   "file": "07-the-muse-cases.html",
+   "credit": "Source: Meta Q3 2026 earnings release. Reported by CNBC. Estimate: Boardroom Wire model. Boardroom Wire calculation.",
+   "figures": [
+    "fwd_meta_muse_revenue_2027_bear",
+    "fwd_meta_muse_revenue_2027_base",
+    "fwd_meta_muse_revenue_2027_bull",
+    "meta_capex_guide_fy2026",
+    "c_meta_capex_guide_fy2026_mid",
+    "fwd_meta_muse_revenue_share_of_capex_2027_bear",
+    "fwd_meta_muse_revenue_share_of_capex_2027_base",
+    "fwd_meta_muse_revenue_share_of_capex_2027_bull",
+    "fwd_meta_muse_users_2027_bull",
+    "fwd_meta_muse_paying_share_2027_bull",
+    "fwd_meta_muse_shopper_share_2027_bull",
+    "fwd_meta_muse_purchases_per_month_2027_bull",
+    "fwd_meta_muse_basket_2027_bull",
+    "fwd_meta_muse_take_rate_2027_bull",
+    "fwd_meta_muse_users_2027_bear",
+    "fwd_meta_muse_paying_share_2027_bear",
+    "fwd_meta_muse_users_2027_base",
+    "fwd_meta_muse_paying_share_2027_base",
+    "fwd_meta_muse_shopper_share_2027_base",
+    "fwd_meta_muse_purchases_per_month_2027_base",
+    "fwd_meta_muse_basket_2027_base",
+    "fwd_meta_muse_take_rate_2027_base",
+    "muse_app_plan_power"
+   ],
+   "noslot": ""
+  },
+  "not-yet": {
+   "file": "33-the-waterline-reprise.html",
+   "credit": "Source: Meta Q3 2026 earnings presentation and Meta Q3 2026 earnings release.",
+   "figures": [
+    "meta_fcf_q3_2024",
+    "meta_fcf_q4_2024",
+    "meta_fcf_q1_2025",
+    "meta_fcf_q2_2025",
+    "meta_fcf_q3_2025",
+    "meta_fcf_q4_2025",
+    "meta_fcf_q1_2026",
+    "meta_fcf_q2_2026",
+    "meta_fcf_q3_2026",
+    "meta_revenue_q3_2026",
+    "meta_revenue_growth_q3_2026"
+   ],
+   "noslot": ""
+  }
+ },
+ "figures": {
+  "meta_fcf_q3_2026": {
+   "display": "−$2.1B",
+   "spoken": "minus $2.1 billion",
+   "label": "free cash flow, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_ocf_q3_2026": {
+   "display": "$32.8B",
+   "spoken": "$32.8 billion",
+   "label": "cash from operations, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_ppe_purchases_q3_2026": {
+   "display": "$33.9B",
+   "spoken": "$33.9 billion",
+   "label": "property and equipment, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_finance_lease_principal_q3_2026": {
+   "display": "$964M",
+   "spoken": "$964 million",
+   "label": "finance-lease payments, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_ocf_q3_2025": {
+   "display": "$30.0B",
+   "spoken": "$30 billion",
+   "label": "cash from operations, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "c_meta_fcf_change_q3_2026": {
+   "display": "−$12.7B",
+   "spoken": "minus $12.7 billion",
+   "label": "free cash flow, change from Q3'25",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_meta_fcf_9m_2025": {
+   "display": "$29.5B",
+   "spoken": "about $29.5 billion",
+   "label": "free cash flow, first nine months 2025",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_meta_ocf_growth_q3_2026": {
+   "display": "+9%",
+   "spoken": "about 9%",
+   "label": "cash from operations, year on year",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_ocf_q3_2024": {
+   "display": "$24.7B",
+   "spoken": "$24.7 billion",
+   "label": "cash from operations, Q3 2024",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2024-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_ocf_q4_2024": {
+   "display": "$28.0B",
+   "spoken": "$28 billion",
+   "label": "cash from operations, Q4 2024",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2024-12-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_ocf_q1_2025": {
+   "display": "$24.0B",
+   "spoken": "$24 billion",
+   "label": "cash from operations, Q1 2025",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-03-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_ocf_q2_2025": {
+   "display": "$25.6B",
+   "spoken": "$25.6 billion",
+   "label": "cash from operations, Q2 2025",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-06-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_ocf_q4_2025": {
+   "display": "$36.2B",
+   "spoken": "$36.2 billion",
+   "label": "cash from operations, Q4 2025",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_ocf_q1_2026": {
+   "display": "$32.2B",
+   "spoken": "$32.2 billion",
+   "label": "cash from operations, Q1 2026",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2026-03-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_ocf_q2_2026": {
+   "display": "$31.9B",
+   "spoken": "$31.9 billion",
+   "label": "cash from operations, Q2 2026",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_capex_q3_2024": {
+   "display": "$9.2B",
+   "spoken": "about $9.2 billion",
+   "label": "capex, Q3 2024",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2024-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_capex_q4_2024": {
+   "display": "$14.8B",
+   "spoken": "about $14.8 billion",
+   "label": "capex, Q4 2024",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2024-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_capex_q1_2025": {
+   "display": "$13.7B",
+   "spoken": "about $13.7 billion",
+   "label": "capex, Q1 2025",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2025-03-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_capex_q2_2025": {
+   "display": "$17.0B",
+   "spoken": "about $17 billion",
+   "label": "capex, Q2 2025",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2025-06-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_capex_q1_2026": {
+   "display": "$19.8B",
+   "spoken": "about $19.8 billion",
+   "label": "capex, Q1 2026",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-03-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_capex_q2_2026": {
+   "display": "$31.1B",
+   "spoken": "$31.1 billion",
+   "label": "capex, Q2 2026",
+   "credit": "Source: Meta 10-Q (Q2 2026).",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "Meta 10-Q (Q2 2026)"
+   ]
+  },
+  "meta_fb_ig_engagement_ath": {
+   "display": "all-time highs in engagement",
+   "spoken": "all-time highs in engagement",
+   "label": "Facebook and Instagram",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_threads_overtook_x": {
+   "display": "overtaken X in monthly actives",
+   "spoken": "overtaken X in monthly actives",
+   "label": "Threads",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_whatsapp_messaging_ath": {
+   "display": "all-time highs in messaging",
+   "spoken": "all-time highs in messaging",
+   "label": "WhatsApp",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_wonder_first_frontier": {
+   "display": "our first frontier model",
+   "spoken": "our first frontier model",
+   "label": "Muse Wonder",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_glasses_muse": {
+   "display": "glasses and gadgets with Muse integration",
+   "spoken": "glasses and gadgets with Muse integration",
+   "label": "devices",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_goal_personal_superintelligence": {
+   "display": "our goal of delivering personal superintelligence to everyone",
+   "spoken": "our goal of delivering personal superintelligence to everyone",
+   "label": "Meta's AI strategy: the goal",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_ai_incremental_ad_revenue": {
+   "display": "Our AI investments are already delivering substantial incremental advertising revenue",
+   "spoken": "Our AI investments are already delivering substantial incremental advertising revenue",
+   "label": "lane 1: ads",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_enterprise_platform": {
+   "display": "Meta Enterprise Platform",
+   "spoken": "Meta Enterprise Platform",
+   "label": "lane 3: business",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_pap_partners": {
+   "display": "Walmart, Stripe, Shopify",
+   "spoken": "Walmart, Stripe, Shopify",
+   "label": "lane 4: commerce partners",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "zuck_wonder_subscribe_today": {
+   "display": "You can use Muse Wonder to power your Muse by subscribing today.",
+   "spoken": "You can use Muse Wonder to power your Muse by subscribing today.",
+   "label": "Mark Zuckerberg, 12 Oct 2026",
+   "credit": "Source: Mark Zuckerberg on Threads.",
+   "tier": "P",
+   "asOf": "2026-10-12",
+   "sources": [
+    "Mark Zuckerberg on Threads"
+   ]
+  },
+  "meta_muse_users_not_representative": {
+   "display": "not totally representative of the overall U.S. user base",
+   "spoken": "not totally representative of the overall U.S. user base",
+   "label": "Susan Li, CFO, on the early adopters",
+   "credit": "Source: Meta Q3 2026 follow-up call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 follow-up call"
+   ]
+  },
+  "meta_muse_setup_window": {
+   "display": "In just a month and a half",
+   "spoken": "In just a month and a half",
+   "label": "since Muse launched",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_muse_app_store": {
+   "display": "number one in the App Store almost every day",
+   "spoken": "number one in the App Store almost every day",
+   "label": "Muse in the App Store",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_other_revenue_drivers": {
+   "display": "WhatsApp paid messaging and subscriptions",
+   "spoken": "WhatsApp paid messaging and subscriptions",
+   "label": "what drove other revenue",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_equity_raise_oct2026_total": {
+   "display": "about $35B",
+   "spoken": "about $35 billion",
+   "label": "new stock",
+   "credit": "Source: Meta, free writing prospectus, 26 Oct 2026.",
+   "tier": "P",
+   "asOf": "2026-10-26",
+   "sources": [
+    "Meta, free writing prospectus, 26 Oct 2026"
+   ]
+  },
+  "meta_equity_raise_oct2026_common": {
+   "display": "$22.5B",
+   "spoken": "$22.5 billion",
+   "label": "Class A common stock",
+   "credit": "Source: Meta, free writing prospectus, 26 Oct 2026.",
+   "tier": "P",
+   "asOf": "2026-10-26",
+   "sources": [
+    "Meta, free writing prospectus, 26 Oct 2026"
+   ]
+  },
+  "meta_equity_raise_oct2026_mcps": {
+   "display": "about $12.5B",
+   "spoken": "about $12.5 billion",
+   "label": "mandatory convertible preferred stock",
+   "credit": "Source: Meta, free writing prospectus, 26 Oct 2026.",
+   "tier": "P",
+   "asOf": "2026-10-26",
+   "sources": [
+    "Meta, free writing prospectus, 26 Oct 2026"
+   ]
+  },
+  "meta_atm_program_2027_max": {
+   "display": "up to $60B",
+   "spoken": "up to another $60 billion",
+   "label": "planned program to sell Class C stock, from 2027",
+   "credit": "Source: Meta, free writing prospectus, 26 Oct 2026.",
+   "tier": "P",
+   "asOf": "2026-10-26",
+   "sources": [
+    "Meta, free writing prospectus, 26 Oct 2026"
+   ]
+  },
+  "meta_fcf_q3_2024": {
+   "display": "$15.5B",
+   "spoken": "$15.5 billion",
+   "label": "Q3'24",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2024-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_fcf_q4_2024": {
+   "display": "$13.2B",
+   "spoken": "$13.2 billion",
+   "label": "Q4'24",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2024-12-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_fcf_q1_2025": {
+   "display": "$10.3B",
+   "spoken": "$10.3 billion",
+   "label": "Q1'25",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-03-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_fcf_q2_2025": {
+   "display": "$8.5B",
+   "spoken": "$8.5 billion",
+   "label": "Q2'25",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-06-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_fcf_q3_2025": {
+   "display": "$10.6B",
+   "spoken": "$10.6 billion",
+   "label": "Q3'25",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_fcf_q4_2025": {
+   "display": "$14.1B",
+   "spoken": "$14.1 billion",
+   "label": "Q4'25",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_fcf_q1_2026": {
+   "display": "$12.4B",
+   "spoken": "$12.4 billion",
+   "label": "Q1'26",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2026-03-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_fcf_q2_2026": {
+   "display": "$0.8B",
+   "spoken": "$0.8 billion",
+   "label": "Q2'26",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_capex_q3_2026": {
+   "display": "$34.9B",
+   "spoken": "$34.9 billion",
+   "label": "capex, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_capex_q3_2025": {
+   "display": "$19.4B",
+   "spoken": "$19.4 billion",
+   "label": "capex, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "c_meta_capex_growth_q3_2026": {
+   "display": "+80%",
+   "spoken": "about 80%",
+   "label": "capex, year on year",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_meta_capex_share_of_ocf_q3_2026": {
+   "display": "106%",
+   "spoken": "about 106%",
+   "label": "capex as a share of operating cash",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_capex_9m_2026": {
+   "display": "$85.8B",
+   "spoken": "about $86 billion",
+   "label": "capex, first nine months 2026",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_capex_9m_2025": {
+   "display": "$50.1B",
+   "spoken": "$50.1 billion",
+   "label": "capex, first nine months 2025",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "c_meta_capex_q4_2025": {
+   "display": "$22.1B",
+   "spoken": "about $22.1 billion",
+   "label": "capex, Q4 2025",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_meta_capex_q4_2026_implied": {
+   "display": "$49.2B to $59.2B",
+   "spoken": "about $50 to $60 billion",
+   "label": "implied, Q4 2026",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_capex_2025": {
+   "display": "$72.2B",
+   "spoken": "$72 billion",
+   "label": "capex, 2025",
+   "credit": "Source: Meta 10-K (FY2025).",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Meta 10-K (FY2025)"
+   ]
+  },
+  "meta_capex_guide_fy2026": {
+   "display": "$135B to $145B",
+   "spoken": "up to $145 billion",
+   "label": "2026 capex guidance",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_capex_guide_fy2026_prior": {
+   "display": "$130B to $145B",
+   "spoken": "$130 billion to $145 billion",
+   "label": "2026 capex guidance, July",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_capex_guide_2026_jan": {
+   "display": "$115B to $135B",
+   "spoken": "$115 billion to $135 billion",
+   "label": "2026 capex guidance, January",
+   "credit": "Source: Meta Q4 2025 earnings release.",
+   "tier": "P",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Meta Q4 2025 earnings release"
+   ]
+  },
+  "meta_capex_guide_2026_apr": {
+   "display": "$125B to $145B",
+   "spoken": "$125 billion to $145 billion",
+   "label": "2026 capex guidance, April",
+   "credit": "Source: Meta Q1 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Meta Q1 2026 earnings release"
+   ]
+  },
+  "c_meta_capex_guide_fy2026_mid": {
+   "display": "$140B",
+   "spoken": "about $140 billion",
+   "label": "2026 capex guidance, midpoint",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_rev_guide_q3_2026": {
+   "display": "$61B to $64B",
+   "spoken": "$61 billion to $64 billion",
+   "label": "Q3 revenue guidance (July)",
+   "credit": "Source: Meta Q2 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q2 2026 earnings release"
+   ]
+  },
+  "meta_revenue_q3_2026": {
+   "display": "$64.6B",
+   "spoken": "$64.6 billion",
+   "label": "revenue, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_revenue_q3_2025": {
+   "display": "$51.2B",
+   "spoken": "$51.2 billion",
+   "label": "revenue, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_revenue_q3_2024": {
+   "display": "$40.6B",
+   "spoken": "$40.6 billion",
+   "label": "revenue, Q3 2024",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2024-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_revenue_q4_2024": {
+   "display": "$48.4B",
+   "spoken": "$48.4 billion",
+   "label": "revenue, Q4 2024",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2024-12-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_revenue_q1_2025": {
+   "display": "$42.3B",
+   "spoken": "$42.3 billion",
+   "label": "revenue, Q1 2025",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-03-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_revenue_q2_2025": {
+   "display": "$47.5B",
+   "spoken": "$47.5 billion",
+   "label": "revenue, Q2 2025",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-06-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_revenue_q4_2025": {
+   "display": "$59.9B",
+   "spoken": "$59.9 billion",
+   "label": "revenue, Q4 2025",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-12-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_revenue_q1_2026": {
+   "display": "$56.3B",
+   "spoken": "$56.3 billion",
+   "label": "revenue, Q1 2026",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2026-03-31",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_revenue_q2_2026": {
+   "display": "$60.8B",
+   "spoken": "$60.8 billion",
+   "label": "revenue, Q2 2026",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_revenue_growth_q3_2026": {
+   "display": "+26%",
+   "spoken": "26%",
+   "label": "revenue, year on year",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_ad_revenue_q3_2026": {
+   "display": "$63.1B",
+   "spoken": "$63.1 billion",
+   "label": "advertising, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_ad_revenue_q3_2025": {
+   "display": "$50.1B",
+   "spoken": "$50.1 billion",
+   "label": "advertising, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "c_meta_ad_revenue_growth_q3_2026": {
+   "display": "+26%",
+   "spoken": "about 26%",
+   "label": "advertising, year on year",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_meta_ad_share_of_revenue_q3_2026": {
+   "display": "97.6%",
+   "spoken": "about 97.6%",
+   "label": "advertising, share of revenue, Q3 2026",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_other_revenue_q3_2026": {
+   "display": "$1.1B",
+   "spoken": "$1.1 billion",
+   "label": "other revenue, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_other_revenue_q3_2025": {
+   "display": "$690M",
+   "spoken": "$690 million",
+   "label": "other revenue, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "c_meta_other_revenue_growth_q3_2026": {
+   "display": "+59%",
+   "spoken": "about 59%",
+   "label": "other revenue, year on year",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_foa_revenue_q3_2026": {
+   "display": "$64.2B",
+   "spoken": "$64.2 billion",
+   "label": "Family of Apps revenue, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_foa_revenue_q3_2025": {
+   "display": "$50.8B",
+   "spoken": "$50.8 billion",
+   "label": "Family of Apps revenue, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_rl_revenue_q3_2026": {
+   "display": "$443M",
+   "spoken": "$443 million",
+   "label": "Reality Labs revenue, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_rl_revenue_q3_2025": {
+   "display": "$470M",
+   "spoken": "$470 million",
+   "label": "Reality Labs revenue, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "c_meta_rl_revenue_growth_q3_2026": {
+   "display": "−6%",
+   "spoken": "−6%",
+   "label": "Reality Labs revenue, year on year",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_foa_operating_income_q3_2026": {
+   "display": "$17.1B",
+   "spoken": "$17.1 billion",
+   "label": "Family of Apps operating income, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_foa_operating_income_q3_2025": {
+   "display": "$25.0B",
+   "spoken": "$25 billion",
+   "label": "Family of Apps operating income, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "c_meta_foa_operating_income_change_q3_2026": {
+   "display": "−31%",
+   "spoken": "−31%",
+   "label": "Family of Apps operating income, year on year",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_rl_operating_loss_q3_2026": {
+   "display": "−$4.1B",
+   "spoken": "minus $4.1 billion",
+   "label": "Reality Labs operating loss, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_rl_operating_loss_q3_2025": {
+   "display": "−$4.4B",
+   "spoken": "minus $4.4 billion",
+   "label": "Reality Labs operating loss, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_ad_impressions_growth_q3_2026": {
+   "display": "+10%",
+   "spoken": "10%",
+   "label": "ad impressions, year on year",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_ad_price_growth_q3_2026": {
+   "display": "+14%",
+   "spoken": "14%",
+   "label": "average price per ad, year on year",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_ad_price_growth_us_canada_q3_2026": {
+   "display": "+23%",
+   "spoken": "23%",
+   "label": "average price per ad, US and Canada, year on year",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "meta_operating_income_q3_2026": {
+   "display": "$13.0B",
+   "spoken": "$13 billion",
+   "label": "operating income, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_operating_income_q3_2025": {
+   "display": "$20.5B",
+   "spoken": "$20.5 billion",
+   "label": "operating income, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_operating_income_change_q3_2026": {
+   "display": "−37%",
+   "spoken": "−37%",
+   "label": "operating income, year on year",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_operating_margin_q3_2026": {
+   "display": "20%",
+   "spoken": "20%",
+   "label": "operating margin, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_operating_margin_q3_2025": {
+   "display": "40%",
+   "spoken": "40%",
+   "label": "operating margin, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "c_meta_operating_margin_ex_charge_q3_2026": {
+   "display": "35%",
+   "spoken": "about 35%",
+   "label": "operating margin excluding this charge, Q3 2026",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_ag_count": {
+   "display": "52",
+   "spoken": "52",
+   "label": "attorneys general in the agreement",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-08-31",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_operating_income_ex_charge_q3_2026": {
+   "display": "$22.9B",
+   "spoken": "$22.9 billion",
+   "label": "excluding this charge",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_operating_income_ex_charge_growth_q3_2026": {
+   "display": "+11%",
+   "spoken": "11%",
+   "label": "operating income excluding this charge, year on year",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_legal_charge_q3_2026": {
+   "display": "$9.89B",
+   "spoken": "$9.9 billion",
+   "label": "legal charge, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_ag_settlement_max": {
+   "display": "up to $18.59B",
+   "spoken": "up to $18.59 billion",
+   "label": "the settlement, at most",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-08-31",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_cash_q3_2026": {
+   "display": "$82.4B",
+   "spoken": "$82.4 billion",
+   "label": "cash and marketable securities",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_cash_q2_2026": {
+   "display": "$90.3B",
+   "spoken": "$90.3 billion",
+   "label": "cash and marketable securities, 30 Jun",
+   "credit": "Source: Meta 10-Q (Q2 2026).",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "Meta 10-Q (Q2 2026)"
+   ]
+  },
+  "c_meta_cash_change_q3_2026": {
+   "display": "−$7.8B",
+   "spoken": "minus $7.8 billion",
+   "label": "cash, down in the quarter",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_debt_q3_2026_call": {
+   "display": "$83.7B",
+   "spoken": "$83.7 billion",
+   "label": "debt, as Meta's CFO put it",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_long_term_debt_q3_2026": {
+   "display": "$80.9B",
+   "spoken": "$80.9 billion",
+   "label": "long-term debt",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_debt_raised_h1_2026": {
+   "display": "$24.9B",
+   "spoken": "$24.9 billion",
+   "label": "bonds sold, first half 2026",
+   "credit": "Source: Meta 10-Q (Q2 2026).",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "Meta 10-Q (Q2 2026)"
+   ]
+  },
+  "meta_debt_raised_9m_2025": {
+   "display": "$0",
+   "spoken": "$0",
+   "label": "bonds sold, first nine months 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_buybacks_9m_2026": {
+   "display": "$0",
+   "spoken": "$0",
+   "label": "buybacks, first nine months 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_buybacks_9m_2025": {
+   "display": "$26.2B",
+   "spoken": "$26.2 billion",
+   "label": "buybacks, first nine months 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_buybacks_q3_2025": {
+   "display": "$3.3B",
+   "spoken": "$3.3 billion",
+   "label": "buybacks, Q3 2025",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_muse_setup_people_q3_2026": {
+   "display": "more than 10 million",
+   "spoken": "more than 10 million",
+   "label": "people in the US and Canada who have set up Muse",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_muse_daily_use_rate_q3_2026": {
+   "display": "25%",
+   "spoken": "25%",
+   "label": "of people who set up Muse use it on a given day",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "c_meta_muse_daily_people_q3_2026": {
+   "display": "2.5 million",
+   "spoken": "roughly 2.5 million",
+   "label": "people using Muse on a given day",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_dap_sep_2026": {
+   "display": "3.64B",
+   "spoken": "3.64 billion",
+   "label": "daily active people, Sep 2026",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "c_meta_muse_daily_share_of_dap_q3_2026": {
+   "display": "0.07%",
+   "spoken": "about 0.07%",
+   "label": "of the people on Meta's apps use Muse on a given day",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_muse_capacity_billion_people": {
+   "display": "more than a billion people",
+   "spoken": "more than a billion people",
+   "label": "the compute capacity Meta is building",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "c_meta_muse_share_of_dap_q3_2026": {
+   "display": "0.27%",
+   "spoken": "about 0.27%",
+   "label": "Muse sign-ups as a share of daily people",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "muse_launch": {
+   "display": "8 Sep 2026",
+   "spoken": "8 Sep 2026",
+   "label": "Muse launched",
+   "credit": "Source: Meta newsroom.",
+   "tier": "P",
+   "asOf": "2026-09-08",
+   "sources": [
+    "Meta newsroom"
+   ]
+  },
+  "meta_muse_avg_purchase_q3_2026": {
+   "display": "over $200",
+   "spoken": "over $200",
+   "label": "average Muse purchase",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_muse_shopping_share_weekly_actives": {
+   "display": "over 25%",
+   "spoken": "over 25%",
+   "label": "of weekly Muse users shop with it",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_muse_monetization_subs_only": {
+   "display": "not monetizing Muse outside of subscriptions",
+   "spoken": "not monetizing Muse outside of subscriptions",
+   "label": "Muse revenue today",
+   "credit": "Source: Meta Q3 2026 follow-up call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 follow-up call"
+   ]
+  },
+  "meta_muse_10x_needs_advances": {
+   "display": "10x is still going to require more technological advances",
+   "spoken": "10x is still going to require more technological advances",
+   "label": "Muse's cost target",
+   "credit": "Source: Meta Q3 2026 follow-up call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 follow-up call"
+   ]
+  },
+  "meta_class_c_non_voting": {
+   "display": "non-voting",
+   "spoken": "non-voting",
+   "label": "Class C common stock",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_class_c_purpose": {
+   "display": "Capital Raising",
+   "spoken": "Capital Raising",
+   "label": "the first purpose the release names",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_class_c_ratio": {
+   "display": "1 for 1",
+   "spoken": "1 for 1",
+   "label": "one Class C share for each Class A or B share",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_class_c_effective_date": {
+   "display": "19 Jan 2027",
+   "spoken": "19 Jan 2027",
+   "label": "Class C takes effect",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2027-01-19",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_class_c_theoretical_max": {
+   "display": "a theoretical maximum",
+   "spoken": "a theoretical maximum",
+   "label": "Meta's answer on the follow-up call",
+   "credit": "Source: Meta Q3 2026 follow-up call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 follow-up call"
+   ]
+  },
+  "meta_class_c_max_raise_700b": {
+   "display": "about $700B",
+   "spoken": "about $700 billion",
+   "label": "the most Meta could raise with Zuckerberg above 50% of the vote",
+   "credit": "Source: Meta Preliminary Information Statement, 21 Oct 2026.",
+   "tier": "P",
+   "asOf": "2026-06-11",
+   "sources": [
+    "Meta Preliminary Information Statement, 21 Oct 2026"
+   ]
+  },
+  "meta_class_c_sufficient_capital": {
+   "display": "the Company presently has sufficient capital resources for its current needs",
+   "spoken": "the Company presently has sufficient capital resources for its current needs",
+   "label": "the Special Committee, on Meta's cash today",
+   "credit": "Source: Meta Preliminary Information Statement, 21 Oct 2026.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Preliminary Information Statement, 21 Oct 2026"
+   ]
+  },
+  "meta_class_c_hundreds_of_billions": {
+   "display": "the Company's need to raise hundreds of billions of dollars over a period of several years beginning as early as fall 2026",
+   "spoken": "the Company's need to raise hundreds of billions of dollars over a period of several years beginning as early as fall 2026",
+   "label": "Meta's forecasts, as the filing reports them",
+   "credit": "Source: Meta Preliminary Information Statement, 21 Oct 2026.",
+   "tier": "P",
+   "asOf": "2026-06-11",
+   "sources": [
+    "Meta Preliminary Information Statement, 21 Oct 2026"
+   ]
+  },
+  "jpm_upgrade_date": {
+   "display": "10 Sep 2026",
+   "spoken": "10 Sep 2026",
+   "label": "J.P. Morgan upgrades Meta",
+   "credit": "Source: CNBC.",
+   "tier": "R",
+   "asOf": "2026-09-10",
+   "sources": [
+    "CNBC"
+   ]
+  },
+  "jpm_capex_2027": {
+   "display": "$243B",
+   "spoken": "about $243 billion",
+   "label": "J.P. Morgan estimate, Sep 2026",
+   "credit": "Estimate: J.P. Morgan, via Investing.com.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "J.P. Morgan estimate, via Investing.com"
+   ]
+  },
+  "jpm_fcf_negative_2027_28": {
+   "display": "−$65B to −$75B a year",
+   "spoken": "minus $65 billion to −$75 billion a year",
+   "label": "J.P. Morgan estimate, Sep 2026",
+   "credit": "Estimate: J.P. Morgan, via CNBC.",
+   "tier": "E",
+   "asOf": "2028-12-31",
+   "sources": [
+    "J.P. Morgan estimate, via CNBC"
+   ]
+  },
+  "fwd_meta_muse_revenue_2027_bear": {
+   "display": "$0.2B",
+   "spoken": "about $0.2 billion",
+   "label": "Muse revenue 2027, bear",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_revenue_2027_base": {
+   "display": "$1.7B",
+   "spoken": "about $1.7 billion",
+   "label": "Muse revenue 2027, base",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_revenue_2027_bull": {
+   "display": "$16B",
+   "spoken": "about $16 billion",
+   "label": "Muse revenue 2027, bull",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_revenue_share_of_capex_2027_bear": {
+   "display": "0.1%",
+   "spoken": "about 0.1%",
+   "label": "of 2026 capex",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_revenue_share_of_capex_2027_base": {
+   "display": "1.2%",
+   "spoken": "about 1.2%",
+   "label": "of 2026 capex",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_revenue_share_of_capex_2027_bull": {
+   "display": "11%",
+   "spoken": "around a tenth",
+   "label": "of 2026 capex",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_sub_revenue_2027_bull": {
+   "display": "$2.9B",
+   "spoken": "about $2.9 billion",
+   "label": "Muse subscription revenue 2027, bull",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_users_2027_bear": {
+   "display": "25M",
+   "spoken": "about 25 million",
+   "label": "average Muse users 2027, bear",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_users_2027_base": {
+   "display": "90M",
+   "spoken": "about 90 million",
+   "label": "average Muse users 2027, base",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_users_2027_bull": {
+   "display": "300M",
+   "spoken": "about 300 million",
+   "label": "average Muse users 2027, bull",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_paying_share_2027_bear": {
+   "display": "3%",
+   "spoken": "about 3%",
+   "label": "paying $20 a month, bear",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_paying_share_2027_base": {
+   "display": "3%",
+   "spoken": "about 3%",
+   "label": "paying $20 a month, base",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_paying_share_2027_bull": {
+   "display": "4%",
+   "spoken": "about 4%",
+   "label": "paying $20 a month, bull",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_shopper_share_2027_base": {
+   "display": "25%",
+   "spoken": "about 25%",
+   "label": "users who shop through Muse, base",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_shopper_share_2027_bull": {
+   "display": "30%",
+   "spoken": "about 30%",
+   "label": "users who shop through Muse, bull",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_purchases_per_month_2027_base": {
+   "display": "1 a month",
+   "spoken": "about 1 a month",
+   "label": "purchases per shopper, base",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_purchases_per_month_2027_bull": {
+   "display": "2 a month",
+   "spoken": "about 2 a month",
+   "label": "purchases per shopper, bull",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_basket_2027_base": {
+   "display": "$200",
+   "spoken": "about $200",
+   "label": "average purchase, base",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_basket_2027_bull": {
+   "display": "$200",
+   "spoken": "about $200",
+   "label": "average purchase, bull",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_take_rate_2027_base": {
+   "display": "2%",
+   "spoken": "about 2%",
+   "label": "Meta's cut of purchases, base",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_meta_muse_take_rate_2027_bull": {
+   "display": "3%",
+   "spoken": "about 3%",
+   "label": "Meta's cut of purchases, bull",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "muse_app_plan_power": {
+   "display": "$20 a month",
+   "spoken": "$20 a month",
+   "label": "Muse Power plan",
+   "credit": "Source: CNBC.",
+   "tier": "R",
+   "asOf": "2026-10-12",
+   "sources": [
+    "CNBC"
+   ]
+  },
+  "meta_muse_shopping_includes_travel": {
+   "display": "that does include travel",
+   "spoken": "that does include travel",
+   "label": "Muse's commerce figures",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_muse_percent_of_value": {
+   "display": "we get a percent of the value that we are helping to create for people",
+   "spoken": "we get a percent of the value that we are helping to create for people",
+   "label": "how Muse could earn",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "openai_shopify_checkout_fee_4pct": {
+   "display": "4%",
+   "spoken": "4%",
+   "label": "OpenAI's fee on ChatGPT checkout sales, Jan 2026",
+   "credit": "Source: PYMNTS.",
+   "tier": "R",
+   "asOf": "2026-01-26",
+   "sources": [
+    "PYMNTS"
+   ]
+  },
+  "openai_instant_checkout_moved": {
+   "display": "Instant Checkout is moving to Apps",
+   "spoken": "Instant Checkout is moving to Apps",
+   "label": "OpenAI, Mar 2026",
+   "credit": "Source: Digital Commerce 360.",
+   "tier": "R",
+   "asOf": "2026-03-06",
+   "sources": [
+    "Digital Commerce 360"
+   ]
+  },
+  "meta_dap_sep_2025": {
+   "display": "3.54B",
+   "spoken": "3.54 billion",
+   "label": "daily active people, Sep 2025",
+   "credit": "Source: Meta Q3 2026 earnings presentation.",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings presentation"
+   ]
+  },
+  "c_meta_dap_change_q3_2026": {
+   "display": "~100M",
+   "spoken": "about 100 million",
+   "label": "daily active people, added in a year",
+   "credit": "Boardroom Wire calculation.",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "meta_rl_loss_guide_fy2026": {
+   "display": "$18B to $19B",
+   "spoken": "$18 billion to $19 billion",
+   "label": "Reality Labs operating loss, 2026 outlook",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "meta_rl_loss_2027_around_15b": {
+   "display": "~$15B",
+   "spoken": "about $15 billion",
+   "label": "Reality Labs operating loss, 2027 expectation",
+   "credit": "Source: Meta Q3 2026 earnings release.",
+   "tier": "P",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Meta Q3 2026 earnings release"
+   ]
+  },
+  "muse_spark_open": {
+   "display": "Muse Spark Open",
+   "spoken": "Muse Spark Open",
+   "label": "open-weights model",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "muse_glimmer_open_weight": {
+   "display": "Muse Glimmer",
+   "spoken": "Muse Glimmer",
+   "label": "open-weights model",
+   "credit": "Source: Hugging Face.",
+   "tier": "P",
+   "asOf": "2026-08-09",
+   "sources": [
+    "Hugging Face"
+   ]
+  },
+  "meta_muse_cost_efficiency_10x_target": {
+   "display": "more than 10x",
+   "spoken": "more than 10x",
+   "label": "Muse cost efficiency, next year (Meta's target)",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2027-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_reels_sequence_ranking_lift": {
+   "display": "over 4%",
+   "spoken": "over 4%",
+   "label": "Instagram Reels time spent, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_gem_app_conv_lift": {
+   "display": "+9.6%",
+   "spoken": "9.6%",
+   "label": "app ad conversions, Q3 2026",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_muse_content_cost_cut": {
+   "display": "more than 80%",
+   "spoken": "more than 80%",
+   "label": "content processing cost cut, Meta's offline tests",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_smb_500m": {
+   "display": "500M+",
+   "spoken": "more than 500 million",
+   "label": "small businesses on Meta's apps (Meta's survey estimate)",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_muse_connected_share": {
+   "display": "almost 30%",
+   "spoken": "almost 30%",
+   "label": "of Muse users have connected an app or service",
+   "credit": "Source: Meta Q3 2026 follow-up call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 follow-up call"
+   ]
+  },
+  "meta_personal_agent_protocol": {
+   "display": "Personal Agent Protocol",
+   "spoken": "Personal Agent Protocol",
+   "label": "an open standard Meta previewed in October",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_muse_users_1000_arpu_share": {
+   "display": "over 20%",
+   "spoken": "over 20%",
+   "label": "of US Muse users are worth $1,000+ a year to Meta",
+   "credit": "Source: Meta Q3 2026 follow-up call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 follow-up call"
+   ]
+  },
+  "meta_class_c_future_offerings": {
+   "display": "The Company also expects to conduct offerings of Class C common stock from time to time in the future.",
+   "spoken": "The Company also expects to conduct offerings of Class C common stock from time to time in the future.",
+   "label": "Meta's filing on the new shares",
+   "credit": "Source: Meta Preliminary Information Statement, 21 Oct 2026.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Preliminary Information Statement, 21 Oct 2026"
+   ]
+  },
+  "meta_selloff_capex_attribution_r": {
+   "display": "Meta shares slumped nearly 7% on Thursday as the social media giant showed negative free cash flow in its third-quarter earnings and raised the floor of its full-year capital expenditures.",
+   "spoken": "Meta shares slumped nearly 7% on Thursday as the social media giant showed negative free cash flow in its third-quarter earnings and raised the floor of its full-year capital expenditures.",
+   "label": "CNBC, 22 Oct 2026",
+   "credit": "Source: CNBC.",
+   "tier": "R",
+   "asOf": "2026-10-22",
+   "sources": [
+    "CNBC"
+   ]
+  },
+  "meta_selloff_attribution_investing_r": {
+   "display": "The revenue engine is not the reason the stock is down 5.4% today. The spending required to keep it running is.",
+   "spoken": "The revenue engine is not the reason the stock is down 5.4% today. The spending required to keep it running is.",
+   "label": "Investing.com analysis, 22 Oct 2026",
+   "credit": "Source: Investing.com.",
+   "tier": "R",
+   "asOf": "2026-10-22",
+   "sources": [
+    "Investing.com"
+   ]
+  },
+  "meta_after_hours_21_oct_2026": {
+   "display": "$704.15",
+   "spoken": "$704.15",
+   "label": "Meta shares after hours, 21 Oct 2026",
+   "credit": "Source: Investing.com.",
+   "tier": "R",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Investing.com"
+   ]
+  },
+  "meta_after_hours_21_oct_2026_cnbc": {
+   "display": "about 2.5%",
+   "spoken": "about 2.5%",
+   "label": "Meta shares in extended trading, 21 Oct 2026",
+   "credit": "Source: CNBC.",
+   "tier": "R",
+   "asOf": "2026-10-21",
+   "sources": [
+    "CNBC"
+   ]
+  },
+  "meta_premarket_22_oct_2026": {
+   "display": "−2.8%",
+   "spoken": "−2.8%",
+   "label": "Meta shares premarket, 8:15 AM, 22 Oct 2026",
+   "credit": "Source: Investing.com.",
+   "tier": "R",
+   "asOf": "2026-10-22",
+   "sources": [
+    "Investing.com"
+   ]
+  },
+  "threads_launch_2023": {
+   "display": "Jul 2023",
+   "spoken": "Jul 2023",
+   "label": "Threads launched",
+   "credit": "Source: Meta newsroom.",
+   "tier": "P",
+   "asOf": "2023-07-05",
+   "sources": [
+    "Meta newsroom"
+   ]
+  },
+  "twitter_founded_2006": {
+   "display": "2006",
+   "spoken": "2006",
+   "label": "Twitter's first tweet",
+   "credit": "Source: Guinness World Records.",
+   "tier": "R",
+   "asOf": "2006-03-21",
+   "sources": [
+    "Guinness World Records"
+   ]
+  },
+  "musk_twitter_close_44b": {
+   "display": "$44B",
+   "spoken": "$44 billion",
+   "label": "Musk's Twitter deal, Oct 2022",
+   "credit": "Source: Reuters.",
+   "tier": "R",
+   "asOf": "2022-10-27",
+   "sources": [
+    "Reuters"
+   ]
+  },
+  "musk_twitter_financing": {
+   "display": "$13 billion in debt financing ... the $7.1 billion he had secured from equity investors",
+   "spoken": "$13 billion in debt financing ... the $7.1 billion he had secured from equity investors",
+   "label": "how the Twitter deal was funded",
+   "credit": "Source: Reuters.",
+   "tier": "R",
+   "asOf": "2022-10-27",
+   "sources": [
+    "Reuters"
+   ]
+  },
+  "musk_cage_fight_challenge": {
+   "display": "I'm up for a cage match if he is lol",
+   "spoken": "I'm up for a cage match if he is lol",
+   "label": "Musk, 20 Jun 2023",
+   "credit": "Source: Associated Press.",
+   "tier": "R",
+   "asOf": "2023-06-20",
+   "sources": [
+    "Associated Press"
+   ]
+  },
+  "meta_q3_call_analyst_count": {
+   "display": "7",
+   "spoken": "7",
+   "label": "analysts on the earnings call",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_q3_call_analyst_firms": {
+   "display": "Morgan Stanley, Goldman Sachs, JPMorgan, Bank of America, Bernstein, Barclays, Evercore ISI",
+   "spoken": "Morgan Stanley, Goldman Sachs, JPMorgan, Bank of America, Bernstein, Barclays, Evercore ISI",
+   "label": "firms on the earnings call",
+   "credit": "Source: Meta Q3 2026 earnings call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 earnings call"
+   ]
+  },
+  "meta_q3_followup_analyst_count": {
+   "display": "9",
+   "spoken": "9",
+   "label": "analysts on the follow-up call",
+   "credit": "Source: Meta Q3 2026 follow-up call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 follow-up call"
+   ]
+  },
+  "meta_q3_followup_analyst_firms": {
+   "display": "Truist, Citi, Wells Fargo, Wolfe Research, Deutsche Bank, Cantor, Loop Capital, Rosenblatt, MoffettNathanson",
+   "spoken": "Truist, Citi, Wells Fargo, Wolfe Research, Deutsche Bank, Cantor, Loop Capital, Rosenblatt, MoffettNathanson",
+   "label": "firms on the follow-up call",
+   "credit": "Source: Meta Q3 2026 follow-up call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 follow-up call"
+   ]
+  },
+  "meta_muse_ads_not_ruled_out": {
+   "display": "I wouldn't rule out advertising",
+   "spoken": "I wouldn't rule out advertising",
+   "label": "Meta on ads in Muse",
+   "credit": "Source: Meta Q3 2026 follow-up call.",
+   "tier": "P",
+   "asOf": "2026-10-21",
+   "sources": [
+    "Meta Q3 2026 follow-up call"
+   ]
+  },
+  "appfigures_muse_rev_11d": {
+   "display": "about $27,000",
+   "spoken": "about $27,000",
+   "label": "Muse app-store revenue, first 11 days",
+   "credit": "Estimate: Appfigures.",
+   "tier": "E",
+   "asOf": "2026-09-20",
+   "sources": [
+    "Appfigures"
+   ]
+  },
+  "wonder_launch": {
+   "display": "12 Oct 2026",
+   "spoken": "12 Oct 2026",
+   "label": "Muse Wonder released",
+   "credit": "Source: Meta newsroom.",
+   "tier": "P",
+   "asOf": "2026-10-12",
+   "sources": [
+    "Meta newsroom"
+   ]
+  },
+  "wonder_muse_app_soon": {
+   "display": "Muse Wonder will soon power experiences in Muse, and will roll out first to subscribers.",
+   "spoken": "Muse Wonder will soon power experiences in Muse, and will roll out first to subscribers.",
+   "label": "Wonder in the Muse app",
+   "credit": "Source: Meta newsroom.",
+   "tier": "P",
+   "asOf": "2026-10-12",
+   "sources": [
+    "Meta newsroom"
+   ]
+  },
+  "wonder_trained_prometheus": {
+   "display": "Trained at our gigawatt-scale Prometheus data center",
+   "spoken": "Trained at our gigawatt-scale Prometheus data center",
+   "label": "where Wonder was trained",
+   "credit": "Source: Meta AI research blog.",
+   "tier": "P",
+   "asOf": "2026-10-12",
+   "sources": [
+    "Meta AI research blog"
+   ]
+  },
+  "aa_wonder_full_index": {
+   "display": "56",
+   "spoken": "56",
+   "label": "Muse Wonder Full (Max), Intelligence Index",
+   "credit": "Estimate: Artificial Analysis.",
+   "tier": "E",
+   "asOf": "2026-10-12",
+   "sources": [
+    "Artificial Analysis"
+   ]
+  },
+  "aa_opus55_index": {
+   "display": "58",
+   "spoken": "58",
+   "label": "Claude Opus 5.5 (Max), Intelligence Index",
+   "credit": "Estimate: Artificial Analysis.",
+   "tier": "E",
+   "asOf": "2026-10-12",
+   "sources": [
+    "Artificial Analysis"
+   ]
+  },
+  "aa_muse_spark_13_index": {
+   "display": "48",
+   "spoken": "about 48",
+   "label": "Muse Spark 1.3 (Max), Intelligence Index",
+   "credit": "Estimate: Artificial Analysis.",
+   "tier": "E",
+   "asOf": "2026-10-12",
+   "sources": [
+    "Artificial Analysis"
+   ]
+  },
+  "muse_code_everyday": {
+   "display": "$5 a month",
+   "spoken": "$5 a month",
+   "label": "Muse Code, Everyday plan",
+   "credit": "Source: Meta, Muse Code product page.",
+   "tier": "P",
+   "asOf": "2026-10-12",
+   "sources": [
+    "Meta, Muse Code product page"
+   ]
+  },
+  "muse_code_max": {
+   "display": "$200 a month",
+   "spoken": "$200 a month",
+   "label": "Muse Code, Maximum plan",
+   "credit": "Source: Meta, Muse Code product page.",
+   "tier": "P",
+   "asOf": "2026-10-12",
+   "sources": [
+    "Meta, Muse Code product page"
+   ]
+  },
+  "msl_formed": {
+   "display": "30 Jun 2025",
+   "spoken": "30 Jun 2025",
+   "label": "Meta Superintelligence Labs formed",
+   "credit": "Source: Fortune.",
+   "tier": "R",
+   "asOf": "2025-06-30",
+   "sources": [
+    "Fortune"
+   ]
+  },
+  "wang_cao_title": {
+   "display": "Chief AI Officer",
+   "spoken": "Chief AI Officer",
+   "label": "Alexandr Wang",
+   "credit": "Source: Meta executive bio.",
+   "tier": "P",
+   "asOf": "2026-10-04",
+   "sources": [
+    "Meta executive bio"
+   ]
+  },
+  "meta_share_price_change_22_oct_2026_cnbc": {
+   "display": "nearly 7%",
+   "spoken": "nearly 7%",
+   "label": "Meta shares, 22 Oct 2026",
+   "credit": "Source: CNBC.",
+   "tier": "R",
+   "asOf": "2026-10-22",
+   "sources": [
+    "CNBC"
+   ]
+  },
+  "meta_share_price_change_22_oct_2026": {
+   "display": "−7%",
+   "spoken": "almost 7%",
+   "label": "Meta shares, 22 Oct 2026",
+   "credit": "Source: heygotrade.",
+   "tier": "R",
+   "asOf": "2026-10-22",
+   "sources": [
+    "heygotrade"
+   ]
+  },
+  "e_meta_muse_revenue_2027_bear": {
+   "display": "$0.2B",
+   "spoken": "about $0.2 billion",
+   "label": "Muse revenue 2027, bear",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "e_meta_muse_revenue_2027_base": {
+   "display": "$1.7B",
+   "spoken": "about $1.7 billion",
+   "label": "Muse revenue 2027, base",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "e_meta_muse_revenue_2027_bull": {
+   "display": "$16B",
+   "spoken": "about $16 billion",
+   "label": "Muse revenue 2027, bull",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "c_meta_muse_share_of_capex_bear": {
+   "display": "0.1%",
+   "spoken": "about 0.1%",
+   "label": "of 2026 capex",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "c_meta_muse_share_of_capex_base": {
+   "display": "1.2%",
+   "spoken": "about 1.2%",
+   "label": "of 2026 capex",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "c_meta_muse_share_of_capex_bull": {
+   "display": "11%",
+   "spoken": "about 11%",
+   "label": "of 2026 capex",
+   "credit": "Estimate: Boardroom Wire model.",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  }
+ }
+}

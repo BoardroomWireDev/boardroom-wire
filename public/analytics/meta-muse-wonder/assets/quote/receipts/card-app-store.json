@@ -1,0 +1,79 @@
+{
+ "layout": "pile",
+ "rot": -1.0,
+ "cx": 960,
+ "cy": 540,
+ "slices": [
+  {
+   "img": "./assets/quote/receipts/app-store-wayback-banner-url.png",
+   "crop": [
+    0,
+    0,
+    720,
+    92
+   ],
+   "w": 1150,
+   "dx": 0,
+   "dy": -320
+  },
+  {
+   "img": "./assets/quote/receipts/app-store-rank1-muse-tile.png",
+   "crop": [
+    0,
+    0,
+    620,
+    400
+   ],
+   "w": 700,
+   "dx": -250,
+   "dy": 110,
+   "rot": 0.6
+  },
+  {
+   "img": "./assets/quote/receipts/app-store-wayback-banner-date.png",
+   "crop": [
+    0,
+    0,
+    250,
+    128
+   ],
+   "w": 400,
+   "dx": 360,
+   "dy": 80,
+   "rot": -0.8
+  }
+ ],
+ "ins": [
+  0,
+  0.25,
+  0.5
+ ],
+ "marks": [
+  {
+   "s": 1,
+   "kind": "loop",
+   "box": [
+    150,
+    265,
+    470,
+    330
+   ]
+  },
+  {
+   "s": 2,
+   "kind": "under",
+   "box": [
+    108,
+    40,
+    168,
+    84
+   ]
+  }
+ ],
+ "at": [
+  1.2,
+  2.4
+ ],
+ "secs": 5.6,
+ "src": "app_store_us_top_free_wayback_20260919"
+}

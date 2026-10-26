@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Scenario board · Boardroom Wire</title>
+<!-- META Q3 2026, 07, MUSE SCENARIO ANALYSIS (Ive, 26 Oct 2026, the writer's last change before ship): rebuilt on PRINT.custom from
+     the kit's scenario board, same steps (cases, against, share) so the laid ?at=0.6,23.97,27.34&secs=39.8 is unchanged.
+       header   the house mark (bw-bust + wordmark, as on the heroes), "Muse scenario analysis, 2027" and the tag "Boardroom Wire
+                projection" beside a hatch swatch (the writer's words, spec/words-allow.json, 26 Oct). Hatching = projection.
+       inputs   an aligned table beside the cases: each column one fwd_meta_muse_* driver row (header = the key's label without
+                its case), each case's row landing with its bar. A case without the driver shows a dash (bear: no shopping).
+                Not in data.js, so not on screen: the average basket (~$200 in the bull note).
+     The original kit board below, for reference:
+     07, SCENARIO BOARD (Ive, 24 Oct 2026), from the Print kit (print-scenario.html).
+     8 SCENARIO BOARD. The cases (estimates, so hatched) on a scale that fits them; then the scale pulls back to take in what
+     they are set against, at its true size, and the cases shrink to what they are. Each case's drivers live in data.js.
+     Spec: cases [keys], share? [keys, one per case], against? {lo, hi} or {key}, steps [cases, against?, share?].
+     Every figure, period and line-item name comes from shared/data.js by key; the credit is rendered from the keys read.
+     Re-time on the VO: ?at=<one time per step, in order>&secs=<length>. Shoot: ?final ?still ?t=<secs|step> ?capture ?beats.
+       bw render page --file=07-the-muse-cases.html --name=07-the-muse-cases --seconds=13 --query=at=...
+     The kit: assets/print/print.js (MOTION-KIT.md, "The Print"). -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/print/print.css?v=1">
+<style>
+  /* the house mark, as on the heroes (assets/hero/hero.css .hero-brand), set as the board's masthead, top left */
+  .b07-brand { position: absolute; top: 58px; left: 120px; display: flex; align-items: center; gap: 14px; z-index: 55; }
+  .b07-brand img { height: 56px; width: auto; display: block; }
+  .b07-brand span { font-family: var(--sans); font-weight: 800; font-size: 26px; letter-spacing: -.01em; color: var(--cream); }
+  .b07-brand span b { font-weight: 800; color: var(--gold-bright); }
+  .b07-layer { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+  .b07-t { position: absolute; transform: translateY(-100%); font-family: var(--sans); font-weight: 400; font-size: 32px; line-height: 36px;
+    color: rgba(245, 241, 229, .62); white-space: nowrap; }
+  .b07-t.b07-r { transform: translate(-100%, -100%); text-align: right; }
+  .b07-t.b07-nm { font-weight: 500; font-size: 34px; line-height: 40px; color: var(--cream); }
+  .b07-fn { font-family: var(--mono); font-weight: 600; color: var(--cream); font-variant-numeric: tabular-nums slashed-zero; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg class="print" viewBox="0 0 1920 1080"></svg>
+  <div class="chrome"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=1"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/print/print.js?v=3"></script>
+<script>
+PRINT.custom((S, H) => {
+  const s = H.svg(), k = H.steps(S.steps, S.secs), C = H.C, M = 1e6, Bn = 1e9;
+  const CASES = ['bear', 'base', 'bull'];
+  const rev = (c) => 'fwd_meta_muse_revenue_2027_' + c, shr = (c) => 'fwd_meta_muse_revenue_share_of_capex_2027_' + c;
+  const AG = 'meta_capex_guide_fy2026', PER = 'c_meta_capex_guide_fy2026_mid';
+  /* the inputs, one column each; a case without the driver in data.js shows a dash (bear: shopping not monetised) */
+  /* a driver is a column when data.js holds its bull row (the average basket joins, after purchases, once it is keyed) */
+  const COLS = ['users', 'paying_share', 'shopper_share', 'purchases_per_month', 'basket', 'take_rate']
+    .filter(d => !!(BW_DATA.figures || {})[`fwd_meta_muse_${d}_2027_bull`]).map(d => (c) => `fwd_meta_muse_${d}_2027_${c}`);
+  const has = (key) => !!(BW_DATA.figures || {})[key];
+  H.uses(['muse_app_plan_power']);   /* "paying $20 a month": the $20 plan's price is a figure on screen, so it is declared (and credited) */
+  const strip = (l) => String(l || '').replace(/, (bear|base|bull)$/, '');
+
+  /* ---------- the header: the house mark, the title (the writer's words), and the projection tag ---------- */
+  const brand = document.createElement('div'); brand.className = 'b07-brand';
+  brand.innerHTML = '<img src="assets/hero/bw-bust.png" alt=""><span>BOARDROOM<b>WIRE</b></span>';
+  document.querySelector('.chrome').appendChild(brand);
+  H.el(s, 'text', { x: 120, y: 182, 'font-size': 52, style: 'fill:var(--cream);font-family:var(--sans);font-weight:600;letter-spacing:-.02em' }, 'Muse scenario analysis, 2027');
+  const tag = H.el(s, 'g');
+  H.el(tag, 'rect', { x: 1400, y: 152, width: 34, height: 34, fill: 'url(#pk-hatchGold)', stroke: C.gold, 'stroke-width': 2 });
+  H.el(tag, 'text', { x: 1450, y: 182, 'font-size': 32, style: 'fill:var(--gold);font-family:var(--sans);font-weight:600' }, 'Boardroom Wire projection');
+
+  /* labels of more than one line are HTML (one element, one label: a header is one thing to read, not three), over the SVG at
+     1:1 (the stage is 1920 x 1080 CSS px, ?fit=0 when rendered); y is the last line's baseline */
+  const layer = document.createElement('div'); layer.className = 'b07-layer'; document.querySelector('.stage').appendChild(layer);
+  const htxt = (x, yBase, html, cls) => { const d = document.createElement('div'); d.className = 'b07-t ' + cls;
+    d.style.left = x + 'px'; d.style.top = (yBase + 9) + 'px'; d.innerHTML = html; layer.appendChild(d); return d; };
+  const hset = (d, o) => { d.style.opacity = o.toFixed(3); d.style.visibility = o < .002 ? 'hidden' : ''; };
+  const hshow = (d, a, dur) => H.on((t) => hset(d, H.go(t, a, a + dur, H.ease.out)));
+  const hhalf = (d, a, dur, base) => H.on((t) => hset(d, H.mix(base, 1, H.go(t, a, a + dur, H.ease.out))));
+
+  /* ---------- the chart: the cases on a scale that fits them; then the 2026 guide at its true size ---------- */
+  const X0 = 280, X1 = 560, Y0 = 470, RH = 122, YA = 300, YT = Y0 + RH * 3 + 22;
+  const cv = CASES.map(c => H.V(rev(c))), f = H.F(AG), aLo = f.lo * M, aHi = f.hi * M, per = H.V(PER);
+  const D1 = Math.max(...cv) * 1.12, D2 = aHi * 1.05;
+  let D = D1; const x = (v) => X0 + (v / D) * (X1 - X0);
+  const cp = H.el(s.querySelector('defs'), 'clipPath', { id: 'b07c' }); H.el(cp, 'rect', { x: X0 - 40, y: 0, width: X1 - X0 + 100, height: 1080 });
+  const plot = H.el(s, 'g', { 'clip-path': 'url(#b07c)' });
+  const tickSet = (T) => { const g = H.el(plot, 'g');
+    return { g, items: T.out.map(tv => ({ tv, l: H.el(g, 'line', { y1: YA - 70, y2: YT - 40, stroke: tv === 0 ? C.zero : C.grid, 'stroke-width': tv === 0 ? 3 : 2 }),
+      t: H.el(g, 'text', { y: YT + 10, class: 'ax', 'font-size': 32, 'text-anchor': 'middle' }, tv === 0 ? '0' : '$' + (tv / Bn) + 'B') })) }; };
+  const TS1 = tickSet(H.ticks(0, D1, 2)), TS2 = tickSet(H.ticks(0, aHi * 1.04, 2));   /* six inputs: a narrower chart, fewer ticks */
+  H.half(TS1.g, k.cases - .3, .4, .35, k.against, .45); H.show(TS2.g, k.against + .6, 1.0);
+  /* the rows' heading, the cases' names, bars (hatched: estimates), values and shares */
+  const rows = CASES.map((c, i) => {
+    const yc = Y0 + RH * (i + .5), key = rev(c);
+    const nm = H.el(s, 'text', { x: X0 - 36, y: yc + 13, class: 'nm', 'font-size': 40, 'text-anchor': 'end' }, H.cap(c));
+    H.half(nm, k.cases + i * .5 - .2, .4, .35);
+    const r = H.el(plot, 'rect', { x: X0, y: yc - 28, height: 56, width: 0, fill: 'url(#pk-hatchGold)', stroke: C.gold, 'stroke-width': 3 }); H.tip(r, H.tipText(key));
+    const vt = H.el(s, 'text', { y: yc + 14, class: 'fn', 'font-size': 40 }, H.disp(key)); H.show(vt, k.cases + i * .5 + .6, .4);
+    const st = H.el(s, 'text', { y: yc + 13, class: 'ax', 'font-size': 34 }, H.disp(shr(c))); H.tip(st, H.tipText(shr(c))); H.show(st, k.share + i * .3, .4);
+    return { r, vt, st, at: k.cases + i * .5, v: cv[i], yc };
+  });
+  /* the guide, entering from beyond the edge as the scale pulls back; its midpoint marked as the shares land */
+  const wds = String(f.label).split(' ');   /* "2026 capex guidance", the key's label, on two lines */
+  const aN = htxt(X0 - 36, YA + 34, wds.slice(0, 2).join(' ') + '<br>' + wds.slice(2).join(' '), 'b07-nm b07-r');
+  hshow(aN, k.against + .3, .5);
+  const aBar = H.el(plot, 'rect', { x: X0, y: YA - 36, height: 72, width: 0, fill: 'url(#pk-hatchDim)', stroke: 'rgba(245,241,229,.7)', 'stroke-width': 2 }); H.tip(aBar, H.tipText(AG));
+  const aT = H.el(s, 'text', { x: X0 + 14, y: YA - 54, class: 'fn', 'font-size': 34 }, H.disp(AG));   /* clear of the zero line */ H.show(aT, k.against + 1.6, .5);
+  const aLoL = H.el(plot, 'line', { y1: YA - 36, y2: YA + 36, stroke: 'rgba(245,241,229,.7)', 'stroke-width': 2, 'stroke-dasharray': '6 6' }); H.show(aLoL, k.against + 1.8, .4);
+  const pl = H.el(s, 'line', { y1: YA - 46, y2: YA + 46, stroke: C.gold, 'stroke-width': 3 }); H.tip(pl, H.tipText(PER));
+  const pt = H.el(s, 'text', { y: YA + 82, class: 'fn', 'font-size': 32, 'text-anchor': 'middle' }, H.disp(PER));
+  [pl, pt].forEach((n, i) => H.show(n, k.share - .3 + i * .15, .4));
+  const ph = htxt(X0, Y0 - 14, 'of the <span class="b07-fn">' + H.disp(PER) + '</span><br>' + H.label(PER), '');
+  hshow(ph, k.share - .1, .4);
+
+  /* ---------- the inputs: one aligned table beside the cases, each case's row landing with its bar ---------- */
+  const TX = 712, GAP = 32, TR = 1830;
+  /* a header breaks into at most three lines, balanced (the longest line as short as it can be) */
+  const split2 = (l) => { const w = l.split(' '), n = w.length; let best = [l], m = l.length;
+    for (let a = 1; a < n; a++) for (let b = a; b <= n; b++) {
+      const parts = [w.slice(0, a), w.slice(a, b), w.slice(b)].filter(p => p.length).map(p => p.join(' '));
+      const c = Math.max(...parts.map(p => p.length)) + (parts.length - 1) * .5;
+      if (c < m) { m = c; best = parts; } }
+    return best; };
+  const HS = 'fill:rgba(245,241,229,.62);font-family:var(--sans)';
+  const heads = COLS.map(col => { const ls = split2(strip(H.F(col('bull')).label)), d = htxt(0, Y0 - 14, ls.join('<br>'), '');
+    return { d, w: d.getBoundingClientRect().width }; });
+  const cells = CASES.map(c => COLS.map(col => { const key = col(c), ok = has(key);
+    const t = H.el(s, 'text', { x: 0, class: 'fn', 'font-size': 34, style: ok ? 'fill:var(--cream)' : 'fill:rgba(245,241,229,.32)' }, ok ? H.disp(key) : '–');
+    if (ok) H.tip(t, H.tipText(key)); return t; }));
+  const cw = COLS.map((_, j) => Math.max(heads[j].w, ...cells.map(r => H.tw(r[j]))));
+  const gap = Math.max(GAP, (TR - TX - cw.reduce((a, b) => a + b, 0)) / (COLS.length - 1));      /* the table spans TX..TR */
+  let cx = TX; const cols = cw.map(w => { const x0 = cx; cx += w + gap; return x0; });
+  heads.forEach((hh, j) => { hh.d.style.left = cols[j] + 'px'; hhalf(hh.d, k.cases - .2, .4, .35); });
+  const rule = H.el(s, 'line', { x1: TX, x2: TR, y1: Y0 + 4, y2: Y0 + 4, stroke: 'rgba(245,241,229,.22)', 'stroke-width': 1.5 });
+  H.draw(rule, k.cases - .2, .6);
+  CASES.forEach((c, i) => {
+    const yc = rows[i].yc, g = H.el(s, 'g');
+    cells[i].forEach((t, j) => { t.setAttribute('x', cols[j]); t.setAttribute('y', yc + 13); g.appendChild(t); });
+    if (i < 2) H.el(s, 'line', { x1: TX, x2: TR, y1: yc + RH / 2, y2: yc + RH / 2, stroke: 'rgba(245,241,229,.08)', 'stroke-width': 1.5 });
+    H.rise(g, rows[i].at + .4, .5, 12);
+  });
+
+  H.on((t) => {
+    const u = H.go(t, k.against, k.against + 2.2); D = H.mix(D1, D2, u);
+    [TS1, TS2].forEach(TS => TS.items.forEach(({ tv, l, t: tx }) => { const p = x(tv), off = p > X1 + 12; l.setAttribute('x1', p); l.setAttribute('x2', p); tx.setAttribute('x', p); tx.style.display = off ? 'none' : ''; l.style.display = off ? 'none' : ''; }));
+    rows.forEach(b => { const g = H.go(t, b.at, b.at + .8), w = (x(b.v) - X0) * g;
+      b.r.setAttribute('width', Math.max(0, w).toFixed(2)); b.r.style.display = g <= 0 ? 'none' : '';
+      b.vt.setAttribute('x', (X0 + Math.max(w, 0) + 22).toFixed(1)); b.st.setAttribute('x', (X0 + Math.max(w, 0) + 22 + H.tw(b.vt) + 22).toFixed(1)); });
+    const o = H.go(t, k.against - .1, k.against + .4, H.ease.out);
+    aBar.setAttribute('width', Math.max(0, x(aHi) - X0).toFixed(1)); aBar.setAttribute('opacity', o.toFixed(3)); aBar.style.display = o <= 0 ? 'none' : '';
+    aLoL.setAttribute('x1', x(aLo)); aLoL.setAttribute('x2', x(aLo));
+    pl.setAttribute('x1', x(per)); pl.setAttribute('x2', x(per)); pt.setAttribute('x', x(per).toFixed(1));
+    ph.style.left = (rows[0].st.getAttribute('x') || X0) + 'px';
+  });
+})({ steps: [['cases', 0.6], ['against', 5.4], ['share', 8.6]], secs: 13 });
+</script>
+</body>
+</html>

@@ -41,6 +41,7 @@ const SOURCES = {
   'alexandr-wang': path.join(BOARDROOM, 'videos/alexandr-wang/dashboards'),
   'nebius': path.join(BOARDROOM, 'videos/nebius/dashboards'),
   'tesla-spacex': path.join(BOARDROOM, 'videos/tesla-spacex/dashboards'),
+  'meta-muse-wonder': path.join(BOARDROOM, 'videos/meta-muse-wonder/dashboards'),
 };
 
 // Optional per-collection board list. Since Anthropic IPO, a video folder holds
@@ -75,6 +76,16 @@ const BOARDS = {
     '05-the-autonomy-bet.html', '06-the-five-layers.html', '07-the-loop.html', '08-each-on-its-own.html',
     '09-one-balance-sheet.html', '10-a-hundred-trillion.html', '11-control.html',
   ]),
+  // Meta Q3: the four hero boards Ive built once for the video and the web (hero-*.html, which ship because they are
+  // listed here), and the cut's numbered boards that carry the article. The open (34, 36) frames footage the site does
+  // not carry; it, the bg-* plates, the quote cards (22 to 24) and the chapter and end cards stay video-only.
+  'meta-muse-wonder': new Set([
+    '09-the-waterline.html',
+    'hero-scorecard.html', 'hero-wonder.html', 'hero-revenue.html', 'hero-profit-vs-cash.html', 'hero-cash.html',
+    'hero-ai-strategy.html',
+    '26-the-stock.html', '27-the-theoretical-maximum.html', '32-the-capex-column.html', '37-the-raise.html',
+    '07-the-muse-cases.html', '33-the-waterline-reprise.html',
+  ]),
 };
 
 // Working files inside a video's assets/ that boards never load, skipped for every collection:
@@ -98,8 +109,9 @@ const EXTRAS = {
 
 const BOARD = /^\d\d-[\w-]+\.html$/;
 const DIRS = new Set(['shared', 'assets']);
+// A listed file ships whatever its name (Meta Q3's hero-*.html); without a list, every NN-name.html does.
 const ships = (entry, slug) => entry.isFile()
-  ? BOARD.test(entry.name) && (!BOARDS[slug] || BOARDS[slug].has(entry.name))
+  ? (BOARDS[slug] ? BOARDS[slug].has(entry.name) : BOARD.test(entry.name))
   : entry.isDirectory() && DIRS.has(entry.name);
 const LOGO = 'assets/logos/boardroom-wire-bust-transparent.png';
 const LOGO_PX = 256;
