@@ -1110,7 +1110,7 @@ export const metaMuseWonder: Collection = {
     'Meta made {meta_revenue_q3_2026} in the third quarter of 2026, up {meta_revenue_growth_q3_2026} from a year earlier, and spent so heavily on AI that free cash flow went below zero. These thirteen dashboards chart Muse’s first weeks and its model, where the revenue comes from, where the cash went, the stock, the raise, Meta’s AI strategy and what Muse could make. Every figure carries its source on the dashboard.'),
   published: '2026-10-26',
   hero: 'cash-in-cash-out',
-  headline: { lead: 'Meta’s third quarter', dim: ': revenue up, free cash flow below zero.' },
+  headline: { lead: "Meta Made $64.6 Billion in Three Months", dim: ". It Wasn't Enough." },
   primaryLabel: 'Primary',
   method: {
     primary:
@@ -1119,15 +1119,13 @@ export const metaMuseWonder: Collection = {
       'Sourced to journalism and market data: CNBC and heygotrade. Attribution is printed on the dashboard itself, not just here.',
     estimate:
       'Our own arithmetic on Meta’s figures, and our rough math on what Muse could make in 2027. Every dashboard that uses one says so in its source line.',
-    caveat:
-      'The 2027 Muse cases are our projection, not a forecast from Meta.',
   },
   dashboards: [
     /* 09 is timed for the cut, where the camera sinks from it into 33: the web stops it on its own chart (the sink never
        comes), so the board ends, rests and posters on that frame. */
     {
       n: 1, slug: 'the-waterline', ...board(M, 'the-waterline'), query: 'at=-1,-1,0.23,1.05,5.23,99,99&secs=8',
-      title: 'The Waterline',
+      title: 'Meta’s Free Cash Flow',
       blurb: fill(M,
         'For two years, Meta’s free cash flow stood above zero every quarter, from {meta_fcf_q3_2024} in the third quarter of 2024. In the third quarter of 2026 it sank below the line, to {meta_fcf_q3_2026}.'),
       section: 'Sinking the Ship?',
@@ -1169,7 +1167,7 @@ export const metaMuseWonder: Collection = {
     },
     {
       n: 6, slug: 'cash-in-cash-out', ...board(M, 'cash-in-cash-out'),
-      title: 'Cash In, Cash Out',
+      title: 'Meta’s Cash and Capex',
       blurb: fill(M,
         'For two years, the cash coming in from Meta’s business covered its capex. In the third quarter of 2026, capex passed it, and free cash flow went to {meta_fcf_q3_2026}. Meta now holds {meta_debt_q3_2026_call} of debt against {meta_cash_q3_2026} of cash and investments, and its plan for the year leaves {c_meta_capex_q4_2026_implied} of capex for the fourth quarter.'),
       section: 'The Bill',
@@ -1178,7 +1176,7 @@ export const metaMuseWonder: Collection = {
     },
     {
       n: 7, slug: 'the-capex-column', ...board(M, 'the-capex-column'),
-      title: 'The Capex Column',
+      title: 'Meta’s Capex',
       blurb: fill(M,
         'Meta spent {meta_capex_2025} on capex in 2025 and {meta_capex_9m_2026} in the first nine months of 2026, and expects to spend {meta_capex_guide_fy2026} this year.'),
       section: 'The Bill',
@@ -1194,7 +1192,7 @@ export const metaMuseWonder: Collection = {
     },
     {
       n: 9, slug: 'a-theoretical-maximum', ...board(M, 'a-theoretical-maximum'),
-      title: 'The Filing and the Answer',
+      title: 'The Theoretical Maximum',
       blurb: fill(M,
         'A filing on Meta’s new shares with no vote said it could need to raise hundreds of billions of dollars over several years. Meta later called that {meta_class_c_theoretical_max}, not its plan.'),
       section: 'A Theoretical Maximum',

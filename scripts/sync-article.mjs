@@ -264,6 +264,20 @@ async function main() {
   await writeFile(mdx, `${front}\n${imports.join('\n')}\n\n${body.join('\n\n')}\n`);
   console.log(`    ${paras.length} paragraphs, ${cfg.boards.length} boards -> ${path.relative(ROOT, mdx)}`);
 
+  /* The browser tab and search result of "Open full screen" read the board's own <title>, which is written for the edit
+     ("Boardroom Wire — The capex column (meta-muse-wonder 32, W3)", "Scenario board"). Each shipped board takes its public
+     title from the manifest instead, alone: no dash, no slug, no codes. */
+  console.log('\n  4b. board titles');
+  const { findCollection } = await import(pathToFileURL(path.join(ROOT, 'src/data/analytics.ts')).href);
+  const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  for (const d of findCollection(slug)?.dashboards ?? []) {
+    const p = path.join(pub, d.file);
+    const html = await readFile(p, 'utf8');
+    const out = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(d.title)}</title>`);
+    if (out !== html) await writeFile(p, out);
+    console.log(`    ${d.file.padEnd(32)} ${d.title}`);
+  }
+
   step('5. posters', ['scripts/render-posters.mjs', '--only', slug]);
   console.log('\n  Done. Next: npm run build, then check /wire/' + slug + '/ in a browser.\n');
 }
