@@ -1104,13 +1104,13 @@ export const teslaSpacex: Collection = {
 const M = 'meta-muse-wonder';
 export const metaMuseWonder: Collection = {
   slug: M,
-  title: "Meta Made $64.6 Billion in Three Months. It Wasn't Enough.",
+  title: 'Zuckerberg Is All In on AI. Wall Street Has Questions.',
   kicker: 'Thirteen dashboards',
   summary: fill(M,
     'Meta made {meta_revenue_q3_2026} in the third quarter of 2026, up {meta_revenue_growth_q3_2026} from a year earlier, and spent so heavily on AI that free cash flow went below zero. These thirteen dashboards chart Muse’s first weeks and its model, where the revenue comes from, where the cash went, the stock, the raise, Meta’s AI strategy and what Muse could make. Every figure carries its source on the dashboard.'),
   published: '2026-10-26',
   hero: 'cash-in-cash-out',
-  headline: { lead: "Meta Made $64.6 Billion in Three Months", dim: ". It Wasn't Enough." },
+  headline: { lead: 'Zuckerberg Is All In on AI', dim: '. Wall Street Has Questions.' },
   primaryLabel: 'Primary',
   method: {
     primary:
