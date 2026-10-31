@@ -134,17 +134,6 @@
    ],
    "noslot": ""
   },
-  "the-debt-deal": {
-   "file": "06-receipt.html",
-   "credit": "Source: Elon Musk on X and SpaceX Q3 2026 results release. Reported by Bloomberg.",
-   "figures": [
-    "musk_post_2026_10_25_spacex_40b_gpu_debt",
-    "bloomberg_spacex_40b_talks_ongoing",
-    "spacex_q3_2026_revenue_connectivity",
-    "spacex_q3_2026_revenue_space"
-   ],
-   "noslot": ""
-  },
   "the-lease": {
    "file": "91-the-crate-p2.html",
    "credit": "Source: SpaceX 8-K (26 Oct 2026).",
@@ -1082,7 +1071,7 @@
   },
   "fwd_spx_q3_price_per_watt_year_base": {
    "display": "$30",
-   "spoken": "about $30",
+   "spoken": "$30",
    "label": "price per rented watt a year 2027, base",
    "credit": "",
    "tier": "E",
@@ -1148,7 +1137,7 @@
   },
   "fwd_spx_q3_price_per_watt_year_bull": {
    "display": "$50",
-   "spoken": "about $50",
+   "spoken": "$50",
    "label": "price per rented watt a year 2027, bull",
    "credit": "",
    "tier": "E",

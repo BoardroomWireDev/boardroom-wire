@@ -51,7 +51,7 @@ const w = KIT.stage({ fov: 26, key: [-14, 24, 20], keyTarget: [-6, 0, 0], shadow
 const pw = F(K.pw), $ = (n) => '$' + n;
 const faces = [[], [{ text: $(pw.lo) + '–' + $(pw.hi), px: 86, y: .64 }], [{ text: $(pw.lo), px: 210, y: .7 }], [{ text: $(pw.hi), px: 210, y: .7 }]];
 S3.mirror(w.words, [$(pw.lo) + '–' + $(pw.hi), $(pw.lo), $(pw.hi)]);
-const S = await KIT.c3a.formula(w, { usd: F(K.b650).v, per: 10000, rangeLo: F(K.arr).lo, rangeHi: F(K.arr).hi, tagFaces: faces });
+const S = await KIT.c3a.formula(w, { usd: F(K.b650).v, per: 10000, rangeLo: F(K.arr).lo, rangeHi: F(K.arr).hi, tagFaces: faces.map((f, i) => { if (i) f.hatch = true; return f; }), hatch: 'calm', estimate: true });
 const N = S.tower.n, at = (usd) => usd / 10000 / N;   /* tower fill for a dollar figure (one bundle = $10B) */
 
 /* the words */
@@ -59,14 +59,14 @@ const LB = (cls, html, p, o) => w.label(cls, html, p, Object.assign({ op: 0 }, o
 const nG = LB('sx-name dim', 'gigawatts', S.pt.hallTop, { ax: .5, ay: 1, dy: -70 });
 const nP = LB('sx-name dim', 'price per watt', S.pt.tagFoot, { ax: .5, ay: 0, dy: 14 });
 const uW = LB('sx-unit', 'a watt', S.pt.tagFoot, { ax: .5, ay: 0, dy: 14 });
-const uY = LB('sx-unit', 'a year', S.pt.tagFoot, { ax: .5, ay: 0, dy: 64 });   /* under "a watt": the voice's "which we read as a year's rent" */
+const uY = LB('sx-unit', "we read as a year's rent", S.pt.tagFoot, { ax: .5, ay: 0, dy: 64 });   /* under "a watt": the voice's "which we read as a year's rent" */
 const eq = LB('sx-op', '=', S.pt.eq, { ax: .5, ay: .5 });
-const h30 = LB('sx-hero', BW.val(K.b30), S.pt.towerFoot, { ax: .5, ay: 0, dy: 6 });
-const h50 = LB('sx-hero', BW.val(K.b50), S.pt.towerFoot, { ax: .5, ay: 0, dy: 6 });
-const yr = LB('sx-unit', 'a year', S.pt.towerFoot, { ax: .5, ay: 0, dy: 236 });
+const h30 = LB('sx-hero', BW.val(K.b30), S.pt.towerFoot, { ax: .5, ay: 0, dy: -20 });
+const h50 = LB('sx-hero', BW.val(K.b50), S.pt.towerFoot, { ax: .5, ay: 0, dy: -20 });
+const yr = LB('sx-unit', 'a year', S.pt.towerFoot, { ax: .5, ay: 0, dy: 206 });
 const gw = LB('sx-fig', BW.val(K.gw), S.pt.gridTop, { ax: .5, ay: 1, dy: -24 });
 const h650 = LB('sx-hero', BW.val(K.b650), S.pt.gridFront, { ax: .5, ay: 0, dy: 0 });
-const yr650 = LB('sx-unit', 'a year, run rate', S.pt.gridFront, { ax: .5, ay: 0, dy: 214 });
+const yr650 = LB('sx-unit', 'a year', S.pt.gridFront, { ax: .5, ay: 0, dy: 214 });
 const rng = LB('sx-fig dim', BW.val(K.arr), S.pt.rangeSide, { ax: .5, ay: 1, dy: -14 });
 h650.e.style.fontSize = '200px';
 

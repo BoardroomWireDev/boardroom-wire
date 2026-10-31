@@ -87,12 +87,12 @@ const BOARDS = {
     '26-the-stock.html', '27-the-theoretical-maximum.html', '32-the-capex-column.html', '37-the-raise.html',
     '07-the-muse-cases.html', '33-the-waterline-reprise.html',
   ]),
-  // SpaceX Q3: the eleven boards in ship/site/BOARDS.json, each of which runs as it is without the cut's footage or the
+  // SpaceX Q3: the ten boards in ship/site/BOARDS.json, each of which runs as it is without the cut's footage or the
   // stock pack's captures. Everything else in the folder (other passes, footage pages, the bg-* plates) stays video-only.
   'spacex-q3-2026': new Set([
     '02-pie.html', '69-quarter-dashboard.html', '72-the-formula.html', '75-hotel-stay-p2.html', '80-backwards-p2.html',
     '83-cases-dashboard.html', '81-rate-board-p2.html', '89-coreweave-dashboard.html', '94-cash-dashboard.html',
-    '06-receipt.html', '91-the-crate-p2.html',
+    '91-the-crate-p2.html',
   ]),
 };
 
@@ -111,6 +111,14 @@ const WEB_EDITS = {
     // The cases board holds through the narration's ask to like and subscribe, with the channel's mark in its corner. A
     // reader on the site has no such line: the mark's script gives way to one that draws nothing.
     ['83-cases-dashboard.html', /<script src="assets\/heroboard\/subscribe-mark\.js[^"]*"><\/script>/, '<script>const SUBMARK = { add() {} };</script>'],
+    // Pass 1 of the formula (pass 2 cuts to footage) takes pass 2's corrections for the facts: the per-year is our read, and a
+    // projection is never solid, so the tag and the money are hatched by the kit's own options.
+    ['72-the-formula.html', /tagFaces: faces \}\);/, "tagFaces: faces.map((f, i) => { if (i) f.hatch = true; return f; }), hatch: 'calm', estimate: true });"],
+    ['72-the-formula.html', /LB\('sx-unit', 'a year', S\.pt\.tagFoot/, "LB('sx-unit', \"we read as a year's rent\", S.pt.tagFoot"],
+    ['72-the-formula.html', /'a year, run rate'/, "'a year'"],
+    // Pass 1's "a year" under the $30B and $50B sits on the credit line: the figure and its unit move up clear of it.
+    ['72-the-formula.html', /S\.pt\.towerFoot, \{ ax: \.5, ay: 0, dy: 6 \}/g, 'S.pt.towerFoot, { ax: .5, ay: 0, dy: -20 }'],
+    ['72-the-formula.html', /S\.pt\.towerFoot, \{ ax: \.5, ay: 0, dy: 236 \}/, 'S.pt.towerFoot, { ax: .5, ay: 0, dy: 206 }'],
     // Two research notes in data.js name a file on this machine (the repo is public); the site's copy drops the path.
     ['shared/data.js', /\s*\(C:\/Users\/[^"]*?\u2026 \(ledger\)/g, '\u2026 (ledger)'],
   ],

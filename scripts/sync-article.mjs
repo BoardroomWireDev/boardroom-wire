@@ -139,7 +139,6 @@ const ARTICLES = {
       ['81-rate-board-p2.html', 'the-rate-board', null],
       ['89-coreweave-dashboard.html', 'coreweave-and-spacex', null],
       ['94-cash-dashboard.html', 'the-cash', null],
-      ['06-receipt.html', 'the-debt-deal', null],
       ['91-the-crate-p2.html', 'the-lease', null],
     ],
     quotes: [],
@@ -159,6 +158,8 @@ const ARTICLES = {
       c_spacex_q3_2025_si_share_of_revenue: 'about 15%',
       fwd_spx_q3_compute_gw_2027_bull: '20 gigawatts',
       spacex_q3_2026_nameplate_compute_gw: '1.7 gigawatts',
+      fwd_spx_q3_price_per_watt_year_base: '$30',
+      fwd_spx_q3_price_per_watt_year_bull: '$50',
     },
   },
 };
