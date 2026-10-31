@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CoreWeave and SpaceX</title>
+<!-- SPACEX Q3 · 89 · COREWEAVE AND SPACEX, HERO DASHBOARD (Ive, 28 Oct 2026). Ch 5 rows 5.4–5.5, "And the gap in scale is real."
+     through "...by the end of 2027.", then it holds for the question ("how does SpaceX pay for its own build?").
+     The board at rest: two rows, CoreWeave over SpaceX, and two measures. Revenue: one bar each on one scale, CoreWeave's quarter
+     (Q2) and SpaceX's AI cloud and subscriptions (Q3, gold); CoreWeave's length is carried down onto SpaceX's bar, so the 2.49×
+     is the bar itself. Gigawatts: one block a gigawatt, the same as the cases board: solid is running or built, outline is
+     signed up, dashed gold is Elon's 13 GW+ for the end of 2027 (a forecast).
+     Words: the lockup and SpaceX's mark are images; on the board only names, dates and the script's own words ("revenue",
+     "gigawatts", "AI cloud and subscriptions", "running", "signed up", "end of 2027"). Figures are the keys 85-guppies reads.
+     Reference: Meta Q3 14-hero-revenue (one figure leads), Cursor 01-founding-four (the frame), 83-cases-dashboard (the blocks).
+     Steps (?at=, page 0 = VO 544.36 s of the placeholder read): coreweave, cwrev, spacex, sxrev, times, signed, thirteen, end,
+     question. 28 Oct, after proxy pass 1: type raised, frame 0 drawn, $2.6B leads at hero size, CoreWeave's gigawatts dated
+     30 Jun 2026, "about 3.7 GW", 2.5× (the voice's "two and a half times"); the unspoken headers cut. Capture contract: HB.run → BW.run({play, rest}); R, F, ?final, ?still, ?t=<secs|step>, ?capture, ?beats. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/heroboard/hb.css?v=1">
+</head>
+<body>
+<div class="stage"><div class="chrome"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/heroboard/hb.js?v=1"></script>
+<script>
+(() => {
+const F = BW.fig, V = (k) => F(k).v, D = BW.val;
+const K = { cwRev: 'coreweave_q2_2026_revenue', sxRev: 'c_spacex_q3_2026_si_solutions_ex_cursor', x: 'c_spacex_si_ex_cursor_vs_coreweave_q2',
+            cwRun: 'coreweave_q2_2026_active_power_gw', cwSig: 'coreweave_q2_2026_contracted_power_gw',
+            sxNow: 'spacex_q3_2026_nameplate_compute_gw', sxFloor: 'spacex_q3_2026_musk_compute_targets' };
+BW.provenance({ uses: Object.values(K) });
+const qtr = (k) => { const [y, m] = String(F(k).asOf).split('-').map(Number); return 'Q' + Math.ceil(m / 3) + ' ' + y; };
+
+const T = HB.at([['coreweave', 2.44], ['cwrev', 5.80], ['spacex', 9.16], ['sxrev', 13.74], ['times', 15.68], ['signed', 19.98],
+  ['thirteen', 26.10], ['end', 27.50], ['question', 28.88]]);
+const END = Math.max(36.0, T.question + 7.1);
+
+const fr = HB.frame({});
+const svg = fr.svg, s = HB.s, t = HB.t, stage = document.querySelector('.stage');
+
+/* two rows; revenue from X0, gigawatts from GX */
+const YC = { cw: 400, sx: 700 }, BH = 110, X0 = 470, RW = 500 / V(K.sxRev), GX = 1370, BLK = 26, GP = 4, PITCH = BLK + GP;
+
+/* the names: CoreWeave in type, SpaceX its own mark */
+const cwN = t(svg, 120, YC.cw + 17, 'CoreWeave', { cls: 'hb-name', size: 50 });
+const sxN = document.createElement('img'); sxN.className = 'hb-co'; sxN.src = 'assets/logos/spacex-wordmark.svg'; sxN.alt = '';
+sxN.style.top = (YC.sx - 20) + 'px'; sxN.style.height = '40px'; stage.appendChild(sxN);
+
+/* revenue */
+const cwL = V(K.cwRev) * RW, sxL = V(K.sxRev) * RW;
+const cwBar = s('rect', { x: X0, y: YC.cw - BH / 2, width: cwL, height: BH, fill: 'rgba(245,241,229,.86)' });
+const cwFig = t(svg, X0 + cwL + 26, YC.cw + 24, D(K.cwRev), { cls: 'hb-fig', size: 68 });
+const cwQ = t(svg, X0, YC.cw + BH / 2 + 50, qtr(K.cwRev), { cls: 'hb-unit', size: 38 });
+const sxBar = s('rect', { x: X0, y: YC.sx - BH / 2, width: sxL, height: BH, fill: HB.C.gold });
+const sxFig = t(svg, X0 + sxL + 24, YC.sx + 40, D(K.sxRev), { cls: 'hb-hero', size: 116 });
+const sxQ = t(svg, X0, YC.sx + BH / 2 + 52, [['AI cloud and subscriptions', 'hb-name', { 'font-size': 40 }], [', ', null], [qtr(K.sxRev), null]], { cls: 'hb-unit', size: 38 });
+/* CoreWeave's length, carried down and laid along SpaceX's bar: the two and a half times is the bar.
+   The voice says "two and a half times"; the board prints the key's value to one decimal (2.49 → 2.5×). */
+const n = V(K.x), copies = s('g');
+s('line', { x1: X0 + cwL, x2: X0 + cwL, y1: YC.cw + BH / 2 + 6, y2: YC.sx - BH / 2, stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2, 'stroke-dasharray': '6 6' }, copies);
+for (let i = 1; i < n; i++) s('line', { x1: X0 + cwL * i, x2: X0 + cwL * i, y1: YC.sx - BH / 2, y2: YC.sx + BH / 2, stroke: HB.C.bg, 'stroke-width': 4 }, copies);
+const xT = t(svg, X0 + sxL + 24, YC.sx - 100, n.toFixed(1) + '×', { cls: 'hb-fig hb-gold', size: 56 });
+
+/* gigawatts: one block a gigawatt */
+function blocks(yc, solid, line, dashed, color) {
+  const g = { solid: [], line: [], dashed: [] }, total = Math.ceil(Math.max(solid, line, dashed)), y0 = yc - BLK / 2;
+  for (let b = 0; b < total; b++) {
+    const x = GX + b * PITCH, full = Math.min(1, Math.max(0, solid - b));
+    if (full > 0) g.solid.push(s('rect', { x, y: y0, width: BLK * full, height: BLK, fill: 'rgba(245,241,229,.92)' }));
+    if (full < 1 && b < Math.ceil(line)) g.line.push(s('rect', { x: x + 1 + BLK * full, y: y0 + 1, width: BLK * (1 - full) - 2, height: BLK - 2, fill: 'none', stroke: 'rgba(245,241,229,.75)', 'stroke-width': 2 }));
+    else if (full < 1) g.dashed.push(s('rect', { x: x + 1 + BLK * full, y: y0 + 1, width: BLK * (1 - full) - 2, height: BLK - 2, fill: 'none', stroke: color, 'stroke-width': 2, 'stroke-dasharray': '4 3' }));
+  }
+  return g;
+}
+const cwB = blocks(YC.cw, V(K.cwRun), V(K.cwSig), 0, '');
+const sxB = blocks(YC.sx, V(K.sxNow), 0, V(K.sxFloor), 'rgba(212,175,55,.85)');
+const FS = 44, US = 38;
+const cwRunT = t(svg, GX, YC.cw + 72, [[D(K.cwRun), 'hb-fig', { 'font-size': FS }], [' running', 'hb-unit', { 'font-size': US, dx: 10 }]], { cls: 'hb-fig', size: FS });
+const cwSigT = t(svg, GX, YC.cw + 172, [['about', 'hb-unit', { 'font-size': US }], [D(K.cwSig), 'hb-fig', { 'font-size': FS, dx: 12 }], [' signed up', 'hb-unit', { 'font-size': US, dx: 10 }]], { cls: 'hb-fig', size: FS });
+const cwD = t(svg, GX, YC.cw + 122, HB.day(K.cwRun), { cls: 'hb-unit', size: US });   /* CoreWeave's gigawatts (both) are as of 30 Jun */
+const sxNowT = t(svg, GX, YC.sx + 72, [[D(K.sxNow), 'hb-fig', { 'font-size': FS }], [HB.day(K.sxNow), 'hb-unit', { 'font-size': US, dx: 18 }]], { cls: 'hb-fig', size: FS });
+const sxFlT = t(svg, GX, YC.sx + 124, [[D(K.sxFloor), 'hb-fig hb-gold', { 'font-size': FS }], ['end of 2027', 'hb-unit', { 'font-size': US, dx: 18 }]], { cls: 'hb-fig', size: FS });
+const sxEnd = sxFlT.querySelectorAll('tspan')[1];
+
+HB.run({ steps: T, end: END, build(tl) {
+  /* frame 0 is drawn: both names and the gigawatts each runs today, dated. Then the money, one figure at a time, each leading
+     at hero size: CoreWeave's $2.6B, then SpaceX's $6.4B, which stays the board's figure */
+  HB.growX(tl, cwBar, T.cwrev - .4, .8); HB.lead(tl, cwFig, T.cwrev, 1.7, T.sxrev - .6, '0% 100%'); HB.fade(tl, cwQ, T.cwrev + .3, .4);
+  HB.fade(tl, sxQ, T.spacex + .3, .5);
+  HB.growX(tl, sxBar, T.sxrev - .9, 1.1); HB.lead(tl, sxFig, T.sxrev, 1.0);
+  /* two and a half times: CoreWeave's length laid along SpaceX's bar */
+  HB.fade(tl, copies, T.times, .6); HB.rise(tl, xT, T.times + .3);
+  /* about 3.7 signed up; Elon's 13 by the end of 2027 */
+  cwB.line.forEach((b, j) => HB.fade(tl, b, T.signed + j * .12, .3)); HB.rise(tl, cwSigT, T.signed + .3);
+  sxB.dashed.forEach((b, j) => HB.fade(tl, b, T.thirteen - .3 + j * .07, .25)); HB.rise(tl, sxFlT, T.thirteen + .2);
+  HB.ink(tl, sxEnd, T.end);
+} });
+})();
+</script>
+</body>
+</html>

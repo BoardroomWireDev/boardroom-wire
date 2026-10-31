@@ -42,6 +42,7 @@ const SOURCES = {
   'nebius': path.join(BOARDROOM, 'videos/nebius/dashboards'),
   'tesla-spacex': path.join(BOARDROOM, 'videos/tesla-spacex/dashboards'),
   'meta-muse-wonder': path.join(BOARDROOM, 'videos/meta-muse-wonder/dashboards'),
+  'spacex-q3-2026': path.join(BOARDROOM, 'videos/spacex-q3-2026/dashboards'),
 };
 
 // Optional per-collection board list. Since Anthropic IPO, a video folder holds
@@ -86,6 +87,29 @@ const BOARDS = {
     '26-the-stock.html', '27-the-theoretical-maximum.html', '32-the-capex-column.html', '37-the-raise.html',
     '07-the-muse-cases.html', '33-the-waterline-reprise.html',
   ]),
+  // SpaceX Q3: the four hero dashboards (ship/site/BOARDS.json); the motion pages (60 to 95, the -p2 pages), the
+  // earlier passes and the bg-* plates stay video-only.
+  'spacex-q3-2026': new Set([
+    '69-quarter-dashboard.html', '83-cases-dashboard.html', '89-coreweave-dashboard.html', '94-cash-dashboard.html',
+  ]),
+};
+
+// Optional per-collection list of the assets/ folders the shipped boards load. Where a list is given, nothing else in
+// assets/ ships: SpaceX Q3's also holds the cut's stage kits, working notes and thumbnail drafts, and this repo is public.
+const ASSET_DIRS = {
+  'spacex-q3-2026': ['heroboard', 'logos', 'outro'],
+};
+
+// What a board carries for the video and the site does not, changed in the site's copy only; the video's file is never
+// touched. A pattern that stops matching stops the sync, so a re-cut cannot bring it back silently.
+const WEB_EDITS = {
+  'spacex-q3-2026': [
+    // The cases board holds through the narration's ask to like and subscribe, with the channel's mark in its corner. A
+    // reader on the site has no such line: the mark's script gives way to one that draws nothing.
+    ['83-cases-dashboard.html', /<script src="assets\/heroboard\/subscribe-mark\.js[^"]*"><\/script>/, '<script>const SUBMARK = { add() {} };</script>'],
+    // Two research notes in data.js name a file on this machine (the repo is public); the site's copy drops the path.
+    ['shared/data.js', /\s*\(C:\/Users\/[^"]*?\u2026 \(ledger\)/g, '\u2026 (ledger)'],
+  ],
 };
 
 // Working files inside a video's assets/ that boards never load, skipped for every collection:
@@ -149,9 +173,22 @@ async function syncOne(slug, src) {
   let copied = 0;
   for (const entry of await readdir(src, { withFileTypes: true })) {
     if (!ships(entry, slug)) continue;
-    const filter = (from) => !SKIP.test(path.relative(src, from));
+    const dirs = ASSET_DIRS[slug];
+    const filter = (from) => {
+      const rel = path.relative(src, from);
+      const m = rel.match(/^assets[\\/]([^\\/]+)/);
+      return !SKIP.test(rel) && !(dirs && m && !dirs.includes(m[1]));
+    };
     await cp(path.join(src, entry.name), path.join(dest, entry.name), { recursive: true, filter });
     copied += 1;
+  }
+
+  for (const [f, pattern, replacement] of WEB_EDITS[slug] ?? []) {
+    const p = path.join(dest, f);
+    const html = await readFile(p, 'utf8');
+    if (!pattern.test(html)) throw new Error(`${slug}: ${f} no longer holds ${pattern}; update WEB_EDITS.`);
+    await writeFile(p, html.replace(pattern, replacement));
+    console.log(`    web edit ${f}`);
   }
 
   const leaks = [];

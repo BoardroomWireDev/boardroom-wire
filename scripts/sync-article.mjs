@@ -124,6 +124,31 @@ const ARTICLES = {
       aa_opus55_index: '58',
     },
   },
+  /* SpaceX Q3: Shakespeare places the four hero boards himself, as <DashboardEmbed> lines in ship/site/ARTICLE.md, so
+     these carry no anchor (null): the run only checks the words still hold each one. No clip is printed from data.js
+     (the article prints the call's quotes in its words) and there is no pointer to this page to drop. */
+  'spacex-q3-2026': {
+    boards: [
+      ['69-quarter-dashboard.html', 'the-quarter', null],
+      ['83-cases-dashboard.html', 'the-three-cases', null],
+      ['89-coreweave-dashboard.html', 'coreweave-and-spacex', null],
+      ['94-cash-dashboard.html', 'the-cash', null],
+    ],
+    quotes: [],
+    spoken: {
+      c_spacex_q3_2026_si_growth_multiple_yoy: 'more than nine times',
+      spacex_q3_2026_si_share_of_revenue: '52%',
+      c_spacex_q3_2026_connectivity_share_of_revenue: '36%',
+      spacex_q3_2026_space_share_of_revenue: '12%',
+      c_spacex_case_high_20gw_50: '$1 trillion',
+      c_spacex_case_mid_vs_targets: 'triple',
+      c_spacex_si_ex_cursor_vs_coreweave_q2: 'roughly two and a half times',
+      coreweave_q2_2026_revenue: 'about $2.6 billion',
+      coreweave_q2_2026_contracted_power_gw: 'about 3.7 gigawatts',
+      spacex_q3_2026_fcf: 'about $10 billion',
+      spacex_q3_2026_cash_and_securities: 'nearly $90 billion',
+    },
+  },
 };
 
 /* The general spoken form of a board's shorthand: "$1.98T" -> "$1.98 trillion", "125,000+" -> "more than
@@ -251,7 +276,11 @@ async function main() {
     if (!figures[key]) throw new Error(`No figure ${key} in data.js for the quote after "${needle}".`);
     add(at(needle), `<Quote collection="${slug}" figure="${key}" />`);
   }
-  for (const [, web, needle] of cfg.boards) add(at(needle), `<DashboardEmbed collection="${slug}" slug="${web}" />`);
+  for (const [, web, needle] of cfg.boards) {
+    const embed = `<DashboardEmbed collection="${slug}" slug="${web}" />`;
+    if (needle) add(at(needle), embed);
+    else if (!paras.includes(embed)) throw new Error(`The words no longer place ${web}: expected a line "${embed}".`);
+  }
   const drop = cfg.breakdown ? at(cfg.breakdown) : cfg.drop ? at(cfg.drop) : -1;
   const body = [
     ...paras.flatMap((p, i) => i === drop ? [] : [p, ...(after.get(i) ?? [])]),

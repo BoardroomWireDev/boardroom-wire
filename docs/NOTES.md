@@ -37,7 +37,7 @@ with `wrangler dev --remote --test-scheduled`. Run `npm run cf:history` at least
 Apply a branch's migrations from that branch's checkout: "No migrations to apply" says nothing about the live database.
 **Traps.** Six files are CRLF (`Site.astro`, `index`, `about`, `videos`, `wire/[slug]`, `analytics/[collection]/index`): match `\r?\n`,
 and Git Bash `sed -i` strips the CR (edit with the Edit tool or Python on bytes). A capture a board needs must already be in the
-video's `dashboards\assets\captures\` (agents cannot copy out of `stock-pack\`). A video's `assets\` holds working files that
+video's `dashboards\assets\captures\` (agents cannot copy out of `stock-pack\`). `sync-dashboards.mjs` also takes `ASSET_DIRS` (only these `assets\` folders ship) and `WEB_EDITS` (a change to the site's copy of a board, never the video's file: SpaceX Q3 drops the narration's subscribe mark and two paths in `data.js`); in `sync-article.mjs` a board with a null anchor is one the words place themselves as a `<DashboardEmbed>` line. A video's `assets\` holds working files that
 print local machine paths (render job lists, style-frame sheets, `.py` scripts): the repo is public, so the sync skips them for
 every collection and stops if any synced file names a user folder (alexandr-wang's `engrave.py` shipped one, removed 17 Oct;
 it stays in git history). Astro scopes `<style>` (script-built DOM and MDX prose

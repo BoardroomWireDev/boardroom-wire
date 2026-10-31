@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SpaceX’s Cash and Capex</title>
+<!-- SPACEX Q3 · 94 · THE CASH, HERO DASHBOARD (Ive, 28 Oct 2026). Ch 6 row 6.2, "But SpaceX has a fortress balance sheet from its
+     core businesses and recent IPO. As of now, they're sitting on nearly $90 billion of cash and investments."
+     The board at rest: one scale of dollars. The quarter: what the businesses brought in as cash beside what SpaceX spent, the
+     part of the spending the cash didn't cover in red (−$10.0B, its free cash flow, as Meta Q3's −$2.1B). Q4's guidance hatched
+     (a plan: $35B to $40B). And the cash and investments on hand on 30 Sep, in gold, towering over all of it: $89.9B.
+     Words: the lockup and SpaceX's mark are images; on the board only dates and the script's own words ("brought in", "spent",
+     "cash and investments"). Figures are the keys 90-the-vault reads.
+     Reference: Meta Q3 02-the-fcf-trend (the red figure over the bars), Cursor 01-founding-four (the frame).
+     Steps (?at=, page 0 = VO 599.48 s of the placeholder read, the start of 6.2): fortress, ninety, cash.
+     28 Oct, after proxy pass 1: frame 0 drawn (the quarter and Q4 at rest), type raised, $89.9B leads at hero size, its label
+     the 10-Q's line from data.js (short-term). The 6.1 figures are on the first frame; to lay it from 6.1 instead, re-time with ?at= (e.g. q3 at 3.0 from 580.74).
+     Capture contract: HB.run → BW.run({play, rest}); R, F, ?final, ?still, ?t=<secs|step>, ?capture, ?beats. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/heroboard/hb.css?v=1">
+</head>
+<body>
+<div class="stage"><div class="chrome"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/heroboard/hb.js?v=1"></script>
+<script>
+(() => {
+const F = BW.fig, V = (k) => F(k).v, D = BW.val;
+const K = { cin: 'spacex_q3_2026_operating_cash_flow', out: 'spacex_q3_2026_capex_total', fcf: 'spacex_q3_2026_fcf',
+            q4: 'spacex_q3_2026_guide_q4_capex', cash: 'spacex_q3_2026_cash_and_securities' };
+BW.provenance({ uses: Object.values(K) });
+if (Math.abs(V(K.cin) - V(K.out) - V(K.fcf)) > 1) console.warn('94: brought in less spent does not match ' + K.fcf);
+const qtr = (k) => { const [y, m] = String(F(k).asOf).split('-').map(Number); return 'Q' + Math.ceil(m / 3) + ' ' + y; };
+
+const T = HB.at([['fortress', 1.28], ['ninety', 7.06], ['cash', 8.74]]);
+const END = Math.max(11.6, T.cash + 2.8);
+
+const fr = HB.frame({ co: 'assets/logos/spacex-wordmark.svg', coH: 30, coY: 156 });
+const svg = fr.svg, s = HB.s, t = HB.t;
+
+/* one scale of dollars for everything on the board */
+const Y0 = 770, SC = 500 / V(K.cash), y = (m) => Y0 - m * SC;
+s('line', { x1: 120, x2: 1800, y1: Y0, y2: Y0, stroke: 'rgba(245,241,229,.4)', 'stroke-width': 2 });
+
+/* the quarter: brought in, spent, and the part the cash didn't cover in red */
+const W = 170, XI = 300, XO = XI + W + 18;
+const bIn = s('rect', { x: XI, y: y(V(K.cin)), width: W, height: Y0 - y(V(K.cin)), fill: 'rgba(245,241,229,.86)' });
+const bOut = s('rect', { x: XO, y: y(V(K.cin)), width: W, height: Y0 - y(V(K.cin)), fill: 'rgba(245,241,229,.86)' });
+const bGap = s('rect', { x: XO, y: y(V(K.out)), width: W, height: y(V(K.cin)) - y(V(K.out)), fill: HB.C.red });
+const fIn = t(svg, XI + W / 2, y(V(K.cin)) - 18, D(K.cin), { cls: 'hb-fig', size: 50, anchor: 'middle' });
+const fOut = t(svg, XO + W / 2, y(V(K.out)) - 18, D(K.out), { cls: 'hb-fig', size: 50, anchor: 'middle' });
+const fGap = t(svg, XO + W / 2, y(V(K.out)) - 88, D(K.fcf), { cls: 'hb-fig hb-red', size: 76, anchor: 'middle' });
+const lIn = t(svg, XI + W / 2, Y0 + 52, 'brought in', { cls: 'hb-name', size: 42, anchor: 'middle' });
+const lOut = t(svg, XO + W / 2, Y0 + 52, 'spent', { cls: 'hb-name', size: 42, anchor: 'middle' });
+const dQ3 = t(svg, (XI + XO + W) / 2, Y0 + 104, qtr(K.out), { cls: 'hb-unit', size: 38, anchor: 'middle' });
+
+/* Q4: the guidance, a plan, hatched; the range's top dashed */
+const XQ = 820, f = F(K.q4);
+const bQ4 = s('g');
+s('rect', { x: XQ, y: y(f.lo), width: W, height: Y0 - y(f.lo), fill: 'url(#hb-h-cream)', stroke: 'rgba(245,241,229,.6)', 'stroke-width': 2 }, bQ4);
+s('rect', { x: XQ, y: y(f.hi), width: W, height: y(f.lo) - y(f.hi), fill: 'url(#hb-h-cream)', 'fill-opacity': .5 }, bQ4);
+s('path', { d: `M${XQ},${y(f.lo)} V${y(f.hi)} H${XQ + W} V${y(f.lo)}`, fill: 'none', stroke: 'rgba(245,241,229,.6)', 'stroke-width': 2, 'stroke-dasharray': '6 5' }, bQ4);
+const fQ4 = t(svg, XQ + W / 2, y(f.hi) - 18, D(K.q4), { cls: 'hb-fig', size: 50, anchor: 'middle' });
+const dQ4 = t(svg, XQ + W / 2, Y0 + 104, qtr(K.q4), { cls: 'hb-unit', size: 38, anchor: 'middle' });
+
+/* the cash on hand: the fortress */
+const XC = 1290, WC = 360;
+const bCash = s('rect', { x: XC, y: y(V(K.cash)), width: WC, height: Y0 - y(V(K.cash)), fill: HB.C.gold });
+const fCash = t(svg, XC + WC / 2, y(V(K.cash)) - 26, D(K.cash), { cls: 'hb-hero', size: 132, anchor: 'middle' });
+/* its label is the 10-Q line as data.js keeps it ("cash and short-term investments, 30 Sep 2026"), on two lines but one label */
+const [cl1, cl2] = String(F(K.cash).label).split(/, (?=\d)/);
+const lCash = HB.h(XC + WC / 2, Y0 + 52, cl1 + ',<br>' + cl2, { cls: 'hb-gold', size: 40, anchor: 'middle' });
+
+HB.run({ steps: T, end: END, build(tl) {
+  /* frame 0 is drawn: the quarter the voice has just told (brought in, spent, the shortfall in red) and Q4's plan, all at rest
+     size. 6.2: the fortress rises over all of it on "fortress"; $89.9B leads at hero size on "$90 billion" */
+  HB.grow(tl, bCash, T.fortress, 2.0);
+  HB.lead(tl, fCash, T.ninety, 1.12, T.ninety + 1.6);
+  HB.rise(tl, lCash, T.cash, .5);
+} });
+})();
+</script>
+</body>
+</html>
