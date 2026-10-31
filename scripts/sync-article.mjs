@@ -144,7 +144,6 @@ const ARTICLES = {
       c_spacex_case_mid_vs_targets: 'triple',
       c_spacex_si_ex_cursor_vs_coreweave_q2: 'roughly two and a half times',
       coreweave_q2_2026_revenue: 'about $2.6 billion',
-      coreweave_q2_2026_contracted_power_gw: 'about 3.7 gigawatts',
       spacex_q3_2026_fcf: 'about $10 billion',
       spacex_q3_2026_cash_and_securities: 'nearly $90 billion',
     },

@@ -1246,7 +1246,7 @@ export const spacexQ32026: Collection = {
   title: 'Elon Said SpaceX Could Make $1 Trillion a Year. It’s Not From Rockets.',
   kicker: 'Four dashboards',
   summary: fill(S,
-    'SpaceX brought in {spacex_q3_2026_revenue_total} in the third quarter of 2026, and AI was {spacex_q3_2026_si_share_of_revenue} of it. These four dashboards chart the quarter, our three cases for how big the AI business could get, the gap between SpaceX and CoreWeave, and the cash paying for the build. Every figure carries its source on the dashboard.'),
+    'SpaceX brought in {spacex_q3_2026_revenue_total} in the third quarter of 2026, and AI was {spacex_q3_2026_si_share_of_revenue} of it. These four dashboards chart the quarter, our three cases for how big the AI business could get, the gap between SpaceX and CoreWeave, and the cash paying for the data centers. Every figure has its source on the dashboard.'),
   published: '2026-10-31',
   hero: 'the-three-cases',
   headline: { lead: 'Elon Said SpaceX Could Make $1 Trillion a Year', dim: '. It’s Not From Rockets.' },
@@ -1255,18 +1255,18 @@ export const spacexQ32026: Collection = {
     primary:
       'Stated by the companies themselves: SpaceX’s second- and third-quarter results and its earnings call, and CoreWeave’s second-quarter results.',
     reported:
-      'None of these four dashboards relies on journalism. Where the article quotes reporting, it names the outlet.',
+      'No figure on these four dashboards comes from press reports. Where the article quotes reporting, it names the outlet.',
     estimate:
-      'Our own arithmetic on the companies’ figures, and our own bear, base and bull cases for the end of 2027. Every dashboard that uses one says so in its source line.',
+      'Our own arithmetic on the companies’ figures, and our own bear, base and bull cases for the end of 2027. Every dashboard that uses an estimate says so in its source line.',
     caveat:
-      'Every run rate here is December 2027’s revenue times twelve. It’s not what SpaceX would actually book in 2027.',
+      'Every run rate here is December 2027’s revenue times twelve. It’s not what SpaceX actually books in 2027.',
   },
   dashboards: [
     {
       n: 1, slug: 'the-quarter', ...board(S, 'the-quarter'),
       title: 'SpaceX’s Third Quarter',
       blurb: fill(S,
-        'AI brought in {spacex_q3_2026_revenue_si}, {c_spacex_q3_2026_si_growth_multiple_yoy} what it made a year ago, which makes it bigger than Starlink at {spacex_q3_2026_revenue_connectivity} for the first time. Rockets brought in {spacex_q3_2026_revenue_space}, just {spacex_q3_2026_space_share_of_revenue} of revenue.'),
+        'AI brought in {spacex_q3_2026_revenue_si}, {c_spacex_q3_2026_si_growth_multiple_yoy} what it made a year ago, which makes it bigger than Starlink, at {spacex_q3_2026_revenue_connectivity}, for the first time. Rockets brought in {spacex_q3_2026_revenue_space}, just {spacex_q3_2026_space_share_of_revenue} of revenue.'),
       section: 'AI Overtakes Starlink',
       source: 'primary',
       key: true,
@@ -1275,7 +1275,7 @@ export const spacexQ32026: Collection = {
       n: 2, slug: 'the-three-cases', ...board(S, 'the-three-cases'),
       title: 'Bear, Base and Bull',
       blurb: fill(S,
-        'Our three cases for SpaceX’s compute run rate at the end of 2027: {c_spacex_case_low_6gw_20} in the bear case, {c_spacex_case_mid_10gw_30} in the base case and {c_spacex_case_high_20gw_50} in the bull case. The base case is {c_spacex_case_mid_vs_targets} the CFO’s {spacex_q3_2026_guide_arr_dec_2026} target and still well short of Elon’s {spacex_q3_2026_musk_arr_forecast_2027_floor} low end.'),
+        'We built three cases for SpaceX’s compute run rate at the end of 2027: {c_spacex_case_low_6gw_20} in the bear case, {c_spacex_case_mid_10gw_30} in the base case and {c_spacex_case_high_20gw_50} in the bull case. The base case is {c_spacex_case_mid_vs_targets} the CFO’s {spacex_q3_2026_guide_arr_dec_2026} target and still well short of Elon’s {spacex_q3_2026_musk_arr_forecast_2027_floor} low end.'),
       section: 'Does the Trillion Add Up?',
       source: 'estimate',
       key: true,
@@ -1284,13 +1284,13 @@ export const spacexQ32026: Collection = {
       n: 3, slug: 'coreweave-and-spacex', ...board(S, 'coreweave-and-spacex'),
       title: 'CoreWeave and SpaceX',
       blurb: fill(S,
-        'CoreWeave brought in {coreweave_q2_2026_revenue} in its latest quarter. SpaceX’s AI cloud and subscriptions, leaving out Cursor, brought in {c_spacex_q3_2026_si_solutions_ex_cursor}, {c_spacex_si_ex_cursor_vs_coreweave_q2} as much. CoreWeave has signed up for {coreweave_q2_2026_contracted_power_gw} of power in total.'),
+        'CoreWeave brought in {coreweave_q2_2026_revenue} in the second quarter. SpaceX’s AI cloud and subscriptions, leaving out Cursor, brought in {c_spacex_q3_2026_si_solutions_ex_cursor} in the third, {c_spacex_si_ex_cursor_vs_coreweave_q2} as much.'),
       section: 'The Shake-Up: Guppy-Level Death',
       source: 'primary',
     },
     {
       n: 4, slug: 'the-cash', ...board(S, 'the-cash'),
-      title: 'SpaceX’s Cash and Capex',
+      title: 'SpaceX’s Spending and Cash',
       blurb: fill(S,
         'SpaceX spent {spacex_q3_2026_capex_total} in Q3, mostly on AI data centers, which is {spacex_q3_2026_fcf} more than its businesses brought in as cash. At the end of September, it was sitting on {spacex_q3_2026_cash_and_securities} of cash and investments.'),
       section: 'How He Pays for It',
