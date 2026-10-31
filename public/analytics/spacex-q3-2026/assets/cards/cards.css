@@ -1,0 +1,49 @@
+/* SpaceX Q3 · CARDS (Ive, 28 Oct 2026): receipts center stage and text cards. API and rules: CARDS.md.
+   Flat ink, no glow, no shadow (rule 12). Colours are brand tokens only. */
+
+/* ---- the ground (29 Oct, the writer's polish go, item 4): one ground for the stage, the cards and the hero dashboards ----
+   A card page sat on flat ink (10/10/15) while the stage beside it sits on neutral charcoal, so every cut between them flashed
+   two blacks. The ground is now the stage's at rest, measured on 9 neutral (kit v2.2) stage boards at 4K: about 26 at the
+   centre, 23 halfway out, 19 near the edge, 15 in the corners, a touch cool. The same four stops are in heroboard/hb.css
+   (keep them equal; they move to brand.css :root with the kit's promotion to the template). Under a stage scene the 3D
+   canvas covers it; where a page hides the canvas for a card, this is what shows. */
+.stage { --ground-0: rgb(26, 26, 27); --ground-1: rgb(23, 23, 24); --ground-2: rgb(19, 19, 20); --ground-3: rgb(15, 15, 16);
+  background: radial-gradient(ellipse 1150px 820px at 960px 540px, var(--ground-0) 0%, var(--ground-1) 45%, var(--ground-2) 75%, var(--ground-3) 100%); }
+
+/* ---- receipt: one flat card of the real capture ---- */
+.cd-rc { position: absolute; z-index: 30; transform-origin: 50% 50%; will-change: transform; }
+.cd-paper { position: absolute; inset: 0; overflow: hidden; box-sizing: border-box; border: 2px solid rgba(var(--cream-rgb), .35); }
+.cd-band { position: absolute; left: 0; overflow: hidden; }
+.cd-band img { position: absolute; left: 0; top: 0; transform-origin: 0 0; max-width: none; image-rendering: auto; }
+.cd-cut { position: absolute; left: 6%; right: 6%; height: 0; border-top: 2px dashed rgba(10, 10, 15, .22); }   /* where bands were joined */
+.cd-rc.dark .cd-cut { border-top-color: rgba(var(--cream-rgb), .22); }
+.cd-pen { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+.cd-pen path { fill: none; stroke: var(--gold); stroke-linecap: round; stroke-linejoin: round; }
+.cd-credit { position: absolute; left: 0; top: 100%; margin-top: 14px; white-space: nowrap;   /* the footer's own style (brand.css .bw-source) */
+  font-family: var(--sans); font-size: 26px; line-height: 1.45; color: var(--cream-dim); }   /* 26 px: the one credit size (brand.css v5.9) */
+
+/* ---- a pair: both cards in one layer that pushes toward the marked line ---- */
+.cd-pair { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 30; }
+
+/* ---- the date line under a sequence ---- */
+.cd-dl { position: absolute; z-index: 20; height: 2px; background: var(--line-strong); transform-origin: 0 50%; }
+.cd-tick { position: absolute; z-index: 20; width: 2px; height: 22px; background: var(--gold); transform-origin: 50% 100%; }
+.cd-date { position: absolute; z-index: 20; transform: translateX(-50%); white-space: nowrap; overflow: hidden; padding-bottom: .08em;
+  font-family: var(--mono); font-weight: 500; font-size: 34px; line-height: 1; color: var(--cream); }
+.cd-date > span { display: inline-block; }
+.cd-lead { position: absolute; z-index: 20; width: 2px; background: rgba(var(--cream-rgb), .35); transform-origin: 50% 100%; }   /* the stem from a pile to its date */
+
+/* ---- text card: the writer's question or a subject's quote, big ---- */
+.cd-tc { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 30; transform-origin: 50% 46%; }
+.cd-line { position: absolute; left: 50%; transform: translateX(-50%); text-align: center;
+  font-family: var(--sans); font-weight: 600; letter-spacing: -.028em; line-height: 1.14; color: var(--cream); }
+.cd-u { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .1em; margin-bottom: -.1em; }
+.cd-u > span { display: inline-block; }
+.cd-u.gold { color: var(--gold); }
+.cd-u.red { color: var(--red); }
+.cd-u.fig > span { font-feature-settings: 'tnum' 1; }
+.cd-by { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; overflow: hidden; padding-bottom: .1em;
+  font-family: var(--sans); font-size: 40px; line-height: 1.2; }
+.cd-by > span { display: inline-block; }
+.cd-by .who { font-weight: 600; color: var(--cream); }
+.cd-by .src { font-weight: 500; color: var(--cream-dim); margin-left: .5em; }

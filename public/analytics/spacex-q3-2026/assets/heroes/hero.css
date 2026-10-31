@@ -1,0 +1,54 @@
+/* ============================================================
+   SPACEX Q3 · HERO SET (Ive, 27 Oct 2026). On the v5 Ink surface and the flagship layer; tokens only, no hex.
+   One grammar across the six heroes:
+     filed figures solid · our arithmetic outlined · estimates and forecasts hatched · a forecast's edge dashed
+     gold is the subject, cream-dim the others, grey the past, red only a loss
+     marks carry their labels; every axis is a true scale with its unit
+   ============================================================ */
+.h-svg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; z-index: 3; pointer-events: none; }
+.h-svg .hit { pointer-events: all; fill: transparent; }
+.h-t { position: absolute; z-index: 5; white-space: nowrap; line-height: 1; }
+.h-t.c { transform: translateX(-50%); }
+.h-t.r { transform: translateX(-100%); }
+.h-t .bw-m { padding-bottom: .12em; }
+
+/* type */
+.h-fig { font-family: var(--mono); font-weight: 700; letter-spacing: -.035em; font-variant-numeric: tabular-nums; color: var(--cream); }
+.h-num { font-family: var(--mono); font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: var(--cream); }
+.h-tick { font-family: var(--mono); font-weight: 500; font-size: 22px; letter-spacing: -.01em; color: var(--cream-dim); font-variant-numeric: tabular-nums; }
+.h-lbl { font-family: var(--sans); font-weight: 500; font-size: 30px; letter-spacing: -.01em; color: var(--cream); }
+.h-sub { font-family: var(--sans); font-weight: 400; font-size: 26px; color: var(--cream-dim); }
+.h-gold { color: var(--gold); }
+.h-dimc { color: var(--cream-dim); }
+.h-faint { color: var(--cream-faint); }
+.h-red { color: var(--red); }
+
+/* svg marks */
+.h-grid { stroke: var(--line-faint); stroke-width: 1; }
+.h-grid.maj { stroke: var(--line); }
+.h-axis { stroke: var(--line-strong); stroke-width: 2; fill: none; }
+.h-tk { stroke: var(--line-strong); stroke-width: 2; }
+.h-tk.min { stroke: var(--line); stroke-width: 1.5; }
+.h-ink { stroke: var(--cream-dim); stroke-width: 2; fill: none; }
+.h-dimln { stroke: var(--cream-dim); stroke-width: 2; fill: none; }
+.h-goldln { stroke: var(--gold); stroke-width: 3; fill: none; }
+
+/* a missing key stops the board and says which */
+.h-missing { position: absolute; left: 120px; top: 260px; right: 120px; z-index: 90; font-family: var(--mono); font-size: 26px;
+  line-height: 1.5; color: var(--red); white-space: pre-wrap; }
+
+/* receipts (receipt.js): the capture as a flat card, a hairline edge, the gold pen; no shadow, no glow */
+.rc-card { position: absolute; overflow: hidden; border: 1px solid var(--line-strong); transform-origin: 50% 50%; }
+.rc-inner { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.rc-img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+.rc-pen { position: absolute; left: 0; top: 0; overflow: visible; }
+.rc-ink { stroke: var(--gold); stroke-linecap: butt; fill: none; }
+.rc-stand { position: absolute; right: 10px; top: 8px; font-family: var(--mono); font-size: 16px; color: var(--red); background: var(--ink);
+  padding: 2px 8px; }
+/* a footage window over a board at rest: a hairline frame; the credit sits under its own lower edge */
+.ft-edge { position: absolute; z-index: 9; border: 1px solid var(--line-strong); pointer-events: none; }
+.ft-credit { position: absolute; z-index: 9; font-family: var(--sans); font-size: 18px; color: var(--cream-dim); white-space: nowrap; }
+/* our reading of a unit, set in our ruled style */
+.h-ours { border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
+.tw { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; }
+.tw > span { display: inline-block; }

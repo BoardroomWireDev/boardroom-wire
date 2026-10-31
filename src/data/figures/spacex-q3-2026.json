@@ -1,0 +1,3713 @@
+{
+ "source": "videos/spacex-q3-2026/dashboards/shared/data.js",
+ "boards": {
+  "ai-overtakes-starlink": {
+   "file": "02-pie.html",
+   "credit": "Source: SpaceX Q3 2026 results release. Boardroom Wire calculation.",
+   "figures": [
+    "c_spacex_q3_2025_space_share_of_revenue",
+    "spacex_q3_2026_space_share_of_revenue",
+    "spacex_q3_2025_revenue_space",
+    "spacex_q3_2026_revenue_space",
+    "c_spacex_q3_2025_connectivity_share_of_revenue",
+    "c_spacex_q3_2026_connectivity_share_of_revenue",
+    "spacex_q3_2025_revenue_connectivity",
+    "spacex_q3_2026_revenue_connectivity",
+    "c_spacex_q3_2025_si_share_of_revenue",
+    "spacex_q3_2026_si_share_of_revenue",
+    "spacex_q3_2025_revenue_si",
+    "spacex_q3_2026_revenue_si",
+    "spacex_q3_2026_revenue_total",
+    "spacex_q3_2025_revenue_total"
+   ],
+   "noslot": ""
+  },
+  "the-quarter": {
+   "file": "69-quarter-dashboard.html",
+   "credit": "Source: SpaceX Q3 2026 results release and SpaceX Q2 2026 results release. Boardroom Wire calculation.",
+   "figures": [
+    "spacex_q3_2025_revenue_space",
+    "spacex_q3_2026_revenue_space",
+    "c_spacex_q3_2026_space_growth_yoy",
+    "spacex_q3_2025_revenue_connectivity",
+    "spacex_q3_2026_revenue_connectivity",
+    "c_spacex_q3_2026_connectivity_growth_yoy",
+    "spacex_q3_2025_revenue_si",
+    "spacex_q3_2026_revenue_si",
+    "c_spacex_q3_2026_si_growth_multiple_yoy",
+    "c_spacex_q3_2026_si_solutions_ex_cursor",
+    "spacex_q2_2026_revenue_si_solutions"
+   ],
+   "noslot": ""
+  },
+  "the-formula": {
+   "file": "72-the-formula.html",
+   "credit": "Source: SpaceX Q3 2026 earnings webcast and SpaceX Q2 2026 earnings webcast. Boardroom Wire calculation.",
+   "figures": [
+    "spacex_q3_2026_musk_compute_targets",
+    "spacex_q2_2026_musk_per_watt_guess",
+    "c_spacex_1gw_at_30_full",
+    "c_spacex_1gw_at_50_full",
+    "c_spacex_13gw_at_50_full",
+    "spacex_q3_2026_musk_arr_forecast_2027"
+   ],
+   "noslot": ""
+  },
+  "the-hotel": {
+   "file": "75-hotel-stay-p2.html",
+   "credit": "Source: Anthropic S-1 (Oct 2026) and SpaceX Q3 2026 earnings webcast. Boardroom Wire calculation.",
+   "figures": [
+    "anthropic_s1_spacexai_commitment",
+    "anthropic_s1_spacexai_monthly_at_full",
+    "anthropic_s1_spacexai_cancel_terms",
+    "spacex_q3_2026_guide_arr_dec_2026",
+    "c_anthropic_s1_full_rate_share_of_spacex_dec_goal"
+   ],
+   "noslot": ""
+  },
+  "run-backwards": {
+   "file": "80-backwards-p2.html",
+   "credit": "Source: SpaceX Q3 2026 results release. SpaceX Q3 2026 earnings webcast.",
+   "figures": [
+    "spacex_q3_2026_musk_arr_forecast_2027_top",
+    "spacex_q2_2026_musk_per_watt_guess",
+    "fwd_spx_q3_compute_gw_2027_bull",
+    "c_spacex_20gw_at_50_full",
+    "spacex_q3_2026_nameplate_compute_gw"
+   ],
+   "noslot": ""
+  },
+  "the-three-cases": {
+   "file": "83-cases-dashboard.html",
+   "credit": "Source: SpaceX Q3 2026 earnings webcast and results release. Boardroom Wire estimate and calculation.",
+   "figures": [
+    "fwd_spx_q3_compute_gw_2027_bear",
+    "fwd_spx_q3_price_per_watt_year_bear",
+    "c_spacex_case_low_6gw_20",
+    "fwd_spx_q3_compute_gw_2027_base",
+    "fwd_spx_q3_price_per_watt_year_base",
+    "c_spacex_case_mid_10gw_30",
+    "fwd_spx_q3_compute_gw_2027_bull",
+    "fwd_spx_q3_price_per_watt_year_bull",
+    "c_spacex_case_high_20gw_50",
+    "spacex_q3_2026_guide_arr_dec_2026",
+    "spacex_q3_2026_musk_arr_forecast_2027_floor",
+    "spacex_q3_2026_musk_arr_forecast_2027_top",
+    "spacex_q3_2026_nameplate_compute_gw",
+    "c_spacex_case_mid_vs_targets",
+    "spacex_q3_2026_musk_compute_targets"
+   ],
+   "noslot": ""
+  },
+  "the-rate-board": {
+   "file": "81-rate-board-p2.html",
+   "credit": "Estimate: Boardroom Wire model.",
+   "figures": [
+    "fwd_spx_q3_price_per_watt_year_base",
+    "fwd_spx_q3_price_per_watt_year_bull"
+   ],
+   "noslot": ""
+  },
+  "coreweave-and-spacex": {
+   "file": "89-coreweave-dashboard.html",
+   "credit": "Source: CoreWeave Q2 2026 results release; SpaceX Q3 2026 results release and earnings webcast. Boardroom Wire calculation.",
+   "figures": [
+    "coreweave_q2_2026_revenue",
+    "c_spacex_q3_2026_si_solutions_ex_cursor",
+    "c_spacex_si_ex_cursor_vs_coreweave_q2",
+    "coreweave_q2_2026_active_power_gw",
+    "coreweave_q2_2026_contracted_power_gw",
+    "spacex_q3_2026_nameplate_compute_gw",
+    "spacex_q3_2026_musk_compute_targets"
+   ],
+   "noslot": ""
+  },
+  "the-cash": {
+   "file": "94-cash-dashboard.html",
+   "credit": "Source: SpaceX Q3 2026 results release and earnings webcast. Boardroom Wire calculation.",
+   "figures": [
+    "spacex_q3_2026_operating_cash_flow",
+    "spacex_q3_2026_capex_total",
+    "spacex_q3_2026_fcf",
+    "spacex_q3_2026_guide_q4_capex",
+    "spacex_q3_2026_cash_and_securities"
+   ],
+   "noslot": ""
+  },
+  "the-lease": {
+   "file": "91-the-crate-p2.html",
+   "credit": "Source: SpaceX 8-K (26 Oct 2026).",
+   "figures": [
+    "spacex_8k_2026_10_26_gpu_finance_lease",
+    "spacex_8k_2026_10_26_gpu_lease_terms"
+   ],
+   "noslot": ""
+  }
+ },
+ "figures": {
+  "spacex_q3_2026_revenue_total": {
+   "display": "$14.6B",
+   "spoken": "$14.6 billion",
+   "label": "revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2025_revenue_total": {
+   "display": "$5.6B",
+   "spoken": "$5.6 billion",
+   "label": "revenue, Q3 2025",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_revenue_growth_yoy": {
+   "display": "+161%",
+   "spoken": "161%",
+   "label": "revenue, year on year",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_revenue_space": {
+   "display": "$1.8B",
+   "spoken": "$1.8 billion",
+   "label": "Space revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2025_revenue_space": {
+   "display": "$1.7B",
+   "spoken": "$1.7 billion",
+   "label": "Space revenue, Q3 2025",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_revenue_connectivity": {
+   "display": "$5.2B",
+   "spoken": "$5.2 billion",
+   "label": "Connectivity revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2025_revenue_connectivity": {
+   "display": "$3.1B",
+   "spoken": "$3.1 billion",
+   "label": "Connectivity revenue, Q3 2025",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_revenue_si": {
+   "display": "$7.6B",
+   "spoken": "$7.6 billion",
+   "label": "Super Intelligence revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2025_revenue_si": {
+   "display": "$813M",
+   "spoken": "$813 million",
+   "label": "Super Intelligence revenue, Q3 2025",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_si_renamed_from_ai": {
+   "display": "Super Intelligence (SI) refers to the operating and reportable segment previously reported as Artificial Intelligence (AI).",
+   "spoken": "Super Intelligence (SI) refers to the operating and reportable segment previously reported as Artificial Intelligence (AI).",
+   "label": "Super Intelligence, the segment formerly called AI",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_revenue_si_advertising": {
+   "display": "$538M",
+   "spoken": "$538 million",
+   "label": "SI advertising revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_revenue_si_solutions": {
+   "display": "$7B",
+   "spoken": "$7 billion",
+   "label": "SI solutions revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_revenue_cursor": {
+   "display": "$608M",
+   "spoken": "$608 million",
+   "label": "Cursor revenue inside SI, 14 Aug to 30 Sep 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_si_ex_cursor_growth_qoq": {
+   "display": "+192%",
+   "spoken": "192%",
+   "label": "SI growth without Cursor, quarter on quarter",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_si_share_of_revenue": {
+   "display": "51.9%",
+   "spoken": "52%",
+   "label": "SI share of revenue, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_si_share_of_revenue_increase": {
+   "display": "75%",
+   "spoken": "about 75%",
+   "label": "SI share of the revenue increase, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_operating_income": {
+   "display": "$2.8B",
+   "spoken": "$2.8 billion",
+   "label": "operating income, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_net_income": {
+   "display": "$4.4B",
+   "spoken": "$4.4 billion",
+   "label": "net income, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2025_net_loss": {
+   "display": "−$1.1B",
+   "spoken": "minus $1.1 billion",
+   "label": "net loss, Q3 2025",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_adjusted_ebitda": {
+   "display": "$8.8B",
+   "spoken": "$8.8 billion",
+   "label": "adjusted EBITDA, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_interest_expense": {
+   "display": "−$675M",
+   "spoken": "minus $675 million",
+   "label": "interest expense, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_interest_income": {
+   "display": "$873M",
+   "spoken": "$873 million",
+   "label": "interest income, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_net_interest": {
+   "display": "$198M",
+   "spoken": "about $198 million",
+   "label": "net interest, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_other_income": {
+   "display": "$1B",
+   "spoken": "$1 billion",
+   "label": "other income, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_other_income_drivers": {
+   "display": "This increase was primarily due to unrealized gain on investments in unconsolidated affiliates and gain on digital assets.",
+   "spoken": "This increase was primarily due to unrealized gain on investments in unconsolidated affiliates and gain on digital assets.",
+   "label": "what drove other income, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_bitcoin_units": {
+   "display": "18,712",
+   "spoken": "18,712",
+   "label": "bitcoin held, 30 Sep 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_tbc_unrealized_gain": {
+   "display": "$561M",
+   "spoken": "$561 million",
+   "label": "unrealized gain on TBC, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_tbc_ceo_control": {
+   "display": "The Company is presumed to have a significant influence, but not control, over TBC given the Company's CEO has a controlling voting interest in TBC.",
+   "spoken": "The Company is presumed to have a significant influence, but not control, over TBC given the Company's CEO has a controlling voting interest in TBC.",
+   "label": "TBC, as the 10-Q describes it",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_tax_benefit": {
+   "display": "$390M",
+   "spoken": "$390 million",
+   "label": "tax benefit, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_valuation_allowance_release": {
+   "display": "$449M",
+   "spoken": "$449 million",
+   "label": "valuation allowance released, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_below_the_line_total": {
+   "display": "$1.6B",
+   "spoken": "about $1.6 billion",
+   "label": "below the operating line, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_acquisition_stock_comp": {
+   "display": "$1.2B",
+   "spoken": "$1.2 billion",
+   "label": "acquisition stock pay, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_operating_income_ex_acq_sbc": {
+   "display": "$4B",
+   "spoken": "about $4 billion",
+   "label": "operating income before acquisition stock pay, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_operating_income_si": {
+   "display": "$431M",
+   "spoken": "$431 million",
+   "label": "SI operating income, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_da_si": {
+   "display": "$2.5B",
+   "spoken": "$2.5 billion",
+   "label": "SI depreciation and amortization, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_cursor_post_service_awards": {
+   "display": "$23.4B",
+   "spoken": "$23.4 billion",
+   "label": "Cursor stock awards, expensed over about three years",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-08-14",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_capex_total": {
+   "display": "$19.6B",
+   "spoken": "$19.6 billion",
+   "label": "capex, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_capex_si": {
+   "display": "$16.4B",
+   "spoken": "$16.4 billion",
+   "label": "SI capex, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_si_share_of_capex": {
+   "display": "83.9%",
+   "spoken": "about 83.9%",
+   "label": "SI share of capex, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_9m_2026_operating_cash_flow": {
+   "display": "$13.1B",
+   "spoken": "$13.1 billion",
+   "label": "cash from operations, first nine months 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_operating_cash_flow": {
+   "display": "$9.6B",
+   "spoken": "about $9.6 billion",
+   "label": "cash from operations, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_fcf": {
+   "display": "−$10.0B",
+   "spoken": "about $10 billion",
+   "label": "free cash flow, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_cash_and_securities": {
+   "display": "$89.9B",
+   "spoken": "nearly $90 billion",
+   "label": "cash and short-term investments, 30 Sep 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_debt_and_leases": {
+   "display": "$38.8B",
+   "spoken": "$38.8 billion",
+   "label": "debt and finance leases, 30 Sep 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_valor_leases": {
+   "display": "$12.9B",
+   "spoken": "about $12.9 billion",
+   "label": "Valor leases booked as debt, 30 Sep 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_valor_gracias_director": {
+   "display": "The founder, CEO and Chief Investment Officer of Valor, Antonio Gracias, serves as one of the directors of the Company.",
+   "spoken": "The founder, CEO and Chief Investment Officer of Valor, Antonio Gracias, serves as one of the directors of the Company.",
+   "label": "Valor, as the 10-Q describes it",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_valor_interest": {
+   "display": "$351M",
+   "spoken": "$351 million",
+   "label": "interest to Valor, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_customer_b_share": {
+   "display": "34.5%",
+   "spoken": "34.5%",
+   "label": "Customer B, share of revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2025_customer_b_share_below_10": {
+   "display": "under 10%",
+   "spoken": "under 10%",
+   "label": "Customer B, share of revenue, Q3 2025",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_9m_2026_customer_b_share": {
+   "display": "24.2%",
+   "spoken": "24.2%",
+   "label": "Customer B, share of revenue, first nine months 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_customer_a_share": {
+   "display": "16.6%",
+   "spoken": "16.6%",
+   "label": "Customer A, share of revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_customer_b_relates_to_si": {
+   "display": "revenue from Customer B relates to the SI segment",
+   "spoken": "revenue from Customer B relates to the SI segment",
+   "label": "Customer B, as the 10-Q describes it",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_customer_b_revenue": {
+   "display": "about $5.0B",
+   "spoken": "about $5 billion",
+   "label": "Customer B revenue, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_customer_b_share_of_si": {
+   "display": "66.5%",
+   "spoken": "about 66.5%",
+   "label": "Customer B, share of SI revenue, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_top_two_customer_share": {
+   "display": "51.1%",
+   "spoken": "about 51.1%",
+   "label": "two largest customers, share of revenue, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_ar_top_customer_share": {
+   "display": "27.7%",
+   "spoken": "27.7%",
+   "label": "largest customer, share of receivables, 30 Sep 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_nameplate_compute_gw": {
+   "display": "1.7 GW",
+   "spoken": "1.7 gigawatts",
+   "label": "nameplate compute, 30 Sep 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_starlink_consumer_subs": {
+   "display": "13.6 million",
+   "spoken": "13.6 million",
+   "label": "Starlink consumer subscribers, 30 Sep 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_guide_arr_dec_2026": {
+   "display": "$100B",
+   "spoken": "$100 billion",
+   "label": "annual recurring revenue goal, December 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-12-31",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_guide_q4_capex": {
+   "display": "$35B to $40B",
+   "spoken": "$35 billion to $40 billion",
+   "label": "capex guidance, Q4 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-12-31",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_guide_q1_2027_revenue": {
+   "display": "$33B to $37B",
+   "spoken": "$33 billion to $37 billion",
+   "label": "revenue guidance, Q1 2027",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2027-03-31",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_guide_q4_capex_vs_q3": {
+   "display": "1.8× to 2.0×",
+   "spoken": "about 1.8× to 2.0×",
+   "label": "Q4 capex guidance against Q3 capex",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_guide_q1_2027_revenue_vs_q3": {
+   "display": "2.3× to 2.5×",
+   "spoken": "about 2.3× to 2.5×",
+   "label": "Q1 2027 revenue guidance against Q3 revenue",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2027-03-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_cfo_payback_and_pricing": {
+   "display": "At current pricing, new compute deployments are generating a payback of less than a year. Pricing is currently tracking slightly above the high end of the $30 to $50 per watt range we were discussing just last quarter",
+   "spoken": "At current pricing, new compute deployments are generating a payback of less than a year. Pricing is currently tracking slightly above the high end of the $30 to $50 per watt range we were discussing just last quarter",
+   "label": "the CFO on payback and pricing",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_yankees": {
+   "display": "This is a bit like the New York Yankees playing in Little League. It's not fair.",
+   "spoken": "This is a bit like the New York Yankees playing in Little League. It's not fair.",
+   "label": "Musk on the competition",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_arr_forecast_2027": {
+   "display": "$500B to $1T",
+   "spoken": "$500 billion to $1 trillion",
+   "label": "Musk's forecast: annual recurring revenue, end 2027",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2027-12-31",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_compute_targets": {
+   "display": "13 GW+",
+   "spoken": "more than 13 GW",
+   "label": "Musk's forecast: compute online, end 2027",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2027-12-31",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_spot_market_rent": {
+   "display": "as a rough approximation, our goal is to kind of split it 50-50, more or less, where half of the compute is used internally and half of it is rented to others. ... rent at effectively the spot-market rate, as opposed to signing these long-term deals.",
+   "spoken": "as a rough approximation, our goal is to kind of split it 50-50, more or less, where half of the compute is used internally and half of it is rented to others. ... rent at effectively the spot-market rate, as opposed to signing these long-term deals.",
+   "label": "Musk on what SpaceX rents out",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_renewals_higher": {
+   "display": "And we see them renewing at higher dollars per watt, not lower dollars per watt.",
+   "spoken": "And we see them renewing at higher dollars per watt, not lower dollars per watt.",
+   "label": "Musk on renewals",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_demand_claims": {
+   "display": "We are also, frankly, hounded relentlessly by every hyperscaler and by dozens of smaller companies to rent more of our compute. We could rent out our compute several times over if we said yes to everyone.",
+   "spoken": "We are also, frankly, hounded relentlessly by every hyperscaler and by dozens of smaller companies to rent more of our compute. We could rent out our compute several times over if we said yes to everyone.",
+   "label": "Musk on demand",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_merger_remark": {
+   "display": "I think some people out there assume that a SpaceX and Tesla merger is a certainty, and I think that would be overstating it.",
+   "spoken": "I think some people out there assume that a SpaceX and Tesla merger is a certainty, and I think that would be overstating it.",
+   "label": "Musk on a Tesla merger",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_name_gwynne_shotwell_title": {
+   "display": "Gwynne Shotwell, President, Chief Operating Officer and Director",
+   "spoken": "Gwynne Shotwell, President, Chief Operating Officer and Director",
+   "label": "Gwynne Shotwell",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-05-20",
+   "sources": [
+    "SpaceX S-1 (May 2026)"
+   ]
+  },
+  "spacex_name_elon_musk_title": {
+   "display": "Elon Musk, Chief Executive Officer",
+   "spoken": "Elon Musk, Chief Executive Officer",
+   "label": "Elon Musk",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-22",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_name_bret_johnsen_title": {
+   "display": "Bret Johnsen, Chief Financial Officer",
+   "spoken": "Bret Johnsen, Chief Financial Officer",
+   "label": "Bret Johnsen",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-22",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_shares_outstanding_2026_10_15": {
+   "display": "13.58 billion",
+   "spoken": "13.58 billion",
+   "label": "shares outstanding, 15 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-15",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_close_2026_10_23": {
+   "display": "$147.49",
+   "spoken": "$147.49",
+   "label": "share price, 23 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-23",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "spacex_market_value_2026_10_23": {
+   "display": "about $2.0T",
+   "spoken": "about $2 trillion",
+   "label": "market value, 23 Oct 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-23",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "fwd_spx_q3_compute_gw_2027_bear": {
+   "display": "6 GW",
+   "spoken": "about 6 GW",
+   "label": "compute 2027, bear",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_price_per_watt_year_bear": {
+   "display": "$20",
+   "spoken": "about $20",
+   "label": "price per rented watt a year 2027, bear",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_arr_2027_bear": {
+   "display": "$110B",
+   "spoken": "about $110 billion",
+   "label": "annual recurring revenue end 2027, bear",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_revenue_2027_bear": {
+   "display": "$130B",
+   "spoken": "about $130 billion",
+   "label": "revenue 2027, bear",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_capex_2027_bear": {
+   "display": "$132B",
+   "spoken": "about $132 billion",
+   "label": "capex 2027, bear",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_fcf_2027_bear": {
+   "display": "−$67B",
+   "spoken": "minus $67 billion",
+   "label": "EBITDA less capex 2027, bear",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_compute_gw_2027_base": {
+   "display": "10 GW",
+   "spoken": "about 10 GW",
+   "label": "compute 2027, base",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_price_per_watt_year_base": {
+   "display": "$30",
+   "spoken": "$30",
+   "label": "price per rented watt a year 2027, base",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_arr_2027_base": {
+   "display": "$229B",
+   "spoken": "about $229 billion",
+   "label": "annual recurring revenue end 2027, base",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_revenue_2027_base": {
+   "display": "$175B",
+   "spoken": "about $175 billion",
+   "label": "revenue 2027, base",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_capex_2027_base": {
+   "display": "$276B",
+   "spoken": "about $276 billion",
+   "label": "capex 2027, base",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_fcf_2027_base": {
+   "display": "−$171B",
+   "spoken": "minus $171 billion",
+   "label": "EBITDA less capex 2027, base",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_compute_gw_2027_bull": {
+   "display": "20 GW",
+   "spoken": "20 gigawatts",
+   "label": "compute 2027, bull",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_price_per_watt_year_bull": {
+   "display": "$50",
+   "spoken": "$50",
+   "label": "price per rented watt a year 2027, bull",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_arr_2027_bull": {
+   "display": "$657B",
+   "spoken": "about $657 billion",
+   "label": "annual recurring revenue end 2027, bull",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_revenue_2027_bull": {
+   "display": "$377B",
+   "spoken": "about $377 billion",
+   "label": "revenue 2027, bull",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_capex_2027_bull": {
+   "display": "$533B",
+   "spoken": "about $533 billion",
+   "label": "capex 2027, bull",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_fcf_2027_bull": {
+   "display": "−$288B",
+   "spoken": "minus $288 billion",
+   "label": "EBITDA less capex 2027, bull",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "fwd_spx_q3_implied_price_per_rented_watt_year": {
+   "display": "$33",
+   "spoken": "about $33",
+   "label": "implied price per rented watt a year, Q3 2026",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire model"
+   ]
+  },
+  "spacex_q2_2026_net_loss": {
+   "display": "−$541M",
+   "spoken": "minus $541 million",
+   "label": "net loss, Q2 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "SpaceX Q2 2026 results release"
+   ]
+  },
+  "spacex_q2_2026_revenue_share_ai": {
+   "display": "32.8%",
+   "spoken": "about 32.8%",
+   "label": "AI share of revenue, Q2 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-06-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q2_2026_revenue_ai": {
+   "display": "$2.6B",
+   "spoken": "$2.6 billion",
+   "label": "AI revenue, Q2 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "SpaceX Q2 2026 results release"
+   ]
+  },
+  "spacex_q2_2026_revenue_connectivity": {
+   "display": "$4.3B",
+   "spoken": "$4.3 billion",
+   "label": "Connectivity revenue, Q2 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "SpaceX Q2 2026 results release"
+   ]
+  },
+  "spacex_cash_and_securities_jun30_2026": {
+   "display": "$100B",
+   "spoken": "$100 billion",
+   "label": "cash and securities, 30 Jun 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "SpaceX Q2 2026 results release"
+   ]
+  },
+  "spacex_h1_2026_operating_cash_flow": {
+   "display": "$3.5B",
+   "spoken": "$3.5 billion",
+   "label": "cash from operations, first half 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "SpaceX Q2 2026 results release"
+   ]
+  },
+  "spacex_anthropic_cloud_deal": {
+   "display": "$1.25B a month",
+   "spoken": "$1.25 billion a month",
+   "label": "Anthropic pays a month, through May 2029",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-05-20",
+   "sources": [
+    "SpaceX S-1 (May 2026)"
+   ]
+  },
+  "spacex_cursor_price": {
+   "display": "$60B",
+   "spoken": "$60 billion",
+   "label": "Cursor price, all stock",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-16",
+   "sources": [
+    "SpaceX S-1 (May 2026)"
+   ]
+  },
+  "spacex_cursor_deal_closed": {
+   "display": "14 Aug 2026",
+   "spoken": "14 Aug 2026",
+   "label": "Cursor deal closed",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-08-14",
+   "sources": [
+    "SpaceX 8-K (14 Aug 2026)"
+   ]
+  },
+  "spacex_market_cap_2026_10_16": {
+   "display": "about $2.0T",
+   "spoken": "about $2 trillion",
+   "label": "market value, 16 Oct 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-16",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "fwd_c_spacex_ai_capex_per_gw_h1_2026": {
+   "display": "$39.25B a GW",
+   "spoken": "about $39.25 billion a GW",
+   "label": "AI capex per GW added, first half 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-06-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "fwd_spx_analyst_ms_funding_gap": {
+   "display": "$84B a year",
+   "spoken": "about $84 billion a year",
+   "label": "outside financing a year, 2027 to 2034",
+   "credit": "",
+   "tier": "E",
+   "asOf": "2026-07-08",
+   "sources": [
+    "Morgan Stanley estimate, via Broadband Breakfast"
+   ]
+  },
+  "spacex_google_cloud_deal": {
+   "display": "$920M a month",
+   "spoken": "$920 million a month",
+   "label": "Google pays a month, Oct 2026 to Jun 2029",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-05",
+   "sources": [
+    "SpaceX free writing prospectus (Google agreement), 5 Jun 2026"
+   ]
+  },
+  "spacex_q3_2026_revenue_si_yoy_multiple": {
+   "display": "9.3×",
+   "spoken": "about 9.3 times",
+   "label": "SI revenue against a year earlier, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_capex_to_revenue": {
+   "display": "1.34×",
+   "spoken": "about 1.34 times",
+   "label": "capex against revenue, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_annualized_q3x4": {
+   "display": "$58.3B",
+   "spoken": "about $58.3 billion",
+   "label": "revenue annualized (Q3 × 4), Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_musk_arr_vs_q3_annualized_multiple": {
+   "display": "17.2×",
+   "spoken": "about 17.2 times",
+   "label": "Musk's $1T against Q3 revenue annualized",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "coreweave_q2_2026_revenue": {
+   "display": "$2.6B",
+   "spoken": "about $2.6 billion",
+   "label": "CoreWeave revenue, Q2 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "CoreWeave Q2 2026 results release"
+   ]
+  },
+  "c_spacex_si_ex_cursor_vs_coreweave_q2": {
+   "display": "2.49×",
+   "spoken": "roughly two and a half times",
+   "label": "SpaceX AI cloud and subscriptions (Q3) against CoreWeave's revenue (Q2)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_si_solutions_ex_cursor": {
+   "display": "$6.4B",
+   "spoken": "about $6.4 billion",
+   "label": "AI cloud and subscriptions, Q3 2026 (SI solutions less Cursor)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "musk_post_2026_10_24_stranded_compute": {
+   "display": "I think we're going to see a lot of stranded compute in partially complete data centers",
+   "spoken": "I think we're going to see a lot of stranded compute in partially complete data centers",
+   "label": "Musk on X, 24 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-24",
+   "sources": [
+    "Elon Musk on X"
+   ]
+  },
+  "musk_post_2026_10_25_neocloud_guppy": {
+   "display": "200+",
+   "spoken": "more than 200",
+   "label": "neoclouds, by Musk's count, 25 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-25",
+   "sources": [
+    "Elon Musk on X"
+   ]
+  },
+  "musk_post_2026_10_25_spacex_40b_gpu_debt": {
+   "display": "$40B",
+   "spoken": "$40 billion",
+   "label": "debt for GPUs Musk says SpaceX closed, 25 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-25",
+   "sources": [
+    "Elon Musk on X"
+   ]
+  },
+  "musk_post_2026_10_25_callable_debt_q1_q2": {
+   "display": "This is primarily callable debt for GPU purchases that will arrive in Q1 and Q2. Not a major factor this quarter.",
+   "spoken": "This is primarily callable debt for GPU purchases that will arrive in Q1 and Q2. Not a major factor this quarter.",
+   "label": "Musk on the $40B, 25 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-25",
+   "sources": [
+    "Elon Musk on X"
+   ]
+  },
+  "musk_post_2026_10_25_not_buying_neoclouds": {
+   "display": "SpaceX is not buying any neoclouds. Pointless.",
+   "spoken": "SpaceX is not buying any neoclouds. Pointless.",
+   "label": "Musk on buying neoclouds, 25 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-25",
+   "sources": [
+    "Elon Musk on X"
+   ]
+  },
+  "bloomberg_spacex_40b_talks_ongoing": {
+   "display": "Musk Claims $40 Billion Chips Debt Closed, Yet Talks Ongoing",
+   "spoken": "Musk Claims $40 Billion Chips Debt Closed, Yet Talks Ongoing",
+   "label": "Bloomberg's headline, 25 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-25",
+   "sources": [
+    "Bloomberg"
+   ]
+  },
+  "spacex_q2_2026_musk_per_watt_guess": {
+   "display": "$30 to $50 a watt",
+   "spoken": "$30 to $50 a watt",
+   "label": "Musk's guess: price per watt (Q2 call)",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-08-04",
+   "sources": [
+    "SpaceX Q2 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_revenue_launch_services": {
+   "display": "$1.1B",
+   "spoken": "$1.1 billion",
+   "label": "launch services revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_revenue_launch_development": {
+   "display": "$637M",
+   "spoken": "$637 million",
+   "label": "launch and development revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_revenue_connectivity_consumer": {
+   "display": "$3.1B",
+   "spoken": "$3.1 billion",
+   "label": "Starlink consumer revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_revenue_connectivity_ent_gov": {
+   "display": "$2.1B",
+   "spoken": "$2.1 billion",
+   "label": "Starlink enterprise and government revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "c_spacex_q3_2026_connectivity_growth_yoy": {
+   "display": "+69%",
+   "spoken": "about 69%",
+   "label": "Starlink revenue, year on year",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_revenue_products_hardware": {
+   "display": "$771M",
+   "spoken": "$771 million",
+   "label": "Starlink hardware revenue, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_si_solutions_infra_contents": {
+   "display": "providing SI solutions and infrastructure, which includes subscription-related offerings for Grok, Cursor, and X products, data licensing arrangements, and API access to Grok models, as well as the sale of cloud services.",
+   "spoken": "providing SI solutions and infrastructure, which includes subscription-related offerings for Grok, Cursor, and X products, data licensing arrangements, and API access to Grok models, as well as the sale of cloud services.",
+   "label": "what SI solutions and infrastructure includes",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_eps_basic": {
+   "display": "$0.37",
+   "spoken": "$0.37",
+   "label": "earnings per share (basic), Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_eps_diluted": {
+   "display": "$0.35",
+   "spoken": "$0.35",
+   "label": "earnings per share (diluted), Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_launches": {
+   "display": "35",
+   "spoken": "35",
+   "label": "launches, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_starship_flights_14_15": {
+   "display": "Starting with Starship, Flight 14 was a critical milestone. Starship made it to orbit for the first time and deployed operational Starlink V3 satellites. ... For Flight 15, which we expect to happen next month, we're going to attempt to catch both the booster and the ship.",
+   "spoken": "Starting with Starship, Flight 14 was a critical milestone. Starship made it to orbit for the first time and deployed operational Starlink V3 satellites. ... For Flight 15, which we expect to happen next month, we're going to attempt to catch both the booster and the ship.",
+   "label": "Starship Flights 14 and 15",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_starlink_mobile_users": {
+   "display": "over 22 million",
+   "spoken": "over 22 million",
+   "label": "Starlink Mobile monthly users, 30 Sep 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_grok_bot_paid_weekly_users": {
+   "display": "800,000",
+   "spoken": "800,000",
+   "label": "Grok Bot paid weekly users, early October 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_100x_bandwidth": {
+   "display": "100×",
+   "spoken": "100 times",
+   "label": "Musk's forecast: Starlink bandwidth within about three years",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_1000x_bandwidth_demand": {
+   "display": "1,000×",
+   "spoken": "1,000 times",
+   "label": "Musk's forecast: bandwidth demand in three to five years",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_20gw_power_plan": {
+   "display": "20 GW",
+   "spoken": "20 GW",
+   "label": "Musk's aim: added power and cooling, 2027 (power, not compute)",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_close_2026_10_21": {
+   "display": "$159.31",
+   "spoken": "$159.31",
+   "label": "share price, 21 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-21",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "spacex_close_2026_10_22": {
+   "display": "$144.75",
+   "spoken": "$144.75",
+   "label": "share price, 22 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-22",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "spacex_close_2026_10_20_preprint": {
+   "display": "$147.79",
+   "spoken": "$147.79",
+   "label": "share price, 20 Oct 2026, before the results",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "c_spacex_stock_week_after_print": {
+   "display": "−0.2%",
+   "spoken": "−0.2%",
+   "label": "share price, 20 Oct close to 23 Oct close",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-23",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "ornn_ocpi_b200_2026_10_26": {
+   "display": "$9.76",
+   "spoken": "$9.76",
+   "label": "Nvidia B200 rent an hour, Ornn index, 26 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-26",
+   "sources": [
+    "Ornn Compute Price Index"
+   ]
+  },
+  "coreweave_q2_2026_backlog": {
+   "display": "about $104B",
+   "spoken": "about $104 billion",
+   "label": "CoreWeave revenue backlog, 30 Jun 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "CoreWeave Q2 2026 results release"
+   ]
+  },
+  "coreweave_q2_2026_total_debt": {
+   "display": "$35.1B",
+   "spoken": "about $35.1 billion",
+   "label": "CoreWeave debt, 30 Jun 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-06-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_customer_b_vs_coreweave_q2": {
+   "display": "1.95×",
+   "spoken": "about 1.95 times",
+   "label": "Customer B (Q3) against CoreWeave's revenue (Q2)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "musk_post_2026_10_25_debt_markets_shut": {
+   "display": "As of the past few weeks, debt markets have almost entirely shut off access to money for any company that doesn't have substantial revenue independent of AI data centers.",
+   "spoken": "As of the past few weeks, debt markets have almost entirely shut off access to money for any company that doesn't have substantial revenue independent of AI data centers.",
+   "label": "Musk on debt markets, 25 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-25",
+   "sources": [
+    "Elon Musk on X"
+   ]
+  },
+  "c_spacex_cursor_days_in_q3": {
+   "display": "48 days",
+   "spoken": "about 48 days",
+   "label": "days of Cursor inside Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q2_2026_musk_compute_2027_target": {
+   "display": "So it may, let's say, be closer to 10 gigawatts of compute than five gigawatts of compute.",
+   "spoken": "So it may, let's say, be closer to 10 gigawatts of compute than five gigawatts of compute.",
+   "label": "Musk on compute by end 2027 (Q2 call)",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-08-04",
+   "sources": [
+    "SpaceX Q2 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_gb300_per_month": {
+   "display": "200,000 a month",
+   "spoken": "200,000 a month",
+   "label": "GB300 GPUs Musk says SpaceX brings online a month",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "coreweave_nebius_month_to_2026_10_25": {
+   "display": "CoreWeave's stock has dropped about 37% in the past month, while Nebius' has dropped 30% in the same time.",
+   "spoken": "CoreWeave's stock has dropped about 37% in the past month, while Nebius' has dropped 30% in the same time.",
+   "label": "CoreWeave and Nebius stocks, the month to 23 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-25",
+   "sources": [
+    "Business Insider"
+   ]
+  },
+  "eia_us_home_electricity_kwh_2022": {
+   "display": "10,791 kWh",
+   "spoken": "10,791 kWh",
+   "label": "electricity an average US home uses a year, 2022",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2022-12-31",
+   "sources": [
+    "US Energy Information Administration"
+   ]
+  },
+  "c_gw_us_homes_powered": {
+   "display": "about 800,000",
+   "spoken": "about 800,000",
+   "label": "US homes one gigawatt can power",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2022-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "eia_us_nuclear_reactors_capacity_2026_03": {
+   "display": "98,441 MW",
+   "spoken": "98,441 MW",
+   "label": "US nuclear capacity, 94 reactors, March 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-03-31",
+   "sources": [
+    "US Energy Information Administration"
+   ]
+  },
+  "c_us_avg_reactor_gw": {
+   "display": "1.05 GW",
+   "spoken": "about 1.05 GW",
+   "label": "average US nuclear reactor",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-03-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "usbr_hoover_dam_capacity": {
+   "display": "2,080 MW",
+   "spoken": "2,080 MW",
+   "label": "Hoover Dam capacity",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-26",
+   "sources": [
+    "US Bureau of Reclamation"
+   ]
+  },
+  "c_spacex_13gw_hoover_dams": {
+   "display": "about 6",
+   "spoken": "about 6",
+   "label": "Musk's 13 GW, in Hoover Dams",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "coned_record_peak_2013": {
+   "display": "13,322 MW",
+   "spoken": "13,322 MW",
+   "label": "Con Edison record peak demand, 19 Jul 2013",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2013-07-19",
+   "sources": [
+    "PoliticsNY"
+   ]
+  },
+  "c_spacex_1_7gw_homes": {
+   "display": "about 1.4 million",
+   "spoken": "about 1.4 million",
+   "label": "US homes SpaceX's 1.7 GW could power",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_space_share_of_revenue": {
+   "display": "12.1%",
+   "spoken": "12%",
+   "label": "Space (rockets) share of revenue, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2025_si_share_of_revenue": {
+   "display": "14.6%",
+   "spoken": "about 15%",
+   "label": "SI (then AI) share of revenue, Q3 2025",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2025_space_share_of_revenue": {
+   "display": "29.9%",
+   "spoken": "about 30%",
+   "label": "Space (rockets) share of revenue, Q3 2025",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2025_connectivity_share_of_revenue": {
+   "display": "55.5%",
+   "spoken": "over half",
+   "label": "Connectivity (Starlink) share of revenue, Q3 2025",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2025-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_connectivity_share_of_revenue": {
+   "display": "36.0%",
+   "spoken": "36%",
+   "label": "Connectivity (Starlink) share of revenue, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_si_growth_multiple_yoy": {
+   "display": "9.3×",
+   "spoken": "more than nine times",
+   "label": "SI revenue against a year earlier, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "anthropic_s1_spacexai_commitment": {
+   "display": "up to $120.5B",
+   "spoken": "up to $120.5 billion",
+   "label": "what Anthropic agreed to spend with SpaceX's AI arm, into 2029",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-26",
+   "sources": [
+    "Anthropic S-1 (Oct 2026)"
+   ]
+  },
+  "anthropic_s1_spacexai_monthly_at_full": {
+   "display": "about $3.1B a month",
+   "spoken": "about $3.1 billion a month",
+   "label": "Anthropic's monthly spend with SpaceX once all capacity is delivered (expected Dec 2026)",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Anthropic S-1 (Oct 2026)"
+   ]
+  },
+  "anthropic_s1_spacexai_cancel_terms": {
+   "display": "Following initial non-cancelable periods ending in January 2027 and March 2027 under the respective agreements, each agreement may be cancelled by either party upon 90 days' advance written notice.",
+   "spoken": "Following initial non-cancelable periods ending in January 2027 and March 2027 under the respective agreements, each agreement may be cancelled by either party upon 90 days' advance written notice.",
+   "label": "how Anthropic's SpaceX agreements can end",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-26",
+   "sources": [
+    "Anthropic S-1 (Oct 2026)"
+   ]
+  },
+  "spacex_q3_2026_cloud_contract_terms": {
+   "display": "revenue from cloud services based on a fixed monthly services fee which is recognized ratably over the contract term (typically three years and terminable by either party upon 90 days' notice).",
+   "spoken": "revenue from cloud services based on a fixed monthly services fee which is recognized ratably over the contract term (typically three years and terminable by either party upon 90 days' notice).",
+   "label": "SpaceX's cloud contracts, as the 10-Q describes them",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "spacex_q3_2026_musk_short_term_bet": {
+   "display": "our approach is to rent at effectively the spot-market rate, as opposed to signing these long-term deals ... I think the smart move is to do short-term contracts and essentially to place the bet on useful intelligence per watt increasing rapidly",
+   "spoken": "our approach is to rent at effectively the spot-market rate, as opposed to signing these long-term deals ... I think the smart move is to do short-term contracts and essentially to place the bet on useful intelligence per watt increasing rapidly",
+   "label": "Musk on short-term contracts",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_h100_rent_more": {
+   "display": "even old computers, like H100s, renting for more than they rented when they were new",
+   "spoken": "even old computers, like H100s, renting for more than they rented when they were new",
+   "label": "Musk on old H100s",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_shotwell_crazy_note": {
+   "display": "On that crazy note.",
+   "spoken": "On that crazy note.",
+   "label": "Gwynne Shotwell, after Musk's trillion",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "c_spacex_q3_2026_si_revenue_per_month_avg": {
+   "display": "$2.5B a month",
+   "spoken": "about $2.5 billion a month",
+   "label": "SI revenue a month, Q3 2026 average",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_anthropic_s1_full_rate_share_of_spacex_dec_goal": {
+   "display": "37.2%",
+   "spoken": "about 37.2%",
+   "label": "Anthropic at full rate, share of SpaceX's $100B December goal",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_1gw_at_30_full": {
+   "display": "$30B",
+   "spoken": "about $30 billion",
+   "label": "1 GW at $30 a watt, a year",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-27",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_1gw_at_50_full": {
+   "display": "$50B",
+   "spoken": "about $50 billion",
+   "label": "1 GW at $50 a watt, a year",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-27",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_13gw_at_50_full": {
+   "display": "$650B",
+   "spoken": "about $650 billion",
+   "label": "13 GW at $50 a watt, run rate, end of 2027",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_20gw_at_50_full": {
+   "display": "$1T",
+   "spoken": "about $1 trillion",
+   "label": "20 GW at $50 a watt, run rate, end of 2027",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_case_low_6gw_20": {
+   "display": "$120B",
+   "spoken": "about $120 billion",
+   "label": "low case: 6 GW at $20 a watt, run rate, end of 2027",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_case_mid_10gw_30": {
+   "display": "$300B",
+   "spoken": "about $300 billion",
+   "label": "middle case: 10 GW at $30 a watt, run rate, end of 2027",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_case_high_20gw_50": {
+   "display": "$1T",
+   "spoken": "$1 trillion",
+   "label": "high case: 20 GW at $50 a watt, run rate, end of 2027",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_musk_range_implied_per_gw": {
+   "display": "$38.5B to $50B a GW",
+   "spoken": "about $38.5 billion to $50 billion a GW",
+   "label": "what Musk's range implies a gigawatt earns, run rate, end of 2027",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_case_mid_vs_targets": {
+   "display": "3×",
+   "spoken": "triple",
+   "label": "middle case against the CFO's $100B goal",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "coreweave_q2_2026_active_power_gw": {
+   "display": "1.5 GW",
+   "spoken": "1.5 GW",
+   "label": "CoreWeave power running, 30 Jun 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "CoreWeave Q2 2026 results release"
+   ]
+  },
+  "coreweave_q2_2026_contracted_power_gw": {
+   "display": "3.7 GW",
+   "spoken": "3.7 GW",
+   "label": "CoreWeave power contracted, 30 Jun 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "CoreWeave Q2 2026 results release"
+   ]
+  },
+  "spacex_ipo_trading_began": {
+   "display": "12 Jun 2026",
+   "spoken": "12 Jun 2026",
+   "label": "SpaceX began trading on Nasdaq",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-12",
+   "sources": [
+    "SpaceX Q2 2026 results release"
+   ]
+  },
+  "spacex_40b_apollo_expected_lead": {
+   "display": "Apollo is expected to lead the deal and help place the debt with a broad range of investors. ... The Elon Musk-led company plans to raise about $10 billion through bank loans and $30 billion in investment-grade debt.",
+   "spoken": "Apollo is expected to lead the deal and help place the debt with a broad range of investors. ... The Elon Musk-led company plans to raise about $10 billion through bank loans and $30 billion in investment-grade debt.",
+   "label": "the $40B, as the FT reported it, 6 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-06",
+   "sources": [
+    "the Financial Times, via investingLive"
+   ]
+  },
+  "spacex_q3_2026_mobile_carrier_plan": {
+   "display": "leverage our newly enhanced wireless spectrum portfolio to expand our direct-to-cell service and become a major mobile carrier, as Gwynne mentioned, in the United States. / Our near-term priority remains flying the Mobile V2 constellation through next year and integrating our spectrum purchases to turn on service in early 2028.",
+   "spoken": "leverage our newly enhanced wireless spectrum portfolio to expand our direct-to-cell service and become a major mobile carrier, as Gwynne mentioned, in the United States. / Our near-term priority remains flying the Mobile V2 constellation through next year and integrating our spectrum purchases to turn on service in early 2028.",
+   "label": "SpaceX's plan to become a US mobile carrier",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_arr_forecast_2027_top": {
+   "display": "$1T",
+   "spoken": "$1 trillion",
+   "label": "Musk's forecast: annual recurring revenue, end 2027, top of his range",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2027-12-31",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_q3_2026_musk_arr_forecast_2027_floor": {
+   "display": "$500B",
+   "spoken": "$500 billion",
+   "label": "Musk's forecast: annual recurring revenue, end 2027, low end of his range",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2027-12-31",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "c_spacex_q3_2026_space_growth_yoy": {
+   "display": "+6%",
+   "spoken": "about 6%",
+   "label": "Rockets revenue, year on year",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q2_2026_revenue_si_solutions": {
+   "display": "$2.2B",
+   "spoken": "$2.2 billion",
+   "label": "AI solutions revenue, Q2 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "SpaceX Q2 2026 results release"
+   ]
+  },
+  "spacex_q4_2026_cfo_nameplate_compute_target": {
+   "display": "2.5 to 3 GW",
+   "spoken": "2.5 to 3 GW",
+   "label": "the CFO's target: nameplate compute, end 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-12-31",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "ornn_ocpi_b200_1m_change_2026_10_26": {
+   "display": "+21.4%",
+   "spoken": "21.4%",
+   "label": "Nvidia B200 rent, one-month change, Ornn index, 26 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-26",
+   "sources": [
+    "Ornn Compute Price Index"
+   ]
+  },
+  "ornn_ocpi_b200_2026_10_27": {
+   "display": "$9.66",
+   "spoken": "$9.66",
+   "label": "Nvidia B200 rent an hour, Ornn index, 27 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-27",
+   "sources": [
+    "Ornn Compute Price Index"
+   ]
+  },
+  "ornn_ocpi_b200_2026_09_27": {
+   "display": "$8.08",
+   "spoken": "$8.08",
+   "label": "Nvidia B200 rent an hour, Ornn index, 27 Sep 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-27",
+   "sources": [
+    "Ornn Compute Price Index"
+   ]
+  },
+  "ornn_ocpi_b200_1m_change_2026_10_27": {
+   "display": "+19.6%",
+   "spoken": "about 19.6%",
+   "label": "Nvidia B200 rent, one-month change, Ornn index, 27 Oct 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-27",
+   "sources": [
+    "Ornn Compute Price Index"
+   ]
+  },
+  "spacex_q3_2025_nameplate_compute_gw": {
+   "display": "0.6 GW",
+   "spoken": "0.6 GW",
+   "label": "nameplate compute, 30 Sep 2025",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2025-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q2_2026_nameplate_compute_gw": {
+   "display": "1.4 GW",
+   "spoken": "1.4 GW",
+   "label": "nameplate compute, 30 Jun 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-06-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "chamath_post_2026_10_25_poorly_capitalized": {
+   "display": "Neoclouds are disorganized and poorly capitalized.",
+   "spoken": "Neoclouds are disorganized and poorly capitalized.",
+   "label": "Chamath Palihapitiya on neoclouds, 25 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-25",
+   "sources": [
+    "Chamath Palihapitiya on X"
+   ]
+  },
+  "musk_post_2026_10_25_pretty_much": {
+   "display": "Pretty much.",
+   "spoken": "Pretty much.",
+   "label": "Musk's reply to Chamath, 25 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-25",
+   "sources": [
+    "Elon Musk on X"
+   ]
+  },
+  "spacex_8k_2026_10_26_gpu_finance_lease": {
+   "display": "about $40B",
+   "spoken": "about $40 billion",
+   "label": "GPU finance lease, binding commitment, 24 Oct 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-24",
+   "sources": [
+    "SpaceX 8-K (26 Oct 2026)"
+   ]
+  },
+  "spacex_8k_2026_10_26_gpu_lease_terms": {
+   "display": "the Lessor will acquire and lease to the Company certain graphics processing unit pods and related equipment ... the fixed rate will be determined at pricing which will occur prior to the Company’s entry ... The Company’s entry into the master finance lease with the Lessor is subject to certain specified closing conditions ... expected to close prior to year end",
+   "spoken": "the Lessor will acquire and lease to the Company certain graphics processing unit pods and related equipment ... the fixed rate will be determined at pricing which will occur prior to the Company’s entry ... The Company’s entry into the master finance lease with the Lessor is subject to certain specified closing conditions ... expected to close prior to year end",
+   "label": "the $40B lease's terms, as SpaceX's 8-K states them",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-24",
+   "sources": [
+    "SpaceX 8-K (26 Oct 2026)"
+   ]
+  },
+  "bloomberg_spacex_40b_pricing_yahoo": {
+   "display": "It wasn't immediately clear from Musk's post on Sunday what he meant by the deal being \"closed\" or whether investors had agreed to pricing for the debt.",
+   "spoken": "It wasn't immediately clear from Musk's post on Sunday what he meant by the deal being \"closed\" or whether investors had agreed to pricing for the debt.",
+   "label": "Bloomberg on the $40B pricing, 25 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-25",
+   "sources": [
+    "Bloomberg, via Yahoo Finance"
+   ]
+  },
+  "spacex_q3_2026_cfo_investment_grade": {
+   "display": "I think we certainly have the advantage related to others in that we are investment grade and have a very strong balance sheet.",
+   "spoken": "I think we certainly have the advantage related to others in that we are investment grade and have a very strong balance sheet.",
+   "label": "the CFO on investment grade",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-20",
+   "sources": [
+    "SpaceX Q3 2026 earnings webcast"
+   ]
+  },
+  "spacex_credit_ratings_2026_06": {
+   "display": "Moody's assigned SpaceX a Baa1 long-term issuer rating with a stable outlook. ... Fitch issued a BBB+ long-term issuer default rating, also with a stable outlook, ... S&P Global assigned a BBB rating with a stable outlook,",
+   "spoken": "Moody's assigned SpaceX a Baa1 long-term issuer rating with a stable outlook. ... Fitch issued a BBB+ long-term issuer default rating, also with a stable outlook, ... S&P Global assigned a BBB rating with a stable outlook,",
+   "label": "SpaceX's credit ratings, June 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-06-19",
+   "sources": [
+    "Euronews"
+   ]
+  },
+  "gpu_backed_debt_coreweave_2023_wing": {
+   "display": "the collateral pool was $3B+ of H100 servers",
+   "spoken": "the collateral pool was $3 billion+ of H100 servers",
+   "label": "GPU-backed lending: CoreWeave, 2023",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Wing Venture Capital"
+   ]
+  },
+  "c_crwv_change_2026_09_30_to_10_23": {
+   "display": "−37.7%",
+   "spoken": "−37.7%",
+   "label": "CoreWeave share price, 30 Sep close to 23 Oct close",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-23",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_nbis_change_2026_09_30_to_10_23": {
+   "display": "−32.7%",
+   "spoken": "−32.7%",
+   "label": "Nebius share price, 30 Sep close to 23 Oct close",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-23",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "crwv_close_2026_09_30": {
+   "display": "$87.12",
+   "spoken": "$87.12",
+   "label": "CoreWeave share price, 30 Sep 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-09-30",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_01": {
+   "display": "$88.57",
+   "spoken": "$88.57",
+   "label": "CoreWeave share price, 1 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-01",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_02": {
+   "display": "$89.62",
+   "spoken": "$89.62",
+   "label": "CoreWeave share price, 2 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-02",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_05": {
+   "display": "$87.39",
+   "spoken": "$87.39",
+   "label": "CoreWeave share price, 5 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-05",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_06": {
+   "display": "$91.72",
+   "spoken": "$91.72",
+   "label": "CoreWeave share price, 6 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-06",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_07": {
+   "display": "$88.45",
+   "spoken": "$88.45",
+   "label": "CoreWeave share price, 7 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-07",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_08": {
+   "display": "$81.58",
+   "spoken": "$81.58",
+   "label": "CoreWeave share price, 8 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-08",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_09": {
+   "display": "$82.08",
+   "spoken": "$82.08",
+   "label": "CoreWeave share price, 9 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-09",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_12": {
+   "display": "$80.26",
+   "spoken": "$80.26",
+   "label": "CoreWeave share price, 12 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-12",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_13": {
+   "display": "$77.81",
+   "spoken": "$77.81",
+   "label": "CoreWeave share price, 13 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-13",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_14": {
+   "display": "$65.78",
+   "spoken": "$65.78",
+   "label": "CoreWeave share price, 14 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-14",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_15": {
+   "display": "$69.69",
+   "spoken": "$69.69",
+   "label": "CoreWeave share price, 15 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-15",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_16": {
+   "display": "$61.39",
+   "spoken": "$61.39",
+   "label": "CoreWeave share price, 16 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-16",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_19": {
+   "display": "$61.12",
+   "spoken": "$61.12",
+   "label": "CoreWeave share price, 19 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-19",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_20": {
+   "display": "$62.13",
+   "spoken": "$62.13",
+   "label": "CoreWeave share price, 20 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_21": {
+   "display": "$61.82",
+   "spoken": "$61.82",
+   "label": "CoreWeave share price, 21 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-21",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_22": {
+   "display": "$55.60",
+   "spoken": "$55.60",
+   "label": "CoreWeave share price, 22 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-22",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "crwv_close_2026_10_23": {
+   "display": "$54.24",
+   "spoken": "$54.24",
+   "label": "CoreWeave share price, 23 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-23",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_09_30": {
+   "display": "$235.88",
+   "spoken": "$235.88",
+   "label": "Nebius share price, 30 Sep 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-09-30",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_01": {
+   "display": "$232.28",
+   "spoken": "$232.28",
+   "label": "Nebius share price, 1 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-01",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_02": {
+   "display": "$242.81",
+   "spoken": "$242.81",
+   "label": "Nebius share price, 2 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-02",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_05": {
+   "display": "$232.57",
+   "spoken": "$232.57",
+   "label": "Nebius share price, 5 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-05",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_06": {
+   "display": "$249.87",
+   "spoken": "$249.87",
+   "label": "Nebius share price, 6 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-06",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_07": {
+   "display": "$237.15",
+   "spoken": "$237.15",
+   "label": "Nebius share price, 7 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-07",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_08": {
+   "display": "$219.71",
+   "spoken": "$219.71",
+   "label": "Nebius share price, 8 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-08",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_09": {
+   "display": "$221.07",
+   "spoken": "$221.07",
+   "label": "Nebius share price, 9 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-09",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_12": {
+   "display": "$210.06",
+   "spoken": "$210.06",
+   "label": "Nebius share price, 12 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-12",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_13": {
+   "display": "$206.86",
+   "spoken": "$206.86",
+   "label": "Nebius share price, 13 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-13",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_14": {
+   "display": "$186.01",
+   "spoken": "$186.01",
+   "label": "Nebius share price, 14 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-14",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_15": {
+   "display": "$188.41",
+   "spoken": "$188.41",
+   "label": "Nebius share price, 15 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-15",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_16": {
+   "display": "$165.47",
+   "spoken": "$165.47",
+   "label": "Nebius share price, 16 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-16",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_19": {
+   "display": "$170.24",
+   "spoken": "$170.24",
+   "label": "Nebius share price, 19 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-19",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_20": {
+   "display": "$171.45",
+   "spoken": "$171.45",
+   "label": "Nebius share price, 20 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_21": {
+   "display": "$171.57",
+   "spoken": "$171.57",
+   "label": "Nebius share price, 21 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-21",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_22": {
+   "display": "$159.17",
+   "spoken": "$159.17",
+   "label": "Nebius share price, 22 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-22",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "nbis_close_2026_10_23": {
+   "display": "$158.74",
+   "spoken": "$158.74",
+   "label": "Nebius share price, 23 Oct 2026",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-23",
+   "sources": [
+    "StockAnalysis"
+   ]
+  },
+  "spacex_q3_2026_adjusted_ebitda_si": {
+   "display": "$5.0B",
+   "spoken": "$5 billion",
+   "label": "SI adjusted EBITDA, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_total_costs": {
+   "display": "$11.8B",
+   "spoken": "$11.8 billion",
+   "label": "total costs and expenses, Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_diluted_shares": {
+   "display": "12.48 billion",
+   "spoken": "12.48 billion",
+   "label": "diluted shares (weighted average), Q3 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX Q3 2026 results release"
+   ]
+  },
+  "spacex_q3_2026_cons_revenue_lseg": {
+   "display": "$12.7B",
+   "spoken": "$12.7 billion",
+   "label": "revenue, Q3 2026, LSEG consensus",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "LSEG, via CNBC"
+   ]
+  },
+  "spacex_q3_2026_cons_eps_lseg": {
+   "display": "$0.13",
+   "spoken": "$0.13",
+   "label": "earnings per share (adjusted, LSEG basis), Q3 2026, LSEG consensus",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "LSEG, via CNBC"
+   ]
+  },
+  "spacex_q3_2026_eps_adjusted_lseg": {
+   "display": "$0.45",
+   "spoken": "$0.45",
+   "label": "earnings per share (adjusted, LSEG basis), Q3 2026: LSEG's figure, not SpaceX's",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "LSEG, via CNBC"
+   ]
+  },
+  "spacex_q3_2026_cons_revenue_factset": {
+   "display": "$12.9B",
+   "spoken": "$12.9 billion",
+   "label": "revenue, Q3 2026, FactSet consensus",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "FactSet, via Dow Jones"
+   ]
+  },
+  "spacex_q3_2026_cons_net_income_factset": {
+   "display": "$1.9B",
+   "spoken": "$1.9 billion",
+   "label": "net income, Q3 2026, FactSet consensus",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "FactSet, via Dow Jones"
+   ]
+  },
+  "spacex_q3_2026_cons_eps_factset": {
+   "display": "$0.12",
+   "spoken": "$0.12",
+   "label": "earnings per share (adjusted), Q3 2026, FactSet consensus",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "FactSet, via Dow Jones"
+   ]
+  },
+  "spacex_q3_2026_cons_net_income_reuters": {
+   "display": "$1.6B",
+   "spoken": "$1.6 billion",
+   "label": "net income, Q3 2026, consensus (compiler not named), per Reuters",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "Reuters"
+   ]
+  },
+  "spacex_q3_2026_cons_revenue_zacks": {
+   "display": "$12.5B",
+   "spoken": "$12.5 billion",
+   "label": "revenue, Q3 2026, Zacks consensus",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "Zacks, via FXStreet"
+   ]
+  },
+  "spacex_q3_2026_cons_eps_zacks": {
+   "display": "$0.10",
+   "spoken": "$0.10",
+   "label": "earnings per share, Q3 2026, Zacks consensus",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "Zacks, via FXStreet"
+   ]
+  },
+  "spacex_q3_2026_cons_revenue_space_zacks": {
+   "display": "$1.4B",
+   "spoken": "$1.4 billion",
+   "label": "Space revenue, Q3 2026, Zacks consensus (nine analysts)",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "Zacks, via FXStreet"
+   ]
+  },
+  "spacex_q3_2026_cons_revenue_connectivity_zacks": {
+   "display": "$4.8B",
+   "spoken": "$4.8 billion",
+   "label": "Connectivity revenue, Q3 2026, Zacks consensus (nine analysts)",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "Zacks, via FXStreet"
+   ]
+  },
+  "spacex_q3_2026_cons_revenue_si_zacks": {
+   "display": "$6.0B",
+   "spoken": "$6 billion",
+   "label": "Super Intelligence revenue, Q3 2026, Zacks consensus (nine analysts)",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "Zacks, via FXStreet"
+   ]
+  },
+  "spacex_q3_2026_cons_revenue_si_mizuho": {
+   "display": "$6.3B",
+   "spoken": "$6.3 billion",
+   "label": "Super Intelligence revenue, Q3 2026, consensus quoted by Mizuho",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "Mizuho, via CNBC"
+   ]
+  },
+  "spacex_q3_2026_cons_adj_ebitda_si_mizuho": {
+   "display": "$3.3B",
+   "spoken": "$3.3 billion",
+   "label": "SI adjusted EBITDA, Q3 2026, consensus quoted by Mizuho",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "Mizuho, via CNBC"
+   ]
+  },
+  "spacex_q3_2026_cons_q1_2027_revenue_lseg": {
+   "display": "$22.2B",
+   "spoken": "$22.2 billion",
+   "label": "revenue, Q1 2027, LSEG consensus",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "LSEG, via CNBC"
+   ]
+  },
+  "spacex_q3_2026_cons_revenue_bloomberg": {
+   "display": "$12.7B",
+   "spoken": "$12.7 billion",
+   "label": "revenue, Q3 2026, Bloomberg consensus (second-hand)",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "Bloomberg, via TradeZero"
+   ]
+  },
+  "spacex_q3_2026_cons_adj_ebitda": {
+   "display": "$6.6B",
+   "spoken": "$6.6 billion",
+   "label": "adjusted EBITDA, Q3 2026, consensus (compiler not named)",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "TradeZero"
+   ]
+  },
+  "spacex_q3_2026_cons_operating_income": {
+   "display": "about $2.2B",
+   "spoken": "about $2.2 billion",
+   "label": "operating income, Q3 2026, consensus (compiler not named)",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "investingLive"
+   ]
+  },
+  "spacex_q3_2026_cons_capex": {
+   "display": "$19.6B",
+   "spoken": "$19.6 billion",
+   "label": "capex, Q3 2026, consensus (compiler not named)",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "TradeZero"
+   ]
+  },
+  "spacex_q3_2026_cons_capex_si": {
+   "display": "$16.9B",
+   "spoken": "$16.9 billion",
+   "label": "SI capex, Q3 2026, consensus (compiler not named)",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "TradeZero"
+   ]
+  },
+  "spacex_q3_2026_cons_total_costs": {
+   "display": "about $11.2B",
+   "spoken": "about $11.2 billion",
+   "label": "total costs and expenses, Q3 2026, consensus (compiler not named)",
+   "credit": "",
+   "tier": "R",
+   "asOf": "2026-10-20",
+   "sources": [
+    "investingLive"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_lseg_vs_cons": {
+   "display": "+$1.9B",
+   "spoken": "+$1.9 billion",
+   "label": "revenue against LSEG consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_lseg_vs_cons_pct": {
+   "display": "+14.6%",
+   "spoken": "about 14.6%",
+   "label": "revenue against LSEG consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_factset_vs_cons": {
+   "display": "+$1.7B",
+   "spoken": "+$1.7 billion",
+   "label": "revenue against FactSet consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_factset_vs_cons_pct": {
+   "display": "+13.2%",
+   "spoken": "about 13.2%",
+   "label": "revenue against FactSet consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_eps_lseg_basis_vs_cons": {
+   "display": "+$0.32",
+   "spoken": "+$0.32",
+   "label": "EPS (adjusted, LSEG basis) against LSEG consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_eps_lseg_basis_vs_cons_pct": {
+   "display": "+246.2%",
+   "spoken": "about 246.2%",
+   "label": "EPS (adjusted, LSEG basis) against LSEG consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_net_income_factset_vs_cons": {
+   "display": "+$2.5B",
+   "spoken": "+$2.5 billion",
+   "label": "net income against FactSet consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_net_income_factset_vs_cons_pct": {
+   "display": "+135.5%",
+   "spoken": "about 135.5%",
+   "label": "net income against FactSet consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_operating_income_vs_cons": {
+   "display": "+$591M",
+   "spoken": "+$591 million",
+   "label": "operating income against consensus (compiler not named), Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_operating_income_vs_cons_pct": {
+   "display": "+26.9%",
+   "spoken": "about 26.9%",
+   "label": "operating income against consensus (compiler not named), Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_adj_ebitda_vs_cons": {
+   "display": "+$2.2B",
+   "spoken": "+$2.2 billion",
+   "label": "adjusted EBITDA against consensus (compiler not named), Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_adj_ebitda_vs_cons_pct": {
+   "display": "+33.7%",
+   "spoken": "about 33.7%",
+   "label": "adjusted EBITDA against consensus (compiler not named), Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_si_vs_cons": {
+   "display": "+$1.3B",
+   "spoken": "+$1.3 billion",
+   "label": "Super Intelligence revenue against consensus quoted by Mizuho, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_si_vs_cons_pct": {
+   "display": "+20.0%",
+   "spoken": "about 20.0%",
+   "label": "Super Intelligence revenue against consensus quoted by Mizuho, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_si_zacks_vs_cons": {
+   "display": "+$1.5B",
+   "spoken": "+$1.5 billion",
+   "label": "Super Intelligence revenue against Zacks consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_si_zacks_vs_cons_pct": {
+   "display": "+25.4%",
+   "spoken": "about 25.4%",
+   "label": "Super Intelligence revenue against Zacks consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_adj_ebitda_si_vs_cons": {
+   "display": "+$1.6B",
+   "spoken": "+$1.6 billion",
+   "label": "SI adjusted EBITDA against consensus quoted by Mizuho, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_adj_ebitda_si_vs_cons_pct": {
+   "display": "+49.2%",
+   "spoken": "about 49.2%",
+   "label": "SI adjusted EBITDA against consensus quoted by Mizuho, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_connectivity_vs_cons": {
+   "display": "+$468M",
+   "spoken": "+$468 million",
+   "label": "Connectivity revenue against Zacks consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_connectivity_vs_cons_pct": {
+   "display": "+9.8%",
+   "spoken": "about 9.8%",
+   "label": "Connectivity revenue against Zacks consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_space_vs_cons": {
+   "display": "+$337M",
+   "spoken": "+$337 million",
+   "label": "Space revenue against Zacks consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_revenue_space_vs_cons_pct": {
+   "display": "+23.6%",
+   "spoken": "about 23.6%",
+   "label": "Space revenue against Zacks consensus, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_capex_vs_cons": {
+   "display": "−$7M",
+   "spoken": "minus $7 million",
+   "label": "capex against consensus (compiler not named), Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_capex_vs_cons_pct": {
+   "display": "0.0%",
+   "spoken": "about 0.0%",
+   "label": "capex against consensus (compiler not named), Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_capex_si_vs_cons": {
+   "display": "−$456M",
+   "spoken": "minus $456 million",
+   "label": "SI capex against consensus (compiler not named), Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_capex_si_vs_cons_pct": {
+   "display": "−2.7%",
+   "spoken": "−2.7%",
+   "label": "SI capex against consensus (compiler not named), Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_total_costs_vs_cons": {
+   "display": "+$584M",
+   "spoken": "+$584 million",
+   "label": "total costs and expenses against consensus (compiler not named), Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_total_costs_vs_cons_pct": {
+   "display": "+5.2%",
+   "spoken": "about 5.2%",
+   "label": "total costs and expenses against consensus (compiler not named), Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_q1_2027_guide_low_vs_cons": {
+   "display": "+$10.8B",
+   "spoken": "+$10.8 billion",
+   "label": "Q1 2027 revenue guidance (low end, $33B) against LSEG consensus",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_q1_2027_guide_low_vs_cons_pct": {
+   "display": "+48.6%",
+   "spoken": "about 48.6%",
+   "label": "Q1 2027 revenue guidance (low end, $33B) against LSEG consensus",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_q1_2027_guide_mid_vs_cons": {
+   "display": "+$12.8B",
+   "spoken": "+$12.8 billion",
+   "label": "Q1 2027 revenue guidance (midpoint, $35B) against LSEG consensus",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_q1_2027_guide_mid_vs_cons_pct": {
+   "display": "+57.7%",
+   "spoken": "about 57.7%",
+   "label": "Q1 2027 revenue guidance (midpoint, $35B) against LSEG consensus",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q3_2026_eps_lseg_basis_check": {
+   "display": "$0.45",
+   "spoken": "about $0.45",
+   "label": "LSEG's adjusted EPS rebuilt from the release, Q3 2026",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "spacex_q3_2026_nameplate_compute_definition": {
+   "display": "We calculate nameplate compute for a period as the number of GPUs installed in our data centers at the end of the period multiplied by their respective all-in power. Nameplate compute reflects installed capacity and does not represent actual power consumption or utilization. It does not include power we install and use for our supporting infrastructure such as cooling systems, power distribution losses, lighting, security systems, or facility-level overhead.",
+   "spoken": "We calculate nameplate compute for a period as the number of GPUs installed in our data centers at the end of the period multiplied by their respective all-in power. Nameplate compute reflects installed capacity and does not represent actual power consumption or utilization. It does not include power we install and use for our supporting infrastructure such as cooling systems, power distribution losses, lighting, security systems, or facility-level overhead.",
+   "label": "nameplate compute, as SpaceX's 10-Q defines it",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-30",
+   "sources": [
+    "SpaceX 10-Q (Q3 2026)"
+   ]
+  },
+  "nvidia_gb300_gpu_max_tgp_w": {
+   "display": "up to 1,400 W",
+   "spoken": "up to 1,400 W",
+   "label": "one Nvidia GB300 GPU (Blackwell Ultra), maximum power",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2025-08-22",
+   "sources": [
+    "Nvidia technical blog"
+   ]
+  },
+  "nvidia_gb300_nvl72_rack_power_kw": {
+   "display": "up to 142 kW",
+   "spoken": "up to 142 kW",
+   "label": "one GB300 NVL72 rack (72 GPUs), maximum power",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-03-31",
+   "sources": [
+    "Nvidia GB300 NVL72 reference architecture"
+   ]
+  },
+  "nvidia_dgx_gb_rack_power_kw_approx": {
+   "display": "about 120 kW",
+   "spoken": "about 120 kW",
+   "label": "one Nvidia DGX GB rack (GB200 or GB300 NVL72), power",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-27",
+   "sources": [
+    "Nvidia DGX rack guide"
+   ]
+  },
+  "nvidia_dgx_gb300_superpod_su_power_mw": {
+   "display": "1.2 MW",
+   "spoken": "1.2 MW",
+   "label": "one Nvidia DGX SuperPOD unit (8 GB300 racks, 576 GPUs, networking included), power",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-27",
+   "sources": [
+    "Nvidia DGX SuperPOD reference architecture"
+   ]
+  },
+  "nvidia_dgx_h100_system_power_kw": {
+   "display": "10.2 kW",
+   "spoken": "10.2 kW",
+   "label": "one Nvidia DGX H100 or H200 system (8 GPUs), maximum power",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-10-27",
+   "sources": [
+    "Nvidia DGX H100 user guide"
+   ]
+  },
+  "musk_post_2026_09_25_colossus2_gb300": {
+   "display": "440,000",
+   "spoken": "440,000",
+   "label": "GB300 GPUs at Colossus 2, by Musk's count, 25 Sep 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-25",
+   "sources": [
+    "Elon Musk on X"
+   ]
+  },
+  "musk_post_2026_09_25_colossus2_gb200": {
+   "display": "110,000",
+   "spoken": "110,000",
+   "label": "GB200 GPUs at Colossus 2, by Musk's count, 25 Sep 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-25",
+   "sources": [
+    "Elon Musk on X"
+   ]
+  },
+  "musk_post_2026_09_25_colossus1_gpus": {
+   "display": "Colossus 1 is 150k H100, 50k H200 and 30k GB200.",
+   "spoken": "Colossus 1 is 150k H100, 50k H200 and 30k GB200.",
+   "label": "GPUs at Colossus 1, by Musk's count, 25 Sep 2026",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-25",
+   "sources": [
+    "Elon Musk on X"
+   ]
+  },
+  "musk_post_2026_09_25_gb300_adds": {
+   "display": "Another 220k GB300 will be fully operational next week and another 220k in November. If we get lucky, yet another 220k GB300 by late December.",
+   "spoken": "Another 220k GB300 will be fully operational next week and another 220k in November. If we get lucky, yet another 220k GB300 by late December.",
+   "label": "GB300 GPUs Musk plans to add at Colossus 2, 25 Sep 2026 (a plan)",
+   "credit": "",
+   "tier": "P",
+   "asOf": "2026-09-25",
+   "sources": [
+    "Elon Musk on X"
+   ]
+  },
+  "c_gb300_all_in_w_per_gpu": {
+   "display": "about 2,000 W",
+   "spoken": "about 2,000 W",
+   "label": "one GB300 GPU, all-in: its share of a full rack, IT load (our math)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-27",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_gb300_gpus_per_gw": {
+   "display": "about half a million",
+   "spoken": "about half a million",
+   "label": "about half a million GB300s per gigawatt, IT load, if all GB300s (our math)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-27",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_gb300_nvl72_racks_per_gw": {
+   "display": "about 7,000",
+   "spoken": "about 7,000",
+   "label": "about 7,000 GB300 NVL72 racks per gigawatt, IT load, if all GB300s (our math)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-27",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_gb300_gpus_in_1_7gw": {
+   "display": "about 860,000",
+   "spoken": "about 860,000",
+   "label": "the equivalent of about 860,000 GB300s in SpaceX's 1.7 GW, IT load, if it were all GB300s (our math)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_gb300_nvl72_racks_in_1_7gw": {
+   "display": "about 12,000",
+   "spoken": "about 12,000",
+   "label": "the equivalent of about 12,000 GB300 NVL72 racks in SpaceX's 1.7 GW, IT load, if it were all GB300s (our math)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-30",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_colossus_fleet_gw_2026_09_25": {
+   "display": "1.36 GW",
+   "spoken": "about 1.36 GW",
+   "label": "Musk's 25 Sep GPU count, rebuilt in gigawatts (our math)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-09-25",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_colossus_fleet_gw_with_next_220k": {
+   "display": "1.79 GW",
+   "spoken": "about 1.79 GW",
+   "label": "Musk's 25 Sep fleet plus the next 220k GB300s, in gigawatts (our math)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-02",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_colossus_fleet_gw_musk_schedule_dec": {
+   "display": "about 2.7 GW",
+   "spoken": "about 2.7 GW",
+   "label": "Musk's GPU schedule in gigawatts, end of December, if it lands in full (our math on his plan)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_gb300_200k_per_month_gw": {
+   "display": "about 0.4 GW a month",
+   "spoken": "about 0.4 GW a month",
+   "label": "what 200,000 GB300s a month adds in gigawatts, IT load (our math on Musk's pace)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-10-20",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_spacex_q4_2026_gw_at_200k_month": {
+   "display": "about 2.9 GW",
+   "spoken": "about 2.9 GW",
+   "label": "nameplate at end-2026 if 200,000 GB300s a month hold through Q4 (our math)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2026-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  },
+  "c_gb300_200k_month_2027_gw": {
+   "display": "about 4.7 GW",
+   "spoken": "about 4.7 GW",
+   "label": "GW added in 2027 at 200,000 GPUs a month and GB300 power (our math)",
+   "credit": "",
+   "tier": "C",
+   "asOf": "2027-12-31",
+   "sources": [
+    "Boardroom Wire"
+   ]
+  }
+ }
+}

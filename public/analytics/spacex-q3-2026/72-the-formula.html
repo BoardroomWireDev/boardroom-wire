@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gigawatts Times Price</title>
+<!-- SPACEX Q3 · 72 · GIGAWATTS × PRICE PER WATT, rows 3.7–3.8 (Ive, 28 Oct 2026). The formula as things, one piece at a time.
+       gws      "how many gigawatts": one hall rises, gold; it is the gigawatt
+       price    "and the price per watt": a tag drops onto its face, blank
+       call     "Elon guessed ... $30 and $50": the tag turns and prints $30–$50; "a watt"; on "a year's rent", "a year"
+       one      "So one gigawatt at $30 a watt": the tag turns to $30; "=" and three bundles land ($10B a bundle): $30B a year
+       at50     "At $50": the tag turns to $50; two more bundles: $50B
+       times    "Now do that thirteen times": the camera pulls back; twelve ghost halls draw (13 GW is his forecast: dashed)
+                and the tower climbs to sixty-five bundles
+       b650     "$650 billion a year": the figure lands in gold, "a year, run rate"
+       spec     "where Elon's revenue speculation came from": his $500B to $1T draws as a dashed column round the tower's top
+     Page time = preview time − 69.76; = placeholder VO − 223.46. ?at= re-times every step in order.
+     Reference: style frame sf2-3 (approved direction), Wang 1:42 (the crate and its stake), Anthropic IPO's bills.
+     Contract: KIT.run → BW.run; R, F, ?final, ?still, ?t=, ?capture, ?beats, ?motion=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/stage/kit.css?v=1">
+</head>
+<body>
+<div class="stage"><div class="chrome"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="shared/data.js?v=9"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/stage/stage3d.js?v=1"></script>
+<script src="assets/stage/stage.js?v=1"></script>
+<script src="assets/stage/hall.js?v=1"></script>
+<script src="assets/stage/tag.js?v=1"></script>
+<script src="assets/stage/cash.js?v=1"></script>
+<script src="assets/stage-ch3a/ch3a.js?v=1"></script>
+<script src="assets/stage-ch3a/formula.js?v=1"></script>
+<script>
+(async () => {
+await KIT.ready();
+const F = BW.fig, Q = new URLSearchParams(location.search);
+const K = { gw: 'spacex_q3_2026_musk_compute_targets', pw: 'spacex_q2_2026_musk_per_watt_guess', b30: 'c_spacex_1gw_at_30_full',
+  b50: 'c_spacex_1gw_at_50_full', b650: 'c_spacex_13gw_at_50_full', arr: 'spacex_q3_2026_musk_arr_forecast_2027' };
+BW.provenance({ uses: Object.values(K) });
+const T = (defs => { const g = (Q.get('at') || '').split(',').filter(x => x.trim() !== '').map(Number), o = {}; defs.forEach(([k, d], i) => { o[k] = i < g.length && !isNaN(g[i]) ? g[i] : d; }); return o; })(
+  [['two', .56], ['gws', 3.66], ['price', 6.34], ['call', 7.34], ['p30', 12.24], ['p50', 13.36], ['year', 15.94], ['one', 17.18], ['at30', 18.74],
+   ['b30', 20.38], ['at50', 22.82], ['b50', 24.14], ['times', 25.5], ['n13', 26.58], ['math', 27.94], ['m13', 29.12], ['b650', 32.08], ['ayear', 33.62],
+   ['spec', 34.86], ['end', 38.94]]);
+
+const w = KIT.stage({ fov: 26, key: [-14, 24, 20], keyTarget: [-6, 0, 0], shadow: 26, pool: [-4, 30, 8], poolI: 120, hemi: .26 });
+const pw = F(K.pw), $ = (n) => '$' + n;
+const faces = [[], [{ text: $(pw.lo) + '–' + $(pw.hi), px: 86, y: .64 }], [{ text: $(pw.lo), px: 210, y: .7 }], [{ text: $(pw.hi), px: 210, y: .7 }]];
+S3.mirror(w.words, [$(pw.lo) + '–' + $(pw.hi), $(pw.lo), $(pw.hi)]);
+const S = await KIT.c3a.formula(w, { usd: F(K.b650).v, per: 10000, rangeLo: F(K.arr).lo, rangeHi: F(K.arr).hi, tagFaces: faces.map((f, i) => { if (i) f.hatch = true; return f; }), hatch: 'calm', estimate: true });
+const N = S.tower.n, at = (usd) => usd / 10000 / N;   /* tower fill for a dollar figure (one bundle = $10B) */
+
+/* the words */
+const LB = (cls, html, p, o) => w.label(cls, html, p, Object.assign({ op: 0 }, o));
+const nG = LB('sx-name dim', 'gigawatts', S.pt.hallTop, { ax: .5, ay: 1, dy: -70 });
+const nP = LB('sx-name dim', 'price per watt', S.pt.tagFoot, { ax: .5, ay: 0, dy: 14 });
+const uW = LB('sx-unit', 'a watt', S.pt.tagFoot, { ax: .5, ay: 0, dy: 14 });
+const uY = LB('sx-unit', "we read as a year's rent", S.pt.tagFoot, { ax: .5, ay: 0, dy: 64 });   /* under "a watt": the voice's "which we read as a year's rent" */
+const eq = LB('sx-op', '=', S.pt.eq, { ax: .5, ay: .5 });
+const h30 = LB('sx-hero', BW.val(K.b30), S.pt.towerFoot, { ax: .5, ay: 0, dy: -20 });
+const h50 = LB('sx-hero', BW.val(K.b50), S.pt.towerFoot, { ax: .5, ay: 0, dy: -20 });
+const yr = LB('sx-unit', 'a year', S.pt.towerFoot, { ax: .5, ay: 0, dy: 206 });
+const gw = LB('sx-fig', BW.val(K.gw), S.pt.gridTop, { ax: .5, ay: 1, dy: -24 });
+const h650 = LB('sx-hero', BW.val(K.b650), S.pt.gridFront, { ax: .5, ay: 0, dy: 0 });
+const yr650 = LB('sx-unit', 'a year', S.pt.gridFront, { ax: .5, ay: 0, dy: 214 });
+const rng = LB('sx-fig dim', BW.val(K.arr), S.pt.rangeSide, { ax: .5, ay: 1, dy: -14 });
+h650.e.style.fontSize = '200px';
+
+w.look(S.SHOT.hall);
+KIT.run(w, { steps: Object.entries(T), end: T.end, build(tl) {
+  const cam = (sh, a, dur) => tl.to(w.cam, Object.assign({ duration: dur, ease: 'power2.inOut' }, S.SHOT[sh]), a);
+  const flip = (face, a) => { tl.to(S.spin.s, { flip: face, duration: .7, ease: 'power2.inOut' }, a); tl.set(S.spin.s, { face }, a + .35); };   /* face n is the nth full turn */
+  /* gws: the hall, a gigawatt, in its pool */
+  KIT.to(tl, S.pools.hall, { I: 1 }, 0, .6);
+  KIT.to(tl, S.hall, { rise: 1 }, .1, 1.3, 'power3.out');   /* the hall is up from the first word: no empty stage on "two numbers" */
+  KIT.to(tl, nG, { op: 1 }, T.gws + .5, .45);
+  /* price: the tag drops onto its face, blank */
+  tl.fromTo(S.tag.s, { drop: 0 }, { drop: 1, duration: .5, ease: 'power2.in', immediateRender: false }, T.price - .2);
+  tl.fromTo(S.tag.s, { swing: .14 }, { swing: 0, duration: 1.2, ease: 'elastic.out(1, .5)', immediateRender: false }, T.price + .3);
+  KIT.to(tl, nP, { op: 1 }, T.price + .4, .45);
+  /* call: his guess prints on the tag */
+  KIT.to(tl, nG, { op: 0 }, T.call + .6, .35); KIT.to(tl, nP, { op: 0 }, T.call + .6, .35);
+  flip(1, T.p30 - .4);
+  KIT.to(tl, uW, { op: 1 }, T.p50 + .1, .4);
+  KIT.to(tl, uY, { op: 1 }, T.year, .4);
+  /* one: one gigawatt at $30 a watt = $30B a year; the camera makes room for the money */
+  cam('pair', T.one - .4, 1.4);
+  flip(2, T.at30 - .4);
+  KIT.to(tl, S.pools.tower, { I: 1 }, T.at30, .8);
+  KIT.to(tl, eq, { op: 1 }, T.b30 - .7, .3);
+  KIT.to(tl, S.tower, { fill: at(F(K.b30).v) }, T.b30 - .6, .7, 'power1.inOut');
+  KIT.to(tl, h30, { op: 1 }, T.b30, .4); KIT.to(tl, yr, { op: 1 }, T.b30 + .5, .4);
+  /* at50 */
+  KIT.to(tl, h30, { op: 0 }, T.at50 - .2, .25);
+  flip(3, T.at50 - .4);
+  KIT.to(tl, S.tower, { fill: at(F(K.b50).v) }, T.b50 - .6, .6, 'power1.inOut');
+  KIT.to(tl, h50, { op: 1 }, T.b50, .4);
+  /* times: thirteen; pull back, the ghosts draw, the tower climbs */
+  KIT.to(tl, h50, { op: 0 }, T.times + .2, .3); KIT.to(tl, yr, { op: 0 }, T.times + .2, .3); KIT.to(tl, uY, { op: 0 }, T.times + .2, .3); KIT.to(tl, uW, { op: 0 }, T.times + .2, .3); KIT.to(tl, eq, { op: 0 }, T.times + .2, .3);
+  cam('wide', T.times, 2.4);
+  KIT.to(tl, S.pools.grid, { I: 1 }, T.times + .4, 1.4);
+  S.ghosts.forEach((g, i) => KIT.to(tl, g, { op: 1 }, T.times + .6 + i * .14, .5));
+  KIT.to(tl, S.tower, { fill: 1 }, T.times + .6, 2.2, 'power1.inOut');
+  KIT.to(tl, gw, { op: 1 }, T.m13, .45);
+  /* b650 */
+  KIT.to(tl, h650, { op: 1 }, T.b650, .5); KIT.to(tl, yr650, { op: 1 }, T.ayear, .45);
+  /* spec: his range round the tower's top */
+  KIT.to(tl, S.range, { op: 1 }, T.spec + .4, .8);
+  KIT.to(tl, rng, { op: 1 }, T.spec + 1.0, .45);
+} });
+})().catch(e => { document.documentElement.dataset.error = e.message; console.error(e); });
+</script>
+</body>
+</html>

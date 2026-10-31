@@ -1,0 +1,43 @@
+/* ============================================================
+   HERO DASHBOARDS — the branded flat board (Ive, 28 Oct 2026)
+   The writer, 28 Oct: hero dashboards present the complete picture at the analysis moments and are the channel's
+   branding moment, in the house look of Cursor 01-founding-four and Meta Q3's boards, minus the small words.
+   One family across a video: the lockup top left, the subject line under it, the picture, one plain credit line.
+   Figures in IBM Plex Mono, words in Inter, black and gold; hatched = a projection (ours or theirs), dashed = someone's
+   forecast or goal, solid = what happened. Nothing glows, nothing drifts. Labels >= 32 px, hero >= 96 px (gates.json#type).
+   ============================================================ */
+/* the ground (29 Oct, polish item 4): the stage's neutral charcoal at rest, not flat ink, so a cut from a stage frame to a hero
+   dashboard is a cut inside one room. The same four stops as assets/cards/cards.css (keep them equal). HB.frame draws the same
+   gradient into the SVG as #hb-ground, so a knock-out or an under-fill (HB.C.bg) paints the ground it sits on, never a dark patch. */
+.stage { --ground-0: rgb(26, 26, 27); --ground-1: rgb(23, 23, 24); --ground-2: rgb(19, 19, 20); --ground-3: rgb(15, 15, 16);
+  background: radial-gradient(ellipse 1150px 820px at 960px 540px, var(--ground-0) 0%, var(--ground-1) 45%, var(--ground-2) 75%, var(--ground-3) 100%); }
+.hb-svg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+.hb-svg text { font-family: var(--sans); }
+.hb-brand { position: absolute; left: 120px; top: 56px; height: 56px; width: auto; display: block; z-index: 55; }
+.hb-co { position: absolute; left: 120px; display: block; width: auto; }
+
+/* figures */
+.hb-svg .hb-fig  { font-family: var(--mono); font-weight: 600; fill: var(--cream); letter-spacing: -.02em;
+                   font-variant-numeric: tabular-nums slashed-zero; word-spacing: -.3em; }
+.hb-svg .hb-hero { font-family: var(--mono); font-weight: 700; fill: var(--gold-bright); letter-spacing: -.035em;
+                   font-variant-numeric: tabular-nums slashed-zero; word-spacing: -.3em; }
+.hb-svg .hb-gold { fill: var(--gold-bright); }
+.hb-svg .hb-red  { fill: var(--red); }
+/* words */
+.hb-svg .hb-name { font-family: var(--sans); font-weight: 500; fill: var(--cream); letter-spacing: -.01em; word-spacing: normal; }
+.hb-svg .hb-unit { font-family: var(--sans); font-weight: 400; fill: rgba(245, 241, 229, .62); letter-spacing: 0; word-spacing: normal; }
+.hb-svg .hb-faint { fill: rgba(245, 241, 229, .62); }
+/* a figure that crosses a rule knocks the rule out under it (paint-order), so nothing reads through the type */
+.hb-svg .hb-ko { paint-order: stroke; stroke: url(#hb-ground); stroke-width: 14px; stroke-linejoin: round; }
+
+/* a label of more than one line (HB.h): one element, so it reads as one label */
+.hb-h { position: absolute; z-index: 20; white-space: nowrap; font-family: var(--sans); font-weight: 500; color: var(--cream);
+        letter-spacing: -.01em; pointer-events: none; }
+.hb-h.hb-gold { color: var(--gold-bright); }
+.hb-h.hb-unit { font-weight: 400; color: rgba(245, 241, 229, .62); }
+
+/* type sizes on these boards (28 Oct, after proxy pass 1 measured ~20 px labels): words >= 40 px, dates and units >= 38 px,
+   secondary figures >= 48 px, the spoken figure leads at hero size (>= 120 px); gates.json#type is the floor, not the target */
+/* the one credit line, a size a phone can read */
+.bw-prov { left: 134px; bottom: 76px; }   /* one line inside the 7% title-safe area, as on every page (brand.css v5.9) */
+.bw-source { font-size: 26px; color: rgba(245, 241, 229, .55); opacity: 1; white-space: nowrap; }

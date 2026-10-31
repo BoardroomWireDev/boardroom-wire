@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Lease</title>
+<!-- SPACEX Q3 · 91 · THE LEASE, PASS 2 (Ive, 28 Oct 2026). Ch 6 row 6.4, the crate for the Apollo lease beat only (the receipts are
+     95-the-receipts-p2, center stage). v7's line, new since the placeholder read: "Under the deal, an Apollo-managed company buys the
+     chips and leases them to SpaceX, so the chips themselves back the money." Its silence is page 0–7.6 s (the read's pace,
+     2.6 words a second); ?at= re-times the steps from the real take.
+     The kit's $40B crate of GPUs stands lit in front. On "Apollo-managed company" a grey hall rises on the left and the crate goes
+     into it (it buys the chips); on "leases them to SpaceX" SpaceX's gold hall rises on the right, a dashed gold lease line draws
+     between them on the floor and the crate travels it to SpaceX's door; on "back the money" the 8-K's figure, about $40B, lands
+     over the crate. Reference: Wang 1:42 (the Scale AI crate). Contract: KIT.run → BW.run({play, rest}); ?capture ?final ?still ?t= ?beats. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/stage/v2/kit.css?v=1">
+<style>.bw-source { font-size: 26px; } .sx-hero.mid { font-size: 170px; }</style>
+</head>
+<body>
+<div class="stage"><div class="chrome"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/stage/v2/stage3d.js?v=1"></script>
+<script src="assets/stage/v2/stage.js?v=1"></script>
+<script src="assets/stage/v2/hall.js?v=1"></script>
+<script src="assets/stage/v2/crate.js?v=1"></script>
+<script src="assets/stage-ch6/ch6.js?v=1"></script>
+<script src="assets/stage/v2/ch6.js?v=1"></script>
+<script>
+(async () => {
+await KIT.ready();
+const F = BW.fig, V = BW.val;
+const K = { k8: 'spacex_8k_2026_10_26_gpu_finance_lease', terms: 'spacex_8k_2026_10_26_gpu_lease_terms' };
+BW.provenance({ uses: Object.values(K) });
+const T = C6.at([['crate', 0], ['apollo', .9], ['buys', 2.3], ['leases', 3.6], ['travel', 4.5], ['back', 6.0]]);
+const END = 7.6;
+
+const w = KIT.stage({ fov: 30, key: [-10, 18, 16], keyTarget: [0, 0, 0], shadow: 24, wall: -12, pool: [0, 30, 6], poolI: 120 });
+C6.light(w, { key: .5, hemi: .45, fill: .45, pool: .5 });
+
+/* ---- the two halls: Apollo's company (grey, the lessor) and SpaceX's (gold, with its mark) ---- */
+const AX = -3.7, HX = 3.7;
+const apo = KIT.hall.create(w, { len: 3.6, wid: 2.2, hgt: 1.3, at: [AX - 1.8, 0, -.8], line: 'grey', rise: 0 });
+const mSX = await KIT.markTex(w, 'assets/logos/spacex-wordmark.svg', S3.css('--cream'));
+const hall = KIT.hall.create(w, { len: 4.6, wid: 2.4, hgt: 1.6, at: [HX - 2.3, 0, -.8], mark: mSX, markH: .22, rise: 0 });
+const lease = C6.strip(w, HX - AX - 1.0, .09, { at: [0, .012, 2.75], draw: 0 });
+
+/* ---- the crate, lit, in front ---- */
+const crate = KIT.crate.create(w, { w: 1.9, h: 1.05, d: 1.2, at: [0, 0, 1.6], rise: 0 });
+const cm = w.add(C6.mover(crate));
+
+/* ---- light: the crate's pool travels with it; each hall gets its own as it rises ---- */
+const sC = C6.spot(w, [0, 0, 1.6], { r: 2.4, i: 1700, h: 16 });
+const sA = C6.spot(w, [AX, 0, .2], { r: 3.0, i: 1300, h: 17, on: 0 });
+const sH = C6.spot(w, [HX, 0, .2], { r: 3.2, i: 1600, h: 17, on: 0 });
+const wash = C6.wash(w, [0, 2.6, -12], { i: 520 });
+const tw = { x: 0, z: 1.6 };
+w.add({ apply() { sC.light.target.position.set(tw.x, 0, tw.z); sC.light.position.x = tw.x; } });
+
+/* ---- words: the name the voice says, the 8-K's figure ---- */
+const L = (cls, html, at, o) => w.label(cls, html, at, Object.assign({ op: 0 }, o));
+const nApo = L('sx-name dim', 'Apollo-managed company', [AX, 1.3, -.8], { ax: .5, ay: 1, dy: -14 });
+const top = () => { const p = crate.top(); return [p[0], p[1] + .2, p[2]]; };
+const h8k = L('sx-hero mid', V(K.k8), top, { ax: .5, ay: 1 });
+
+w.look(KIT.elev(0, .8, 1.4, 8.6, 4, 30));
+
+KIT.run(w, { steps: Object.entries(T), end: END, build(tl) {
+  const to = (h, p, t, d = .8, e = 'power3.out') => KIT.to(tl, h, p, t, d, e);
+  const cam = (c, t, d = 1.6, e = 'power2.inOut') => tl.to(w.cam, Object.assign({ duration: d, ease: e }, c), t);
+  const move = (x, z, t, d) => { tl.to(cm.s, { x, z, duration: d, ease: 'power2.inOut' }, t); tl.to(tw, { x, z, duration: d, ease: 'power2.inOut' }, t); };
+  to(crate, { rise: 1 }, 0, .7, 'power2.out');
+  /* "an Apollo-managed company": its hall rises on the left, the camera opens */
+  cam(KIT.elev(-1.2, .85, .8, 11.8, 4, 30), T.apollo - .7, 1.5);
+  to(sA, { on: 1 }, T.apollo - .1, .6, 'power1.inOut');
+  to(apo, { rise: 1 }, T.apollo, .9, 'power2.out'); to(nApo, { op: 1 }, T.apollo + .4, .5);
+  /* "buys the chips": the crate goes to its door */
+  move(AX, 1.75, T.buys - .2, 1.1);
+  /* "leases them to SpaceX": SpaceX's hall, the lease line, the crate travels it */
+  cam(KIT.elev(.45, .95, .8, 15.6, 4, 30), T.leases - .5, 1.5);
+  to(sH, { on: 1 }, T.leases - .2, .6, 'power1.inOut');
+  to(hall, { rise: 1 }, T.leases - .1, 1.0, 'power2.out');
+  to(lease, { draw: 1 }, T.leases + .3, .9, 'power1.inOut');
+  move(HX - 1.75, 1.75, T.travel, 1.4);                       /* by the door, clear of SpaceX's mark */
+  /* "back the money": the 8-K's figure over the crate */
+  to(nApo, { op: 0 }, T.travel + .5, .4);
+  to(h8k, { op: 1 }, T.back, .5);
+  cam(KIT.elev(.4, 1.15, .9, 14.4, 4, 30), T.travel + .2, END - T.travel - .2, 'power1.inOut');
+} });
+})().catch(e => { document.documentElement.dataset.error = e.message; console.error(e); });
+</script>
+</body>
+</html>

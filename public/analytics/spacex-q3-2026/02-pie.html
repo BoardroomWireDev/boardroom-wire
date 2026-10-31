@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AI Overtakes Starlink</title>
+<!-- SPACEX Q3 · HERO 02 · THE PIE RE-CUTS ITSELF (Ive, 27 Oct 2026). Video (ch 2) and the article's mix board.
+     The idea: in a year the same three businesses were re-cut, and AI went from the smallest slice to the biggest.
+       left    one ring on a protractor scale (a tick a percent, a long one every ten). The inner ring is this quarter, to one
+               decimal; the thin outer ring is the year-ago cut, so the re-cut stays visible at rest. The total sits in the hole.
+       right   the same six shares as a slope chart on a true 0–60% scale with the 50% line drawn: AI crosses it going up,
+               Starlink going down, and the point where AI passes Starlink is marked. Each end carries the share and the
+               segment's revenue as filed, so the next line ("the rocket revenue isn't shrinking") is already on the board.
+     Order clockwise from twelve: rockets, Starlink, AI (the filing's Space, Connectivity and Super Intelligence segments), as the open.
+     Reference: anthropic-ipo 20-ledger (one dataset read several ways) and HOUSE-STYLE §6.1 (one chart through states).
+     Steps (?at=): then (the year-ago pie, full size), recut (it shrinks to the outer ring as this quarter's cut opens),
+     slope, cross. Title: the chapter's name in the script. Contract as every hero (see 01). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="shared/flagship.css?v=4">
+<link rel="stylesheet" href="assets/heroes/hero.css?v=1">
+<style>
+  .p2-in { font-family: var(--mono); font-weight: 700; font-size: 42px; letter-spacing: -.03em; color: var(--ink); }
+  .p2-nm { font-family: var(--sans); font-weight: 600; font-size: 30px; letter-spacing: -.01em; color: var(--ink); }
+  .p2-in.lt, .p2-nm.lt { color: var(--cream); }
+</style>
+</head>
+<body>
+<div class="stage"><div class="chrome"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="shared/flagship.js?v=4"></script>
+<script src="assets/heroes/hero.js?v=1"></script>
+<script>
+/* the three businesses, in the filing's segments; names are the script's */
+/* order clockwise from twelve: rockets, Starlink, AI — the open's pie (07) and ch 2's board (09) use the same order (27 Oct) */
+const SEG = [
+  { k: 'rockets', name: 'Rockets', s0: 'c_spacex_q3_2025_space_share_of_revenue', s1: 'spacex_q3_2026_space_share_of_revenue',
+    r0: 'spacex_q3_2025_revenue_space', r1: 'spacex_q3_2026_revenue_space', fill: 'rgba(var(--cream-rgb), .28)', ink: false },
+  { k: 'starlink', name: 'Starlink', s0: 'c_spacex_q3_2025_connectivity_share_of_revenue', s1: 'c_spacex_q3_2026_connectivity_share_of_revenue',
+    r0: 'spacex_q3_2025_revenue_connectivity', r1: 'spacex_q3_2026_revenue_connectivity', fill: 'rgba(var(--cream-rgb), .62)', ink: true },
+  { k: 'ai', name: 'AI', s0: 'c_spacex_q3_2025_si_share_of_revenue', s1: 'spacex_q3_2026_si_share_of_revenue',
+    r0: 'spacex_q3_2025_revenue_si', r1: 'spacex_q3_2026_revenue_si', fill: 'var(--gold)', ink: true, gold: true }
+];
+const TOT = 'spacex_q3_2026_revenue_total', TOT0 = 'spacex_q3_2025_revenue_total';
+const KEYS = [...SEG.flatMap(g => [g.s0, g.s1, g.r0, g.r1]), TOT, TOT0];
+const period = (id) => BW.fig(id).label.replace(/^.*, /, '');
+
+const CX = 600, CY = 600, RI = 128, RO = 278, Q0 = 296, Q1 = 308;
+const P = (r, f) => [CX + r * Math.sin(f * 2 * Math.PI), CY - r * Math.cos(f * 2 * Math.PI)];
+function arc(r0, r1, f0, f1) {
+  const big = f1 - f0 > .5 ? 1 : 0, [a, b] = P(r1, f0), [c, d] = P(r1, f1), [e, g] = P(r0, f1), [h, i] = P(r0, f0);
+  return `M${a},${b} A${r1},${r1} 0 ${big} 1 ${c},${d} L${e},${g} A${r0},${r0} 0 ${big} 0 ${h},${i} Z`;
+}
+/* the cut at state u (0 = a year ago, 1 = now), and the ring's radii */
+const ST = { u: 1, rin: RI, rout: RO };
+function cuts(u) { let a = 0; return SEG.map(g => { const w = (H.v(g.s0) + (H.v(g.s1) - H.v(g.s0)) * u) / 100; const c = [a, a + w]; a += w; return c; }); }
+
+function build() {
+  FX.head('SpaceX', 'AI Overtakes Starlink');
+  /* no wordmark: brand marks never sit on a board (EDITING-FRAMEWORK 16); the site carries its own */
+  const N = {};
+  /* the protractor: a tick a percent, a long one every ten */
+  N.prot = [];
+  for (let p = 0; p < 100; p++) {
+    const [x1, y1] = P(Q1 + 10, p / 100), [x2, y2] = P(Q1 + (p % 10 ? 20 : 34), p / 100);
+    N.prot.push(H.s('line', { class: 'h-tk' + (p % 10 ? ' min' : ''), x1, y1, x2, y2 }));
+  }
+  N.protL = [0, 25, 50, 75].map(p => { const [x, y] = P(Q1 + 62, p / 100); return H.t(x, y - 12, p + '%', 'h-tick', 'c'); });
+  /* this quarter's cut, the year-ago ring */
+  const c1 = cuts(1), c0 = cuts(0);
+  N.now = SEG.map((g, i) => H.s('path', { d: arc(RI, RO, c1[i][0], c1[i][1]), style: `fill: ${g.fill}; stroke: var(--bg); stroke-width: 5`, 'data-k': g.k }));
+  N.ago = SEG.map((g, i) => H.s('path', { d: arc(Q0, Q1, c0[i][0], c0[i][1]), style: `fill: ${g.fill}; stroke: var(--bg); stroke-width: 4`, 'data-k': g.k }));
+  N.agoL = (() => { const [x, y] = P(Q1 + 30, .915); return [H.t(x - 4, y - 40, period(SEG[0].s0), 'h-tick', 'r'), H.t(x - 4, y - 12, H.full(TOT0), 'h-tick h-faint', 'r')]; })();
+  /* shares on the ring, names outside it */
+  /* each name and its share sit on its own arc */
+  N.nm = SEG.map((g, i) => { const m = (c1[i][0] + c1[i][1]) / 2, [x, y] = P((RI + RO) / 2 + 4, m); return H.t(x, y - 42, g.name, 'p2-nm' + (g.ink ? '' : ' lt'), 'c'); });
+  N.pct = SEG.map((g, i) => { const m = (c1[i][0] + c1[i][1]) / 2, [x, y] = P((RI + RO) / 2 + 4, m); return H.t(x, y - 4, BW.val(g.s1), 'p2-in' + (g.ink ? '' : ' lt'), 'c'); });
+  /* the hole: the quarter and its total */
+  N.hole = [H.t(CX, CY - 44, period(TOT), 'h-sub', 'c'), H.t(CX, CY - 6, H.full(TOT), 'h-num" style="font-size:36px', 'c')];
+
+  /* ---- the slope: the same six shares on one true scale ---- */
+  const XA = 1250, XB = 1650, Y = H.lin(0, 60, 905, 305);
+  N.grid = [];
+  for (let p = 0; p <= 60; p += 10) N.grid.push(H.s('line', { class: 'h-grid' + (p ? '' : ' maj'), x1: 1150, x2: 1800, y1: Y(p), y2: Y(p) }));
+  N.half = H.s('line', { class: 'h-dimln', x1: 1150, x2: XB, y1: Y(50), y2: Y(50), style: 'stroke-dasharray: 3 7; stroke: var(--cream-dim)' });
+  N.halfL = H.t((XA + XB) / 2, Y(50) - 34, '50%', 'h-tick', 'c');
+  N.cols = [H.s('line', { class: 'h-axis', x1: XA, x2: XA, y1: Y(0), y2: Y(60), style: 'stroke-width: 1.5' }),
+            H.s('line', { class: 'h-axis', x1: XB, x2: XB, y1: Y(0), y2: Y(60), style: 'stroke-width: 1.5' })];
+  N.colL = [H.t(XA, 922, period(SEG[0].s0), 'h-lbl h-dimc', 'c'), H.t(XB, 922, period(SEG[0].s1), 'h-lbl', 'c')];
+  N.lines = SEG.map(g => H.s('line', { x1: XA, x2: XB, y1: Y(H.v(g.s0)), y2: Y(H.v(g.s1)),
+    style: `stroke: ${g.gold ? 'var(--gold)' : g.fill}; stroke-width: ${g.gold ? 5 : 3.5}`, 'data-k': g.k }));
+  N.dots = SEG.flatMap(g => [[XA, g.s0], [XB, g.s1]].map(([x, id]) => H.s('circle', { cx: x, cy: Y(H.v(id)), r: 8, style: `fill: ${g.gold ? 'var(--gold)' : 'var(--bg)'}; stroke: ${g.gold ? 'var(--gold)' : g.fill}; stroke-width: 3` })));
+  N.endL = SEG.flatMap(g => [
+    H.t(XA - 22, Y(H.v(g.s0)) - 24, BW.val(g.s0), 'h-num' + (g.gold ? ' h-gold' : '') + '" style="font-size:34px', 'r'),
+    H.t(XA - 22, Y(H.v(g.s0)) + 16, H.full(g.r0), 'h-tick', 'r'),
+    H.t(XB + 22, Y(H.v(g.s1)) - 24, BW.val(g.s1), 'h-num' + (g.gold ? ' h-gold' : '') + '" style="font-size:34px'),
+    H.t(XB + 22, Y(H.v(g.s1)) + 16, H.full(g.r1), 'h-tick')]);
+  /* where AI passes Starlink */
+  const a = SEG[2], b = SEG[1], da = H.v(a.s1) - H.v(a.s0), db = H.v(b.s1) - H.v(b.s0), q = (H.v(b.s0) - H.v(a.s0)) / (da - db);
+  N.cross = H.s('circle', { cx: XA + (XB - XA) * q, cy: Y(H.v(a.s0) + da * q), r: 15, style: 'fill: none; stroke: var(--gold); stroke-width: 3' });
+
+  BW.provenance({ uses: KEYS });
+  SEG.forEach((g, i) => [N.now[i], N.ago[i], N.lines[i]].forEach(n => { n.style.pointerEvents = 'all';
+    FX.hover(n, g.k, () => FX.tipFor(g.s1, { name: g.name, meta: `${period(g.s0)} ${BW.val(g.s0)}, ${H.full(g.r0)}<br>${period(g.s1)} ${BW.val(g.s1)}, ${H.full(g.r1)}` })); }));
+  return N;
+}
+
+/* the re-cut: the year-ago pie fills the ring, then shrinks out to the thin outer band while this quarter's cut opens */
+function recut(N, u) {
+  const c = cuts(u), r0 = RI + (Q0 - RI) * u, r1 = RO + (Q1 - RO) * u;
+  SEG.forEach((g, i) => N.now[i].setAttribute('d', arc(RI, RO, c[i][0], c[i][1])));
+  const c0 = cuts(0);
+  SEG.forEach((g, i) => N.ago[i].setAttribute('d', arc(r0, r1, c0[i][0], c0[i][1])));
+}
+
+let N = null;
+const T = H.at([['then', .4], ['recut', 2.6], ['slope', 5.0], ['cross', 7.0]]);
+function play() {
+  const tl = gsap.timeline();
+  if (!N) return tl.to({}, { duration: .1 });
+  H.open(tl, T.then + .4);
+  Object.entries(T).forEach(([k, t]) => BW.mark(tl, k, t));
+  const st = { u: 0 };
+  recut(N, 0);
+  tl.call(() => recut(N, st.u), null, 0);
+  H.fade(tl, N.ago, T.then, .6); H.fade(tl, [...N.prot], T.then + .1, .5); H.rise(tl, N.protL, T.then + .3);
+  tl.fromTo(st, { u: 0 }, { u: 1, duration: 1.6, ease: 'power2.inOut', immediateRender: false, onUpdate: () => recut(N, st.u) }, T.recut);
+  H.fade(tl, N.now, T.recut + .1, .5);
+  H.rise(tl, [...N.pct, ...N.nm], T.recut + 1.3); H.rise(tl, [...N.hole, ...N.agoL], T.recut + 1.6);
+  H.fade(tl, [...N.grid, ...N.cols, N.half], T.slope, .5); H.rise(tl, [...N.colL, N.halfL], T.slope + .1);
+  H.fade(tl, N.dots.filter((_, i) => i % 2 === 0), T.slope + .3, .3); H.rise(tl, N.endL.filter((_, i) => i % 4 < 2), T.slope + .3);
+  H.draw(tl, N.lines, T.slope + .8, 1.2);
+  H.fade(tl, N.dots.filter((_, i) => i % 2 === 1), T.slope + 1.9, .3); H.rise(tl, N.endL.filter((_, i) => i % 4 >= 2), T.slope + 1.9);
+  H.fade(tl, N.cross, T.cross, .4); tl.fromTo(N.cross, { scale: 1.8, transformOrigin: '50% 50%' }, { scale: 1, duration: .5, ease: 'power2.out' }, T.cross);
+  tl.to({}, { duration: .01 }, T.cross + 2);
+  return tl;
+}
+function rest() { H.rest(); if (N) { recut(N, 1); gsap.set(N.cross, { clearProps: 'transform' }); } }
+if (H.need(KEYS)) N = build();
+BW.run({ play, rest });
+</script>
+</body>
+</html>

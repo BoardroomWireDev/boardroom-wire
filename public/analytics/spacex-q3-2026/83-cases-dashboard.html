@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bear, Base and Bull</title>
+<!-- SPACEX Q3 · 83 · THE THREE CASES, HERO DASHBOARD (Ive, 28 Oct 2026). The first of the new mix's hero dashboards (HOUSE-STYLE,
+     the standard: "the complete picture of the performance at the analysis moments ... the channel's branding moment").
+     Script v7 FINAL ch 4, "So we built three cases of our own." through "...Elon's $500 billion low end."
+     The board at rest: three columns, one per case, each its run rate at the end of 2027 as a hatched bar on one shared linear
+     scale (our estimates), the gigawatts under it as blocks (one block a gigawatt; the 1.7 SpaceX had on 30 Sep solid, the rest
+     to build in line), and its formula, gigawatts × price. The base case is lit gold. The CFO's $100B goal and Elon's $500B to
+     $1T are drawn across the scale as dashed marks (their forecasts), so the base reads as 3× the one and short of the other.
+     Words: the lockup is an image; on the board only names (Bear, Base, Bull, CFO, Elon), dates and the script's own words
+     ("compute run rate": our cases are compute only, and sit beside whole-company targets (the facts review, 30 Oct); "end of 2027", "a watt"). Every figure is a data.js key; each case is checked against its c_spacex_case_* key.
+     Reference: Cursor 01-founding-four (the house frame), Meta Q3 02-the-fcf-trend and 14-hero-revenue (one figure leads).
+     Steps (?at=, page 0 = VO 414.72 s of the placeholder read): three, today, builds, charge, low, high, bull, bear, long,
+     likeliest, base, ten, watt, thirteen, triple, cfo, elon, please, subscribing, channel.
+     The ask (29 Oct, polish item 6, the writer's pick (a)): the board holds through "please consider liking and subscribing.
+     It's a huge help to the channel." and the subscribe mark (assets/heroboard/subscribe-mark.js) sits in the bottom-right
+     corner: the bust on "please", the bell drawn on "subscribing", both gone with "channel". The page now runs to the end of
+     the ask (72.2 s on the placeholder) instead of its last frame being held; the three steps re-time with the take.
+     Capture contract: HB.run → BW.run({play, rest}); R, F, ?final, ?still, ?t=<secs|step>, ?capture, ?beats. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/heroboard/hb.css?v=2">
+</head>
+<body>
+<div class="stage"><div class="chrome"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/heroboard/hb.js?v=2"></script>
+<script>const SUBMARK = { add() {} };</script>
+<script>
+(() => {
+const F = BW.fig, V = (k) => F(k).v, D = BW.val;
+const CASES = [
+  { k: 'bear', name: 'Bear', gw: 'fwd_spx_q3_compute_gw_2027_bear', p: 'fwd_spx_q3_price_per_watt_year_bear', r: 'c_spacex_case_low_6gw_20' },
+  { k: 'base', name: 'Base', gw: 'fwd_spx_q3_compute_gw_2027_base', p: 'fwd_spx_q3_price_per_watt_year_base', r: 'c_spacex_case_mid_10gw_30', pick: true },
+  { k: 'bull', name: 'Bull', gw: 'fwd_spx_q3_compute_gw_2027_bull', p: 'fwd_spx_q3_price_per_watt_year_bull', r: 'c_spacex_case_high_20gw_50' } ];
+const K = { cfo: 'spacex_q3_2026_guide_arr_dec_2026', lo: 'spacex_q3_2026_musk_arr_forecast_2027_floor', hi: 'spacex_q3_2026_musk_arr_forecast_2027_top',
+            now: 'spacex_q3_2026_nameplate_compute_gw', x3: 'c_spacex_case_mid_vs_targets', floor: 'spacex_q3_2026_musk_compute_targets' };
+const KEYS = [...CASES.flatMap(c => [c.gw, c.p, c.r]), ...Object.values(K)];
+BW.provenance({ uses: KEYS });
+CASES.forEach(c => { if (Math.abs(V(c.gw) * V(c.p) * 1000 - V(c.r)) > 1) console.warn('83: ' + c.k + ' case does not match ' + c.r); });
+const day = HB.day;
+
+const T = HB.at([['three', 1.30], ['today', 3.82], ['builds', 4.20], ['charge', 5.32], ['low', 7.42], ['high', 9.62], ['bull', 21.28],
+  ['bear', 26.12], ['long', 27.94], ['likeliest', 41.54], ['base', 43.68], ['ten', 47.60], ['watt', 49.08], ['thirteen', 54.80],
+  ['triple', 57.92], ['cfo', 59.30], ['elon', 63.32], ['please', 67.94], ['subscribing', 69.42], ['channel', 71.56]]);
+const END = Math.max(66.0, T.elon + 2.7, T.channel + .6);
+
+/* ---- the frame ---- */
+const fr = HB.frame({ co: 'assets/logos/spacex-wordmark.svg', coH: 30, coY: 156,
+  line: [['compute run rate', null], [', ', null], ['end of 2027', null]], lineX: 120 + 30 * 147 / 18 + 30, lineY: 185, lineSize: 38 });
+const svg = fr.svg, s = HB.s, t = HB.t;
+
+/* ---- one linear scale for every run rate on the board ---- */
+const Y0 = 750, SC = 520 / 1e6, y = (m) => Y0 - m * SC;          /* $M → y; $1T sits at 230. 30 Oct: up 30 px, so the names clear the credit line, now inside title-safe (973–1004) */
+const CX = [700, 1135, 1595], BWD = 330, X0 = 490, X1 = 1800, GR = 470;   /* GR: the gutter's right edge */
+const BLK = 30, GAP = 3, PITCH = BLK + GAP;
+
+/* the forecasts behind everything: the CFO's goal and Elon's range, dashed (theirs, not ours) */
+const back = s('g');
+const eBand = s('rect', { x: X0, y: y(V(K.hi)), width: X1 - X0, height: y(V(K.lo)) - y(V(K.hi)), fill: 'url(#hb-h-gold-faint)' }, back);
+const cfoL = s('line', { x1: X0, x2: X1, y1: y(V(K.cfo)), y2: y(V(K.cfo)), stroke: 'rgba(245,241,229,.55)', 'stroke-width': 2, 'stroke-dasharray': '10 8' }, back);
+const eLo = s('line', { x1: X0, x2: X1, y1: y(V(K.lo)), y2: y(V(K.lo)), stroke: 'rgba(212,175,55,.75)', 'stroke-width': 2, 'stroke-dasharray': '10 8' }, back);
+const eHi = s('line', { x1: X0, x2: X1, y1: y(V(K.hi)), y2: y(V(K.hi)), stroke: 'rgba(212,175,55,.75)', 'stroke-width': 2, 'stroke-dasharray': '10 8' }, back);
+const eBr = s('path', { d: `M${X0 + 14},${y(V(K.hi))} H${X0} V${y(V(K.lo))} H${X0 + 14}`, fill: 'none', stroke: 'rgba(212,175,55,.75)', 'stroke-width': 2 }, back);
+/* their labels, in the gutter at their own heights */
+const gut = s('g');
+/* the CFO's mark is dated: his goal is for December 2026, on an end-2027 board ("target" is the voice's word) */
+const cfoN = t(gut, 120, y(V(K.cfo)) + 14, [['CFO', null], [' target', null]], { cls: 'hb-name', size: 40 });
+const cfoD = t(gut, 120, y(V(K.cfo)) + 60, HB.day(K.cfo).replace(/^\d+ /, ''), { cls: 'hb-unit', size: 38 });
+const cfoV = t(gut, GR, y(V(K.cfo)) + 14, D(K.cfo), { cls: 'hb-fig', size: 40, anchor: 'end' });
+const eN = t(gut, 120, (y(V(K.lo)) + y(V(K.hi))) / 2 + 14, 'Elon', { cls: 'hb-name hb-gold', size: 44 });
+const eLoV = t(gut, GR, y(V(K.lo)) + 14, D(K.lo), { cls: 'hb-fig hb-gold', size: 40, anchor: 'end' });
+const eHiV = t(gut, GR, y(V(K.hi)) + 14, D(K.hi), { cls: 'hb-fig hb-gold', size: 40, anchor: 'end' });
+
+/* the baseline, drawn from the first frame */
+s('line', { x1: X0, x2: X1, y1: Y0, y2: Y0, stroke: 'rgba(245,241,229,.4)', 'stroke-width': 2 });
+
+/* today: SpaceX's gigawatts on 30 Sep, at the head of the block rows */
+const nowV = t(svg, GR, Y0 + 62, D(K.now), { cls: 'hb-fig', size: 42, anchor: 'end' });
+const nowD = t(svg, GR, Y0 + 110, day(K.now), { cls: 'hb-unit', size: 38, anchor: 'end' });
+
+/* ---- the three columns ---- */
+const COL = {}, UNDER = s('g');
+CASES.forEach((c, i) => {
+  const cx = CX[i], x = cx - BWD / 2, g = s('g'), gold = !!c.pick, rv = V(c.r);
+  const ink = gold ? HB.C.gold : 'rgba(245,241,229,.6)';
+  /* an opaque floor under the hatch (on its own layer, so a dimmed case never lets the marks read through it) */
+  const under = s('rect', { x, y: y(rv), width: BWD, height: Y0 - y(rv), fill: HB.C.bg }, UNDER);
+  const bar = s('rect', { x, y: y(rv), width: BWD, height: Y0 - y(rv), fill: `url(#hb-h-${gold ? 'gold' : 'cream'})`, stroke: ink, 'stroke-width': gold ? 3 : 2 }, g);
+  const fig = gold ? t(g, cx, y(rv) - 30, D(c.r), { cls: 'hb-hero hb-ko', size: 112, anchor: 'middle' })
+                   : t(g, cx, y(rv) - 22, D(c.r), { cls: 'hb-fig hb-ko', size: 72, anchor: 'middle' });
+  /* blocks: one a gigawatt, ten to a row; the first 1.7 solid (built by 30 Sep), the rest in line (to build) */
+  const n = V(c.gw), now = V(K.now), built = [], todo = [];
+  for (let b = 0; b < n; b++) {
+    const bx = x + (b % 10) * PITCH, by = Y0 + 20 + Math.floor(b / 10) * PITCH;
+    const full = Math.min(1, Math.max(0, now - b));
+    if (full > 0) built.push(s('rect', { x: bx, y: by, width: BLK * full, height: BLK, fill: 'rgba(245,241,229,.92)' }, g));
+    if (full < 1) todo.push(s('rect', { x: bx + 1 + BLK * full, y: by + 1, width: BLK * (1 - full) - 2, height: BLK - 2, fill: 'none', stroke: ink, 'stroke-width': 2 }, g));
+  }
+  const fy = Y0 + 20 + Math.ceil(n / 10) * PITCH + 48;
+  /* the formula on one line, its parts as tspans: gigawatts × price (a watt, where the voice says it) */
+  const fm = t(g, x, Y0 + 140, [[D(c.gw) + ' × ', null], [D(c.p), gold ? 'hb-gold' : null]].concat(gold ? [[' a watt', 'hb-unit', { 'font-size': 38, dx: 8 }]] : []), { cls: 'hb-fig', size: 46 });
+  const [gwT, pT, wT] = [...fm.querySelectorAll('tspan')];
+  const nm = t(g, x, Y0 + 196, c.name, { cls: 'hb-name' + (gold ? ' hb-gold' : ''), size: 46 });
+  COL[c.k] = { g, bar: [bar, under], fig, built, todo, gwT, pT, wT, nm, x };
+});
+
+/* Elon's floor, in the base column's blocks: three more gigawatts, dashed, still to come (13 GW+) */
+const bx0 = COL.base.x, fl = [];
+for (let b = V(CASES[1].gw); b < V(K.floor); b++) {
+  fl.push(s('rect', { x: bx0 + (b % 10) * PITCH + 1, y: Y0 + 20 + Math.floor(b / 10) * PITCH + 1, width: BLK - 2, height: BLK - 2, fill: 'none',
+    stroke: 'rgba(212,175,55,.75)', 'stroke-width': 2, 'stroke-dasharray': '4 3' }));
+}
+const flT = t(svg, bx0 + (V(K.floor) % 10) * PITCH + 12, Y0 + 20 + PITCH + 29, D(K.floor), { cls: 'hb-fig hb-gold', size: 38 });
+
+/* 3×: the base against the CFO's goal, a bracket beside its bar */
+const bxR = CX[1] + BWD / 2 + 22, x3 = s('g');
+s('path', { d: `M${bxR - 8},${y(V(K.cfo))} H${bxR} V${y(V(CASES[1].r))} H${bxR - 8}`, fill: 'none', stroke: HB.C.gold, 'stroke-width': 2 }, x3);
+t(x3, bxR + 14, (y(V(K.cfo)) + y(V(CASES[1].r))) / 2 + 18, D(K.x3), { cls: 'hb-fig hb-gold', size: 52 });
+
+HB.run({ steps: T, end: END, build(tl) {
+  /* frame 0 is drawn: the three cases' names, the gigawatts they need (SpaceX's 1.7 solid, the rest faint) and today's 1.7 GW.
+     4.3 · "how much SpaceX builds": the gigawatts to build light up; "what it can charge": the prices ink in */
+  CASES.forEach((c, i) => COL[c.k].todo.forEach((b, j) => tl.fromTo(b, { opacity: .28 }, { opacity: 1, duration: .25, ease: 'power1.out' }, T.builds + i * .12 + j * .045)));
+  CASES.forEach((c, i) => HB.ink(tl, COL[c.k].pT, T.charge + i * .14));
+  /* the money, one number at a time, each leading at hero size and settling as the next one comes: $120B ... the full trillion.
+     The base waits for the voice. */
+  HB.grow(tl, COL.bear.bar, T.low - .6, .8); HB.lead(tl, COL.bear.fig, T.low, 1.75, T.high - .5);
+  HB.grow(tl, COL.bull.bar, T.high - .9, 1.1); HB.lead(tl, COL.bull.fig, T.high, 1.75, T.bull - .6);
+  /* 4.4 · bull case, bear case */
+  HB.to(tl, [COL.bear.g, COL.base.g], { opacity: .38 }, T.bull - .1, .5);
+  HB.to(tl, COL.bear.g, { opacity: 1 }, T.bear - .1, .5); HB.to(tl, COL.bull.g, { opacity: .38 }, T.bear - .1, .5);
+  /* 4.5 · the trillion is a long shot */
+  HB.to(tl, COL.base.g, { opacity: 1 }, T.long, .6); HB.to(tl, COL.bull.g, { opacity: .55 }, T.long, .8);
+  HB.to(tl, COL.bear.g, { opacity: .55 }, T.likeliest - .2, .6);
+  /* 4.6 · the likeliest landing: $300B, then 10 GW, then $30 a watt */
+  HB.grow(tl, COL.base.bar, T.likeliest + .2, 1.2); HB.lead(tl, COL.base.fig, T.base, 1.35, T.ten - .2);
+  HB.to(tl, COL.base.todo, { stroke: HB.C.goldBright }, T.ten, .4);
+  if (COL.base.wT) HB.ink(tl, COL.base.wT, T.watt);
+  /* 4.7 · short of the 13 he'd be surprised to miss; triple the CFO's goal; short of Elon's low end */
+  fl.forEach((b, j) => HB.fade(tl, b, T.thirteen + j * .08, .3)); HB.rise(tl, flT, T.thirteen + .3);
+  HB.growX(tl, cfoL, T.triple - .3, .9); HB.rise(tl, [cfoN, cfoV, cfoD], T.triple);
+  HB.fade(tl, x3, T.cfo, .5);
+  HB.growX(tl, [eLo, eHi], T.elon - .5, 1.0); HB.fade(tl, eBand, T.elon, .8); HB.fade(tl, eBr, T.elon - .2, .5); HB.rise(tl, [eN, eLoV, eHiV], T.elon);
+  /* 4.8 · the ask: the board holds still; the subscribe mark in the clear corner right of "Bull", under its formula */
+  SUBMARK.add(tl, { ask: T.please, bell: T.subscribing, off: T.channel, bottom: 962 });   /* 30 Oct: 11 px above the credit line (973), not on it */
+} });
+})();
+</script>
+</body>
+</html>

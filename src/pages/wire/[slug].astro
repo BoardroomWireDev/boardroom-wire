@@ -179,6 +179,22 @@ const jsonLd = {
     border-left: 2px solid var(--gold);
     font-size: 1.12em; line-height: 1.5; color: var(--white);
   }
+  .prose blockquote p + p { margin-top: 12px; }
+  /* A plain table in the words, set like the article's breakdown table. */
+  .prose table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.35; }
+  .prose th, .prose td { padding: 11px 10px; border-bottom: 1px solid var(--line); vertical-align: baseline; text-align: right; }
+  .prose th:first-child, .prose td:first-child { padding-left: 0; text-align: left; }
+  .prose thead th {
+    font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--white-dim); border-bottom-color: #2A2A2A;
+  }
+  .prose td { font-family: var(--mono); font-weight: 600; color: var(--white); font-variant-numeric: tabular-nums; }
+  .prose td:first-child { font-family: inherit; font-weight: 500; color: #C9C3B4; }
+  @media (max-width: 560px) {
+    .prose table { font-size: 13px; }
+    .prose th, .prose td { padding: 9px 5px; }
+    .prose thead th { font-size: 10px; letter-spacing: 0.1em; }
+  }
   .prose ul, .prose ol { padding-left: 1.3em; }
   .prose li + li { margin-top: 8px; }
   .prose hr { border: 0; height: 1px; background: var(--line); margin: 48px 0; }

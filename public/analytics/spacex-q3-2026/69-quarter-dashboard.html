@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SpaceX’s Third Quarter</title>
+<!-- SPACEX Q3 · 69 · THE QUARTER, HERO DASHBOARD (Ive, 28 Oct 2026). Ch 2's close, row 2.10: "Just this year they've signed deals with
+     Anthropic and Google ... about $6.4 billion this quarter alone, together with those Grok and X subscriptions ... a lot bigger."
+     The board at rest: SpaceX's three businesses, each a pair of bars on one scale (Q3 2025 in grey, Q3 2026 bright) with its growth
+     under it; the AI bar holds its AI cloud and subscriptions in gold ($6.4B; the rest is Cursor and advertising), and the gold
+     segment is carried out to the board's one big figure, $6.4B, with last quarter's $2.2B and the growth between them.
+     Words: the lockup is an image; on the board only names (Rockets, Starlink, AI), dates and the script's own words ("revenue",
+     "AI cloud and subscriptions"). Every figure is a data.js key (the ones 65-three-businesses reads).
+     Reference: Meta Q3 14-hero-revenue (one figure leads, the breakdown under it), Cursor 01-founding-four (the frame).
+     Steps (?at=, page 0 = VO 152.74 s of the placeholder read): rockets, starlink, ai, growth, explosive, cloud, alone, bigger.
+     28 Oct, after proxy pass 1: type raised (words >= 40 px), frame 0 drawn (names, a year ago, dates), +192% cut (unspoken).
+     Capture contract: HB.run → BW.run({play, rest}); R, F, ?final, ?still, ?t=<secs|step>, ?capture, ?beats. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/heroboard/hb.css?v=1">
+</head>
+<body>
+<div class="stage"><div class="chrome"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/heroboard/hb.js?v=1"></script>
+<script>
+(() => {
+const F = BW.fig, V = (k) => F(k).v, D = BW.val;
+const BIZ = [
+  { k: 'space', name: 'Rockets',  a: 'spacex_q3_2025_revenue_space',        b: 'spacex_q3_2026_revenue_space',        g: 'c_spacex_q3_2026_space_growth_yoy' },
+  { k: 'conn',  name: 'Starlink', a: 'spacex_q3_2025_revenue_connectivity', b: 'spacex_q3_2026_revenue_connectivity', g: 'c_spacex_q3_2026_connectivity_growth_yoy' },
+  { k: 'si',    name: 'AI',       a: 'spacex_q3_2025_revenue_si',           b: 'spacex_q3_2026_revenue_si',           g: 'c_spacex_q3_2026_si_growth_multiple_yoy', pick: true } ];
+const K = { cloud: 'c_spacex_q3_2026_si_solutions_ex_cursor', q2: 'spacex_q2_2026_revenue_si_solutions' };   /* +192% q/q cut 28 Oct: unspoken; $2.2B → $6.4B says it */
+const KEYS = [...BIZ.flatMap(b => [b.a, b.b, b.g]), ...Object.values(K)];
+BW.provenance({ uses: KEYS });
+
+const T = HB.at([['rockets', .25], ['starlink', .85], ['ai', 1.45], ['growth', 2.4], ['explosive', 5.38], ['cloud', 7.26], ['alone', 8.58], ['bigger', 16.46]]);
+const END = Math.max(17.7, T.bigger + 1.2);
+
+const fr = HB.frame({ co: 'assets/logos/spacex-wordmark.svg', coH: 30, coY: 156,
+  line: [['revenue', null], [', ', null], ['Q3 2026', null]], lineX: 120 + 30 * 147 / 18 + 30, lineY: 185, lineSize: 38 });
+const svg = fr.svg, s = HB.s, t = HB.t;
+
+/* one scale for every bar: $M → height */
+const Y0 = 770, SC = 460 / V(BIZ[2].b), y = (m) => Y0 - m * SC;
+const CX = [300, 695, 1090], WA = 130, WB = 170, GP = 24;
+s('line', { x1: 120, x2: 1280, y1: Y0, y2: Y0, stroke: 'rgba(245,241,229,.4)', 'stroke-width': 2 });
+
+const COL = {};
+BIZ.forEach((b, i) => {
+  const xa = CX[i] - (WA + GP + WB) / 2, xb = xa + WA + GP, g = s('g'), va = V(b.a), vb = V(b.b);
+  const barA = s('rect', { x: xa, y: y(va), width: WA, height: Y0 - y(va), fill: HB.C.grey }, g);
+  const barB = s('rect', { x: xb, y: y(vb), width: WB, height: Y0 - y(vb), fill: 'rgba(245,241,229,.86)' }, g);
+  const figA = t(g, xa + WA / 2, y(va) - 16, D(b.a), { cls: 'hb-fig hb-faint', size: 40, anchor: 'middle' });
+  const figB = t(g, xb + WB / 2, y(vb) - 18, D(b.b), { cls: 'hb-fig', size: 66, anchor: 'middle' });
+  const gr = t(g, xa, Y0 + 112, D(b.g), { cls: 'hb-fig' + (b.pick ? ' hb-gold' : ''), size: 54 });
+  const nm = t(g, xa, Y0 + 172, b.name, { cls: 'hb-name', size: 46 });
+  COL[b.k] = { g, barA, barB, figA, figB, gr, nm, xa, xb };
+});
+/* the dates, once, under the first pair: grey is a year ago */
+const dA = t(svg, COL.space.xa + WA / 2, Y0 + 44, 'Q3 2025', { cls: 'hb-unit', size: 38, anchor: 'middle' });
+const dB = t(svg, COL.space.xb + WB / 2, Y0 + 44, 'Q3 2026', { cls: 'hb-unit', size: 38, anchor: 'middle' });
+
+/* inside the AI bar: AI cloud and subscriptions in gold (the rest is Cursor and advertising) */
+const si = COL.si, cy = y(V(K.cloud));
+const gold = s('rect', { x: si.xb, y: cy, width: WB, height: Y0 - cy, fill: HB.C.gold });
+/* carried out to the board's one figure */
+const bx = si.xb + WB + 26, mid = (cy + Y0) / 2, HX = 1330;
+const lead = s('path', { d: `M${bx - 10},${cy} H${bx} V${Y0} H${bx - 10} M${bx},${mid} H${HX - 30}`, fill: 'none', stroke: HB.C.gold, 'stroke-width': 2 });
+const hero = t(svg, HX, mid + 10, D(K.cloud), { cls: 'hb-hero', size: 150 });
+const heroL = HB.h(HX + 6, mid + 74, 'AI cloud and<br>subscriptions', { size: 44 });   /* one label on two lines, the voice's words */
+const q2 = t(svg, HX + 6, mid + 210, [['Q2 2026', 'hb-unit', { 'font-size': 38 }], [D(K.q2), 'hb-fig', { 'font-size': 48, dx: 22 }]], { cls: 'hb-fig', size: 48 });
+
+HB.run({ steps: T, end: END, build(tl) {
+  /* frame 0 is drawn: the three names, a year ago's bars and the dates. Then this year's bars, one business at a time */
+  [['space', T.rockets], ['conn', T.starlink], ['si', T.ai]].forEach(([k, at]) => {
+    const c = COL[k];
+    HB.grow(tl, c.barB, at, .8); HB.rise(tl, c.figB, at + .5, .4);
+  });
+  ['space', 'conn', 'si'].forEach((k, i) => HB.rise(tl, COL[k].gr, T.growth + i * .3));
+  /* "an explosive pace": the AI cloud inside the AI bar, then out to its figure */
+  HB.grow(tl, gold, T.explosive, 1.0);
+  HB.to(tl, [COL.space.g, COL.conn.g], { opacity: .5 }, T.explosive, .8);
+  HB.fade(tl, lead, T.cloud - .4, .5); HB.rise(tl, hero, T.cloud, .55, 20); HB.rise(tl, heroL, T.cloud + .35);
+  HB.rise(tl, q2, T.alone);
+} });
+})();
+</script>
+</body>
+</html>
