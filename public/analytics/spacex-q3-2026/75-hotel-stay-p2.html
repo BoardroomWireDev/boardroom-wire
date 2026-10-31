@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Apartment and the Hotel</title>
+<!-- SPACEX Q3 · 75 · THE APARTMENT, THE HOTEL AND ITS GUEST, PASS 2 (Ive, 28 Oct 2026). Pass 1 is 75-hotel-stay.html (kept).
+     The writer on pass 1: "at about 27 seconds we have an article ... put it on the screen and highlight it more clearly vs having it
+     integrated so much into the visual." So the S-1 is no longer on the front desk: it is a receipt, center stage, cut in between
+     the hotel scenes (assets/cards, CARDS.md). Stage on kit v2 final (KIT.md, 28 Oct).
+     Stage   0–18.2 s   "Most AI clouds rent ... like apartments ... like a hotel ... Anthropic": the apartment lights flat by flat and
+                        its lease boards drop onto the rails; the hotel lights by the night; Anthropic's case rolls to the lobby door.
+     Receipt 18.2–32.3  "Anthropic's own IPO filing": the S-1 paragraph center stage; the pen rings "$120.5 billion" on its word and
+                        underlines "$3.1 billion" on its word; a slow push, the card always 7% inside the frame.
+     Stage   32.3–41.25 "more than a third of the $100 billion": SpaceX at the CFO's $100B a year (a goal, hatched) as a building in
+                        gold line, a floor per $10B; Anthropic's block fills it to 37.2%.
+     Receipt 41.25–47.2 "But the same filing ... 90 days' notice": the same paragraph; the pen under "January 2027 and March 2027",
+                        then a ring round "90 days' advance written notice".
+     Stage   47.2–58.44 "renting at the spot price ... not a price locked in for years": the hotel's rooms check in and out; "Today"
+                        lands over its door on "today's"; across the street the apartment's "Years" is cut in stone on "years".
+     Pass-1 review (FINDINGS-pass1): the street opens built; the $100B cage is the CFO's December 2026 goal, hatched, labelled
+     "CFO's goal, Dec 2026", standing when the receipt cuts away and filled to the true 37.2% ("more than a third") under a level
+     camera; no split-flap words.
+     Each change of kind is a cut (the receipt layer shows or hides on one frame), never a dissolve.
+     Clock: page second 0 = placeholder VO 278.44 s ("But SpaceX doesn't set that price"); ?at= re-times the steps in order.
+     Reference: Wang 0:27 (the doors, the light from the gap on the floor), 8:00 (the monoliths); CARDS.md (the receipt).
+     Capture contract: BW.run({play, rest}) through KIT.run; ?capture ?final ?still ?t=<secs|step> ?beats ?motion=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/stage/v2/kit.css?v=1">
+<link rel="stylesheet" href="assets/cards/cards.css?v=1">
+<style>
+  .bw-source { font-size: 24px; }
+  .cutL { position: absolute; inset: 0; z-index: 25; background: var(--ink); visibility: hidden; }
+</style>
+</head>
+<body>
+<div class="stage"><div class="chrome"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/stage/v2/stage3d.js?v=1"></script>
+<script src="assets/stage/v2/stage.js?v=1"></script>
+<script src="assets/stage/v2/buildings.js?v=1"></script>
+<script src="assets/stage/v2/rateboard.js?v=1"></script>
+<script src="assets/stage-ch3b/ch3b.js?v=1"></script>
+<script src="assets/cards/cards.js?v=1"></script>
+<script>
+(async () => {
+await KIT.ready();
+const F = BW.fig, TOT = 'anthropic_s1_spacexai_commitment', MON = 'anthropic_s1_spacexai_monthly_at_full', CXL = 'anthropic_s1_spacexai_cancel_terms',
+      GOAL = 'spacex_q3_2026_guide_arr_dec_2026', SHARE = 'c_anthropic_s1_full_rate_share_of_spacex_dec_goal';
+BW.provenance({ uses: [TOT, MON, CXL, GOAL, SHARE] });
+const T = C3.at([['apartments', 6.3], ['leases', 9.04], ['deals', 11.24], ['hotel', 14.98], ['guest', 16.4], ['filing', 18.2], ['pen1', 23.18],
+  ['pen2', 28.1], ['math', 32.3], ['fill', 33.86], ['third', 35.1], ['goal', 35.86], ['same', 41.25], ['early', 43.36],
+  ['ninety', 46.06], ['spot', 47.2], ['spotflip', 50.32], ['today', 51.84], ['years', 54.32], ['end', 58.44]]);
+
+const w = KIT.stage({ fov: 24, key: [-14, 22, 20], keyTarget: [0, 2, 0], keyI: .95, hemi: .24, poolI: 90, shadow: 26 });
+const mA = await KIT.markTex(w, 'assets/logos/logo-anthropic.png', S3.css('--cream'));
+const mInk = await KIT.markTex(w, 'assets/logos/logo-anthropic.png', S3.css('--ink'));
+
+/* the street: the apartment block (left), the hotel (right of it); SpaceX's $100B further along */
+const apt = KIT.apartment.create(w, { bays: 6, floors: 7, at: [-6.6, 0, -3], lit: 0, rise: 1, signsIn: 0,   /* built from frame 0: the hand-off from ch 3a lands on a full street */
+  signs: [{ bay: 0, floor: 2 }, { bay: 2, floor: 4 }, { bay: 4, floor: 1 }, { bay: 5, floor: 5 }, { bay: 1, floor: 6 }, { bay: 3, floor: 3 }] });
+const hot = KIT.hotel.create(w, { bays: 6, floors: 11, at: [2.2, 0, -2], lit: .12, rise: 1 });
+const bag = KIT.suitcase.create(w, { mark: mA, size: 2.0, at: [2.2, 0, 2.0], yaw: -.35, rise: 0 });
+
+/* SpaceX at the CFO's $100B a year (his goal for December 2026, so hatched): a building in gold line, one floor per $10B; Anthropic's
+   block fills it to its true share, 37.2% (FINDINGS-pass1: it read as ~42% from above; the camera is now level with its top) */
+const OH = 6.8, OW = 4.4, OD = 3, OX = 22, OZ = -1.5;
+const out = C3.outline(w, { at: [OX, 0, OZ], w: OW, h: OH, d: OD, floors: Math.round(F(GOAL).v / 10000), rise: 0, hatch: true });
+const SH = F(SHARE).v / 100;
+const fill = KIT.bar.create(w, { w: OW - .16, d: OD - .16, h: OH * F(SHARE).v / 100, at: [OX, 0, OZ], tone: 'gold', grow: 0 });
+const markM = KIT.decal(mInk, 1.9, 1.9 * mInk.image.height / mInk.image.width); markM.position.set(OX, OH * F(SHARE).v / 100 * .5, OZ + (OD - .16) / 2 + .01);
+markM.material.opacity = 0; w.scene.add(markM);
+const markH = w.add({ s: { op: 0 }, apply() { markM.material.opacity = markH.s.op; markM.visible = markH.s.op > .01; } });
+
+/* 3.14 (FINDINGS-pass1, EF 16): no split-flap words. The hotel's rooms check in and out night by night; "Today" lands over its
+   door on "today's"; the apartment's "Years" is cut in stone on "years". Sentence case, no letter-spacing. */
+const plq = C3.plaque(w, { text: 'Years', at: [-6.6, 0, -.3], w: 3.0, h: 1.1, d: .55, px: 250, rise: 0 });
+
+/* light: pools on the floor where the eye should go (Wang's doors), brought up on their words */
+const pApt = C3.pool(w, { from: [-6.6, 9, 3.2], to: [-6.6, 0, .6], I: 0, angle: .45 });
+const pLob = C3.pool(w, { from: [2.2, 7, 5.2], to: [2.2, 0, 2.4], I: 0, angle: .42, shadow: true });
+const pOut = C3.pool(w, { from: [OX, 13, 5], to: [OX, 0, OZ + 1], I: 0, angle: .3 });
+const pPlq = C3.pool(w, { from: [-6.6, 6, 4], to: [-6.6, .4, -.3], I: 0, angle: .26 });
+
+/* type on the stage */
+const name = w.label('sx-name', 'Anthropic', [3.15, 1.0, 2.0], { ax: 0, ay: .5, dx: 10, op: 0 });
+const goalN = w.label('sx-date', "CFO's goal, Dec 2026", () => out.at(0, OH, OD / 2), { ax: .5, ay: 1, dy: -150, op: 0 });
+const goal = w.label('sx-hero', `${F(GOAL).display}<span class="sx-unit" style="font-size:48px; margin-left:16px">a year</span>`, () => out.at(0, OH, OD / 2), { ax: .5, ay: 1, dy: -18, op: 0 });
+goal.e.style.fontSize = '130px';
+const third = w.label('sx-unit', 'more than a third', () => out.at(OW / 2 + .2, OH * SH, OD / 2), { ax: 0, ay: .5, dx: 18, op: 0 });
+const today = w.label('sx-name gold', 'Today', [3.3, 1.05, 2.0], { ax: 0, ay: .5, dx: 10, op: 0 });   /* over the dark lobby, beside its guest */
+
+/* the receipts: the S-1's SpaceXAI paragraph (p171), center stage on its own layer. Boxes measured on the capture's own line rows
+   (capture pixels): $120.5 billion on 1297–1349, $3.1 billion on 1362–1414, the dates on 1495–1545, the 90 days on 1560–1610. */
+const S1 = CARDS.pack('07-picture-map/pages/anthropic-s1-120b-compute-p171_sec-20261026_editorial.png'), CROP = [560, 1072, 2790, 562];
+const layer = (() => { const e = document.createElement('div'); e.className = 'cutL'; document.querySelector('.stage').appendChild(e); return e; })();
+/* the 7% rule (EF candidate, 28 Oct): no push-in (zoom 0): at 1.3× the paragraph runs off both sides of the frame. A slow push to
+   1.06 keeps the whole card inside the 7% margin (1,628 px wide at the end). */
+const r1 = CARDS.receipt(layer, { src: S1, crop: CROP, enter: T.filing, until: T.math, zoom: 0, push: 1.06,
+  marks: [{ ring: [2310, 1297, 2646, 1349], at: T.pen1 }, { under: [1443, 1362, 1721, 1414], at: T.pen2 }] });
+const r2 = CARDS.receipt(layer, { src: S1, crop: CROP, enter: T.same, until: T.spot + 1.0, tilt: 1.1, zoom: 0, push: 1.06,   /* the push runs on through the cut */
+  marks: [{ under: [1329, 1495, 2083, 1545], at: T.early }, { ring: [1549, 1560, 2306, 1610], at: T.ninety }] });
+const cutTo = (tl, on, t) => tl.set(layer, { visibility: on ? 'visible' : 'hidden' }, t);
+const showOnly = (tl, card, t) => { tl.set(r1.el, { display: card === r1 ? 'block' : 'none' }, t); tl.set(r2.el, { display: card === r2 ? 'block' : 'none' }, t); };
+
+/* the camera: low, a three-quarter angle, moving only to follow the fact; a cut back from a receipt lands on a new set-up */
+const CAM = {
+  open: C3.orbit(-2.3, 4.6, -2.5, 30, 2, -7), apt: C3.orbit(-6.4, 3.4, -3, 20.5, 2, -15), hotel: C3.orbit(2.0, 5.0, -2, 26, 2, 13),
+  guest: C3.orbit(2.2, 2.7, 1.0, 19, 3, 9), goal: C3.orbit(OX - .3, 4.3, OZ, 26, -3.8, -12), board: C3.orbit(-2.2, 3.3, -.4, 24, 3, -4) };
+w.look(CAM.open);
+
+KIT.run(w, { steps: Object.entries(T), end: T.end, build(tl) {
+  cutTo(tl, false, 0); showOnly(tl, null, 0);
+  /* stage: the two buildings */
+  C3.cam(tl, w, CAM.apt, T.apartments - 2.4, 2.4);
+  KIT.to(tl, apt, { lit: .96 }, T.apartments, 1.1, 'power1.inOut'); KIT.to(tl, pApt, { I: 520 }, T.apartments, 1.0, 'power1.inOut');
+  KIT.to(tl, apt, { signs: 1 }, T.leases, 1.0, 'power1.out');
+  C3.cam(tl, w, CAM.hotel, T.deals, 2.6);
+  tl.fromTo(hot.s, { lit: .12 }, { lit: .5, duration: 1.4, ease: 'none', immediateRender: false }, T.hotel);
+  KIT.to(tl, pLob, { I: 420 }, T.hotel, 1.0, 'power1.inOut'); KIT.to(tl, pApt, { I: 260 }, T.hotel, 1.0);
+  C3.cam(tl, w, CAM.guest, T.hotel + .3, 2.2);
+  KIT.to(tl, bag, { rise: 1 }, T.guest - .6, .01); tl.fromTo(bag.s, { roll: 4.5 }, { roll: 0, duration: 1.5, ease: 'power2.out', immediateRender: false }, T.guest - .6);
+  KIT.to(tl, name, { op: 1 }, T.guest + .5, .4);
+  /* receipt: the S-1, $120.5 billion, then $3.1 billion */
+  cutTo(tl, true, T.filing); showOnly(tl, r1, T.filing); r1.play(tl);
+  /* stage: SpaceX's $100B a year, and Anthropic's share of it (the set-up is made while the receipt covers it) */
+  KIT.to(tl, name, { op: 0 }, T.math - .5, .01);
+  C3.cam(tl, w, CAM.goal, T.math - .3, .01); KIT.to(tl, pOut, { I: 900 }, T.math - .3, .01); KIT.to(tl, pLob, { I: 0 }, T.math - .3, .01);
+  KIT.to(tl, out, { rise: 1 }, T.math - .3, .01);                          /* the cage stands when the receipt cuts away (no empty frame) */
+  cutTo(tl, false, T.math); showOnly(tl, null, T.math);
+  KIT.to(tl, fill, { grow: 1 }, T.math + .15, T.third - T.math - .15, 'power1.inOut');   /* Anthropic fills it from the cut to "third" */
+  KIT.to(tl, out, { floor: SH }, T.math + .15, T.third - T.math - .15, 'power1.inOut'); /* the hatch stays only on the unmet goal */
+  KIT.to(tl, markH, { op: 1 }, T.fill, .5);
+  KIT.to(tl, third, { op: 1 }, T.third, .4);
+  KIT.to(tl, goalN, { op: 1 }, T.goal, .45); KIT.to(tl, goal, { op: 1 }, T.goal, .45);
+  /* receipt: the same filing, the dates and the 90 days */
+  cutTo(tl, true, T.same); showOnly(tl, r2, T.same); r2.play(tl);
+  [goalN, goal, third].forEach(l => KIT.to(tl, l, { op: 0 }, T.same, .01));   /* under the receipt from here */
+  /* stage: tonight's rate, and a price cut in stone */
+  C3.cam(tl, w, CAM.board, T.spot - .3, .01); KIT.to(tl, pOut, { I: 0 }, T.spot - .3, .01); KIT.to(tl, pLob, { I: 420 }, T.spot - .3, .01);
+  KIT.to(tl, pApt, { I: 200 }, T.spot - .3, .01); KIT.to(tl, hot, { lit: .5 }, T.spot - .3, .01);
+  cutTo(tl, false, T.spot); showOnly(tl, null, T.spot);
+  /* short stays: the rooms check in and out while the voice says "short-term ... spot price" */
+  KIT.to(tl, hot, { lit: .74 }, T.spot + .3, 1.2, 'power1.inOut'); KIT.to(tl, hot, { lit: .42 }, T.spotflip - .9, 1.0, 'power1.inOut');
+  KIT.to(tl, hot, { lit: .66 }, T.spotflip + .3, 1.0, 'power1.inOut');
+  KIT.to(tl, today, { op: 1 }, T.today, .4);
+  KIT.to(tl, plq, { rise: 1 }, T.years - .5, .9, 'power2.out');
+  KIT.to(tl, pApt, { I: 90 }, T.years - .2, .8); KIT.to(tl, pPlq, { I: 420 }, T.years, 1.0, 'power1.inOut');
+} });
+})().catch(e => { document.documentElement.dataset.error = e.message; console.error(e); });
+</script>
+</body>
+</html>

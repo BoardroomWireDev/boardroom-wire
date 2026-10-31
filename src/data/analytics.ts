@@ -1244,18 +1244,18 @@ const S = 'spacex-q3-2026';
 export const spacexQ32026: Collection = {
   slug: S,
   title: 'Elon Said SpaceX Could Make $1 Trillion a Year. It’s Not From Rockets.',
-  kicker: 'Four dashboards',
+  kicker: 'Eleven dashboards',
   summary: fill(S,
-    'SpaceX brought in {spacex_q3_2026_revenue_total} in the third quarter of 2026, and AI was {spacex_q3_2026_si_share_of_revenue} of it. These four dashboards chart the quarter, our three cases for how big the AI business could get, the gap between SpaceX and CoreWeave, and the cash paying for the data centers. Every figure has its source on the dashboard.'),
+    'SpaceX brought in {spacex_q3_2026_revenue_total} in the third quarter of 2026, and AI was {spacex_q3_2026_si_share_of_revenue} of it. These eleven dashboards chart the quarter, how gigawatts turn into money, how SpaceX rents like a hotel, our three cases for how big the AI business could get, the gap between SpaceX and CoreWeave, and the cash and debt paying for the data centers. Every figure has its source on the dashboard.'),
   published: '2026-10-31',
   hero: 'the-three-cases',
   headline: { lead: 'Elon Said SpaceX Could Make $1 Trillion a Year', dim: '. It’s Not From Rockets.' },
   primaryLabel: 'Primary',
   method: {
     primary:
-      'Stated by the companies themselves: SpaceX’s second- and third-quarter results and its earnings call, and CoreWeave’s second-quarter results.',
+      'Stated by the companies themselves: SpaceX’s second- and third-quarter results, its earnings calls and its filings, Elon’s own posts on X, Anthropic’s IPO filing and CoreWeave’s second-quarter results.',
     reported:
-      'No figure on these four dashboards comes from press reports. Where the article quotes reporting, it names the outlet.',
+      'Sourced to journalism: Bloomberg, on the debt deal. Attribution is printed on the dashboard itself, not just here.',
     estimate:
       'Our own arithmetic on the companies’ figures, and our own bear, base and bull cases for the end of 2027. Every dashboard that uses an estimate says so in its source line.',
     caveat:
@@ -1263,7 +1263,16 @@ export const spacexQ32026: Collection = {
   },
   dashboards: [
     {
-      n: 1, slug: 'the-quarter', ...board(S, 'the-quarter'),
+      n: 1, slug: 'ai-overtakes-starlink', ...board(S, 'ai-overtakes-starlink'),
+      title: 'AI Overtakes Starlink',
+      blurb: fill(S,
+        'A year ago, Starlink was {c_spacex_q3_2025_connectivity_share_of_revenue} of SpaceX’s revenue, rockets were {c_spacex_q3_2025_space_share_of_revenue} and AI was {c_spacex_q3_2025_si_share_of_revenue}. This quarter, AI is {spacex_q3_2026_si_share_of_revenue}, Starlink is {c_spacex_q3_2026_connectivity_share_of_revenue} and rockets are just {spacex_q3_2026_space_share_of_revenue}.'),
+      section: 'AI Overtakes Starlink',
+      source: 'primary',
+      key: true,
+    },
+    {
+      n: 2, slug: 'the-quarter', ...board(S, 'the-quarter'),
       title: 'SpaceX’s Third Quarter',
       blurb: fill(S,
         'AI brought in {spacex_q3_2026_revenue_si}, {c_spacex_q3_2026_si_growth_multiple_yoy} what it made a year ago, which makes it bigger than Starlink, at {spacex_q3_2026_revenue_connectivity}, for the first time. Rockets brought in {spacex_q3_2026_revenue_space}, just {spacex_q3_2026_space_share_of_revenue} of revenue.'),
@@ -1272,7 +1281,34 @@ export const spacexQ32026: Collection = {
       key: true,
     },
     {
-      n: 2, slug: 'the-three-cases', ...board(S, 'the-three-cases'),
+      n: 3, slug: 'the-formula', ...board(S, 'the-formula'),
+      title: 'Gigawatts Times Price',
+      blurb: fill(S,
+        'The revenue comes down to two numbers: how many gigawatts SpaceX has, and the price per watt. On our math, Elon’s target at the top of his price range comes to {c_spacex_13gw_at_50_full} a year.'),
+      section: '13 Gigawatts',
+      source: 'estimate',
+      key: true,
+    },
+    {
+      n: 4, slug: 'the-hotel', ...board(S, 'the-hotel'),
+      title: 'The Apartment and the Hotel',
+      blurb: fill(S,
+        'Most AI clouds rent their chips out like apartments, on multi-year leases at a fixed price. SpaceX rents more like a hotel, and its best-known guest is Anthropic, which has agreed to spend {anthropic_s1_spacexai_commitment} with SpaceX’s AI arm.'),
+      section: '13 Gigawatts',
+      source: 'primary',
+      key: true,
+    },
+    {
+      n: 5, slug: 'run-backwards', ...board(S, 'run-backwards'),
+      title: 'The Trillion, Run Backwards',
+      blurb: fill(S,
+        'Take the top of Elon’s own price range. To hit {spacex_q3_2026_musk_arr_forecast_2027_top}, SpaceX would need {fwd_spx_q3_compute_gw_2027_bull} of capacity available for external consumption. At the end of September, it had {spacex_q3_2026_nameplate_compute_gw}.'),
+      section: 'Does the Trillion Add Up?',
+      source: 'primary',
+      key: true,
+    },
+    {
+      n: 6, slug: 'the-three-cases', ...board(S, 'the-three-cases'),
       title: 'Bear, Base and Bull',
       blurb: fill(S,
         'We built three cases for SpaceX’s compute run rate at the end of 2027: {c_spacex_case_low_6gw_20} in the bear case, {c_spacex_case_mid_10gw_30} in the base case and {c_spacex_case_high_20gw_50} in the bull case. The base case is {c_spacex_case_mid_vs_targets} the CFO’s {spacex_q3_2026_guide_arr_dec_2026} target and still well short of Elon’s {spacex_q3_2026_musk_arr_forecast_2027_floor} low end.'),
@@ -1281,7 +1317,15 @@ export const spacexQ32026: Collection = {
       key: true,
     },
     {
-      n: 3, slug: 'coreweave-and-spacex', ...board(S, 'coreweave-and-spacex'),
+      n: 7, slug: 'the-rate-board', ...board(S, 'the-rate-board'),
+      title: 'The Hotel Raises Its Rates',
+      blurb: 
+        'If rental prices keep rising, those short contracts reprice up, like a hotel raising its rates, and SpaceX heads for the bull case.',
+      section: 'Does the Trillion Add Up?',
+      source: 'estimate',
+    },
+    {
+      n: 8, slug: 'coreweave-and-spacex', ...board(S, 'coreweave-and-spacex'),
       title: 'CoreWeave and SpaceX',
       blurb: fill(S,
         'CoreWeave brought in {coreweave_q2_2026_revenue} in the second quarter. SpaceX’s AI cloud and subscriptions, leaving out Cursor, brought in {c_spacex_q3_2026_si_solutions_ex_cursor} in the third, {c_spacex_si_ex_cursor_vs_coreweave_q2} as much.'),
@@ -1289,13 +1333,29 @@ export const spacexQ32026: Collection = {
       source: 'primary',
     },
     {
-      n: 4, slug: 'the-cash', ...board(S, 'the-cash'),
+      n: 9, slug: 'the-cash', ...board(S, 'the-cash'),
       title: 'SpaceX’s Spending and Cash',
       blurb: fill(S,
         'SpaceX spent {spacex_q3_2026_capex_total} in Q3, mostly on AI data centers, which is {spacex_q3_2026_fcf} more than its businesses brought in as cash. At the end of September, it was sitting on {spacex_q3_2026_cash_and_securities} of cash and investments.'),
       section: 'How He Pays for It',
       source: 'primary',
       key: true,
+    },
+    {
+      n: 10, slug: 'the-debt-deal', ...board(S, 'the-debt-deal'),
+      title: 'Elon’s Debt Deal',
+      blurb: fill(S,
+        'Elon says the deal is closed, and points to Starlink and rockets for why SpaceX can borrow: {spacex_q3_2026_revenue_connectivity} and {spacex_q3_2026_revenue_space} in Q3. Bloomberg reported the same day that talks were still going on.'),
+      section: 'How He Pays for It',
+      source: 'reported',
+    },
+    {
+      n: 11, slug: 'the-lease', ...board(S, 'the-lease'),
+      title: 'The Lease',
+      blurb: fill(S,
+        'Under the deal, worth {spacex_8k_2026_10_26_gpu_finance_lease}, an Apollo-managed company buys the chips and leases them to SpaceX, so the chips themselves back the money.'),
+      section: 'How He Pays for It',
+      source: 'primary',
     },
   ],
 };

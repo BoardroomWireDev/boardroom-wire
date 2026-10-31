@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Hotel Raises Its Rates</title>
+<!-- SPACEX Q3 · 81 (pass 2) · THE HOTEL RAISES ITS RATES (Ive, 28 Oct 2026). A three-second cutaway inside the bear/base/bull hero
+     dashboard (83-cases-dashboard.html), which takes 4.3–4.8 in pass 2 and so replaces pass 1's stage page 81-cases.html (kept as
+     the fallback). The line: "...those short contracts reprice up, like a hotel raising its rates, and SpaceX heads for the bull case."
+     The hotel from ch 3b (77-rate-board.html's vocabulary: the hotel behind, its split-flap rate board out front, lit from above).
+     On "raising" the board flips from the base case's price to the bull case's, $30 to $50, never riffling through prices that were
+     never the price (turns: 0). Then the cut back to the dashboard, where Bull lights on "bull". One figure, no words.
+     Clock: page 0 = placeholder VO 432.50 ("like" 432.64); end 3.00 = VO 435.50. Steps (?at=): open, raising, end.
+     Reference: Wang 0:27 (the light on the floor), our 77-rate-board (the same board, so the hotel reads as one idea across chapters).
+     Capture contract: BW.run({play, rest}) through KIT.run; ?capture ?final ?still ?t=<secs|step> ?beats ?motion=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/stage/v2/kit.css?v=1">
+<style> .bw-source { font-size: 24px; } </style>
+</head>
+<body>
+<div class="stage"><div class="chrome"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/stage/v2/stage3d.js?v=1"></script>
+<script src="assets/stage/v2/stage.js?v=1"></script>
+<script src="assets/stage/v2/buildings.js?v=1"></script>
+<script src="assets/stage/v2/rateboard.js?v=1"></script>
+<script src="assets/stage-ch3b/ch3b.js?v=1"></script>
+<script>
+(async () => {
+await KIT.ready();
+const K = { base: 'fwd_spx_q3_price_per_watt_year_base', bull: 'fwd_spx_q3_price_per_watt_year_bull' };
+BW.provenance({ uses: Object.values(K) });
+const T = C3.at([['open', 0], ['raising', .88], ['end', 3.0]]);
+
+const w = KIT.stage({ fov: 24, key: [-12, 20, 22], keyTarget: [0, 2, 0], keyI: .95, hemi: .24, poolI: 80, shadow: 20 });
+KIT.hotel.create(w, { bays: 6, floors: 11, at: [-9.0, 0, -7.0], lit: .5 });
+const a = BW.val(K.base), b = BW.val(K.bull), n = Math.max(a.length, b.length);
+const pad = (s) => (' '.repeat(n) + s).slice(-n);
+const rb = KIT.rateboard.create(w, { at: [-1.2, 0, 1.6], posts: 1.15, cw: .9, ch: 1.3, gap: .08,
+  rows: [{ text: pad(a), n, ink: S3.css('--gold'), px: 290, dy: 14 }] });
+C3.pool(w, { from: [-1.2, 9, 9], to: [-1.2, 1.6, 1.6], I: 620, angle: .3, shadow: true });
+C3.pool(w, { from: [-9.0, 7, -.5], to: [-9.0, 0, -3.3], I: 220, angle: .4 });
+w.look(C3.orbit(-2.0, 2.6, 1.6, 12.5, 2.5, -9));
+
+KIT.run(w, { steps: Object.entries(T), end: T.end, build(tl) {
+  rb.flipTo(tl, 0, pad(b), T.raising, { dur: .3, stagger: .1, turns: 0 });
+} });
+})().catch(e => { document.documentElement.dataset.error = e.message; console.error(e); });
+</script>
+</body>
+</html>

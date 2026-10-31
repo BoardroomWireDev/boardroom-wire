@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Trillion, Run Backwards</title>
+<!-- PASS 2 (Ive, 28 Oct 2026, the mix). Same world and steps as pass 1 (80-backwards.html, kept for comparison). Changes:
+     the 1.7 ending comes in close (the writer: closer, not wide): a low camera at SpaceX's real halls, which fill the frame in
+     their own light, the twenty grey halls standing dark behind them, 1.7 GW on the floor in front. The page now hands off by a
+     hard cut to the bear/base/bull hero dashboard (83-cases-dashboard.html), which opens on 1.7 GW, 30 Sep 2026.
+     SPACEX Q3 · 80 · THE TRILLION, RUN BACKWARDS (Ive, 28 Oct 2026). Ch 4 rows 4.1–4.2, one continuous page on the stage kit
+     (assets/stage/KIT.md) and the chapter's world (assets/stage-ch4/ch4.js). Script v7: "Let's run Elon's trillion backwards"
+     through "And at the end of September, it had 1.7."
+       4.1  Elon's $1T stands as an empty frame (a forecast is never solid), the plots of a city at its foot. On "December's
+            revenue" one stack of money lands on the floor; on "times 12" it copies down the row to the tower: a year at
+            December's pace, the run rate. Each stack is $1T / 12 to the nearest bundle (8 of $10B); no figure is printed on it.
+       4.2  The tag at $50 hangs on the first hall; halls rise one by one and each adds its $50B to the tower, which reaches the
+            frame's top on the twentieth: 20 GW. Then the city sinks to grey and the camera drops to SpaceX's real 1.7 halls
+            at the front, small.
+     Reference: Wang 8:00 (the monoliths: a low camera, three tall objects in pools of light), Wang 1:42 (the crate and its stake).
+     Steps (?at= re-times them in order): open, runrate, endof, december, times, top, fifty, need, twenty, had, onept7.
+     Capture contract: BW.run({play, rest}) through KIT.run; ?capture ?final ?still ?t=<secs|step> ?beats ?motion=0. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/brand.css?v=5">
+<link rel="stylesheet" href="assets/stage/v2/kit.css?v=1">
+</head>
+<body>
+<div class="stage"><div class="chrome"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="shared/data.js?v=8"></script>
+<script src="shared/motion.js?v=5"></script>
+<script src="assets/stage/v2/stage3d.js?v=1"></script>
+<script src="assets/stage/v2/stage.js?v=1"></script>
+<script src="assets/stage/v2/hall.js?v=1"></script>
+<script src="assets/stage/v2/tag.js?v=1"></script>
+<script src="assets/stage/v2/cash.js?v=1"></script>
+<script src="assets/stage-ch4/ch4.js?v=2"></script>
+<script src="assets/stage-ch5/ch5.js?v=1"></script>   <!-- KIT5.outline only: the plan hall, as ch 5 draws SpaceX's 13 GW+ -->
+<script>
+(async () => {
+await KIT.ready();
+const F = BW.fig;
+const K = { top: 'spacex_q3_2026_musk_arr_forecast_2027_top', pw: 'spacex_q2_2026_musk_per_watt_guess', gw: 'fwd_spx_q3_compute_gw_2027_bull',
+  rev: 'c_spacex_20gw_at_50_full', now: 'spacex_q3_2026_nameplate_compute_gw' };
+BW.provenance({ uses: Object.values(K) });
+const T = C4.at([['open', 0], ['runrate', 6.64], ['endof', 10.62], ['december', 12.24], ['times', 13.08], ['top', 17.82],
+  ['fifty', 20.12], ['need', 21.44], ['twenty', 24.30], ['had', 27.70], ['onept7', 29.98]]);
+const END = Math.max(31.1, T.onept7 + 1.1);
+/* the credit names the sources of what is on screen, stretch by stretch (EF 17), so it holds one line at 26 px inside title-safe
+   (Ive, 30 Oct; as 85-guppies-p2). Every figure is still declared; the credit keeps its one element, so the page's fades drive it. */
+const creditBy = (stretches, all) => {
+  const txt = stretches.map(([t, ks]) => { BW.provenance({ uses: ks }); return [t, document.querySelector('.bw-source').textContent]; });
+  BW.provenance({ uses: all }); let cur = null;
+  const set = (t) => { let s = txt[0][1]; for (const [a, x] of txt) if (t >= a) s = x; if (s !== cur) { cur = s; const e = document.querySelector('.bw-source'); if (e) e.textContent = s; } };
+  set(0); return set; };
+const CREDIT = creditBy([[0, [K.top]], [T.fifty, [K.top, K.pw]], [T.twenty, [K.top, K.pw, K.gw, K.rev]], [T.had, [K.now]]], Object.values(K));
+
+
+const w = KIT.stage({ fov: 30, key: [-8, 26, 22], keyTarget: [14, 0, -1], shadow: 28, poolI: 0, hemi: .2, keyI: .85, fillI: .3 });
+w.scene.fog.near = 70; w.scene.fog.far = 150;
+
+/* the high city's plots and halls, its tower, Elon's frame over it */
+/* the head (Davinci's continuous check, 28 Oct): frame 0 is already mid-build, never a bare hairline. Elon's frame stands a little
+   over a third up in its light and the plots are half drawn; the build carries on from there */
+const city = C4.city(w, 'high', { plots: 20, n: 0, plot: .5 });
+const TA = C4.towerAt('high');
+const tower = C4.tower(w, 'high', F(K.rev).v, { fill: 0 });
+const frame = C4.ghost(w, { at: TA, h: tower.height, grow: .38 });
+/* the 20 GW is a hypothetical (Elon's top price × the halls it would take), so it is drawn as a plan, never solid (FINDINGS-pass1,
+   7:54; the house plan look of ch 3a's and ch 5's 13 GW+): each hall rises as a gold line volume with hatched faces, and what they
+   would earn fills Elon's frame as a denser gold hatch, not as money. The city's solid halls and the cash tower stay in the world
+   only as the count and the height (the tweens below drive them), never drawn. */
+const gLine = w.mat.goldLine.clone(), GOLD = gLine.color.clone(), GREY = S3.tok('--grey');
+const plan20 = Array.from({ length: 20 }, (_, i) => KIT5.outline(w, { len: C4.HALL.len, wid: C4.HALL.wid, hgt: C4.HALL.hgt, at: C4.slot('high', i), mat: gLine, hatch: S3.css('--gold'), draw: 0 }));
+const fillG = C4.ghost(w, { at: TA, h: tower.height, grow: 0, w: C4.TW - .1, d: C4.CASH.size / 2.35 - .06, alpha: .62, pitch: 15 });
+const plan = w.add({ s: { n: 0, dim: 0 }, apply() {
+  const n = plan.s.n, d = plan.s.dim;
+  plan20.forEach((p, i) => { const u = C4.clamp(n - i); p.s.draw = u; p.s.hatch = u * (1 - .55 * d); });
+  gLine.color.copy(GOLD).lerp(GREY, d * .8);
+  tower.group.visible = false; fillG.s.grow = tower.s.fill; fillG.s.op = 1 - .45 * d;
+} });
+const pT = C4.pool(w, TA[0], TA[2], { I: 1500, angle: .16, y: 24, dz: 2, on: .6 });
+const pC = C4.pool(w, C4.cityCentre('high')[0], C4.cityCentre('high')[2], { I: 2000, angle: .25, y: 24, dz: 3, on: .25 });
+/* the price tag on the first hall (front-right, beside the tower) */
+const f0 = city.front(0), TH = 1.25, lean = Math.acos((C4.HALL.hgt - .04) / (TH * .93));
+const tag = KIT.tag.create(w, { anchor: [f0[0], f0[1], f0[2] + .03], drop: .04, w: .95, h: TH, lean, dropIn: 0,
+  lines: [{ text: '$' + F(K.pw).hi, px: 250, y: .66 }] });
+const perW = w.label('sx-unit', 'a watt', () => { const c = tag.centre(); return [c[0], 0, c[2] + .55]; }, { ax: .5, ay: 0, dy: 10, op: 0 });
+
+/* December, then the year: twelve stacks down the front, each $1T / 12 to the nearest bundle */
+const RZ = 3.4, RX = (i) => TA[0] - 11.2 + i * .82;
+const month = Array.from({ length: 12 }, (_, i) => C4.tower(w, 'high', F(K.top).v / 12, { at: [RX(i), 0, RZ], fill: 0, cols: 1, yaw: .95 }));
+const pR = C4.pool(w, RX(5.5), RZ, { I: 1800, angle: .22, y: 24, dz: 2 });
+
+/* SpaceX's real 1.7 halls, at the front */
+const RS = [11.4, 0, 4.2];
+const real = KIT.hall.row(w, F(K.now).v, { len: C4.HALL.len, wid: C4.HALL.wid, hgt: C4.HALL.hgt, gap: .3, at: RS, rise: 0 });
+const pS = C4.pool(w, RS[0] + 2.0, RS[2], { I: 2000, angle: .16, y: 24, dz: 2 });
+
+/* type: one figure at a time */
+const hTop = w.label('sx-hero', BW.val(K.top), [TA[0] - C4.TW / 2 - .5, tower.height * .9, TA[2]], { ax: 1, ay: .5, op: 0 });
+const hWho = w.label('sx-name', 'Elon', [TA[0] - C4.TW / 2 - .5, tower.height * .9, TA[2]], { ax: 1, ay: 0, dy: 120, op: 0 });
+const hRR = w.label('sx-unit', 'run rate', [TA[0] - C4.TW / 2 - .5, tower.height * .9, TA[2]], { ax: 1, ay: 0, dy: 182, op: 0 });
+const hEnd = w.label('sx-date', 'end of 2027', [TA[0] - C4.TW / 2 - .5, tower.height * .9, TA[2]], { ax: 1, ay: 0, dy: 236, op: 0 });
+const mDec = w.label('sx-name', 'December', () => [RX(0), month[0].height + .1, RZ], { ax: .5, ay: 1, dy: -18, op: 0 });
+const mRR = w.label('sx-name', 'run rate', () => [RX(5.5), 0, RZ + .6], { ax: .5, ay: 0, dy: 12, op: 0 });
+const cc = C4.cityCentre('high');
+const h20 = w.label('sx-hero', BW.val(K.gw), [cc[0], C4.HALL.hgt * 1.3, cc[2] - 3.2], { ax: .5, ay: 1, dy: -10, op: 0 });
+/* 1.7 GW over the top of the real halls (the kit's hero pattern, sf2-1), its date under it, in the clear air above the dark city */
+const RW = real.width ?? (F(K.now).v * C4.HALL.len + .3), RC = [RS[0] + RW / 2, C4.HALL.hgt, RS[2]];
+const h17 = w.label('sx-hero', BW.val(K.now), RC, { ax: .5, ay: 1, dy: -250, op: 0 });
+h17.e.style.fontSize = '200px';
+const d17 = w.label('sx-date', '30 Sep 2026', RC, { ax: .5, ay: 1, dy: -196, op: 0 });
+
+/* cameras: level elevations, moved only to follow the fact */
+const CA = [16.4, 4.1, -1.5, 22, 5, 30], CB = [15.6, 3.2, 2.2, 21, 5, 30], CC = [14.2, 2.7, -2.2, 26.5, 10, 30];   /* pass 2 final: 26.5 (was 24) keeps the full tower's top 7% inside the frame */
+/* pass 2: close and low on the real halls (?cd=tx,ty,tz,dist,pitch,fov to try another) */
+const CD = (new URLSearchParams(location.search).get('cd') || '').split(',').filter(Boolean).map(Number).length === 6
+  ? new URLSearchParams(location.search).get('cd').split(',').map(Number) : [RC[0] - .6, .95, RS[2] - .6, 8.8, 4, 28];
+w.look(KIT.elev(...CA));
+
+KIT.run(w, { steps: Object.entries(T), end: END, build(tl) {
+  tl.to({}, { duration: END, ease: 'none', onUpdate() { CREDIT(this.time()); } }, 0);   /* the credit follows the stretch on screen */
+  /* 4.1 · the frame and its figure */
+  KIT.to(tl, frame, { grow: 1 }, T.open, 1.1, 'power2.out');
+  KIT.to(tl, city, { plot: 1 }, T.open, 1.0, 'power1.out');
+  KIT.to(tl, pT, { I: 1 }, T.open, .9, 'power1.out'); KIT.to(tl, pC, { I: .55 }, T.open, 1.0, 'power1.out');
+  KIT.to(tl, hTop, { op: 1 }, T.open + .7, .5); KIT.to(tl, hWho, { op: 1 }, T.open + .9, .5);
+  KIT.to(tl, hRR, { op: 1 }, T.runrate, .45);
+  KIT.to(tl, hEnd, { op: 1 }, T.endof, .45);
+  /* December's revenue, times twelve */
+  [hTop, hWho, hRR, hEnd].forEach(l => KIT.to(tl, l, { op: 0 }, T.december - .5, .4));
+  C4.move(tl, w, CB, T.december - .9, 1.5);
+  KIT.to(tl, pR, { I: 1 }, T.december - .6, 1.0, 'power1.out');
+  KIT.to(tl, month[0], { fill: 1 }, T.december, .55, 'power1.out');
+  KIT.to(tl, mDec, { op: 1 }, T.december + .3, .4);
+  for (let i = 1; i < 12; i++) KIT.to(tl, month[i], { fill: 1 }, T.times + (i - 1) * .1, .45, 'power1.out');
+  KIT.to(tl, mRR, { op: 1 }, T.times + 1.3, .45);
+  /* 4.2 · the top of his price range: halls until the money reaches the frame */
+  KIT.to(tl, mDec, { op: 0 }, T.top - .2, .35); KIT.to(tl, mRR, { op: 0 }, T.top - .2, .35);
+  month.forEach((m, i) => KIT.to(tl, m, { sink: 1 }, T.top + i * .03, .7, 'power2.in'));
+  KIT.to(tl, pR, { I: 0 }, T.top, .8);
+  C4.move(tl, w, CC, T.top, 1.8);
+  KIT.to(tl, pC, { I: 1 }, T.top + .4, 1.0);
+  KIT.to(tl, plan, { n: 1 }, T.fifty - .2, .6, 'power2.out');
+  KIT.to(tl, tower, { fill: 1 / 20 }, T.fifty, .5, 'none');
+  tl.fromTo(tag.s, { drop: 0 }, { drop: 1, duration: .5, ease: 'power2.in', immediateRender: false }, T.fifty + .1);
+  tl.fromTo(tag.s, { swing: .12 }, { swing: 0, duration: 1.1, ease: 'elastic.out(1, .5)', immediateRender: false }, T.fifty + .6);
+  KIT.to(tl, perW, { op: 1 }, T.fifty + .5, .4);
+  const run = Math.max(1.2, T.twenty - T.need - .15);
+  KIT.to(tl, plan, { n: 20 }, T.need, run, 'none');
+  KIT.to(tl, tower, { fill: 1 }, T.need + run / 19 * .6, run, 'none');
+  KIT.to(tl, perW, { op: 0 }, T.twenty - .3, .3);
+  KIT.to(tl, h20, { op: 1 }, T.twenty, .45);
+  /* and at the end of September, it had 1.7 */
+  KIT.to(tl, h20, { op: 0 }, T.had, .35);
+  KIT.to(tl, plan, { dim: 1 }, T.had, 1.0, 'power1.inOut');
+  KIT.to(tl, pC, { I: .25 }, T.had, 1.0); KIT.to(tl, pT, { I: .45 }, T.had, 1.0);
+  C4.move(tl, w, CD, T.had - .1, 1.6);
+  KIT.to(tl, pS, { I: 1 }, T.had + .4, 1.0, 'power1.out');
+  KIT.to(tl, real, { rise: 1 }, T.had + .6, 1.3, 'power2.out');
+  KIT.to(tl, tag, { drop: 0 }, T.had, .7, 'power2.in');             /* the $50 tag lifts off: this frame says one thing */
+  KIT.to(tl, h17, { op: 1 }, T.onept7, .45); KIT.to(tl, d17, { op: 1 }, T.onept7 + .2, .45);
+} });
+})().catch(e => { document.documentElement.dataset.error = e.message; console.error(e); });
+</script>
+</body>
+</html>

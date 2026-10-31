@@ -124,15 +124,23 @@ const ARTICLES = {
       aa_opus55_index: '58',
     },
   },
-  /* SpaceX Q3: Shakespeare places the four hero boards himself, as <DashboardEmbed> lines in ship/site/ARTICLE.md, so
-     these carry no anchor (null): the run only checks the words still hold each one. No clip is printed from data.js
-     (the article prints the call's quotes in its words) and there is no pointer to this page to drop. */
+  /* SpaceX Q3: the words place the boards themselves, as <DashboardEmbed> lines in ship/site/ARTICLE.md, so these carry no
+     anchor (null): the run only checks the words still hold each one. A fourth item names other frames to read: a board whose
+     credit changes as it plays (run-backwards) is credited for all of them. No clip is printed from data.js and there is no
+     pointer to this page to drop. */
   'spacex-q3-2026': {
     boards: [
+      ['02-pie.html', 'ai-overtakes-starlink', null],
       ['69-quarter-dashboard.html', 'the-quarter', null],
+      ['72-the-formula.html', 'the-formula', null],
+      ['75-hotel-stay-p2.html', 'the-hotel', null],
+      ['80-backwards-p2.html', 'run-backwards', null, ['t=4', 't=20']],
       ['83-cases-dashboard.html', 'the-three-cases', null],
+      ['81-rate-board-p2.html', 'the-rate-board', null],
       ['89-coreweave-dashboard.html', 'coreweave-and-spacex', null],
       ['94-cash-dashboard.html', 'the-cash', null],
+      ['06-receipt.html', 'the-debt-deal', null],
+      ['91-the-crate-p2.html', 'the-lease', null],
     ],
     quotes: [],
     spoken: {
@@ -146,6 +154,11 @@ const ARTICLES = {
       coreweave_q2_2026_revenue: 'about $2.6 billion',
       spacex_q3_2026_fcf: 'about $10 billion',
       spacex_q3_2026_cash_and_securities: 'nearly $90 billion',
+      c_spacex_q3_2025_connectivity_share_of_revenue: 'over half',
+      c_spacex_q3_2025_space_share_of_revenue: 'about 30%',
+      c_spacex_q3_2025_si_share_of_revenue: 'about 15%',
+      fwd_spx_q3_compute_gw_2027_bull: '20 gigawatts',
+      spacex_q3_2026_nameplate_compute_gw: '1.7 gigawatts',
     },
   },
 };
@@ -186,8 +199,8 @@ function step(label, args) {
 }
 
 /* What the board drew: Chrome renders it and dumps the DOM. The timeout kills only this child. */
-async function readBoard(file) {
-  const url = `${pathToFileURL(file).href}?final&still&fit=0`;
+async function readBoard(file, frame = 'final') {
+  const url = `${pathToFileURL(file).href}?${frame}&still&fit=0`;
   const { stdout } = await run(CHROME, ['--headless=new', '--disable-gpu', '--no-first-run', '--disable-extensions',
     '--window-size=1920,1080', '--virtual-time-budget=9000', '--dump-dom', url], { timeout: 90000, maxBuffer: 64e6 });
   const credit = (stdout.match(/class="bw-source"[^>]*>([^<]*)</) || [])[1];
@@ -235,8 +248,14 @@ async function main() {
   vm.runInNewContext(`${await readFile(path.join(pub, 'shared/data.js'), 'utf8')}\n;module.exports = BW_DATA;`, ctx);
   const data = ctx.module.exports;
   const boards = {};
-  for (const [file, web] of cfg.boards) {
+  for (const [file, web, , frames = []] of cfg.boards) {
     boards[web] = { file, ...(await readBoard(path.join(pub, file))) };
+    for (const frame of frames) {
+      const more = await readBoard(path.join(pub, file), frame);
+      const line = more.credit.replace(/^Source:\s*/, '');
+      if (!boards[web].credit.includes(line)) boards[web].credit += ` ${line}`;
+      boards[web].figures = [...new Set([...boards[web].figures, ...more.figures])];
+    }
     console.log(`    ${web.padEnd(24)} ${boards[web].figures.length} figures${boards[web].noslot ? ', footage hidden' : ''}`);
   }
 

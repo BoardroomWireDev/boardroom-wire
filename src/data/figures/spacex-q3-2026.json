@@ -1,6 +1,27 @@
 {
  "source": "videos/spacex-q3-2026/dashboards/shared/data.js",
  "boards": {
+  "ai-overtakes-starlink": {
+   "file": "02-pie.html",
+   "credit": "Source: SpaceX Q3 2026 results release. Boardroom Wire calculation.",
+   "figures": [
+    "c_spacex_q3_2025_space_share_of_revenue",
+    "spacex_q3_2026_space_share_of_revenue",
+    "spacex_q3_2025_revenue_space",
+    "spacex_q3_2026_revenue_space",
+    "c_spacex_q3_2025_connectivity_share_of_revenue",
+    "c_spacex_q3_2026_connectivity_share_of_revenue",
+    "spacex_q3_2025_revenue_connectivity",
+    "spacex_q3_2026_revenue_connectivity",
+    "c_spacex_q3_2025_si_share_of_revenue",
+    "spacex_q3_2026_si_share_of_revenue",
+    "spacex_q3_2025_revenue_si",
+    "spacex_q3_2026_revenue_si",
+    "spacex_q3_2026_revenue_total",
+    "spacex_q3_2025_revenue_total"
+   ],
+   "noslot": ""
+  },
   "the-quarter": {
    "file": "69-quarter-dashboard.html",
    "credit": "Source: SpaceX Q3 2026 results release and SpaceX Q2 2026 results release. Boardroom Wire calculation.",
@@ -16,6 +37,43 @@
     "c_spacex_q3_2026_si_growth_multiple_yoy",
     "c_spacex_q3_2026_si_solutions_ex_cursor",
     "spacex_q2_2026_revenue_si_solutions"
+   ],
+   "noslot": ""
+  },
+  "the-formula": {
+   "file": "72-the-formula.html",
+   "credit": "Source: SpaceX Q3 2026 earnings webcast and SpaceX Q2 2026 earnings webcast. Boardroom Wire calculation.",
+   "figures": [
+    "spacex_q3_2026_musk_compute_targets",
+    "spacex_q2_2026_musk_per_watt_guess",
+    "c_spacex_1gw_at_30_full",
+    "c_spacex_1gw_at_50_full",
+    "c_spacex_13gw_at_50_full",
+    "spacex_q3_2026_musk_arr_forecast_2027"
+   ],
+   "noslot": ""
+  },
+  "the-hotel": {
+   "file": "75-hotel-stay-p2.html",
+   "credit": "Source: Anthropic S-1 (Oct 2026) and SpaceX Q3 2026 earnings webcast. Boardroom Wire calculation.",
+   "figures": [
+    "anthropic_s1_spacexai_commitment",
+    "anthropic_s1_spacexai_monthly_at_full",
+    "anthropic_s1_spacexai_cancel_terms",
+    "spacex_q3_2026_guide_arr_dec_2026",
+    "c_anthropic_s1_full_rate_share_of_spacex_dec_goal"
+   ],
+   "noslot": ""
+  },
+  "run-backwards": {
+   "file": "80-backwards-p2.html",
+   "credit": "Source: SpaceX Q3 2026 results release. SpaceX Q3 2026 earnings webcast.",
+   "figures": [
+    "spacex_q3_2026_musk_arr_forecast_2027_top",
+    "spacex_q2_2026_musk_per_watt_guess",
+    "fwd_spx_q3_compute_gw_2027_bull",
+    "c_spacex_20gw_at_50_full",
+    "spacex_q3_2026_nameplate_compute_gw"
    ],
    "noslot": ""
   },
@@ -38,6 +96,15 @@
     "spacex_q3_2026_nameplate_compute_gw",
     "c_spacex_case_mid_vs_targets",
     "spacex_q3_2026_musk_compute_targets"
+   ],
+   "noslot": ""
+  },
+  "the-rate-board": {
+   "file": "81-rate-board-p2.html",
+   "credit": "Estimate: Boardroom Wire model.",
+   "figures": [
+    "fwd_spx_q3_price_per_watt_year_base",
+    "fwd_spx_q3_price_per_watt_year_bull"
    ],
    "noslot": ""
   },
@@ -64,6 +131,26 @@
     "spacex_q3_2026_fcf",
     "spacex_q3_2026_guide_q4_capex",
     "spacex_q3_2026_cash_and_securities"
+   ],
+   "noslot": ""
+  },
+  "the-debt-deal": {
+   "file": "06-receipt.html",
+   "credit": "Source: Elon Musk on X and SpaceX Q3 2026 results release. Reported by Bloomberg.",
+   "figures": [
+    "musk_post_2026_10_25_spacex_40b_gpu_debt",
+    "bloomberg_spacex_40b_talks_ongoing",
+    "spacex_q3_2026_revenue_connectivity",
+    "spacex_q3_2026_revenue_space"
+   ],
+   "noslot": ""
+  },
+  "the-lease": {
+   "file": "91-the-crate-p2.html",
+   "credit": "Source: SpaceX 8-K (26 Oct 2026).",
+   "figures": [
+    "spacex_8k_2026_10_26_gpu_finance_lease",
+    "spacex_8k_2026_10_26_gpu_lease_terms"
    ],
    "noslot": ""
   }
@@ -687,7 +774,7 @@
   },
   "spacex_q3_2026_nameplate_compute_gw": {
    "display": "1.7 GW",
-   "spoken": "1.7 GW",
+   "spoken": "1.7 gigawatts",
    "label": "nameplate compute, 30 Sep 2026",
    "credit": "",
    "tier": "P",
@@ -1050,7 +1137,7 @@
   },
   "fwd_spx_q3_compute_gw_2027_bull": {
    "display": "20 GW",
-   "spoken": "about 20 GW",
+   "spoken": "20 gigawatts",
    "label": "compute 2027, bull",
    "credit": "",
    "tier": "E",
@@ -1842,7 +1929,7 @@
   },
   "c_spacex_q3_2025_si_share_of_revenue": {
    "display": "14.6%",
-   "spoken": "about 14.6%",
+   "spoken": "about 15%",
    "label": "SI (then AI) share of revenue, Q3 2025",
    "credit": "",
    "tier": "C",
@@ -1853,7 +1940,7 @@
   },
   "c_spacex_q3_2025_space_share_of_revenue": {
    "display": "29.9%",
-   "spoken": "about 29.9%",
+   "spoken": "about 30%",
    "label": "Space (rockets) share of revenue, Q3 2025",
    "credit": "",
    "tier": "C",
@@ -1864,7 +1951,7 @@
   },
   "c_spacex_q3_2025_connectivity_share_of_revenue": {
    "display": "55.5%",
-   "spoken": "about 55.5%",
+   "spoken": "over half",
    "label": "Connectivity (Starlink) share of revenue, Q3 2025",
    "credit": "",
    "tier": "C",

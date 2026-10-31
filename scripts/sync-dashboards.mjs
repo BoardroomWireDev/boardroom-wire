@@ -87,18 +87,22 @@ const BOARDS = {
     '26-the-stock.html', '27-the-theoretical-maximum.html', '32-the-capex-column.html', '37-the-raise.html',
     '07-the-muse-cases.html', '33-the-waterline-reprise.html',
   ]),
-  // SpaceX Q3: the four hero dashboards (ship/site/BOARDS.json); the motion pages (60 to 95, the -p2 pages), the
-  // earlier passes and the bg-* plates stay video-only.
+  // SpaceX Q3: the eleven boards in ship/site/BOARDS.json, each of which runs as it is without the cut's footage or the
+  // stock pack's captures. Everything else in the folder (other passes, footage pages, the bg-* plates) stays video-only.
   'spacex-q3-2026': new Set([
-    '69-quarter-dashboard.html', '83-cases-dashboard.html', '89-coreweave-dashboard.html', '94-cash-dashboard.html',
+    '02-pie.html', '69-quarter-dashboard.html', '72-the-formula.html', '75-hotel-stay-p2.html', '80-backwards-p2.html',
+    '83-cases-dashboard.html', '81-rate-board-p2.html', '89-coreweave-dashboard.html', '94-cash-dashboard.html',
+    '06-receipt.html', '91-the-crate-p2.html',
   ]),
 };
 
 // Optional per-collection list of the assets/ folders the shipped boards load. Where a list is given, nothing else in
-// assets/ ships: SpaceX Q3's also holds the cut's stage kits, working notes and thumbnail drafts, and this repo is public.
+// assets/ ships: SpaceX Q3's also holds thumbnail drafts and other chapters' kits, and this repo is public. From the kit
+// folders only code ships, never their notes, stills or the publishers' pages captured for the cut.
 const ASSET_DIRS = {
-  'spacex-q3-2026': ['heroboard', 'logos', 'outro'],
+  'spacex-q3-2026': ['heroboard', 'logos', 'outro', 'heroes', 'cards', 'stage', 'stage-ch3a', 'stage-ch3b', 'stage-ch4', 'stage-ch5', 'stage-ch6'],
 };
+const CODE_ONLY = /^assets[\\/](heroes|cards|stage[^\\/]*)[\\/](.*[\\/])?[^\\/]+\.(?!js$|css$)[^.\\/]+$/;
 
 // What a board carries for the video and the site does not, changed in the site's copy only; the video's file is never
 // touched. A pattern that stops matching stops the sync, so a re-cut cannot bring it back silently.
@@ -128,6 +132,10 @@ const EXTRAS = {
   'nebius': [
     ['../logos/yandex-wordmark-color.svg', '../logos/yandex-wordmark-color.svg'],
     ['../logos/nebius-wordmark-white.svg', '../logos/nebius-wordmark-white.svg'],
+  ],
+  // The hotel board's receipt: the page of Anthropic's public S-1 it rings, where the board's relative path finds it.
+  'spacex-q3-2026': [
+    ['../stock-pack/07-picture-map/pages/anthropic-s1-120b-compute-p171_sec-20261026_editorial.png', '../stock-pack/07-picture-map/pages/anthropic-s1-120b-compute-p171_sec-20261026_editorial.png'],
   ],
 };
 
@@ -177,7 +185,7 @@ async function syncOne(slug, src) {
     const filter = (from) => {
       const rel = path.relative(src, from);
       const m = rel.match(/^assets[\\/]([^\\/]+)/);
-      return !SKIP.test(rel) && !(dirs && m && !dirs.includes(m[1]));
+      return !SKIP.test(rel) && !(dirs && m && (!dirs.includes(m[1]) || CODE_ONLY.test(rel)));
     };
     await cp(path.join(src, entry.name), path.join(dest, entry.name), { recursive: true, filter });
     copied += 1;

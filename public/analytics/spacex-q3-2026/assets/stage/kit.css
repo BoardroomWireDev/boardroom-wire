@@ -1,0 +1,19 @@
+/* BOARDROOM WIRE · SPACEX Q3 · the sf2 pages' type and stage layers (Ive, 28 Oct 2026). Inter for names, Plex Mono for figures;
+   one hero figure a frame, gold; everything else cream and smaller. Nothing glows (rule 12). */
+.stage { background: var(--bg); overflow: hidden; }
+.s3-canvas { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 1; }
+.s3-labels { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
+.s3-label { position: absolute; left: 0; top: 0; white-space: nowrap; line-height: 1; will-change: transform, opacity; }
+.s3-words { position: absolute; left: 60px; top: 60px; color: transparent; font-size: 12px; z-index: 0; pointer-events: none; }
+.chrome { position: absolute; inset: 0; z-index: 30; pointer-events: none; }
+.bw-source { opacity: 1; }
+
+.sx-hero { font-family: var(--mono); font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; letter-spacing: -.05em; font-size: 230px; }
+.sx-fig  { font-family: var(--mono); font-weight: 600; color: var(--cream); font-variant-numeric: tabular-nums; letter-spacing: -.02em; font-size: 64px; }
+.sx-fig.dim { color: rgba(var(--cream-rgb), .62); }
+.sx-unit { font-family: var(--sans); font-weight: 500; color: rgba(var(--cream-rgb), .72); font-size: 40px; letter-spacing: -.01em; }
+.sx-name { font-family: var(--sans); font-weight: 600; color: var(--cream); font-size: 44px; letter-spacing: -.015em; }
+.sx-name.gold { color: var(--gold); }
+.sx-name.dim { color: rgba(var(--cream-rgb), .58); }
+.sx-date { font-family: var(--sans); font-weight: 500; color: rgba(var(--cream-rgb), .62); font-size: 34px; }
+.sx-op   { font-family: var(--sans); font-weight: 300; color: rgba(var(--cream-rgb), .55); font-size: 150px; }
