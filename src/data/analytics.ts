@@ -1257,7 +1257,7 @@ export const spacexQ32026: Collection = {
     reported:
       'No figure on these dashboards comes from press reports. Where the article quotes reporting, it names the outlet.',
     estimate:
-      'Our own arithmetic on the companies’ figures, and our own bear, base and bull cases for the end of 2027. Every dashboard that uses an estimate says so in its source line.',
+      'Our own arithmetic on the companies’ figures, and our own bear, base and bull cases for the end of 2027. Every dashboard that uses an estimate is marked as one.',
     caveat:
       'Every run rate here is December 2027’s revenue times twelve. It’s not what SpaceX actually books in 2027.',
   },
@@ -1320,7 +1320,7 @@ export const spacexQ32026: Collection = {
       n: 7, slug: 'the-rate-board', ...board(S, 'the-rate-board'),
       title: 'The Hotel Raises Its Rates',
       blurb: fill(S,
-        'If rental prices keep rising, SpaceX’s short contracts reprice up, like a hotel raising its rates, and it heads for the bull case. If they fall, SpaceX reprices down first, and it lands in the bear case. This board goes from our base case, {fwd_spx_q3_price_per_watt_year_base}, to our bull case, {fwd_spx_q3_price_per_watt_year_bull}: a watt, a year, our read.'),
+        'If rental prices keep rising, SpaceX’s short contracts reprice up, like a hotel raising its rates, and it heads for the bull case. If they fall, SpaceX reprices down first, and it lands in the bear case. The board runs from our base case, {fwd_spx_q3_price_per_watt_year_base} a watt a year, to our bull case, {fwd_spx_q3_price_per_watt_year_bull}.'),
       section: 'Does the Trillion Add Up?',
       source: 'estimate',
     },
